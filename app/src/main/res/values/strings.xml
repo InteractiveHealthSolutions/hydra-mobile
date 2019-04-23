@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Hydra-mobile</string>
+    <string name="app_title_name">HYDRA</string>
+    <string name="btn_login_str">LOGIN</string>
+    <string name="edt_hint_ip_address">IP Address</string>
+    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+    </string>
 </resources>
