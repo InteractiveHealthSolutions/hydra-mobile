@@ -26,3 +26,38 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext {
+
+    //RxJava
+    rxAndroid = '2.0.2'
+    rxJava = '2.1.9'
+
+    //Room
+    room = '2.0.0-beta01'
+
+    //LifeCycle
+    lifeCycle = '2.0.0-beta01'
+
+    //avi library version
+    aviVersion = '2.1.3';
+
+    //event bus
+    eventbus = '3.1.1';
+
+    //glide
+    glide = '4.6.1';
+
+    //retrofit:2.4.0
+    retrofit ='2.4.0'
+
+    //adapter-rxjava:2.4.0
+    adapterRxjava ='2.4.0'
+
+    //converter-gson:2.4.0
+     convertJson ='2.4.0'
+
+    //rxjava2-adapter
+    rxjava2Adapter ='1.0.0'
+
+}
+
