@@ -6,7 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Users(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int
+    val username: String,
+    val fullName: String,
+    val roles: String,
+    val identifier: String,
+    val personUuid: String,
+    val privileges: String
+    //Todo:add uuid
 
-)
+) : AbstractModel() {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
