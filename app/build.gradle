@@ -26,6 +26,10 @@ android {
 
 dependencies {
     ext.anko_version='0.10.8'
+    ext.architecture_component_version= '1.1.1'
+    ext.dagger_version = '2.15'
+    ext.lottie_android_version = '2.5.4'
+    ext.calligraphy = '2.3.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -90,10 +94,12 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
     kapt  "com.github.bumptech.glide:compiler:$rootProject.glide"
     implementation 'com.google.android.material:material:1.0.0-beta01'
+
     //anko
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
+
     //sqlite browser
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
@@ -102,5 +108,21 @@ dependencies {
 
     //Timber for Logging
     implementation 'com.jakewharton.timber:timber:4.5.1'
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+
+    //Lottie Animation view
+    implementation "com.airbnb.android:lottie:$lottie_android_version"
+
+    //Calligraphy for custom fonts
+    implementation "uk.co.chrisjenx:calligraphy:$calligraphy"
+
+
 
 }

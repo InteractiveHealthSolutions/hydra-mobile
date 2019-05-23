@@ -1,0 +1,5 @@
+package ihsinformatics.com.hydra_mobile.data.remote.model.user
+
+data class UserResponse(
+    val results: List<Result>
+)

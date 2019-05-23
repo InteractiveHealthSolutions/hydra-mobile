@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.persistentdata.entities.AppSetting
+import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.repository.AppSettingRepository
 import ihsinformatics.com.hydra_mobile.viewmodel.AppSettingViewModel
 import kotlinx.android.synthetic.main.app_setting.view.*
@@ -29,11 +29,13 @@ class SettingDialogFragment : DialogFragment() {
             dismiss()
         })
 
-        val ipAddress = view.edt_ip_address.text.toString()
-        val portNumber = view.edt_port_number.text.toString()
-
         view.btn_save.setOnClickListener(View.OnClickListener {
-            saveAppSetting(ipAddress, portNumber)
+
+            val ipAddress = view.edt_ip_address.text.toString()
+            val portNumber = view.edt_port_number.text.toString()
+            val ssl = view.cb_ssl_enable.isChecked
+
+            saveAppSetting(ipAddress, portNumber,ssl)
             dismiss()
         })
 
@@ -58,9 +60,15 @@ class SettingDialogFragment : DialogFragment() {
         }
     }
 
-    fun saveAppSetting(ipAddress: String, portNumber: String) {
+    fun saveAppSetting(ipAddress: String, portNumber: String,sslEnable: Boolean) {
         appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
-        appSettingViewModel.insert(AppSetting(id = 0, ip = ipAddress, port = portNumber, ssl = true))
+        appSettingViewModel.update(
+            AppSetting(
+                ip = ipAddress,
+                port = portNumber,
+                ssl = sslEnable
+            )
+        )
         Toast.makeText(activity, "setting changed", Toast.LENGTH_SHORT).show()
     }
 

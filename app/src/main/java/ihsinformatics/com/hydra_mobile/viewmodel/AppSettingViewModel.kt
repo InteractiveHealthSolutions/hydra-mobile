@@ -2,7 +2,7 @@ package ihsinformatics.com.hydra_mobile.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import ihsinformatics.com.hydra_mobile.persistentdata.entities.AppSetting
+import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.repository.AppSettingRepository
 
 class AppSettingViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,13 +14,8 @@ class AppSettingViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun update(setting: AppSetting) {
-
+        repository.updateSetting(setting)
     }
-
-    fun delete(setting: AppSetting) {
-
-    }
-
 
 
 }

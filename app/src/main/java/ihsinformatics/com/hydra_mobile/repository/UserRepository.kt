@@ -1,18 +1,17 @@
 package ihsinformatics.com.hydra_mobile.repository
 
 import android.app.Application
-import ihsinformatics.com.hydra_mobile.network.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.network.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.persistentdata.AppDatabase
-import ihsinformatics.com.hydra_mobile.persistentdata.dao.AppSettingDao
-import ihsinformatics.com.hydra_mobile.utils.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
+import ihsinformatics.com.hydra_mobile.common.Constant
 
 class UserRepository(application: Application) {
 
     private var application: Application
 
     init {
-        val database: AppDatabase = AppDatabase.getInstance(
+        AppDatabase.getInstance(
             application.applicationContext
         )!!
         this.application = application
