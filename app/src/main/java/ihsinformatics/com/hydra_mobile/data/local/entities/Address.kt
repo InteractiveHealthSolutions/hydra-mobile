@@ -4,16 +4,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Concept(
-    
-    val name: String,
-    val dataType: String,
-    val shortName: String,
-    val description: String,
-    val uuid:String
-
-
+class Address(
+    val division: String,
+    val district: String,
+    val upazilla: String,
+    val union: String,
+    val address: String,
+    val uuid: String,
+    val voided: Boolean
 ) {
+
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }

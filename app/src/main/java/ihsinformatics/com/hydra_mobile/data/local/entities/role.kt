@@ -1,17 +1,12 @@
 package ihsinformatics.com.hydra_mobile.data.local.entities
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
-@Entity
-class Concept(
-    
-    val name: String,
-    val dataType: String,
-    val shortName: String,
+class role(
+    val role: String,
     val description: String,
-    val uuid:String
-
+    val uuid: String
 
 ) {
     @PrimaryKey(autoGenerate = true)

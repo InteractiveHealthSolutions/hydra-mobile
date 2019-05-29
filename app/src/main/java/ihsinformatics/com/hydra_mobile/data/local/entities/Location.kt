@@ -1,26 +1,29 @@
 package ihsinformatics.com.hydra_mobile.data.local.entities
 
-import androidx.room.PrimaryKey
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.*
+
+@Entity
 class Location(
     val name: String,
-    val locationId: String,
+    val country: String,
+    val stateProvince: String,
+    val countryDistrict: String,
+    val cityVillage: String,
     val primaryContact: String,
-    val fastLocation: String,
-    val pmdtLocation: String,
-    val petLocation: String,
-    val comorbiditiesLocation: String,
-    val childhoodTbLocation: String,
     val address1: String,
     val address2: String,
     val address3: String,
-    val district: String,
-    val city: String,
-    val province: String,
     val description: String,
-    val zttsLocation: String
+    val parentLocation: Long,
+    val uuid: String,
+    val voided: Boolean
+    //val dateCreated: Date
 
-):AbstractModel() {
+
+) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }
