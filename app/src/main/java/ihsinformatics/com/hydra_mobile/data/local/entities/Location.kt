@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import java.util.*
 
 @Entity
@@ -20,7 +21,8 @@ class Location(
     val parentLocation: Long,
     val uuid: String,
     val voided: Boolean
-    //val dateCreated: Date
+   /* @TypeConverters(DateConverter.class)
+    val dateCreated: Date*/
 
 
 ) {
