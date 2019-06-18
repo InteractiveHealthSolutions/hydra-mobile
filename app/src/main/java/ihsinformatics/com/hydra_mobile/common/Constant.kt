@@ -38,11 +38,11 @@ class Constant {
 
         var SCOREABLE_QUESTIONS = Arrays.asList(*arrayOf(9, 11, /*12,*/13, 14, 56, 15, 16, 17, 18))
 
+        val KEY_LOAD_DATA = "load_data"
+        val KEY_JSON_DATA = "json_data"
+        val RESPONSE_NUMBER = "responseNumber"
     }
 
-    init {
-        /* TIME_FORMAT = SimpleDateFormat("HH:mm:ss a", Locale.US)
-         DATE_FORMAT = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US)*/
-    }
+
 
 }

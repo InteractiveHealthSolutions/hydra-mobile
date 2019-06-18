@@ -2,6 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="ihsinformatics.com.hydra_mobile">
 
+
+    <uses-permission
+            android:name="android.permission.ACCESS_FINE_LOCATION"
+            android:required="true"/>
+    <uses-permission
+            android:name="android.permission.INTERNET"
+            android:required="true"/>
+    <uses-permission
+            android:name="android.permission.ACCESS_NETWORK_STATE"
+            android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+
+
     <application
             android:name=".HydraApp"
             android:allowBackup="true"
@@ -11,7 +27,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".view.activity.SplashActivity"
-         android:theme="@style/AppTheme.HideStatusBar"
+                  android:theme="@style/AppTheme.HideStatusBar"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,7 +40,7 @@
 
         </activity>
         <activity android:name=".view.activity.HomeActivity"
-          android:theme="@style/AppTheme.HideStatusBar"
+                  android:theme="@style/AppTheme.HideStatusBar"
         />
     </application>
 
