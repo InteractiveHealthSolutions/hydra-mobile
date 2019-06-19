@@ -41,6 +41,8 @@ class Constant {
         val KEY_LOAD_DATA = "load_data"
         val KEY_JSON_DATA = "json_data"
         val RESPONSE_NUMBER = "responseNumber"
+
+        //Custom messages
     }
 
 

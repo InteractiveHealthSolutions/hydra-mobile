@@ -151,5 +151,14 @@
     <string name="enter_initials">Enter initials</string>
     <string name="image_viewer">Image Viewer</string>
     <string name="about">About Indus Project</string>
-    <string name="age">Age: </string>
+    <string name="age">Age:</string>
+
+
+    <!--base activity-->
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="do_you_want_to_save">Do you want to save the form?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_exit_form">Are you sure to exit Form?</string>
+    <string name="notifications">Notifications</string>
 </resources>

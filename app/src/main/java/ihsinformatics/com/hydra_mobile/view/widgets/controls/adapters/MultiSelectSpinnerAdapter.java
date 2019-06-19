@@ -8,93 +8,93 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.ihsinformatics.dynamicformsgenerator.R;
+import ihsinformatics.com.hydra_mobile.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MultiSelectSpinnerAdapter extends BaseAdapter {
 
-	private ArrayList<String> mListItems;
-	private LayoutInflater mInflater;
-	private TextView mSelectedItems;
-	private static int selectedCount = 0;
-	private static String firstSelected = "";
-	private ViewHolder holder;
-	private static String selected = "";	//shortened selected values representation
-	
-	public static String getSelected() {
-		return selected;
-	}
+    private ArrayList<String> mListItems;
+    private LayoutInflater mInflater;
+    private TextView mSelectedItems;
+    private static int selectedCount = 0;
+    private static String firstSelected = "";
+    private ViewHolder holder;
+    private static String selected = "";    //shortened selected values representation
 
-	public void setSelected(String selected) {
-		MultiSelectSpinnerAdapter.selected = selected;
-	}
+    public static String getSelected() {
+        return selected;
+    }
 
-	public MultiSelectSpinnerAdapter(Context context, List<String> items,
+    public void setSelected(String selected) {
+        MultiSelectSpinnerAdapter.selected = selected;
+    }
+
+    public MultiSelectSpinnerAdapter(Context context, List<String> items,
                                      TextView tv) {
-		mListItems = new ArrayList<String>();
-		mListItems.addAll(items);
-		mInflater = LayoutInflater.from(context);
-		mSelectedItems = tv;
-	}
+        mListItems = new ArrayList<String>();
+        mListItems.addAll(items);
+        mInflater = LayoutInflater.from(context);
+        mSelectedItems = tv;
+    }
 
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return mListItems.size();
-	}
+    @Override
+    public int getCount() {
+        // TODO Auto-generated method stub
+        return mListItems.size();
+    }
 
-	@Override
-	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Object getItem(int arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public long getItemId(int arg0) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.list_item_multiselect_dropdown, null);
-			holder = new ViewHolder();
-			holder.chkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
 
-		holder.chkbox.setText(mListItems.get(position));
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.list_item_multiselect_dropdown, null);
+            holder = new ViewHolder();
+            holder.chkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-		final int position1 = position;
-		
-		//whenever the checkbox is clicked the selected values textview is updated with new selected values
-		holder.chkbox.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//setText(position1);
-			}
-		});
+        holder.chkbox.setText(mListItems.get(position));
+
+        final int position1 = position;
+
+        //whenever the checkbox is clicked the selected values textview is updated with new selected values
+        holder.chkbox.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //setText(position1);
+            }
+        });
 
 		/*if(MultiSelectSpinner.checkSelected[position])
 			holder.chkbox.setChecked(true);
 		else
 			holder.chkbox.setChecked(false);*/
-		return convertView;
-	}
+        return convertView;
+    }
 
 
-	/*
-	 * Function which updates the selected values display and information(checkSelected[])
-	 * */
+    /*
+     * Function which updates the selected values display and information(checkSelected[])
+     * */
 	/*private void setText(int position1){
 		if (!MultiSelectSpinner.checkSelected[position1]) {
 			MultiSelectSpinner.checkSelected[position1] = true;
@@ -127,7 +127,7 @@ public class MultiSelectSpinnerAdapter extends BaseAdapter {
 		}
 	}*/
 
-	private class ViewHolder {
-		CheckBox chkbox;
-	}
+    private class ViewHolder {
+        CheckBox chkbox;
+    }
 }

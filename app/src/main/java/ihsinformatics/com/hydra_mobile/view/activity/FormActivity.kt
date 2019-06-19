@@ -7,10 +7,14 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.view.widgets.InputWidgetProvider
 
 class FormActivity : BaseActivity() {
-    //static object Todo
+
     val PARAM_FORM_ID = "formId"
-    private var ENCOUNTER_NAME: String? = null
-    var REGISTRATION_ENCOUNTER: String? = null
+
+    companion object {
+        lateinit var ENCOUNTER_NAME: String
+        lateinit var REGISTRATION_ENCOUNTER: String
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

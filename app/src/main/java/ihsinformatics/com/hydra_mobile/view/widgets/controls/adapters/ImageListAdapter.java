@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import com.ihsinformatics.dynamicformsgenerator.utils.BitmapWorkerTask;
-import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
+import ihsinformatics.com.hydra_mobile.utils.BitmapWorkerTask;
+import timber.log.Timber;
 
 import java.util.List;
 
@@ -54,9 +54,8 @@ public class ImageListAdapter extends BaseAdapter {
         try {
             String imageFile = imgList.get(position).toString();
             new BitmapWorkerTask(context, imageView, imageFile).execute(reqWidth, reqHeight);
-         //    imageView.setImageBitmap(ImageUtils.decodeSampledBitmapFromResource(imageFile, reqWidth, reqHeight));
         } catch (Exception e) {
-            Logger.log(e);
+            Timber.e(e);
         }
         return imageView;
     }

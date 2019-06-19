@@ -1,11 +1,8 @@
 package ihsinformatics.com.hydra_mobile
 
-import ihsinformatics.com.hydra_mobile.view.LoginActivity
 import org.junit.Test
 
 import org.junit.Assert.*
-import org.junit.Rule
-import  androidx.test.rule.ActivityTestRule
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,8 +11,6 @@ import  androidx.test.rule.ActivityTestRule
  */
 class ExampleUnitTest {
 
-    @get:Rule
-    val activityRule = ActivityTestRule(LoginActivity::class.java)
 
     @Test
     fun addition_isCorrect() {

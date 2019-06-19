@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import ihsinformatics.com.hydra_mobile.R
 
-class ProgressDialog {
+open class ProgressDialog {
     companion object {
         fun progressDialog(context: Context): Dialog {
             val dialog = Dialog(context)

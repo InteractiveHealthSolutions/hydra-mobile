@@ -17,7 +17,6 @@ class UserRepository(application: Application) {
         this.application = application
     }
 
-
     fun userAuthentication(username: String, password: String): Boolean {
         var isAuthenticate = false
         RequestManager.getClient(application, username, password)
