@@ -23,7 +23,7 @@ class FormActivity : BaseActivity() {
 
         val intent = intent
         if (REGISTRATION_ENCOUNTER == null) {
-            throw UnsupportedOperationException("You need to set value of static variable REGISTRATION_ENCOUNTER in DataProvider class")
+            throw UnsupportedOperationException("You need to set value of static variable REGISTRATION_ENCOUNTER in DataProvider class") as Throwable
         }
 
         title = ENCOUNTER_NAME

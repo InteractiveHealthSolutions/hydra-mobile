@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-         xmlns:app="http://schemas.android.com/apk/res-auto"
-         android:id="@+id/main_content"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:background="#fdfdfd"
-         android:fitsSystemWindows="true">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_contents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fdfdfd"
+        android:fitsSystemWindows="true" >
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            tools:ignore="MissingConstraints">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -36,7 +38,10 @@
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
                         android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax"/>
+                        app:layout_collapseMode="parallax" android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="0dp" android:layout_alignParentStart="true"
+                        android:layout_marginStart="4dp" android:layout_marginTop="0dp"
+                        android:layout_alignParentTop="true"/>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
@@ -49,7 +54,7 @@
                             android:id="@+id/ivGender"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/male_icon"/>
+                            android:src="@drawable/male"/>
 
                     <TextView
                             android:id="@+id/tvUsername"
@@ -62,17 +67,18 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ToolbarLightOverflow"/>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main"/>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

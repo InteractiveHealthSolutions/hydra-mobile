@@ -66,6 +66,7 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var networkProgressDialog: NetworkProgressDialog
     private lateinit var errors: ArrayList<ValidationError>
     lateinit var patientData: PatientData
+    private var defaultStartTransition = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,9 +78,9 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
         errors = ArrayList<ValidationError>()
         tvPatientName = findViewById(R.id.tvName) as TextView
         tvPatientLastName = findViewById(R.id.tvLastName) as TextView
-        tvAge = findViewById(R.id.tvAge) as TextView
-        tvPatientIdentifier = findViewById(R.id.tvId) as TextView
-        ivGender = findViewById(R.id.ivGender) as ImageView
+        tvAge = findViewById<TextView>(R.id.tvAge)
+        tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
+        ivGender = findViewById<ImageView>(R.id.ivGender)
         btnSave.setOnClickListener(this)
     }
 
@@ -190,6 +191,12 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)
+
+        if (defaultStartTransition) {
+            overridePendingTransitionEnter()
+        } else {
+            overridePendingTransitionExit()
+        }
     }
 
     override fun onBackPressed() {
@@ -247,5 +254,19 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         return isGPSEnabled
+    }
+
+    /**
+     * Overrides the pending Activity transition by performing the "Enter" animation.
+     */
+    protected fun overridePendingTransitionEnter() {
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    /**
+     * Overrides the pending Activity transition by performing the "Exit" animation.
+     */
+    protected fun overridePendingTransitionExit() {
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
     }
 }

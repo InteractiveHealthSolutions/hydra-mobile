@@ -10,6 +10,7 @@ import android.view.View
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.repository.UserRepository
 import ihsinformatics.com.hydra_mobile.utils.ProgressDialog
+import ihsinformatics.com.hydra_mobile.view.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.view.fragments.SettingDialogFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_setting_dialog.*
@@ -17,7 +18,7 @@ import org.jetbrains.anko.design.snackbar
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
-    lateinit var progressBar: Dialog
+    private lateinit var networkProgressDialog: NetworkProgressDialog
 
     override fun onClick(view: View?) {
         when (view?.id) {
@@ -32,21 +33,23 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_login)
         btn_login.setOnClickListener(this)
         img_setting.setOnClickListener(this)
-        progressBar = ProgressDialog.progressDialog(this)
+        networkProgressDialog = NetworkProgressDialog(this)
 
     }
 
     private fun switchActivity() {
         if (validation()) {
-            progressBar.show()
-            val repository = UserRepository(application)
-            val isAuthenticateUser =
-                repository.userAuthentication(edt_username.text.toString(), edt_password.text.toString())
-            if (isAuthenticateUser) {
-                startActivity(Intent(this, HomeActivity::class.java))
-            } else {
-                view.snackbar(R.string.authentication_error)
-            }
+            networkProgressDialog.show()
+            startActivity(Intent(this, MainMenu::class.java))
+            finish()
+            /*       val repository = UserRepository(application)
+                   val isAuthenticateUser =
+                       repository.userAuthentication(edt_username.text.toString(), edt_password.text.toString())
+                   if (isAuthenticateUser) {
+                       startActivity(Intent(this, HomeActivity::class.java))
+                   } else {
+                       view.snackbar(R.string.authentication_error)
+                   }*/
         }
     }
 
