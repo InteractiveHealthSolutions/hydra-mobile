@@ -48,7 +48,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
     }
 
     override fun setOptionsOrHint(vararg data: Option) {
-        if (data.size > 0) {
+        if (data.isNotEmpty()) {
             dataList = ArrayList()
             mOptions = HashMap()
             for (i in data.indices) {
@@ -65,15 +65,15 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
                 }
             }
             mAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, dataList)
-            spAnswer!!.adapter = mAdapter
+            spAnswer.adapter = mAdapter
         }
     }
 
     private fun addOption(value: Option) {
         mOptions[value.text] = value
         dataList.add(value.text)
-        mAdapter!!.notifyDataSetChanged()
-        spAnswer!!.setSelection(dataList.indexOf(value.text))
+        mAdapter.notifyDataSetChanged()
+        spAnswer.setSelection(dataList.indexOf(value.text))
     }
 
     @Throws(JSONException::class)
@@ -81,7 +81,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
         val param = JSONObject()
         if (isValidInput(question.isMandatory)) {
             dismissMessage()
-            if (spAnswer!!.selectedItem.toString() == "<Select an option>" || spAnswer.selectedItem.toString() == "") {
+            if (spAnswer.selectedItem.toString() == "<Select an option>" || spAnswer.selectedItem.toString() == "") {
                 param.put(question.paramName, null)
             } else {
                 val ans = mOptions[spAnswer.selectedItem.toString()]

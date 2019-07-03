@@ -15,10 +15,8 @@ import retrofit2.http.GET
  */
 interface UserService {
 
-    @Headers("Accept: application/json")
     @GET("user")
-    fun getUser(
-        @Query("q") username: String, @Query("v") representation: String
-    ): Call<List<UserResponse>>
+    fun getUser(@Query("q") username: String, @Query("v") representation: String
+    ): Call<UserResponse>
 
 }

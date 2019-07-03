@@ -15,6 +15,7 @@ class AppSettingRepository(application: Application) {
     private var application: Application
 
     init {
+
         val database: AppDatabase = AppDatabase.getInstance(
             application.applicationContext
         )!!
@@ -24,7 +25,7 @@ class AppSettingRepository(application: Application) {
 
     suspend fun getSettingList(): List<AppSetting> {
         var appSettingList = GlobalScope.async {
-            appSettingDao.getAllSetting()
+             appSettingDao.getAllSetting()
         }
         return appSettingList.await()
     }

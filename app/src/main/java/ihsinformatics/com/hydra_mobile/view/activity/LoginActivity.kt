@@ -1,28 +1,35 @@
 package ihsinformatics.com.hydra_mobile.view.activity
 
 
-import android.app.Dialog
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-
-import ihsinformatics.com.hydra_mobile.R
+import android.widget.EditText
+import androidx.databinding.DataBindingUtil
+import ihsinformatics.com.hydra_mobile.databinding.ActivityLoginBinding
 import ihsinformatics.com.hydra_mobile.repository.UserRepository
-import ihsinformatics.com.hydra_mobile.utils.ProgressDialog
+import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
 import ihsinformatics.com.hydra_mobile.view.dialogs.NetworkProgressDialog
-import ihsinformatics.com.hydra_mobile.view.fragments.SettingDialogFragment
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.layout_setting_dialog.*
-import org.jetbrains.anko.design.snackbar
+import ihsinformatics.com.hydra_mobile.view.dialogs.SettingDialogFragment
+import android.widget.Toast
+import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var networkProgressDialog: NetworkProgressDialog
+    lateinit var binding: ActivityLoginBinding
+    private lateinit var usernameEditText: EditText
+    private lateinit var passwordEditText: EditText
+
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.btn_login -> switchActivity()
+            R.id.btn_login -> {
+                switchActivity()
+            }
             R.id.img_setting -> openSettingDialog()
             else -> print("")
         }
@@ -30,9 +37,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        btn_login.setOnClickListener(this)
-        img_setting.setOnClickListener(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        usernameEditText = binding.edtUsername;
+        passwordEditText = binding.edtPassword
+        binding.btnLogin.setOnClickListener(this)
+        binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
 
     }
@@ -40,16 +49,24 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun switchActivity() {
         if (validation()) {
             networkProgressDialog.show()
-            startActivity(Intent(this, MainMenu::class.java))
-            finish()
-            /*       val repository = UserRepository(application)
-                   val isAuthenticateUser =
-                       repository.userAuthentication(edt_username.text.toString(), edt_password.text.toString())
-                   if (isAuthenticateUser) {
-                       startActivity(Intent(this, HomeActivity::class.java))
-                   } else {
-                       view.snackbar(R.string.authentication_error)
-                   }*/
+            KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
+            UserRepository(application).userAuthentication(
+                usernameEditText.text.toString(),
+                passwordEditText.text.toString(),
+                object :
+                    RESTCallback {
+                    override fun onFailure(t: Throwable) {
+                        networkProgressDialog.dismiss()
+                        Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                            .show()
+                        //SnackBarUtil.getSnackBar(this, getString(R.string.authentication_error), "#BE1F18").build()
+                    }
+
+                    override fun onSuccess(o: Any) {
+                        networkProgressDialog.dismiss()
+                        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                    }
+                })
         }
     }
 
@@ -62,17 +79,27 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun validation(): Boolean {
         var isValidated = true;
-        if (edt_username.text.isBlank() || edt_username.text.isEmpty()) {
-            edt_username.error = resources.getString(R.string.empty_field)
-            edt_username.requestFocus()
+        if (usernameEditText.text.isBlank() || usernameEditText.text.isEmpty()) {
+            usernameEditText.error = resources.getString(R.string.empty_field)
+            usernameEditText.requestFocus()
             isValidated = false
-        } else if (edt_password.text.isBlank() || edt_password.text.isEmpty()) {
-            edt_password.error = resources.getString(R.string.empty_field)
-            edt_password.requestFocus()
+        } else if (passwordEditText.text.isBlank() || passwordEditText.text.isEmpty()) {
+            passwordEditText.error = resources.getString(R.string.empty_field)
+            passwordEditText.requestFocus()
             isValidated = false
         }
 
         return isValidated
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkProgressDialog.dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkProgressDialog.dismiss()
     }
 
 

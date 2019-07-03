@@ -2,7 +2,6 @@ package ihsinformatics.com.hydra_mobile.view.activity
 
 import android.Manifest
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -72,8 +71,12 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_base)
+
         networkProgressDialog = NetworkProgressDialog(this)
         errors = ArrayList<ValidationError>()
         tvPatientName = findViewById(R.id.tvName) as TextView
@@ -88,17 +91,17 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //Todo : add reason ?
-    fun onChildViewItemSelected(showables: IntArray?, hideables: IntArray?) {
-        if (showables != null) {
-            for (i in showables) {
+    fun onChildViewItemSelected(showAbles: IntArray?, hideAbles: IntArray?) {
+        if (showAbles != null) {
+            for (i in showAbles) {
                 val iw = inputWidgets[i]
                 if (iw != null) {
                     iw.visibility = View.VISIBLE
                 }
             }
         }
-        if (hideables != null) {
-            for (i in hideables) {
+        if (hideAbles != null) {
+            for (i in hideAbles) {
                 val iw = inputWidgets[i]
                 if (iw != null) {
                     iw.visibility = View.GONE
@@ -117,7 +120,6 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun fillPatientInfoBar() {
-
         tvPatientName.setText(patientData.patient.givenName)
         tvPatientLastName.setText(patientData.patient.familyName)
         tvAge.setText(patientData.patient.age) //TODO get dob and display full age till days

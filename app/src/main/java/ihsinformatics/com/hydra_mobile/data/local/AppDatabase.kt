@@ -13,7 +13,9 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.*
 
 @Database(
     entities = [AppSetting::class, Patient::class, Person::class, Address::class, Concept::class,
-        Encounter::class, Location::class, Obs::class, Order::class, Permission::class], version = 1,exportSchema = false
+        Encounter::class, Location::class, Obs::class, Order::class, Permission::class ,User::class],
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -27,6 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getObsDao(): ObsDao
     abstract fun getOrderDao(): OrderDao
     abstract fun getPermissionDao(): PermissionDao
+    abstract fun getUserDao(): UserDao
 
     companion object {
         private var instance: AppDatabase? = null
@@ -37,7 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java, "hydra_database"
-                    ).build()
+                    ).fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
+                        .build()
                 }
             }
             return instance

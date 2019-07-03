@@ -10,8 +10,8 @@
     <string name="edt_password_hint">********</string>
     <string name="main_title">HYDRA</string>
     <string name="edt_hint_ip_address_port">port</string>
-    <string name="default_ip_address">mrs.ghd.ihn.org.pk</string>
-    <string name="default_port_number">443</string>
+    <string name="default_ip_address">test.hydra.com</string>
+    <string name="default_port_number"></string>
 
 
     <!-- Errors String -->

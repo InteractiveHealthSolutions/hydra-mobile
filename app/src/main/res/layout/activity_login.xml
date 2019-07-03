@@ -6,10 +6,11 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+    >
 
         <LinearLayout
-                android:id="@+id/login_form_ll"
+                android:id="@+id/login_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_16dp"
@@ -38,62 +39,69 @@
                     android:layout_marginTop="@dimen/dimen_33dp"
                     android:textSize="32sp"/>
 
-            <RelativeLayout
+            <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-
-                <com.beardedhen.androidbootstrap.BootstrapEditText
+                    android:fillViewport="true">
+                <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/edt_username"
-                        android:layout_marginBottom="@dimen/dimen_24dp"
-                        app:roundedCorners="true"
-                        app:bootstrapSize="lg"
-                        android:maxLines="1"
-                        android:inputType="text"
-                        android:hint="@string/edt_username_hint"
-                        android:paddingLeft="@dimen/dimen_10dp"
-                        android:paddingRight="@dimen/dimen_10dp"
-                        android:textColor="@color/colorDarkGrey"
-                        android:textColorHint="@color/colorTextHint"
-                        android:textSize="13sp"/>
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center">
 
 
-                <com.beardedhen.androidbootstrap.BootstrapEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/edt_password"
-                        android:layout_below="@id/edt_username"
-                        android:layout_marginBottom="@dimen/dimen_40dp"
-                        app:bootstrapSize="lg"
-                        app:roundedCorners="true"
-                        android:maxLines="1"
-                        android:inputType="textPassword"
-                        android:hint="@string/edt_password_hint"
-                        android:paddingLeft="@dimen/dimen_10dp"
-                        android:paddingRight="@dimen/dimen_10dp"
-                        android:textColor="@color/colorDarkGrey"
-                        android:textColorHint="@color/colorTextHint"
-                        android:textSize="13sp"/>
-
-                <com.beardedhen.androidbootstrap.BootstrapButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/edt_password"
-                        android:layout_marginBottom="@dimen/dimen_12dp"
-                        android:text="@string/btn_login_str"
-                        android:layout_marginTop="8dp"
-                        app:roundedCorners="true"
-                        app:bootstrapSize="lg"
-                        android:id="@+id/btn_login"
-                        app:buttonMode="regular"
-                        app:showOutline="false"/>
+                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/edt_username"
+                            android:layout_marginBottom="@dimen/dimen_24dp"
+                            app:roundedCorners="true"
+                            app:bootstrapSize="lg"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:text="admin"
+                            android:hint="@string/edt_username_hint"
+                            android:paddingLeft="@dimen/dimen_10dp"
+                            android:paddingRight="@dimen/dimen_10dp"
+                            android:textColor="@color/colorDarkGrey"
+                            android:textColorHint="@color/colorTextHint"
+                            android:textSize="13sp"/>
 
 
-            </RelativeLayout>
+                    <com.beardedhen.androidbootstrap.BootstrapEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/edt_password"
+                            android:layout_below="@id/edt_username"
+                            android:layout_marginBottom="@dimen/dimen_40dp"
+                            app:bootstrapSize="lg"
+                            app:roundedCorners="true"
+                            android:maxLines="1"
+                            android:text="Admin123"
+                            android:inputType="textPassword"
+                            android:hint="@string/edt_password_hint"
+                            android:paddingLeft="@dimen/dimen_10dp"
+                            android:paddingRight="@dimen/dimen_10dp"
+                            android:textColor="@color/colorDarkGrey"
+                            android:textColorHint="@color/colorTextHint"
+                            android:textSize="13sp"/>
+
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/edt_password"
+                            android:layout_marginBottom="@dimen/dimen_12dp"
+                            android:text="@string/btn_login_str"
+                            android:layout_marginTop="8dp"
+                            app:roundedCorners="true"
+                            app:bootstrapSize="lg"
+                            android:id="@+id/btn_login"
+                            app:buttonMode="regular"
+                            app:showOutline="false"/>
+
+
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
 

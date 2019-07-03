@@ -8,7 +8,7 @@ import ihsinformatics.com.hydra_mobile.view.widgets.InputWidgetProvider
 
 class FormActivity : BaseActivity() {
 
-    val PARAM_FORM_ID = "formId"
+    val paramFormId = "formId"
 
     companion object {
         lateinit var ENCOUNTER_NAME: String
@@ -19,7 +19,7 @@ class FormActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val provider = InputWidgetProvider.getInstance()
-        val llMain = findViewById(R.id.llMain) as LinearLayout
+        val llMain = findViewById(R.id.base_form_container) as LinearLayout
 
         val intent = intent
         if (REGISTRATION_ENCOUNTER == null) {
@@ -30,6 +30,14 @@ class FormActivity : BaseActivity() {
         var loadData = intent.getBooleanExtra(Constant.KEY_LOAD_DATA, false)
         var data = intent.getStringExtra(Constant.KEY_JSON_DATA)
 
+    }
+
+    fun getEncounterName(): String {
+        return ENCOUNTER_NAME
+    }
+
+    fun setEncounterName(encounterName: String) {
+        ENCOUNTER_NAME = encounterName
     }
 
 

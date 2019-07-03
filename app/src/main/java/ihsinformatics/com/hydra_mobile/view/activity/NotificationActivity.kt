@@ -23,7 +23,7 @@ class NotificationActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                startActivity(Intent(this, MainMenu::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
                 true
             }
@@ -33,7 +33,7 @@ class NotificationActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //Todo : idea , if create a rout util for navigations
-        startActivity(Intent(this, MainMenu::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
         super.onBackPressed()
 

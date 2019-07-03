@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.activity.MainMenu">
-
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent"
+            tools:context=".view.activity.HomeActivity">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-            <TextView
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/app_title_name"
-                    android:typeface="serif"
-                    android:gravity="center"
-                    android:id="@+id/toolbar_title"/>
-        </androidx.appcompat.widget.Toolbar>
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    </com.google.android.material.appbar.AppBarLayout>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_title_name"
+                        android:typeface="serif"
+                        android:layout_gravity="center"
+                        android:id="@+id/toolbar_title"/>
 
-    <include layout="@layout/content_main_menu"/>
+                <ImageView
+                            android:id="@+id/action_notification_"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/bell"
+                           android:layout_gravity="right"
+                           android:padding="@dimen/dimen_12dp"
+                           android:layout_alignParentRight="true"
+                />
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include
+                android:id="@+id/content_menu_"
+                layout="@layout/content_main_menu"/>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

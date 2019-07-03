@@ -18,7 +18,8 @@ class AppConfiguration {
                     if (setting.ssl) {
                         baseUrl = "https://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
                     } else {
-                        baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
+                        //baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
+                        baseUrl = "http://" + setting.ip + "/openmrs/ws/rest/v1/"
                     }
                 } else {
                     baseUrl = ""
