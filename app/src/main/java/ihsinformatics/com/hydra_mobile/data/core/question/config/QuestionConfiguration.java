@@ -1,5 +1,5 @@
 package ihsinformatics.com.hydra_mobile.data.core.question.config;
-import ihsinformatics.com.hydra_mobile.view.dialogs.DateSelector;
+import ihsinformatics.com.hydra_mobile.ui.dialogs.DateSelector;
 
 import java.util.Date;
 

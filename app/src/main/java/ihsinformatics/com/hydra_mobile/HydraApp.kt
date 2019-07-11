@@ -2,13 +2,12 @@ package ihsinformatics.com.hydra_mobile
 
 import android.app.Activity
 import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
-import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
-import ihsinformatics.com.hydra_mobile.repository.AppSettingRepository
-import ihsinformatics.com.hydra_mobile.viewmodel.AppSettingViewModel
+import ihsinformatics.com.hydra_mobile.di.component.DaggerAppComponent
+import ihsinformatics.com.hydra_mobile.data.repository.AppSettingRepository
+import javax.inject.Inject
 
 /**
  * File Description
@@ -18,17 +17,24 @@ import ihsinformatics.com.hydra_mobile.viewmodel.AppSettingViewModel
  */
 
 
-class HydraApp : Application() {
+class HydraApp : Application(), HasActivityInjector {
 
-    companion object {
-        val instance = HydraApp()
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
+    override fun activityInjector(): DispatchingAndroidInjector<Activity>? {
+        return dispatchingAndroidInjector
     }
+
 
     override fun onCreate() {
         super.onCreate()
         initializeAppSetting()
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+            .inject(this)
     }
-
 
     private fun initializeAppSetting() {
         val appSettingRepo = AppSettingRepository(this)
@@ -39,8 +45,7 @@ class HydraApp : Application() {
                 false
             )
         )
-       // Toast.makeText(this, "saved default settings", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(this, "saved default settings", Toast.LENGTH_SHORT).show()
     }
-
 
 }

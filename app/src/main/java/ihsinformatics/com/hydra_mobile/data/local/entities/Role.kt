@@ -5,10 +5,9 @@ import java.util.*
 
 class Role(
     val role: String,
-    val description: String,
-    val uuid: String
+    val description: String
 
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var roleId: Int = 0
 }

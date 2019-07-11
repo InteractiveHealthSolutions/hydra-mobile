@@ -3,7 +3,7 @@ package ihsinformatics.com.hydra_mobile.data.remote.manager
 import android.app.Application
 import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.data.remote.service.UserService
+import ihsinformatics.com.hydra_mobile.data.remote.service.UserApiService
 import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
-import kotlin.coroutines.suspendCoroutine
 
 
 /**
@@ -37,7 +36,7 @@ class RequestManager {
             password
         )
         retrofit = Retrofit.Builder()
-            .baseUrl("http://ihs.ihsinformatics.com:6928/openmrs/ws/rest/v1/")
+            .baseUrl("http://test.hydra.com/openmrs/ws/rest/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -56,11 +55,12 @@ class RequestManager {
     }
 
     private fun getBaseUrl(application: Application): String {
-        return AppConfiguration.getBaseUrl(application)
+        return AppConfiguration().getBaseUrl(application)
     }
 
     fun authenticateUser(username: String, representation: String, restCallback: RESTCallback) {
-        val userService = retrofit!!.create(UserService::class.java)
+        val userService = retrofit!!.create(UserApiService::class.java)
+
         userService.getUser(username, representation).enqueue(object : Callback<UserResponse> {
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 Timber.e(t.localizedMessage)
@@ -78,6 +78,5 @@ class RequestManager {
 
         })
     }
-
 
 }

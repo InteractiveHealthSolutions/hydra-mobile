@@ -7,7 +7,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/app_bar_main_menu"
-            tools:context=".view.activity.HomeActivity">
+            tools:context=".ui.activity.HomeActivity">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_screen_recycler_view"
