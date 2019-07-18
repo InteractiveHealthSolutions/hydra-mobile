@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.ankitdubey021:MySnack:2.3@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-MySnack-2.3.aar/347a3c38fe0a3753b4ed014cab09bc37/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-MySnack-2.3.aar/347a3c38fe0a3753b4ed014cab09bc37/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ankitdubey021/MySnack/2.3/fe5a89586c316eefee26bf4a1e165ef940811f2c/MySnack-2.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

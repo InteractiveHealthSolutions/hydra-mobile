@@ -1,0 +1,67 @@
+{
+  "name": "Community Workflow",
+  "phases": [
+    {
+      "name": "Search",
+      "id": 1234,
+      "components": [
+        {
+          "name": "Screening",
+          "id": 1234,
+          "forms": [
+            {
+              "formId": 1,
+              "encounterType": "Screening"
+            },
+            {
+              "formId": 2,
+              "encounterType": "Verbal Screening"
+            }
+          ]
+        },
+        {
+          "name": "Diagnosis",
+          "id": 1237,
+          "forms": [
+            {
+              "formId": 3,
+              "encounterType": "Screening"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Treat",
+      "id": 1234,
+      "components": [
+        {
+          "name": "Initiation",
+          "id": 1235,
+          "forms": [
+            {
+              "formId": 4,
+              "encounterType": "Treatment Initiation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Prevent",
+      "id": 1234,
+      "components": [
+        {
+          "name": "Prevention Therapy",
+          "id": 1236,
+          "forms": [
+            {
+              "formId": 5,
+              "encounterType": "Prevention Form"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

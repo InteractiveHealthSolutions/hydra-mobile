@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:padding="16dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/drop_shadow" >
+
+    <LinearLayout
+        android:id="@+id/llQuestion"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvNumber"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:paddingLeft="5dp"
+            android:layout_gravity="top"
+            android:visibility="gone"
+            android:paddingRight="5dp"
+            android:text="1"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginStart="5dp"
+            android:text="@string/hello_world" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/llQuestion"
+        android:gravity="right"
+        android:text="@string/hello_world" />
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tvMessage" />
+
+</RelativeLayout>

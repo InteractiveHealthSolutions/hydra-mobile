@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/llQuestion"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/boundary_shape"
+              android:orientation="vertical"
+              android:padding="5dp">
+
+
+    <TextView
+            android:id="@+id/tvQuestion"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/hello_world" />
+
+    <Spinner
+            android:id="@+id/spAnswer"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMessage" />
+
+    <TextView
+            android:id="@+id/tvMessage"
+            style="@style/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llQuestion"
+            android:gravity="right"
+            android:padding="5dp"
+            android:textColor="@color/colorRed"
+            android:text="@string/hello_world"
+            android:visibility="gone" />
+
+    <EditText
+            android:id="@+id/etAnswer"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMessage"
+            android:inputType="textCapWords"
+            android:visibility="gone" />
+
+</LinearLayout>
+
+
+
+

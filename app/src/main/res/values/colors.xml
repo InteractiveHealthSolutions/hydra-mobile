@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#45B29B</color>#
+    <color name="colorPrimaryDark">#3EA18C</color>
+    <color name="toolBackground">#358AA9</color>
+    <color name="toolBackgroundDark">#217491</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryTint">#daddf2</color>
+    <color name="colorBackground">#fdfdfd</color>
+
+    <color name="colorDarkOrange">#b22a00</color>
+    <color name="colorPurple">#59203f</color>
+    <color name="colorLightPurple">#a36587</color>
+    <color name="colorLightPurple_03">#30a36587</color>
+    <color name="colorPink">#ee4255</color>
+    <color name="colorGreen">#17b078</color>
+    <color name="colorLightGreen">#56B411</color>
+    <color name="colorRed">#BE1F18</color>
+    <color name="colorRedTransparent">#28d42a25</color>
+    <color name="colorTextHint">#d4d3d3</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="White">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorOrange">#DB3D36</color>
+    <color name="colorBlue">#468AD9</color>
+    <color name="colorLightBlue_500">#70468ad9</color>
+    <color name="colorGrey">#363636</color>
+    <color name="colorLighterGrey">#d3d7d9</color>
+    <color name="colorLightGrey">#95989A</color>
+    <color name="colorDarkGrey">#363636</color>
+    <color name="colorBlueFB">#39579a</color>
+    <color name="colorOrangeGoogle">#DE4931</color>
+    <color name="colorBlueTwitter">#29ABE2</color>
+    <color name="colorGreyBackground">#44dadada</color>
+
+    <!-- Open Chat -->
+    <color name="openChatText">#47505d</color>
+    <color name="openChatNicknameOther">#3a414d</color>
+    <color name="openChatNicknameMe">#00BCD4</color>
+
+    <!-- Group Chat -->
+    <color name="groupChatBubbleMe">#774df2</color>
+    <color name="groupChatTextMe">#ffffff</color>
+    <color name="groupChatBubbleOther">#eef1f6</color>
+    <color name="groupChatTextOther">#000000</color>
+
+    <color name="groupChatReadReceiptMe">#1fcc94</color>
+    <color name="groupChatReadReceiptOther">#00BCD4</color>
+
+    <color name="groupChatAdminBackground">#e0fcff</color>
+    <color name="groupChatAdminText">#39474e</color>
+
+    <color name="groupChatDateText">#ffffff</color>
+    <color name="groupChatDateBackground">#C0C0C0</color>
+
+    <!-- Group Channel List -->
+    <color name="groupChannelUnreadCountBackground">#7d62df</color>
+    <color name="groupChannelUnreadCountText">#ffffff</color>
+
+    <!-- Selector -->
+    <color name="btn_create">#ffffff</color>
+    <color name="btn_create_disabled">#c1acff</color>
+    <color name="btn_edit">#ffffff</color>
+    <color name="btn_edit_disabled">#c1acff</color>
+    <color name="btn_send">#774df2</color>
+    <color name="btn_send_disabled">#8e8e8e</color>
+    <color name="colorYellow">#ffee00</color>
+
+    <color name="colorLightGreen_100">#3217b078</color>
+    <color name="colorGradientDarkGreen">#167055</color>
+    <color name="colorGradientLightGreen">#17a56c</color>
+    <color name="colorDarkGreen">#139464</color>
+    <color name="colorBrown">#EBB265</color>
+
+    <!-- Upload Content Screen -->
+    <color name="colorStroke">#f1f1f1</color>
+    <color name="DarkSlateGray">#f1f1f1</color>
+
+    <!-- Generic colors -->
+    <color name="textColor">#454545</color>
+    <color name="textHintColor">#aaaaad</color>
+    <color name="colorDrawerMenuBack">#f1f1f1</color>
+    <color name="colorPinkDark">#d82d40</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="strip_color_1">#08617D</color>
+    <color name="strip_color_2">#D05809</color>
+    <color name="strip_color_3">#E9262A</color>
+    <color name="strip_color_4">#354451</color>
+    <color name="strip_color_5">#00793E</color>
+    <color name="strip_color_6">#953EA8</color>
+
+    <color name="menu_color_1">#327B72</color>
+    <color name="menu_color_2">#BA7325</color>
+    <color name="menu_color_3">#D0543A</color>
+    <color name="menu_color_4">#536857</color>
+    <color name="menu_color_5">#3D8C4A</color>
+    <color name="menu_color_6">#8A548E</color>
+
+
+    <color name="dark_blue_203c61">#203c61</color>
+    <color name="gradiet_start">#8b9dab</color>
+    <color name="lightest_blue_e6edf5">#e6edf5</color>
+    <color name="corner_blue_e6edf5">#d0d9de</color>
+    <color name="light_blue_4991f7">#4991f7</color>
+    <color name="form_title">#4c4c4c</color>
+</resources>
