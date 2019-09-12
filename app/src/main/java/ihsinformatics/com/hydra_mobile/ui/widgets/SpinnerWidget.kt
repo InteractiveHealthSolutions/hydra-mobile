@@ -132,7 +132,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
     fun setOther(value: Option?) {
         if (value == null) {
             // TODO make last selected item selected here in future
-            spAnswer!!.setSelection(0)
+            spAnswer.setSelection(0)
             return
         }
         try {
@@ -140,7 +140,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
                 addOption(value)
             } else {
                 // TODO make last selected item selected here in future
-                spAnswer!!.setSelection(0)
+                spAnswer.setSelection(0)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -220,7 +220,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
     }
 
     override fun setClickable(clickable: Boolean) {
-        spAnswer!!.isClickable = clickable
+        spAnswer.isClickable = clickable
         super.setClickable(clickable)
     }
 
@@ -229,14 +229,14 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
     }
 
     override fun setEnabled(enabled: Boolean) {
-        for (lol in spAnswer!!.touchables) {
+        for (lol in spAnswer.touchables) {
             lol.isEnabled = enabled
         }
         super.setEnabled(enabled)
     }
 
     override fun onFocusGained() {
-        spAnswer!!.performClick()
+        spAnswer.performClick()
         val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
@@ -247,10 +247,10 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
         val i = dataList.indexOf(answer)
         if (i == -1) {
             addOption(Option(question.questionId, -1, null, null, uuid, answer, -1))
-            spAnswer!!.setSelection(dataList.indexOf(answer))
+            spAnswer.setSelection(dataList.indexOf(answer))
             return
         }
-        spAnswer!!.setSelection(dataList.indexOf(answer))
+        spAnswer.setSelection(dataList.indexOf(answer))
         visibility = View.VISIBLE
     }
 

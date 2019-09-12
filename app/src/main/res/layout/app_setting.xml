@@ -7,6 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@android:color/white"
         android:layout_width="match_parent"
+        android:backgroundTint="@color/White"
         android:layout_height="match_parent">
 
     <ImageView
@@ -18,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="@dimen/dimen_12dp"
             app:layout_constraintHorizontal_bias="0.063"/>
 
     <com.beardedhen.androidbootstrap.BootstrapEditText
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:backgroundTint="@color/textHintColor"
+            app:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_done_black_24dp"
             android:id="@+id/btn_save" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"

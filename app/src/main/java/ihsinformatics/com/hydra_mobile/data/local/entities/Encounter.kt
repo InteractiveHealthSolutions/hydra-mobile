@@ -6,22 +6,22 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Encounter(
-    val encounterDatetime: String,
-    val dateCreated: String,
-    val voided: String,
-    // val patientId: String,
-    @Embedded(prefix = "patientId")
-    val patient: Patient,
-    //val encounterTypeId: Long,
-    @Embedded(prefix = "encounterTypeId")
-    val encounterType: EncounterType,
-    //val locationId: Long,
-    @Embedded(prefix = "locationId")
-    val location: Location,
-    //val createdBy: Long,
-    @Embedded(prefix = "createdBy")
-    val user: User,
-    val isUploaded: Boolean
+//    val encounterDatetime: String,
+//    val dateCreated: String,
+//    val voided: String,
+//    // val patientId: String,
+//    //    @Embedded(prefix = "patientId")
+//    //    val patient: Patient,
+//    //val encounterTypeId: Long,
+//    @Embedded(prefix = "encounterTypeId")
+//    val encounterType: EncounterType,
+//    //val locationId: Long,
+//    @Embedded(prefix = "locationId")
+//    val location: Location,
+//    //val createdBy: Long,
+//    @Embedded(prefix = "createdBy")
+//    val user: User,
+//    val isUploaded: Boolean
 
 ) {
 

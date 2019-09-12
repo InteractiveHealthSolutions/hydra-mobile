@@ -12,7 +12,7 @@ import dagger.android.AndroidInjectionModule
 
 
 /*
- * We mark this interface with the @Component annotation.
+ * We mark this interface with the @ihsinformatics.com.hydra_mobile.data.remote.model.workflow.Component annotation.
  * And we define all the modules that can be injected.
  * Note that we provide AndroidSupportInjectionModule.class
  * here. This class was not created by us.

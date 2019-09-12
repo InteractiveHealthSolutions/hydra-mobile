@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:gravity="start"
+      android:layoutDirection="rtl"
+      android:layout_gravity="start"
+>
+
+    <item
+            android:id="@+id/formsFragment"
+            android:title="forms"
+            android:icon="@drawable/ic_menu"
+            app:showAsAction="always" />
+    <item
+            android:id="@+id/searchFragment"
+            android:icon="@drawable/ic_search"
+            android:title="search"
+            app:showAsAction="always" />
+    <item
+        android:id="@+id/eventFragment"
+        android:title="event"
+
+        android:icon="@drawable/ic_event"
+        app:showAsAction="ifRoom" />
+
+
+
+
+</menu>

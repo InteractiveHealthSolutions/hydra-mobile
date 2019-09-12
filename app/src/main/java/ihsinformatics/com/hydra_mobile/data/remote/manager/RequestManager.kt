@@ -36,7 +36,7 @@ class RequestManager {
             password
         )
         retrofit = Retrofit.Builder()
-            .baseUrl("http://test.hydra.com/openmrs/ws/rest/v1/")
+            .baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

@@ -5,7 +5,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.local.dao.*
+import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.*
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 
 /**
  * It represents the DB, it holds a connection to the actual SQLite DB.
@@ -13,7 +15,8 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.*
 
 @Database(
     entities = [AppSetting::class, Patient::class, Person::class, Address::class, Concept::class,
-        Encounter::class, Location::class, Obs::class, Order::class, Permission::class ,User::class],
+        Encounter::class, Location::class, Obs::class, Order::class, Permission::class, User::class,
+        Phases::class, Component::class, Forms::class, PhasesComponentJoin::class,ComponentFormJoin::class],
     version = 1,
     exportSchema = false
 )
@@ -30,6 +33,13 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
     abstract fun getPermissionDao(): PermissionDao
     abstract fun getUserDao(): UserDao
+    abstract fun getPhaseDao(): PhasesDao
+    abstract fun getPhaseComponent(): PhaseComponentDao
+    abstract fun getComponent(): ComponentDao
+    abstract fun getForm(): FormDao
+    abstract fun getComponentForm(): ComponentFormDao
+    abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
+    abstract fun getComponentFormJoin(): ComponentFormJoinDao
 
     companion object {
         private var instance: AppDatabase? = null
@@ -40,7 +50,8 @@ abstract class AppDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java, "hydra_database"
-                    ).fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
+                    )
+                        .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
                         .build()
                 }
             }

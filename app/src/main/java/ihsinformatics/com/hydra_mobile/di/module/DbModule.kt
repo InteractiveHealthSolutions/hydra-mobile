@@ -5,6 +5,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
+import ihsinformatics.com.hydra_mobile.data.local.dao.PhasesDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
 import javax.inject.Singleton
 
@@ -25,6 +26,12 @@ class DbModule {
     @Singleton
     fun provideUserDao(appDatabase: AppDatabase): UserDao {
         return appDatabase.getUserDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providePhaseDao(appDatabase: AppDatabase): PhasesDao {
+        return appDatabase.getPhaseDao()
     }
 
 

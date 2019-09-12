@@ -15,10 +15,10 @@
             app:showPainter="true"
             app:text="@string/main_title"
             android:layout_centerInParent="true"
-            app:paintStrokeColor="@color/colorOrange"
-            app:pathStrokeColor="@color/colorOrange"
+            app:paintStrokeColor="@color/colorPrimaryDark"
+            app:pathStrokeColor="@color/colorPrimaryDark"
             app:textInCenter="true"
-            app:textSize="62sp"
+            app:textSize="82sp"
             app:repeat="REVERSE"
     />
 </RelativeLayout>

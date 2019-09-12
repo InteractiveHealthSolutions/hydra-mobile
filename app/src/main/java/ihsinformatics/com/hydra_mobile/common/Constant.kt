@@ -1,7 +1,10 @@
 package ihsinformatics.com.hydra_mobile.common
 
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Constant {
     companion object {
@@ -42,9 +45,12 @@ class Constant {
         val KEY_JSON_DATA = "json_data"
         val RESPONSE_NUMBER = "responseNumber"
 
-        //Custom messages
+        //
+        var formList: List<Forms> = ArrayList()
+        var componentName = ""
+        var formName = ""
+        var tempLogin: Boolean = false
     }
-
 
 
 }

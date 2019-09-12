@@ -2,62 +2,154 @@
   "name": "Community Workflow",
   "phases": [
     {
-      "name": "Search",
-      "id": 1234,
+      "name": "SEARCH",
+      "id": 101,
       "components": [
         {
           "name": "Screening",
-          "id": 1234,
+          "id": 1011,
           "forms": [
             {
-              "formId": 1,
-              "encounterType": "Screening"
+              "formId": 11,
+              "encounterType": "Child Screening"
             },
             {
-              "formId": 2,
-              "encounterType": "Verbal Screening"
+              "formId": 12,
+              "encounterType": "TB Quick Screening"
+            },
+            {
+              "formId": 13,
+              "encounterType": "Adult Screening"
+            },
+            {
+              "formId": 14,
+              "encounterType": "Patient Information"
             }
           ]
         },
         {
           "name": "Diagnosis",
-          "id": 1237,
+          "id": 1012,
           "forms": [
             {
-              "formId": 3,
-              "encounterType": "Screening"
+              "formId": 21,
+              "encounterType": "Child Clinician Evaluation"
+            },
+            {
+              "formId": 22,
+              "encounterType": "Adult Clinician Evaluation"
+            },
+            {
+              "formId": 23,
+              "encounterType": "Child Antibiotic Trial"
+            },
+            {
+              "formId": 24,
+              "encounterType": "TB Disease Confirmation"
+            },
+            {
+              "formId": 25,
+              "encounterType": "End of Follow-up"
+            },
+            {
+              "formId": 26,
+              "encounterType": "Adult Antibiotic Trial"
             }
           ]
         }
       ]
     },
     {
-      "name": "Treat",
-      "id": 1234,
+      "name": "TREAT",
+      "id": 102,
       "components": [
         {
           "name": "Initiation",
-          "id": 1235,
+          "id": 1021,
           "forms": [
             {
-              "formId": 4,
+              "formId": 211,
               "encounterType": "Treatment Initiation"
+            },
+            {
+              "formId": 212,
+              "encounterType": "Patient Information"
+            },
+            {
+              "formId": 213,
+              "encounterType": "Past TB History"
+            },
+            {
+              "formId": 214,
+              "encounterType": "Baseline Vitals"
+            }
+          ]
+        },
+        {
+          "name": "Progression",
+          "id": 1022,
+          "forms": [
+            {
+              "formId": 221,
+              "encounterType": "Treatment Registration"
+            },
+            {
+              "formId": 222,
+              "encounterType": "Adult TB FollowUp"
+            },
+            {
+              "formId": 223,
+              "encounterType": "Child TB FollowUp"
             }
           ]
         }
       ]
     },
     {
-      "name": "Prevent",
-      "id": 1234,
+      "name": "PREVENT",
+      "id": 103,
       "components": [
         {
           "name": "Prevention Therapy",
-          "id": 1236,
+          "id": 1031,
           "forms": [
             {
-              "formId": 5,
-              "encounterType": "Prevention Form"
+              "formId": 311,
+              "encounterType": "Adverse Event"
+            },
+            {
+              "formId": 312,
+              "encounterType": "Adverse Event outcome"
+            },
+            {
+              "formId": 313,
+              "encounterType": "Treatment Initiation"
+            }
+          ]
+        },
+        {
+          "name": "Identify & Investigate",
+          "id": 1032,
+          "forms": [
+            {
+              "formId": 321,
+              "encounterType": "Index Patient Registration"
+            },
+            {
+              "formId": 322,
+              "encounterType": "Contact Registry"
+            },
+            {
+              "formId": 323,
+              "encounterType": "Household TB History"
+            },
+            {
+              "formId": 324,
+              "encounterType": "Patient Information"
+            },
+            {
+              "formId": 325,
+              "encounterType": "HH TB History"
             }
           ]
         }

@@ -22,8 +22,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/notifications_title"
-                    android:typeface="serif"
+                    android:typeface="normal"
                     android:gravity="center"
+                    android:textSize="24sp"
                     android:id="@+id/toolbar_title"/>
         </androidx.appcompat.widget.Toolbar>
 

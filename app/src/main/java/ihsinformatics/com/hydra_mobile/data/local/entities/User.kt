@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity
 class User(
     val username: String,
-    @Embedded
-    val roles: Role?,
+//    @Embedded
+//    val roles: Role?,
     val systemId: String,
     val uuid: String
 ) {
@@ -28,7 +28,7 @@ class User(
         providerUuid: String,
         voided: Boolean
 
-    ) : this(username, roles, systemId, uuid) {
+    ) : this(username, systemId, uuid) {
 
     }
 

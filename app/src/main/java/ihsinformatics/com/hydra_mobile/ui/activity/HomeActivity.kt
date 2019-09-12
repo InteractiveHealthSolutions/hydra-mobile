@@ -2,6 +2,7 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.GravityCompat
@@ -17,38 +18,74 @@ import android.widget.Toast
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.tabs.TabLayout
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.core.FormMenu
-import ihsinformatics.com.hydra_mobile.databinding.ActivityMainMenuBinding
-import ihsinformatics.com.hydra_mobile.utils.AppUtility
-import ihsinformatics.com.hydra_mobile.utils.GridSpacingItemDecoration
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Phases
+import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
+import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
 import ihsinformatics.com.hydra_mobile.utils.ParamNames
 import ihsinformatics.com.hydra_mobile.ui.widgets.controls.adapters.MenuAdapter
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
 import java.util.ArrayList
+import kotlin.system.exitProcess
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.img_search -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+                finish()
+            }
+            R.id.img_events -> {
+                startActivity(Intent(this, EventsActivity::class.java))
+                finish()
+            }
+            R.id.img_report -> {
+                startActivity(Intent(this, ReportActivity::class.java))
+                finish()
+            }
+            R.id.fab_profile -> {
+                Toast.makeText(this, "not implemented", Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+    }
 
     private lateinit var toolbar: Toolbar
     private var formList: MutableList<FormMenu> = ArrayList<FormMenu>() as MutableList<FormMenu>
     private lateinit var adapter: MenuAdapter
-    lateinit var binding: ActivityMainMenuBinding
+    lateinit var binding: ActivityHomeBinding
     lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_menu)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         title = ""
         toolbar = binding.mainMenuLayout.toolbar
         setSupportActionBar(toolbar)
+        overridePendingTransition(R.anim.slide_in_from_rigth, R.anim.slide_to_left)
         initNavigationDrawer()
-        initRecyclerView()
+        //initRecyclerView()
         initToolbar()
-        prepareForms()
+        initListener()
+        //prepareForms()
+    }
+
+    private fun initListener() {
+        binding.mainMenuLayout.imgSearch.setOnClickListener(this)
+        binding.mainMenuLayout.imgEvents.setOnClickListener(this)
+        binding.mainMenuLayout.imgReport.setOnClickListener(this)
+        binding.mainMenuLayout.fabProfile.setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -61,18 +98,19 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this, NotificationActivity::class.java))
             finish()
         })
+        Constant.tempLogin = true
     }
 
     private fun initRecyclerView() {
-        var recyclerView = binding.mainMenuLayout.contentMenu.mainScreenRecyclerView
+        // var recyclerView = binding.mainMenuLayout.contentHost.mainScreenRecyclerView
         adapter = MenuAdapter(this, formList, MenuAdapter.OnItemClickListener {
             menuListener(it)
         })
-        val mLayoutManager = GridLayoutManager(this, 2)
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(2, AppUtility.dpToPx(getResources(), 10), true))
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = adapter
+//                    val mLayoutManager = GridLayoutManager(this, 2)
+//                    recyclerView.layoutManager = mLayoutManager
+//                    recyclerView.addItemDecoration(GridSpacingItemDecoration(2, AppUtility.dpToPx(getResources(), 10), true))
+//                    recyclerView.itemAnimator = DefaultItemAnimator()
+//                    recyclerView.adapter = adapter
     }
 
     private fun menuListener(item: FormMenu) {
@@ -81,8 +119,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             encounterName = ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION
 
             Toast.makeText(this, "Encounter" + encounterName, Toast.LENGTH_SHORT).show()
-               // startActivity(Intent(this, Form::class.java))
-              //  Form.setENCOUNTER_NAME(encounterName)
+            // startActivity(Intent(this, ihsinformatics.com.hydra_mobile.data.remote.model.workflow.Form::class.java))
+            //  ihsinformatics.com.hydra_mobile.data.remote.model.workflow.Form.setENCOUNTER_NAME(encounterName)
         }
     }
 
@@ -99,6 +137,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+        initPhase()
     }
 
     //Todo: this will change ...
@@ -126,50 +165,43 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+
         drawerLayout = binding.drawerLayout
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+
+            openDialog()
+            //super.onBackPressed()
         }
     }
 
-    /*    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }*/
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*   return when (item.itemId) {
-               R.id.action_notifications -> {
-                   startActivity(Intent(this, NotificationActivity::class.java))
-                   return true
-               }
-               else -> super.onOptionsItemSelected(item)
-           }*/
-        return super.onOptionsItemSelected(item)
-    }
-
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+            R.id.nav_setting -> {
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_language -> {
 
             }
-            R.id.nav_tools -> {
+            R.id.nav_forms -> {
 
             }
-            R.id.nav_share -> {
-
+            R.id.nav_faq -> {
+                startActivity(Intent(this, HelpActivity::class.java))
+                finish()
             }
-            R.id.nav_send -> {
-
+            R.id.nav_events -> {
+                startActivity(Intent(this, EventsActivity::class.java))
+                finish()
+            }
+            R.id.nav_reports -> {
+                startActivity(Intent(this, ReportActivity::class.java))
+                finish()
+            }
+            R.id.nav_logout -> {
+                SessionManager(applicationContext).logoutUser()
+                finish()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -177,18 +209,58 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    private fun initPhase() {
+        binding.mainMenuLayout.vpPhases.offscreenPageLimit = 2
+        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.mainMenuLayout.tbPhase))
+        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
-    private fun animateToggleButton(start: Float, end: Float) {
-        val anim = ValueAnimator.ofFloat(start, end)
-        anim.addUpdateListener { valueAnimator ->
-            toggle?.onDrawerSlide(
-                binding.drawerLayout,
-                valueAnimator.animatedValue as Float
-            )
-        }
-        anim.interpolator = DecelerateInterpolator() as TimeInterpolator?
-        anim.duration = 250
-        anim.start()
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
+        getPhases()
     }
+
+    private fun getPhases() {
+        val phasesViewModel = ViewModelProviders.of(this).get(PhasesViewModel::class.java)
+        phasesViewModel.getAllPhases().observe(this, Observer<List<Phases>> {
+            if (it.isNotEmpty()) {
+                for (i in 0 until it.size) {
+                    binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + it[i].name))
+//                    binding.mainMenuLayout.tbPhase.getTabAt(i)!!.setIcon(R.drawable.ic_gesture_black_24dp)
+                }
+                val mDynamicFragmentAdapter =
+                    DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, it)
+                binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
+                binding.mainMenuLayout.vpPhases.currentItem = 0
+            }
+
+        })
+    }
+
+    fun openDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setMessage(getString(R.string.are_you_sure_exit_application))
+            .setTitle(getString(R.string.are_you_sure))
+            .setNegativeButton(getString(R.string.no), null)
+            .setPositiveButton(
+                getString(R.string.yes)
+            ) { _, _ ->
+                //SessionManager(applicationContext).logoutUser()
+                finishAffinity()
+                //
+                //        dialog.show()System.exit(0)
+            }
+        dialog.show()
+    }
+
 
 }

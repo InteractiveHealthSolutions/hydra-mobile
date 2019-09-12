@@ -1,7 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
-
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,7 +15,9 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import android.widget.Toast
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -46,6 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
     private fun switchActivity() {
         if (validation()) {
             networkProgressDialog.show()
@@ -63,8 +66,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     }
 
                     override fun onSuccess(o: Any) {
+                        SessionManager(applicationContext).createLoginSession(
+                            usernameEditText.text.toString(),
+                            passwordEditText.text.toString()
+                        )
+
                         networkProgressDialog.dismiss()
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                        finish()
                     }
                 })
         }
@@ -100,6 +109,25 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         networkProgressDialog.dismiss()
+    }
+
+    override fun onBackPressed() {
+        openDialog()
+    }
+
+    fun openDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setMessage(getString(R.string.are_you_sure_exit_application))
+            .setTitle(getString(R.string.are_you_sure))
+            .setNegativeButton(getString(R.string.no), null)
+            .setPositiveButton(
+                getString(R.string.yes)
+            ) { _, _ ->
+                //SessionManager(applicationContext).logoutUser()
+                finishAffinity()
+                /*  System.exit(0)*/
+            }
+        dialog.show()
     }
 
 

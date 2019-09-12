@@ -5,34 +5,46 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/menu_home"/>
+                android:id="@+id/nav_language"
+                android:icon="@drawable/ic_language"
+                android:title="@string/menu_language"/>
+
         <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/menu_gallery"/>
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/menu_settings"/>
+
         <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/menu_slideshow"/>
-        <item
-                android:id="@+id/nav_tools"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_tools"/>
+                android:id="@+id/nav_faq"
+                android:icon="@drawable/ic_faqs_filled"
+                android:title="@string/menu_faq"/>
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Actions">
         <menu>
             <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="@string/menu_share"/>
+                    android:id="@+id/nav_forms"
+                    android:icon="@drawable/ic_form_filled"
+                    android:title="@string/menu_forms"/>
             <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="@string/menu_send"/>
+                    android:id="@+id/nav_reports"
+                    android:icon="@drawable/ic_report_filled"
+                    android:title="@string/menu_reports"/>
+            <item
+                    android:id="@+id/nav_events"
+                    android:icon="@drawable/ic_event_filled"
+                    android:title="@string/menu_events"/>
         </menu>
     </item>
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="@string/menu_logout"/>
+
+    </group>
+
 
 </menu>

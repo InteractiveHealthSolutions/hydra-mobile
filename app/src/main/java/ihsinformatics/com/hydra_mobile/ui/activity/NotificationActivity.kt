@@ -32,7 +32,6 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //Todo : idea , if create a rout util for navigations
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
         super.onBackPressed()
