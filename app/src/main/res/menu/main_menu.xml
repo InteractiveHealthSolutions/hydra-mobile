@@ -4,17 +4,21 @@
       tools:context="com.ihsinformatics.div.Login">
 
     <item
-            android:visible="false"
-            android:id="@+id/action_logout"
-            android:orderInCategory="2"
-            app:showAsAction="never"
-            android:title="@string/action_logout"/>
+            android:id="@+id/menu_form"
+            android:icon="@drawable/ic_form_filled"
+            android:orderInCategory="1"
+            app:showAsAction="always"
+            android:iconTint="@color/White"
+            android:title="@string/action_form"/>
 
     <item
-            android:visible="false"
-            android:id="@+id/action_location"
+            android:id="@+id/action_search"
             android:orderInCategory="1"
-            android:title="@string/location"/>
+            android:icon="@drawable/ic_user_filled"
+            android:iconTint="@color/White"
+            app:showAsAction="always"
+
+            android:title="@string/search"/>
 
     <item
             android:visible="false"

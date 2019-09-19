@@ -1,36 +1,30 @@
 package ihsinformatics.com.hydra_mobile.data.local.entities
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
 @Entity
-class User(
-    val username: String,
-//    @Embedded
-//    val roles: Role?,
-    val systemId: String,
-    val uuid: String
-) {
+class User() {
+    lateinit var username: String
+    lateinit var password: String
+
     constructor(
         username: String,
-        fullName: String,
-        roles: Role,
-        password: String,
-        personUuid: String,
-        sessionId: String,
-        labUUID: String,
-        identifier: String,
-        privileges: String,
+        fullName:String,
         systemId: String,
-        uuid: String,
-        providerUuid: String,
-        voided: Boolean
+        retired:Boolean,
+        uuid: String
 
-    ) : this(username, systemId, uuid) {
-
+    ) : this() {
+        this.username = username
     }
+
+    constructor(username: String, password: String) : this() {
+        this.password = password
+        this.username = username
+    }
+
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

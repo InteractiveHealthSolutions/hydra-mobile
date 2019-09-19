@@ -4,12 +4,11 @@ package ihsinformatics.com.hydra_mobile.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
-import ihsinformatics.com.hydra_mobile.data.local.dao.PhasesDao
+import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhasesDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhaseComponentDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Phases
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.PhasesComponent
 import org.jetbrains.anko.doAsync
-import javax.inject.Inject
 
 
 class PhaseRepository(application: Application) {

@@ -1,10 +1,12 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
-import android.animation.TimeInterpolator
-import android.animation.ValueAnimator
+
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
+import android.view.Menu
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -13,27 +15,39 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.google.android.material.tabs.TabLayout
+import com.luseen.spacenavigation.SpaceItem
+import com.luseen.spacenavigation.SpaceNavigationView
+import com.luseen.spacenavigation.SpaceOnClickListener
+import com.roger.catloadinglibrary.CatLoadingView
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.core.FormMenu
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Phases
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
+import ihsinformatics.com.hydra_mobile.data.services.manager.SyncData
+import ihsinformatics.com.hydra_mobile.data.services.worker.WorkflowWorker
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
+import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.dialogs.LoadingProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesViewModel
 import ihsinformatics.com.hydra_mobile.utils.ParamNames
 import ihsinformatics.com.hydra_mobile.ui.widgets.controls.adapters.MenuAdapter
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
 import java.util.ArrayList
-import kotlin.system.exitProcess
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -60,6 +74,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    lateinit var sessionManager: SessionManager
+    lateinit var spaceNavigationView: SpaceNavigationView
     private lateinit var toolbar: Toolbar
     private var formList: MutableList<FormMenu> = ArrayList<FormMenu>() as MutableList<FormMenu>
     private lateinit var adapter: MenuAdapter
@@ -73,13 +89,39 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         title = ""
         toolbar = binding.mainMenuLayout.toolbar
         setSupportActionBar(toolbar)
-        overridePendingTransition(R.anim.slide_in_from_rigth, R.anim.slide_to_left)
         initNavigationDrawer()
-        //initRecyclerView()
         initToolbar()
         initListener()
-        //prepareForms()
+        sessionManager = SessionManager(this)
+        if (sessionManager.isFirstTime()) {
+            openLoadingScreen()
+        } else {
+            getWorkflow()
+        }
+
+        spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+        spaceNavigationView.addSpaceItem(SpaceItem("Form", R.drawable.ic_form_filled));
+        spaceNavigationView.addSpaceItem(SpaceItem("Search", R.drawable.ic_search));
+        spaceNavigationView.addSpaceItem(SpaceItem("Report", R.drawable.ic_report_filled));
+        spaceNavigationView.addSpaceItem(SpaceItem("Event", R.drawable.ic_event_filled));
+
+        spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
+
+            override fun onCentreButtonClick() {
+                Toast.makeText(applicationContext, "user profile", Toast.LENGTH_SHORT).show();
+            }
+
+            override fun onItemReselected(itemIndex: Int, itemName: String?) {
+                Toast.makeText(applicationContext, "" + itemIndex + " " + itemName, Toast.LENGTH_SHORT).show(); }
+
+            override fun onItemClick(itemIndex: Int, itemName: String?) {
+                Toast.makeText(applicationContext, "" + itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
+            }
+        })
+
     }
+
 
     private fun initListener() {
         binding.mainMenuLayout.imgSearch.setOnClickListener(this)
@@ -98,7 +140,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this, NotificationActivity::class.java))
             finish()
         })
-        Constant.tempLogin = true
+
     }
 
     private fun initRecyclerView() {
@@ -138,30 +180,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
         initPhase()
-    }
-
-    //Todo: this will change ...
-    private fun prepareForms() {
-        val thumbnail = intArrayOf(
-            R.drawable.patient,
-            R.drawable.form2,
-            R.drawable.info2,
-            R.drawable.screening2,
-            R.drawable.form3,
-            R.drawable.surgeon,
-            R.drawable.info,
-            R.drawable.scoring,
-            R.drawable.form,
-            R.drawable.form,
-            R.drawable.form,
-            R.drawable.picture
-        )
-        // formList = mutableListOf<FormMenu>()
-        formList.clear()
-        formList.add(FormMenu(ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION, thumbnail[0]))
-        formList.add(FormMenu(ParamNames.ENCOUNTER_TYPE_PRE_OP_DEMOGRAPHICS, thumbnail[1]))
-        formList.add(FormMenu(ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION, thumbnail[2]))
-        adapter.notifyDataSetChanged()
     }
 
     override fun onBackPressed() {
@@ -226,7 +244,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         })
-        getPhases()
+        //getPhases()
+
     }
 
     private fun getPhases() {
@@ -237,16 +256,37 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + it[i].name))
 //                    binding.mainMenuLayout.tbPhase.getTabAt(i)!!.setIcon(R.drawable.ic_gesture_black_24dp)
                 }
-                val mDynamicFragmentAdapter =
-                    DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, it)
-                binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
-                binding.mainMenuLayout.vpPhases.currentItem = 0
+                /*  val mDynamicFragmentAdapter =
+                      DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, it)
+                  binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
+                  binding.mainMenuLayout.vpPhases.currentItem = 0*/
             }
 
         })
     }
 
-    fun openDialog() {
+    private fun getWorkflow() {
+        val workflowPhasesViewModel = ViewModelProviders.of(this).get(WorkflowPhasesViewModel::class.java)
+        workflowPhasesViewModel.getAllPWorkflowPhases()
+            .observe(this, Observer<List<WorkflowPhasesMap>> { workflowList ->
+                if (workflowList.isNotEmpty()) {
+                    for (element in workflowList) {
+                        binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + element.phaseName))
+                    }
+
+                    val mDynamicFragmentAdapter =
+                        DynamicFragmentAdapter(
+                            supportFragmentManager,
+                            binding.mainMenuLayout.tbPhase.tabCount,
+                            workflowList
+                        )
+                    binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
+                    binding.mainMenuLayout.vpPhases.currentItem = 0
+                }
+            })
+    }
+
+    private fun openDialog() {
         val dialog = AlertDialog.Builder(this)
             .setMessage(getString(R.string.are_you_sure_exit_application))
             .setTitle(getString(R.string.are_you_sure))
@@ -262,5 +302,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.show()
     }
 
+    private fun openLoadingScreen() {
+
+        val fragmentManager = supportFragmentManager.beginTransaction()
+        val loadingScreening = LoadingProgressDialog.newInstance()
+        loadingScreening.show(fragmentManager, "loading screening")
+        SyncData.instance(this).initWorkManage()
+
+        Handler().postDelayed(
+            Runnable {
+                kotlin.run {
+                    sessionManager.checkFirstTimeInstall(false)
+                    loadingScreening.dismiss()
+                    getWorkflow()
+                }
+            }, 5000
+        )
+    }
 
 }
+

@@ -9,6 +9,7 @@
 
         <include
                 android:id="@+id/content_host"
+                android:visibility="gone"
                 layout="@layout/content_main_menu"/>
 
         <androidx.viewpager.widget.ViewPager
@@ -52,6 +53,7 @@
                         android:fitsSystemWindows="true"
                         android:layout_alignParentRight="true"
                 />
+
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
@@ -65,27 +67,53 @@
                     app:tabGravity="fill"
                     app:tabTextColor="@android:color/white"/>
 
+
         </com.google.android.material.appbar.AppBarLayout>
+
+        <!--space bar testing -->
+        <com.luseen.spacenavigation.SpaceNavigationView
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                app:active_item_color="@color/White"
+                app:inactive_item_color="@color/colorAccent"
+                app:space_background_color="@color/colorPrimary"
+                app:centre_button_icon="@drawable/ic_user_filled"
+                app:centre_button_color="@color/White"
+                app:space_item_icon_size="32dp"
+                app:space_item_icon_only_size="32dp"
+                app:space_item_text_size="@dimen/space_item_text_default_size" />
+
+
+
+
+
+
+
+
+
 
 
         <com.google.android.material.bottomappbar.BottomAppBar
+                android:visibility="gone"
                 android:id="@+id/bottom_menu_bar"
                 style="@style/Widget.MaterialComponents.BottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 app:hideOnScroll="true"
-                android:elevation="@dimen/dimen_8dp"
+                android:elevation="0dp"
                 app:fabCradleMargin="0dp"
-                app:fabCradleVerticalOffset="8dp"
+                app:fabCradleVerticalOffset="0dp"
                 app:fabCradleRoundedCornerRadius="0dp"
-                app:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
                 app:fabAlignmentMode="center">
 
-                    <RelativeLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_8dp"
+                    android:padding="@dimen/dimen_4dp"
                     android:gravity="center_horizontal">
 
                 <LinearLayout
@@ -215,16 +243,16 @@
 
             </RelativeLayout>
 
-
         </com.google.android.material.bottomappbar.BottomAppBar>
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_profile"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_user_filled"
                 app:backgroundTint="@color/colorPrimary"
-                app:elevation="8dp"
+                app:fabSize="auto"
+                app:elevation="0dp"
                 android:tint="@color/White"
                 app:layout_anchor="@id/bottom_menu_bar"/>
 

@@ -16,7 +16,9 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import android.widget.Toast
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.repository.WorkflowPhasesRepository
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 
 
@@ -65,11 +67,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         //SnackBarUtil.getSnackBar(this, getString(R.string.authentication_error), "#BE1F18").build()
                     }
 
-                    override fun onSuccess(o: Any) {
+                    override fun <T> onSuccess(o: T) {
                         SessionManager(applicationContext).createLoginSession(
                             usernameEditText.text.toString(),
                             passwordEditText.text.toString()
                         )
+                        Constant.currentUser = User(
+                            username = usernameEditText.text.toString(),
+                            password = passwordEditText.text.toString()
+                        )
+
+                        getData()
 
                         networkProgressDialog.dismiss()
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
@@ -128,6 +136,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 /*  System.exit(0)*/
             }
         dialog.show()
+    }
+
+    private fun getData() {
+        val repo = WorkflowPhasesRepository(this.application)
+        repo.getRemoteWorkflowData()
     }
 
 

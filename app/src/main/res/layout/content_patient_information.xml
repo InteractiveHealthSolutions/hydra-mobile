@@ -32,13 +32,15 @@
                     android:layout_marginLeft="@dimen/dimen_4dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
             />
-            <EditText
-                    android:layout_margin="@dimen/dimen_4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_12dp"
+            <Spinner
                     android:background="@drawable/edittext_rounded_shap"
-                    android:inputType="number"/>
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:padding="@dimen/dimen_24dp"
+                    android:id="@+id/spAnswer"
+                    android:entries="@array/country_arrays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
 
         </LinearLayout>
 

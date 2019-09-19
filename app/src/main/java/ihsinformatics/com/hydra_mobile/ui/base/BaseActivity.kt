@@ -29,6 +29,7 @@ import ihsinformatics.com.hydra_mobile.ui.widgets.QRReaderWidget
 import ihsinformatics.com.hydra_mobile.ui.widgets.ScoreSpinner
 import ihsinformatics.com.hydra_mobile.ui.widgets.SpinnerWidget
 import ihsinformatics.com.hydra_mobile.ui.widgets.image.ImageWidget
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.activity_base.*
 import timber.log.Timber
 import java.util.ArrayList
@@ -36,7 +37,9 @@ import java.util.ArrayList
 
 abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
 
-    //Todo : Clean code
+
+
+
     override fun onClick(v: View?) {
         if (v != null) {
             if (v.id == R.id.btnSave) {
@@ -261,14 +264,14 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * Overrides the pending Activity transition by performing the "Enter" animation.
      */
-    protected fun overridePendingTransitionEnter() {
+    fun overridePendingTransitionEnter() {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     /**
      * Overrides the pending Activity transition by performing the "Exit" animation.
      */
-    protected fun overridePendingTransitionExit() {
+    fun overridePendingTransitionExit() {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
     }
 }

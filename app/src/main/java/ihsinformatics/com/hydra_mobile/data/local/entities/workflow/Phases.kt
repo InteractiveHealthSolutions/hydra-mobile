@@ -8,6 +8,4 @@ class Phases(
     val name: String,
     @PrimaryKey
     val id: Int
-) {
-
-}
+)

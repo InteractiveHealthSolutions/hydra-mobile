@@ -6,7 +6,6 @@ import dagger.Component
 import ihsinformatics.com.hydra_mobile.HydraApp
 import ihsinformatics.com.hydra_mobile.di.module.ActivityModule
 import ihsinformatics.com.hydra_mobile.di.module.ApiModule
-import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import javax.inject.Singleton
 import dagger.android.AndroidInjectionModule
 

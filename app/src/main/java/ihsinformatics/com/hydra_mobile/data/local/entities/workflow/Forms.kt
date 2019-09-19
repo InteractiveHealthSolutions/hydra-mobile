@@ -1,6 +1,6 @@
 package ihsinformatics.com.hydra_mobile.data.local.entities.workflow
 
-import androidx.room.Embedded
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

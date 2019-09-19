@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.data.remote.manager
 
 import android.app.Application
+import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.service.UserApiService
@@ -14,6 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.WorkflowPhasesApiService
 
 
 /**
@@ -25,11 +28,11 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 
 class RequestManager {
 
-    var retrofit: Retrofit? = null
+    lateinit var retrofit: Retrofit
     var okHttpClient: OkHttpClient? = null
     lateinit var gson: Gson
 
-    constructor(application: Application, username: String, password: String) {
+    constructor(context: Context, username: String, password: String) {
 
         initOkHttp(
             username,
@@ -59,7 +62,7 @@ class RequestManager {
     }
 
     fun authenticateUser(username: String, representation: String, restCallback: RESTCallback) {
-        val userService = retrofit!!.create(UserApiService::class.java)
+        val userService = retrofit.create(UserApiService::class.java)
 
         userService.getUser(username, representation).enqueue(object : Callback<UserResponse> {
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
@@ -70,7 +73,7 @@ class RequestManager {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 Timber.e(response.message())
                 if (response.isSuccessful) {
-                    restCallback.onSuccess(response)
+                    restCallback.onSuccess(response.body())
                 } else {
                     restCallback.onFailure(Throwable("Authentication failed! Please enter valid username and password.")) //TODO: change the hard coded string ...
                 }
@@ -78,5 +81,30 @@ class RequestManager {
 
         })
     }
+
+    fun getWorkflowPhases(representation: String, restCallback: RESTCallback) {
+        val workflowPhasesService = retrofit.create(WorkflowPhasesApiService::class.java)
+        workflowPhasesService.getWorkflowPhases(representation).enqueue(object : Callback<WorkflowPhasesApiResponse> {
+
+            override fun onResponse(call: Call<WorkflowPhasesApiResponse>, response: Response<WorkflowPhasesApiResponse>) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<WorkflowPhasesApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
+
+
 
 }

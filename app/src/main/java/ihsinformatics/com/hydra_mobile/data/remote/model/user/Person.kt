@@ -1,8 +1,10 @@
 package ihsinformatics.com.hydra_mobile.data.remote.model.user
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Person(
     @SerializedName("age")
     val age: Any,

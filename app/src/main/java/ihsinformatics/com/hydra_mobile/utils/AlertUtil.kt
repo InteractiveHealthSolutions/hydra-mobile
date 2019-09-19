@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import ihsinformatics.com.hydra_mobile.R
 
 class AlertUtil {
+
     companion object {
         /**
          * This Method returns a AlertDialog Builder according to the Device's Android Version

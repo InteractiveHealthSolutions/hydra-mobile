@@ -1,5 +1,7 @@
 package ihsinformatics.com.hydra_mobile.data.remote.model
 
+import java.util.*
+
 /**
  * @author  Shujaat ali
  * @Email   shujaat.ali@ihsinformatics.com
@@ -8,6 +10,6 @@ package ihsinformatics.com.hydra_mobile.data.remote.model
  */
 
 interface RESTCallback {
-     fun onSuccess(o: Any)
-     fun onFailure(t: Throwable)
+    fun<T> onSuccess(o: T)
+    fun onFailure(t: Throwable)
 }

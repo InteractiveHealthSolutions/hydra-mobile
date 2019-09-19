@@ -77,12 +77,12 @@ class HydraApp : Application(), HasActivityInjector {
                         val formName = insideForm.getString("encounterType")
                         val formId = insideForm.getInt("formId")
                         FormRepository(this).insertForm(Forms(formId, formName, componentId, formName))
-    //                          phaseComponentFormJoinRepository.insertComponentForm(
-    //                            ComponentFormJoin(
-    //                                componentId,
-    //                                formId
-    //                            )
-    //                        )
+                        //                          phaseComponentFormJoinRepository.insertComponentForm(
+                        //                            ComponentFormJoin(
+                        //                                componentId,
+                        //                                formId
+                        //                            )
+                        //                        )
                     }
 
 
@@ -114,6 +114,13 @@ class HydraApp : Application(), HasActivityInjector {
             return json
         }
         return json
+    }
+
+    private fun getData() {
+
+        val repo = WorkflowPhasesRepository(this)
+        repo.deleteAllWorkflowPhases()
+        repo.getRemoteWorkflowData()
     }
 
 }

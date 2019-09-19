@@ -20,7 +20,7 @@ class FormActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val provider = InputWidgetProvider.getInstance()
-        val llMain = findViewById(R.id.base_form_container) as LinearLayout
+        val llMain = findViewById<LinearLayout>(R.id.base_form_container)
 
         val intent = intent
         if (REGISTRATION_ENCOUNTER == null) {

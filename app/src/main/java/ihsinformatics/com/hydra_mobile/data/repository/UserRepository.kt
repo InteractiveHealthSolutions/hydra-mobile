@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.local.entities.User
+import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.UserApiService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -40,29 +41,26 @@ class UserRepository(application: Application) {
                     restCallback.onFailure(t)
                 }
 
-                override fun onSuccess(o: Any) {
-                    //
-                    //                    var userResponse = o as UserResponse
-                    //                    for (item in userResponse.results) {
-                    //                        var role: Role? = null
-                    //                        if (item.roles.isNotEmpty()) {
-                    //                            role = Role(item.roles[0].display, item.roles[0].description)
-                    //                        }
-                    //                        insertUser(
-                    //                            User(
-                    //                                item.display,
-                    //                                role,
-                    //                                item.uuid,
-                    //                                item.systemId
-                    //                            )
-                    //                        )
-                    //                    }
+                override fun <T> onSuccess(o: T) {
+
+                    var userResponse = o as UserResponse
+                    for (item in userResponse.results) {
+                        insertUser(
+                            User(
+                                username = item.username,
+                                fullName = item.display,
+                                systemId = item.systemId,
+                                retired = item.retired,
+                                uuid = item.uuid
+                            )
+                        )
+                    }
                     restCallback.onSuccess(o)
                 }
             })
     }
 
-    fun loadUser(username: String,password: String){
+    fun loadUser(username: String, password: String) {
 
 
     }

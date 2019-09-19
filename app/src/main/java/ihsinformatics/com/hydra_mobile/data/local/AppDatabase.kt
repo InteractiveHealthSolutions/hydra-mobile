@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.*
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 
 /**
  * It represents the DB, it holds a connection to the actual SQLite DB.
@@ -16,7 +17,8 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 @Database(
     entities = [AppSetting::class, Patient::class, Person::class, Address::class, Concept::class,
         Encounter::class, Location::class, Obs::class, Order::class, Permission::class, User::class,
-        Phases::class, Component::class, Forms::class, PhasesComponentJoin::class,ComponentFormJoin::class],
+        Phases::class, Component::class, Forms::class, PhasesComponentJoin::class, ComponentFormJoin::class,
+        WorkflowPhasesMap::class],
     version = 1,
     exportSchema = false
 )
@@ -40,6 +42,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getComponentForm(): ComponentFormDao
     abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
     abstract fun getComponentFormJoin(): ComponentFormJoinDao
+    abstract fun getWorkflowPhases(): WorkflowPhasesMapDao
+
 
     companion object {
         private var instance: AppDatabase? = null

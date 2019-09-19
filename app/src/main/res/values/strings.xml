@@ -13,7 +13,17 @@
     <string name="default_ip_address">ihs.ihsinformatics.com</string>
     <string name="default_port_number">6811</string>
 
-
+    <!---->
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
     <!-- Errors String -->
     <string name="user_not_found">No record of username found in local DB.</string>
     <string name="version_mismatch">Please update the app from playstore to continue.</string>
@@ -202,4 +212,7 @@
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
     <string name="are_you_sure_logout_application">Are you sure to logout?</string>
     <string name="menu_logout">Logout</string>
+    <string name="loading_str">Please wait...</string>
+    <string name="action_form">Form</string>
+    <string name="search">Search</string>
 </resources>

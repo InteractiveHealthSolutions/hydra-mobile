@@ -5,7 +5,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
-import ihsinformatics.com.hydra_mobile.data.local.dao.PhasesDao
+import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhasesDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
 import javax.inject.Singleton
 
