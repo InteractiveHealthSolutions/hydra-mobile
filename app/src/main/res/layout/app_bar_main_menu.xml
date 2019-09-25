@@ -87,13 +87,7 @@
 
 
 
-
-
-
-
-
-
-
+       <!--not in used..-->
 
         <com.google.android.material.bottomappbar.BottomAppBar
                 android:visibility="gone"

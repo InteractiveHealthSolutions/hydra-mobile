@@ -1,0 +1,188 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:expandedTitleGravity="bottom|center"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:contentScrim="?attr/colorPrimary"
+                app:title="">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradientbackground"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp">
+                    <LinearLayout
+                            android:background="@drawable/gradientbackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:orientation="vertical">
+                        <ImageView
+                                android:layout_marginTop="30dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:tint="@color/White"
+                                android:src="@drawable/ic_user_filled"/>
+                        <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="match_parent"
+                                android:textAlignment="center"
+                                android:layout_marginRight="@dimen/dimen_50dp"
+                                android:layout_marginLeft="@dimen/dimen_50dp"
+                                android:layout_height="wrap_content"
+                                android:text="Shujaat Ali"
+                                android:typeface="serif"
+                                android:textColor="@color/White"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+                    </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="@dimen/dimen_150dp"
+                            android:layout_centerHorizontal="true"
+                            app:cardElevation="@dimen/dimen_24dp"
+                            app:cardCornerRadius="@dimen/dimen_8dp"
+                            android:layout_marginTop="190dp">
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+                            <LinearLayout
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:textAlignment="center"
+                                        android:layout_height="wrap_content"
+                                        android:text="Identifier"
+                                        android:typeface="serif"
+                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textSize="14sp"
+                                />
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="EVR5-9"
+                                        android:textAlignment="center"
+                                        android:typeface="serif"
+                                        android:textSize="12sp"
+                                        android:paddingTop="10dp"
+                                        android:textColor="@color/openChatText"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Age"
+                                        android:typeface="serif"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textSize="14sp"
+                                />
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="24"
+                                        android:typeface="serif"
+                                        android:textAlignment="center"
+                                        android:textSize="12sp"
+                                        android:paddingTop="10dp"
+                                        android:textColor="@color/openChatText"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="TB Symptoms"
+                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textSize="14sp"
+                                        android:typeface="serif"
+                                        android:textAlignment="center"
+                                />
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Presumptive"
+                                        android:typeface="serif"
+                                        android:textAlignment="center"
+                                        android:textSize="12sp"
+                                        android:paddingTop="10dp"
+                                        android:textColor="@color/openChatText"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_overlapTop="12dp"
+            android:background="@color/bootstrap_gray_lightest"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimen_33dp"
+                android:elevation="@dimen/dimen_24dp"
+                app:contentPadding="12dp"
+        >
+            <include layout="@layout/content_profile"/>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
