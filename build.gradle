@@ -8,7 +8,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -46,7 +46,7 @@ ext {
     eventbus = '3.1.1';
 
     //glide
-    glide = '4.6.1';
+    glide = '4.9.0';
 
     //retrofit:2.4.0
     retrofit ='2.4.0'
