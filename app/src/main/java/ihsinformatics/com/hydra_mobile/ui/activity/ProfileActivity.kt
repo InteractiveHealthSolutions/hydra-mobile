@@ -3,21 +3,28 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_notification.*
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_profile.*
 
-
-class NotificationActivity : BaseActivity() {
+class ProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification)
+        title = ""
+        setContentView(R.layout.activity_profile)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        initView()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+    }
+
+    private fun initView() {
 
     }
 
@@ -38,5 +45,4 @@ class NotificationActivity : BaseActivity() {
         super.onBackPressed()
 
     }
-
 }

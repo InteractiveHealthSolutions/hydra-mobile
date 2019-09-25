@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         initAnimation();
     }
 
-    fun initAnimation() {
+    private fun initAnimation() {
         atpv_text.startAnimation(0f, 1f)
         atpv_text.setPathPainter(AsyncPathPainter { x, y, paintPath ->
             paintPath.addCircle(

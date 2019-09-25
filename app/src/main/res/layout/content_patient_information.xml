@@ -15,7 +15,7 @@
             android:layout_margin="@dimen/dimen_12dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/activity_patient_information"
-            tools:context=".ui.activity.form.FormsActivity">
+            tools:context=".ui.activity.FormsActivity">
 
         <LinearLayout
                 android:layout_width="match_parent"

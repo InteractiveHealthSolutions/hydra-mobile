@@ -19,10 +19,11 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.WorkflowPhasesRepository
+import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var networkProgressDialog: NetworkProgressDialog
     lateinit var binding: ActivityLoginBinding
     private lateinit var usernameEditText: EditText
@@ -123,7 +124,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         openDialog()
     }
 
-    fun openDialog() {
+   /* private fun openDialog() {
         val dialog = AlertDialog.Builder(this)
             .setMessage(getString(R.string.are_you_sure_exit_application))
             .setTitle(getString(R.string.are_you_sure))
@@ -133,11 +134,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             ) { _, _ ->
                 //SessionManager(applicationContext).logoutUser()
                 finishAffinity()
-                /*  System.exit(0)*/
+                *//*  System.exit(0)*//*
             }
         dialog.show()
     }
-
+*/
     private fun getData() {
         val repo = WorkflowPhasesRepository(this.application)
         repo.getRemoteWorkflowData()

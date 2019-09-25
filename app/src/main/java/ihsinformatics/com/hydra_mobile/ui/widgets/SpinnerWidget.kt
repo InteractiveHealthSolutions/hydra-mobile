@@ -112,7 +112,7 @@ class SpinnerWidget(context: Context, question: Question, layoutId: Int) : Input
             val showables = options[arg2].opensQuestions
             val hideables = options[arg2].hidesQuestions
             // if(getVisibility()==View.VISIBLE)
-            (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables);
+            //   (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables);
 
             // TODO disables this feature for CAD4TB project
             /*if("other".equals(val.toLowerCase(Locale.US))) {

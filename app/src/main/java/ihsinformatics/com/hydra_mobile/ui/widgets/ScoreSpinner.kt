@@ -98,7 +98,7 @@ class ScoreSpinner(context: Context, question: Question, layoutId: Int) : InputW
             }
 
         } else {
-            activity.addValidationError(questionId, "Invalid input")
+           // activity.addValidationError(questionId, "Invalid input")
         }
 
         return param
@@ -117,16 +117,16 @@ class ScoreSpinner(context: Context, question: Question, layoutId: Int) : InputW
             if (o == null) {
                 println("asd")
             }
-            activity.addInRating(oldOptionScore - oldOptionScore * 2)
-            activity.addInRating(o!!.score)
-            oldOptionScore = o.score
+           // activity.addInRating(oldOptionScore - oldOptionScore * 2)
+           // activity.addInRating(o!!.score)
+            //oldOptionScore = o.score
         }
         // TODO onItemClickListener can optimize the performance or try to make use of onNothingSelected
         try {
             val showables = options[arg2].opensQuestions
             val hideables = options[arg2].hidesQuestions
             // if(getVisibility()==View.VISIBLE)
-            (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables)
+           // (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables)
 
             // TODO disables this feature for CAD4TB project
             /*if("other".equals(val.toLowerCase(Locale.US))) {
@@ -171,10 +171,10 @@ class ScoreSpinner(context: Context, question: Question, layoutId: Int) : InputW
             if (visibility == View.VISIBLE) {
                 val showables = options[spAnswer.selectedItemPosition].opensQuestions
                 val hideables = options[spAnswer.selectedItemPosition].hidesQuestions
-                (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables)
+              //  (getContext() as BaseActivity).onChildViewItemSelected(showables, hideables)
             } else {
                 val hideables = findAlldependantHideAbles()
-                (getContext() as BaseActivity).onChildViewItemSelected(null, hideables)
+               // (getContext() as BaseActivity).onChildViewItemSelected(null, hideables)
             }
         }
 

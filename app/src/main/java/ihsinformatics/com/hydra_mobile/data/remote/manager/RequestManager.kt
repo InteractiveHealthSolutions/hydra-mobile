@@ -14,8 +14,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import com.google.gson.Gson
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.WorkflowPhasesApiService
 
 
@@ -86,7 +88,10 @@ class RequestManager {
         val workflowPhasesService = retrofit.create(WorkflowPhasesApiService::class.java)
         workflowPhasesService.getWorkflowPhases(representation).enqueue(object : Callback<WorkflowPhasesApiResponse> {
 
-            override fun onResponse(call: Call<WorkflowPhasesApiResponse>, response: Response<WorkflowPhasesApiResponse>) {
+            override fun onResponse(
+                call: Call<WorkflowPhasesApiResponse>,
+                response: Response<WorkflowPhasesApiResponse>
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -106,5 +111,26 @@ class RequestManager {
     }
 
 
+    fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
+        val patientSearch = retrofit.create(PatientApiService::class.java)
+
+        patientSearch.getPatientByQuery(searchQuery, representation).enqueue(object : Callback<PatientApiResponse> {
+            override fun onResponse(call: Call<PatientApiResponse>, response: Response<PatientApiResponse>) {
+                Timber.e(response.message())
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+
+            }
+
+            override fun onFailure(call: Call<PatientApiResponse>, t: Throwable) {
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
 
 }

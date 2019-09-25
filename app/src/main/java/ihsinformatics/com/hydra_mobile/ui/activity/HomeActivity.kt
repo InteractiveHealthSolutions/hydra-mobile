@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.View
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.content.ContextCompat
@@ -50,35 +51,10 @@ import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
 import java.util.ArrayList
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener{
 
-    override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.img_search -> {
-                startActivity(Intent(this, SearchActivity::class.java))
-                finish()
-            }
-            R.id.img_events -> {
-                startActivity(Intent(this, EventsActivity::class.java))
-                finish()
-            }
-            R.id.img_report -> {
-                startActivity(Intent(this, ReportActivity::class.java))
-                finish()
-            }
-            R.id.fab_profile -> {
-                Toast.makeText(this, "not implemented", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
-    }
-
-    lateinit var sessionManager: SessionManager
     lateinit var spaceNavigationView: SpaceNavigationView
     private lateinit var toolbar: Toolbar
-    private var formList: MutableList<FormMenu> = ArrayList<FormMenu>() as MutableList<FormMenu>
-    private lateinit var adapter: MenuAdapter
     lateinit var binding: ActivityHomeBinding
     lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
@@ -91,43 +67,79 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         initNavigationDrawer()
         initToolbar()
-        initListener()
-        sessionManager = SessionManager(this)
+
         if (sessionManager.isFirstTime()) {
             openLoadingScreen()
         } else {
             getWorkflow()
         }
 
+        bottomNav(savedInstanceState)
+
+    }
+
+    private fun bottomNav(savedInstanceState: Bundle?) {
+
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(SpaceItem("Form", R.drawable.ic_form_filled));
-        spaceNavigationView.addSpaceItem(SpaceItem("Search", R.drawable.ic_search));
-        spaceNavigationView.addSpaceItem(SpaceItem("Report", R.drawable.ic_report_filled));
-        spaceNavigationView.addSpaceItem(SpaceItem("Event", R.drawable.ic_event_filled));
+        spaceNavigationView.addSpaceItem(
+            SpaceItem(
+                resources.getString(R.string.menu_forms),
+                R.drawable.ic_form_filled
+            )
+        );
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.search_title), R.drawable.ic_search));
+        spaceNavigationView.addSpaceItem(
+            SpaceItem(
+                resources.getString(R.string.report_title_name),
+                R.drawable.ic_report_filled
+            )
+        );
+        spaceNavigationView.addSpaceItem(
+            SpaceItem(
+                resources.getString(R.string.event_title_name),
+                R.drawable.ic_event_filled
+            )
+        );
 
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
             override fun onCentreButtonClick() {
-                Toast.makeText(applicationContext, "user profile", Toast.LENGTH_SHORT).show();
+                startActivity(Intent(applicationContext, ProfileActivity::class.java))
+                finish()
             }
 
             override fun onItemReselected(itemIndex: Int, itemName: String?) {
-                Toast.makeText(applicationContext, "" + itemIndex + " " + itemName, Toast.LENGTH_SHORT).show(); }
+                if (itemName != null) {
+                    bottomBarListener(itemName)
+                }
+            }
 
             override fun onItemClick(itemIndex: Int, itemName: String?) {
-                Toast.makeText(applicationContext, "" + itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
+                if (itemName != null) {
+                    bottomBarListener(itemName)
+                }
             }
         })
 
     }
 
+    fun bottomBarListener(itemName: String) {
+        when (itemName) {
+            resources.getString(R.string.search_title) -> {
+                startActivity(Intent(applicationContext, SearchActivity::class.java))
+                finish()
+            }
 
-    private fun initListener() {
-        binding.mainMenuLayout.imgSearch.setOnClickListener(this)
-        binding.mainMenuLayout.imgEvents.setOnClickListener(this)
-        binding.mainMenuLayout.imgReport.setOnClickListener(this)
-        binding.mainMenuLayout.fabProfile.setOnClickListener(this)
+            resources.getString(R.string.event_title_name) -> {
+                startActivity(Intent(applicationContext, EventsActivity::class.java))
+                finish()
+            }
+            resources.getString(R.string.report_title_name) -> {
+                startActivity(Intent(applicationContext, ReportActivity::class.java))
+                finish()
+            }
+        }
     }
 
     override fun onStart() {
@@ -141,29 +153,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finish()
         })
 
-    }
-
-    private fun initRecyclerView() {
-        // var recyclerView = binding.mainMenuLayout.contentHost.mainScreenRecyclerView
-        adapter = MenuAdapter(this, formList, MenuAdapter.OnItemClickListener {
-            menuListener(it)
-        })
-//                    val mLayoutManager = GridLayoutManager(this, 2)
-//                    recyclerView.layoutManager = mLayoutManager
-//                    recyclerView.addItemDecoration(GridSpacingItemDecoration(2, AppUtility.dpToPx(getResources(), 10), true))
-//                    recyclerView.itemAnimator = DefaultItemAnimator()
-//                    recyclerView.adapter = adapter
-    }
-
-    private fun menuListener(item: FormMenu) {
-        var encounterName: String? = null
-        if (item.name == ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION) run {
-            encounterName = ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION
-
-            Toast.makeText(this, "Encounter" + encounterName, Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, ihsinformatics.com.hydra_mobile.data.remote.model.workflow.Form::class.java))
-            //  ihsinformatics.com.hydra_mobile.data.remote.model.workflow.Form.setENCOUNTER_NAME(encounterName)
-        }
     }
 
     private fun initNavigationDrawer() {
@@ -244,25 +233,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         })
-        //getPhases()
 
-    }
-
-    private fun getPhases() {
-        val phasesViewModel = ViewModelProviders.of(this).get(PhasesViewModel::class.java)
-        phasesViewModel.getAllPhases().observe(this, Observer<List<Phases>> {
-            if (it.isNotEmpty()) {
-                for (i in 0 until it.size) {
-                    binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + it[i].name))
-//                    binding.mainMenuLayout.tbPhase.getTabAt(i)!!.setIcon(R.drawable.ic_gesture_black_24dp)
-                }
-                /*  val mDynamicFragmentAdapter =
-                      DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, it)
-                  binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
-                  binding.mainMenuLayout.vpPhases.currentItem = 0*/
-            }
-
-        })
     }
 
     private fun getWorkflow() {
@@ -284,22 +255,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     binding.mainMenuLayout.vpPhases.currentItem = 0
                 }
             })
-    }
-
-    private fun openDialog() {
-        val dialog = AlertDialog.Builder(this)
-            .setMessage(getString(R.string.are_you_sure_exit_application))
-            .setTitle(getString(R.string.are_you_sure))
-            .setNegativeButton(getString(R.string.no), null)
-            .setPositiveButton(
-                getString(R.string.yes)
-            ) { _, _ ->
-                //SessionManager(applicationContext).logoutUser()
-                finishAffinity()
-                //
-                //        dialog.show()System.exit(0)
-            }
-        dialog.show()
     }
 
     private fun openLoadingScreen() {

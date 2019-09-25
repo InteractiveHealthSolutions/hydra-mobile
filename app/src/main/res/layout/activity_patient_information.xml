@@ -63,18 +63,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:title="">
 
-            <ImageView
-                    android:id="@+id/toolbarImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:fitsSystemWindows="true"
-                    android:src="@drawable/back_dr_img"
 
-                    android:layout_gravity="top|end"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.9"
-            />
 
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"

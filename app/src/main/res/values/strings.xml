@@ -14,6 +14,8 @@
     <string name="default_port_number">6811</string>
 
     <!---->
+
+    <!---->
     <string-array name="country_arrays">
         <item>Malaysia</item>
         <item>United States</item>
@@ -200,13 +202,13 @@
     <string name="menu_settings">Setting</string>
     <string name="menu_language">Language</string>
     <string name="menu_faq">Help/FAQ</string>
-    <string name="menu_forms">Forms</string>
-    <string name="menu_reports">Reports</string>
+    <string name="menu_forms">Form</string>
+    <string name="menu_reports">Report</string>
     <string name="menu_events">Events</string>
     <string name="search_title">Search</string>
     <string name="title_activity_patient_information">PatientInformationActivity</string>
-    <string name="event_title_name">Events</string>
-    <string name="report_title_name">Reports</string>
+    <string name="event_title_name">Event</string>
+    <string name="report_title_name">Report</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
@@ -215,4 +217,7 @@
     <string name="loading_str">Please wait...</string>
     <string name="action_form">Form</string>
     <string name="search">Search</string>
+    <string name="patient_age">Age</string>
+    <string name="patient_gender">Gender</string>
+    <string name="patient_location">Location</string>
 </resources>

@@ -157,7 +157,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.4'
 
     //gms
-     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     //toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
@@ -201,4 +201,10 @@ dependencies {
 
     //bottom space bar
     implementation 'com.github.armcha:SpaceNavigationView:1.6.0'
+
+    //refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    //circle image
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }

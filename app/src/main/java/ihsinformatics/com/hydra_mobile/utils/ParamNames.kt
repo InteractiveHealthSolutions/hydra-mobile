@@ -157,7 +157,7 @@ class ParamNames {
         val PAIN_BODY = "pain_body"
         val FREQ_URINE = "freq_urine"
         val SCREENING_FORM_TYPE = "screening_form_type"
-        val SERVER_RESPONSE = "results"
+        val SERVER_RESPONSE = "patientList"
         val SERVER_RESULT = "result"
         val DATA = "data"
         val PATIENT_ENCOUNTERS = "patient_encounters"

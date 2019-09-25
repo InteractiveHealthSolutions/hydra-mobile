@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
@@ -20,9 +22,10 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentForms
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
 import kotlinx.android.synthetic.main.dynamic_fragment_layout.view.*
+import org.jetbrains.anko.find
 
 
-class DynamicFragment : Fragment() {
+class DynamicFragment : BaseFragment() {
 
     private lateinit var componentFormsObjectList: ArrayList<ComponentFormsObject>
     lateinit var adapter: PhaseComponentAdapter
@@ -43,10 +46,26 @@ class DynamicFragment : Fragment() {
         componentFormsObjectList = ArrayList()
         getPhases(phaseId)
         val recyclerView = view.rv_phase_container as RecyclerView
+        val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
+
         recyclerView.setHasFixedSize(true)
         adapter = PhaseComponentAdapter()
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
+
+        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+
+            Toast.makeText(activity, "downloaded", Toast.LENGTH_SHORT).show()
+            swipeContainer.isRefreshing = false
+        }
+        )
+
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
 
 
     }

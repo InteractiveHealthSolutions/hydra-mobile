@@ -9,7 +9,6 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
-import ihsinformatics.com.hydra_mobile.data.remote.service.UserApiService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
@@ -44,16 +43,18 @@ class UserRepository(application: Application) {
                 override fun <T> onSuccess(o: T) {
 
                     var userResponse = o as UserResponse
-                    for (item in userResponse.results) {
-                        insertUser(
-                            User(
-                                username = item.username,
-                                fullName = item.display,
-                                systemId = item.systemId,
-                                retired = item.retired,
-                                uuid = item.uuid
+                    if (userResponse != null) {
+                        for (item in userResponse.userList) {
+                            insertUser(
+                                User(
+                                    username = item.username,
+                                    fullName = item.display,
+                                    systemId = item.systemId,
+                                    retired = item.retired,
+                                    uuid = item.uuid
+                                )
                             )
-                        )
+                        }
                     }
                     restCallback.onSuccess(o)
                 }
