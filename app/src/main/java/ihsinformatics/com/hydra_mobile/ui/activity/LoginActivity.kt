@@ -56,6 +56,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (validation()) {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
+
             UserRepository(application).userAuthentication(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString(),
@@ -65,7 +66,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         networkProgressDialog.dismiss()
                         Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
                             .show()
-                        //SnackBarUtil.getSnackBar(this, getString(R.string.authentication_error), "#BE1F18").build()
                     }
 
                     override fun <T> onSuccess(o: T) {
@@ -73,12 +73,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             usernameEditText.text.toString(),
                             passwordEditText.text.toString()
                         )
+                        //Not required
                         Constant.currentUser = User(
                             username = usernameEditText.text.toString(),
                             password = passwordEditText.text.toString()
                         )
 
-                        getData()
+                        // getData()
 
                         networkProgressDialog.dismiss()
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))

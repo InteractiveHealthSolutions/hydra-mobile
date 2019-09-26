@@ -1,12 +1,10 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
-import android.app.AlertDialog
+
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.Menu
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -262,7 +260,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val fragmentManager = supportFragmentManager.beginTransaction()
         val loadingScreening = LoadingProgressDialog.newInstance()
         loadingScreening.show(fragmentManager, "loading screening")
-        SyncData.instance(this).initWorkManage()
+
+         SyncData.instance(this).initWorkManage()
 
         Handler().postDelayed(
             Runnable {
