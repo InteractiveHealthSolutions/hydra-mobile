@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.InputType;
 import android.view.View;
 
+import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.Form;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
@@ -29,9 +30,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.ENCOUNTER_TYPE_DEMOGRAPHIC_INFORMATION;
-import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION;
-import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.ENCOUNTER_TYPE_PERSON_CREATION;
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FIRST_NAME;
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FORM3_ABSENT;
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FORM3_NO;
@@ -84,7 +82,7 @@ public class DataProvider {
     private List<Question> questions;
     private Context context;
     private final String degree_sign = "°";
-    QuestionConfiguration circumcisionIdentifier, alphaNumeric160DigitSpace, alphaNumeric300DigitSpace, screenerInitials, dateMinTodayMaxLastMonday, dateTimeMinTodayMaxLastMonday, dateMinTodayMaxNextYear, dateMinTodayMaxNextYearTime, dateMinLastYearMaxNextYear, time, sid, dob, numeric2Digit, numeric3DigitMin1, numeric3DigitMin2, numeric4DigitMin1, numeric5Digit, numeric6Digit, numeric8Digit, alpha20DigitSpace, alpha25Digit, alpha30DigitSpace, alpha40DigitSpace, numeric10Digit, numeric11Digit, numeric13Digit, numeric12Digit, numeric33Digit, alpha50DigitSpace, alpha150DigitSpace, alpha150DigitAll, alphaNumeric50DigitSpace, alphaNumeric60DigitSpace, alpha60DigitSpace, alpha50DigitSpaceDot, alpha80DigitSpace, alpha7DigitSpace, alpha50DigitSpaceCapsOnly, alpha100DigitSpace, alpha5DigitSpace, alpha10DigitSpaceWithHyphen, numeric3DigitWithHypen, numeric12DigitWithHypen, alphanumeric10DigitWithHypen, alphanumeric13DigitWithHypen, alphanumeric100DigitSpace, alphaNumeric150DigitSpace, alpha150DigitSpaceMin3, alpha160DigitSpace, alphaNumeric200DigitSpace, alphaNumeric100DigitSpace;
+    QuestionConfiguration mobileNumber, landlineNumber, circumcisionIdentifier, alphaNumeric160DigitSpace, alphaNumeric300DigitSpace, screenerInitials, dateMinTodayMaxLastMonday, dateTimeMinTodayMaxLastMonday, dateMinTodayMaxNextYear, dateMinTodayMaxNextYearTime, dateMinLastYearMaxNextYear, time, sid, dob, numeric2Digit, numeric3DigitMin1, numeric3DigitMin2, numeric4DigitMin1, numeric5Digit, numeric6Digit, numeric8Digit, alpha20DigitSpace, alpha25Digit, alpha30DigitSpace, alpha40DigitSpace, numeric10Digit, numeric11Digit, numeric13Digit, numeric12Digit, numeric33Digit, alpha50DigitSpace, alpha150DigitSpace, alpha150DigitAll, alphaNumeric50DigitSpace, alphaNumeric60DigitSpace, alpha60DigitSpace, alpha50DigitSpaceDot, alpha80DigitSpace, alpha7DigitSpace, alpha50DigitSpaceCapsOnly, alpha100DigitSpace, alpha5DigitSpace, alpha10DigitSpaceWithHyphen, numeric3DigitWithHypen, numeric12DigitWithHypen, numeric13DigitWithHypen, alphanumeric10DigitWithHypen, alphanumeric13DigitWithHypen, alphanumeric100DigitSpace, alphaNumeric150DigitSpace, alpha150DigitSpaceMin3, alpha160DigitSpace, alphaNumeric200DigitSpace, alphaNumeric100DigitSpace;
     AddressConfiguration addressConfiguration;
 
     // No patient is needed to be loaded before opening these forms
@@ -115,6 +113,9 @@ public class DataProvider {
 
         questions = new ArrayList<Question>();
         options = new ArrayList<Option>();
+
+        mobileNumber = new QuestionConfiguration(InputType.TYPE_CLASS_PHONE, 12, 12, "0123456789-", 1);
+        landlineNumber = new QuestionConfiguration(InputType.TYPE_CLASS_PHONE, 12, 12, "0123456789-", 1);
 
         screenerInitials = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, 2, 2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha5DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
@@ -187,7 +188,11 @@ public class DataProvider {
         alphaNumeric150DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 150, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.", 1);
         numeric3DigitWithHypen = new QuestionConfiguration(InputType.TYPE_NUMBER_FLAG_SIGNED, 3, 1, "1234567890-", 7);
         numeric12DigitWithHypen = new QuestionConfiguration(InputType.TYPE_NUMBER_FLAG_SIGNED, 12, 12, "1234567890-", 7);
+        numeric13DigitWithHypen = new QuestionConfiguration(InputType.TYPE_NUMBER_FLAG_SIGNED, 13, 13, "1234567890-", 7);
 
+
+        initPatientCreation();
+        initPatientInformation();
     }
 
     public static DataProvider getInstance(Context context) {
@@ -203,6 +208,68 @@ public class DataProvider {
         dataProvider = new DataProvider(context);
     }
 
+
+    private void initPatientInformation() {
+        int patientInfoFormId = 2;
+        this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", null, dateTimeMinTodayMaxLastMonday));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
+        this.options.add(new Option(20002, 20002, null, null, "", "Bedford Hospital", -1));
+        this.options.add(new Option(20002, 20002, null, null, "", "Frere Clinic", -1));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", null, alphaNumeric150DigitSpace));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20019, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Questions", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20004, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Source", null, null));
+        this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Screening", -1));
+        this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Referred", -1));
+        this.options.add(new Option(20004, 20002, new int[]{20006}, new int[]{20005}, "", "Contact of TB Patient", -1));
+        this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Walk-in / Self Referred", -1));
+        this.options.add(new Option(20004, 20002, new int[]{20005}, new int[]{20006}, "", "Other", -1));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20005, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", null, alphanumeric100DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20006, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Index Patient ID", null, alphanumeric13DigitWithHypen));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality", null, alphanumeric100DigitSpace));
+        this.options.addAll(DynamicOptions.getFromArray(context, 20007, null, null, context.getResources().getStringArray(R.array.countries_array)));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "NIC Number", null, numeric13DigitWithHypen));
+        this.questions.add(new Question(true, patientInfoFormId, 20009, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Whose NIC is this?", null, null));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Self", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Father", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Spouse", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Mother", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Brother", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Sister", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Son", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Daughter", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Uncle", -1));
+        this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Aunt", -1));
+        this.options.add(new Option(20009, 20002, new int[]{20010}, null, "", "Other", -1));
+        this.questions.add(new Question(true, patientInfoFormId, 20010, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", null, alphanumeric100DigitSpace));
+
+
+        this.questions.add(new Question(true, patientInfoFormId, 20011, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Where is the address located?", null, null));
+        this.options.add(new Option(20011, 20002, null, null, "", "Rural", -1));
+        this.options.add(new Option(20011, 20002, null, null, "", "Urban", -1));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20012, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Which type of address is this?", null, null));
+        this.options.add(new Option(20012, 20002, null, null, "", "Permanent", -1));
+        this.options.add(new Option(20012, 20002, null, null, "", "Temporary", -1));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20018, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Screener Instructions: Inform the patient regarding phone calls/sms", null, mobileNumber));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20013, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Can we call you and SMS you on any of these numbers for matters related to your TB tests and diagnosis?", null, null));
+        this.options.add(new Option(20013, 20002, null, null, "", "Yes", -1));
+        this.options.add(new Option(20013, 20002, null, null, "", "No", -1));
+
+        this.questions.add(new Question(true, patientInfoFormId, 20014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Mobile Number", null, mobileNumber));
+        this.questions.add(new Question(false, patientInfoFormId, 20015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Mobile Number", null, mobileNumber));
+        this.questions.add(new Question(true, patientInfoFormId, 20016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Landline Number", null, landlineNumber));
+        this.questions.add(new Question(false, patientInfoFormId, 20017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Landline Number", null, landlineNumber));
+
+    }
+
     private void initEvaluatorCreation() {
         Integer personCreationId = 17;
         questions.add(new Question(false, personCreationId, 17001, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Evaluator/ Doctor Creation", null, null));
@@ -211,8 +278,7 @@ public class DataProvider {
         this.questions.add(new Question(true, personCreationId, 17003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Last name", LAST_NAME, alpha50DigitSpace));
         this.questions.add(new Question(true, personCreationId, 17004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
         this.options.add(new Option(17004, 604, null, null, "", "Male", -1));
-        this.options.add(new Option(17004, 605, null, null, "", "Female", -1));
-
+        this.options.add(new Option(17004, 605, null, null, "", "Frere Clinic", -1));
 
         this.questions.add(new Question(true, personCreationId, 17005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Role", ParamNames.ATTRIBUTE_TYPE_PQ_PIRANI_SCORING_ROLE, null));
         this.options.add(new Option(17005, 604, null, null, "", "Physical Therapist", -1));
@@ -220,7 +286,7 @@ public class DataProvider {
     }
 
     private void initPatientCreation() {
-        Integer patientCreationId = 6;
+        Integer patientCreationId = 1;
         questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null));
         this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
         this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alpha50DigitSpace));
@@ -229,7 +295,7 @@ public class DataProvider {
         this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
         this.options.add(new Option(6003, 605, null, null, "", "Female", -1));
         //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob));
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", null, dob));
         //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
         this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
@@ -285,11 +351,7 @@ public class DataProvider {
         int[] allRest = new int[]{14010,14011,14012,14013,14016,14017,14018,14019,14022,14024,14025,
                 14035,14037,14039,14042,
                 14045,14047,14048,14049,14050,14052,14054,
-                14056,14058,14059/*,14060,14061,
-                14065,14068,14069,14071,14072,14073,14074,
-                14077,14078,14079,14082,14084,
-                14085,*//*14086,14087,14088,14089,14090,14091,14092,14093,*/
-                /*14095,14096,14097,14098,140117, 14097, 14099*/};
+                14056,14058,14059};
         this.options.add(new Option(14009, 359, allRest, null, "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Yes", -1));
         this.options.add(new Option(14009, 359, null, allRest, "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "No", -1));
 
@@ -1072,7 +1134,7 @@ public class DataProvider {
         this.questions.add(new Question(true, 1, 91, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", FORM_DATE, dateMinTodayMaxLastMonday));
         this.options.add(new Option(91, 359, null, null, "", "Touch to Select Date", -1));
         // this.questions.add(new Question(true, 1, 92, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "User ID", USER_ID, alpha50DigitSpace));
-        this.questions.add(new Question(true, 1, 93, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
+        this.questions.add(new Question(true, 1, 93, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
         this.options.addAll(DynamicOptions.getProviderOptions(context, 93, null, null));
         //  this.options.add(new Option(93, 359, null, null, "", "Enter MR Number", -1));
         // this.questions.add(new Question(true, 1, 94, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "SSI Study Number", SSI_STUDY_NO, numeric3DigitMin1));
@@ -1250,7 +1312,7 @@ public class DataProvider {
         //Surgery Related Questions
         // questions.add(new Question(false, postOpDemographicId, 3998, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Surgery Questions", null, null));
         //Name of Procedure
-        this.questions.add(new Question(true, postOpDemographicId, 3001, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Name of Procedure", ParamNames.POST_OP_NAME_PROCEDURE, alpha150DigitAll));
+        this.questions.add(new Question(true, postOpDemographicId, 3001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Name of Procedure", ParamNames.POST_OP_NAME_PROCEDURE, alpha150DigitAll));
         this.options.addAll(DynamicOptions.getProcedureOptions(context, 3001, null, null));
         //Category of Procedure
         questions.add(new Question(true, postOpDemographicId, 3002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY,
@@ -1543,7 +1605,7 @@ public class DataProvider {
         //Surgery Related Questions
         questions.add(new Question(false, postopFollowUpId, 4998, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Part A", null, null));
 
-        this.questions.add(new Question(true, postopFollowUpId, 4001, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
+        this.questions.add(new Question(true, postopFollowUpId, 4001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
         this.options.addAll(DynamicOptions.getProviderOptions(context, 4001, null, null));
 
         //Intervention Arm
@@ -1806,7 +1868,7 @@ public class DataProvider {
         questions.add(new Question(true, surgeonEvalId, 5005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY,
                 "Fathers/Husbands Name", FATHER_HUSBAND_NAME, alpha60DigitSpace));*/
 
-        this.questions.add(new Question(true, surgeonEvalId, 5040, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
+        this.questions.add(new Question(true, surgeonEvalId, 5040, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "ICM Username", ICM_ID_NUMBER, alpha20DigitSpace));
         this.options.addAll(DynamicOptions.getProviderOptions(context, 5040, null, null));
 
         questions.add(new Question(false, surgeonEvalId, 5047, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY,
@@ -1819,7 +1881,7 @@ public class DataProvider {
         options.add(new Option(5048, 300, new int[]{5041}, new int[]{5042}, ParamNames.SURGEON, "Surgeon", -1));
         options.add(new Option(5048, 301, new int[]{5042}, new int[]{5041}, ParamNames.ICN, "ICN", -1));
 
-        questions.add(new Question(false, surgeonEvalId, 5041, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY,
+        questions.add(new Question(false, surgeonEvalId, 5041, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY,
                 "Surgeon's Name", ParamNames.SURGEON_EVAL_SURGEON_NAME, alpha50DigitSpaceDot));
         //TODO please remove this dummy list and add the real data when provided.
         options.add(new Option(5041, 300, null, null, "", "Dr. Irfan Javed", -1));

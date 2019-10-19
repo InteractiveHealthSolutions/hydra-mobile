@@ -17,6 +17,16 @@ import java.util.List;
 
 public class DynamicOptions {
 
+
+    public static List<Option> getFromArray(Context context, int questionId, int[] opens, int[] hides, String... array) {
+        List<Option> arrayOptions = new ArrayList<>();
+
+        for(String s : array) {
+            arrayOptions.add(new Option(questionId, 300, opens, hides, null/*userCredentials.getProviderUUID()*/, s, -1));
+        }
+
+        return arrayOptions;
+    }
     public static List<Option> getProviderOptions(Context context, int questionId, int[] opens, int[] hides) {
         List<Option> providerOptions=new ArrayList<>();
         List<UserCredentials> userCred = DataAccess.getInstance().getUserCredentials(context);

@@ -53,7 +53,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
         WIDGETS_TYPE_SINGLE_SELECT_TEXTVIEW,
         WIDGETS_TYPE_QR_READER,
         WIDGETS_TYPE_IDENTIFIER,
-        WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT,
+        WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT,
         WIDGET_TYPE_ADDRESS,
     }
 

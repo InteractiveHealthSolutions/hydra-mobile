@@ -47,8 +47,8 @@ public class Form extends BaseActivity {
 
         } else {
             Toasty.warning(this, "No record found", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            // TODO finish();
+            //return;
         }
         setTitle(ENCOUNTER_NAME);
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);

@@ -60,7 +60,7 @@ public class InputWidgetBakery {
             inputWidget = new IdentifierWidget(context, q, R.layout.layout_widget_identifier);
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_QR_READER) {
             inputWidget = new QRReaderWidget(context, q, R.layout.layout_widget_qrcode_reader);
-        } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_AUTOCOMPLETE_EDITTEXT) {
+        } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT) {
             inputWidget = new AutoCompleteTextViewWidget(context, q, R.layout.layout_widget_autocomplete_edit_text);
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS) {
             inputWidget = new AddressWidget(context, q, R.layout.layout_widget_address);

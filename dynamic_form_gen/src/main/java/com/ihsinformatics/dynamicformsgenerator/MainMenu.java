@@ -199,45 +199,7 @@ public class MainMenu extends ToolbarActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        String encounterName = null;
-        if (id == R.id.llPatientCreation) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_PATIENT_CREATION;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llPreOpDemographics) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_PRE_OP_DEMOGRAPHICS;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llPostOpDemographics) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_POST_OP_DEMOGRAPHICS;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llScreenCallIn) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_SCREENING_CALL_IN;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llPostOpFollowUp) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_POST_OP_FOLLOW_UP;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llSurgenEvaluation) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_SURGICAL_SITE_EVALUATION;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llBeforeCircumcision) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_PRE_CIRCUMCISION;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llAfterCircumcision) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_AFTER_CIRCUMCISION;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        } else if (id == R.id.llAfterCircumcision2) {
-            encounterName = ParamNames.ENCOUNTER_TYPE_AFTER_CIRCUMCISION2;
-            startActivity(new Intent(this, Form.class));
-            Form.setENCOUNTER_NAME(encounterName);
-        }
+        
     }
 
     private class NotificationItemClickListener implements MenuItem.OnMenuItemClickListener {

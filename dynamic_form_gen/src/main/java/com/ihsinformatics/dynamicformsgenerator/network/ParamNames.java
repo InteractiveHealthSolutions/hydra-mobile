@@ -228,6 +228,7 @@ public class ParamNames {
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String SEX = "sex";
+    public static final String DOB = "dob";
     public static final String PROVINCE = "province";
     public static final String DISTRICT = "district";
     public static final String CITY = "city";
