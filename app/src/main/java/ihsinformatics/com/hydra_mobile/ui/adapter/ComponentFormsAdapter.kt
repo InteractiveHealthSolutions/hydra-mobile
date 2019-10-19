@@ -49,6 +49,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
             itemView.setOnClickListener {
                 Constant.formName = tvTitle.text.toString()
                 Constant.formID = clickedFormID
+
                 Form.setENCOUNTER_NAME(Constant.formName)
                 context.startActivity(Intent(context, Form::class.java))
             }

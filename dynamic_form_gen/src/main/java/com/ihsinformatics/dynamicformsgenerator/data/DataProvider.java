@@ -21,14 +21,7 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FIRST_NAME;
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FORM3_ABSENT;
@@ -116,7 +109,6 @@ public class DataProvider {
 
         mobileNumber = new QuestionConfiguration(InputType.TYPE_CLASS_PHONE, 12, 12, "0123456789-", 1);
         landlineNumber = new QuestionConfiguration(InputType.TYPE_CLASS_PHONE, 12, 12, "0123456789-", 1);
-
         screenerInitials = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, 2, 2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha5DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha7DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 7, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
@@ -208,6 +200,31 @@ public class DataProvider {
         dataProvider = new DataProvider(context);
     }
 
+    public String generateUUID() {
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+
+        return randomUUIDString;
+    }
+
+    private void initPatientCreation() {
+        Integer patientCreationId = 1;
+        questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null));
+        this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
+        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alpha50DigitSpace));
+        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alpha50DigitSpace));
+        this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
+        this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
+        this.options.add(new Option(6003, 605, null, null, "", "Female", -1));
+        //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", null, dob));
+        //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
+
+        this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
+
+        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null));
+        this.options.add(new Option(6006, 359, null, null, "", "Indus Hospital", -1));
+    }
 
     private void initPatientInformation() {
         int patientInfoFormId = 2;
@@ -220,6 +237,7 @@ public class DataProvider {
         this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", null, alphaNumeric150DigitSpace));
 
         this.questions.add(new Question(true, patientInfoFormId, 20019, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Questions", null, null));
+
         this.questions.add(new Question(true, patientInfoFormId, 20004, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Source", null, null));
         this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Screening", -1));
         this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Referred", -1));
@@ -270,6 +288,9 @@ public class DataProvider {
 
     }
 
+
+
+
     private void initEvaluatorCreation() {
         Integer personCreationId = 17;
         questions.add(new Question(false, personCreationId, 17001, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Evaluator/ Doctor Creation", null, null));
@@ -285,24 +306,7 @@ public class DataProvider {
         this.options.add(new Option(17005, 605, null, null, "", "Doctor", -1));
     }
 
-    private void initPatientCreation() {
-        Integer patientCreationId = 1;
-        questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null));
-        this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
-        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alpha50DigitSpace));
-        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alpha50DigitSpace));
-        this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
-        this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
-        this.options.add(new Option(6003, 605, null, null, "", "Female", -1));
-        //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", null, dob));
-        //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
-        this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
-
-        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null));
-        this.options.add(new Option(6006, 359, null, null, "", "Indus Hospital", -1));
-    }
 
     //form1safecircumcision
 
