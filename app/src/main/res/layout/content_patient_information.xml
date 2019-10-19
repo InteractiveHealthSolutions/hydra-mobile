@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dimen_12dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:showIn="@layout/activity_patient_information"
+            tools:context=".ui.activity.FormsActivity">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="External ID"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="@dimen/dimen_4dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+            <Spinner
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:padding="@dimen/dimen_24dp"
+                    android:id="@+id/spAnswer"
+                    android:entries="@array/country_arrays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="* Patient Source"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="* Has the patient provided their address?"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="* Index Patient ID"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="number"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Index Patient name"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Primary Nationality"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="National ID Card Number"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:hint="#####-#######-#"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dimen_16dp">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Secondary Mobile Number"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+            />
+
+            <EditText
+                    android:layout_margin="@dimen/dimen_4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_12dp"
+                    android:hint="####-#######"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:inputType="textPersonName"/>
+
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/btn_save"
+                android:textSize="16sp"
+                android:layout_margin="@dimen/dimen_33dp"
+                android:textColor="@color/White"
+                android:background="@drawable/button_rounded_shap"
+        />
+
+
+    </LinearLayout>
+
+</ScrollView>

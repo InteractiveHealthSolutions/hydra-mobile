@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:card_view="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="@dimen/dimen_150dp"
+            android:layout_margin="@dimen/dimen_8dp"
+            card_view:cardElevation="5dp"
+            android:layout_gravity="center"
+    >
+        <ImageView
+                android:id="@+id/img_form_image"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="160dp"
+                android:maxHeight="100dp"
+                android:minWidth="80dp"
+                android:minHeight="80dp"
+                android:scaleType="fitXY"
+                android:tint="@color/colorBlack"/>
+
+    </androidx.cardview.widget.CardView>
+    <TextView
+            android:id="@+id/tv_form_name"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:padding="12dip"
+            android:layout_gravity="center"
+            android:typeface="normal"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:textColor="@color/openChatText"
+            android:text="Treatment Initiation"/>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="0dp"-->
+
+    <!--android:orientation="vertical">-->
+
+    <!--<ImageView-->
+
+    <!--android:visibility="gone"-->
+    <!--android:id="@+id/img_form_image"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:scaleType="fitCenter"-->
+    <!--android:src="@drawable/app_gradient"-->
+    <!--/>-->
+
+    <!--<TextView-->
+    <!--android:visibility="gone"-->
+    <!--android:id="@+id/tv_form_name"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="5dp"-->
+    <!--android:text="Sample Title"-->
+    <!--android:textColor="@color/openChatText"-->
+    <!--android:textSize="12sp"/>-->
+
+</LinearLayout>

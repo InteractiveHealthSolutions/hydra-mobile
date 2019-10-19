@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llPatientInfoDisplay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/toolbar"
+    android:background="@drawable/app_gradient"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/male_icon" />
+
+    <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/ivGender"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvId"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAllCaps="true"
+            android:text="Patient-Id"
+            android:textStyle="bold"
+            android:inputType="textCapCharacters"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/question_answer"
+            android:inputType="textCapCharacters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient-Name"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvLastName"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            style="@style/question_answer"
+            android:inputType="textCapCharacters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="Patient-Last-Name"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvAgeLabel"
+                style="@style/question_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/age"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvAge"
+                style="@style/question_answer"
+                android:inputType="textCapCharacters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/age"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

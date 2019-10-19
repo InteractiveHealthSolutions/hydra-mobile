@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:elevation="@dimen/dimen_24dp"
+        android:layout_margin="@dimen/dimen_24dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+    >
+        <!--image-->
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight=".5"
+                      android:gravity="center"
+                      android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxHeight="80dp"
+                    android:maxWidth="80dp"
+                    android:tint="@color/black_overlay"
+                    android:src="@drawable/ic_userprofile"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="@color/black_overlay"/>
+
+        </LinearLayout>
+
+        <!--Content-->
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/tv_patient_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_title_name"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+            />
+            <!--other details-->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:orientation="horizontal"
+            >
+
+                <!--age-->
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:weightSum="2">
+
+                    <TextView android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:text="@string/patient_age"
+                              android:textSize="12sp"
+                              android:textColor="@color/bootstrap_gray_light"/>
+
+                    <TextView
+                            android:id="@+id/tv_patient_age"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/patient_age"
+                            android:textSize="12sp"
+                            android:textColor="@color/bootstrap_gray_light"/>
+
+                </LinearLayout>
+                <!--gender-->
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:weightSum="2">
+
+                    <TextView
+
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/patient_gender"
+                            android:textSize="12sp"
+                            android:textColor="@color/bootstrap_gray_light"/>
+
+                    <TextView
+                            android:id="@+id/tv_patient_gender"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/patient_age"
+                            android:textSize="12sp"
+                            android:textColor="@color/bootstrap_gray_light"/>
+
+                </LinearLayout>
+                <!--location-->
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:weightSum="2">
+
+                    <TextView android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:text="@string/patient_location"
+                              android:textSize="12sp"
+                              android:textColor="@color/bootstrap_gray_light"/>
+
+                    <TextView
+                            android:id="@+id/tv_patient_location"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/patient_age"
+                            android:textSize="12sp"
+                            android:textColor="@color/bootstrap_gray_light"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

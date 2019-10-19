@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Connection Setting">
+        <EditTextPreference
+            android:key="serverIp"
+            android:summary="Enter Server IP Address"
+            android:title="Server IP Address" />
+        <EditTextPreference
+            android:key="serverPort"
+            android:summary="Enter Port Number"
+            android:title="Port Number" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+          package="com.ihsinformatics.dynamicformsgenerator"
+          android:versionCode="15"
+          android:versionName="0.8.2">
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <application
+            android:name=".App"
+            tools:replace="android:name"
+            android:allowBackup="true"
+            android:label="@string/app_name"
+            android:largeHeap="true"
+            android:theme="@style/AppTheme">
+
+        <receiver android:name=".network.UnifiedBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.ihsinformatics.DATA_UPLOAD_ATTEMPT" />
+            </intent-filter>
+        </receiver>
+        <!--
+            <meta-data Since Google Play services 7.0 and higher automatically includes this - So no need now
+            android:name="com.google.android.gms.version"
+            android:value="8487000" />
+        -->
+        <service
+            android:name=".data.DataSync"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.Form"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.dialogs.DateSelector"
+            android:label="@string/select_date"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
+            android:name=".screens.dialogs.ManualInput"
+            android:label="@string/select_date"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppDialogTheme" />
+        <activity
+            android:name=".screens.LoginActivity"
+            android:label="@string/login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLoginTheme" />
+        <activity
+            android:name=".MainMenu"
+            android:label="@string/title_activity_main_manu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PatientInfoFetcher"
+            android:label="@string/title_activity_patient_info_fetcher"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
+            android:name=".screens.ConnectionSetting"
+            android:label="@string/title_activity_connection_settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
+            android:name=".LanguageSelector"
+            android:label="@string/title_activity_language_selector"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
+            android:name=".LocationSelector"
+            android:label="@string/title_activity_location_selector"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+
+        <activity
+            android:name=".screens.FormDataDisplayActivity"
+            android:label="@string/title_activity_saved_forms"
+            android:screenOrientation="portrait"
+            android:theme="@style/SavedFormDisplayTheme" />
+        <activity
+            android:name=".screens.AboutActivity"
+            android:label="@string/about"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLoginTheme" />
+
+        <activity
+            android:name=".screens.SelectProgram"
+            android:theme="@style/PrefDialogTheme"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@android:color/white"
+                android:layout_gravity="center"
+                >
+
+    <yanzhikai.textpath.AsyncTextPathView
+            android:id="@+id/atpv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:duration="3000"
+            app:showPainter="true"
+            app:text="@string/main_title"
+            android:layout_centerInParent="true"
+            app:paintStrokeColor="@color/colorPrimaryDark"
+            app:pathStrokeColor="@color/colorPrimaryDark"
+            app:textInCenter="true"
+            app:textSize="82sp"
+            app:repeat="REVERSE"
+    />
+</RelativeLayout>

@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/llMain"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/drop_shadow"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="10dp"
+              android:weightSum="10">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:adjustViewBounds="true"
+        android:src="@drawable/scoring"
+        android:padding="5dp"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Encounter Name"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            style="@style/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="12/10/2017"/>
+    </LinearLayout>
+
+</LinearLayout>
