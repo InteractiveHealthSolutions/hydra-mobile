@@ -192,7 +192,7 @@ public class DataProvider {
         initChildClinicalEvaluationForm();
         initAdultClinicalEvaluationForm();
         initContactRegistryForm();
-        //initChildTBInitiationForm();
+        initChildTBInitiationForm();
         initAdultTBInitiationForm();
 
 
@@ -219,145 +219,165 @@ public class DataProvider {
     }
 
 
-//    private void initChildTBInitiationForm() {
-//        Integer childTBInitiationFormId = 8;
-//
-//
-////        this.questions.add(new Question(true,childTBInitiationFormId,53003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53006,"7",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Weight Percentile",generateUUID(),null));
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53007, "8", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Did the MO Consult any Senior Pediatrician for TB diagnosis?", generateUUID(), null));
-//        this.options.add(new Option(53007, 5201, new int[]{53008,53009}, null, "1", "Yes", -1));
-//        this.options.add(new Option(53007, 5202, null, new int[]{53008,53009}, "2", "No", -1));
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53008, "9", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Name of Consultant", generateUUID(), alpha20DigitSpace));
-//        this.questions.add(new Question(true,childTBInitiationFormId,53009,"10",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason for Consultation",generateUUID(),alpha40DigitSpace));
-//
-//
-//
-//
-//
-//
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53010, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Does the patient have TB?", generateUUID(), null));
-//        this.options.add(new Option(53010, 5201, new int[]{52007, 52008, 52015}, null, "1", "Yes", -1));
-//        this.options.add(new Option(53010, 5202, null, new int[]{52007, 52008, 52015}, "2", "No", -1));
-//
-//        this.questions.add(new Question(true,childTBInitiationFormId,53011,"12",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Registration date",generateUUID(),dateMinLastYearMaxNextYear));
-//
-//        this.questions.add(new Question(false, childTBInitiationFormId, 53012, "8", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "TB Registration No.", generateUUID(), null));
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53013, "9", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Was treatment initiated?", generateUUID(), null));
-//        this.options.add(new Option(53013, 5203, new int[]{52009, 52016}, null, "1", "Yes", -1));
-//        this.options.add(new Option(53013, 5204, null, new int[]{52009, 52016}, "2", "No", -1));
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53014, "10", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason the treatment was not initiated", generateUUID(), null));
-//        this.options.add(new Option(53014, 5205, null, new int[]{52010}, "1", "Patient Refused Treatment", -1));
-//        this.options.add(new Option(53014, 5206, null, new int[]{52010}, "2", "Patient lost to follow up", -1));
-//        this.options.add(new Option(53014, 5207, null, new int[]{52010}, "3", "Patient Died", -1));
-//        this.options.add(new Option(53014, 5208, null, new int[]{52010}, "4", "Referral (before start of treatment)", -1));
-//        this.options.add(new Option(53014, 5209, new int[]{52010}, null, "5", "Other", -1));
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53015, "11", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If other, please specify", generateUUID(), null));
-//
-//
-//        this.questions.add(new Question(false, childTBInitiationFormId, 53016, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "TB Treatment Initiation", null, null));
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53017, "13", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Duration of sickness prior to TB diagnosis ", generateUUID(), null));
-//        this.options.add(new Option(53017, 5210, null, null, "1", "Less than or equal to 1 month", -1));
-//        this.options.add(new Option(53017, 5211, null, null, "2", "2-6 Months", -1));
-//        this.options.add(new Option(53017, 5212, null, null, "3", "6-12 Months", -1));
-//        this.options.add(new Option(53017, 5213, null, null, "4", "1-2 Years", -1));
-//        this.options.add(new Option(53017, 5214, null, null, "5", "2-5 Years", -1));
-//        this.options.add(new Option(53017, 5215, null, null, "6", "More than or equal to 5 years", -1));
-//        this.options.add(new Option(53017, 5216, null, null, "7", "Unknown", -1));
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53018, "14", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "History of past TB drug use", generateUUID(), null));
-//        this.options.add(new Option(53018, 5217, null, null, "1", "Previously treated only with first line drugs", -1));
-//        this.options.add(new Option(53018, 5218, null, null, "2", "Previously treated with secondline drugs", -1));
-//        this.options.add(new Option(53018, 5219, null, null, "3", "Previously treated with FLD (PET)", -1));
-//        this.options.add(new Option(53018, 5220, null, null, "4", "Previously treated with SLD (PET)", -1));
-//        this.options.add(new Option(53018, 5221, null, null, "5", "Previously treated with FLD & SLD both", -1));
-//        this.options.add(new Option(53018, 5222, null, null, "6", "History unclear/unknown", -1));
-//        this.options.add(new Option(53018, 5223, null, null, "7", "None", -1));
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53019, "15", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Type", generateUUID(), null));
-//        this.options.add(new Option(53019, 5224, null, null, "1", "New", -1));
-//        this.options.add(new Option(53019, 5225, null, null, "2", "Relapse", -1));
-//        this.options.add(new Option(53019, 5226, null, null, "3", "Previously treated after failure (CAT-1)", -1));
-//        this.options.add(new Option(53019, 5227, null, null, "4", "Previously treated after failure (CAT-2)", -1));
-//        this.options.add(new Option(53019, 5228, null, null, "5", "Previously treated after failure (MDR)", -1));
-//        this.options.add(new Option(53019, 5229, null, null, "6", "Previously treated (treatment failure)", -1));
-//        this.options.add(new Option(53019, 5230, null, null, "7", "Previously treated (loss to follow-up)", -1));
-//        this.options.add(new Option(53019, 5231, null, null, "8", "Unknown", -1));
-//        this.options.add(new Option(53019, 5232, null, null, "9", "Others Previously treated", -1));
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 52020, "16", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Category", generateUUID(), null));
-//        this.options.add(new Option(52020, 5233, null, null, "1", "Category I", -1));
-//        this.options.add(new Option(52020, 5234, null, null, "2", "Category II", -1));
-//        this.options.add(new Option(52020, 5234, null, null, "3", "Category III", -1));
-//
-//
-//        this.questions.add(new Question(true,childTBInitiationFormId,53021,"22",InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Are you initiating additional treatment? Please select one or more treatment options if applicable to patient.",generateUUID(),null));
-//        this.options.add(new Option(52021, 5233, null, null, "1", "Iron", -1));
-//        this.options.add(new Option(52021, 5234, null, null, "2", "Multivitamins", -1));
-//        this.options.add(new Option(52021, 5234, null, null, "3", "Anthelmintic", -1));
-//        this.options.add(new Option(52021, 5233, null, null, "4", "Pediasure", -1));
-//        this.options.add(new Option(52021, 5234, null, null, "5", "Vitamin B-complex", -1));
-//        this.options.add(new Option(52021, 5234, null, null, "6", "Calpol", -1));
-//        this.options.add(new Option(52021, 5233, null, null, "7", "Other", -1));
-//        this.options.add(new Option(52021, 5234, null, null, "8", "None", -1));
-//        this.questions.add(new Question(true,childTBInitiationFormId,53022,"23",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If other, specify",generateUUID(),null));
-//
-//
-//        this.questions.add(new Question(true, childTBInitiationFormId, 53023, "17", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "What is the patient's current treatment plan?", generateUUID(), null));
-//        this.options.add(new Option(53023, 5235, null, null, "1", "Intensive Phase", -1));
-//        this.options.add(new Option(53023, 5236, null, null, "2", "Continuation Phase", -1));
-//        this.options.add(new Option(53023, 5237, null, null, "3", "End Treatment", -1));
-//
-//
-//        //        this.questions.add(new Question(true,childTBInitiationFormId,53010,"11",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Does the patient have TB?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53011,"12",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Registration date",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53012,"13",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"TB Registration No.",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53013,"14",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Was treatment initiated?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53014,"15",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason the treatment was not initiated?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53015,"16",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If other, please specify",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53016,"17",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"TB Treatment Initiation",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53017,"18",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Duration of sickness prior to TB diagnosis ",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53018,"19",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"History of past TB drug use",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53019,"20",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Patient Type",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53020,"21",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Patient Category",generateUUID(),null));
-//        this.questions.add(new Question(true,childTBInitiationFormId,53021,"22",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Are you initiating additional treatment? Please select one or more treatment options if applicable to patient.",generateUUID(),null));
-//        this.questions.add(new Question(true,childTBInitiationFormId,53022,"23",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If other, specify",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53023,"24",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"What is the patient's current treatment plan?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53024,"25",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Intensive phase regimen",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53025,"26",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Type of fixed dose combination being prescribed",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53026,"27",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Continuation phase regimen",generateUUID(),null));
-////        "this.questions.add(new Question(true,childTBInitiationFormId,53027,""28"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,""Type of fixed dose combination being prescribed	"","generateUUID()",null));"
-////        this.questions.add(new Question(true,childTBInitiationFormId,53028,"29",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Do you want to refer the patient?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53029,"30",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Do you want to refer the patient to?",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53030,"31",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason for referral to Psychologist/Counselor",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53031,"32",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Other Specify",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53032,"33",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason for referral to Field Supervisor/Site Supervisor",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53033,"34",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Other Specify",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53034,"35",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason for referral to Call Center",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53035,"36",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Other Specify",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53036,"37",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Reason for referral to Clinician",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53037,"38",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Other Specify",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53038,"39",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Doctor's notes",generateUUID(),null));
-////        this.questions.add(new Question(true,childTBInitiationFormId,53039,"40",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Is the follow up required?",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53040,"41",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Next Appointment Date",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,53041,"42",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"MO Instructions: Kindly notify the patient of their next appointment date.",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,,"",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,,"",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"",generateUUID(),null));
-////        this.questions.add(new Question(false,childTBInitiationFormId,,"",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"",generateUUID(),null));
-//
-//
-//    }
+    private void initChildTBInitiationForm() {
+        Integer childTBInitiationFormId = 8;
+
+
+//        this.questions.add(new Question(true,childTBInitiationFormId,53003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
+//        this.questions.add(new Question(false,childTBInitiationFormId,53004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
+//        this.questions.add(new Question(false,childTBInitiationFormId,53005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
+//        this.questions.add(new Question(true,childTBInitiationFormId,53006,"7",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Weight Percentile",generateUUID(),null));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53007, "8", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Did the MO Consult any Senior Pediatrician for TB diagnosis?", generateUUID(), null));
+        this.options.add(new Option(53007, 5301, new int[]{53008, 53009}, null, "1", "Yes", -1));
+        this.options.add(new Option(53007, 5302, null, new int[]{53008, 53009}, "2", "No", -1));
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53008, "9", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Name of Consultant", generateUUID(), alpha20DigitSpace));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53009, "10", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason for Consultation", generateUUID(), alpha40DigitSpace));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53010, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Does the patient have TB?", generateUUID(), null));
+        this.options.add(new Option(53010, 5303, new int[]{53013}, null, "1", "Yes", -1));
+        this.options.add(new Option(53010, 5304, null, new int[]{53013}, "2", "No", -1));
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53011, "12", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Registration date", generateUUID(), dateMinLastYearMaxNextYear));
+
+        //TODO The codebook says to check specific type of tb here
+
+        this.questions.add(new Question(false, childTBInitiationFormId, 53012, "8", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "TB Registration No.", generateUUID(), null));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53013, "9", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Was treatment initiated?", generateUUID(), null));
+        this.options.add(new Option(53013, 5305, new int[]{53021, 53023}, new int[]{53014}, "1", "Yes", -1));
+        this.options.add(new Option(53013, 5306, new int[]{53014}, new int[]{53021, 53023}, "2", "No", -1));
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53014, "10", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason the treatment was not initiated", generateUUID(), null));
+        this.options.add(new Option(53014, 5307, null, new int[]{53015}, "1", "Patient Refused Treatment", -1));
+        this.options.add(new Option(53014, 5308, null, new int[]{53015}, "2", "Patient lost to follow up", -1));
+        this.options.add(new Option(53014, 5309, null, new int[]{53015}, "3", "Patient Died", -1));
+        this.options.add(new Option(53014, 5310, null, new int[]{53015}, "4", "Referral (before start of treatment)", -1));
+        this.options.add(new Option(53014, 5311, new int[]{53015}, null, "5", "Other", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53015, "11", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If other, please specify", generateUUID(), null));
+
+
+        this.questions.add(new Question(false, childTBInitiationFormId, 53016, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "TB Treatment Initiation", null, null));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53017, "13", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Duration of sickness prior to TB diagnosis ", generateUUID(), null));
+        this.options.add(new Option(53017, 5312, null, null, "1", "Less than or equal to 1 month", -1));
+        this.options.add(new Option(53017, 5313, null, null, "2", "2-6 Months", -1));
+        this.options.add(new Option(53017, 5314, null, null, "3", "6-12 Months", -1));
+        this.options.add(new Option(53017, 5315, null, null, "4", "1-2 Years", -1));
+        this.options.add(new Option(53017, 5316, null, null, "5", "2-5 Years", -1));
+        this.options.add(new Option(53017, 5317, null, null, "6", "More than or equal to 5 years", -1));
+        this.options.add(new Option(53017, 5318, null, null, "7", "Unknown", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53018, "14", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "History of past TB drug use", generateUUID(), null));
+        this.options.add(new Option(53018, 5319, null, null, "1", "Previously treated only with first line drugs", -1));
+        this.options.add(new Option(53018, 5320, null, null, "2", "Previously treated with secondline drugs", -1));
+        this.options.add(new Option(53018, 5321, null, null, "3", "Previously treated with FLD (PET)", -1));
+        this.options.add(new Option(53018, 5322, null, null, "4", "Previously treated with SLD (PET)", -1));
+        this.options.add(new Option(53018, 5323, null, null, "5", "Previously treated with FLD & SLD both", -1));
+        this.options.add(new Option(53018, 5324, null, null, "6", "History unclear/unknown", -1));
+        this.options.add(new Option(53018, 5325, null, null, "7", "None", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53019, "15", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Type", generateUUID(), null));
+        this.options.add(new Option(53019, 5326, null, null, "1", "New", -1));
+        this.options.add(new Option(53019, 5327, null, null, "2", "Relapse", -1));
+        this.options.add(new Option(53019, 5328, null, null, "3", "Treatment after failure", -1));
+        this.options.add(new Option(53019, 5329, null, null, "4", "Other previously treated", -1));
+        this.options.add(new Option(53019, 5330, null, null, "5", "Treatment after lost to follow-up", -1));
+        this.options.add(new Option(53019, 5331, null, null, "6", "Transferred In", -1));
+        this.options.add(new Option(53019, 5332, null, null, "7", "Other", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 52020, "16", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Category", generateUUID(), null));
+        this.options.add(new Option(52020, 5333, null, null, "1", "Category I", -1));
+        this.options.add(new Option(52020, 5334, null, null, "2", "Category II", -1));
+        this.options.add(new Option(52020, 5335, null, null, "3", "Category III", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53021, "22", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Are you initiating additional treatment? Please select one or more treatment options if applicable to patient.", generateUUID(), null));
+        this.options.add(new Option(52021, 5336, null, new int[]{53022}, "1", "Iron", -1));
+        this.options.add(new Option(52021, 5337, null, new int[]{53022}, "2", "Multivitamins", -1));
+        this.options.add(new Option(52021, 5338, null, new int[]{53022}, "3", "Anthelmintic", -1));
+        this.options.add(new Option(52021, 5339, null, new int[]{53022}, "4", "Pediasure", -1));
+        this.options.add(new Option(52021, 5340, null, new int[]{53022}, "5", "Vitamin B-complex", -1));
+        this.options.add(new Option(52021, 5341, null, new int[]{53022}, "6", "Calpol", -1));
+        this.options.add(new Option(52021, 5342, null, new int[]{53022}, "7", "Other", -1));
+        this.options.add(new Option(52021, 5343, new int[]{53022}, null, "8", "None", -1));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53022, "23", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If other, specify", generateUUID(), null));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53023, "17", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "What is the patient's current treatment plan?", generateUUID(), null));
+        this.options.add(new Option(53023, 5344, null, null, "1", "Intensive Phase", -1));
+        this.options.add(new Option(53023, 5345, null, null, "2", "Continuation Phase", -1));
+        this.options.add(new Option(53023, 5346, null, null, "3", "End Treatment", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53028, "29", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Do you want to refer the patient?", generateUUID(), null));
+        this.options.add(new Option(53028, 5347, new int[]{53029}, null, "1", "Yes", -1));
+        this.options.add(new Option(53028, 5348, null, new int[]{53029}, "2", "No", -1));
+
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53029, "30", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Do you want to refer the patient to?", generateUUID(), null));
+        this.options.add(new Option(53029, 5349, new int[]{53030}, new int[]{53032,53034,53036}, "1", "Counselor", -1));
+        this.options.add(new Option(53029, 5350, new int[]{53030}, new int[]{53032,53034,53036}, "2", "Psychologist", -1));
+        this.options.add(new Option(53029, 5351, new int[]{53036}, new int[]{53030,53032,53034}, "1", "Clinician", -1));
+        this.options.add(new Option(53029, 5352, new int[]{53034}, new int[]{53030,53032,53036}, "2", "Call Center", -1));
+        this.options.add(new Option(53029, 5353, new int[]{53032}, new int[]{53030,53034,53036}, "2", "Field Supervisor", -1));
+        this.options.add(new Option(53029, 5354, new int[]{53032}, new int[]{53030,53034,53036}, "2", "Site Supervisor", -1));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53030, "31", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason for referral to Psychologist/Counselor", generateUUID(), null));
+        this.options.add(new Option(53030, 5355, null, new int[]{53031}, "1", "To check adherence", -1));
+        this.options.add(new Option(53030, 5356, null, new int[]{53031}, "2", "Psychological Issues", -1));
+        this.options.add(new Option(53030, 5357, null, new int[]{53031}, "3", "Behavioral Issues", -1));
+        this.options.add(new Option(53030, 5358, null, new int[]{53031}, "4", "Refusal", -1));
+        this.options.add(new Option(53030, 5359, new int[]{53031}, null, "5", "Other", -1));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53031, "32", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Other Specify", generateUUID(), null));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53032, "33", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason for referral to Field Supervisor/Site Supervisor", generateUUID(), null));
+        this.options.add(new Option(53032, 5360, null, new int[]{53033}, "1", "Reminder for Contact Screening", -1));
+        this.options.add(new Option(53032, 5361, null, new int[]{53033}, "2", "Reminder for treatment follow up", -1));
+        this.options.add(new Option(53032, 5362, null, new int[]{53033}, "3", "Check Treatment Adherence", -1));
+        this.options.add(new Option(53032, 5363, null, new int[]{53033}, "4", "Investigation report collection", -1));
+        this.options.add(new Option(53032, 5364, null, new int[]{53031}, "5", "Adverse Events", -1));
+        this.options.add(new Option(53032, 5365, null, new int[]{53033}, "6", "Medicine Collection", -1));
+        this.options.add(new Option(53032, 5366, new int[]{53033}, null, "7", "Other", -1));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53033, "34", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Other Specify", generateUUID(), null));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53034, "35", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason for referral to Call Center", generateUUID(), null));
+        this.options.add(new Option(53034, 5367, null, new int[]{53035}, "1", "Reminder for Contact Screening", -1));
+        this.options.add(new Option(53034, 5368, null, new int[]{53035}, "2", "Reminder for treatment follow up", -1));
+        this.options.add(new Option(53034, 5369, null, new int[]{53035}, "3", "Check Treatment Adherence", -1));
+        this.options.add(new Option(53034, 5370, null, new int[]{53035}, "4", "Investigation report collection", -1));
+        this.options.add(new Option(53034, 5371, null, new int[]{53035}, "5", "Adverse Events", -1));
+        this.options.add(new Option(53034, 5372, null, new int[]{53035}, "6", "Medicine Collection", -1));
+        this.options.add(new Option(53034, 5373, new int[]{53035}, null, "7", "Other", -1));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53035, "36", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Other Specify", generateUUID(), null));
+
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53036, "37", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason for referral to Clinician", generateUUID(), null));
+        this.options.add(new Option(53036, 5374, null, new int[]{53037}, "1", "Expert Opinion", -1));
+        this.options.add(new Option(53036, 5375, null, new int[]{53037}, "2", "Adverse Event", -1));
+        this.options.add(new Option(53036, 5376, new int[]{53037}, null, "3", "Other", -1));
+        this.questions.add(new Question(true, childTBInitiationFormId, 53037, "38", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Other Specify", generateUUID(), null));
+
+
+
+        this.questions.add(new Question(false, childTBInitiationFormId, 53038, "39", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Doctor's notes", generateUUID(), alphaNumeric50DigitSpace));
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53039, "40", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Is the follow up required?", generateUUID(), null));
+        this.options.add(new Option(53039, 5377, new int[]{53040}, null, "1", "Yes", -1));
+        this.options.add(new Option(53039, 5378, null, new int[]{53040}, "2", "No", -1));
+
+        this.questions.add(new Question(false, childTBInitiationFormId, 53040, "41", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Next Appointment Date", generateUUID(), dateMinTodayMaxNextYear));
+
+
+    }
 
 
     private void initAdultTBInitiationForm() {
@@ -372,8 +392,8 @@ public class DataProvider {
 
         this.questions.add(new Question(false, adultTBInitiationFormId, 52007, "8", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "TB Registration No.", generateUUID(), null));
         this.questions.add(new Question(true, adultTBInitiationFormId, 52008, "9", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Was treatment initiated?", generateUUID(), null));
-        this.options.add(new Option(52008, 5203, new int[]{52009, 52016}, null, "1", "Yes", -1));
-        this.options.add(new Option(52008, 5204, null, new int[]{52009, 52016}, "2", "No", -1));
+        this.options.add(new Option(52008, 5203, new int[]{52016}, new int[]{52009}, "1", "Yes", -1));
+        this.options.add(new Option(52008, 5204, new int[]{52009, 52016}, new int[]{52016}, "2", "No", -1));
 
         this.questions.add(new Question(true, adultTBInitiationFormId, 52009, "10", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason the treatment was not initiated", generateUUID(), null));
         this.options.add(new Option(52009, 5205, null, new int[]{52010}, "1", "Patient Refused Treatment", -1));
