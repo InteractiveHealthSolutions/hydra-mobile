@@ -162,5 +162,119 @@
         ]
       }
     ]
+  },
+  {
+    "id": 10000,
+    "name": "Facility Based",
+    "phases": [
+      {
+        "name": "Search",
+        "id": 4,
+        "components": [
+          {
+            "name": "Screening",
+            "id": 100001,
+            "forms": [
+              {
+                "formId": 100002,
+                "encounterType": "Child Screening"
+              },
+              {
+                "formId": 100003,
+                "encounterType": "TB Quick Screening"
+              },
+              {
+                "formId": 100004,
+                "encounterType": "Adult Screening"
+              },
+              {
+                "formId": 100005,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 100006,
+                "encounterType": "Contact Registry"
+              }
+            ]
+          },
+          {
+            "name": "Diagnosis",
+            "id": 200002,
+            "forms": [
+              {
+                "formId": 200003,
+                "encounterType": "Child Clinician Evaluation"
+              },
+              {
+                "formId": 200004,
+                "encounterType": "Adult Clinician Evaluation"
+              },
+              {
+                "formId": 200005,
+                "encounterType": "Child Antibiotic Trial"
+              },
+              {
+                "formId": 200006,
+                "encounterType": "TB Disease Confirmation"
+              },
+              {
+                "formId": 200007,
+                "encounterType": "End of Follow-up"
+              },
+              {
+                "formId": 200008,
+                "encounterType": "Adult Antibiotic Trial"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Treat",
+        "id": 5,
+        "components": [
+          {
+            "name": "Initiation",
+            "id": 30001,
+            "forms": [
+              {
+                "formId": 30002,
+                "encounterType": "Treatment Initiation"
+              },
+              {
+                "formId": 30004,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 30005,
+                "encounterType": "Past TB History"
+              },
+              {
+                "formId": 30006,
+                "encounterType": "Baseline Vitals"
+              }
+            ]
+          },
+          {
+            "name": "Progression",
+            "id": 30007,
+            "forms": [
+              {
+                "formId": 30008,
+                "encounterType": "Treatment Registration"
+              },
+              {
+                "formId": 30009,
+                "encounterType": "Adult TB FollowUp"
+              },
+              {
+                "formId": 30010,
+                "encounterType": "Child TB FollowUp"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
