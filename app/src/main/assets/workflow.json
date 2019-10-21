@@ -256,7 +256,7 @@
             "forms": [
               {
                 "formId": 215,
-                "encounterType": "End Of Followup"
+                "encounterType": "End of Follow-up"
               }
             ]
           }
