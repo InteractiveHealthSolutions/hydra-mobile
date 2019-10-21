@@ -310,4 +310,9 @@
         <item>Zimbabwe</item>
     </string-array>
 
+    <string-array name="locations_list">
+        <item>Bedford Hospital</item>
+        <item>Frere Clinic</item>
+    </string-array>
+
 </resources>

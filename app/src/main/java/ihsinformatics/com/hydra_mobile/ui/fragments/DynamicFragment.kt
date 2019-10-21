@@ -99,7 +99,7 @@ class DynamicFragment : BaseFragment() {
 
     private fun getPhases(phaseId: Int) {
 
-       // val componentList = PhaseComponentFormJoinRepository(HydraApp.context!!)
+        // val componentList = PhaseComponentFormJoinRepository(HydraApp.context!!)
         val phasesComponentJoinViewModel =   ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
         //componentList.getComponentByPhaseId(phaseId).observe(this, Observer<List<Component>> {
         val formModel =  ComponentRepository(HydraApp.context!!) //ViewModelProviders.of(this).get(PhasesViewModel::class.java)
