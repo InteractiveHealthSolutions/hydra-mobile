@@ -1,6 +1,6 @@
 [
   {
-    "id":111,
+    "id": 111,
     "name": "Community Based",
     "phases": [
       {
@@ -9,84 +9,153 @@
         "components": [
           {
             "name": "Screening",
-            "id": 1111,
+            "id": 1001,
             "forms": [
               {
-                "formId": 11,
-                "encounterType": "Child Screening",
-                "question":[
-                  {
-                    "text": "patient ID",
-                    "dataType": "Text",
-                    "options": "",
-                    "appearance": "",
-                    "variableName": "",
-                    "conceptId": "",
-                    "length": "",
-                    "required": "Y",
-                    "default": "",
-                    "skipLogic": "",
-                    "comments": ""
-                  }
-                ]
+                "formId": 1,
+                "encounterType": "Child Screening"
               },
               {
-                "formId": 12,
+                "formId": 2,
                 "encounterType": "TB Quick Screening"
+              },
+              {
+                "formId": 3,
+                "encounterType": "Adult Screening"
+              },
+              {
+                "formId": 4,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 5,
+                "encounterType": "Contact Registry"
               }
             ]
           },
           {
             "name": "Diagnosis",
-            "id": 1112,
+            "id": 1002,
             "forms": [
               {
-                "formId": 21,
+                "formId": 6,
                 "encounterType": "Child Clinician Evaluation"
               },
               {
-                "formId": 22,
+                "formId": 7,
                 "encounterType": "Adult Clinician Evaluation"
               },
               {
-                "formId": 23,
+                "formId": 8,
                 "encounterType": "Child Antibiotic Trial"
+              },
+              {
+                "formId": 9,
+                "encounterType": "TB Disease Confirmation"
+              },
+              {
+                "formId": 10,
+                "encounterType": "End of Follow-up"
+              },
+              {
+                "formId": 11,
+                "encounterType": "Adult Antibiotic Trial"
               }
-          ]
+            ]
           }
         ]
-      }
-    ]
-  },
-  {
-    "id":112,
-    "name": "Facility Based",
-    "phases": [
+      },
       {
-        "name": "Search",
+        "name": "Treat",
         "id": 2,
         "components": [
           {
-            "name": "Screening",
-            "id": 9999,
+            "name": "Initiation",
+            "id": 2001,
             "forms": [
               {
-                "formId": 11,
-                "encounterType": "Create Patient"
+                "formId": 12,
+                "encounterType": "Treatment Initiation"
               },
               {
-                "formId": 12,
-                "encounterType": "Patient Info"
+                "formId": 13,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 14,
+                "encounterType": "Past TB History"
+              },
+              {
+                "formId": 15,
+                "encounterType": "Baseline Vitals"
               }
             ]
           },
           {
-            "name": "Diagnosis",
-            "id": 9998,
+            "name": "Progression",
+            "id": 2002,
             "forms": [
               {
+                "formId": 16,
+                "encounterType": "Treatment Registration"
+              },
+              {
+                "formId": 17,
+                "encounterType": "Adult TB FollowUp"
+              },
+              {
+                "formId": 18,
+                "encounterType": "Child TB FollowUp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Prevent",
+        "id": 3,
+        "components": [
+          {
+            "name": "Prevention Therapy",
+            "id": 1031,
+            "forms": [
+              {
+                "formId": 19,
+                "encounterType": "Adverse Event"
+              },
+              {
+                "formId": 20,
+                "encounterType": "Adverse Event outcome"
+              },
+              {
                 "formId": 21,
-                "encounterType": "Child Clinician Evaluation"
+                "encounterType": "Treatment Initiation"
+              }
+            ]
+          },
+          {
+            "name": "Identify & Investigate",
+            "id": 1032,
+            "forms": [
+              {
+                "formId": 22,
+                "encounterType": "Index Patient Registration"
+              },
+              {
+                "formId": 23,
+                "encounterType": "Contact Registry"
+              },
+              {
+                "formId": 24,
+                "encounterType": "Household TB History"
+              },
+              {
+                "formId": 25,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 26,
+                "encounterType": "HH TB History"
               }
             ]
           }

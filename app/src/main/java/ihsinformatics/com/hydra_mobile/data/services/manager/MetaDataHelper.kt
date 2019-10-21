@@ -75,41 +75,21 @@ class MetaDataHelper(context: Context) {
                         val componentName = insideComponent.getString("name")
                         val componentId = insideComponent.getInt("id")
                         val formList = insideComponent.getJSONArray("forms")
+
+                        ComponentRepository(context).insertComponent(Component(componentName, componentId))
+                        phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
+
                         for (k in 0 until formList.length()) {
                             val insideForm = formList.getJSONObject(k)
                             val formName = insideForm.getString("encounterType")
                             val formId = insideForm.getInt("formId")
-/*                            val questions = insidePhase.getJSONArray("question")
-
-
-                            for(m in 0 until questions.length())
-                            {
-                                val insideQuestions = questions.getJSONObject(m)
-                                val questionText = insideQuestions.getString("text")
-
-                                val questionDataType = insideQuestions.getString("dataType")
-                                val questionOptions = insideQuestions.getString("options")
-                                val questionAppearance = insideQuestions.getString("appearance")
-                                val questionVariableName = insideQuestions.getString("variableName")
-                                val questionConceptId = insideQuestions.getString("conceptId")
-                                val questionLength = insideQuestions.getString("length")
-                                val questionRequired = insideQuestions.getString("required")
-                                val questionDefault = insideQuestions.getString("default")
-                                //val questionSkipLogic = insideQuestions.getString("skipLogic")
-                                val questionComments = insideQuestions.getString("comments")
-
-
-                                QuestionRepository(context).insertQuestion(Question())
-
-                            }*/
-
-                            FormRepository(context).insertForm(Forms(formId, formName, componentId, formName))
                             componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
+                            FormRepository(context).insertForm(Forms(formId, formName, componentId, formName))
+
                         }
 
 
-                        ComponentRepository(context).insertComponent(Component(componentName, componentId))
-                        phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
+
                     }
 
                     PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
