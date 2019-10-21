@@ -18,7 +18,7 @@
         android:shadowDy="5"
         android:gravity="center"
         android:text="@string/hello_world"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/tvMessage"

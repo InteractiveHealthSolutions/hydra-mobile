@@ -459,7 +459,88 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
 
-        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))
+        {
+            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(41007);
+            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(41008);
+            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(41009);
+            bmiWidget.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if(newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty()) return;
+
+                    float weight = Float.valueOf(weightWidget.getValue());
+                    float height  = Float.valueOf(heightWidget.getValue())/100;
+                    height = height*height;
+
+                    if(height<=0 || weight <=0) return;
+
+                    float bmi = weight/height;
+                    bmiWidget.setAnswer(bmi+"", "", LANGUAGE.ENGLISH);
+                }
+            };
+            heightWidget.setOnValueChangeListener(valueChangeListener);
+            weightWidget.setOnValueChangeListener(valueChangeListener);
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION)) {
+            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(42007);
+            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(42008);
+            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(42009);
+            bmiWidget.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if(newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty()) return;
+
+                    int weight = Integer.valueOf(weightWidget.getValue());
+                    int height  = Integer.valueOf(heightWidget.getValue())/100;
+                    height = height*height;
+                    if(height<=0 || weight <=0) return;
+
+                    long bmi = weight/height;
+                    bmiWidget.setAnswer(bmi+"", "", LANGUAGE.ENGLISH);
+                }
+            };
+            heightWidget.setOnValueChangeListener(valueChangeListener);
+            weightWidget.setOnValueChangeListener(valueChangeListener);
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+
+            final EditTextWidget adult_males = (EditTextWidget) inputWidgets.get(51006);
+            final EditTextWidget adult_females = (EditTextWidget) inputWidgets.get(51007);
+            final EditTextWidget total_adults = (EditTextWidget) inputWidgets.get(51008);
+            total_adults.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if(newValue.isEmpty() || adult_males.getValue().isEmpty() || adult_females.getValue().isEmpty()) return;
+
+                    int adult_ma = Integer.valueOf(adult_males.getValue());
+                    int adult_fe  = Integer.valueOf(adult_females.getValue());
+
+
+                    if(adult_ma<0 || adult_fe <0)
+                    {
+                        int tot = adult_ma + adult_fe;
+                        total_adults.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                   //else if()
+                }
+            };
+            adult_females.setOnValueChangeListener(valueChangeListener);
+            adult_males.setOnValueChangeListener(valueChangeListener);
+
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         }
     }

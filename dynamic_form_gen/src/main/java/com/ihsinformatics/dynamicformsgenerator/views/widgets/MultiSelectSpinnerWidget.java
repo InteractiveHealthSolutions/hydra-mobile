@@ -121,22 +121,20 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
     @Override
     public void setVisibility(int visibility) {
 
-        if(question.getQuestionId() == 11038) {
-
-        }
-        // int[] showables = findAlldependantShowAbles();
-        if (visibility == View.VISIBLE) {
-            List<Integer> selectedItemsIndexes = mspAnswer.getSelectedValuesPositions();
-            for(int i: selectedItemsIndexes)
-                applySkipLogic(i);
+        if (mspAnswer != null) {
+            // int[] showables = findAlldependantShowAbles();
+            if (visibility == View.VISIBLE) {
+                List<Integer> selectedItemsIndexes = mspAnswer.getSelectedValuesPositions();
+                for (int i : selectedItemsIndexes)
+                    applySkipLogic(i);
            /* int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
             int[] hideables = options.get(spAnswer.getSelectedItemPosition()).getHidesQuestions();
             ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);*/
-        } else {
-            int[] hideables = findAlldependantHideAbles();
-            ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
+            } else {
+                int[] hideables = findAlldependantHideAbles();
+                ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
+            }
         }
-
         super.setVisibility(visibility);
     }
 
