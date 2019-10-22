@@ -145,6 +145,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         try {
             JSONObject offlineValues = new JSONObject();
             int postOperativeCallResponse = 0;
+            String firstName = "";
+            String lastName = "";
             while (iterator.hasNext()) {
                 InputWidget i = inputWidgets.get(iterator.next());
                 try {
@@ -152,10 +154,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         i.getAnswer(); // just to validate the identifier
                         if(i.getQuestion().getQuestionId() == 6000) {
                             offlinePatient.setMrNumber(i.getValue());
-                        } else if(i.getQuestion().getQuestionId() == 11000 || i.getQuestion().getQuestionId() == 11061 || i.getQuestion().getQuestionId() == 11062) {
-                            offlinePatient.setPqId(i.getValue());
-                        } else if(i.getQuestion().getQuestionId() == 14100) {
-                            offlinePatient.setScId(i.getValue());
                         }
                     }
                     // Some fields are not needed to be sent to server
@@ -165,6 +163,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             offlinePatient.setGender(i.getAnswer().getString(ParamNames.SEX));
                         } else if(i.getQuestion().getQuestionId() == 6004) {
                             offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(i.getAnswer().getString(ParamNames.DOB)).getTime());
+                        } else if(i.getQuestion().getQuestionId() == 6001) {
+                            firstName+=i.getAnswer().getString(ParamNames.FIRST_NAME);
+                        } else if(i.getQuestion().getQuestionId() == 6002) {
+                            lastName+=i.getAnswer().getString(ParamNames.LAST_NAME);
                         }
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
@@ -173,7 +175,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     e.printStackTrace();
                 }
             }
-
+            offlinePatient.setName(firstName+" "+lastName);
             // TODO offlinePatient -> offlineValues
             savableData.put(ParamNames.FORM_DATA, data);
 
@@ -536,13 +538,21 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             adult_males.setOnValueChangeListener(valueChangeListener);
 
 
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+            llPatientInfoDisplayer.setVisibility(View.GONE);
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         }
+        if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
+            tvRatings.setVisibility(View.GONE);
+            llPatientInfoDisplayer.setVisibility(View.GONE);
+        } else {
+            fillPatientInfoBar();
+        }
+
     }
 
     public Map<Integer, InputWidget> getInputWidgets() {
@@ -557,7 +567,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             while (it.hasNext()) {
                 String key = it.next();
                 String value = ids.get(key);
-                identifiers+=value+", ";
+                identifiers+=value/*+", "*/;
             }
         }
         tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());

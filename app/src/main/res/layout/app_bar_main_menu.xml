@@ -173,7 +173,7 @@
                 </LinearLayout>
 
 
-                <LinearLayout
+                <!--<LinearLayout
                         android:id="@+id/layout_report"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -202,8 +202,8 @@
                             android:layout_marginStart="@dimen/dimen_16dp"
                             android:layout_marginLeft="@dimen/dimen_8dp"
                     />
-                </LinearLayout>
-                <LinearLayout
+                </LinearLayout>-->
+                <!--<LinearLayout
                         android:id="@+id/layout_events"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                             android:layout_marginStart="@dimen/dimen_16dp"
                             android:layout_marginLeft="@dimen/dimen_8dp"
                     />
-                </LinearLayout>
+                </LinearLayout>-->
 
             </RelativeLayout>
 

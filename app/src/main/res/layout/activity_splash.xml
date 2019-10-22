@@ -17,6 +17,8 @@
             android:src="@drawable/lhc_logo" />
 
     <yanzhikai.textpath.AsyncTextPathView
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/ivLogo"
             android:id="@+id/atpv_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,8 +26,8 @@
             app:showPainter="true"
             app:text="@string/main_title"
             android:layout_centerInParent="true"
-            app:paintStrokeColor="@color/colorPrimaryDark"
-            app:pathStrokeColor="@color/colorPrimaryDark"
+            app:paintStrokeColor="@color/White"
+            app:pathStrokeColor="@color/White"
             app:textInCenter="true"
             app:textSize="82sp"
             app:repeat="REVERSE" />

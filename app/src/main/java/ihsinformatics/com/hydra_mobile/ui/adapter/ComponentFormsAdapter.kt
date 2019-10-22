@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
+import com.ihsinformatics.dynamicformsgenerator.data.DataProvider
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
@@ -15,6 +17,9 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.ui.activity.FormsActivity
 import ihsinformatics.com.hydra_mobile.ui.helper.GlideApp
+import androidx.core.content.ContextCompat.startActivity
+
+
 
 
 internal class FormsListDataAdapter(private val itemModels: List<Forms>, context: Context) :
@@ -60,11 +65,14 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
             itemView.setOnClickListener {
                 Constant.formName = tvTitle.text.toString()
                 Constant.formID = clickedFormID
-
-                Form.setENCOUNTER_NAME(Constant.formName)
-                context.startActivity(Intent(context, Form::class.java))
+                if(DataProvider.directOpenableForms.contains(Constant.formName)) {
+                    Form.setENCOUNTER_NAME(Constant.formName)
+                    context.startActivity(Intent(context, Form::class.java))
+                } else {
+                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                    context.startActivity(Intent(context, PatientInfoFetcher::class.java))
+                }
             }
         }
     }
-
 }

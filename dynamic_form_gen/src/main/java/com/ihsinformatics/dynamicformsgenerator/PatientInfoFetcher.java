@@ -89,9 +89,9 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(DataSender.isConnected(PatientInfoFetcher.this)) {
+                /*if(false*//*DataSender.isConnected(PatientInfoFetcher.this)*//*) { // TODO handle this
                     performClick();
-                } else {
+                } else */{
                     String identifier = null;
                     if(etId.getVisibility() == View.VISIBLE) {
                         try {
@@ -182,10 +182,6 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
                                 if(identifierType.equals(ParamNames.INDUS_PROJECT_IDENTIFIER)) {
                                     offlinePatient.setMrNumber(identifier);
-                                } else if(identifierType.equals(ParamNames.CSC_PROJECT_IDENTIFIER)) {
-                                    offlinePatient.setScId(identifier);
-                                } else if(identifierType.equals(ParamNames.PQ_PROJECT_IDENTIFIER)) {
-                                    offlinePatient.setPqId(identifier);
                                 }
                             }
 
@@ -208,8 +204,18 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                         return;
                     }*/
                     if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
-
+                        Form.setENCOUNTER_NAME(getEncounterName());
+                        startForm(patientData, null);
                     }
+                    if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+                        Form.setENCOUNTER_NAME(getEncounterName());
+                        startForm(patientData, null);
+                    } else {
+                        Form.setENCOUNTER_NAME(getEncounterName());
+                        startForm(patientData, null);
+                    }
+
+
                 }
                 finish();
             } else {
