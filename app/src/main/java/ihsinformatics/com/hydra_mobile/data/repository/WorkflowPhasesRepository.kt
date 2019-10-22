@@ -4,6 +4,7 @@ package ihsinformatics.com.hydra_mobile.data.repository
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.WorkflowPhasesMapDao
@@ -15,6 +16,8 @@ import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
 
 
 class WorkflowPhasesRepository(context: Context) {
@@ -40,7 +43,28 @@ class WorkflowPhasesRepository(context: Context) {
         }
     }
 
+    fun localFileReadForWorkFlow() : WorkflowPhasesApiResponse
+    {
+        val gson = Gson()
+        val inputstream = context.assets.open("workflowOnlyFromAPI.json")
+        val inputStreamReader = InputStreamReader(inputstream, StandardCharsets.UTF_8)
+        val workflowPhasesMap = gson.fromJson(inputStreamReader, WorkflowPhasesApiResponse::class.java)
+
+        return workflowPhasesMap
+    }
+
     fun getRemoteWorkflowData() {
+        try {
+            val response = localFileReadForWorkFlow()
+            for (i in response.workflowPhasesMap.indices) {
+                //insert into local database
+                insertWorkflowPhases(response.workflowPhasesMap[i])
+            }
+            Log.e("WorkflowLoading", "completed")
+        } catch (e: Exception) {
+
+        }
+
         RequestManager(
             context, sessionManager.getUsername(),
             sessionManager.getPassword()

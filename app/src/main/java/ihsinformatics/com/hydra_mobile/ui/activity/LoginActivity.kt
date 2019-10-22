@@ -84,10 +84,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
 
                     override fun <T> onSuccess(o: T) {
-                        SessionManager(applicationContext).createLoginSession(
-                            usernameEditText.text.toString(),
-                            passwordEditText.text.toString()
-                        )
+//                        SessionManager(applicationContext).createLoginSession(
+//                            usernameEditText.text.toString(),
+//                            passwordEditText.text.toString()
+//                        )
                         //Not required
                         Constant.currentUser = User(
                             username = usernameEditText.text.toString(),

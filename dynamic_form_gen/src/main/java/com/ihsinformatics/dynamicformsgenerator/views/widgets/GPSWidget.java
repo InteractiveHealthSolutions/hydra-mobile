@@ -1,7 +1,10 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.IntentSender.SendIntentException;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -31,233 +36,275 @@ import org.json.JSONObject;
 import java.util.Date;
 
 public class GPSWidget extends InputWidget implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
 
-	// // -------- GPS related variables-------\\\\
+    // // -------- GPS related variables-------\\\\
 
-	GoogleApiClient mGoogleApiClient;
+    GoogleApiClient mGoogleApiClient;
 
-	private GPSCoordinate coordinates;
+    private GPSCoordinate coordinates;
 
-	LocationRequest mLocationRequest;
+    LocationRequest mLocationRequest;
 
-	/**
-	 * Tracks the status of the location updates request. Value changes when the
-	 * Activity starts
-	 */
-	protected Boolean mRequestingLocationUpdates;
+    /**
+     * Tracks the status of the location updates request. Value changes when the
+     * Activity starts
+     */
+    protected Boolean mRequestingLocationUpdates;
 
-	// Bool to track whether the app is already resolving an error of Google Api
-	// Client
-	private boolean mResolvingError = false;
+    // Bool to track whether the app is already resolving an error of Google Api
+    // Client
+    private boolean mResolvingError = false;
 
-	/**
-	 * Represents a geographical location.
-	 */
-	protected Location mCurrentLocation;
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mCurrentLocation;
 
-	// // ---------End of GPS variables ----------\\\\
+    // // ---------End of GPS variables ----------\\\\
 
-	private EditText etAnswer;
+    private EditText etAnswer;
 
-	public GPSWidget(Context context, Question question, int layoutId) {
-		super(context, question,layoutId);
-		etAnswer = (EditText) findViewById(R.id.etAnswer);
-		options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
-		coordinates = new GPSCoordinate(0, 0);
-		if (options.size() > 0) {
-			setOptionsOrHint(options.get(0));
-		}
-		etAnswer.setFocusable(false);
-		etAnswer.setOnClickListener(this);
+    public GPSWidget(Context context, Question question, int layoutId) {
+        super(context, question, layoutId);
+        etAnswer = (EditText) findViewById(R.id.etAnswer);
+        options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
+        coordinates = new GPSCoordinate(0, 0);
+        if (options.size() > 0) {
+            setOptionsOrHint(options.get(0));
+        }
+        etAnswer.setFocusable(false);
+        etAnswer.setOnClickListener(this);
 
-		// Setting Google Play Service for GPS
+        // Setting Google Play Service for GPS
 
-		mRequestingLocationUpdates = true;
+        mRequestingLocationUpdates = true;
 
-		mGoogleApiClient = GPS.buildGoogleApiClient(this, this, context);
-		mLocationRequest = GPS.createLocationRequest(GPS.REQ_INTERVAL, GPS.REQ_FASTEST_INTERVAL);
+        mGoogleApiClient = GPS.buildGoogleApiClient(this, this, context);
+        mLocationRequest = GPS.createLocationRequest(GPS.REQ_INTERVAL, GPS.REQ_FASTEST_INTERVAL);
 
-		startLocationUpdates();
-		// //-------------End of GPS settings -------------\\\\
-	}
-	
-	@Override
-	public boolean isValidInput(boolean isMendatory) {
-		Validation validation = Validation.getInstance();
-		return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
-	}
-	
-	@Override
-	public void setOptionsOrHint(Option... data) {
-		if(data.length > 0) {
-			etAnswer.setHint(data[0].getText());
-		}
-	}
-	
-	@Override
-	public JSONObject getAnswer() throws JSONException {
-		JSONObject param = new JSONObject();
-		if (isValidInput(question.isMandatory())) {
-			dismissMessage();
-			param.put(question.getParamName(), etAnswer.getText().toString());
-		} else {
-			activity.addValidationError(getQuestionId(), "Invalid input");
-		}
-		return param;
-	}
-	
-	@Override
-	public void setAnswer(String answer, String uuid, LANGUAGE language) {
-		etAnswer.setText(answer);
-		setVisibility(View.VISIBLE);
-	}
+        startLocationUpdates();
+        // //-------------End of GPS settings -------------\\\\
+    }
 
-	@Override
-	public void onFocusGained() {
-		etAnswer.performClick();
-	}
+    @Override
+    public boolean isValidInput(boolean isMendatory) {
+        Validation validation = Validation.getInstance();
+        return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
+    }
 
-	@Override
-	public void onClick(View v) {
-		// CODE TO REFRESH GPS, NOT APPLICABLE IN THIS SCENARIO
-		
-	}
+    @Override
+    public void setOptionsOrHint(Option... data) {
+        if (data.length > 0) {
+            etAnswer.setHint(data[0].getText());
+        }
+    }
 
-	@Override
-	public void onConnectionFailed(ConnectionResult result) {
-		if (mResolvingError) {
-			// Already attempting to resolve an error.
-			return;
-		} else if (result.hasResolution()) {
-			try {
-				mResolvingError = true;
-				result.startResolutionForResult(activity, GPS.REQUEST_RESOLVE_ERROR);
-			} catch (SendIntentException e) {
-				// There was an error with the resolution intent. Try again.
+    @Override
+    public JSONObject getAnswer() throws JSONException {
+        JSONObject param = new JSONObject();
+        if (isValidInput(question.isMandatory())) {
+            dismissMessage();
+            param.put(question.getParamName(), etAnswer.getText().toString());
+        } else {
+            activity.addValidationError(getQuestionId(), "Invalid input");
+        }
+        return param;
+    }
 
-				checkGPS();
-			}
-		} else {
-			// Show dialog using GoogleApiAvailability.getErrorDialog()
-			// Toast.makeText(this, "Error: " + result.getErrorCode(),
-			// Toast.LENGTH_LONG).show();
+    @Override
+    public void setAnswer(String answer, String uuid, LANGUAGE language) {
+        etAnswer.setText(answer);
+        setVisibility(View.VISIBLE);
+    }
 
-			GPS.showErrorDialog(context, result.getErrorCode());
-			mResolvingError = true;
-		}
-	}
+    @Override
+    public void onFocusGained() {
+        etAnswer.performClick();
+    }
 
-	private void checkGPS() {
-		if(GPS.isGPSEnabled(context)) {
-			mGoogleApiClient.connect();
-		} else {
-			Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
-			closeForm();
-		}
-		
-	}
-	
-	
+    @Override
+    public void onClick(View v) {
+        // CODE TO REFRESH GPS, NOT APPLICABLE IN THIS SCENARIO
 
-	@Override
-	public void onConnected(Bundle arg0) {
-		// This method is called when the Google API Client is connected
+    }
 
-		mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (mResolvingError) {
+            // Already attempting to resolve an error.
+            return;
+        } else if (result.hasResolution()) {
+            try {
+                mResolvingError = true;
+                result.startResolutionForResult(activity, GPS.REQUEST_RESOLVE_ERROR);
+            } catch (SendIntentException e) {
+                // There was an error with the resolution intent. Try again.
 
-		if (mCurrentLocation != null) {
-			// if lastlocation was fetched more than 30 seconds before, it is
-			// better to start listen for new update
-			Date currentDate = new Date();
+                checkGPS();
+            }
+        } else {
+            // Show dialog using GoogleApiAvailability.getErrorDialog()
+            // Toast.makeText(this, "Error: " + result.getErrorCode(),
+            // Toast.LENGTH_LONG).show();
 
-			if (currentDate.getTime() - mCurrentLocation.getTime() < GPS.SECONDS_30) {
-				updateGeoVariables(mCurrentLocation);
-				return;
-			}
-		}
+            GPS.showErrorDialog(context, result.getErrorCode());
+            mResolvingError = true;
+        }
+    }
 
-		// If the user presses the Start Updates button before GoogleApiClient
-		// connects, we set
-		// mRequestingLocationUpdates to true (see startUpdatesButtonHandler()).
-		// Here, we check
-		// the value of mRequestingLocationUpdates and if it is true, we start
-		// location updates
+    private void checkGPS() {
+        if (GPS.isGPSEnabled(context)) {
+            mGoogleApiClient.connect();
+        } else {
+            Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
+            closeForm();
+        }
 
-		startLocationUpdates();
+    }
 
-	}
 
-	@Override
-	public void onConnectionSuspended(int arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/**
-	 * Callback that fires when the location changes.
-	 */
-	@Override
-	public void onLocationChanged(Location location) {
-		mCurrentLocation = location;
-		updateGeoVariables(mCurrentLocation);
-	}
+    @Override
+    public void onConnected(Bundle arg0) {
+        // This method is called when the Google API Client is connected
 
-	protected void startLocationUpdates() {
-		if (GPS.isGPSEnabled(context)) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+          //  return;
+        } else {
+            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-			if (mGoogleApiClient != null) {
-				if (mGoogleApiClient.isConnected() == false) {
-					mGoogleApiClient.connect();
-				}
+            if (mCurrentLocation != null) {
+                // if lastlocation was fetched more than 30 seconds before, it is
+                // better to start listen for new update
+                Date currentDate = new Date();
 
-				else {
-					LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-				}
-			}
-		} else {
-			Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
-			closeForm();
-		}
+                if (currentDate.getTime() - mCurrentLocation.getTime() < GPS.SECONDS_30) {
+                    updateGeoVariables(mCurrentLocation);
+             //       return;
+                }
+            }
 
-	}
+            // If the user presses the Start Updates button before GoogleApiClient
+            // connects, we set
+            // mRequestingLocationUpdates to true (see startUpdatesButtonHandler()).
+            // Here, we check
+            // the value of mRequestingLocationUpdates and if it is true, we start
+            // location updates
 
-	/**
-	 * Removes location updates from the FusedLocationApi. But first it checks
-	 * whether GoogleClient is already connected or not
-	 */
-	protected void stopLocationUpdates() {
-		// It is a good practice to remove location requests when the activity
-		// is in a paused or
-		// stopped state. Doing so helps battery performance and is especially
-		// recommended in applications that request frequent location updates.
+            startLocationUpdates();
+        }
 
-		// The final argument to {@code requestLocationUpdates()} is a
-		// LocationListener
-		// (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
 
-		if (mGoogleApiClient != null) {
-			if (mGoogleApiClient.isConnected()) {
-				LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-			}
-		}
-	}
+    }
 
-	private void updateGeoVariables(Location location) {
-		coordinates.setLatitude(location.getLatitude());
-		coordinates.setLongitude(location.getLongitude());
+    @Override
+    public void onConnectionSuspended(int arg0) {
+        // TODO Auto-generated method stub
 
-		String coordinate = coordinates.getLatitude() + "," + coordinates.getLongitude();
-		etAnswer.setText(coordinate);
-	}
+    }
 
-	@Override
-	public void destroy() {
-		stopLocationUpdates();
-		
-	}
+    /**
+     * Callback that fires when the location changes.
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+        updateGeoVariables(mCurrentLocation);
+    }
 
-	@Override
-	public String getValue() {
-		return etAnswer.getText().toString();
-	}
+    protected void startLocationUpdates() {
+        if (GPS.isGPSEnabled(context)) {
+
+            if (mGoogleApiClient != null) {
+                if (mGoogleApiClient.isConnected() == false) {
+                    mGoogleApiClient.connect();
+                } else {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            {
+                                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+                            }
+                        }
+
+                            //  return;
+                    } else {
+                        // Write you code here if permission already given.
+                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
+            closeForm();
+        }
+
+    }
+
+    /**
+     * Removes location updates from the FusedLocationApi. But first it checks
+     * whether GoogleClient is already connected or not
+     */
+    protected void stopLocationUpdates() {
+        // It is a good practice to remove location requests when the activity
+        // is in a paused or
+        // stopped state. Doing so helps battery performance and is especially
+        // recommended in applications that request frequent location updates.
+
+        // The final argument to {@code requestLocationUpdates()} is a
+        // LocationListener
+        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
+
+        if (mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            }
+        }
+    }
+
+    private void updateGeoVariables(Location location) {
+        coordinates.setLatitude(location.getLatitude());
+        coordinates.setLongitude(location.getLongitude());
+
+        String coordinate = coordinates.getLatitude() + "," + coordinates.getLongitude();
+        etAnswer.setText(coordinate);
+    }
+
+    @Override
+    public void destroy() {
+        stopLocationUpdates();
+
+    }
+
+    @Override
+    public String getValue() {
+        return etAnswer.getText().toString();
+    }
+
+
+//	@Override
+//	public void onRequestPermissionsResult(int requestCode,
+//										   String[] permissions, int[] grantResults) {
+//		switch (requestCode) {
+//			case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+//				// If request is cancelled, the result arrays are empty.
+//				if (grantResults.length > 0
+//						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//					// permission was granted, yay! Do the
+//					// contacts-related task you need to do.
+//				} else {
+//					// permission denied, boo! Disable the
+//					// functionality that depends on this permission.
+//				}
+//				return;
+//			}
+//
+//			// other 'case' lines to check for other
+//			// permissions this app might request.
+//		}
+//	}
 }

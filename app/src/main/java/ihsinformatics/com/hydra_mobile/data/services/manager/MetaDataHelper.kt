@@ -2,17 +2,17 @@ package ihsinformatics.com.hydra_mobile.data.services.manager
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.work.ListenableWorker
-import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.core.question.Question
-import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.IOException
+import com.google.gson.Gson
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
+
 
 class MetaDataHelper(context: Context) {
 
@@ -44,6 +44,9 @@ class MetaDataHelper(context: Context) {
         Log.e(LOG_TAG, "Error executing work: " + e.message, e)
         false
     }
+
+
+
 
 
     fun getWorkFlowFromAPI() {
@@ -108,6 +111,22 @@ class MetaDataHelper(context: Context) {
         restCallback.onSuccess(false)
     }
 
+
+    private fun loadJSONFromFileName(file:String): String? {
+        var json: String? = null
+        try {
+            val `is` = context.assets.open(file)
+            val size = `is`.available()
+            val buffer = ByteArray(size)
+            `is`.read(buffer)
+            `is`.close()
+            json = String(buffer)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            return json
+        }
+        return json
+    }
 
     private fun loadJSONFromAsset(): String? {
         var json: String? = null

@@ -28,17 +28,36 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
 
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:src="@drawable/logo_final"
-                    android:tint="@color/colorPrimaryDark"
-                    android:layout_marginTop="64dp"
-                    android:layout_gravity="center"
-            />
+                    <ImageView
+                            android:id="@+id/ivLogo"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/lhc_logo" />
+
+                    <TextView
+                            android:id="@+id/tvLungHealth"
+                            android:layout_below="@+id/ivLogo"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="30dp"
+                            android:text="Lung Health"
+                            android:textStyle="bold"
+                            android:textSize="22dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView
+                            android:layout_below="@+id/tvLungHealth"
+                            android:layout_centerHorizontal="true"
+                            android:text="Corporation"
+                            android:textSize="22dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
 
-            <RelativeLayout
+
+
+                    <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center">
