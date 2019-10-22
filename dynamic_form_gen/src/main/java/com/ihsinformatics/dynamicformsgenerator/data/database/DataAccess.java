@@ -71,6 +71,12 @@ public class DataAccess {
                 .where(OfflinePatientDao.Properties.MrNumber.eq(mrNumber)).unique();
     }
 
+    public synchronized OfflinePatient getPatientByName(Context context, String name) {
+        System.out.println("");
+        return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
+                .where(OfflinePatientDao.Properties.Name.like(name)).unique();
+    }
+
     public synchronized void insertUserCredentialsInTx(Context context, Iterable<UserCredentials> users) {
         try {
             App.getDaoSession(context).getUserCredentialsDao().insertInTx(users);

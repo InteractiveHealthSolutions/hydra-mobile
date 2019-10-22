@@ -98,7 +98,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 R.drawable.ic_search
             )
         );
-        spaceNavigationView.addSpaceItem(
+        /*spaceNavigationView.addSpaceItem(
             SpaceItem(
                 resources.getString(R.string.report_title_name),
                 R.drawable.ic_report_filled
@@ -109,7 +109,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 resources.getString(R.string.event_title_name),
                 R.drawable.ic_event_filled
             )
-        );
+        );*/
 
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
@@ -140,14 +140,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 finish()
             }
 
-            resources.getString(R.string.event_title_name) -> {
+            /*resources.getString(R.string.event_title_name) -> {
                 startActivity(Intent(applicationContext, EventsActivity::class.java))
                 finish()
             }
             resources.getString(R.string.report_title_name) -> {
                 startActivity(Intent(applicationContext, ReportActivity::class.java))
                 finish()
-            }
+            }*/
         }
     }
 

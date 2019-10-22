@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        initAnimation();
+        // initAnimation();
         var imgLogo: ImageView = findViewById(R.id.ivLogo)
         flipit(imgLogo)
     }
@@ -28,8 +28,20 @@ class SplashActivity : AppCompatActivity() {
         flip.duration = 3500
         flip.start()
 
+        val secondsDelayed = 1
+        Handler().postDelayed({
+            if (SessionManager(applicationContext).isLoggedIn()) {
+                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finish()
+            }
+
+        }, (secondsDelayed * 4000).toLong())
+
     }
-    private fun initAnimation() {
+    /*private fun initAnimation() {
         atpv_text.startAnimation(0f, 1f)
         atpv_text.setPathPainter(AsyncPathPainter { x, y, paintPath ->
             paintPath.addCircle(
@@ -51,5 +63,5 @@ class SplashActivity : AppCompatActivity() {
             }
 
         }, (secondsDelayed * 4500).toLong())
-    }
+    }*/
 }

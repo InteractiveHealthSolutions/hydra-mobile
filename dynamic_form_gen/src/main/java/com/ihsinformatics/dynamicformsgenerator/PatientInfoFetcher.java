@@ -42,6 +42,7 @@ import es.dmoral.toasty.Toasty;
 public class PatientInfoFetcher extends AppCompatActivity implements Sendable, CompoundButton.OnCheckedChangeListener {
     NetworkProgressDialog networkProgressDialog;
     private EditText etId;
+    private EditText etName;
     private EditText etProgramID;
     private Button btnContinue;
     private static String ENCOUNTER_NAME;
@@ -71,6 +72,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
         setContentView(R.layout.activity_patient_info_fetcher);
         networkProgressDialog = new NetworkProgressDialog(this);
         etId = (EditText) findViewById(R.id.etId);
+        etName = findViewById(R.id.etName);
         etProgramID = (EditText) findViewById(R.id.etProgramId);
         cbSearchByProgramID = findViewById(R.id.cbSearchByProgramId);
         cbSearchByProgramID.setOnCheckedChangeListener(this);
@@ -96,7 +98,16 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                     if(etId.getVisibility() == View.VISIBLE) {
                         try {
                             identifier = etId.getText().toString();
-                            OfflinePatient offlinePatient = DataAccess.getInstance().getPatientByMRNumber(PatientInfoFetcher.this, identifier);
+                            OfflinePatient offlinePatient = null;
+                            if(!etId.getText().toString().isEmpty()) {
+                                offlinePatient = DataAccess.getInstance().getPatientByMRNumber(PatientInfoFetcher.this, identifier);
+                            } else if(!etName.getText().toString().isEmpty()) {
+                                offlinePatient = DataAccess.getInstance().getPatientByName(PatientInfoFetcher.this, etName.getText().toString());
+                            } else {
+                                // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
+                                return;
+                            }
+
                             JSONObject serverResponse = null;
 
                             serverResponse = Utils.converToServerResponse(offlinePatient);
@@ -206,8 +217,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                     if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
                         Form.setENCOUNTER_NAME(getEncounterName());
                         startForm(patientData, null);
-                    }
-                    if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+                    } else if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
                         Form.setENCOUNTER_NAME(getEncounterName());
                         startForm(patientData, null);
                     } else {

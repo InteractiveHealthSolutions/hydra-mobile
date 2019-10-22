@@ -4,31 +4,30 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
+                android:background="@color/AliceBlue"
                 android:layout_gravity="center"
 >
     <ImageView
             android:id="@+id/ivLogo"
-            android:tint="@color/White"
             android:layout_marginTop="150dp"
             android:layout_centerHorizontal="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/lhc_logo" />
 
-    <yanzhikai.textpath.AsyncTextPathView
+    <TextView
+            android:id="@+id/tvLungHealth"
+            android:layout_below="@+id/ivLogo"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:layout_below="@id/ivLogo"
-            android:id="@+id/atpv_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:duration="3000"
-            app:showPainter="true"
-            app:text="@string/main_title"
-            android:layout_centerInParent="true"
-            app:paintStrokeColor="@color/White"
-            app:pathStrokeColor="@color/White"
-            app:textInCenter="true"
-            app:textSize="82sp"
-            app:repeat="REVERSE" />
+            android:text="Lung Health"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView
+            android:layout_below="@+id/tvLungHealth"
+            android:layout_centerHorizontal="true"
+            android:text="Corporation"
+            android:textSize="22dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 </RelativeLayout>
