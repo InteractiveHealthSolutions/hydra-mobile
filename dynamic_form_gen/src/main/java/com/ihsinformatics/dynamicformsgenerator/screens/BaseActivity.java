@@ -259,7 +259,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 } else {
                     Toasty.error(BaseActivity.this, "Form is not saved successfully", Toast.LENGTH_LONG).show();
                 }
-                finish();
+
+                makePostFormDecision();
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -277,6 +278,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } catch (Exception e) {
             Logger.log(e);
         }
+    }
+
+    private void makePostFormDecision() {
+
+
+        finish();
     }
 
     private void onChildViewItemSelected(int[] showables, int[] hideables, Map<Integer, InputWidget> inputWidgets) {
