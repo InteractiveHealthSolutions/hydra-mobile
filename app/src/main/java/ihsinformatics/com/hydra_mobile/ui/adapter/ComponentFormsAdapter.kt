@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
@@ -29,10 +30,20 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
     override fun onBindViewHolder(holder: SingleItemRowHolder, position: Int) {
         val formModel = itemModels!![position]
 
+        var imageId = R.drawable.ic_form
+        imageId = when(formModel.encounterType) {
+            ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION, ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION -> R.drawable.ic_drug_order
+            ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING, ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING -> R.drawable.ic_screening_lung
+            ParamNames.ENCOUNTER_TYPE_PATIENT_INFO -> R.drawable.ic_patient_information
+            ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT -> R.drawable.ic_add_user
+            ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY -> R.drawable.ic_register_contact
+            else -> R.drawable.ic_patient_information
+        }
+
         holder.tvTitle.text = formModel.encounterType
         clickedFormID=formModel.id
         GlideApp.with(context)
-            .load(R.drawable.logo_final)
+            .load(imageId)
             .into(holder.imgForm);
     }
 

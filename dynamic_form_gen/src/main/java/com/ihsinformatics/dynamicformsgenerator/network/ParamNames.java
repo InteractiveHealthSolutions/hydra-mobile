@@ -3,7 +3,7 @@ package com.ihsinformatics.dynamicformsgenerator.network;
 public class ParamNames {
 
     public static final String ENCOUNTER_TYPE_CREATE_PATIENT = "Create Patient";
-    public static final String ENCOUNTER_TYPE_PATIENT_INFO = "Patient Info";
+    public static final String ENCOUNTER_TYPE_PATIENT_INFO = "Patient Information";
     public static final String ENCOUNTER_TYPE_ADULT_SCREENING = "Adult Screening";
     public static final String ENCOUNTER_TYPE_CHILD_SCREENING = "Child Screening";
     public static final String ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION = "Child Clinician Evaluation";

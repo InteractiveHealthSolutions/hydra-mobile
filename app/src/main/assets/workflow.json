@@ -13,22 +13,26 @@
             "forms": [
               {
                 "formId": 1,
-                "encounterType": "Child Screening"
+                "encounterType": "Create Patient"
               },
               {
                 "formId": 2,
-                "encounterType": "TB Quick Screening"
-              },
-              {
-                "formId": 3,
-                "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 4,
                 "encounterType": "Patient Information"
               },
               {
+                "formId": 3,
+                "encounterType": "Child Screening"
+              },
+              {
                 "formId": 5,
+                "encounterType": "TB Quick Screening"
+              },
+              {
+                "formId": 4,
+                "encounterType": "Adult Screening"
+              },
+              {
+                "formId": 11101,
                 "encounterType": "Contact Registry"
               }
             ]
@@ -176,6 +180,18 @@
             "id": 100001,
             "forms": [
               {
+                "formId": 100007,
+                "encounterType": "Create Patient"
+              },
+              {
+                "formId": 100005,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 100006,
+                "encounterType": "Contact Registry"
+              },
+              {
                 "formId": 100002,
                 "encounterType": "Child Screening"
               },
@@ -186,14 +202,6 @@
               {
                 "formId": 100004,
                 "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 100005,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 100006,
-                "encounterType": "Contact Registry"
               }
             ]
           },

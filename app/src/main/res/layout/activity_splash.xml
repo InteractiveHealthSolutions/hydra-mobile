@@ -1,11 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:background="@android:color/white"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
                 android:layout_gravity="center"
-                >
+>
+    <ImageView
+            android:id="@+id/ivLogo"
+            android:tint="@color/White"
+            android:layout_marginTop="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/lhc_logo" />
 
     <yanzhikai.textpath.AsyncTextPathView
             android:id="@+id/atpv_text"
@@ -19,6 +28,5 @@
             app:pathStrokeColor="@color/colorPrimaryDark"
             app:textInCenter="true"
             app:textSize="82sp"
-            app:repeat="REVERSE"
-    />
+            app:repeat="REVERSE" />
 </RelativeLayout>
