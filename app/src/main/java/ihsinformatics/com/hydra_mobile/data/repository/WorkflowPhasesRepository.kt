@@ -65,31 +65,31 @@ class WorkflowPhasesRepository(context: Context) {
 
         }
 
-        RequestManager(
-            context, sessionManager.getUsername(),
-            sessionManager.getPassword()
-        ).getWorkflowPhases(
-            Constant.REPRESENTATION,
-            object :
-                RESTCallback {
-                override fun <T> onSuccess(o: T) {
-
-                    try {
-                        val response = (o as WorkflowPhasesApiResponse)
-                        for (i in response.workflowPhasesMap.indices) {
-                            //insert into local database
-                            insertWorkflowPhases(response.workflowPhasesMap[i])
-                        }
-                        Log.e("WorkflowLoading", "completed")
-                    } catch (e: Exception) {
-
-                    }
-                }
-
-                override fun onFailure(t: Throwable) {
-
-                }
-            })
+//        RequestManager(
+//            context, sessionManager.getUsername(),
+//            sessionManager.getPassword()
+//        ).getWorkflowPhases(
+//            Constant.REPRESENTATION,
+//            object :
+//                RESTCallback {
+//                override fun <T> onSuccess(o: T) {
+//
+//                    try {
+//                        val response = (o as WorkflowPhasesApiResponse)
+//                        for (i in response.workflowPhasesMap.indices) {
+//                            //insert into local database
+//                            insertWorkflowPhases(response.workflowPhasesMap[i])
+//                        }
+//                        Log.e("WorkflowLoading", "completed")
+//                    } catch (e: Exception) {
+//
+//                    }
+//                }
+//
+//                override fun onFailure(t: Throwable) {
+//
+//                }
+//            })
     }
 
     fun updateWorkflowPhases(workflowPhasesMap: WorkflowPhasesMap) {

@@ -13,6 +13,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
+import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidgetProvider;
@@ -40,9 +41,9 @@ public class Form extends BaseActivity {
         if (DataProvider.directOpenableForms == null ) {
             throw new UnsupportedOperationException("You need to set value of static variable REGISTRATION_ENCOUNTER in DataProvider class");
         }
-        PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
-        if (patientData != null) {
-            this.patientData = patientData;
+        // PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
+        if (Global.patientData != null) {
+            this.patientData = Global.patientData;
         } else if (DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
 
         } else {

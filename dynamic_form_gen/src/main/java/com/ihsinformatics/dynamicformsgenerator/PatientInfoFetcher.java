@@ -6,12 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
@@ -43,6 +38,9 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
     NetworkProgressDialog networkProgressDialog;
     private EditText etId;
     private EditText etName;
+    private EditText etAge;
+    private RadioGroup rg_gender;
+
     private EditText etProgramID;
     private Button btnContinue;
     private static String ENCOUNTER_NAME;
@@ -73,6 +71,9 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
         networkProgressDialog = new NetworkProgressDialog(this);
         etId = (EditText) findViewById(R.id.etId);
         etName = findViewById(R.id.etName);
+        etAge = (EditText) findViewById(R.id.etAge);
+        rg_gender = (RadioGroup)findViewById(R.id.rg_gender);
+
         etProgramID = (EditText) findViewById(R.id.etProgramId);
         cbSearchByProgramID = findViewById(R.id.cbSearchByProgramId);
         cbSearchByProgramID.setOnCheckedChangeListener(this);
@@ -105,6 +106,29 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                                 offlinePatient = DataAccess.getInstance().getPatientByName(PatientInfoFetcher.this, etName.getText().toString());
                             } else {
                                 // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
+                                String name="";
+                                String gender="";
+                                String age="";
+                                String id="";
+                                String dob="";
+                                if(!etName.getText().toString().isEmpty())
+                                {
+                                    name=etName.getText().toString();
+                                }
+//
+                                int selectedID=rg_gender.getCheckedRadioButtonId();
+
+                                RadioButton rb_gender=findViewById(selectedID);
+
+                                if(rb_gender!=null && !rb_gender.getText().toString().isEmpty())
+                                {
+                                    gender=rb_gender.getText().toString();
+                                }
+                                if(!etId.getText().toString().isEmpty())
+                                {
+                                    id=etId.getText().toString();
+                                }
+                                offlinePatient = DataAccess.getInstance().getPatientByAllFields(PatientInfoFetcher.this, id,name,dob,gender);
                                 return;
                             }
 
@@ -208,13 +232,9 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                         offlinePatient.setDob(patient.getBirthDate().getTime());
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient);
                     }
-                    // Un-comment the code below if you want to enable the condition that no form can be uploaded after termination
-                    /*if(encounterOccurance.get(ParamNames.ENCOUNTER_TYPE_TERMINATION) > 0 || encounterOccurance.get(ParamNames.ENCOUNTER_TYPE_INSTANT_TERMINATION) > 0) {
-                        Toast.makeText(this, "Patient is already terminated", Toast.LENGTH_LONG).show();
-                        finish();
-                        return;
-                    }*/
-                    if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+                    Global.patientData = patientData;
+
+                   /* if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
                         Form.setENCOUNTER_NAME(getEncounterName());
                         startForm(patientData, null);
                     } else if (getEncounterName().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
@@ -224,7 +244,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                         Form.setENCOUNTER_NAME(getEncounterName());
                         startForm(patientData, null);
                     }
-
+*/
 
                 }
                 finish();

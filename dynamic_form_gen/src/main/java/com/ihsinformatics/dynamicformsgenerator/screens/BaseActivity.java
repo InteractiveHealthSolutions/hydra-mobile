@@ -38,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.view.ViewGroup.LayoutParams;
 
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
+import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -130,7 +131,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     public static String PATIENT_SESSION_NUMBER;
 
     private MyDialogFragment dialogFragment;
-
 
 
     @Override
@@ -245,6 +245,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             existingFieldsJson.put(key, offlineValues.opt(key));
                         }
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
+
+                        if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+                            EditTextWidget nic = (EditTextWidget) inputWidgets.get(20008);
+                            EditTextWidget contact = (EditTextWidget) inputWidgets.get(20014);
+                            existineOfflinePatient.setNic(nic.getValue());
+                            existineOfflinePatient.setContact(nic.getValue());
+                        }
                         access.insertOfflinePatient(this, existineOfflinePatient);
                     }
 
@@ -285,6 +292,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 makePostFormDecision();
+                //  finish();
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -350,43 +358,48 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO make this method more strong
-        svQuestions.scrollTo(0, scrollPosition);
-        InputWidget w = inputWidgets.get(requestCode);
-        // w.requestFocus();
-        if (resultCode == RESULT_OK) {
-            if (w instanceof SpinnerWidget) {
-                SpinnerWidget s = (SpinnerWidget) w;
-                String dat = data.getStringExtra(ManualInput.VALUE);
-                // s.setOther(dat); //TODO setOther
-            } else if (w instanceof DateWidget) {
-                DateWidget d = (DateWidget) w;
-                try {
-                    DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
-                    Calendar date = (Calendar) data.getSerializableExtra("value");
-                    if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
-                        d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                    } else {
-                        d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+        if(requestCode==112)
+        {
+            fillPatientInfoBar();
+        }
+        else {
+            svQuestions.scrollTo(0, scrollPosition);
+            InputWidget w = inputWidgets.get(requestCode);
+            // w.requestFocus();
+            if (resultCode == RESULT_OK) {
+                if (w instanceof SpinnerWidget) {
+                    SpinnerWidget s = (SpinnerWidget) w;
+                    String dat = data.getStringExtra(ManualInput.VALUE);
+                    // s.setOther(dat); //TODO setOther
+                } else if (w instanceof DateWidget) {
+                    DateWidget d = (DateWidget) w;
+                    try {
+                        DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
+                        Calendar date = (Calendar) data.getSerializableExtra("value");
+                        if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
+                            d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                        } else {
+                            d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                        }
+                    } catch (NullPointerException e) {
+                        Logger.log(e);
                     }
-                } catch (NullPointerException e) {
-                    Logger.log(e);
-                }
-            } else if (w instanceof AgeWidget) {
-                AgeWidget d = (AgeWidget) w;
-                try {
-                    DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
-                    Calendar date = (Calendar) data.getSerializableExtra("value");
-                    if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
-                        d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                    } else {
-                        d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                } else if (w instanceof AgeWidget) {
+                    AgeWidget d = (AgeWidget) w;
+                    try {
+                        DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
+                        Calendar date = (Calendar) data.getSerializableExtra("value");
+                        if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
+                            d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                        } else {
+                            d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                        }
+                    } catch (NullPointerException e) {
+                        Logger.log(e);
                     }
-                } catch (NullPointerException e) {
-                    Logger.log(e);
-                }
-            } else if (w instanceof ImageWidget) {
-                ImageWidget i = (ImageWidget) w;
-                // bitmap = data.getExtras().getParcelable(ParamNames.DATA);
+                } else if (w instanceof ImageWidget) {
+                    ImageWidget i = (ImageWidget) w;
+                    // bitmap = data.getExtras().getParcelable(ParamNames.DATA);
                 /* try {
                     bitmap = MediaStore.Images.Media.getBitmap(
                             getContentResolver(), i.getImageURI());
@@ -399,17 +412,18 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 } else {
                     i.setImage(bitmap);
                 }*/
-                if (data != null && data.getExtras() != null) {
-                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                    i.setImage(imageBitmap);
+                    if (data != null && data.getExtras() != null) {
+                        Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                        i.setImage(imageBitmap);
+                    }
+
+
                 }
-
-
-            }
-        } else {
-            if (w instanceof SpinnerWidget) {
-                SpinnerWidget s = (SpinnerWidget) w;
-                s.setOther(null);
+            } else {
+                if (w instanceof SpinnerWidget) {
+                    SpinnerWidget s = (SpinnerWidget) w;
+                    s.setOther(null);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -489,6 +503,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
+
+        if (Global.patientData == null) {
+            Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
             final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(41007);
@@ -643,36 +663,44 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         return inputWidgets;
     }
 
+
     private void fillPatientInfoBar() {
-        String identifiers = "";
-        HashMap<String, String> ids = patientData.getIdentifiers();
-        if (ids != null) {
-            Iterator<String> it = ids.keySet().iterator();
-            while (it.hasNext()) {
-                String key = it.next();
-                String value = ids.get(key);
-                identifiers += value/*+", "*/;
+        if (Global.patientData != null) {
+            String identifiers = "";
+            HashMap<String, String> ids = patientData.getIdentifiers();
+            if (ids != null) {
+                Iterator<String> it = ids.keySet().iterator();
+                while (it.hasNext()) {
+                    String key = it.next();
+                    String value = ids.get(key);
+                    identifiers += value/*+", "*/;
+                }
+            }
+            tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());
+            tvPatientLastName.setText(patientData.getPatient().getFamilyName().toUpperCase());
+            // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
+            Date birthDate = patientData.getPatient().getBirthDate();
+            DateTime birthTime = new DateTime(birthDate);
+            DateTime nowTime = new DateTime();
+
+
+            Interval interval = new Interval(birthTime, nowTime);
+            Period period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay());
+            int years = period.getYears();
+            int months = period.getMonths();
+            int days = period.getDays();
+            tvAge.setText(years + " years, " + months + " months, " + days + " days");
+            tvPatientIdentifier.setText(identifiers);
+            if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
+                ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
+            } else {
+                ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
             }
         }
-        tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());
-        tvPatientLastName.setText(patientData.getPatient().getFamilyName().toUpperCase());
-        // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
-        Date birthDate = patientData.getPatient().getBirthDate();
-        DateTime birthTime = new DateTime(birthDate);
-        DateTime nowTime = new DateTime();
-
-
-        Interval interval = new Interval(birthTime, nowTime);
-        Period period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay());
-        int years = period.getYears();
-        int months = period.getMonths();
-        int days = period.getDays();
-        tvAge.setText(years + " years, " + months + " months, " + days + " days");
-        tvPatientIdentifier.setText(identifiers);
-        if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
-            ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
-        } else {
-            ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
+        else
+        {
+            PatientInfoFetcher.init(null, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO);
+            startActivityForResult(new Intent(this,PatientInfoFetcher.class),112);
         }
     }
 
@@ -790,11 +818,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private void makePostFormDecision() throws JSONException {
 
-        Intent i = getIntent();
-        PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
-        if (patientData != null) {
-            this.patientData = patientData;
-        }
+        // Intent i = getIntent();
+        //PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
+
+
         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
             final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(31037);
             String ans = tbPreemptive.getValue();
@@ -816,13 +843,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 //Popup
 
                 ShowPopup();
+                finish();
 
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
                 finish();
             }
-        }else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
             final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
             String ans = tbPreemptive.getValue();
 
@@ -835,7 +863,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 finish();
             }
         }
-
 
 
     }
@@ -851,8 +878,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
-
 
 
     private void ShowPopup() {
@@ -880,11 +905,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     @Override
     public void onFinishEditDialog(String inputText) {
         if (TextUtils.isEmpty(inputText)) {
-            Toast.makeText(this,"Email was not entered",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nothhing selected", Toast.LENGTH_SHORT).show();
         } else
-            Toast.makeText(this,"Email entered "+inputText,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Answer is " + inputText, Toast.LENGTH_SHORT).show();
 
-        finish();
+        // finish();
     }
+
 
 }

@@ -1,5 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.utils;
 
+import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +10,7 @@ import java.util.Locale;
 
 
 public class Global {
+	public static PatientData patientData;
 	public static String USERNAME;
 	public static String PASSWORD;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.US);

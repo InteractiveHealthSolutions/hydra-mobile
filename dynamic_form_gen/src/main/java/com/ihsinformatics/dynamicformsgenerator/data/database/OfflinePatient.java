@@ -19,6 +19,8 @@ public class OfflinePatient {
 	public final static String COLUMN_SC_IDENTIFIER = "sc_id";
 	public final static String COLUMN_PATIENT_NAME = "patient_name";
 	public final static String COLUMN_GENDER = "gender";
+	public final static String COLUMN_CONTACT = "contact";
+	public final static String COLUMN_NIC = "nic";
 	public final static String COLUMN_DOB = "date_ofBirth";
 	public final static String COLUMN_ENCOUNTERS_JSON = "encounters_json";
 	public final static String COLUMN_FIELDS_DATA_JSON = "fields_data_json";
@@ -39,6 +41,12 @@ public class OfflinePatient {
 	@Unique
 	@Property(nameInDb = COLUMN_SC_IDENTIFIER)
 	private String scId;
+
+	@Property(nameInDb = COLUMN_CONTACT)
+	private String contact;
+
+	@Property(nameInDb = COLUMN_NIC)
+	private String nic;
 
 	@Id(autoincrement = true)
 	private Long id;
@@ -65,19 +73,22 @@ public class OfflinePatient {
 		this.gender = patient.getGender();
 		this.dob = patient.getBirthDate().getTime();
 	}
-	@Generated(hash = 572999873)
+	@Generated(hash = 2093261816)
 	public OfflinePatient(@NotNull String mrNumber, String pqId, String scId,
-									Long id, String name, @NotNull String gender, Long dob,
-									@NotNull String encounterJson, String fieldDataJson) {
-					this.mrNumber = mrNumber;
-					this.pqId = pqId;
-					this.scId = scId;
-					this.id = id;
-					this.name = name;
-					this.gender = gender;
-					this.dob = dob;
-					this.encounterJson = encounterJson;
-					this.fieldDataJson = fieldDataJson;
+			String contact, String nic, Long id, String name,
+			@NotNull String gender, Long dob, @NotNull String encounterJson,
+			String fieldDataJson) {
+		this.mrNumber = mrNumber;
+		this.pqId = pqId;
+		this.scId = scId;
+		this.contact = contact;
+		this.nic = nic;
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
+		this.encounterJson = encounterJson;
+		this.fieldDataJson = fieldDataJson;
 	}
 	@Generated(hash = 495313978)
 	public OfflinePatient() {
@@ -135,5 +146,17 @@ public class OfflinePatient {
 	}
 	public void setScId(String scId) {
 					this.scId = scId;
+	}
+	public String getContact() {
+		return this.contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getNic() {
+		return this.nic;
+	}
+	public void setNic(String nic) {
+		this.nic = nic;
 	}
 }

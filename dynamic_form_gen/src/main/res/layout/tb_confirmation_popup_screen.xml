@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
 
     <TextView
@@ -12,8 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/app_gradient"
         android:gravity="center"
-        android:paddingBottom="25dp"
-        android:paddingTop="25dp"
+        android:padding="25dp"
         android:text="TB_diagnosed"
         android:textColor="@color/White"
         android:textSize="20sp"
@@ -42,7 +40,7 @@
 
     <Button
         android:id="@+id/btnDone"
-        android:background="@color/ICSBlue"
+        android:background="@color/toolBackground"
         android:textColor="@color/White"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

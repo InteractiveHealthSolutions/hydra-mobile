@@ -77,6 +77,16 @@ public class DataAccess {
                 .where(OfflinePatientDao.Properties.Name.like(name)).unique();
     }
 
+    public synchronized OfflinePatient getPatientByAllFields(Context context, String id,String name,String dob,String gender) {
+        System.out.println("");
+        return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
+                .where(OfflinePatientDao.Properties.Name.like(name))
+                .where(OfflinePatientDao.Properties.MrNumber.eq(id))
+                .where(OfflinePatientDao.Properties.Gender.eq(gender))
+                .where(OfflinePatientDao.Properties.Dob.eq(dob)).unique();
+    }
+
+
     public synchronized void insertUserCredentialsInTx(Context context, Iterable<UserCredentials> users) {
         try {
             App.getDaoSession(context).getUserCredentialsDao().insertInTx(users);

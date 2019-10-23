@@ -28,30 +28,7 @@ public class MyDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 
-        if (getArguments() != null) {
-            if (getArguments().getBoolean("notAlertDialog")) {
-                return super.onCreateDialog(savedInstanceState);
-            }
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Alert Dialog");
-        builder.setMessage("Alert Dialog inside DialogFragment");
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        });
-
-        return builder.create();
+        return super.onCreateDialog(savedInstanceState);
 
     }
 
@@ -68,10 +45,6 @@ public class MyDialogFragment extends DialogFragment {
 
         final RadioGroup tb_diagnosed = view.findViewById(R.id.tb_diagnosed);
 
-        if (getArguments() != null && !TextUtils.isEmpty(getArguments().getString("email"))) {
-        }
-        //editText.setText(getArguments().getString("email"));
-
         Button btnDone = view.findViewById(R.id.btnDone);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,52 +54,23 @@ public class MyDialogFragment extends DialogFragment {
                 int selectedId = tb_diagnosed.getCheckedRadioButtonId();
 
                 if (selectedId != -1) {
-                    RadioButton selectedRadioId = (RadioButton) view.findViewById(selectedId);
+                    RadioButton selectedRadioId = MyDialogFragment.this.getView().findViewById(selectedId);
 
 
                     if (selectedRadioId != null) {
                         DialogListener dialogListener = (DialogListener) getActivity();
                         dialogListener.onFinishEditDialog(selectedRadioId.getText().toString());
                         dismiss();
+                    } else {
+                        Toast.makeText(getActivity(), "Please Select Something", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
-                        Toast.makeText(getActivity(),"Please Select Something",Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getActivity(),"Please Answer",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Please Answer", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Log.d("API123", "onCreate");
-
-        boolean setFullScreen = false;
-        if (getArguments() != null) {
-            setFullScreen = getArguments().getBoolean("fullScreen");
-        }
-
-        if (setFullScreen)
-            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     public interface DialogListener {
         void onFinishEditDialog(String inputText);

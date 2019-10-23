@@ -849,7 +849,7 @@ public class DataProvider {
 
 
         this.questions.add(new Question(false, AdultScreeningFormId, 32036, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "CONCLUSION", null, null));
-        this.questions.add(new Question(true, AdultScreeningFormId, 32037, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Presumptive TB?", generateUUID(), null));
+        this.questions.add(new Question(true, AdultScreeningFormId, 32037, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Presumptive TB?", generateUUID(), null));
         this.options.add(new Option(32037, 3175, null, new int[]{32039, 32038}, "1", "No", -1));
         this.options.add(new Option(32037, 3176, new int[]{32039, 32038}, null, "2", "Yes", -1));
 
@@ -1343,8 +1343,8 @@ public class DataProvider {
         this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality", null, alphanumeric100DigitSpace));
         this.options.addAll(DynamicOptions.getFromArray(context, 20007, null, null, context.getResources().getStringArray(R.array.countries_array)));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "NIC Number", null, numeric13DigitWithHypen));
-        this.questions.add(new Question(true, patientInfoFormId, 20009, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Whose NIC is this?", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "National ID Number", null, numeric13DigitWithHypen));
+        this.questions.add(new Question(true, patientInfoFormId, 20009, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Whose National ID Card is this?", null, null));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Self", -1));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Father", -1));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Spouse", -1));

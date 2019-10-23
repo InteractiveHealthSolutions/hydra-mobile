@@ -2,6 +2,7 @@ package ihsinformatics.com.hydra_mobile.ui.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +19,15 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.ui.activity.FormsActivity
 import ihsinformatics.com.hydra_mobile.ui.helper.GlideApp
 import androidx.core.content.ContextCompat.startActivity
-
-
+import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import org.json.JSONException
 
 
 internal class FormsListDataAdapter(private val itemModels: List<Forms>, context: Context) :
     RecyclerView.Adapter<FormsListDataAdapter.SingleItemRowHolder>() {
 
-    var clickedFormID=-1
+    var clickedFormID = -1
     var context: Context = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemRowHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_forms_card, null)
@@ -36,7 +38,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
         val formModel = itemModels!![position]
 
         var imageId = R.drawable.ic_form
-        imageId = when(formModel.encounterType) {
+        imageId = when (formModel.encounterType) {
             ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION, ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION -> R.drawable.ic_drug_order
             ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING, ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING -> R.drawable.ic_screening_lung
             ParamNames.ENCOUNTER_TYPE_PATIENT_INFO -> R.drawable.ic_patient_information
@@ -46,7 +48,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
         }
 
         holder.tvTitle.text = formModel.encounterType
-        clickedFormID=formModel.id
+        clickedFormID = formModel.id
         GlideApp.with(context)
             .load(imageId)
             .into(holder.imgForm);
@@ -65,14 +67,23 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
             itemView.setOnClickListener {
                 Constant.formName = tvTitle.text.toString()
                 Constant.formID = clickedFormID
-                if(DataProvider.directOpenableForms.contains(Constant.formName)) {
+                if (DataProvider.directOpenableForms.contains(Constant.formName)) {
                     Form.setENCOUNTER_NAME(Constant.formName)
                     context.startActivity(Intent(context, Form::class.java))
                 } else {
-                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                    context.startActivity(Intent(context, PatientInfoFetcher::class.java))
+
+                    if (Global.patientData == null) {
+                        PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                        context.startActivity(Intent(context, PatientInfoFetcher::class.java))
+
+                    }
+                    Form.setENCOUNTER_NAME(Constant.formName)
+                    context.startActivity(Intent(context, Form::class.java))
+
                 }
             }
         }
+
+
     }
 }

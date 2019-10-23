@@ -20,15 +20,18 @@
         />
 
         <com.google.android.material.appbar.AppBarLayout
+
+                android:background="@drawable/app_gradient"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
+
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
+                    android:background="@android:color/transparent"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:layout_collapseMode="pin">
 
@@ -57,6 +60,13 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+            <include layout="@layout/patient_info_display"/>
+            </LinearLayout>
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tb_phase"
                     android:layout_width="match_parent"

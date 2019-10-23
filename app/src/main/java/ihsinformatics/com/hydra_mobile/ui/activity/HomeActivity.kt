@@ -13,16 +13,23 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.widget.Toolbar
 import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
+import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
+import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
@@ -33,6 +40,9 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.PeriodType
 import java.util.ArrayList
 
 
@@ -47,10 +57,20 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var myDialog: Dialog
     private lateinit var mDynamicFragmentAdapter: DynamicFragmentAdapter
 
+    private var llPatientInfoDisplayer: RelativeLayout? = null
+    private var tvPatientName: TextView? = null
+    private var tvAge: TextView? = null
+    private var tvPatientLastName: TextView? = null
+    private var tvAgeLabel: TextView? = null
+    private var tvPatientIdentifier: TextView? = null
+    private var ivGender: ImageView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         /*screen level initialization*/
+
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         title = ""
@@ -59,6 +79,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         initNavigationDrawer()
         initToolbar()
         bottomNav(savedInstanceState)
+
+        llPatientInfoDisplayer = findViewById<RelativeLayout>(R.id.llPatientInfoDisplay)
+        tvPatientName = findViewById<TextView>(R.id.tvName)
+        tvPatientLastName = findViewById<TextView>(R.id.tvLastName)
+        tvAge = findViewById<TextView>(R.id.tvAge)
+        tvAgeLabel = findViewById<TextView>(R.id.tvAgeLabel)
+        tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
+        ivGender = findViewById<ImageView>(R.id.ivGender)
+
+        fillPatientInfoBar()
 
         /*user level initialization*/
 
@@ -136,8 +166,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun bottomBarListener(itemName: String) {
         when (itemName) {
             resources.getString(R.string.search_title) -> {
-                startActivity(Intent(applicationContext, SearchActivity::class.java))
-                finish()
+                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                startActivityForResult(Intent(this, PatientInfoFetcher::class.java),112)
+
+//                startActivity(Intent(applicationContext, SearchActivity::class.java))
+//                finish()
             }
 
             /*resources.getString(R.string.event_title_name) -> {
@@ -291,6 +324,58 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 */
 
 
+    private fun fillPatientInfoBar() {
+
+        if (Global.patientData!=null) {
+            tvPatientName?.visibility=View.VISIBLE
+            tvPatientLastName?.visibility=View.VISIBLE
+            tvAge?.visibility=View.VISIBLE
+            tvAgeLabel?.visibility=View.VISIBLE
+            var identifiers = ""
+            val ids = Global.patientData.getIdentifiers()
+            if (ids != null) {
+                val it = ids!!.keys.iterator()
+                while (it.hasNext()) {
+                    val key = it.next()
+                    val value = ids!!.get(key)
+                    identifiers += value/*+", "*/
+                }
+            }
+            tvPatientName?.setText(Global.patientData.getPatient().getGivenName().toUpperCase())
+            tvPatientLastName?.setText(Global.patientData.getPatient().getFamilyName().toUpperCase())
+            // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
+            val birthDate = Global.patientData.getPatient().getBirthDate()
+            val birthTime = DateTime(birthDate)
+            val nowTime = DateTime()
+
+
+            val interval = Interval(birthTime, nowTime)
+            val period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
+            val years = period.getYears()
+            val months = period.getMonths()
+            val days = period.getDays()
+            tvAge?.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
+            tvPatientIdentifier?.setText(identifiers)
+            if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.male_icon))
+            } else {
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.female_icon))
+            }
+        }
+
+        else
+        {
+            tvPatientName?.visibility=View.GONE
+            tvPatientLastName?.visibility=View.GONE
+            tvAge?.visibility=View.GONE
+            tvAgeLabel?.visibility=View.GONE
+            tvPatientIdentifier?.setText("Patient Not Loaded")
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.male_icon))
+
+        }
+    }
+
+
     //Todo workflow must come according to ID and not name
     fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow: String) {
 
@@ -343,6 +428,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (resultCode === Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+        else if (requestCode === 112)
+        {
+            fillPatientInfoBar()
         }
     }
 
