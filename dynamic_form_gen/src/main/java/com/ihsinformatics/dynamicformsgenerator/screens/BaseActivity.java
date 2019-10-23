@@ -2,25 +2,42 @@ package com.ihsinformatics.dynamicformsgenerator.screens;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
+import android.view.ViewGroup.LayoutParams;
+
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -43,6 +60,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
+import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AutoCompleteTextViewWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
@@ -86,7 +104,7 @@ import javax.crypto.SecretKey;
 
 import es.dmoral.toasty.Toasty;
 
-public class BaseActivity extends AppCompatActivity implements Sendable, View.OnClickListener {
+public class BaseActivity extends AppCompatActivity implements Sendable, View.OnClickListener, MyDialogFragment.DialogListener {
 
     private int scrollPosition;
     // List<InputWidget> inputWidgets;
@@ -111,6 +129,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     private int score;
     public static String PATIENT_SESSION_NUMBER;
 
+    private MyDialogFragment dialogFragment;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,16 +142,16 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         score = 0;
         errors = new ArrayList<ValidationError>();
         networkProgressDialog = new NetworkProgressDialog(this);
-        llPatientInfoDisplayer =  findViewById(R.id.llPatientInfoDisplay);
-        tvPatientName =  findViewById(R.id.tvName);
-        tvPatientLastName =  findViewById(R.id.tvLastName);
-        tvAge =  findViewById(R.id.tvAge);
-        tvPatientIdentifier =  findViewById(R.id.tvId);
-        ivGender =  findViewById(R.id.ivGender);
-        svQuestions =  findViewById(R.id.svQuestions);
-        tvRatings =  findViewById(R.id.tvRatings);
+        llPatientInfoDisplayer = findViewById(R.id.llPatientInfoDisplay);
+        tvPatientName = findViewById(R.id.tvName);
+        tvPatientLastName = findViewById(R.id.tvLastName);
+        tvAge = findViewById(R.id.tvAge);
+        tvPatientIdentifier = findViewById(R.id.tvId);
+        ivGender = findViewById(R.id.ivGender);
+        svQuestions = findViewById(R.id.svQuestions);
+        tvRatings = findViewById(R.id.tvRatings);
         inputWidgets = new LinkedHashMap<Integer, InputWidget>();
-        btnSave =  findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
     }
 
@@ -152,21 +174,21 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 try {
                     if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGETS_TYPE_IDENTIFIER) {
                         i.getAnswer(); // just to validate the identifier
-                        if(i.getQuestion().getQuestionId() == 6000) {
+                        if (i.getQuestion().getQuestionId() == 6000) {
                             offlinePatient.setMrNumber(i.getValue());
                         }
                     }
                     // Some fields are not needed to be sent to server
                     if (i.isSendable() && i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         data.put(i.getAnswer());
-                        if(i.getQuestion().getQuestionId() == 6003) {
+                        if (i.getQuestion().getQuestionId() == 6003) {
                             offlinePatient.setGender(i.getAnswer().getString(ParamNames.SEX));
-                        } else if(i.getQuestion().getQuestionId() == 6004) {
+                        } else if (i.getQuestion().getQuestionId() == 6004) {
                             offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(i.getAnswer().getString(ParamNames.DOB)).getTime());
-                        } else if(i.getQuestion().getQuestionId() == 6001) {
-                            firstName+=i.getAnswer().getString(ParamNames.FIRST_NAME);
-                        } else if(i.getQuestion().getQuestionId() == 6002) {
-                            lastName+=i.getAnswer().getString(ParamNames.LAST_NAME);
+                        } else if (i.getQuestion().getQuestionId() == 6001) {
+                            firstName += i.getAnswer().getString(ParamNames.FIRST_NAME);
+                        } else if (i.getQuestion().getQuestionId() == 6002) {
+                            lastName += i.getAnswer().getString(ParamNames.LAST_NAME);
                         }
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
@@ -175,7 +197,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     e.printStackTrace();
                 }
             }
-            offlinePatient.setName(firstName+" "+lastName);
+            offlinePatient.setName(firstName + " " + lastName);
             // TODO offlinePatient -> offlineValues
             savableData.put(ParamNames.FORM_DATA, data);
 
@@ -186,10 +208,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 // inserting record into the database
                 DataAccess dataAccess = DataAccess.getInstance();
                 int id = dataAccess.getFormTypeId(BaseActivity.this, Form.getENCOUNTER_NAME());
-                if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+                if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
                     JSONObject encounterCount = new JSONObject();
-                    if(offlinePatient.getMrNumber()!=null) {
-                        for(int i=0; i<ParamNames.ENCOUNTER_TYPES.length; i++) {
+                    if (offlinePatient.getMrNumber() != null) {
+                        for (int i = 0; i < ParamNames.ENCOUNTER_TYPES.length; i++) {
                             encounterCount.put(ParamNames.ENCOUNTER_TYPES[i], 0);
                         }
                         offlinePatient.setEncounterJson(encounterCount.toString());
@@ -199,20 +221,22 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 } else {
                     DataAccess access = DataAccess.getInstance();
                     OfflinePatient existineOfflinePatient = access.getPatientByMRNumber(this, patientData.getPatient().getIdentifier());
-                    if(existineOfflinePatient!=null) {
+                    if (existineOfflinePatient != null) {
                         JSONObject encountersArray = new JSONObject(existineOfflinePatient.getEncounterJson());
-                        if(offlinePatient.getPqId()!=null)existineOfflinePatient.setPqId(offlinePatient.getPqId());
-                        if(offlinePatient.getScId()!=null)existineOfflinePatient.setScId(offlinePatient.getScId());
+                        if (offlinePatient.getPqId() != null)
+                            existineOfflinePatient.setPqId(offlinePatient.getPqId());
+                        if (offlinePatient.getScId() != null)
+                            existineOfflinePatient.setScId(offlinePatient.getScId());
                         int occurrence = encountersArray.optInt(Form.getENCOUNTER_NAME());
                         occurrence++;
                         int responssedOccurrances = encountersArray.optInt("Post Operative Follow Up - Responsed");
-                        responssedOccurrances+=postOperativeCallResponse;
+                        responssedOccurrances += postOperativeCallResponse;
                         encountersArray.put(Form.getENCOUNTER_NAME(), responssedOccurrances);
                         encountersArray.put("Post Operative Follow Up - Responsed", occurrence);
                         existineOfflinePatient.setEncounterJson(encountersArray.toString());
 
                         String fieldJsonString = existineOfflinePatient.getFieldDataJson();
-                        if(fieldJsonString == null) fieldJsonString = new JSONObject().toString();
+                        if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
 
                         Iterator<String> fieldsKeys = offlineValues.keys();
@@ -280,11 +304,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
     }
 
-    private void makePostFormDecision() {
-
-
-        finish();
-    }
 
     private void onChildViewItemSelected(int[] showables, int[] hideables, Map<Integer, InputWidget> inputWidgets) {
         if (showables != null) {
@@ -315,8 +334,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
     public void onChildViewItemSelected(int[] showables, int[] hideables, Question question) {
-        if(question == null || !question.isRuntimeGenerated()) onChildViewItemSelected(showables, hideables, inputWidgets);
-        if (!question.isRuntimeGenerated()) onChildViewItemSelected(showables, hideables, inputWidgets);
+        if (question == null || !question.isRuntimeGenerated())
+            onChildViewItemSelected(showables, hideables, inputWidgets);
+        if (!question.isRuntimeGenerated())
+            onChildViewItemSelected(showables, hideables, inputWidgets);
         else onChildViewItemSelected(showables, hideables, runtimeGeneratedWidgets);
     }
 
@@ -414,6 +435,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
     }
 
+
     private class ValidationError {
         private int questionId;
         private String cause;
@@ -468,8 +490,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
 
-        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))
-        {
+        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
             final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(41007);
             final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(41008);
             final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(41009);
@@ -478,16 +499,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
                 @Override
                 public void onValueChanged(String newValue) {
-                    if(newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty()) return;
+                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
+                        return;
 
                     float weight = Float.valueOf(weightWidget.getValue());
-                    float height  = Float.valueOf(heightWidget.getValue())/100;
-                    height = height*height;
+                    float height = Float.valueOf(heightWidget.getValue()) / 100;
+                    height = height * height;
 
-                    if(height<=0 || weight <=0) return;
+                    if (height <= 0 || weight <= 0) return;
 
-                    float bmi = weight/height;
-                    bmiWidget.setAnswer(bmi+"", "", LANGUAGE.ENGLISH);
+                    float bmi = weight / height;
+                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
                 }
             };
             heightWidget.setOnValueChangeListener(valueChangeListener);
@@ -502,15 +524,16 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
                 @Override
                 public void onValueChanged(String newValue) {
-                    if(newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty()) return;
+                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
+                        return;
 
                     int weight = Integer.valueOf(weightWidget.getValue());
-                    int height  = Integer.valueOf(heightWidget.getValue())/100;
-                    height = height*height;
-                    if(height<=0 || weight <=0) return;
+                    int height = Integer.valueOf(heightWidget.getValue()) / 100;
+                    height = height * height;
+                    if (height <= 0 || weight <= 0) return;
 
-                    long bmi = weight/height;
-                    bmiWidget.setAnswer(bmi+"", "", LANGUAGE.ENGLISH);
+                    long bmi = weight / height;
+                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
                 }
             };
             heightWidget.setOnValueChangeListener(valueChangeListener);
@@ -528,14 +551,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
                 @Override
                 public void onValueChanged(String newValue) {
-                    if(newValue.isEmpty() || adult_males.getValue().isEmpty() || adult_females.getValue().isEmpty()) return;
+                    if (newValue.isEmpty() || adult_males.getValue().isEmpty() || adult_females.getValue().isEmpty())
+                        return;
 
                     int adult_ma = Integer.valueOf(adult_males.getValue());
-                    int adult_fe  = Integer.valueOf(adult_females.getValue());
+                    int adult_fe = Integer.valueOf(adult_females.getValue());
 
 
-                    if(adult_ma>=0 || adult_fe >=0)
-                    {
+                    if (adult_ma >= 0 || adult_fe >= 0) {
                         int tot = adult_ma + adult_fe;
                         total_adults.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
                     }
@@ -546,7 +569,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             adult_males.setOnValueChangeListener(valueChangeListener);
 
 
-
             final EditTextWidget child_males = (EditTextWidget) inputWidgets.get(51009);
             final EditTextWidget child_females = (EditTextWidget) inputWidgets.get(51010);
             final EditTextWidget total_child = (EditTextWidget) inputWidgets.get(51011);
@@ -555,14 +577,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             OnValueChangeListener valueChangeListener2 = new OnValueChangeListener() {
                 @Override
                 public void onValueChanged(String newValue) {
-                    if(newValue.isEmpty() || child_males.getValue().isEmpty() || child_females .getValue().isEmpty()) return;
+                    if (newValue.isEmpty() || child_males.getValue().isEmpty() || child_females.getValue().isEmpty())
+                        return;
 
                     int child_ma = Integer.valueOf(child_males.getValue());
-                    int child_fe  = Integer.valueOf(child_females.getValue());
+                    int child_fe = Integer.valueOf(child_females.getValue());
 
 
-                    if(child_ma>=0 || child_fe >=0)
-                    {
+                    if (child_ma >= 0 || child_fe >= 0) {
                         int tot = child_ma + child_fe;
                         total_child.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
                     }
@@ -573,7 +595,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             child_males.setOnValueChangeListener(valueChangeListener2);
 
 
-
             final EditTextWidget infant_males = (EditTextWidget) inputWidgets.get(51012);
             final EditTextWidget infant_females = (EditTextWidget) inputWidgets.get(51013);
             final EditTextWidget total_infants = (EditTextWidget) inputWidgets.get(51014);
@@ -582,14 +603,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             OnValueChangeListener valueChangeListener3 = new OnValueChangeListener() {
                 @Override
                 public void onValueChanged(String newValue) {
-                    if(newValue.isEmpty() || infant_males.getValue().isEmpty() || infant_females .getValue().isEmpty()) return;
+                    if (newValue.isEmpty() || infant_males.getValue().isEmpty() || infant_females.getValue().isEmpty())
+                        return;
 
                     int infant_male = Integer.valueOf(infant_males.getValue());
-                    int infant_female  = Integer.valueOf(infant_females.getValue());
+                    int infant_female = Integer.valueOf(infant_females.getValue());
 
 
-                    if(infant_male>=0 || infant_female >=0)
-                    {
+                    if (infant_male >= 0 || infant_female >= 0) {
                         int tot = infant_male + infant_female;
                         total_infants.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
                     }
@@ -617,6 +638,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     }
 
+
     public Map<Integer, InputWidget> getInputWidgets() {
         return inputWidgets;
     }
@@ -624,12 +646,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     private void fillPatientInfoBar() {
         String identifiers = "";
         HashMap<String, String> ids = patientData.getIdentifiers();
-        if(ids != null) {
+        if (ids != null) {
             Iterator<String> it = ids.keySet().iterator();
             while (it.hasNext()) {
                 String key = it.next();
                 String value = ids.get(key);
-                identifiers+=value/*+", "*/;
+                identifiers += value/*+", "*/;
             }
         }
         tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());
@@ -645,7 +667,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         int years = period.getYears();
         int months = period.getMonths();
         int days = period.getDays();
-        tvAge.setText(years+" years, "+months+" months, "+days+" days");
+        tvAge.setText(years + " years, " + months + " months, " + days + " days");
         tvPatientIdentifier.setText(identifiers);
         if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
             ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
@@ -680,7 +702,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private void putAuthenticationData(JSONObject data) throws Exception {
         SecretKey secKey = AES256Endec.getInstance().generateKey();
-        String encPassword = AES256Endec.getInstance().encrypt(Global.PASSWORD!=null?Global.PASSWORD:"", secKey);
+        String encPassword = AES256Endec.getInstance().encrypt(Global.PASSWORD != null ? Global.PASSWORD : "", secKey);
         JSONObject authenticationJson = new JSONObject();
         authenticationJson.put(ParamNames.USERNAME, Global.USERNAME);
         authenticationJson.put(ParamNames.PASSWORD, encPassword);
@@ -693,7 +715,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // TODO implement to return provider uuid
     private String resolveProviderUUID() throws JSONException {
         String providerUUID;
-
 
 
         return "";
@@ -765,4 +786,105 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             inputWidgets.get(i).destroy();
         }
     }
+
+
+    private void makePostFormDecision() throws JSONException {
+
+        Intent i = getIntent();
+        PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
+        if (patientData != null) {
+            this.patientData = patientData;
+        }
+        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
+            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(31037);
+            String ans = tbPreemptive.getValue();
+
+            if (ans.equals("Yes") || ans.equals("yes")) {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION);
+                startForm(patientData, null);
+            } else {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                startForm(patientData, null);
+                finish();
+            }
+        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))) {
+
+            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(41025);
+            String ans = tbPreemptive.getValue();
+
+            if (ans.equals("TB Presumptive confirmed")) {
+                //Popup
+
+                ShowPopup();
+
+            } else {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                startForm(patientData, null);
+                finish();
+            }
+        }else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
+            String ans = tbPreemptive.getValue();
+
+            if (ans.equals("Yes") || ans.equals("yes")) {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
+                startForm(patientData, null);
+            } else {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                startForm(patientData, null);
+                finish();
+            }
+        }
+
+
+
+    }
+
+
+    private void startForm(PatientData patientData, Bundle bundle) throws JSONException {
+
+        if (bundle == null)
+            bundle = new Bundle();
+
+        bundle.putSerializable(ParamNames.DATA, patientData);
+        Intent intent = new Intent(this, Form.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+
+
+    private void ShowPopup() {
+
+        dialogFragment = new MyDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("notAlertDialog", true);
+
+        dialogFragment.setArguments(bundle);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+
+        dialogFragment.show(ft, "dialog");
+
+    }
+
+
+    @Override
+    public void onFinishEditDialog(String inputText) {
+        if (TextUtils.isEmpty(inputText)) {
+            Toast.makeText(this,"Email was not entered",Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this,"Email entered "+inputText,Toast.LENGTH_SHORT).show();
+
+        finish();
+    }
+
 }
