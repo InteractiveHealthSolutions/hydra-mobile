@@ -5,7 +5,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:layout_marginTop="5dp"
-    android:background="@color/app_orange"
+    android:background="@drawable/drop_shadow_orange"
     android:padding="10dp" >
 
     <TextView
@@ -18,7 +18,7 @@
         android:shadowDy="5"
         android:gravity="center"
         android:text="@string/hello_world"
-        android:textColor="@color/White" />
+        android:textColor="@color/app_blue" />
 
     <TextView
         android:id="@+id/tvMessage"

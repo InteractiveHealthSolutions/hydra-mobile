@@ -72,7 +72,7 @@
     <item>
         <shape>
             <solid android:color="#ffffff" />
-
+<stroke android:color="@color/app_blue" android:width="2dp"></stroke>
             <corners android:radius="3dp" />
         </shape>
     </item>

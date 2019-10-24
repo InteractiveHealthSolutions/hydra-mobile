@@ -10,6 +10,7 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:background="@drawable/app_gradient"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     >
 
@@ -38,10 +39,10 @@
                             android:layout_height="200dp"
                             android:orientation="vertical">
                         <ImageView
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="60dp"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="72dp"
+                                android:layout_height="72dp"
                                 android:tint="@color/White"
                                 app:srcCompat="@drawable/ic_user_filled"/>
                         <TextView
@@ -76,7 +77,7 @@
                                     android:gravity="center"
                                     android:orientation="vertical"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
+                                    android:layout_weight="1.5"
                                     android:layout_height="match_parent">
                                 <TextView
                                         android:layout_width="match_parent"
@@ -102,7 +103,7 @@
                                     android:gravity="center"
                                     android:orientation="vertical"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
+                                    android:layout_weight="1.5"
                                     android:layout_height="match_parent">
                                 <TextView
                                         android:layout_width="match_parent"
@@ -124,32 +125,6 @@
                                         android:textColor="@color/app_blue"/>
 
                             </LinearLayout>
-                            <LinearLayout
-                                    android:gravity="center"
-                                    android:orientation="vertical"
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
-                                    android:layout_height="match_parent">
-                                <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="TB Symptoms"
-                                        android:textColor="@color/app_blue"
-                                        android:textSize="14sp"
-                                        android:typeface="serif"
-                                        android:textAlignment="center"
-                                />
-                                <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Presumptive"
-                                        android:typeface="serif"
-                                        android:textAlignment="center"
-                                        android:textSize="12sp"
-                                        android:paddingTop="10dp"
-                                        android:textColor="@color/app_blue"/>
-
-                            </LinearLayout>
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
@@ -160,6 +135,7 @@
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
+                    android:background="@drawable/app_gradient"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
