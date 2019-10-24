@@ -250,7 +250,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             EditTextWidget nic = (EditTextWidget) inputWidgets.get(20008);
                             EditTextWidget contact = (EditTextWidget) inputWidgets.get(20014);
                             existineOfflinePatient.setNic(nic.getValue());
-                            existineOfflinePatient.setContact(nic.getValue());
+                            existineOfflinePatient.setContact(contact.getValue());
                         }
                         access.insertOfflinePatient(this, existineOfflinePatient);
                     }
@@ -292,7 +292,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 makePostFormDecision();
-                //  finish();
+               // finish();
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -358,11 +358,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO make this method more strong
-        if(requestCode==112)
-        {
-            fillPatientInfoBar();
-        }
-        else {
+
             svQuestions.scrollTo(0, scrollPosition);
             InputWidget w = inputWidgets.get(requestCode);
             // w.requestFocus();
@@ -425,7 +421,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     s.setOther(null);
                 }
             }
-        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -504,7 +500,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
 
-        if (Global.patientData == null) {
+        if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)){
             Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -665,7 +661,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
     private void fillPatientInfoBar() {
-        if (Global.patientData != null) {
             String identifiers = "";
             HashMap<String, String> ids = patientData.getIdentifiers();
             if (ids != null) {
@@ -696,12 +691,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             } else {
                 ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
             }
-        }
-        else
-        {
-            PatientInfoFetcher.init(null, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO);
-            startActivityForResult(new Intent(this,PatientInfoFetcher.class),112);
-        }
+
     }
 
     // To put other necessary form data other than questions and answers
@@ -832,7 +822,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
-                finish();
+
             }
         } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))) {
 
@@ -843,12 +833,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 //Popup
 
                 ShowPopup();
-                finish();
+
 
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
-                finish();
+
             }
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
             final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
@@ -860,9 +850,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
-                finish();
+
             }
         }
+
+        finish();
 
 
     }

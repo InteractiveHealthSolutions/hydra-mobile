@@ -108,7 +108,6 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                                 // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
                                 String name="";
                                 String gender="";
-                                String age="";
                                 String id="";
                                 String dob="";
                                 if(!etName.getText().toString().isEmpty())
