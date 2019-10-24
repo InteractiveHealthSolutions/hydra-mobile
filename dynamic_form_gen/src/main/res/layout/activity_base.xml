@@ -32,13 +32,19 @@
     <include
             android:id="@+id/header"
             layout="@layout/patient_info_display"/>
+    <include
+        android:id="@+id/formHeader"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/header"
+        layout="@layout/form_name_display"/>
 
     <ScrollView
         android:id="@+id/svQuestions"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header">
+        android:layout_below="@id/formHeader">
 
         <LinearLayout
             android:layout_width="match_parent"

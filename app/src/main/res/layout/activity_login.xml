@@ -1,138 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="always">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="always">
 
         <LinearLayout
-                android:id="@+id/login_container_layout"
-                android:layout_width="match_parent"
+            android:id="@+id/login_container_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dimen_16dp">
+
+            <ImageView
+                android:id="@+id/img_setting"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_16dp"
-                android:orientation="vertical">
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_settings"
-                    android:tint="@color/colorPrimaryDark"
-                    android:id="@+id/img_setting"
-                    android:elevation="@dimen/dimen_12dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                android:layout_gravity="right"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:elevation="@dimen/dimen_12dp"
+                android:tint="@color/colorPrimaryDark"
+                app:srcCompat="@drawable/ic_settings" />
 
 
             <ImageView
-                    android:id="@+id/ivLogo"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/lhc_logo"/>
+                android:id="@+id/ivLogo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:src="@drawable/lhc_logo" />
 
             <TextView
-                    android:id="@+id/tvLungHealth"
-                    android:layout_below="@+id/ivLogo"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:text="Lung Health"
-                    android:textStyle="bold"
-                    android:textSize="22dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:id="@+id/tvLungHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivLogo"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="Lung Health"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
             <TextView
-                    android:layout_below="@+id/tvLungHealth"
-                    android:layout_centerHorizontal="true"
-                    android:text="Corporation"
-                    android:textSize="22dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvLungHealth"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:text="Corporation"
+                android:textSize="22sp" />
 
 
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:padding="20dp">
+
+                <EditText
+
+                    android:id="@+id/edt_username"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:drawableLeft="@drawable/ic_userprofile"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/app_orange"
+                    android:hint="@string/edt_username_hint"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/dimen_12dp"
+                    android:text="admin" />
 
                 <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edt_username"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:background="@drawable/edittext_rounded_shap"
+                    android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/app_orange"
+                    android:hint="@string/edt_password_hint"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/dimen_12dp"
+                    android:text="Admin321" />
 
-                        android:id="@+id/edt_username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:drawableLeft="@drawable/ic_userprofile"
-                        android:drawablePadding="8dp"
-                        android:padding="@dimen/dimen_12dp"
-                        android:text="admin"
-                        android:hint="@string/edt_username_hint"
-                        android:background="@drawable/edittext_rounded_shap"
-                        android:inputType="textPersonName"/>
-                <EditText
-                        android:layout_below="@+id/edt_username"
-                        android:id="@+id/edt_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
-                        android:drawablePadding="8dp"
-                        android:text="Admin321"
-                        android:padding="@dimen/dimen_12dp"
-                        android:hint="@string/edt_password_hint"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        android:background="@drawable/edittext_rounded_shap"
-                        android:inputType="textPassword"/>
                 <CheckBox
-                        android:layout_marginTop="@dimen/dimen_10dp"
-                        android:id="@+id/check_remember"
-                        android:layout_below="@id/edt_password"
-                        android:layout_width="wrap_content"
-                        android:buttonTint="@color/app_orange"
-                        android:layout_height="wrap_content"
-                        android:text="Remember me"
-                />
+                    android:id="@+id/check_remember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edt_password"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:buttonTint="@color/app_orange"
+                    android:text="Remember me" />
+
                 <Button
-                        android:layout_below="@+id/check_remember"
-                        android:id="@+id/btn_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_33dp"
-                        android:text="@string/btn_login_str"
-                        android:textSize="16sp"
-                        android:textColor="@color/White"
-                        android:background="@drawable/button_rounded_shap"
-                />
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/check_remember"
+                    android:layout_marginTop="@dimen/dimen_33dp"
+                    android:background="@drawable/button_rounded_shap"
+                    android:text="@string/btn_login_str"
+                    android:textColor="@color/White"
+                    android:textSize="16sp" />
 
                 <LinearLayout
-                        android:layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
-                    <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="\tPowered by "
-                            android:textSize="20sp">
+                        android:text="\tPowered by "
+                        android:textSize="20sp">
 
                     </TextView>
+
                     <TextView
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="5dp"
-                            android:textSize="20sp"
-                            android:text="HYDRA">
-                    </TextView>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="HYDRA"
+                        android:textSize="20sp"
+                        android:textStyle="bold"></TextView>
                 </LinearLayout>
 
             </RelativeLayout>

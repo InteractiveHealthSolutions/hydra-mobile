@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
@@ -37,6 +38,8 @@ public class Form extends BaseActivity {
         super.onCreate(savedInstanceState);
         InputWidgetProvider provider = InputWidgetProvider.getInstance();
         LinearLayout llMain = (LinearLayout) findViewById(R.id.llWidgetsHolder);
+        TextView tvFormName = (TextView) findViewById(R.id.formName);
+
         Intent i = getIntent();
         if (DataProvider.directOpenableForms == null ) {
             throw new UnsupportedOperationException("You need to set value of static variable REGISTRATION_ENCOUNTER in DataProvider class");
@@ -52,6 +55,8 @@ public class Form extends BaseActivity {
             //return;
         }
         setTitle(ENCOUNTER_NAME);
+        tvFormName.setText(ENCOUNTER_NAME);
+
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);
         JSONArray jsonData = null;
