@@ -19,6 +19,7 @@ import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import android.app.Activity
+import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.core.question.config.QuestionConfiguration
@@ -31,6 +32,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivityLoginBinding
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var checkboxRemember:CheckBox
 
     init {
 
@@ -59,6 +61,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         usernameEditText = binding.edtUsername;
         passwordEditText = binding.edtPassword
+        checkboxRemember=binding.checkRemember
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
@@ -84,6 +87,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
 
                     override fun <T> onSuccess(o: T) {
+                        if(checkboxRemember.isChecked)
+                        {
+                            SessionManager(applicationContext).createLoginSession(
+                            usernameEditText.text.toString(),
+                            passwordEditText.text.toString()
+                        )
+                        }
 //                        SessionManager(applicationContext).createLoginSession(
 //                            usernameEditText.text.toString(),
 //                            passwordEditText.text.toString()

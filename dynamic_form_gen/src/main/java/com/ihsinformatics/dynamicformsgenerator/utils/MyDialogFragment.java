@@ -8,11 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,21 +16,32 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
+import org.json.JSONException;
 
 
 public class MyDialogFragment extends DialogFragment {
 
+    String question, type;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        if (getArguments() != null) {
+            this.question = getArguments().getString("question");
+            this.type = getArguments().getString("type");
 
+
+        }
         return super.onCreateDialog(savedInstanceState);
 
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tb_confirmation_popup_screen, container, false);
+        View view = inflater.inflate(R.layout.tb_confirmation_popup_screen, container, false);
+        TextView tvQuestion = view.findViewById(R.id.tvTitle);
+        tvQuestion.setText(this.question);
+        return view;
 
     }
 
@@ -59,7 +66,11 @@ public class MyDialogFragment extends DialogFragment {
 
                     if (selectedRadioId != null) {
                         DialogListener dialogListener = (DialogListener) getActivity();
-                        dialogListener.onFinishEditDialog(selectedRadioId.getText().toString());
+                        try {
+                            dialogListener.onFinishEditDialog(selectedRadioId.getText().toString(), type);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         dismiss();
                     } else {
                         Toast.makeText(getActivity(), "Please Select Something", Toast.LENGTH_SHORT).show();
@@ -73,7 +84,7 @@ public class MyDialogFragment extends DialogFragment {
 
 
     public interface DialogListener {
-        void onFinishEditDialog(String inputText);
+        void onFinishEditDialog(String inputText, String type) throws JSONException;
     }
 
 

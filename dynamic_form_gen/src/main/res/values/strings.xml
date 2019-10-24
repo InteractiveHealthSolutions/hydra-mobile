@@ -67,6 +67,7 @@
     <string name="tab_text_3">Day 10</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="patient_not_loaded">Patient not loaded</string>
+    <string name="title_activity_qrreader">QR Code Reader</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

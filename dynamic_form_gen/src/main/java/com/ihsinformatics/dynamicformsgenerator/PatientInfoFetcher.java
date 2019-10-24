@@ -1,6 +1,9 @@
 package com.ihsinformatics.dynamicformsgenerator;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
@@ -43,14 +47,21 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
     private EditText etProgramID;
     private Button btnContinue;
+    private Button addUser;
+
+    private ImageView qrReader;
+    private TextView qrTextView;
+
     private static String ENCOUNTER_NAME;
     private static REQUEST_TYPE REQUEST_TYPE;
     private CheckBox cbSearchByProgramID;
     String requestType;
 
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(b) {
+        if (b) {
             etId.setVisibility(View.GONE);
             etProgramID.setVisibility(View.VISIBLE);
         } else {
@@ -72,10 +83,12 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
         etId = (EditText) findViewById(R.id.etId);
         etName = findViewById(R.id.etName);
         etAge = (EditText) findViewById(R.id.etAge);
-        rg_gender = (RadioGroup)findViewById(R.id.rg_gender);
+        rg_gender = (RadioGroup) findViewById(R.id.rg_gender);
 
         etProgramID = (EditText) findViewById(R.id.etProgramId);
         cbSearchByProgramID = findViewById(R.id.cbSearchByProgramId);
+
+
         cbSearchByProgramID.setOnCheckedChangeListener(this);
         etId.postDelayed(new Runnable() {
             @Override
@@ -94,40 +107,38 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             public void onClick(View arg0) {
                 /*if(false*//*DataSender.isConnected(PatientInfoFetcher.this)*//*) { // TODO handle this
                     performClick();
-                } else */{
+                } else */
+                {
                     String identifier = null;
-                    if(etId.getVisibility() == View.VISIBLE) {
+                    if (etId.getVisibility() == View.VISIBLE) {
                         try {
                             identifier = etId.getText().toString();
                             OfflinePatient offlinePatient = null;
-                            if(!etId.getText().toString().isEmpty()) {
+                            if (!etId.getText().toString().isEmpty()) {
                                 offlinePatient = DataAccess.getInstance().getPatientByMRNumber(PatientInfoFetcher.this, identifier);
-                            } else if(!etName.getText().toString().isEmpty()) {
+                            } else if (!etName.getText().toString().isEmpty()) {
                                 offlinePatient = DataAccess.getInstance().getPatientByName(PatientInfoFetcher.this, etName.getText().toString());
                             } else {
                                 // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
-                                String name="";
-                                String gender="";
-                                String id="";
-                                String dob="";
-                                if(!etName.getText().toString().isEmpty())
-                                {
-                                    name=etName.getText().toString();
+                                String name = "";
+                                String gender = "";
+                                String id = "";
+                                String dob = "";
+                                if (!etName.getText().toString().isEmpty()) {
+                                    name = etName.getText().toString();
                                 }
 //
-                                int selectedID=rg_gender.getCheckedRadioButtonId();
+                                int selectedID = rg_gender.getCheckedRadioButtonId();
 
-                                RadioButton rb_gender=findViewById(selectedID);
+                                RadioButton rb_gender = findViewById(selectedID);
 
-                                if(rb_gender!=null && !rb_gender.getText().toString().isEmpty())
-                                {
-                                    gender=rb_gender.getText().toString();
+                                if (rb_gender != null && !rb_gender.getText().toString().isEmpty()) {
+                                    gender = rb_gender.getText().toString();
                                 }
-                                if(!etId.getText().toString().isEmpty())
-                                {
-                                    id=etId.getText().toString();
+                                if (!etId.getText().toString().isEmpty()) {
+                                    id = etId.getText().toString();
                                 }
-                                offlinePatient = DataAccess.getInstance().getPatientByAllFields(PatientInfoFetcher.this, id,name,dob,gender);
+                                offlinePatient = DataAccess.getInstance().getPatientByAllFields(PatientInfoFetcher.this, id, name, dob, gender);
                                 return;
                             }
 
@@ -137,7 +148,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                             requestType = ParamNames.GET_PATIENT_INFO;
 
                             onResponseReceived(serverResponse, 0);
-                        } catch (JSONException | NullPointerException e ) { // I know its bad to catch NPE -nvd
+                        } catch (JSONException | NullPointerException e) { // I know its bad to catch NPE -nvd
                             Toasty.normal(PatientInfoFetcher.this, "Could not fetch data", Toast.LENGTH_LONG).show();
                         }
 
@@ -148,11 +159,59 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
             }
         });
+
+
+        addUser = (Button) findViewById(R.id.adduser);
+        addUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+
+        qrReader = (ImageView) findViewById(R.id.qrReader);
+        qrReader.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            MY_CAMERA_REQUEST_CODE);
+                } else {
+                    Intent intent = new Intent(PatientInfoFetcher.this, QrReader.class);
+                    startActivityForResult(intent, 9915);
+                }
+
+            }
+        });
+
+
+
+        qrTextView = (TextView) findViewById(R.id.qrtextview);
+        qrTextView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            MY_CAMERA_REQUEST_CODE);
+                } else {
+                    Intent intent = new Intent(PatientInfoFetcher.this, QrReader.class);
+                    startActivityForResult(intent, 9915);
+                }
+
+            }
+        });
+
     }
 
     private void performClick() {
         String identifier = null;
-        if(etId.getVisibility() == View.VISIBLE) {
+        if (etId.getVisibility() == View.VISIBLE) {
             identifier = etId.getText().toString();
         } else {
             identifier = etProgramID.getText().toString();
@@ -197,7 +256,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
         networkProgressDialog.dismiss();
         try {
             if (!resp.has(ParamNames.SERVER_ERROR)) {
-                if(requestType.equals(ParamNames.GET_PATIENT_INFO)) {
+                if (requestType.equals(ParamNames.GET_PATIENT_INFO)) {
 
                     PatientData patientData = null;
                     Patient patient = JsonHelper.getInstance(this).ParsePatientFromUser(resp);
@@ -206,15 +265,15 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                     if (patient != null) {
                         patientData = new PatientData(patient);
                         JSONArray identifiers = resp.optJSONArray(ParamNames.PATIENT).getJSONObject(0).optJSONArray(ParamNames.IDENTIFIERS);
-                        if(identifiers!=null)
-                            for(int i=0; i<identifiers.length();i++) {
+                        if (identifiers != null)
+                            for (int i = 0; i < identifiers.length(); i++) {
                                 JSONObject id = identifiers.getJSONObject(i);
                                 String identifier = id.optString(ParamNames.IDENTIFIER);
                                 JSONObject idType = id.getJSONObject(ParamNames.IDENTIFIER_TYPE);
                                 String identifierType = idType.getString(ParamNames.DISPLAY);
                                 patientData.addIdentifier(identifierType, identifier);
 
-                                if(identifierType.equals(ParamNames.INDUS_PROJECT_IDENTIFIER)) {
+                                if (identifierType.equals(ParamNames.INDUS_PROJECT_IDENTIFIER)) {
                                     offlinePatient.setMrNumber(identifier);
                                 }
                             }
@@ -223,10 +282,10 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
                     JSONObject encounters = (JSONObject) resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT);
 
-                    if(offlinePatient.getMrNumber() != null) {
+                    if (offlinePatient.getMrNumber() != null) {
                         offlinePatient.setEncounterJson(encounters.toString());
                         offlinePatient.setFieldDataJson(generateFieldsJon(resp).toString());
-                        offlinePatient.setName(patient.getGivenName()+" "+patient.getFamilyName());
+                        offlinePatient.setName(patient.getGivenName() + " " + patient.getFamilyName());
                         offlinePatient.setGender(patient.getGender());
                         offlinePatient.setDob(patient.getBirthDate().getTime());
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient);
@@ -267,7 +326,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
     private void startForm(PatientData patientData, Bundle bundle) throws JSONException {
 
-        if(bundle == null)
+        if (bundle == null)
             bundle = new Bundle();
 
         bundle.putSerializable(ParamNames.DATA, patientData);

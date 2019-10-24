@@ -67,12 +67,17 @@ class MetaDataHelper(context: Context) {
                 val workflowName = workflow.getString("name")
                 val phasesArray = workflow.getJSONArray("phases")
 
+                WorkFlowRepository(context).insertWorkFlow(WorkFlow(workFlowId, workflowName))
+
                 for (i in 0 until phasesArray.length()) {
                     val insidePhase = phasesArray.getJSONObject(i)
                     val phaseName = insidePhase.getString("name")
                     val phaseId = insidePhase.getInt("id")
 
                     val components = insidePhase.getJSONArray("components")
+
+                    PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
+
                     for (j in 0 until components.length()) {
                         val insideComponent = components.getJSONObject(j)
                         val componentName = insideComponent.getString("name")
@@ -95,11 +100,9 @@ class MetaDataHelper(context: Context) {
 
                     }
 
-                    PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
                    // WorkFlowPhasesJoinRepository(context).insert(WorkFlowPhasesJoin(workFlowId, phaseId))
 
                 }
-                WorkFlowRepository(context).insertWorkFlow(WorkFlow(workFlowId, workflowName))
                 //restCallback.onSuccess(true)
             }
             restCallback.onSuccess(true)

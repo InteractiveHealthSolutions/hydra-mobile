@@ -47,7 +47,7 @@ public class Form extends BaseActivity {
         } else if (DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
 
         } else {
-            Toasty.warning(this, "No record found", Toast.LENGTH_SHORT).show();
+           // Toasty.warning(this, "No record found", Toast.LENGTH_SHORT).show();
             // TODO finish();
             //return;
         }

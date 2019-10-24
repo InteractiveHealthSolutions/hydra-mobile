@@ -12,7 +12,7 @@
         android:background="@drawable/app_gradient"
         android:gravity="center"
         android:padding="25dp"
-        android:text="TB_diagnosed"
+        android:text="TB Diagnosed"
         android:textColor="@color/White"
         android:textSize="20sp"
         android:textStyle="bold"/>

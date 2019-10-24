@@ -32,13 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-
-import android.view.ViewGroup.LayoutParams;
-
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
-import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -246,7 +239,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         }
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
 
-                        if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
                             EditTextWidget nic = (EditTextWidget) inputWidgets.get(20008);
                             EditTextWidget contact = (EditTextWidget) inputWidgets.get(20014);
                             existineOfflinePatient.setNic(nic.getValue());
@@ -292,7 +285,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 makePostFormDecision();
-               // finish();
+                // finish();
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -359,43 +352,43 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO make this method more strong
 
-            svQuestions.scrollTo(0, scrollPosition);
-            InputWidget w = inputWidgets.get(requestCode);
-            // w.requestFocus();
-            if (resultCode == RESULT_OK) {
-                if (w instanceof SpinnerWidget) {
-                    SpinnerWidget s = (SpinnerWidget) w;
-                    String dat = data.getStringExtra(ManualInput.VALUE);
-                    // s.setOther(dat); //TODO setOther
-                } else if (w instanceof DateWidget) {
-                    DateWidget d = (DateWidget) w;
-                    try {
-                        DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
-                        Calendar date = (Calendar) data.getSerializableExtra("value");
-                        if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
-                            d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                        } else {
-                            d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                        }
-                    } catch (NullPointerException e) {
-                        Logger.log(e);
+        svQuestions.scrollTo(0, scrollPosition);
+        InputWidget w = inputWidgets.get(requestCode);
+        // w.requestFocus();
+        if (resultCode == RESULT_OK) {
+            if (w instanceof SpinnerWidget) {
+                SpinnerWidget s = (SpinnerWidget) w;
+                String dat = data.getStringExtra(ManualInput.VALUE);
+                // s.setOther(dat); //TODO setOther
+            } else if (w instanceof DateWidget) {
+                DateWidget d = (DateWidget) w;
+                try {
+                    DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
+                    Calendar date = (Calendar) data.getSerializableExtra("value");
+                    if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
+                        d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                    } else {
+                        d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
                     }
-                } else if (w instanceof AgeWidget) {
-                    AgeWidget d = (AgeWidget) w;
-                    try {
-                        DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
-                        Calendar date = (Calendar) data.getSerializableExtra("value");
-                        if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
-                            d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                        } else {
-                            d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
-                        }
-                    } catch (NullPointerException e) {
-                        Logger.log(e);
+                } catch (NullPointerException e) {
+                    Logger.log(e);
+                }
+            } else if (w instanceof AgeWidget) {
+                AgeWidget d = (AgeWidget) w;
+                try {
+                    DateSelector.WIDGET_TYPE dialogType = DateSelector.WIDGET_TYPE.valueOf(data.getStringExtra(DateSelector.DATE_TYPE));
+                    Calendar date = (Calendar) data.getSerializableExtra("value");
+                    if (dialogType == DateSelector.WIDGET_TYPE.TIME) {
+                        d.setAnswer(Global.TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
+                    } else {
+                        d.setAnswer(Global.DATE_TIME_FORMAT.format(date.getTime()), null, LANGUAGE.ENGLISH);
                     }
-                } else if (w instanceof ImageWidget) {
-                    ImageWidget i = (ImageWidget) w;
-                    // bitmap = data.getExtras().getParcelable(ParamNames.DATA);
+                } catch (NullPointerException e) {
+                    Logger.log(e);
+                }
+            } else if (w instanceof ImageWidget) {
+                ImageWidget i = (ImageWidget) w;
+                // bitmap = data.getExtras().getParcelable(ParamNames.DATA);
                 /* try {
                     bitmap = MediaStore.Images.Media.getBitmap(
                             getContentResolver(), i.getImageURI());
@@ -408,19 +401,19 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 } else {
                     i.setImage(bitmap);
                 }*/
-                    if (data != null && data.getExtras() != null) {
-                        Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                        i.setImage(imageBitmap);
-                    }
+                if (data != null && data.getExtras() != null) {
+                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                    i.setImage(imageBitmap);
+                }
 
 
-                }
-            } else {
-                if (w instanceof SpinnerWidget) {
-                    SpinnerWidget s = (SpinnerWidget) w;
-                    s.setOther(null);
-                }
             }
+        } else {
+            if (w instanceof SpinnerWidget) {
+                SpinnerWidget s = (SpinnerWidget) w;
+                s.setOther(null);
+            }
+        }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -500,7 +493,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
 
-        if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)){
+        if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
             Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -661,36 +654,36 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
     private void fillPatientInfoBar() {
-            String identifiers = "";
-            HashMap<String, String> ids = patientData.getIdentifiers();
-            if (ids != null) {
-                Iterator<String> it = ids.keySet().iterator();
-                while (it.hasNext()) {
-                    String key = it.next();
-                    String value = ids.get(key);
-                    identifiers += value/*+", "*/;
-                }
+        String identifiers = "";
+        HashMap<String, String> ids = patientData.getIdentifiers();
+        if (ids != null) {
+            Iterator<String> it = ids.keySet().iterator();
+            while (it.hasNext()) {
+                String key = it.next();
+                String value = ids.get(key);
+                identifiers += value/*+", "*/;
             }
-            tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());
-            tvPatientLastName.setText(patientData.getPatient().getFamilyName().toUpperCase());
-            // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
-            Date birthDate = patientData.getPatient().getBirthDate();
-            DateTime birthTime = new DateTime(birthDate);
-            DateTime nowTime = new DateTime();
+        }
+        tvPatientName.setText(patientData.getPatient().getGivenName().toUpperCase());
+        tvPatientLastName.setText(patientData.getPatient().getFamilyName().toUpperCase());
+        // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
+        Date birthDate = patientData.getPatient().getBirthDate();
+        DateTime birthTime = new DateTime(birthDate);
+        DateTime nowTime = new DateTime();
 
 
-            Interval interval = new Interval(birthTime, nowTime);
-            Period period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay());
-            int years = period.getYears();
-            int months = period.getMonths();
-            int days = period.getDays();
-            tvAge.setText(years + " years, " + months + " months, " + days + " days");
-            tvPatientIdentifier.setText(identifiers);
-            if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
-                ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
-            } else {
-                ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
-            }
+        Interval interval = new Interval(birthTime, nowTime);
+        Period period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay());
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = period.getDays();
+        tvAge.setText(years + " years, " + months + " months, " + days + " days");
+        tvPatientIdentifier.setText(identifiers);
+        if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
+            ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
+        } else {
+            ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
+        }
 
     }
 
@@ -832,8 +825,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             if (ans.equals("TB Presumptive confirmed")) {
                 //Popup
 
-                ShowPopup();
-
+                ShowPopup("TB Diagnosed", "TB_diagnosed");
+                return;
 
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
@@ -852,8 +845,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 startForm(patientData, null);
 
             }
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
+            return;
         }
-
         finish();
 
 
@@ -872,12 +867,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-    private void ShowPopup() {
+    private void ShowPopup(String question, String type) {
 
         dialogFragment = new MyDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putBoolean("notAlertDialog", true);
+        bundle.putString("question", question);
+
+        bundle.putString("type", type);
 
         dialogFragment.setArguments(bundle);
 
@@ -895,13 +892,34 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
     @Override
-    public void onFinishEditDialog(String inputText) {
+    public void onFinishEditDialog(String inputText, String type) throws JSONException {
         if (TextUtils.isEmpty(inputText)) {
-            Toast.makeText(this, "Nothhing selected", Toast.LENGTH_SHORT).show();
-        } else
-            Toast.makeText(this, "Answer is " + inputText, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
+        } else{
+            if (type.equals("TB_diagnosed")) {
+                if (inputText.equals("Yes") || inputText.equals("yes")) {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION);
+                    startForm(patientData, null);
 
-        // finish();
+                } else {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                    startForm(patientData, null);
+
+                }
+            }
+            else if(type.equals("ContactRegistry")){
+                if (inputText.equals("Yes") || inputText.equals("yes")) {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
+                    startForm(patientData, null);
+
+                } else {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                    startForm(patientData, null);
+
+                }
+            }
+        }
+        finish();
     }
 
 
