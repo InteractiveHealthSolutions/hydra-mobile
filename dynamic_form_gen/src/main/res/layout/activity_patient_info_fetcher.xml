@@ -197,7 +197,7 @@
                         android:layout_below="@id/etProgramId"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="5dp"
-                        android:text="Add User"/>
+                        android:text="Create Patient"/>
 
 
                 <Button
@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/etProgramId"
                         android:layout_marginTop="20dp"
-                        android:text="@string/search"/>
+                        android:text="Load Patient"/>
 
             </LinearLayout>
 

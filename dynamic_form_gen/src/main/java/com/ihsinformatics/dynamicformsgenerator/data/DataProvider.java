@@ -743,10 +743,10 @@ public class DataProvider {
         //        "this.questions.add(new Question(false,ChildScreeningFormId,31011,""12"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,""If patient, which speciality/department is the patient here to consult with?	"","generateUUID()",null));"
 //        this.questions.add(new Question(false,ChildScreeningFormId,31012,"13",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If other specialty, please specify ",generateUUID(),null));
         this.questions.add(new Question(true, AdultScreeningFormId, 31013, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Is the person pregnant?", generateUUID(), null));   //TODO how to check if person is female?
-        this.options.add(new Option(32015, 3121, null, new int[]{320361, 320362, 320363}, "1", "Yes", -1));
-        this.options.add(new Option(32015, 3122, new int[]{320361, 320362, 320363}, null, "2", "No", -1));
-        this.options.add(new Option(32015, 3123, new int[]{320361, 320362, 320363}, null, "3", "Don't know", -1));
-        this.options.add(new Option(32015, 3124, new int[]{320361, 320362, 320363}, null, "4", "Refused", -1));
+        this.options.add(new Option(31013, 3121, null, new int[]{320361, 320362, 320363}, "1", "Yes", -1));
+        this.options.add(new Option(31013, 3122, new int[]{320361, 320362, 320363}, null, "2", "No", -1));
+        this.options.add(new Option(31013, 3123, new int[]{320361, 320362, 320363}, null, "3", "Don't know", -1));
+        this.options.add(new Option(31013, 3124, new int[]{320361, 320362, 320363}, null, "4", "Refused", -1));
 
         this.questions.add(new Question(false, AdultScreeningFormId, 32014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "SYMPTOMS", null, null));
         this.questions.add(new Question(true, AdultScreeningFormId, 32015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Do you have a cough?", generateUUID(), null));
@@ -839,11 +839,17 @@ public class DataProvider {
 
         this.questions.add(new Question(false, AdultScreeningFormId, 320361, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, null, "XRAY DETAILS", null, null));
 
-        this.questions.add(new Question(true, AdultScreeningFormId, 320362, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Order ID", generateUUID(), numeric3DigitMin1));
-        this.questions.add(new Question(true, AdultScreeningFormId, 320363, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Xray Conclusion", generateUUID(), null));
-        this.options.add(new Option(320363, 31751, null, null, "1", "Normal", -1));
-        this.options.add(new Option(320363, 31752, null, null, "2", "Abnormal, Not Suggestive of TB", -1));
-        this.options.add(new Option(320363, 31753, null, null, "3", "Abnormal, Suggestive of TB", -1));
+        //TODO change option Id here(added for demo)
+//        this.questions.add(new Question(true, AdultScreeningFormId, 320362, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Order ID", generateUUID(),null));
+//        this.options.add(new Option(320362, 991678, null, null, "1", "201000", -1));
+//        this.options.add(new Option(320362, 991679, null, null, "2", "201001", -1));
+//        this.options.add(new Option(320362, 991680, null, null, "3", "201003", -1));
+//        this.options.add(new Option(320362, 991681, null, null, "4", "201004", -1));
+
+        this.questions.add(new Question(true, AdultScreeningFormId, 320363, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Xray Conclusion", generateUUID(), alphanumeric100DigitSpace));
+//        this.options.add(new Option(320363, 31751, null, null, "1", "Normal", -1));
+//        this.options.add(new Option(320363, 31752, null, null, "2", "Abnormal, Not Suggestive of TB", -1));
+//        this.options.add(new Option(320363, 31753, null, null, "3", "Abnormal, Suggestive of TB", -1));
 
 
         this.questions.add(new Question(false, AdultScreeningFormId, 32036, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "CONCLUSION", null, null));

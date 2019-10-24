@@ -83,16 +83,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.crypto.SecretKey;
 
@@ -638,6 +629,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         }
+        else if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)){
+
+            final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
+
+            String vals[]={"Normal","Abnormal, Not Suggestive of TB","Abnormal, Suggestive of TB"};
+            int random = new Random().nextInt(3);
+
+            xray.setAnswer(vals[random] + "", "", LANGUAGE.ENGLISH);
+            xray.setEnabled(false);
+
+        }
         if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
             tvRatings.setVisibility(View.GONE);
             llPatientInfoDisplayer.setVisibility(View.GONE);
@@ -646,7 +648,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
 
     }
-
+//320363
 
     public Map<Integer, InputWidget> getInputWidgets() {
         return inputWidgets;
