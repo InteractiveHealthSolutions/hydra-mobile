@@ -44,7 +44,7 @@
                                 android:layout_width="72dp"
                                 android:layout_height="72dp"
                                 android:tint="@color/White"
-                                app:srcCompat="@drawable/ic_user_filled"/>
+                                app:srcCompat="@drawable/ic_user_profile"/>
                         <TextView
                                 android:layout_marginTop="10dp"
                                 android:layout_gravity="center_horizontal"
