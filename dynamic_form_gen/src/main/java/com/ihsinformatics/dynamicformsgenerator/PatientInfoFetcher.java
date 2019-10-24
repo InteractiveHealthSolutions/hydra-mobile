@@ -1,8 +1,12 @@
 package com.ihsinformatics.dynamicformsgenerator;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,6 +17,9 @@ import android.widget.*;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper;
@@ -27,6 +34,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +46,17 @@ import javax.crypto.SecretKey;
 
 import es.dmoral.toasty.Toasty;
 
+import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
+
 public class PatientInfoFetcher extends AppCompatActivity implements Sendable, CompoundButton.OnCheckedChangeListener {
     NetworkProgressDialog networkProgressDialog;
     private EditText etId;
     private EditText etName;
     private EditText etAge;
+    private LinearLayout qr_reader;
     private RadioGroup rg_gender;
+
+    private Dialog dialog;
 
     private EditText etProgramID;
     private Button btnContinue;
@@ -100,6 +113,19 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
         etId.setOnEditorActionListener(editorActionListener);
         etProgramID.setOnEditorActionListener(editorActionListener);
+
+        qr_reader=findViewById(R.id.qr_reader);
+
+        qr_reader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    checkCameraPermission();
+                } else {
+                    showQRCodeReaderDialog();
+                }
+            }
+        });
 
         btnContinue = (Button) findViewById(R.id.btnContinue);
         btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -166,9 +192,15 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             @Override
             public void onClick(View view) {
 
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT);
+                try {
+                    startForm(Global.patientData, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
-
 
 
         qrReader = (ImageView) findViewById(R.id.qrReader);
@@ -176,18 +208,13 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if (checkSelfPermission(Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            MY_CAMERA_REQUEST_CODE);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    checkCameraPermission();
                 } else {
-                    Intent intent = new Intent(PatientInfoFetcher.this, QrReader.class);
-                    startActivityForResult(intent, 9915);
+                    showQRCodeReaderDialog();
                 }
-
             }
         });
-
 
 
         qrTextView = (TextView) findViewById(R.id.qrtextview);
@@ -195,15 +222,11 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                if (checkSelfPermission(Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            MY_CAMERA_REQUEST_CODE);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    checkCameraPermission();
                 } else {
-                    Intent intent = new Intent(PatientInfoFetcher.this, QrReader.class);
-                    startActivityForResult(intent, 9915);
+                    showQRCodeReaderDialog();
                 }
-
             }
         });
 
@@ -358,5 +381,81 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
 
     public static String getEncounterName() {
         return ENCOUNTER_NAME;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case 9915:
+                if (resultCode == RESULT_OK) {
+                    String contents = data.getStringExtra("SCAN_RESULT");
+                    if (contents != null)
+                    {
+                        etId.setText(contents);
+                    }
+
+                    //nfcReader.getPatientDataWithQR(contents, this, this);
+                } else if (resultCode == RESULT_CANCELED) {
+                    //handle cancel
+                    Toast.makeText(this, "canceled", Toast.LENGTH_LONG).show();
+                } else {
+                }
+                break;
+
+
+        }
+    }
+
+
+
+    protected void checkCameraPermission() {
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) PatientInfoFetcher.this,
+                    Manifest.permission.CAMERA)) {
+                showMessageOKCancel(this, getResources().getString(R.string.qr_code_permission_request_message),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions((Activity) PatientInfoFetcher.this,
+                                        new String[]{Manifest.permission.CAMERA},
+                                        MY_CAMERA_REQUEST_CODE);
+                            }
+                        });
+                return;
+            }
+            ActivityCompat.requestPermissions((Activity) PatientInfoFetcher.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
+            return;
+        }
+        showQRCodeReaderDialog();
+    }
+
+    public void showQRCodeReaderDialog() {
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_qrcode);
+        dialog.show();
+        final QRCodeReaderView qrCodeReaderView;
+        qrCodeReaderView = (QRCodeReaderView) dialog.findViewById(R.id.qrdecoderview);
+        qrCodeReaderView.startCamera();
+        qrCodeReaderView.setQRDecodingEnabled(true);
+        qrCodeReaderView.setAutofocusInterval(2000L);
+        qrCodeReaderView.setTorchEnabled(true);
+        qrCodeReaderView.setFrontCamera();
+        qrCodeReaderView.setBackCamera();
+        qrCodeReaderView.setOnQRCodeReadListener(new QRCodeReaderView.OnQRCodeReadListener() {
+            @Override
+            public void onQRCodeRead(String text, PointF[] points) {
+                etId.setText(text);
+                etId.setEnabled(false);
+                qrCodeReaderView.stopCamera();
+                dialog.dismiss();
+            }
+        });
     }
 }

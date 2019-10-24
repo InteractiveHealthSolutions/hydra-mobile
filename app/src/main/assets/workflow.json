@@ -33,7 +33,7 @@
               },
               {
                 "formId": 12,
-                "encounterType": "End of Follow-up"
+                "encounterType": "End Of Followup"
               }
             ]
           },
@@ -63,7 +63,11 @@
               },
               {
                 "formId": 15,
-                "encounterType": "Treatment Initiation"
+                "encounterType": "Adult Treatment Initiation"
+              },
+              {
+                "formId": 28,
+                "encounterType": "Child Treatment Initiation"
               }
             ]
           },
@@ -73,7 +77,11 @@
             "forms": [
               {
                 "formId": 16,
-                "encounterType": "Treatment Initiation"
+                "encounterType": "Adult Treatment Initiation"
+              },
+              {
+                "formId": 31,
+                "encounterType": "Child Treatment Initiation"
               },
               {
                 "formId": 17,
@@ -235,7 +243,11 @@
             "forms": [
               {
                 "formId": 30002,
-                "encounterType": "Treatment Initiation"
+                "encounterType": "Adult Treatment Initiation"
+              },
+              {
+                "formId": 30011,
+                "encounterType": "Child Treatment Initiation"
               },
               {
                 "formId": 30004,

@@ -8,8 +8,8 @@
 
 
     <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="@dimen/dimen_150dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_margin="@dimen/dimen_8dp"
             card_view:cardElevation="5dp"
             android:layout_gravity="center"
@@ -42,7 +42,7 @@
                     android:id="@+id/tv_form_name"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:padding="12dip"
+                    android:padding="15dip"
                     android:layout_gravity="center"
                     android:typeface="normal"
                     android:textSize="14sp"

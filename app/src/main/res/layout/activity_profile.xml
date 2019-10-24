@@ -16,8 +16,9 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
+                android:background="@drawable/app_gradient"
                 android:layout_height="match_parent"
-                app:expandedTitleGravity="bottom|center"
+                app:expandedTitleGravity    ="bottom|center"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:contentScrim="?attr/colorPrimary"
                 app:title="">
@@ -25,14 +26,14 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradientbackground"
+                    android:background="@drawable/app_gradient"
                     android:orientation="vertical">
 
                 <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="300dp">
                     <LinearLayout
-                            android:background="@drawable/gradientbackground"
+                            android:background="@drawable/app_gradient"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:orientation="vertical">
@@ -83,7 +84,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="Identifier"
                                         android:typeface="serif"
-                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textColor="@color/app_blue"
                                         android:textSize="14sp"
                                 />
                                 <TextView
@@ -94,7 +95,7 @@
                                         android:typeface="serif"
                                         android:textSize="12sp"
                                         android:paddingTop="10dp"
-                                        android:textColor="@color/openChatText"/>
+                                        android:textColor="@color/app_blue"/>
 
                             </LinearLayout>
                             <LinearLayout
@@ -109,7 +110,7 @@
                                         android:text="Age"
                                         android:typeface="serif"
                                         android:textAlignment="center"
-                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textColor="@color/app_blue"
                                         android:textSize="14sp"
                                 />
                                 <TextView
@@ -120,7 +121,7 @@
                                         android:textAlignment="center"
                                         android:textSize="12sp"
                                         android:paddingTop="10dp"
-                                        android:textColor="@color/openChatText"/>
+                                        android:textColor="@color/app_blue"/>
 
                             </LinearLayout>
                             <LinearLayout
@@ -133,7 +134,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="TB Symptoms"
-                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textColor="@color/app_blue"
                                         android:textSize="14sp"
                                         android:typeface="serif"
                                         android:textAlignment="center"
@@ -146,7 +147,7 @@
                                         android:textAlignment="center"
                                         android:textSize="12sp"
                                         android:paddingTop="10dp"
-                                        android:textColor="@color/openChatText"/>
+                                        android:textColor="@color/app_blue"/>
 
                             </LinearLayout>
                         </LinearLayout>

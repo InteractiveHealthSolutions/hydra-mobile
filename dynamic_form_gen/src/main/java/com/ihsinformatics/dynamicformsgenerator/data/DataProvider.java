@@ -1019,17 +1019,17 @@ public class DataProvider {
 //        this.questions.add(new Question(false,endFollowupFormId,21005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
 
         this.questions.add(new Question(true, endFollowupFormId, 21006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "End of Followup form ", generateUUID(), null));
-        this.options.add(new Option(21006, 2200, new int[]{21007,21008,21010,21012,21013,21014,21015,21016}, new int[]{21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21038,21039,21040,21041,210342,21044,21045,21047,21048,21049,21050,21051,21053,21055,21056,21058,21059}, "", "TB Investigation", -1));
-        this.options.add(new Option(21006, 2201, new int[]{21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21038,21039,21040,21041,210342,21044,21045,21047,21048,21049,21050,21051,21053,21055,21056,21058,21059}, "", "TB Treatment", -1));
-        this.options.add(new Option(21006, 2202, new int[]{21038,21039,21040,21041,210342,21044,21045,21047,21048},  new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21049,21050,21051,21053,21055,21056,21058,21059}, "", "PET Investigation", -1));
-        this.options.add(new Option(21006, 2203, new int[]{21049,21050,21051,21053,21055,21056,21058,21059},  new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21038,21039,21040,21041,210342,21044,21045,21047,21048}, "", "PET Treatment", -1));
+        this.options.add(new Option(21006, 2200, new int[]{21007,21008,21010,21012,21013,21014,21015,21016}, new int[]{21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21038,21039,21041,210342,21044,21045,21047,21048,21049,21050,21051,21053,21055,21056,21058,21059}, "", "TB Investigation", -1));
+        this.options.add(new Option(21006, 2201, new int[]{21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21038,21039,21041,210342,21044,21045,21047,21048,21049,21050,21051,21053,21055,21056,21058,21059}, "", "TB Treatment", -1));
+        this.options.add(new Option(21006, 2202, new int[]{21038,21039,21041,210342,21044,21045,21047,21048},  new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21049,21050,21051,21053,21055,21056,21058,21059}, "", "PET Investigation", -1));
+        this.options.add(new Option(21006, 2203, new int[]{21049,21050,21051,21053,21055,21056,21058,21059},  new int[]{21007,21008,21010,21012,21013,21014,21015,21016,21017,21018,21020,21021,21023,21024,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036,21038,21039,21041,210342,21044,21045,21047,21048}, "", "PET Treatment", -1));
 
 
 
 
 
-        this.questions.add(new Question(false, endFollowupFormId, 21007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "TB Investigation Outcome", null, null));
-        this.questions.add(new Question(true, endFollowupFormId, 21008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's TB Investigation Outcome", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, null, "TB Investigation Outcome", null, null));
+        this.questions.add(new Question(true, endFollowupFormId, 21008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's TB Investigation Outcome", generateUUID(), null));
         this.options.add(new Option(21008, 2204, new int[]{21012, 21013}, null, "", "Died", -1));
         this.options.add(new Option(21008, 2205, new int[]{21010}, null, "", "Lost to Follow-up", -1));
         this.options.add(new Option(21008, 2206, null, null, "", "Clinically evaluated, No TB", -1));
@@ -1064,12 +1064,12 @@ public class DataProvider {
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If not evaluated, was the patient transferred out?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If not evaluated, was the patient transferred out?", generateUUID(), null));
         this.options.add(new Option(21015, 2226, null, null, "", "Yes", -1));
         this.options.add(new Option(21015, 2227, new int[]{21016}, null, "", "No", -1));
 
 
-        this.questions.add(new Question(true, endFollowupFormId, 21016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If not transferred out, why does the patient have this outcome?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If not transferred out, why does the patient have this outcome?", generateUUID(), null));
 
 
 
@@ -1079,8 +1079,8 @@ public class DataProvider {
 
 
 
-        this.questions.add(new Question(false, endFollowupFormId, 21017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "TB Treatment Outcome", null, null));
-        this.questions.add(new Question(true, endFollowupFormId, 21018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's TB Treatment Outcome", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, null, "TB Treatment Outcome", null, null));
+        this.questions.add(new Question(true, endFollowupFormId, 21018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's TB Treatment Outcome", generateUUID(), null));
         this.options.add(new Option(21018, 2228, null, null, "", "Cured", -1));
         this.options.add(new Option(21018, 2229, null, null, "", "Treatment Completed", -1));
         this.options.add(new Option(21018, 2230, new int[]{21027}, null, "", "Treatment Failure", -1));
@@ -1130,14 +1130,14 @@ public class DataProvider {
 
         this.questions.add(new Question(true, endFollowupFormId, 21028, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "ENRS Number", generateUUID(), alphanumeric13DigitWithHypen));
 
-        this.questions.add(new Question(false, endFollowupFormId, 21029, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Provide name and contact number of person at referral / transfer site who provided details about the patient", null, null));
+        this.questions.add(new Question(false, endFollowupFormId, 21029, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, null, "Provide name and contact number of person at referral / transfer site who provided details about the patient", null, null));
 
 
-        this.questions.add(new Question(true, endFollowupFormId, 21030, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "First name", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21031, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Last name", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21032, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact number", generateUUID(), null));
-        this.questions.add(new Question(false, endFollowupFormId, 21033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinTodayMaxLastMonday));
-        this.questions.add(new Question(true, endFollowupFormId, 21034, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21030, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "First name", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21031, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Last name", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21032, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Contact number", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinTodayMaxLastMonday));
+        this.questions.add(new Question(true, endFollowupFormId, 21034, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
         this.options.add(new Option(21034, 2258, null, null, "", "TB immediate cause of death", -1));
         this.options.add(new Option(21034, 2259, null, null, "", "Cause related to TB treatment", -1));
         this.options.add(new Option(21034, 2260, null, null, "", "TB contributing to death", -1));
@@ -1147,7 +1147,7 @@ public class DataProvider {
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21035, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21036, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If failed, then reason for failure:", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21036, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If failed, then reason for failure:", generateUUID(), null));
         this.options.add(new Option(21036, 2264, null, null, "", "Lack of conversion", -1));
         this.options.add(new Option(21036, 2265, null, null, "", "Bacteriological reversion", -1));
         this.options.add(new Option(21036, 2266, null, null, "", "Additional acquired resistance to FQ or injectables", -1));
@@ -1165,8 +1165,8 @@ public class DataProvider {
 
 
 
-        this.questions.add(new Question(false, endFollowupFormId, 21038, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "PET Investigation Outcome", null, null));
-        this.questions.add(new Question(true, endFollowupFormId, 21039, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's PET Investigation Outcome", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21038, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, Validation.CHECK_FOR_EMPTY, "PET Investigation Outcome", null, null));
+        this.questions.add(new Question(true, endFollowupFormId, 21039, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's PET Investigation Outcome", generateUUID(), null));
         this.options.add(new Option(21039, 2269, null, null, "", "Died", -1));
         this.options.add(new Option(21039, 2270, null, null, "", "Referral", -1));
         this.options.add(new Option(21039, 2271, null, null, "", "Lost to Follow-up", -1));
@@ -1178,8 +1178,8 @@ public class DataProvider {
 
 
         this.questions.add(new Question(false, endFollowupFormId, 21040, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21041, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //TODO insert location list
-        this.questions.add(new Question(true, endFollowupFormId, 21042, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21041, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //TODO insert location list
+        this.questions.add(new Question(true, endFollowupFormId, 21042, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
         this.options.add(new Option(21042, 2277, null, null, "", "Patient refused follow-upy", -1));
         this.options.add(new Option(21042, 2278, null, null, "", "Substance abuse", -1));
         this.options.add(new Option(21042, 2279, null, null, "", "Social problem", -1));
@@ -1194,8 +1194,8 @@ public class DataProvider {
         this.questions.add(new Question(true, endFollowupFormId, 21043, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If reason for lost to follow-up 'Other', then specify:", generateUUID(), null));
 
 
-        this.questions.add(new Question(false, endFollowupFormId, 21044, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinTodayMaxLastMonday));
-        this.questions.add(new Question(true, endFollowupFormId, 21045, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21044, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinTodayMaxLastMonday));
+        this.questions.add(new Question(true, endFollowupFormId, 21045, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
         this.options.add(new Option(21045, 2288, null, null, "", "TB immediate cause of death", -1));
         this.options.add(new Option(21045, 2289, null, null, "", "Cause related to TB treatment", -1));
         this.options.add(new Option(21045, 2290, null, null, "", "TB contributing to death", -1));
@@ -1204,11 +1204,11 @@ public class DataProvider {
         this.options.add(new Option(21045, 2293, null, null, "", "Unknown", -1));
 
         this.questions.add(new Question(true, endFollowupFormId, 21046, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21047, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If not evaluated, was the patient transferred out?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21047, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If not evaluated, was the patient transferred out?", generateUUID(), null));
         this.options.add(new Option(21047, 2294, null, null, "", "Yes", -1));
         this.options.add(new Option(21047, 2295, null, null, "", "No", -1));
 
-        this.questions.add(new Question(true, endFollowupFormId, 21048, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If not transferred out, why does the patient have this outcome?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21048, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If not transferred out, why does the patient have this outcome?", generateUUID(), null));
 
 
 
@@ -1217,9 +1217,9 @@ public class DataProvider {
 
 
 
-        this.questions.add(new Question(false, endFollowupFormId, 21049, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "PET Treatment Outcome", null, null));
+        this.questions.add(new Question(false, endFollowupFormId, 21049, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, Validation.CHECK_FOR_EMPTY, "PET Treatment Outcome", null, null));
 
-        this.questions.add(new Question(true, endFollowupFormId, 21050, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's PET Treatment Outcome", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21050, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's PET Treatment Outcome", generateUUID(), null));
         this.options.add(new Option(21050, 2296, null, null, "", "Treatment Completed", -1));
         this.options.add(new Option(21050, 2297, null, null, "", "Died", -1));
         this.options.add(new Option(21050, 2298, null, null, "", "Transfer out", -1));
@@ -1233,10 +1233,10 @@ public class DataProvider {
         this.options.add(new Option(21050, 2306, new int[]{21051}, null, "", "Other", -1));
 
         this.questions.add(new Question(false, endFollowupFormId, 21051, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), null));
-        this.questions.add(new Question(true, endFollowupFormId, 21052, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //TODO insert location list
+        this.questions.add(new Question(true, endFollowupFormId, 21052, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //TODO insert location list
 
 
-        this.questions.add(new Question(true, endFollowupFormId, 21053, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21053, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
         this.options.add(new Option(21053, 2307, null, null, "", "Patient refused follow-upy", -1));
         this.options.add(new Option(21053, 2308, null, null, "", "Substance abuse", -1));
         this.options.add(new Option(21053, 2309, null, null, "", "Social problem", -1));
@@ -1251,12 +1251,12 @@ public class DataProvider {
         this.questions.add(new Question(true, endFollowupFormId, 21054, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If reason for lost ot follow-up 'Other', then specify:", generateUUID(), null));
 
 
-        this.questions.add(new Question(true, endFollowupFormId, 21055, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Treatment initiated at Referral / Transfer site", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21055, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Treatment initiated at Referral / Transfer site", generateUUID(), null));
         this.options.add(new Option(21055, 2318, null, null, "", "Yes", -1));
         this.options.add(new Option(21055, 2319, null, null, "", "No", -1));
         this.options.add(new Option(21055, 2320, null, null, "", "Unknown", -1));
 
-        this.questions.add(new Question(true, endFollowupFormId, 21056, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Reason treatment not initiated at referral site", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21056, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason treatment not initiated at referral site", generateUUID(), null));
         this.options.add(new Option(21056, 2321, null, null, "", "Patient could be not be contacted", -1));
         this.options.add(new Option(21056, 2322, null, null, "", "Patient left the city_village", -1));
         this.options.add(new Option(21056, 2323, null, null, "", "Patient refused treatment", -1));
@@ -1265,8 +1265,8 @@ public class DataProvider {
         this.options.add(new Option(21056, 2326, new int[]{21057}, null, "", "Other", -1));
 
         this.questions.add(new Question(true, endFollowupFormId, 21057, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Please specify, if other", generateUUID(), null));
-        this.questions.add(new Question(false, endFollowupFormId, 21058, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinLastYearMaxNextYear));
-        this.questions.add(new Question(true, endFollowupFormId, 21059, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
+        this.questions.add(new Question(false, endFollowupFormId, 21058, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinLastYearMaxNextYear));
+        this.questions.add(new Question(true, endFollowupFormId, 21059, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
         this.options.add(new Option(21059, 2327, null, null, "", "TB immediate cause of death", -1));
         this.options.add(new Option(21059, 2328, null, null, "", "Cause related to TB treatment", -1));
         this.options.add(new Option(21059, 2329, null, null, "", "TB contributing to death", -1));
@@ -1274,7 +1274,7 @@ public class DataProvider {
         this.options.add(new Option(21059, 2331, null, null, "", "Cause other than TB", -1));
         this.options.add(new Option(21059, 2332, null, null, "", "Unknown", -1));
 
-        this.questions.add(new Question(true, endFollowupFormId, 21060, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21060, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), null));
 
 
     }

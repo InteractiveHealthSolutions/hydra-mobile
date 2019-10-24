@@ -89,6 +89,11 @@
     <color name="LightBlue">#ADD8E6</color>
     <color name="DarkGray">#A9A9A9</color>
     <color name="Brown">#A52A2A</color>
+
+    <color name="app_orange">#f6701d</color>
+
+    <color name="app_blue">#4158d0</color>
+
     <color name="Sienna">#A0522D</color>
     <color name="YellowGreen">#9ACD32</color>
     <color name="DarkOrchid">#9932CC</color>

@@ -14,6 +14,7 @@
 
         <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vp_phases"
+                android:paddingEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -65,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-            <include layout="@layout/patient_info_display"/>
+                <include layout="@layout/patient_info_display"/>
             </LinearLayout>
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tb_phase"
@@ -89,16 +90,15 @@
                 android:layout_gravity="bottom"
                 app:active_item_color="@color/White"
                 app:inactive_item_color="@color/colorAccent"
-                app:space_background_color="@color/colorPrimary"
+                app:space_background_color="@color/app_blue"
                 app:centre_button_icon="@drawable/ic_user_filled"
                 app:centre_button_color="@color/White"
                 app:space_item_icon_size="32dp"
                 app:space_item_icon_only_size="32dp"
-                app:space_item_text_size="@dimen/space_item_text_default_size" />
+                app:space_item_text_size="@dimen/space_item_text_default_size"/>
 
 
-
-       <!--not in used..-->
+        <!--not in used..-->
 
         <com.google.android.material.bottomappbar.BottomAppBar
                 android:visibility="gone"
@@ -112,7 +112,7 @@
                 app:fabCradleMargin="0dp"
                 app:fabCradleVerticalOffset="0dp"
                 app:fabCradleRoundedCornerRadius="0dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/app_blue"
                 app:fabAlignmentMode="center">
 
             <RelativeLayout

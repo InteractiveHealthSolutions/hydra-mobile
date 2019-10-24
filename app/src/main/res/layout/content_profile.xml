@@ -15,14 +15,14 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_diagonosis"/>
         <TextView
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="tb.patient@gmail.com"/>
+                android:text="Diagnosis"/>
     </LinearLayout>
     <LinearLayout
             android:layout_marginTop="25dp"
@@ -33,7 +33,7 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_vitals"/>
         <TextView
                 android:textStyle="bold"
 
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="+9266 225 225"/>
+                android:text="Vitals"/>
     </LinearLayout>
     <LinearLayout
             android:layout_marginTop="25dp"
@@ -52,7 +52,7 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_weight_graph"/>
         <TextView
                 android:textStyle="bold"
 
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Add to group"/>
+                android:text="Weight Graph"/>
     </LinearLayout>
     <LinearLayout
             android:layout_marginTop="25dp"
@@ -71,15 +71,14 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_relation"/>
         <TextView
                 android:textStyle="bold"
-
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Supervisor comments"/>
+                android:text="Relationship"/>
     </LinearLayout>
     <LinearLayout
             android:layout_marginTop="25dp"
@@ -90,7 +89,7 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_allergy"/>
         <TextView
                 android:textStyle="bold"
 
@@ -98,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Doctor comments"/>
+                android:text="Allergies"/>
     </LinearLayout>
     <LinearLayout
             android:layout_marginTop="25dp"
@@ -109,7 +108,7 @@
         <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_userprofile"/>
+                android:src="@drawable/ic_recent_visit"/>
         <TextView
                 android:textStyle="bold"
 
@@ -117,7 +116,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="other details"/>
+                android:text="Recent Visits"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal"
+            android:paddingLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_lab_reports"/>
+        <TextView
+                android:textStyle="bold"
+
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="Lab Reports (Attachment)"/>
     </LinearLayout>
 
 </LinearLayout>

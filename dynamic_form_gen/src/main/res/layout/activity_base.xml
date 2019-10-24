@@ -27,18 +27,24 @@
         android:textColor="@color/dark_blue_203c61"
         android:textSize="18sp"
         android:visibility="gone"/>
+
+
+    <include
+            android:id="@+id/header"
+            layout="@layout/patient_info_display"/>
+
     <ScrollView
         android:id="@+id/svQuestions"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvRatings">
+        android:layout_below="@id/header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/patient_info_display"/>
 
             <LinearLayout
                 android:id="@+id/llWidgetsHolder"

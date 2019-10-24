@@ -9,7 +9,7 @@
             android:fillViewport="true"
             android:overScrollMode="always">
 
-                <LinearLayout
+        <LinearLayout
                 android:id="@+id/login_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,36 +28,34 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
 
-                    <ImageView
-                            android:id="@+id/ivLogo"
-                            android:layout_centerHorizontal="true"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/lhc_logo" />
+            <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/lhc_logo"/>
 
-                    <TextView
-                            android:id="@+id/tvLungHealth"
-                            android:layout_below="@+id/ivLogo"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="30dp"
-                            android:text="Lung Health"
-                            android:textStyle="bold"
-                            android:textSize="22dp"
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                    <TextView
-                            android:layout_below="@+id/tvLungHealth"
-                            android:layout_centerHorizontal="true"
-                            android:text="Corporation"
-                            android:textSize="22dp"
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-
+            <TextView
+                    android:id="@+id/tvLungHealth"
+                    android:layout_below="@+id/ivLogo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:text="Lung Health"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_below="@+id/tvLungHealth"
+                    android:layout_centerHorizontal="true"
+                    android:text="Corporation"
+                    android:textSize="22dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
 
-                    <RelativeLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center">
@@ -94,7 +92,7 @@
                         android:id="@+id/check_remember"
                         android:layout_below="@id/edt_password"
                         android:layout_width="wrap_content"
-                        android:buttonTint="@color/colorPrimaryDark"
+                        android:buttonTint="@color/app_orange"
                         android:layout_height="wrap_content"
                         android:text="Remember me"
                 />
@@ -110,7 +108,36 @@
                         android:background="@drawable/button_rounded_shap"
                 />
 
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+                    <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="\tPowered by "
+                            android:textSize="20sp">
+
+                    </TextView>
+                    <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="5dp"
+                            android:textSize="20sp"
+                            android:text="HYDRA">
+                    </TextView>
+                </LinearLayout>
+
             </RelativeLayout>
+
 
         </LinearLayout>
 

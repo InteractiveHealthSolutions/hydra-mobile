@@ -494,7 +494,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected void handleEncounterType() {
 
         if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-            Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
+           // Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
