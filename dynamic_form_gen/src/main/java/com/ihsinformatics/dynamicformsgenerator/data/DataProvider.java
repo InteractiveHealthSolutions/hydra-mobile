@@ -1319,8 +1319,8 @@ public class DataProvider {
         this.options.add(new Option(51020, 5101, null, null, "", "Brother", -1));
 
         this.questions.add(new Question(true, ContactRegistryFormId, 51021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Does the family agree for investigation of their contacts for PT?", generateUUID(), null));
-        this.options.add(new Option(51016, 5101, null, new int[]{51022}, "1", "Yes", -1));
-        this.options.add(new Option(51016, 5102, new int[]{51022}, null, "2", "No", -1));
+        this.options.add(new Option(51021, 5101, null, new int[]{51022}, "1", "Yes", -1));
+        this.options.add(new Option(51021, 5102, new int[]{51022}, null, "2", "No", -1));
         this.questions.add(new Question(true, ContactRegistryFormId, 51022, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason for not agreeing to investigation", generateUUID(), null));
 
     }
