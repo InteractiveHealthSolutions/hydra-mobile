@@ -19,12 +19,10 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import android.app.Activity
 import android.os.Handler
 import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.core.question.config.QuestionConfiguration
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
