@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
-                android:background="@color/AliceBlue"
+                android:background="@drawable/app_gradient_light"
                 android:layout_gravity="center"
 >
     <ImageView
