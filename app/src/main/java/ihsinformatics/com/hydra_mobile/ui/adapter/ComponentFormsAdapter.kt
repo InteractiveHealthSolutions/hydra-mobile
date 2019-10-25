@@ -45,7 +45,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
             ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING, ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING -> R.drawable.ic_screening_lung
             ParamNames.ENCOUNTER_TYPE_PATIENT_INFO -> R.drawable.ic_patient_info
             ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT -> R.drawable.ic_add_user
-            ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY -> R.drawable.ic_contact_registry
+            ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY -> R.drawable.ic_network
             ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION, ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION -> R.drawable.ic_clinic_evaluation
             ParamNames.ENCOUNTER_TYPE_ADVERSE_EVENT -> R.drawable.ic_adverse_effect
 

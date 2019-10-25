@@ -157,6 +157,10 @@
     <color name="Black">#000000</color>
 
 
+
+    <color name="my_light_blue">#4991f7</color>
+    <color name="my_dark_blue">#348AA9</color>
+
     <color name="dark_blue_203c61">#203c61</color>
     <color name="gradiet_start">#8b9dab</color>
     <color name="lightest_blue_e6edf5">#e6edf5</color>

@@ -901,7 +901,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             }
         } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION))) {
 
-            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(41025);
+            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(42025);
             String ans = tbPreemptive.getValue();
 
             if (ans.equals("TB Presumptive confirmed")) {

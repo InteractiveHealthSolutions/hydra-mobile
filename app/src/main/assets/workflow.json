@@ -11,7 +11,6 @@
             "name": "Screening",
             "id": 1001,
             "forms": [
-
               {
                 "formId": 7,
                 "encounterType": "Patient Information"
@@ -111,22 +110,8 @@
         "id": 3,
         "components": [
           {
-            "name": "Identify",
-            "id": 1032,
-            "forms": [
-              {
-                "formId": 20,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 21,
-                "encounterType": "Contact Registry"
-              }
-            ]
-          },
-          {
             "name": "Investigate",
-            "id": 1031,
+            "id": 1032,
             "forms": [
               {
                 "formId": 22,
@@ -143,6 +128,20 @@
               {
                 "formId": 25,
                 "encounterType": "Adult Clinician Evaluation"
+              }
+            ]
+          },
+          {
+            "name": "Identify",
+            "id": 1031,
+            "forms": [
+              {
+                "formId": 20,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 21,
+                "encounterType": "Contact Registry"
               }
             ]
           },
@@ -176,7 +175,6 @@
             "name": "Screening",
             "id": 100001,
             "forms": [
-
               {
                 "formId": 100005,
                 "encounterType": "Patient Information"
@@ -211,7 +209,6 @@
                 "formId": 200003,
                 "encounterType": "TB Disease Confirmation"
               }
-
             ]
           }
         ]
@@ -277,20 +274,6 @@
         "id": 6,
         "components": [
           {
-            "name": "Identify",
-            "id": 60031,
-            "forms": [
-              {
-                "formId": 600001,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 600002,
-                "encounterType": "Contact Registry"
-              }
-            ]
-          },
-          {
             "name": "Investigate",
             "id": 6032,
             "forms": [
@@ -309,6 +292,20 @@
               {
                 "formId": 600006,
                 "encounterType": "Adult Clinician Evaluation"
+              }
+            ]
+          },
+          {
+            "name": "Identify",
+            "id": 5031,
+            "forms": [
+              {
+                "formId": 600001,
+                "encounterType": "Patient Information"
+              },
+              {
+                "formId": 600002,
+                "encounterType": "Contact Registry"
               }
             ]
           },

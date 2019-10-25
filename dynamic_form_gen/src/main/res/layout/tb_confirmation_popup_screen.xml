@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
     android:orientation="vertical">
 
 
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/app_gradient"
         android:gravity="center"
-        android:padding="25dp"
+        android:padding="15dp"
         android:text="TB Diagnosed"
         android:textColor="@color/White"
         android:textSize="20sp"
@@ -40,9 +40,10 @@
 
     <Button
         android:id="@+id/btnDone"
-        android:background="@color/toolBackground"
+        android:background="@color/app_blue"
         android:textColor="@color/White"
         android:layout_width="match_parent"
+        android:padding="15dp"
         android:layout_height="wrap_content"
         android:text="Done" />
 
