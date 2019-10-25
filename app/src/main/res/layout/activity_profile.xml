@@ -46,6 +46,7 @@
                                 android:tint="@color/White"
                                 app:srcCompat="@drawable/ic_user_profile"/>
                         <TextView
+                                android:id="@+id/tvName"
                                 android:layout_marginTop="10dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_width="match_parent"
@@ -89,6 +90,7 @@
                                         android:textSize="14sp"
                                 />
                                 <TextView
+                                        android:id="@+id/tvId"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="EVR5-9"
@@ -115,6 +117,7 @@
                                         android:textSize="14sp"
                                 />
                                 <TextView
+                                        android:id="@+id/tvAge"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="24"

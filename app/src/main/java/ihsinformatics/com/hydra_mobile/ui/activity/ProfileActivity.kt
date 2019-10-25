@@ -3,11 +3,15 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : BaseActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +29,7 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun initView() {
-
+        findViewById<TextView>(R.id.tvId).setText(Global.patientData.identifiers.get(ParamNames.MR_NUMBER))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

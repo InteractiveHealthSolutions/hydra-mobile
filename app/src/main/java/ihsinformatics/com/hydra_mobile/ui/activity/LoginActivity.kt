@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,6 +20,7 @@ import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import android.app.Activity
+import android.os.Handler
 import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
@@ -66,8 +68,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
 
+        flipit(binding.ivLogo)
+
     }
 
+    private fun flipit(viewToFlip: View) {
+        val flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 360f)
+        flip.duration = 3500
+        flip.start()
+
+        val secondsDelayed = 1
+        Handler().postDelayed({
+            flipit(viewToFlip)
+        }, (secondsDelayed * 4500).toLong())
+
+    }
 
     private fun switchActivity() {
         if (validation()) {
