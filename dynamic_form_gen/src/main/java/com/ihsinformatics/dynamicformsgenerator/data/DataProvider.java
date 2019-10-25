@@ -540,7 +540,7 @@ public class DataProvider {
         this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Has the person been in close contact with someone diagnosed with TB?", generateUUID(), null));
         this.options.add(new Option(42021, 4229, new int[]{42022}, null, "1", "Yes", -1));
         this.options.add(new Option(42021, 4230, null, new int[]{42022}, "2", "No", -1));
-        this.options.add(new Option(42021, 4231, null, new int[]{42022}, "3", "Unknow", -1));
+        this.options.add(new Option(42021, 4231, null, new int[]{42022}, "3", "Unknown", -1));
         this.options.add(new Option(42021, 4232, null, new int[]{42022}, "4", "Refused", -1));
 
         this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42022, "", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Who was the close contact?", generateUUID(), null));
@@ -1348,8 +1348,8 @@ public class DataProvider {
         int patientInfoFormId = 2;
         this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", null, dateTimeMinTodayMaxLastMonday));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
-        DynamicOptions.getFromArray(context, 20002, null, null, context.getResources().getStringArray(R.array.locations_list));
+//        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
+//        DynamicOptions.getFromArray(context, 20002, null, null, context.getResources().getStringArray(R.array.locations_list));
 
         this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", null, alphaNumeric150DigitSpace));
 

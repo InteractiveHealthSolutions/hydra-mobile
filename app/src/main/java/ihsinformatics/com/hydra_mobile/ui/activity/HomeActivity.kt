@@ -25,6 +25,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
@@ -144,8 +145,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
             override fun onCentreButtonClick() {
-                startActivity(Intent(applicationContext, ProfileActivity::class.java))
-                finish()
+                if(Global.patientData==null)
+                {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity,"Patient Not Loaded",Toast.LENGTH_SHORT)
+                }
+                else {
+                    startActivity(Intent(applicationContext, ProfileActivity::class.java))
+                    finish()
+                }
             }
 
             override fun onItemReselected(itemIndex: Int, itemName: String?) {
@@ -357,9 +364,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             tvAge?.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
             tvPatientIdentifier?.setText(identifiers)
             if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
-                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.male_icon))
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
             } else {
-                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.female_icon))
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
             }
         }
 
@@ -370,7 +377,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             tvAge?.visibility=View.GONE
             tvAgeLabel?.visibility=View.GONE
             tvPatientIdentifier?.setText("Patient Not Loaded")
-                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.male_icon))
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
 
         }
     }

@@ -9,8 +9,15 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_profile.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.PeriodType
 
 class ProfileActivity : BaseActivity() {
+
+     lateinit var tvID: TextView;
+     lateinit var tvAge: TextView;
+     lateinit var tvName: TextView;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +27,47 @@ class ProfileActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        tvID=findViewById(R.id.tvId)
+        tvAge=findViewById(R.id.tvAge)
+        tvName=findViewById(R.id.tvName)
+
+        if(Global.patientData!=null)
+        {
+            var identifiers = ""
+            val ids = Global.patientData.getIdentifiers()
+            if (ids != null) {
+                val it = ids!!.keys.iterator()
+                while (it.hasNext()) {
+                    val key = it.next()
+                    val value = ids!!.get(key)
+                    identifiers += value/*+", "*/
+                }
+            }
+            tvID.setText(identifiers)
+
+           // tvID.setText(Global.patientData.patient.identifier)
+
+
+
+            val birthDate = Global.patientData.getPatient().getBirthDate()
+            val birthTime = DateTime(birthDate)
+            val nowTime = DateTime()
+
+
+            val interval = Interval(birthTime, nowTime)
+            val period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
+            val years = period.getYears()
+            val months = period.getMonths()
+            val days = period.getDays()
+            tvAge?.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
+           // tvAge.setText(Global.patientData.patient.age.toString())
+            tvName.setText(Global.patientData.patient.givenName)
+
+        }
+
+
+
         initView()
     }
 
@@ -29,7 +77,7 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun initView() {
-        findViewById<TextView>(R.id.tvId).setText(Global.patientData.identifiers.get(ParamNames.MR_NUMBER))
+       // findViewById<TextView>(R.id.tvId).setText(Global.patientData.identifiers.get(ParamNames.MR_NUMBER))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

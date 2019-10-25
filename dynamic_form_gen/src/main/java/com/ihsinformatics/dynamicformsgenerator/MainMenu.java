@@ -118,9 +118,9 @@ public class MainMenu extends ToolbarActivity implements OnClickListener {
         if (user.getFullName() != null || user.getGender() != null) {
             tvUsername.setText(user.getFullName());
             if (user.getGender().toLowerCase().startsWith("m")) {
-                ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
+                ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
             } else {
-                ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
+                ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
             }
         }
     }

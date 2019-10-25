@@ -81,11 +81,16 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                     if (Global.patientData == null) {
 //                        PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
 //                        context.startActivity(Intent(context, PatientInfoFetcher::class.java))
-                        ToastyWidget.getInstance().displayError(context, context.resources.getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
-                    }
-                    Form.setENCOUNTER_NAME(Constant.formName)
-                    context.startActivity(Intent(context, Form::class.java))
+                        ToastyWidget.getInstance().displayError(
+                            context,
+                            context.resources.getString(R.string.patient_not_loaded),
+                            Toast.LENGTH_SHORT
+                        )
 
+                    } else {
+                        Form.setENCOUNTER_NAME(Constant.formName)
+                        context.startActivity(Intent(context, Form::class.java))
+                    }
                 }
             }
         }

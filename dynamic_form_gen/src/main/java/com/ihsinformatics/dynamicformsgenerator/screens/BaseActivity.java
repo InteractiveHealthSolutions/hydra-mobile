@@ -115,6 +115,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     private int score;
     public static String PATIENT_SESSION_NUMBER;
 
+
     private MyDialogFragment dialogFragment;
 
 
@@ -621,6 +622,37 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             infant_females.setOnValueChangeListener(valueChangeListener3);
             infant_males.setOnValueChangeListener(valueChangeListener3);
 
+            //51015,  51014,51011,51008
+
+
+            final EditTextWidget all_adults_total = (EditTextWidget) inputWidgets.get(51008);
+            final EditTextWidget all_child_total = (EditTextWidget) inputWidgets.get(51011);
+            final EditTextWidget all_infant_total = (EditTextWidget) inputWidgets.get(51014);
+            final EditTextWidget all_total = (EditTextWidget) inputWidgets.get(51015);
+            all_total.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener4 = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || all_adults_total.getValue().isEmpty() || all_child_total.getValue().isEmpty() || all_infant_total.getValue().isEmpty())
+                        return;
+
+                    int adults_tot = Integer.valueOf(all_adults_total.getValue());
+                    int child_tot = Integer.valueOf(all_child_total.getValue());
+                    int infant_tot = Integer.valueOf(all_infant_total.getValue());
+
+
+                    if (adults_tot >= 0 || child_tot >= 0 || infant_tot >= 0) {
+                        int tot = adults_tot + child_tot + infant_tot;
+                        all_total.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                    //else if()
+                }
+            };
+            all_adults_total.setOnValueChangeListener(valueChangeListener4);
+            all_child_total.setOnValueChangeListener(valueChangeListener4);
+            all_infant_total.setOnValueChangeListener(valueChangeListener4);
+
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
             // llPatientInfoDisplayer.setVisibility(View.GONE);
@@ -630,6 +662,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+
 
             final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
 
@@ -642,7 +675,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
         if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
             tvRatings.setVisibility(View.GONE);
-//            llPatientInfoDisplayer.setVisibility(View.GONE);
+            llPatientInfoDisplayer.setVisibility(View.GONE);
         } else {
             fillPatientInfoBar();
         }
@@ -682,9 +715,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         tvAge.setText(years + " years, " + months + " months, " + days + " days");
         tvPatientIdentifier.setText(identifiers);
         if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
-            ivGender.setImageDrawable(getDrawable(R.drawable.male_icon));
+            ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
         } else {
-            ivGender.setImageDrawable(getDrawable(R.drawable.female_icon));
+            ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
         }
 
     }
@@ -843,8 +876,24 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             String ans = tbPreemptive.getValue();
 
             if (ans.equals("Yes") || ans.equals("yes")) {
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
-                startForm(patientData, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Please Collect Sputum Sample");
+                alertDialogBuilder.setTitle("Sputum Collection");
+                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
+                        try {
+                            startForm(patientData, null);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                alertDialogBuilder.show();
+                return;
+
             } else {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
@@ -872,20 +921,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
             Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
             startForm(patientData, null);
-        }
-        else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_EOF)) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage("Please Collect Sputum");
-            alertDialogBuilder.setTitle("Sputum Collection");
-            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            alertDialogBuilder.show();
-
-            return;
         }
         finish();
 

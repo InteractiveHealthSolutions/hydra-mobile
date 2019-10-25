@@ -30,13 +30,13 @@
 
 
     <include
-            android:id="@+id/header"
+            android:id="@+id/llPatientInfoDisplay"
             layout="@layout/patient_info_display"/>
     <include
         android:id="@+id/formHeader"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/llPatientInfoDisplay"
         layout="@layout/form_name_display"/>
 
     <ScrollView

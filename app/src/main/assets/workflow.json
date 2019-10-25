@@ -11,10 +11,7 @@
             "name": "Screening",
             "id": 1001,
             "forms": [
-              {
-                "formId": 88,
-                "encounterType": "Create Patient"
-              },
+
               {
                 "formId": 7,
                 "encounterType": "Patient Information"
@@ -281,36 +278,36 @@
         "components": [
           {
             "name": "Identify",
-            "id": 1032,
+            "id": 60031,
             "forms": [
               {
-                "formId": 20,
+                "formId": 600001,
                 "encounterType": "Patient Information"
               },
               {
-                "formId": 21,
+                "formId": 600002,
                 "encounterType": "Contact Registry"
               }
             ]
           },
           {
             "name": "Investigate",
-            "id": 1031,
+            "id": 6032,
             "forms": [
               {
-                "formId": 22,
+                "formId": 600003,
                 "encounterType": "Child Screening"
               },
               {
-                "formId": 23,
+                "formId": 600004,
                 "encounterType": "Adult Screening"
               },
               {
-                "formId": 24,
+                "formId": 600005,
                 "encounterType": "Child Clinician Evaluation"
               },
               {
-                "formId": 25,
+                "formId": 600006,
                 "encounterType": "Adult Clinician Evaluation"
               }
             ]
@@ -320,11 +317,11 @@
             "id": 1033,
             "forms": [
               {
-                "formId": 26,
+                "formId": 600007,
                 "encounterType": "PT Treatment Initiation"
               },
               {
-                "formId": 27,
+                "formId": 600008,
                 "encounterType": "PT Post Treatment Outcome"
               }
             ]
