@@ -12,6 +12,10 @@
             "id": 1001,
             "forms": [
               {
+                "formId": 88,
+                "encounterType": "Create Patient"
+              },
+              {
                 "formId": 7,
                 "encounterType": "Patient Information"
               },

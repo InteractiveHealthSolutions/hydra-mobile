@@ -32,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -276,7 +277,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 makePostFormDecision();
-                // finish();
+                //   finish();
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -485,7 +486,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected void handleEncounterType() {
 
         if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-           // Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
+            // Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -622,18 +623,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-            llPatientInfoDisplayer.setVisibility(View.GONE);
+            // llPatientInfoDisplayer.setVisibility(View.GONE);
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
-        }
-        else if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)){
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
 
             final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
 
-            String vals[]={"Normal","Abnormal, Not Suggestive of TB","Abnormal, Suggestive of TB"};
+            String vals[] = {"Normal", "Abnormal, Not Suggestive of TB", "Abnormal, Suggestive of TB"};
             int random = new Random().nextInt(3);
 
             xray.setAnswer(vals[random] + "", "", LANGUAGE.ENGLISH);
@@ -642,7 +642,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
         if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
             tvRatings.setVisibility(View.GONE);
-            llPatientInfoDisplayer.setVisibility(View.GONE);
+//            llPatientInfoDisplayer.setVisibility(View.GONE);
         } else {
             fillPatientInfoBar();
         }
@@ -692,7 +692,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // To put other necessary form data other than questions and answers
     private void putMetaData(JSONObject data) throws JSONException {
         data.put(ParamNames.REQUEST_TYPE, Form.getENCOUNTER_NAME());
-        if (llPatientInfoDisplayer.getVisibility() == View.VISIBLE) {
+        if (llPatientInfoDisplayer != null && llPatientInfoDisplayer.getVisibility() == View.VISIBLE) {
 
             JSONObject patientDataJson = new JSONObject();
 
@@ -835,6 +835,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 startForm(patientData, null);
 
             }
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
+            return;
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
             final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
             String ans = tbPreemptive.getValue();
@@ -847,8 +850,41 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 startForm(patientData, null);
 
             }
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION))) {
+
+            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(41025);
+            String ans = tbPreemptive.getValue();
+
+            if (ans.equals("TB Presumptive confirmed")) {
+                //Popup
+
+                ShowPopup("TB Diagnosed", "TB_diagnosed_adult");
+                return;
+
+            } else {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                startForm(patientData, null);
+
+            }
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
             ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
+            return;
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+            Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+            startForm(patientData, null);
+        }
+        else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_EOF)) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("Please Collect Sputum");
+            alertDialogBuilder.setTitle("Sputum Collection");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialogBuilder.show();
+
             return;
         }
         finish();
@@ -897,7 +933,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     public void onFinishEditDialog(String inputText, String type) throws JSONException {
         if (TextUtils.isEmpty(inputText)) {
             Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             if (type.equals("TB_diagnosed")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION);
@@ -908,8 +944,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     startForm(patientData, null);
 
                 }
-            }
-            else if(type.equals("ContactRegistry")){
+            } else if (type.equals("TB_diagnosed_adult")) {
+                if (inputText.equals("Yes") || inputText.equals("yes")) {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION);
+                    startForm(patientData, null);
+
+                } else {
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+                    startForm(patientData, null);
+
+                }
+            } else if (type.equals("ContactRegistry")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
                     startForm(patientData, null);
