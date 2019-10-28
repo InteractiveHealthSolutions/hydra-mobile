@@ -93,10 +93,12 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
             tvQuestion.setText(question.getText());
         }
         if (tvQuestionNumber != null) {
-            if (question.getQuestionNumber().equals("")) {
+            if (!question.isMandatory()) {
                 tvQuestionNumber.setVisibility(View.GONE);
             } else {
-                tvQuestionNumber.setText(question.getQuestionNumber());
+                tvQuestionNumber.setText("*");
+                tvQuestionNumber.setTextColor(getResources().getColor(R.color.Red));
+                tvQuestionNumber.setBackgroundColor(getResources().getColor(R.color.White));
             }
         }
         setVisibility(question.getInitialVisibility());
