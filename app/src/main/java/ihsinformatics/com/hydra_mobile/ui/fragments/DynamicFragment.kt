@@ -58,7 +58,7 @@ class DynamicFragment : BaseFragment() {
 
         swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
 
-            Toast.makeText(activity, "downloaded", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Refreshed", Toast.LENGTH_SHORT).show()
             swipeContainer.isRefreshing = false
         }
         )

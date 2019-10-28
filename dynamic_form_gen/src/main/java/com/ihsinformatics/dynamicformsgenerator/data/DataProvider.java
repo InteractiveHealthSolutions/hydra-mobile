@@ -597,8 +597,9 @@ public class DataProvider {
         this.questions.add(new Question(false, ChildClinicalEvaluationFormId, 41010, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Physical Examination", null, null));
 
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41011, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Did the MO perform physical examination?", generateUUID(), null));
-        this.options.add(new Option(41011, 4101, new int[]{41013, 41012}, null, "1", "Performed", -1));
-        this.options.add(new Option(41011, 4102, null, new int[]{41013, 41012}, "2", "Not performed/examined", -1));
+
+        this.options.add(new Option(41011, 4102, null, new int[]{41013, 41012}, "1", "Not performed/examined", -1));
+        this.options.add(new Option(41011, 4101, new int[]{41013, 41012}, null, "2", "Performed", -1));
 
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41012, "", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Which systems were examined?", generateUUID(), null));
         this.options.add(new Option(41012, 4103, null, null, "1", "General Appearance", -1));
@@ -648,8 +649,9 @@ public class DataProvider {
 
         this.questions.add(new Question(false, ChildClinicalEvaluationFormId, 41020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Family History", null, null));
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Has the person been in close contact with someone diagnosed with TB?", generateUUID(), null));
-        this.options.add(new Option(41021, 4129, new int[]{41022}, null, "1", "Yes", -1));
-        this.options.add(new Option(41021, 4130, null, new int[]{41022}, "2", "No", -1));
+
+        this.options.add(new Option(41021, 4130, null, new int[]{41022}, "1", "No", -1));
+        this.options.add(new Option(41021, 4129, new int[]{41022}, null, "2", "Yes", -1));
         this.options.add(new Option(41021, 4131, null, new int[]{41022}, "3", "Unknow", -1));
         this.options.add(new Option(41021, 4132, null, new int[]{41022}, "4", "Refused", -1));
 
