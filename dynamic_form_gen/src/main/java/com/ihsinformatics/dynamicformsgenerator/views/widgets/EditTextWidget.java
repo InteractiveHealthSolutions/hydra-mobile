@@ -46,7 +46,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     private List<Map<Integer, InputWidget>> repeatGroups;
     BaseActivity baseActivity;
 
-    public EditTextWidget(Context context, Question question, int layoutId) {
+    public EditTextWidget(Context context, Question question, int layoutId){
         super(context, question, layoutId);
         if(super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;

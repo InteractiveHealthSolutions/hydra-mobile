@@ -158,20 +158,25 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
 
     @Override
     public void setVisibility(int visibility) {
-
-        if(question.getQuestionId() == 21049) {
-            System.out.println("");
-        }
-        if (spAnswer != null) {
-            // int[] showables = findAlldependantShowAbles();
-            if (visibility == View.VISIBLE) {
-                int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
-                int[] hideables = options.get(spAnswer.getSelectedItemPosition()).getHidesQuestions();
-                ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);
-            } else {
-                int[] hideables = findAlldependantHideAbles();
-                ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
+        int questionId = question.getQuestionId();
+        try {
+            if (questionId == 21006) {
+                System.out.println("");
             }
+            if (spAnswer != null) {
+                if(options.size() < 1) throw new Exception("Options not provided for question number "+questionId+" , widget type: "+ SpinnerWidget.class.getName());
+                // int[] showables = findAlldependantShowAbles();
+                if (visibility == View.VISIBLE) {
+                    int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
+                    int[] hideables = options.get(spAnswer.getSelectedItemPosition()).getHidesQuestions();
+                    ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);
+                } else {
+                    int[] hideables = findAlldependantHideAbles();
+                    ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 		/*if(visibility == View.GONE) {

@@ -1102,7 +1102,11 @@ public class DataProvider {
 
 
         this.questions.add(new Question(false, endFollowupFormId, 21019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), null));
+
         this.questions.add(new Question(true, endFollowupFormId, 21020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //ToDO insert location list
+        this.options.add(new Option(21020, 2237, null, null, "", "Bedford Hospital", -1));
+        this.options.add(new Option(21020, 2237, null, null, "", "Frere Clinic", -1));
+
         this.questions.add(new Question(true, endFollowupFormId, 21021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
         this.options.add(new Option(21021, 2238, null, null, "", "Patient refused follow-upy", -1));
         this.options.add(new Option(21021, 2239, null, null, "", "Substance abuse", -1));
