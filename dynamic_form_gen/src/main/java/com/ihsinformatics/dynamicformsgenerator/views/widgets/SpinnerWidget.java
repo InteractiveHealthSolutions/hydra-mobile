@@ -158,6 +158,10 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
 
     @Override
     public void setVisibility(int visibility) {
+
+        if(question.getQuestionId() == 21049) {
+            System.out.println("");
+        }
         if (spAnswer != null) {
             // int[] showables = findAlldependantShowAbles();
             if (visibility == View.VISIBLE) {

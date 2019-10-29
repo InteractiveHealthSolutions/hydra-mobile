@@ -597,8 +597,9 @@ public class DataProvider {
         this.questions.add(new Question(false, ChildClinicalEvaluationFormId, 41010, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Physical Examination", null, null));
 
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41011, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Did the MO perform physical examination?", generateUUID(), null));
-        this.options.add(new Option(41011, 4101, new int[]{41013, 41012}, null, "1", "Performed", -1));
-        this.options.add(new Option(41011, 4102, null, new int[]{41013, 41012}, "2", "Not performed/examined", -1));
+
+        this.options.add(new Option(41011, 4102, null, new int[]{41013, 41012}, "1", "Not performed/examined", -1));
+        this.options.add(new Option(41011, 4101, new int[]{41013, 41012}, null, "2", "Performed", -1));
 
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41012, "", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Which systems were examined?", generateUUID(), null));
         this.options.add(new Option(41012, 4103, null, null, "1", "General Appearance", -1));
@@ -648,8 +649,9 @@ public class DataProvider {
 
         this.questions.add(new Question(false, ChildClinicalEvaluationFormId, 41020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Family History", null, null));
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Has the person been in close contact with someone diagnosed with TB?", generateUUID(), null));
-        this.options.add(new Option(41021, 4129, new int[]{41022}, null, "1", "Yes", -1));
-        this.options.add(new Option(41021, 4130, null, new int[]{41022}, "2", "No", -1));
+
+        this.options.add(new Option(41021, 4130, null, new int[]{41022}, "1", "No", -1));
+        this.options.add(new Option(41021, 4129, new int[]{41022}, null, "2", "Yes", -1));
         this.options.add(new Option(41021, 4131, null, new int[]{41022}, "3", "Unknow", -1));
         this.options.add(new Option(41021, 4132, null, new int[]{41022}, "4", "Refused", -1));
 
@@ -993,11 +995,11 @@ public class DataProvider {
         this.questions.add(new Question(false, ChildScreeningFormId, 31031, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "MEDICAL HISTORY", generateUUID(), null));
 
         this.questions.add(new Question(false, ChildScreeningFormId, 31032, "", InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Do you have any comorbid conditions?", generateUUID(), null));
-        this.options.add(new Option(31031, 3070, null, new int[]{31033}, "1", "Diabetes", -1));
-        this.options.add(new Option(31031, 3071, null, new int[]{31033}, "2", "HIV", -1));
-        this.options.add(new Option(31031, 3072, null, new int[]{31033}, "3", "HepC", -1));
-        this.options.add(new Option(31031, 3073, null, new int[]{31033}, "4", "Renal Condition", -1));
-        this.options.add(new Option(31031, 3074, new int[]{31033}, null, "5", "Other", -1));
+        this.options.add(new Option(31032, 3070, null, new int[]{31033}, "1", "Diabetes", -1));
+        this.options.add(new Option(31032, 3071, null, new int[]{31033}, "2", "HIV", -1));
+        this.options.add(new Option(31032, 3072, null, new int[]{31033}, "3", "HepC", -1));
+        this.options.add(new Option(31032, 3073, null, new int[]{31033}, "4", "Renal Condition", -1));
+        this.options.add(new Option(31032, 3074, new int[]{31033}, null, "5", "Other", -1));
         this.questions.add(new Question(true, ChildScreeningFormId, 31033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other Comorbid Condition", generateUUID(), null));
 
 //        this.questions.add(new Question(false,ChildScreeningFormId,31034,"35",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Would you like the child to be tested for co-morbid conditions?",generateUUID(),null));
@@ -1346,30 +1348,30 @@ public class DataProvider {
 
     private void initPatientInformation() {
         int patientInfoFormId = 2;
-        this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", null, dateTimeMinTodayMaxLastMonday));
+        this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
 
 //        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
 //        DynamicOptions.getFromArray(context, 20002, null, null, context.getResources().getStringArray(R.array.locations_list));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", null, alphaNumeric150DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", generateUUID(), alphaNumeric150DigitSpace));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20019, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Questions", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20019, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Questions", generateUUID(), null));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20004, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Source", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20004, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient Source", generateUUID(), null));
         this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Screening", -1));
         this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Referred", -1));
         this.options.add(new Option(20004, 20002, new int[]{20006}, new int[]{20005}, "", "Contact of TB Patient", -1));
         this.options.add(new Option(20004, 20002, null, new int[]{20005, 20006}, "", "Walk-in / Self Referred", -1));
         this.options.add(new Option(20004, 20002, new int[]{20005}, new int[]{20006}, "", "Other", -1));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20005, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", null, alphanumeric100DigitSpace));
-        this.questions.add(new Question(true, patientInfoFormId, 20006, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Index Patient ID", null, alphanumeric13DigitWithHypen));
+        this.questions.add(new Question(true, patientInfoFormId, 20005, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), alphanumeric100DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20006, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Index Patient ID", generateUUID(), alphanumeric13DigitWithHypen));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality", null, alphanumeric100DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality", generateUUID(), alphanumeric100DigitSpace));
         this.options.addAll(DynamicOptions.getFromArray(context, 20007, null, null, context.getResources().getStringArray(R.array.countries_array)));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "National ID Number", null, numeric13DigitWithHypen));
-        this.questions.add(new Question(true, patientInfoFormId, 20009, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Whose National ID Card is this?", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "National ID Number", generateUUID(), numeric13DigitWithHypen));
+        this.questions.add(new Question(true, patientInfoFormId, 20009, "7", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Whose National ID Card is this?", generateUUID(), null));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Self", -1));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Father", -1));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Spouse", -1));
@@ -1381,27 +1383,27 @@ public class DataProvider {
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Uncle", -1));
         this.options.add(new Option(20009, 20002, null, new int[]{20010}, "", "Aunt", -1));
         this.options.add(new Option(20009, 20002, new int[]{20010}, null, "", "Other", -1));
-        this.questions.add(new Question(true, patientInfoFormId, 20010, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", null, alphanumeric100DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20010, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), alphanumeric100DigitSpace));
 
 
-        this.questions.add(new Question(true, patientInfoFormId, 20011, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Where is the address located?", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20011, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Where is the address located?", generateUUID(), null));
         this.options.add(new Option(20011, 20002, null, null, "", "Rural", -1));
         this.options.add(new Option(20011, 20002, null, null, "", "Urban", -1));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20012, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Which type of address is this?", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20012, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Which type of address is this?", generateUUID(), null));
         this.options.add(new Option(20012, 20002, null, null, "", "Permanent", -1));
         this.options.add(new Option(20012, 20002, null, null, "", "Temporary", -1));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20018, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Screener Instructions: Inform the patient regarding phone calls/sms", null, mobileNumber));
+        this.questions.add(new Question(true, patientInfoFormId, 20018, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Screener Instructions: Inform the patient regarding phone calls/sms", generateUUID(), mobileNumber));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20013, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Can we call you and SMS you on any of these numbers for matters related to your TB tests and diagnosis?", null, null));
+        this.questions.add(new Question(true, patientInfoFormId, 20013, "4", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Can we call you and SMS you on any of these numbers for matters related to your TB tests and diagnosis?", generateUUID(), null));
         this.options.add(new Option(20013, 20002, null, null, "", "Yes", -1));
         this.options.add(new Option(20013, 20002, null, null, "", "No", -1));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Mobile Number", null, mobileNumber));
-        this.questions.add(new Question(false, patientInfoFormId, 20015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Mobile Number", null, mobileNumber));
-        this.questions.add(new Question(true, patientInfoFormId, 20016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Landline Number", null, landlineNumber));
-        this.questions.add(new Question(false, patientInfoFormId, 20017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Landline Number", null, landlineNumber));
+        this.questions.add(new Question(true, patientInfoFormId, 20014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Mobile Number", generateUUID(), mobileNumber));
+        this.questions.add(new Question(false, patientInfoFormId, 20015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Mobile Number", generateUUID(), mobileNumber));
+        this.questions.add(new Question(true, patientInfoFormId, 20016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Landline Number", generateUUID(), landlineNumber));
+        this.questions.add(new Question(false, patientInfoFormId, 20017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Secondary Landline Number", generateUUID(), landlineNumber));
 
     }
 

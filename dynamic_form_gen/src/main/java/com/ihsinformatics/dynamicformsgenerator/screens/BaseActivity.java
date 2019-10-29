@@ -845,9 +845,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             String ans = tbPreemptive.getValue();
 
             if (ans.equals("Yes") || ans.equals("yes")) {
+               // finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION);
                 startForm(patientData, null);
             } else {
+                finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
 
@@ -859,16 +861,18 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             if (ans.equals("TB Presumptive confirmed")) {
                 //Popup
-
+               // finish();
                 ShowPopup("TB Diagnosed", "TB_diagnosed");
                 return;
 
             } else {
+                finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
 
             }
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+           // finish();
             ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
             return;
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
@@ -883,7 +887,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
+                        finish();
+                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
                         try {
                             startForm(patientData, null);
                         } catch (JSONException e) {
@@ -895,6 +900,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 return;
 
             } else {
+                finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
 
@@ -906,23 +912,28 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             if (ans.equals("TB Presumptive confirmed")) {
                 //Popup
-
+                //finish();
                 ShowPopup("TB Diagnosed", "TB_diagnosed_adult");
                 return;
 
             } else {
+                finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                 startForm(patientData, null);
 
             }
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
+            //finish();
             ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
             return;
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+            finish();
             Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
             startForm(patientData, null);
         }
         finish();
+        finish();
+
 
 
     }
@@ -971,30 +982,36 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } else {
             if (type.equals("TB_diagnosed")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
+                    //finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION);
                     startForm(patientData, null);
 
                 } else {
+                   // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                     startForm(patientData, null);
 
                 }
             } else if (type.equals("TB_diagnosed_adult")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
+                   // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION);
                     startForm(patientData, null);
 
                 } else {
+                    //finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                     startForm(patientData, null);
 
                 }
             } else if (type.equals("ContactRegistry")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
+                   // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
                     startForm(patientData, null);
 
                 } else {
+                   // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                     startForm(patientData, null);
 

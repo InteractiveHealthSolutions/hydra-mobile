@@ -22,7 +22,9 @@ import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import android.os.Handler
 import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
+
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -94,8 +96,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                     override fun onFailure(t: Throwable) {
                         networkProgressDialog.dismiss()
-                        Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                            .show()
+                        //Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                       //     .show()
                         onSuccess(t)
                     }
 
@@ -121,6 +123,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
 
                         openMetaDataFetcher()
+
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
 
 
                     }
