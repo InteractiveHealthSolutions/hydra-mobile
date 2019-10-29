@@ -33,6 +33,7 @@ public class MyDialogFragment extends DialogFragment {
 
 
         }
+
         return super.onCreateDialog(savedInstanceState);
 
     }
@@ -41,6 +42,10 @@ public class MyDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tb_confirmation_popup_screen, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        int width = getResources().getDimensionPixelSize(R.dimen.popup_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.popup_height);
+        getDialog().getWindow().setLayout(width, height);
 
         TextView tvQuestion = view.findViewById(R.id.tvTitle);
         tvQuestion.setText(this.question);

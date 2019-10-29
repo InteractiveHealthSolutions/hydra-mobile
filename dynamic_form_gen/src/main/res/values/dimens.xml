@@ -6,4 +6,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
+    <dimen name="popup_width">700dp</dimen>
+    <dimen name="popup_height">700dp</dimen>
+
+    popup_width
 </resources>
