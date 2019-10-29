@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
-    android:layout_height="300dp"
+    android:layout_width="700dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
@@ -27,11 +27,13 @@
             android:id="@+id/yes_diagnosed_tb"
             android:layout_width="match_parent"
             android:padding="10dp"
+            android:textSize="20sp"
             android:layout_height="wrap_content"
             android:text="Yes"/>
         <RadioButton
             android:id="@+id/no_diagnosed_tb"
             android:padding="10dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No"/>
@@ -39,6 +41,7 @@
     </RadioGroup>
 
     <Button
+            android:layout_marginTop="30dp"
         android:id="@+id/btnDone"
         android:background="@color/app_blue"
         android:textColor="@color/White"

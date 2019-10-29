@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,8 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tb_confirmation_popup_screen, container, false);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
         TextView tvQuestion = view.findViewById(R.id.tvTitle);
         tvQuestion.setText(this.question);
         return view;
