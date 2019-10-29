@@ -38,6 +38,11 @@ android {
     kapt {
         generateStubs = true
     }
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
 }
 
 dependencies {
