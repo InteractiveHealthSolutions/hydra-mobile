@@ -1359,8 +1359,9 @@ public class DataProvider {
         int patientInfoFormId = 2;
         this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
 
-//        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
-//        DynamicOptions.getFromArray(context, 20002, null, null, context.getResources().getStringArray(R.array.locations_list));
+        this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
+        this.options.add(new Option(20002, 2237, null, null, "", "Bedford Hospital", -1));
+        this.options.add(new Option(20002, 2237, null, null, "", "Frere Clinic", -1));
 
         this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", generateUUID(), alphaNumeric150DigitSpace));
 
