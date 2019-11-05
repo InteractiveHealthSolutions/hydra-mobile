@@ -20,6 +20,8 @@ import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import android.os.Handler
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 
@@ -35,6 +37,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var checkboxRemember:CheckBox
+    private var showPassword=0
 
     init {
 
@@ -69,6 +72,24 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         networkProgressDialog = NetworkProgressDialog(this)
 
         flipit(binding.ivLogo)
+
+        binding.loginEye.setOnClickListener{view ->
+
+            if(showPassword==0)
+            {
+                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_show_eye))
+                showPassword=1
+                binding.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+
+            }
+            else
+            {
+                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_cross_eye))
+                showPassword=0
+                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+
+            }
+        }
 
     }
 

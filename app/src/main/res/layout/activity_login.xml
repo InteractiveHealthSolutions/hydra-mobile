@@ -2,147 +2,166 @@
 <layout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/app_gradient_light"
-        android:fillViewport="true"
-        android:overScrollMode="always">
+                android:fillViewport="true"
+                android:overScrollMode="always">
 
         <LinearLayout
-            android:id="@+id/login_container_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dimen_16dp">
+                android:id="@+id/login_container_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_16dp">
 
             <ImageView
-                android:id="@+id/img_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginTop="32dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:elevation="@dimen/dimen_12dp"
-                android:tint="@color/colorPrimaryDark"
-                app:srcCompat="@drawable/ic_settings" />
+                    android:id="@+id/img_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:elevation="@dimen/dimen_12dp"
+                    android:tint="@color/colorPrimaryDark"
+                    app:srcCompat="@drawable/ic_settings"/>
 
 
             <ImageView
-                android:id="@+id/ivLogo"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:src="@drawable/lhc_logo" />
+                    android:id="@+id/ivLogo"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/lhc_logo"/>
 
             <TextView
-                android:id="@+id/tvLungHealth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivLogo"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:text="Lung Health"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                    android:id="@+id/tvLungHealth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivLogo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:text="Lung Health"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvLungHealth"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:text="Corporation"
-                android:textSize="22sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLungHealth"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="Corporation"
+                    android:textSize="22sp"/>
 
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:padding="20dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:padding="20dp">
 
                 <EditText
 
-                    android:id="@+id/edt_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_rounded_shap"
-                    android:drawableLeft="@drawable/ic_userprofile"
-                    android:drawablePadding="8dp"
-                    android:drawableTint="@color/app_orange"
-                    android:hint="@string/edt_username_hint"
-                    android:inputType="textPersonName"
-                    android:padding="@dimen/dimen_12dp"
-                    android:text="admin" />
-
-
-                <EditText
-                    android:id="@+id/edt_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/edt_username"
-                    android:layout_marginTop="@dimen/dimen_16dp"
-                    android:background="@drawable/edittext_rounded_shap"
-                    android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
-                    android:drawablePadding="8dp"
-                    android:drawableTint="@color/app_orange"
-                    android:hint="@string/edt_password_hint"
-                    android:inputType="textPassword"
-                    android:padding="@dimen/dimen_12dp"
-                    app:passwordToggleEnabled="true"
-                    android:text="Admin321" />
-
-                <CheckBox
-                    android:id="@+id/check_remember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/edt_password"
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:buttonTint="@color/app_orange"
-                    android:text="Remember me" />
-
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/check_remember"
-                    android:layout_marginTop="@dimen/dimen_33dp"
-                    android:background="@drawable/button_rounded_shap"
-                    android:text="@string/btn_login_str"
-                    android:textColor="@color/White"
-                    android:textSize="16sp" />
+                        android:id="@+id/edt_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_rounded_shap"
+                        android:drawableLeft="@drawable/ic_userprofile"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/app_orange"
+                        android:hint="@string/edt_username_hint"
+                        android:inputType="textPersonName"
+                        android:padding="@dimen/dimen_12dp"
+                        android:text="admin"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center"
-                    android:gravity="end"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
+                        android:id="@+id/layout_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="5"
+                        android:padding="@dimen/dimen_12dp"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:background="@drawable/edittext_rounded_shap"
+                        android:layout_below="@+id/edt_username"
+                        android:orientation="horizontal">
+
+                    <EditText
+                            android:id="@+id/edt_password"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+                            android:drawablePadding="8dp"
+                            android:drawableTint="@color/app_orange"
+                            android:background="@drawable/edittext_plain_shape"
+                            android:hint="@string/edt_password_hint"
+                            android:inputType="textPassword"
+                            android:layout_weight="4"
+                            android:text="Admin321"/>
+
+                    <ImageView
+                            android:id="@+id/login_eye"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:src="@drawable/login_cross_eye">
+                    </ImageView>
+
+                </LinearLayout>
+                <CheckBox
+                        android:id="@+id/check_remember"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layout_password"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:buttonTint="@color/app_orange"
+                        android:text="Remember me"/>
+
+                <Button
+                        android:id="@+id/btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/check_remember"
+                        android:layout_marginTop="@dimen/dimen_33dp"
+                        android:background="@drawable/button_rounded_shap"
+                        android:text="@string/btn_login_str"
+                        android:textColor="@color/White"
+                        android:textSize="16sp"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
 
                     <TextView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="\tPowered by "
-                        android:textSize="20sp">
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="\tPowered by "
+                            android:textSize="20sp">
 
                     </TextView>
 
                     <TextView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="HYDRA"
-                        android:textSize="20sp"
-                        android:textStyle="bold"></TextView>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="HYDRA"
+                            android:textSize="20sp"
+                            android:textStyle="bold"></TextView>
                 </LinearLayout>
 
             </RelativeLayout>
