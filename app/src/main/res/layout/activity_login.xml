@@ -84,7 +84,6 @@
                         android:id="@+id/layout_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="5"
                         android:padding="@dimen/dimen_12dp"
                         android:layout_marginTop="@dimen/dimen_16dp"
                         android:background="@drawable/edittext_rounded_shap"
@@ -101,16 +100,16 @@
                             android:background="@drawable/edittext_plain_shape"
                             android:hint="@string/edt_password_hint"
                             android:inputType="textPassword"
-                            android:layout_weight="4"
+                            android:layout_weight="0.9"
                             android:text="Admin321"/>
 
                     <ImageView
                             android:id="@+id/login_eye"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="8dp"
                             android:gravity="center"
+                            android:paddingRight="8dp"
+                            android:layout_weight="0.01"
                             android:layout_gravity="center"
                             android:src="@drawable/login_cross_eye">
                     </ImageView>

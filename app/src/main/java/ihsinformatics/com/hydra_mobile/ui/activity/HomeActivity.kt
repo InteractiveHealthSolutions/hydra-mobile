@@ -2,7 +2,9 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -216,9 +218,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val id = item.itemId
         if (id == R.id.action_logout) {
 
-            GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-            SessionManager(applicationContext).logoutUser()
-            finish()
+           logoutDialog()
 
         } else if (id == R.id.action_change_workflow) {
             startActivityForResult(Intent(this@HomeActivity, SelectWorkFlow::class.java), 0)
@@ -278,9 +278,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 finish()
             }
             R.id.nav_logout -> {
-                SessionManager(applicationContext).logoutUser()
-                GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                finish()
+                logoutDialog()
+
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -442,5 +441,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+
+    private fun logoutDialog()
+    {
+        val dialog = AlertDialog.Builder(this)
+            .setMessage("Are you sure to logout?")
+            .setTitle("Are you sure?")
+            .setNegativeButton("No", null)
+            .setPositiveButton(
+                "Yes"
+            ) { dialog, which ->
+
+                SessionManager(applicationContext).logoutUser()
+                GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                finish()
+
+            }
+        dialog.show()
+    }
 
 }
