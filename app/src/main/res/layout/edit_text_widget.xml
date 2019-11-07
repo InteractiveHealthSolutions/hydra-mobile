@@ -17,7 +17,7 @@
                     android:id="@+id/question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="* Patient Source"
+                    android:text="@string/patient_source_question"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"

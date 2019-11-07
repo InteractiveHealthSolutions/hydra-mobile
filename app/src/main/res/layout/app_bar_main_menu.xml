@@ -143,7 +143,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Form"
+                            android:text="@string/form"
                             android:layout_below="@+id/img1"
                             android:textColor="@color/White"
                             android:textAlignment="center"
@@ -173,7 +173,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Search"
+                            android:text="@string/search"
                             android:layout_below="@+id/img1"
                             android:textColor="@color/White"
                             android:textAlignment="center"

@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Hydra</string>
     <string name="app_title_name">HYDRA</string>
-    <string name="btn_login_str">LOGIN</string>
+    <string name="login_btn_text">LOGIN</string>
     <string name="edt_hint_ip_address">IP Address</string>
     <string name="appbar_scrolling_view_behavior" tools:keep="@string/appbar_scrolling_view_behavior">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
@@ -222,6 +222,76 @@
     <string name="patient_location">Location</string>
 
     <string name="change_workflow">Change Workflow</string>
+    <string name="notification_textview">0</string>
+    <string name="org_name">Lung Health</string>
+    <string name="corporation_name">Corporation</string>
+    <string name="admin">admin</string>
+    <string name="admin_321">Admin321</string>
+    <string name="check_remember">Remember me</string>
+    <string name="tpowered_by">Powered by</string>
+    <string name="hydra_text">HYDRA</string>
+    <string name="person_name">Shujaat Ali</string>
+    <string name="identifier_title">Identifier</string>
+    <string name="_20100000001">20100000001</string>
+    <string name="age_title">Age</string>
+    <string name="_24">24</string>
+    <string name="question">Question</string>
+    <string name="lung_health_text">Lung Health</string>
+    <string name="corporation_text">Corporation</string>
+    <string name="forms">Forms</string>
+    <string name="report">Report</string>
+    <string name="events">Events</string>
+    <string name="first_workflow_rb">First Workflow</string>
+    <string name="second_workflow_rb">Second Workflow</string>
+    <string name="form">Form</string>
+    <string name="end_of_followup_for">End of FollowUp For</string>
+    <string name="external_id_title">External ID</string>
+    <string name="patient_source_title">* Patient Source</string>
+    <string name="question_title">* Has the patient provided their address?</string>
+    <string name="patient_id">* Index Patient ID</string>
+    <string name="patient_name">Index Patient name</string>
+    <string name="primary_nationality">Primary Nationality</string>
+    <string name="id_card">National ID Card Number</string>
+    <string name="secondary_mobile_number">Secondary Mobile Number</string>
+    <string name="diagnosis_text">Diagnosis</string>
+    <string name="respiratory_tuberculosis_text">Respiratory Tuberculosis</string>
+    <string name="diabates_text">Diabates</string>
+    <string name="vitals_text">Vitals</string>
+    <string name="height">Height (cm) : 167</string>
+    <string name="weight">Weight (kg): 52</string>
+    <string name="bmi">BMI: 18.6</string>
+    <string name="weight_graph_text">Weight Graph</string>
+    <string name="relationship_text">Relationship</string>
+    <string name="allergies_text">Allergies</string>
+    <string name="recent_visits_text">Recent Visits</string>
+    <string name="date_15_sep_2019">15-Sep-2019</string>
+    <string name="date_02_sep_2019">02-Sep-2019</string>
+    <string name="lab_reports">Lab Reports (Attachment)</string>
+    <string name="date_time">Date/Time</string>
+    <string name="qr_code">Scan QR Code</string>
+    <string name="patient_source_question">* Patient Source</string>
+    <string name="event_fragment">Event Fragment</string>
+    <string name="page_title">Page Title</string>
+    <string name="action_text">ACTION</string>
+    <string name="email_address">user01@gmail.com</string>
+    <string name="event_name_text">Event name</string>
+    <string name="address">123 Main Street, San Francisco, CA 94107</string>
+    <string name="from">From</string>
+    <string name="date_thu_september_13_2018">Thu, September 13 2018</string>
+    <string name="time">Time</string>
+    <string name="to">To</string>
+    <string name="end_date">End date</string>
+    <string name="all_day_check_box">All-day</string>
+    <string name="timezone_text">Timezone</string>
+    <string name="pacific_standard_time">Pacific Standard Time</string>
+    <string name="_1">1</string>
+    <string name="reatment_initiation_tv">Treatment Initiation</string>
+    <string name="heading_like_a_boss">Like a Boss!</string>
+    <string name="patient_id_tv">Patient-Id</string>
+    <string name="patient_name_tv">Patient-Name</string>
+    <string name="patient_last_name">Patient-Last-Name</string>
+    <string name="initiation_tv">Initiation</string>
+    <string name="loading">Loading...</string>
 
 
     <string-array name="end_of_followup_for">
@@ -230,5 +300,6 @@
         <item>PET Investigation</item>
         <item>PET Treatment</item>
     </string-array>
+
 
 </resources>
