@@ -26,7 +26,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="External ID"
+                    android:text="@string/external_id_title"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginLeft="@dimen/dimen_4dp"
@@ -53,7 +53,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="* Patient Source"
+                    android:text="@string/patient_source_title"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -78,7 +78,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="* Has the patient provided their address?"
+                    android:text="@string/question_title"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -104,7 +104,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="* Index Patient ID"
+                    android:text="@string/patient_id"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -130,7 +130,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Index Patient name"
+                    android:text="@string/patient_name"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -156,7 +156,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Primary Nationality"
+                    android:text="@string/primary_nationality"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -181,7 +181,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="National ID Card Number"
+                    android:text="@string/id_card"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"
@@ -206,7 +206,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Secondary Mobile Number"
+                    android:text="@string/secondary_mobile_number"
                     android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="@dimen/dimen_8dp"

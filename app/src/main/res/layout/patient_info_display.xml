@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Patient-Id"
+                android:text="@string/patient_id_tv"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
@@ -47,7 +47,7 @@
                         style="@style/question_answer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Patient-Name"
+                        android:text="@string/patient_name_tv"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"/>
 
@@ -58,7 +58,7 @@
                         style="@style/question_answer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Patient-Last-Name"
+                        android:text="@string/patient_last_name"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"/>
             </LinearLayout>

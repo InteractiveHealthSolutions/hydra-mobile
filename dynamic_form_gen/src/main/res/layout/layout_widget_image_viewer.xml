@@ -40,5 +40,5 @@
         android:background="@color/colorPrimary"
         android:textColor="@color/White"
         android:text="Dismiss"
-        android:textSize="18dp"/>
+        android:textSize="18sp"/>
 </RelativeLayout>

@@ -34,7 +34,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1.8"
                     android:layout_height="wrap_content"
-                    android:text="Initiation"
+                    android:text="@string/initiation_tv"
                     android:textColor="@color/openChatText"
                     android:textSize="18sp"
                     android:textStyle="bold"

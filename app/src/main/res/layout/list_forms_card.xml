@@ -48,7 +48,7 @@
                     android:textSize="14sp"
                     android:textAlignment="center"
                     android:textColor="@color/openChatText"
-                    android:text="Treatment Initiation"/>
+                    android:text="@string/reatment_initiation_tv"/>
 
         </RelativeLayout>
 

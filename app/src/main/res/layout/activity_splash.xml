@@ -20,14 +20,14 @@
             android:layout_below="@+id/ivLogo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="Lung Health"
+            android:text="@string/lung_health_text"
             android:textStyle="bold"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     <TextView
             android:layout_below="@+id/tvLungHealth"
             android:layout_centerHorizontal="true"
-            android:text="Corporation"
-            android:textSize="22dp"
+            android:text="@string/corporation_text"
+            android:textSize="22sp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 </RelativeLayout>

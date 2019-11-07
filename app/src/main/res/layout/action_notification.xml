@@ -25,7 +25,7 @@
         android:textSize="10sp"
         android:textColor="#ffffffff"
         android:gravity="center"
-        android:text="0"
+        android:text="@string/notification_textview"
         android:layout_alignTop="@id/ivBell"
         android:layout_alignRight="@id/ivBell"
         android:maxLines="1"

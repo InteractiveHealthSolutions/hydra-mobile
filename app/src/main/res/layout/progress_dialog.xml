@@ -17,5 +17,5 @@
             android:layout_centerVertical="true"
             android:layout_margin="7dp"
             android:layout_toEndOf="@+id/progressBar"
-            android:text="Loading..."/>
+            android:text="@string/loading"/>
 </RelativeLayout>

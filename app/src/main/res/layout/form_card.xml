@@ -37,7 +37,7 @@
                 android:paddingBottom="10dp"
                 android:textColor="#4c4c4c"
                 android:gravity="center_horizontal"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
           <!--  <TextView
                 android:id="@+id/count"
