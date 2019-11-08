@@ -1,74 +1,86 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:background="@drawable/app_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#fdfdfd">
-
-
-  <!--  <LinearLayout
-        android:id="@+id/llRatingBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/drop_shadow_bottom"
-        android:gravity="center">
-
-
-    </LinearLayout>-->
-    <TextView
-        android:id="@+id/tvRatings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:shadowColor="@color/DarkGray"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="3.0"
-        android:textColor="@color/dark_blue_203c61"
-        android:textSize="18sp"
-        android:visibility="gone"/>
-
-
-    <include
-            android:id="@+id/llPatientInfoDisplay"
-            layout="@layout/patient_info_display"/>
-    <include
-        android:id="@+id/formHeader"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/llPatientInfoDisplay"
-        layout="@layout/form_name_display"/>
-
-    <ScrollView
-        android:id="@+id/svQuestions"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/formHeader">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:contentScrim="?attr/colorPrimary">
 
             <LinearLayout
-                android:id="@+id/llWidgetsHolder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                tools:ignore="MergeRootFrame">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/app_gradient"
+                    android:orientation="vertical">
+                <include
+                        android:id="@+id/llPatientInfoDisplay"
+                        layout="@layout/patient_info_display"/>
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnSave"
-                style="@style/button"
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_to_collapse"
+                    app:title="Form Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="none"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/svQuestions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="2"
-                android:text="@string/save"/>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                <LinearLayout
+                        android:id="@+id/llWidgetsHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        tools:ignore="MergeRootFrame">
+                </LinearLayout>
+
+                <Button
+                        android:id="@+id/btnSave"
+                        style="@style/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:text="@string/save"/>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

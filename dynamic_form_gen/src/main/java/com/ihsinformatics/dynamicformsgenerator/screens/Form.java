@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.widget.Toolbar;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -31,6 +32,7 @@ import es.dmoral.toasty.Toasty;
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
+
     // public static String REGISTRATION_ENCOUNTER;
 
     @Override
@@ -38,7 +40,8 @@ public class Form extends BaseActivity {
         super.onCreate(savedInstanceState);
         InputWidgetProvider provider = InputWidgetProvider.getInstance();
         LinearLayout llMain = (LinearLayout) findViewById(R.id.llWidgetsHolder);
-        TextView tvFormName = (TextView) findViewById(R.id.formName);
+
+
 
         Intent i = getIntent();
         if (DataProvider.directOpenableForms == null ) {
@@ -55,7 +58,9 @@ public class Form extends BaseActivity {
             //return;
         }
         setTitle(ENCOUNTER_NAME);
-        tvFormName.setText(ENCOUNTER_NAME);
+        toolbar.setTitle(ENCOUNTER_NAME);
+
+        // collapsingToolbar.setTitle(ENCOUNTER_NAME);
 
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);

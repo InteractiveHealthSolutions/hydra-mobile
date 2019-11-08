@@ -2,37 +2,25 @@ package com.ihsinformatics.dynamicformsgenerator.screens;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
@@ -40,7 +28,6 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
@@ -50,40 +37,29 @@ import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
 import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
-import com.ihsinformatics.dynamicformsgenerator.utils.AppUtility;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
-import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.AutoCompleteTextViewWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.IdentifierWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ImageWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.InputWidgetsType;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.MessageType;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.RadioButtonWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.ScoreSpinner;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.AgeWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
 
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import androidx.appcompat.widget.Toolbar;
 import java.util.*;
 
 import javax.crypto.SecretKey;
@@ -102,8 +78,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected Button btnSave;
     private ArrayList<ValidationError> errors;
     private NetworkProgressDialog networkProgressDialog;
-    private TextView tvRatings;
-    private ScrollView svQuestions;
+   // private TextView tvRatings;
+    private NestedScrollView svQuestions;
     private Bitmap bitmap;
     //FOR use of forms other than REGISTRATION
     private RelativeLayout llPatientInfoDisplayer;
@@ -114,7 +90,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     private ImageView ivGender;
     private int score;
     public static String PATIENT_SESSION_NUMBER;
-
+    protected CollapsingToolbarLayout collapsingToolbar;
+    protected Toolbar toolbar;
 
     private MyDialogFragment dialogFragment;
 
@@ -135,11 +112,18 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         tvPatientIdentifier = findViewById(R.id.tvId);
         ivGender = findViewById(R.id.ivGender);
         svQuestions = findViewById(R.id.svQuestions);
-        tvRatings = findViewById(R.id.tvRatings);
+//        tvRatings = findViewById(R.id.tvRatings);
         inputWidgets = new LinkedHashMap<Integer, InputWidget>();
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
+
+        toolbar= findViewById(R.id.toolbar_to_collapse);
+        collapsingToolbar=findViewById(R.id.collapsingToolbar);
+
+
     }
+
+
 
     private void saveForm() {
         Iterator<Integer> iterator = inputWidgets.keySet().iterator();
@@ -674,7 +658,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
         }
         if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
-            tvRatings.setVisibility(View.GONE);
+           // tvRatings.setVisibility(View.GONE);
             llPatientInfoDisplayer.setVisibility(View.GONE);
         } else {
             fillPatientInfoBar();

@@ -1005,4 +1005,32 @@ public class ParamNames {
     public static final byte[] KEY_VALUE =
             new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't',
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
+
+
+
+
+
+
+
+    // TB Disease Confirmation Form
+
+    public static String tb_type="abcdef123";
+    public static String extra_pulmonary_site="abcdef124";
+    public static String extra_pulmonary_site_other="abcdef125";
+    public static String mtb_confirmation="abcdef126";
+    public static String mtb_confirmation_method="abcdef126";
+    public static String mtb_confirmation_method_other="abcdef127";
+    public static String confirmed_diagnosis="abcdef128";
+    public static String other_diagnosis="abcdef129";
+    public static String drug_resistance_profile="abcdef130";
+    public static String tb_registration_no="abcdef131";
+    public static String drug_resistant_profile_class="abcdef132";
+    public static String enrs_no="abcdef133";
+    public static String mtb_diagnosis_date="abcdef134";
+    public static String histopathology_evidence="abcdef135";
+    public static String radiological_evidence="abcdef136";
+    public static String cad4tb_score="abcdef137";
+    public static String eligible_for_treatment="abcdef138";
+    public static String proposed_treatment_facility="abcdef139";
+    public static String other_proposed_treatment_facility="abcdef140";
 }
