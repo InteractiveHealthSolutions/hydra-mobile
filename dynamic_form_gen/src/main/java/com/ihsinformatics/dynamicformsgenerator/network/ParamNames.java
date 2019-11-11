@@ -13,6 +13,7 @@ public class ParamNames {
     public static final String ENCOUNTER_TYPE_EOF = "End Of Followup";
     public static final String ENCOUNTER_TYPE_CONTACT_REGISTRY = "Contact Registry";
     public static final String ENCOUNTER_TYPE_ADVERSE_EVENT = "Adverse Event";
+    public static final String ENCOUNTER_TB_DISEASE_CONFIRMATION = "TB Disease Confirmation";
 
 
     public static final String[] ENCOUNTER_TYPES = new String[]{

@@ -104,6 +104,8 @@ public class DataProvider {
         encounterTypes.put(8, ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION);
         encounterTypes.put(9, ParamNames.ENCOUNTER_TYPE_EOF);
         encounterTypes.put(10, ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
+        encounterTypes.put(11, ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION);
+
 
         questions = new ArrayList<Question>();
         options = new ArrayList<Option>();
@@ -1453,9 +1455,9 @@ public class DataProvider {
 
 
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49010,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Confirmation of MTB?",ParamNames.mtb_confirmation,null));
-        this.options.add(new Option(49010, 6313, new int[]{49011},null, "", "Bacteriologically positive", -1));
-        this.options.add(new Option(49010, 6314, null, new int[]{49011}, "", "Bacteriologically negative,clinically diagnosed", -1));
-        this.options.add(new Option(49010, 6315, null, new int[]{49011}, "", "Clinically diagnosed", -1));
+        this.options.add(new Option(49010, 6313, new int[]{49011,49019},new int[]{49013,49020,49021}, "", "Bacteriologically positive", -1));
+        this.options.add(new Option(49010, 6314, new int[]{49013,49020,49021}, new int[]{49011,49019}, "", "Bacteriologically negative,clinically diagnosed", -1));
+        this.options.add(new Option(49010, 6315, new int[]{49013,49020,49021}, new int[]{49011,49019}, "", "Clinically diagnosed", -1));
 
 
 
@@ -1470,29 +1472,62 @@ public class DataProvider {
 
 
 
-        this.questions.add(new Question(true,TBDiseaseConfirmationFormId,49013,"",InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If diagnosis was \"clinically diagnosed\", what was the method of confirmation?",ParamNames.confirmed_diagnosis,null));
-        this.options.add(new Option(49013, 6321, null,null, "", "Chest X-ray", -1));
-        this.options.add(new Option(49013, 6322, null,null, "", "Ultrasound", -1));
-        this.options.add(new Option(49013, 6323, null,null, "", "CT Scan", -1));
-        this.options.add(new Option(49013, 6324, null,null, "", "Mantoux test", -1));
-        this.options.add(new Option(49013, 6325, null,null, "", "Histopathology/FNAC", -1));
-        this.options.add(new Option(49013, 6326, null,null, "", "CBC", -1));
-        this.options.add(new Option(49013, 6327, null,null, "", "ESR", -1));
-        this.options.add(new Option(49013, 6328, null,null, "", "Other Diagnosis", -1));
+        this.questions.add(new Question(true,TBDiseaseConfirmationFormId,49013,"",InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER,View.GONE,Validation.CHECK_FOR_EMPTY,"If diagnosis was \"clinically diagnosed\", what was the method of confirmation?",ParamNames.confirmed_diagnosis,null));
+        this.options.add(new Option(49013, 6321, null,new int[]{49014}, "", "Chest X-ray", -1));
+        this.options.add(new Option(49013, 6322, null,new int[]{49014}, "", "Ultrasound", -1));
+        this.options.add(new Option(49013, 6323, null,new int[]{49014}, "", "CT Scan", -1));
+        this.options.add(new Option(49013, 6324, null,new int[]{49014}, "", "Mantoux test", -1));
+        this.options.add(new Option(49013, 6325, null,new int[]{49014}, "", "Histopathology/FNAC", -1));
+        this.options.add(new Option(49013, 6326, null,new int[]{49014}, "", "CBC", -1));
+        this.options.add(new Option(49013, 6327, null,new int[]{49014}, "", "ESR", -1));
+        this.options.add(new Option(49013, 6328, new int[]{49014},null, "", "Other Diagnosis", -1));
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49014,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.GONE,Validation.CHECK_FOR_EMPTY,"If other, please specify",ParamNames.other_diagnosis,alphanumeric100DigitSpace));
 
 
 
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49014,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"If other, please specify",ParamNames.other_diagnosis,alphanumeric100DigitSpace));
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49015,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Type of TB according to drug sensitivity",ParamNames.drug_resistance_profile,null));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49016,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"National TB Registration number ",ParamNames.tb_registration_no,numeric13Digit));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49017,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Subclassification for confirmed drug resistant cases",ParamNames.drug_resistant_profile_class,null));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49018,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"ENRS Number Assigned",ParamNames.enrs_no,numeric13Digit));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49019,"",InputWidget.InputWidgetsType.WIDGET_TYPE_DATE,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"MTB diagnosis date:",ParamNames.mtb_diagnosis_date,null));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49020,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Histopathological evidence",ParamNames.histopathology_evidence,null));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49021,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Radiological evidence",ParamNames.radiological_evidence,null));
+        this.options.add(new Option(49015, 6329, null,new int[]{49016,49017,49018}, "", "Profile Unconfirmed", -1));
+        this.options.add(new Option(49015, 6330, new int[]{49016},new int[]{49017,49018}, "", "Confirmed drug susceptible", -1));
+        this.options.add(new Option(49015, 6331, new int[]{49017,49018},new int[]{49016}, "", " Confirmed drug resistant TB", -1));
+        this.options.add(new Option(49015, 6332, null,new int[]{49016,49017,49018}, "", "Unknown", -1));
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49016,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.GONE,Validation.CHECK_FOR_EMPTY,"National TB Registration number ",ParamNames.tb_registration_no,numeric13Digit));
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49017,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.GONE,Validation.CHECK_FOR_EMPTY,"Subclassification for confirmed drug resistant cases",ParamNames.drug_resistant_profile_class,null));
+        this.options.add(new Option(49017, 6333, null,null, "", "MDR", -1));
+        this.options.add(new Option(49017, 6334, null,null,"", "MONO", -1));
+        this.options.add(new Option(49017, 6335, null,null, "", " POLY", -1));
+        this.options.add(new Option(49017, 6336, null,null, "", "PRE-XDR (INJ)", -1));
+        this.options.add(new Option(49017, 6337, null,null, "", "PRE-XDR (FQ)", -1));
+        this.options.add(new Option(49017, 6338, null,null, "", " XDR", -1));
+        this.options.add(new Option(49017, 6339, null,null, "", "RR-TB", -1));
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49018,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.GONE,Validation.CHECK_FOR_EMPTY,"ENRS Number Assigned",ParamNames.enrs_no,numeric13Digit));
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49019,"",InputWidget.InputWidgetsType.WIDGET_TYPE_DATE,View.GONE,Validation.CHECK_FOR_EMPTY,"MTB diagnosis date:",ParamNames.mtb_diagnosis_date,null));
+
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49020,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.GONE,Validation.CHECK_FOR_EMPTY,"Histopathological evidence",ParamNames.histopathology_evidence,null));
+        this.options.add(new Option(49020, 6340, null,null, "", "Yes", -1));
+        this.options.add(new Option(49020, 6341, null,null,"", "No", -1));
+
+
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49021,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.GONE,Validation.CHECK_FOR_EMPTY,"Radiological evidence",ParamNames.radiological_evidence,null));
+        this.options.add(new Option(49021, 6342, null,null, "", "Yes", -1));
+        this.options.add(new Option(49021, 6343, null,null,"", "No", -1));
+
+
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49022,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"CAD score",ParamNames.cad4tb_score,numeric3DigitMin1));
-        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49023,"",InputWidget.InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Patient rendered eligible for treatment initiation?",ParamNames.eligible_for_treatment,null));
+
+        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49023,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Patient rendered eligible for treatment initiation?",ParamNames.eligible_for_treatment,null));
+        this.options.add(new Option(49023, 6344, null,null, "", "Yes", -1));
+        this.options.add(new Option(49023, 6345, null,null,"", "No", -1));
+        this.options.add(new Option(49023, 6346, null,null, "", "Send for expert panel review", -1));
+
+
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49024,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Proposed Treatment Facility",ParamNames.proposed_treatment_facility,null));
+        //TODO List of treatment
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49025,"",InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Other Proposed Treatment Facility",ParamNames.other_proposed_treatment_facility,alphanumeric100DigitSpace));
 
 
