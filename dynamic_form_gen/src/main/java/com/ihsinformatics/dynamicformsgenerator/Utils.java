@@ -76,6 +76,10 @@ public class Utils {
         if(encounterJsonString == null) encounterJsonString = new JSONArray().toString();
         JSONObject encounters = new JSONObject(encounterJsonString);
 
+        String summaryJsonString = offlinePatient.getSummaryJSON();
+        if(summaryJsonString == null) summaryJsonString = new JSONObject().toString();
+        JSONObject summary = new JSONObject(summaryJsonString);
+
 
 
         JSONArray patientsArray = new JSONArray();
@@ -83,6 +87,9 @@ public class Utils {
         JSONObject toReturn = new JSONObject();
         toReturn.put("patient", patientsArray);
         toReturn.put("encountersCount", encounters);
+        toReturn.put(ParamNames.SUMMARY, summary);
+
+
 
         String fieldJsonString = offlinePatient.getFieldDataJson();
         if(fieldJsonString == null) fieldJsonString = new JSONObject().toString();

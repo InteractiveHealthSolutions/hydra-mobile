@@ -24,6 +24,16 @@ public class OfflinePatient {
 	public final static String COLUMN_DOB = "date_ofBirth";
 	public final static String COLUMN_ENCOUNTERS_JSON = "encounters_json";
 	public final static String COLUMN_FIELDS_DATA_JSON = "fields_data_json";
+	public final static  String COLUMN_SUMMARY="summary";
+
+
+
+	public static final String[] SUMMARY_VARIBALES = new String[]{
+			"patientSource","patientType","patientRiskCategory","diagnosis",
+			"weight","height","bmi","temperature_Fahrenheit", "hr", "respiratory_rate", "bp", "blood_oxygen_saturation",
+			"Next TB Appointment"
+	};
+
 
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
@@ -69,15 +79,19 @@ public class OfflinePatient {
 	private String fieldDataJson;
 
 
+	@Property(nameInDb = COLUMN_SUMMARY)
+	private String summary;
+
+
+
 	public OfflinePatient(Patient patient) {
 		this.gender = patient.getGender();
 		this.dob = patient.getBirthDate().getTime();
 	}
-	@Generated(hash = 2093261816)
-	public OfflinePatient(@NotNull String mrNumber, String pqId, String scId,
-			String contact, String nic, Long id, String name,
-			@NotNull String gender, Long dob, @NotNull String encounterJson,
-			String fieldDataJson) {
+	@Generated(hash = 1734495079)
+	public OfflinePatient(@NotNull String mrNumber, String pqId, String scId, String contact, String nic, Long id,
+			String name, @NotNull String gender, Long dob, @NotNull String encounterJson, String fieldDataJson,
+			String summary) {
 		this.mrNumber = mrNumber;
 		this.pqId = pqId;
 		this.scId = scId;
@@ -89,6 +103,7 @@ public class OfflinePatient {
 		this.dob = dob;
 		this.encounterJson = encounterJson;
 		this.fieldDataJson = fieldDataJson;
+		this.summary = summary;
 	}
 	@Generated(hash = 495313978)
 	public OfflinePatient() {
@@ -158,5 +173,19 @@ public class OfflinePatient {
 	}
 	public void setNic(String nic) {
 		this.nic = nic;
+	}
+
+	public String getSummaryJSON() {
+		return summary;
+	}
+
+	public void setSummaryJSON(String summary) {
+		this.summary = summary;
+	}
+	public String getSummary() {
+		return this.summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 }
