@@ -16,7 +16,7 @@ interface WorkFlowDao {
     @Delete
     fun deleteWorkFlow(workFlow: WorkFlow)
 
-    @Query("SELECT * FROM `WorkFlow` WHERE id == :id")
+    @Query("SELECT * FROM `WorkFlow` WHERE workflowId == :id")
     fun getWorkFlowByID(id: Int): List<WorkFlow>
 
     @Query("SELECT * FROM `WorkFlow`")

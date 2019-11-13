@@ -43,53 +43,53 @@ class WorkflowPhasesRepository(context: Context) {
         }
     }
 
-    fun localFileReadForWorkFlow() : WorkflowPhasesApiResponse
-    {
-        val gson = Gson()
-        val inputstream = context.assets.open("workflowOnlyFromAPI.json")
-        val inputStreamReader = InputStreamReader(inputstream, StandardCharsets.UTF_8)
-        val workflowPhasesMap = gson.fromJson(inputStreamReader, WorkflowPhasesApiResponse::class.java)
-
-        return workflowPhasesMap
-    }
+//    fun localFileReadForWorkFlow() : WorkflowPhasesApiResponse
+//    {
+//        val gson = Gson()
+//        val inputstream = context.assets.open("workflowOnlyFromAPI.json")
+//        val inputStreamReader = InputStreamReader(inputstream, StandardCharsets.UTF_8)
+//        val workflowPhasesMap = gson.fromJson(inputStreamReader, WorkflowPhasesApiResponse::class.java)
+//
+//        return workflowPhasesMap
+//    }
 
     fun getRemoteWorkflowData() {
-        try {
-            val response = localFileReadForWorkFlow()
-            for (i in response.workflowPhasesMap.indices) {
-                //insert into local database
-                insertWorkflowPhases(response.workflowPhasesMap[i])
-            }
-            Log.e("WorkflowLoading", "completed")
-        } catch (e: Exception) {
+//        try {
+//            val response = localFileReadForWorkFlow()
+//            for (i in response.workflowPhasesMap.indices) {
+//                //insert into local database
+//                insertWorkflowPhases(response.workflowPhasesMap[i])
+//            }
+//            Log.e("WorkflowLoading", "completed")
+//        } catch (e: Exception) {
+//
+//        }
 
-        }
+        RequestManager(
+            context, sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).getWorkflowPhases(
+            Constant.REPRESENTATION,
+            object :
+                RESTCallback {
+                override fun <T> onSuccess(o: T) {
 
-//        RequestManager(
-//            context, sessionManager.getUsername(),
-//            sessionManager.getPassword()
-//        ).getWorkflowPhases(
-//            Constant.REPRESENTATION,
-//            object :
-//                RESTCallback {
-//                override fun <T> onSuccess(o: T) {
-//
-//                    try {
-//                        val response = (o as WorkflowPhasesApiResponse)
-//                        for (i in response.workflowPhasesMap.indices) {
-//                            //insert into local database
-//                            insertWorkflowPhases(response.workflowPhasesMap[i])
-//                        }
-//                        Log.e("WorkflowLoading", "completed")
-//                    } catch (e: Exception) {
-//
-//                    }
-//                }
-//
-//                override fun onFailure(t: Throwable) {
-//
-//                }
-//            })
+                    try {
+                        val response = (o as WorkflowPhasesApiResponse)
+                        for (i in response.workflowPhasesMap.indices) {
+                            //insert into local database
+                            insertWorkflowPhases(response.workflowPhasesMap[i])
+                        }
+                        Log.e("WorkflowLoading", "completed")
+                    } catch (e: Exception) {
+
+                    }
+                }
+
+                override fun onFailure(t: Throwable) {
+
+                }
+            })
     }
 
     fun updateWorkflowPhases(workflowPhasesMap: WorkflowPhasesMap) {

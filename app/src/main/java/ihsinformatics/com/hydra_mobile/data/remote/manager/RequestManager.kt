@@ -16,8 +16,10 @@ import timber.log.Timber
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.WorkFlowApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.WorkflowPhasesApiService
 
 
@@ -109,6 +111,36 @@ class RequestManager {
 
         })
     }
+
+
+
+
+    fun getWorkflow(representation: String, restCallback: RESTCallback) {
+        val workflowService = retrofit.create(WorkFlowApiService::class.java)
+        workflowService.getWorkFlow(representation).enqueue(object : Callback<WorkFlowApiResponse> {
+
+            override fun onResponse(
+                call: Call<WorkFlowApiResponse>,
+                response: Response<WorkFlowApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<WorkFlowApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
+
 
 
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
