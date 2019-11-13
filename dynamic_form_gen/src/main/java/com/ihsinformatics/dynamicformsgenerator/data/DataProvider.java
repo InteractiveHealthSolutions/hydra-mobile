@@ -1030,10 +1030,10 @@ public class DataProvider {
 //        this.questions.add(new Question(false,endFollowupFormId,21004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,endFollowupFormId,21005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
 
-        this.questions.add(new Question(true, endFollowupFormId, 21006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "End of Followup form ", generateUUID(), null));
+        this.questions.add(new Question(true, endFollowupFormId, 21006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "End of Followup for ", generateUUID(), null));
         this.options.add(new Option(21006, 2200, new int[]{21007,21008}, new int[]{21017,21018,21026,21029,21030,21031,21032,21033,21034,21036,21038,21039,21041,21044,21045,21047,21049,21050,21055}, "", "TB Investigation", -1));
         this.options.add(new Option(21006, 2201, new int[]{21017,21018,21026,21029,21030,21031,21032,21033,21034,21036}, new int[]{21007,21008,21038,21039,21041,21044,21045,21047,21049,21050,21055}, "", "TB Treatment", -1));
-        this.options.add(new Option(21006, 2202, new int[]{21038,21039,21041,21044,21045,21047},  new int[]{21007,21008,21017,21018,21026,21029,21030,21031,21032,21033,21034,21036,21049,21050,21055}, "", "PET Investigation", -1));
+        this.options.add(new Option(21006, 2202, new int[]{21038,21039},  new int[]{21007,21008,21017,21018,21026,21029,21030,21031,21032,21033,21034,21036,21049,21050,21055}, "", "PET Investigation", -1));
         this.options.add(new Option(21006, 2203, new int[]{21049,21050,21055},  new int[]{21007,21008,21017,21018,21026,21029,21030,21031,21032,21033,21034,21036,21038,21039,21041,21044,21045,21047}, "", "PET Treatment", -1));
 
 
@@ -1054,7 +1054,7 @@ public class DataProvider {
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21010, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's investigation not completed?", generateUUID(), null));
-        this.options.add(new Option(21010, 2212, null, new int[]{21011}, "", "Patient refused follow-upy", -1));
+        this.options.add(new Option(21010, 2212, null, new int[]{21011}, "", "Patient refused follow-up", -1));
         this.options.add(new Option(21010, 2213, null, new int[]{21011}, "", "Substance abuse", -1));
         this.options.add(new Option(21010, 2214, null, new int[]{21011}, "", "Social problem", -1));
         this.options.add(new Option(21010, 2215, null, new int[]{21011}, "", "Left region/country", -1));
@@ -1071,7 +1071,7 @@ public class DataProvider {
         this.options.add(new Option(21013, 2222, null, new int[]{21014}, "", "TB contributing to death", -1));
         this.options.add(new Option(21013, 2223, null, new int[]{21014}, "", "Surgery related death", -1));
         this.options.add(new Option(21013, 2224,  new int[]{21014}, null, "", "Cause other than TB", -1));
-        this.options.add(new Option(21013, 2225, new int[]{21014}, null, "", "Other", -1));
+        //  this.options.add(new Option(21013, 2225, new int[]{21014}, null, "", "Other", -1));
         this.options.add(new Option(21013, 2225, null, new int[]{21014}, "", "Unknown", -1));
 
 
@@ -1091,18 +1091,23 @@ public class DataProvider {
 
 
 
+
+
+
+
         this.questions.add(new Question(false, endFollowupFormId, 21017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, null, "TB Treatment Outcome", null, null));
         this.questions.add(new Question(true, endFollowupFormId, 21018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's TB Treatment Outcome", generateUUID(), null));
-        this.options.add(new Option(21018, 2228, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Cured", -1));
-        this.options.add(new Option(21018, 2229, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Treatment Completed", -1));
+        this.options.add(new Option(21018, 2228, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Cured", -1));
+        this.options.add(new Option(21018, 2229, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Treatment Completed", -1));
         this.options.add(new Option(21018, 2230, new int[]{21027}, new int[]{21019,21020,21021,21022,21023,21026, 21025,21030,21031,21032}, "", "Treatment Failure", -1));
-        this.options.add(new Option(21018, 2231, new int[]{21020,21023,21030,21031,21032}, new int[]{21019,21027,21021,21022, 21025,21026,21027,21028}, "", "Transfer out", -1));
-        this.options.add(new Option(21018, 2232, new int[]{21023, 21025,21026,21030,21031,21032}, new int[]{21019,21027,21020,21021,21022,21026,21027,21028}, "", "Referral", -1));
-        this.options.add(new Option(21018, 2233, new int[]{21021, 21023}, new int[]{21019,21027,21020, 21025,21026,21027,21028,21030,21031,21032}, "", "Lost to Follow-up", -1));
-        this.options.add(new Option(21018, 2234, null, new int[]{21019,21027,21020,21021,21022,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Treatment adapted", -1));
-        this.options.add(new Option(21018, 2235, null, new int[]{21019,21027,21020,21021,21022,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Relocated", -1));
-        this.options.add(new Option(21018, 2236, null, new int[]{21019,21027,21020,21021,21022,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Treatment Stopped by Doctor", -1));
-        this.options.add(new Option(21018, 2237, new int[]{21019}, new int[]{21021,21022,21027,21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Other", -1));
+        this.options.add(new Option(21018, 22301, new int[]{21033,21034},  new int[] {21019,21020,21021,21023,21025,21026,21027,21028,21030,21031,21032,}, "", "Died", -1));
+        this.options.add(new Option(21018, 2231, new int[]{21020,21023,21030,21031,21032}, new int[]{21019,21027,21021,21022, 21025,21026,21027,21028,21033,21034}, "", "Transfer out", -1));
+        this.options.add(new Option(21018, 2232, new int[]{21023,21026,21030,21031,21032}, new int[]{21019,21027,21020,21021,21022,21025,21027,21028}, "", "Referral", -1));
+        this.options.add(new Option(21018, 2233, new int[]{21021}, new int[]{21019,21027,21020, 21023, 21025,21026,21027,21028,21030,21031,21032}, "", "Lost to Follow-up", -1));
+        this.options.add(new Option(21018, 2234, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Treatment adapted", -1));
+        this.options.add(new Option(21018, 2235, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Relocated", -1));
+        this.options.add(new Option(21018, 2236, null, new int[]{21019,21020,21021,21022,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Treatment Stopped by Doctor", -1));
+        this.options.add(new Option(21018, 2237, new int[]{21019}, new int[]{21020,21021,21022,21027,21023, 21025,21026,21027,21028,21029,21030,21031,21032,21033,21034,21036}, "", "Other", -1));
 
 
         this.questions.add(new Question(false, endFollowupFormId, 21019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), alphanumeric100DigitSpace));
@@ -1112,15 +1117,15 @@ public class DataProvider {
         this.options.add(new Option(21020, 2237, null, null, "", "Frere Clinic", -1));
 
         this.questions.add(new Question(true, endFollowupFormId, 21021, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
-        this.options.add(new Option(21021, 2238, null, null, "", "Patient refused follow-upy", -1));
-        this.options.add(new Option(21021, 2239, null, null, "", "Substance abuse", -1));
-        this.options.add(new Option(21021, 2240, null, null, "", "Social problem", -1));
-        this.options.add(new Option(21021, 2241, null, null, "", "Adverse events", -1));
-        this.options.add(new Option(21021, 2242, null, null, "", "Left region/country", -1));
-        this.options.add(new Option(21021, 2243, null, null, "", "No confidence in investigation", -1));
-        this.options.add(new Option(21021, 2244, null, null, "", "Contact not established", -1));
+        this.options.add(new Option(21021, 2238, null, new int[] {21022}, "", "Patient refused follow-up", -1));
+        this.options.add(new Option(21021, 2239, null, new int[] {21022}, "", "Substance abuse", -1));
+        this.options.add(new Option(21021, 2240, null, new int[] {21022}, "", "Social problem", -1));
+        this.options.add(new Option(21021, 2241, null, new int[] {21022}, "", "Adverse events", -1));
+        this.options.add(new Option(21021, 2242, null, new int[] {21022}, "", "Left region/country", -1));
+        this.options.add(new Option(21021, 2243, null, new int[] {21022}, "", "No confidence in investigation", -1));
+        this.options.add(new Option(21021, 2244, null, new int[] {21022}, "", "Contact not established", -1));
         this.options.add(new Option(21021, 2245, new int[]{21022}, null, "", "Other", -1));
-        this.options.add(new Option(21021, 2246, null, null, "", "Unknown", -1));
+        this.options.add(new Option(21021, 2246, null, new int[] {21022}, "", "Unknown", -1));
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21022, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If reason for lost of follow-up 'Other', then specify:", generateUUID(), alphanumeric100DigitSpace));
@@ -1131,7 +1136,7 @@ public class DataProvider {
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21024, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason treatment not initiated at referral site", generateUUID(), null));
-        this.options.add(new Option(21024, 2250, null, new int[]{21025}, "", "Patient could be not be contacted", -1));
+        this.options.add(new Option(21024, 2250, null, new int[]{21025}, "", "Patient could not be contacted", -1));
         this.options.add(new Option(21024, 2251, null, new int[]{21025}, "", "Patient left the city_village", -1));
         this.options.add(new Option(21024, 2252, null, new int[]{21025}, "", "Patient refused treatment", -1));
         this.options.add(new Option(21024, 2253, null, new int[]{21025}, "", "Patient died", -1));
@@ -1154,12 +1159,12 @@ public class DataProvider {
         this.questions.add(new Question(true, endFollowupFormId, 21032, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Contact number", generateUUID(), numeric11Digit));
         this.questions.add(new Question(false, endFollowupFormId, 21033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "If died, then provide date of death:", generateUUID(), dateMinTodayMaxLastMonday));
         this.questions.add(new Question(true, endFollowupFormId, 21034, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If died: then provide suspected primary cause of death:", generateUUID(), null));
-        this.options.add(new Option(21034, 2258, null, null, "", "TB immediate cause of death", -1));
-        this.options.add(new Option(21034, 2259, null, null, "", "Cause related to TB treatment", -1));
-        this.options.add(new Option(21034, 2260, null, null, "", "TB contributing to death", -1));
-        this.options.add(new Option(21034, 2261, null, null, "", "Surgery related death", -1));
+        this.options.add(new Option(21034, 2258, null, new int[] {21035}, "", "TB immediate cause of death", -1));
+        this.options.add(new Option(21034, 2259, null, new int[] {21035}, "", "Cause related to TB treatment", -1));
+        this.options.add(new Option(21034, 2260, null, new int[] {21035}, "", "TB contributing to death", -1));
+        this.options.add(new Option(21034, 2261, null, new int[] {21035}, "", "Surgery related death", -1));
         this.options.add(new Option(21034, 2262, new int[]{21035}, null, "", "Cause other than TB", -1));
-        this.options.add(new Option(21034, 2263, new int[]{21011}, null, "", "Unknown", -1));
+        this.options.add(new Option(21034, 2263, null, new int[] {21035}, "", "Unknown", -1));
 
 
         this.questions.add(new Question(true, endFollowupFormId, 21035, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "If primary cause of death other than TB, then specify:", generateUUID(), alphanumeric100DigitSpace));
@@ -1181,16 +1186,21 @@ public class DataProvider {
 
 
 
+
+
+
+
         this.questions.add(new Question(false, endFollowupFormId, 21038, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, Validation.CHECK_FOR_EMPTY, "PET Investigation Outcome", null, null));
         this.questions.add(new Question(true, endFollowupFormId, 21039, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's PET Investigation Outcome", generateUUID(), null));
-        this.options.add(new Option(21039, 2269, null, new int[]{21040}, "", "Died", -1));
-        this.options.add(new Option(21039, 2270, null, new int[]{21040}, "", "Referral", -1));
-        this.options.add(new Option(21039, 2271, null, new int[]{21040}, "", "Lost to Follow-up", -1));
-        this.options.add(new Option(21039, 2272, null, new int[]{21040}, "", "Not evaluated", -1));
-        this.options.add(new Option(21039, 2273, null, new int[]{21040}, "", "Contact Diagnosed with TB", -1));
-        this.options.add(new Option(21039, 2274, null, new int[]{21040}, "", "Refused Screening", -1));
-        this.options.add(new Option(21039, 2275, null, new int[]{21040}, "", "Relocated", -1));
-        this.options.add(new Option(21039, 2276, new int[]{21040}, null, "", "Other", -1));
+        this.options.add(new Option(21039, 2269, new int[]{21044,21045}, new int[]{21040,21041,21042,21047}, "", "Died", -1));
+        this.options.add(new Option(21039, 22691, new int[]{21041}, new int[]{21040,21042,21044,21045,21047}, "", "Transfer out", -1));
+        this.options.add(new Option(21039, 2270, null, new int[]{21040,21041,21042,21044,21045,21047}, "", "Referral", -1));
+        this.options.add(new Option(21039, 2271, new int[]{21042}, new int[]{21040,21041,21044,21045,21047}, "", "Lost to Follow-up", -1));
+        this.options.add(new Option(21039, 2272, new int[]{21047}, new int[]{21040,21041,21042,21044,21045}, "", "Not evaluated", -1));
+        this.options.add(new Option(21039, 2273, null, new int[]{21040,21041,21042,21044,21045,21047}, "", "Contact Diagnosed with TB", -1));
+        this.options.add(new Option(21039, 2274, null, new int[]{21040,21041,21042,21044,21045,21047}, "", "Refused Screening", -1));
+        this.options.add(new Option(21039, 2275, null, new int[]{21040,21041,21042,21044,21045,21047}, "", "Relocated", -1));
+        this.options.add(new Option(21039, 2276, new int[]{21040}, new int[]{21041,21042,21044,21045,21047}, "", "Other", -1));
 
 
         this.questions.add(new Question(false, endFollowupFormId, 21040, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), alphanumeric100DigitSpace));
@@ -1199,7 +1209,7 @@ public class DataProvider {
         this.options.add(new Option(21041, 2237, null, null, "", "Frere Clinic", -1));
 
         this.questions.add(new Question(true, endFollowupFormId, 21042, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "If lost to follow-up, why was the patient's treatment interrupted?", generateUUID(), null));
-        this.options.add(new Option(21042, 2277, null, new int[]{21043}, "", "Patient refused follow-upy", -1));
+        this.options.add(new Option(21042, 2277, null, new int[]{21043}, "", "Patient refused follow-up", -1));
         this.options.add(new Option(21042, 2278, null, new int[]{21043}, "", "Substance abuse", -1));
         this.options.add(new Option(21042, 2279, null, new int[]{21043}, "", "Social problem", -1));
         this.options.add(new Option(21042, 2280, null, new int[]{21043}, "", "Adverse events", -1));
@@ -1236,20 +1246,24 @@ public class DataProvider {
 
 
 
+
+
+
+
         this.questions.add(new Question(false, endFollowupFormId, 21049, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.GONE, Validation.CHECK_FOR_EMPTY, "PET Treatment Outcome", null, null));
 
         this.questions.add(new Question(true, endFollowupFormId, 21050, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Patient's PET Treatment Outcome", generateUUID(), null));
-        this.options.add(new Option(21050, 2296, null,  new int[]{21051,21052,21053}, "", "Treatment Completed", -1));
-        this.options.add(new Option(21050, 2297, new int[]{21058},  new int[]{21051,21052,21053}, "", "Died", -1));
-        this.options.add(new Option(21050, 2298,  new int[]{21052},  new int[]{21051,21053}, "", "Transfer out", -1));
-        this.options.add(new Option(21050, 2299, null,  new int[]{21051,21052,21053}, "", "Referral", -1));
-        this.options.add(new Option(21050, 2300, new int[]{21053},  new int[]{21051,21052}, "", "Lost to Follow-up", -1));
-        this.options.add(new Option(21050, 2301, null,  new int[]{21051,21052,21053}, "", "Contact Diagnosed with TB", -1));
-        this.options.add(new Option(21050, 2302, null,  new int[]{21051,21052,21053}, "", "Refused to take treatment", -1));
-        this.options.add(new Option(21050, 2303, null,  new int[]{21051,21052,21053}, "", "Refused after starting treatment", -1));
-        this.options.add(new Option(21050, 2304, null,  new int[]{21051,21052,21053}, "", "Relocated", -1));
-        this.options.add(new Option(21050, 2305, null,  new int[]{21051,21052,21053}, "", "Treatment Stopped by Doctor", -1));
-        this.options.add(new Option(21050, 2306, new int[]{21051},  new int[]{21052,21053}, "", "Other", -1));
+        this.options.add(new Option(21050, 2296, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Treatment Completed", -1));
+        this.options.add(new Option(21050, 2297, new int[]{21058,21059},  new int[]{21051,21052,21053,21055}, "", "Died", -1));
+        this.options.add(new Option(21050, 2298, new int[]{21052,21055},  new int[]{21051,21053,21058,21059}, "", "Transfer out", -1));
+        this.options.add(new Option(21050, 2299, new int[]{21055},  new int[]{21051,21052,21053,21058,21059}, "", "Referral", -1));
+        this.options.add(new Option(21050, 2300, new int[]{21053},  new int[]{21051,21052,21055,21058,21059}, "", "Lost to Follow-up", -1));
+        this.options.add(new Option(21050, 2301, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Contact Diagnosed with TB", -1));
+        this.options.add(new Option(21050, 2302, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Refused to take treatment", -1));
+        this.options.add(new Option(21050, 2303, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Refused after starting treatment", -1));
+        this.options.add(new Option(21050, 2304, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Relocated", -1));
+        this.options.add(new Option(21050, 2305, null,  new int[]{21051,21052,21053,21055,21058,21059}, "", "Treatment Stopped by Doctor", -1));
+        this.options.add(new Option(21050, 2306, new int[]{21051},  new int[]{21052,21053,21055,21058,21059}, "", "Other", -1));
 
         this.questions.add(new Question(false, endFollowupFormId, 21051, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Other Reason/Remarks", generateUUID(), alphanumeric100DigitSpace));
         this.questions.add(new Question(true, endFollowupFormId, 21052, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Location of transfer out", generateUUID(), null));   //TODO insert location list
@@ -1278,7 +1292,7 @@ public class DataProvider {
         this.options.add(new Option(21055, 2320, null, new int[]{21056}, "", "Unknown", -1));
 
         this.questions.add(new Question(true, endFollowupFormId, 21056, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Reason treatment not initiated at referral site", generateUUID(), null));
-        this.options.add(new Option(21056, 2321, null, new int[]{21057}, "", "Patient could be not be contacted", -1));
+        this.options.add(new Option(21056, 2321, null, new int[]{21057}, "", "Patient could not be contacted", -1));
         this.options.add(new Option(21056, 2322, null, new int[]{21057}, "", "Patient left the city_village", -1));
         this.options.add(new Option(21056, 2323, null, new int[]{21057}, "", "Patient refused treatment", -1));
         this.options.add(new Option(21056, 2324, null, new int[]{21057}, "", "Patient died", -1));
