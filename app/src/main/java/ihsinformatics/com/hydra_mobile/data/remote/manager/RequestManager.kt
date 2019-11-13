@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.data.remote.service.UserApiService
 import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -16,11 +15,10 @@ import timber.log.Timber
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
-import ihsinformatics.com.hydra_mobile.data.remote.service.WorkFlowApiService
-import ihsinformatics.com.hydra_mobile.data.remote.service.WorkflowPhasesApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.*
 
 
 /**
@@ -133,6 +131,35 @@ class RequestManager {
             }
 
             override fun onFailure(call: Call<WorkFlowApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
+
+
+
+
+    fun getPhases(representation: String, restCallback: RESTCallback) {
+        val phaseService = retrofit.create(PhaseApiService::class.java)
+        phaseService.getPhase(representation).enqueue(object : Callback<PhaseApiResponse> {
+
+            override fun onResponse(
+                call: Call<PhaseApiResponse>,
+                response: Response<PhaseApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<PhaseApiResponse>, t: Throwable) {
 
                 Timber.e(t.localizedMessage)
                 restCallback.onFailure(t)
