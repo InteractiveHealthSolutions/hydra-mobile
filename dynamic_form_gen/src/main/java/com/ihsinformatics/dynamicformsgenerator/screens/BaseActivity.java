@@ -60,6 +60,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import androidx.appcompat.widget.Toolbar;
+
 import java.util.*;
 
 import javax.crypto.SecretKey;
@@ -78,7 +79,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected Button btnSave;
     private ArrayList<ValidationError> errors;
     private NetworkProgressDialog networkProgressDialog;
-   // private TextView tvRatings;
+    // private TextView tvRatings;
     private NestedScrollView svQuestions;
     private Bitmap bitmap;
     //FOR use of forms other than REGISTRATION
@@ -117,12 +118,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
 
-        toolbar= findViewById(R.id.toolbar_to_collapse);
-        collapsingToolbar=findViewById(R.id.collapsingToolbar);
+        toolbar = findViewById(R.id.toolbar_to_collapse);
+        collapsingToolbar = findViewById(R.id.collapsingToolbar);
 
 
     }
-
 
 
     private void saveForm() {
@@ -193,11 +193,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     OfflinePatient existineOfflinePatient = access.getPatientByMRNumber(this, patientData.getPatient().getIdentifier());
                     if (existineOfflinePatient != null) {
                         JSONObject encountersArray = new JSONObject(existineOfflinePatient.getEncounterJson());
-//                        JSONObject summaryArray;
-//                        if(null==existineOfflinePatient.getSummaryJSON())
-//                            summaryArray = new JSONObject();
-//                        else
-//                            summaryArray=new JSONObject(existineOfflinePatient.getSummaryJSON());
+
 
                         if (offlinePatient.getPqId() != null)
                             existineOfflinePatient.setPqId(offlinePatient.getPqId());
@@ -229,40 +225,123 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             existineOfflinePatient.setNic(nic.getValue());
                             existineOfflinePatient.setContact(contact.getValue());
-                            if(patientSource.getValue().equals("Other"))
-                            {
-                                EditTextWidget patientSourceOther = (EditTextWidget) inputWidgets.get(20005);
-                                existingFieldsJson.put("patientSource", patientSourceOther.getValue());
-                            }else {
-                                existingFieldsJson.put("patientSource", patientSource.getValue());
+                            if (null != patientSource.getValue()) {
+                                if (patientSource.getValue().equals("Other")) {
+                                    EditTextWidget patientSourceOther = (EditTextWidget) inputWidgets.get(20005);
+                                    existingFieldsJson.put("patientSource", patientSourceOther.getValue());
+                                } else {
+                                    existingFieldsJson.put("patientSource", patientSource.getValue());
+                                }
                             }
 
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(53019);
-                            existingFieldsJson.put("patientType", patientType.getValue());
+                            if (null != patientType.getValue()) {
+                                existingFieldsJson.put("patientType", patientType.getValue());
+                            }
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(52014);
-                            existingFieldsJson.put("patientType", patientType.getValue());
+                            if (null != patientType.getValue()) {
+                                existingFieldsJson.put("patientType", patientType.getValue());
+                            }
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(31037);
-                            if(presumptive.getValue().equals("Yes"))
-                                existingFieldsJson.put("patientRiskCategory", "Presumptive");
-                            else
-                                existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
+                            if (null != presumptive.getValue()) {
+                                if (presumptive.getValue().equals("Yes"))
+                                    existingFieldsJson.put("patientRiskCategory", "Presumptive");
+                                else
+                                    existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
+                            }
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(32037);
-                            if(presumptive.getValue().equals("Yes"))
-                                existingFieldsJson.put("patientRiskCategory", "Presumptive");
-                            else
-                                existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
+                            if (null != presumptive.getValue()) {
+                                if (presumptive.getValue().equals("Yes"))
+                                    existingFieldsJson.put("patientRiskCategory", "Presumptive");
+                                else
+                                    existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
+                            }
+                        }
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
+                            EditTextWidget weight = (EditTextWidget) inputWidgets.get(41007);
+                            EditTextWidget height = (EditTextWidget) inputWidgets.get(41008);
+                            EditTextWidget bmi = (EditTextWidget) inputWidgets.get(41009);
+
+
+                            if (null != weight.getValue())
+                                existingFieldsJson.put("weight", weight.getValue());
+                            if (null != height.getValue())
+                                existingFieldsJson.put("height", height.getValue());
+                            if (null != bmi.getValue())
+                                existingFieldsJson.put("bmi", bmi.getValue());
+
+
+                        }
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION)) {
+                            EditTextWidget weight = (EditTextWidget) inputWidgets.get(42007);
+                            EditTextWidget height = (EditTextWidget) inputWidgets.get(42008);
+                            EditTextWidget bmi = (EditTextWidget) inputWidgets.get(42009);
+
+                            if (null != weight.getValue())
+                                existingFieldsJson.put("weight", weight.getValue());
+                            if (null != height.getValue())
+                                existingFieldsJson.put("height", height.getValue());
+                            if (null != bmi.getValue())
+                                existingFieldsJson.put("bmi", bmi.getValue());
+
+                        }
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_EOF)) {
+                            SpinnerWidget endOfFollowUpFor = (SpinnerWidget) inputWidgets.get(21006);
+                            String eofFor = endOfFollowUpFor.getValue();
+                            existingFieldsJson.put("endOfFollowUpFor", eofFor);
+
+                            SpinnerWidget relatedOutcome = (SpinnerWidget) inputWidgets.get(21006);
+                            if (eofFor.equals("TB Investigation")) {
+                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21008);
+                            } else if (eofFor.equals("TB Treatment")) {
+                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21018);
+                            } else if (eofFor.equals("PET Investigation")) {
+                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21039);
+                            } else if (eofFor.equals("PET Treatment")) {
+                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21050);
+                            }
+
+                            if (null != relatedOutcome.getValue())
+                                existingFieldsJson.put("relatedOutcome", relatedOutcome.getValue());
+                        }
+
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+                            DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(53040);
+                            if (null != nextAppointmentDate.getValue())
+                                existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
+
+                        }
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
+                            DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(52028);
+
+                            if (null != nextAppointmentDate.getValue())
+                                existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
+                        }
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION)) {
+                            SpinnerWidget diseaseSite = (SpinnerWidget) inputWidgets.get(49007);
+                            SpinnerWidget confirmationType = (SpinnerWidget) inputWidgets.get(49010);
+                            SpinnerWidget tbType = (SpinnerWidget) inputWidgets.get(49015);
+
+
+                            if (null != diseaseSite.getValue())
+                                existingFieldsJson.put("diseaseSite", diseaseSite.getValue());
+                            if (null != confirmationType.getValue())
+                                existingFieldsJson.put("confirmationType", confirmationType.getValue());
+                            if (null != tbType.getValue())
+                                existingFieldsJson.put("tbType", tbType.getValue());
+
+
                         }
 
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
-                       // existineOfflinePatient.setSummaryJSON(summaryArray.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
                     }
 
@@ -699,7 +778,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
         }
         if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
-           // tvRatings.setVisibility(View.GONE);
+            // tvRatings.setVisibility(View.GONE);
             llPatientInfoDisplayer.setVisibility(View.GONE);
         } else {
             fillPatientInfoBar();
@@ -870,7 +949,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             String ans = tbPreemptive.getValue();
 
             if (ans.equals("Yes") || ans.equals("yes")) {
-               // finish();
+                // finish();
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION);
                 startForm(patientData, null);
             } else {
@@ -886,7 +965,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             if (ans.equals("TB Presumptive confirmed")) {
                 //Popup
-               // finish();
+                // finish();
                 ShowPopup("TB Diagnosed", "TB_diagnosed");
                 return;
 
@@ -897,7 +976,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             }
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
-           // finish();
+            // finish();
             ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
             return;
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
@@ -913,7 +992,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
+                        Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
                         try {
                             startForm(patientData, null);
                         } catch (JSONException e) {
@@ -958,7 +1037,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
         finish();
         finish();
-
 
 
     }
@@ -1012,14 +1090,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     startForm(patientData, null);
 
                 } else {
-                   // finish();
+                    // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                     startForm(patientData, null);
 
                 }
             } else if (type.equals("TB_diagnosed_adult")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
-                   // finish();
+                    // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION);
                     startForm(patientData, null);
 
@@ -1031,12 +1109,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
             } else if (type.equals("ContactRegistry")) {
                 if (inputText.equals("Yes") || inputText.equals("yes")) {
-                   // finish();
+                    // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
                     startForm(patientData, null);
 
                 } else {
-                   // finish();
+                    // finish();
                     Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
                     startForm(patientData, null);
 
