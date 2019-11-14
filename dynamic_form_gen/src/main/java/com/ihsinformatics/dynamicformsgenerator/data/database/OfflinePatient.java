@@ -24,7 +24,6 @@ public class OfflinePatient {
 	public final static String COLUMN_DOB = "date_ofBirth";
 	public final static String COLUMN_ENCOUNTERS_JSON = "encounters_json";
 	public final static String COLUMN_FIELDS_DATA_JSON = "fields_data_json";
-	public final static  String COLUMN_SUMMARY="summary";
 
 
 
@@ -78,20 +77,9 @@ public class OfflinePatient {
 	@Property(nameInDb = COLUMN_FIELDS_DATA_JSON)
 	private String fieldDataJson;
 
-
-	@Property(nameInDb = COLUMN_SUMMARY)
-	private String summary;
-
-
-
-	public OfflinePatient(Patient patient) {
-		this.gender = patient.getGender();
-		this.dob = patient.getBirthDate().getTime();
-	}
-	@Generated(hash = 1734495079)
+	@Generated(hash = 2093261816)
 	public OfflinePatient(@NotNull String mrNumber, String pqId, String scId, String contact, String nic, Long id,
-			String name, @NotNull String gender, Long dob, @NotNull String encounterJson, String fieldDataJson,
-			String summary) {
+			String name, @NotNull String gender, Long dob, @NotNull String encounterJson, String fieldDataJson) {
 		this.mrNumber = mrNumber;
 		this.pqId = pqId;
 		this.scId = scId;
@@ -103,89 +91,102 @@ public class OfflinePatient {
 		this.dob = dob;
 		this.encounterJson = encounterJson;
 		this.fieldDataJson = fieldDataJson;
-		this.summary = summary;
 	}
+
 	@Generated(hash = 495313978)
 	public OfflinePatient() {
 	}
+
 	public String getMrNumber() {
-					return this.mrNumber;
+		return this.mrNumber;
 	}
+
 	public void setMrNumber(String mrNumber) {
-					this.mrNumber = mrNumber;
+		this.mrNumber = mrNumber;
 	}
-	public Long getId() {
-					return this.id;
-	}
-	public void setId(Long id) {
-					this.id = id;
-	}
-	public String getGender() {
-					return this.gender;
-	}
-	public void setGender(String gender) {
-					this.gender = gender;
-	}
-	public Long getDob() {
-					return this.dob;
-	}
-	public void setDob(Long dob) {
-					this.dob = dob;
-	}
-	public String getEncounterJson() {
-		return this.encounterJson;
-	}
-	public void setEncounterJson(String encounterJson) {
-		this.encounterJson = encounterJson;
-	}
-	public String getName() {
-		return this.name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getFieldDataJson() {
-		return this.fieldDataJson;
-	}
-	public void setFieldDataJson(String fieldDataJson) {
-		this.fieldDataJson = fieldDataJson;
-	}
+
 	public String getPqId() {
-					return this.pqId;
+		return this.pqId;
 	}
+
 	public void setPqId(String pqId) {
-					this.pqId = pqId;
+		this.pqId = pqId;
 	}
+
 	public String getScId() {
-					return this.scId;
+		return this.scId;
 	}
+
 	public void setScId(String scId) {
-					this.scId = scId;
+		this.scId = scId;
 	}
+
 	public String getContact() {
 		return this.contact;
 	}
+
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+
 	public String getNic() {
 		return this.nic;
 	}
+
 	public void setNic(String nic) {
 		this.nic = nic;
 	}
 
-	public String getSummaryJSON() {
-		return summary;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setSummaryJSON(String summary) {
-		this.summary = summary;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getSummary() {
-		return this.summary;
+
+	public String getName() {
+		return this.name;
 	}
-	public void setSummary(String summary) {
-		this.summary = summary;
+
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public String getGender() {
+		return this.gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Long getDob() {
+		return this.dob;
+	}
+
+	public void setDob(Long dob) {
+		this.dob = dob;
+	}
+
+	public String getEncounterJson() {
+		return this.encounterJson;
+	}
+
+	public void setEncounterJson(String encounterJson) {
+		this.encounterJson = encounterJson;
+	}
+
+	public String getFieldDataJson() {
+		return this.fieldDataJson;
+	}
+
+	public void setFieldDataJson(String fieldDataJson) {
+		this.fieldDataJson = fieldDataJson;
+	}
+
+
+
+
+	
 }

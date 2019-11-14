@@ -204,7 +204,6 @@ public class ParamNames {
     public static final String ENCOUNTERS_COUNT = "encountersCount";
     public static final String ENCOUNER_NAME = "encounter_name";
 
-    public static final String SUMMARY = "summary";
 
 
     public static final String VIEW_PATIENT_HISTORY = "VIEW_HISTORY";

@@ -304,12 +304,10 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
                     }
 
                     JSONObject encounters = (JSONObject) resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT);
-                    JSONObject summary = (JSONObject) resp.getJSONObject(ParamNames.SUMMARY);
 
 
                     if (offlinePatient.getMrNumber() != null) {
                         offlinePatient.setEncounterJson(encounters.toString());
-                        offlinePatient.setSummaryJSON(summary.toString());
                         offlinePatient.setFieldDataJson(generateFieldsJon(resp).toString());
                         offlinePatient.setName(patient.getGivenName() + " " + patient.getFamilyName());
                         offlinePatient.setGender(patient.getGender());

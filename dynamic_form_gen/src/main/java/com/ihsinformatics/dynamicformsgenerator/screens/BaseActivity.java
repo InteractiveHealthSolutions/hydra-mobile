@@ -193,11 +193,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     OfflinePatient existineOfflinePatient = access.getPatientByMRNumber(this, patientData.getPatient().getIdentifier());
                     if (existineOfflinePatient != null) {
                         JSONObject encountersArray = new JSONObject(existineOfflinePatient.getEncounterJson());
-                        JSONObject summaryArray;
-                        if(null==existineOfflinePatient.getSummaryJSON())
-                            summaryArray = new JSONObject();
-                        else
-                            summaryArray=new JSONObject(existineOfflinePatient.getSummaryJSON());
+//                        JSONObject summaryArray;
+//                        if(null==existineOfflinePatient.getSummaryJSON())
+//                            summaryArray = new JSONObject();
+//                        else
+//                            summaryArray=new JSONObject(existineOfflinePatient.getSummaryJSON());
 
                         if (offlinePatient.getPqId() != null)
                             existineOfflinePatient.setPqId(offlinePatient.getPqId());
@@ -220,7 +220,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             String key = fieldsKeys.next();
                             existingFieldsJson.put(key, offlineValues.opt(key));
                         }
-                        existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
+
 
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
                             EditTextWidget nic = (EditTextWidget) inputWidgets.get(20008);
@@ -232,37 +232,37 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             if(patientSource.getValue().equals("Other"))
                             {
                                 EditTextWidget patientSourceOther = (EditTextWidget) inputWidgets.get(20005);
-                                summaryArray.put("patientSource", patientSourceOther.getValue());
+                                existingFieldsJson.put("patientSource", patientSourceOther.getValue());
                             }else {
-                                summaryArray.put("patientSource", patientSource.getValue());
+                                existingFieldsJson.put("patientSource", patientSource.getValue());
                             }
 
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(53019);
-                            summaryArray.put("patientType", patientType.getValue());
+                            existingFieldsJson.put("patientType", patientType.getValue());
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(52014);
-                            summaryArray.put("patientType", patientType.getValue());
+                            existingFieldsJson.put("patientType", patientType.getValue());
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(31037);
                             if(presumptive.getValue().equals("Yes"))
-                                summaryArray.put("patientRiskCategory", "Presumptive");
+                                existingFieldsJson.put("patientRiskCategory", "Presumptive");
                             else
-                                summaryArray.put("patientRiskCategory", "Non-Presumptive");
+                                existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(32037);
                             if(presumptive.getValue().equals("Yes"))
-                                summaryArray.put("patientRiskCategory", "Presumptive");
+                                existingFieldsJson.put("patientRiskCategory", "Presumptive");
                             else
-                                summaryArray.put("patientRiskCategory", "Non-Presumptive");
+                                existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
                         }
 
-
-                        existineOfflinePatient.setSummaryJSON(summaryArray.toString());
+                        existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
+                       // existineOfflinePatient.setSummaryJSON(summaryArray.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
                     }
 
