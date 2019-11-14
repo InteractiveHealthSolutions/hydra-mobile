@@ -17,12 +17,15 @@ import java.nio.charset.StandardCharsets
 class MetaDataHelper(context: Context) {
 
     lateinit var workflowPhasesRepository: WorkflowPhasesRepository
+    lateinit var workflowRepository: WorkFlowRepository
     var context: Context
 
 
     init {
         this.context = context
         workflowPhasesRepository = WorkflowPhasesRepository(context)
+        workflowRepository = WorkFlowRepository(context)
+
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
@@ -51,6 +54,8 @@ class MetaDataHelper(context: Context) {
 
     fun getWorkFlowFromAPI() {
         workflowPhasesRepository.getRemoteWorkflowData()
+        workflowRepository.getRemoteWorkFlowData()
+
     }
 
 
@@ -67,7 +72,7 @@ class MetaDataHelper(context: Context) {
                 val workflowName = workflow.getString("name")
                 val phasesArray = workflow.getJSONArray("phases")
 
-                WorkFlowRepository(context).insertWorkFlow(WorkFlow(workFlowId, workflowName))
+                //WorkFlowRepository(context).insertWorkFlow(WorkFlow(workFlowId, workflowName))
 
                 for (i in 0 until phasesArray.length()) {
                     val insidePhase = phasesArray.getJSONObject(i)

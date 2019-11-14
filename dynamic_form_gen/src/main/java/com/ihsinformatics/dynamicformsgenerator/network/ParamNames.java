@@ -16,6 +16,9 @@ public class ParamNames {
     public static final String ENCOUNTER_TB_DISEASE_CONFIRMATION = "TB Disease Confirmation";
 
 
+
+
+
     public static final String[] ENCOUNTER_TYPES = new String[]{
             ENCOUNTER_TYPE_CREATE_PATIENT,
             ENCOUNTER_TYPE_PATIENT_INFO,
@@ -200,6 +203,8 @@ public class ParamNames {
     public static final String PATIENT_ENCOUNTERS = "patient_encounters";
     public static final String ENCOUNTERS_COUNT = "encountersCount";
     public static final String ENCOUNER_NAME = "encounter_name";
+
+    public static final String SUMMARY = "summary";
 
 
     public static final String VIEW_PATIENT_HISTORY = "VIEW_HISTORY";
@@ -1006,10 +1011,6 @@ public class ParamNames {
     public static final byte[] KEY_VALUE =
             new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't',
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
-
-
-
-
 
 
 

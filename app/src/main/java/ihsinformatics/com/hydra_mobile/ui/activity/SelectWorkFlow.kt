@@ -54,8 +54,8 @@ class SelectWorkFlow : AppCompatActivity() {
                      val rb = RadioButton(this)
                      rb.text = element.name
                      rb.textSize = 20f
-                     rb.id = element.id
-                     rb.tag = element.id
+                     rb.id = element.workflowId
+                     rb.tag = element.workflowId
                      rb.setPadding(dpAsPixels,dpAsPixels,dpAsPixels,dpAsPixels)
                      rg.addView(rb)
 

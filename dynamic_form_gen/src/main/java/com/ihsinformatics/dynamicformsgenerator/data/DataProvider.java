@@ -1381,7 +1381,7 @@ public class DataProvider {
         this.options.add(new Option(20002, 2237, null, null, "", "Bedford Hospital", -1));
         this.options.add(new Option(20002, 2237, null, null, "", "Frere Clinic", -1));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Geo Location", generateUUID(), alphaNumeric150DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20003, "3", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", generateUUID(), alphaNumeric150DigitSpace));
 
         this.questions.add(new Question(true, patientInfoFormId, 20019, "-", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Questions", generateUUID(), null));
 
