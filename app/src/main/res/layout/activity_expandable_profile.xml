@@ -150,29 +150,33 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--<androidx.core.widget.NestedScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:behavior_overlapTop="12dp"-->
-            <!--android:background="@color/bootstrap_gray_lightest"-->
-            <!--android:layout_marginTop="@dimen/dimen_16dp"-->
-            <!--app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
-        <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                app:cardCornerRadius="@dimen/dimen_33dp"
-                android:elevation="@dimen/dimen_24dp"
-                app:contentPadding="12dp"
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_overlapTop="12dp"
+            android:background="@color/bootstrap_gray_lightest"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!--<androidx.cardview.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--app:cardCornerRadius="@dimen/dimen_33dp"-->
+                <!--android:elevation="@dimen/dimen_24dp"-->
+                <!--app:contentPadding="12dp"-->
 
-                android:layout_height="match_parent"
-                app:behavior_overlapTop="12dp"
-                android:background="@color/bootstrap_gray_lightest"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+                <!--android:layout_height="match_parent"-->
+                <!--app:behavior_overlapTop="12dp"-->
+                <!--android:background="@color/bootstrap_gray_lightest"-->
+                <!--android:layout_marginTop="@dimen/dimen_16dp"-->
+                <!--app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
 
-        >
-            <include layout="@layout/content_expandable_profile"/>
-        </androidx.cardview.widget.CardView>
+        <!--&gt;-->
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen_16dp"
+                    layout="@layout/content_expandable_profile"/>
+        <!--</androidx.cardview.widget.CardView>-->
 
-   <!--</androidx.core.widget.NestedScrollView-->
+   </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

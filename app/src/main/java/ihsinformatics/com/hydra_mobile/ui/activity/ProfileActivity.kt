@@ -56,55 +56,87 @@ class ProfileActivity : BaseActivity() {
 
 
                 var temp = existingFieldsJson.get("patientSource").toString()
-                if (temp != null || temp != "")
+                if (temp != null && temp != "") {
                     patientSource.add(temp)
-
+                }
 
                 temp = existingFieldsJson.get("patientType").toString()
-                if (temp != null || temp != "")
+                if (temp != null && temp != "") {
                     patientType.add(temp)
+                }
 
 
                 temp = existingFieldsJson.get("patientRiskCategory").toString()
-                if (temp != null || temp != "")
+                if (temp != null && temp != "") {
                     patientRiskCategory.add(temp)
+                }
 
 
                 temp = existingFieldsJson.get("diseaseSite").toString()
-                if (temp != null || temp != "")
+                if (temp != null && temp != "") {
                     diagnosis.add(temp)
+                }
 
-                temp=existingFieldsJson.get("confirmationType").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("confirmationType").toString()
+                if (temp != null && temp != "") {
                     diagnosis.add(temp)
+                }
 
-                temp=existingFieldsJson.get("tbType").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("tbType").toString()
+                if (temp != null && temp != "") {
                     diagnosis.add(temp)
+                }
 
-                temp=existingFieldsJson.get("endOfFollowUpFor").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("endOfFollowUpFor").toString()
+                if (temp != null && temp != "") {
                     outcome.add(temp)
+                }
 
-                temp=existingFieldsJson.get("relatedOutcome").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("relatedOutcome").toString()
+                if (temp != null && temp != "") {
                     outcome.add(temp)
+                }
 
-                temp=existingFieldsJson.get("weight").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("weight").toString()
+                if (temp != null && temp != "") {
                     vitals.add(temp)
+                }
 
-                temp=existingFieldsJson.get("height").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("height").toString()
+                if (temp != null && temp != "") {
                     vitals.add(temp)
+                }
 
-                temp=existingFieldsJson.get("bmi").toString()
-                if (temp != null || temp != "")
+                temp = existingFieldsJson.get("bmi").toString()
+                if (temp != null && temp != "") {
                     vitals.add(temp)
+                }
 
-                temp=existingFieldsJson.get("nextTBAppointment").toString()
-                if (temp != null || temp != "")
-                    {nextTBAppointment.add(temp)
+                temp = existingFieldsJson.get("nextTBAppointment").toString()
+                if (temp != null && temp != "") {
+                    nextTBAppointment.add(temp)
+                }
+
+                temp="Just Some Fake Data"
+
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
+                nextTBAppointment.add(temp)
 
 
                 listData.put("Patient Source", patientSource)
@@ -133,6 +165,7 @@ class ProfileActivity : BaseActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         expandableListView = findViewById(R.id.expandableListView)
+
 
 
         tvID = findViewById(R.id.tvId)

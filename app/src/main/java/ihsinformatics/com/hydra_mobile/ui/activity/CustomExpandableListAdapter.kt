@@ -13,7 +13,7 @@ import java.util.HashMap
 import android.opengl.ETC1.getWidth
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
-
+import ihsinformatics.com.hydra_mobile.R
 
 
 class CustomExpandableListAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, List<String>>) : BaseExpandableListAdapter() {
@@ -62,6 +62,7 @@ class CustomExpandableListAdapter internal constructor(private val context: Cont
             convertView = layoutInflater.inflate(ihsinformatics.com.hydra_mobile.R.layout.list_group, null)
         }
         val listTitleTextView = convertView!!.findViewById<TextView>(ihsinformatics.com.hydra_mobile.R.id.listTitle)
+
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
         return convertView

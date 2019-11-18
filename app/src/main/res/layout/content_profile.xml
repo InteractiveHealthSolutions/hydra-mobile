@@ -10,6 +10,26 @@
     >
 
         <LinearLayout
+                android:id="@+id/patientSource"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_diagonosis"/>
+            <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Patient Source"/>
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/diagnosis"
                 android:orientation="horizontal"
                 android:padding="16dp"
                 android:background="@drawable/drop_shadow_orange"
@@ -65,6 +85,7 @@
 
 
         <LinearLayout
+                android:id="@+id/vitals"
                 android:orientation="horizontal"
                 android:padding="16dp"
                 android:layout_marginTop="25dp"
@@ -132,6 +153,7 @@
 
 
         <LinearLayout
+                android:id="@+id/weightGraph"
                 android:background="@drawable/drop_shadow_orange"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal"
@@ -152,6 +174,7 @@
                     android:text="@string/weight_graph_text"/>
         </LinearLayout>
         <LinearLayout
+                android:id="@+id/relationship"
                 android:background="@drawable/drop_shadow_orange"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal"
@@ -171,6 +194,7 @@
                     android:text="@string/relationship_text"/>
         </LinearLayout>
         <LinearLayout
+                android:id="@+id/allergies"
                 android:background="@drawable/drop_shadow_orange"
                 android:padding="16dp"
                 android:layout_marginTop="25dp"
@@ -191,6 +215,7 @@
                     android:text="@string/allergies_text"/>
         </LinearLayout>
         <LinearLayout
+                android:id="@+id/recentVisits"
                 android:background="@drawable/drop_shadow_orange"
                 android:padding="16dp"
                 android:layout_marginTop="25dp"
@@ -237,6 +262,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/LabReports"
                 android:background="@drawable/drop_shadow_orange"
                 android:padding="16dp"
                 android:layout_marginTop="25dp"
