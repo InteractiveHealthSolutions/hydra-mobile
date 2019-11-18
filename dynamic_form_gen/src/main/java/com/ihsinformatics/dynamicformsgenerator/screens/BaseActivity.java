@@ -180,7 +180,31 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 int id = dataAccess.getFormTypeId(BaseActivity.this, Form.getENCOUNTER_NAME());
                 if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
                     JSONObject encounterCount = new JSONObject();
+
+
+
                     if (offlinePatient.getMrNumber() != null) {
+
+                        String fieldJsonString = offlinePatient.getFieldDataJson();
+                        if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
+                        JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
+
+                        existingFieldsJson.put("patientSource","");
+                        existingFieldsJson.put("patientType","");
+                        existingFieldsJson.put("patientRiskCategory","");
+                        existingFieldsJson.put("weight","");
+                        existingFieldsJson.put("height","");
+                        existingFieldsJson.put("bmi","");
+                        existingFieldsJson.put("bmi","");
+
+                        existingFieldsJson.put("endOfFollowUpFor","");
+                        existingFieldsJson.put("relatedOutcome","");
+                        existingFieldsJson.put("diseaseSite","");
+                        existingFieldsJson.put("confirmationType","");
+                        existingFieldsJson.put("tbType","");
+                        existingFieldsJson.put("nextTBAppointment","");
+                        offlinePatient.setFieldDataJson(existingFieldsJson.toString());
+
                         for (int i = 0; i < ParamNames.ENCOUNTER_TYPES.length; i++) {
                             encounterCount.put(ParamNames.ENCOUNTER_TYPES[i], 0);
                         }
