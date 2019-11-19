@@ -119,27 +119,6 @@ class ProfileActivity : BaseActivity() {
                     nextTBAppointment.add(temp)
                 }
 
-                temp="Just Some Fake Data"
-
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-                nextTBAppointment.add(temp)
-
 
                 listData.put("Patient Source", patientSource)
                 listData.put("Patient Type", patientType)
