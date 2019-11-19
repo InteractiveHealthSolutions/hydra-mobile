@@ -8,7 +8,9 @@
     <ihsinformatics.com.hydra_mobile.ui.activity.NonScrollExpandableListView
             android:id="@+id/expandableListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:divider="#00000000"
+            android:childDivider="#00000000">
 
     </ihsinformatics.com.hydra_mobile.ui.activity.NonScrollExpandableListView>
 

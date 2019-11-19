@@ -9,16 +9,18 @@ import android.widget.ExpandableListView
 import android.widget.TextView
 import android.widget.Toast
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.utils.Global.patientData
-import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
 import org.json.JSONObject
+import android.util.DisplayMetrics
+
+
+
 
 class ProfileActivity : BaseActivity() {
 
@@ -99,17 +101,17 @@ class ProfileActivity : BaseActivity() {
 
                 temp = existingFieldsJson.get("weight").toString()
                 if (temp != null && temp != "") {
-                    vitals.add(temp)
+                    vitals.add("Weight: "+temp)
                 }
 
                 temp = existingFieldsJson.get("height").toString()
                 if (temp != null && temp != "") {
-                    vitals.add(temp)
+                    vitals.add("Height: "+temp)
                 }
 
                 temp = existingFieldsJson.get("bmi").toString()
                 if (temp != null && temp != "") {
-                    vitals.add(temp)
+                    vitals.add("BMI: "+temp)
                 }
 
                 temp = existingFieldsJson.get("nextTBAppointment").toString()
@@ -144,7 +146,7 @@ class ProfileActivity : BaseActivity() {
                 listData.put("Patient Risk Category", patientRiskCategory)
                 listData.put("Diagnosis", diagnosis)
                 listData.put("Outcome", outcome)
-                listData.put("Patient Type", vitals)
+                listData.put("Vitals", vitals)
                 listData.put("Relationships", relationships)
                 listData.put("Recent Visits", recentVisits)
                 listData.put("Next TB Appointment", nextTBAppointment)
@@ -159,18 +161,23 @@ class ProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = ""
-        setContentView(R.layout.activity_expandable_profile)
+        setContentView(ihsinformatics.com.hydra_mobile.R.layout.activity_expandable_profile)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        expandableListView = findViewById(R.id.expandableListView)
+        expandableListView = findViewById(ihsinformatics.com.hydra_mobile.R.id.expandableListView)
+
+        val metrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metrics)
+        val width = metrics.widthPixels
+
+        expandableListView!!.setIndicatorBounds(width - GetPixelFromDips(50f), width - GetPixelFromDips(10f));
 
 
-
-        tvID = findViewById(R.id.tvId)
-        tvAge = findViewById(R.id.tvAge)
-        tvName = findViewById(R.id.tvName)
+        tvID = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvId)
+        tvAge = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvAge)
+        tvName = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvName)
 
         if (Global.patientData != null) {
             var identifiers = ""
@@ -215,29 +222,29 @@ class ProfileActivity : BaseActivity() {
             //expandableListView!!.setOnGroupClickListener{parent,v, i,l->setListViewHeight(parent,i)}
 
             expandableListView!!.setOnGroupExpandListener { groupPosition ->
-                Toast.makeText(
-                    applicationContext,
-                    (titleList as ArrayList<String>)[groupPosition] + " List Expanded.",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    applicationContext,
+//                    (titleList as ArrayList<String>)[groupPosition] + " List Expanded.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
 
             expandableListView!!.setOnGroupCollapseListener { groupPosition ->
-                Toast.makeText(
-                    applicationContext,
-                    (titleList as ArrayList<String>)[groupPosition] + " List Collapsed.",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    applicationContext,
+//                    (titleList as ArrayList<String>)[groupPosition] + " List Collapsed.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
 
             expandableListView!!.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-                Toast.makeText(
-                    applicationContext,
-                    "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(
-                        childPosition
-                    ),
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    applicationContext,
+//                    "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(
+//                        childPosition
+//                    ),
+//                    Toast.LENGTH_SHORT
+//                ).show()
                 false
             }
         }
@@ -246,7 +253,7 @@ class ProfileActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+        overridePendingTransition(ihsinformatics.com.hydra_mobile.R.anim.slide_from_left, ihsinformatics.com.hydra_mobile.R.anim.slide_to_right)
     }
 
 
@@ -268,5 +275,12 @@ class ProfileActivity : BaseActivity() {
 
     }
 
+
+    fun GetPixelFromDips(pixels: Float): Int {
+        // Get the screen's density scale
+        val scale = resources.displayMetrics.density
+        // Convert the dps to pixels, based on density scale
+        return (pixels * scale + 0.5f).toInt()
+    }
 
 }

@@ -232,6 +232,10 @@ public class DataProvider {
 //        this.questions.add(new Question(false,childTBInitiationFormId,53004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,childTBInitiationFormId,53005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
 //        this.questions.add(new Question(true,childTBInitiationFormId,53006,"7",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Weight Percentile",generateUUID(),null));
+
+        this.questions.add(new Question(true, childTBInitiationFormId, 53000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
+
         this.questions.add(new Question(true, childTBInitiationFormId, 53007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Did the MO Consult any Senior Pediatrician for TB diagnosis?", generateUUID(), null));
         this.options.add(new Option(53007, 5301, new int[]{53008, 53009}, null, "1", "Yes", -1));
         this.options.add(new Option(53007, 5302, null, new int[]{53008, 53009}, "2", "No", -1));
@@ -391,6 +395,8 @@ public class DataProvider {
 //        this.questions.add(new Question(true,adultTBInitiationFormId,52003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
 //        this.questions.add(new Question(false,adultTBInitiationFormId,52004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,adultTBInitiationFormId,52005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
+        this.questions.add(new Question(true, adultTBInitiationFormId, 52000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
         this.questions.add(new Question(true, adultTBInitiationFormId, 52006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Does the patient have TB?", generateUUID(), null));
         this.options.add(new Option(52006, 5201, new int[]{52007, 52008, 52015}, null, "1", "Yes", -1));
         this.options.add(new Option(52006, 5202, null, new int[]{52007, 52008, 52015}, "2", "No", -1));
@@ -483,6 +489,9 @@ public class DataProvider {
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
+
+        this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
         this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "External ID", generateUUID(), numeric3DigitMin1));
         this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Weight (in Kg)", generateUUID(), numeric3DigitMin1));
         this.questions.add(new Question(true, AdultClinicalEvaluationFormId, 42008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Height (in cm)", generateUUID(), numeric3DigitMin1));
@@ -593,6 +602,11 @@ public class DataProvider {
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildClinicalEvaluationFormId,41005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
+
+        this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
+
+
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "External ID", generateUUID(), numeric3DigitMin1));
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Weight (in Kg)", generateUUID(), numeric3DigitMin1));
         this.questions.add(new Question(true, ChildClinicalEvaluationFormId, 41008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Height (in cm)", generateUUID(), numeric3DigitMin1));
@@ -711,6 +725,7 @@ public class DataProvider {
 //        this.questions.add(new Question(false,ChildScreeningFormId,31004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildScreeningFormId,31005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
 
+        this.questions.add(new Question(true, AdultScreeningFormId, 32000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
 
         this.questions.add(new Question(true, AdultScreeningFormId, 32006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location Type", generateUUID(), null));
         this.options.add(new Option(32006, 3101, new int[]{32010, 32038}, null, "1", "Health Facility", -1));
@@ -873,6 +888,7 @@ public class DataProvider {
 
         Integer ChildScreeningFormId = 4;
 
+        this.questions.add(new Question(true, ChildScreeningFormId, 31000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
 
         //this.questions.add(new Question(true,ChildScreeningFormId,31001,"2",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"User ID",generateUUID(),null));
 
@@ -1029,6 +1045,8 @@ public class DataProvider {
 //        this.questions.add(new Question(false,endFollowupFormId,21003,"4",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",generateUUID(),null));
 //        this.questions.add(new Question(false,endFollowupFormId,21004,"5",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",generateUUID(),null));
 //        this.questions.add(new Question(false,endFollowupFormId,21005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
+        this.questions.add(new Question(true, endFollowupFormId, 21000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
 
         this.questions.add(new Question(true, endFollowupFormId, 21006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "End of Followup for ", generateUUID(), null));
         this.options.add(new Option(21006, 2200, new int[]{21007,21008}, new int[]{21017,21018,21026,21029,21030,21031,21032,21033,21034,21036,21038,21039,21041,21044,21045,21047,21049,21050,21055}, "", "TB Investigation", -1));
@@ -1323,6 +1341,9 @@ public class DataProvider {
 //        this.questions.add(new Question(false,ContactRegistryFormId,51005,"6",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",generateUUID(),null));
 
         //TODO Confirm LabelWidget
+
+        this.questions.add(new Question(true, ContactRegistryFormId, 51000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
         this.questions.add(new Question(false, ContactRegistryFormId, 51006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Adult Males", generateUUID(), numeric2Digit));
         this.questions.add(new Question(false, ContactRegistryFormId, 51007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Adult Females", generateUUID(), numeric2Digit));
         this.questions.add(new Question(true, ContactRegistryFormId, 51008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Total Number of adult contacts ", generateUUID(), numeric2Digit));
@@ -1375,6 +1396,9 @@ public class DataProvider {
 
     private void initPatientInformation() {
         int patientInfoFormId = 2;
+
+        this.questions.add(new Question(true, patientInfoFormId, 20000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+
         this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
 
         this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
@@ -1446,6 +1470,8 @@ public class DataProvider {
 //        this.questions.add(new Question(true,TBDiseaseConfirmationFormId,49004,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Location",ParamNames.,null));
 //        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49005,"",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Longitude",ParamNames.,null));
 //        this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49006,"",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Latitude",ParamNames.,null));
+
+        this.questions.add(new Question(true, TBDiseaseConfirmationFormId, 49000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
 
 
         this.questions.add(new Question(false,TBDiseaseConfirmationFormId,49007,"",InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Disease site",ParamNames.tb_type,null));

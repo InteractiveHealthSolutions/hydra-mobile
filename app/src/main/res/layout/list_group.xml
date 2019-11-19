@@ -12,11 +12,10 @@
             android:elevation="@dimen/dimen_24dp"
             app:contentPadding="12dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10dp"
             android:layout_marginTop="@dimen/dimen_16dp"
-            android:layout_marginBottom="@dimen/dimen_16dp"
-            >
+            android:layout_marginBottom="@dimen/dimen_16dp">
 
-        >
         <LinearLayout
                 android:id="@+id/diagnosis"
                 android:orientation="horizontal"
@@ -43,14 +42,7 @@
                     android:paddingLeft="10dp"
                     android:gravity="center_vertical"
                     android:text="@string/diagnosis_text"/>
-            <ImageView
-                    android:layout_weight="0.5"
-                    android:id="@+id/down_arrow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:gravity="center"
-                    android:src="@drawable/ic_arrow_down"/>
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
