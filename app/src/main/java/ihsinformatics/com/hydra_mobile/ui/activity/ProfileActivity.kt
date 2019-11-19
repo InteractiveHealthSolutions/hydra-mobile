@@ -104,7 +104,7 @@ class ProfileActivity : BaseActivity() {
 
                 temp=existingFieldsJson.get("nextTBAppointment").toString()
                 if (temp != null || temp != "")
-                    {nextTBAppointment.add(temp)
+                    {nextTBAppointment.add(temp)}
 
 
                 listData.put("Patient Source", patientSource)
