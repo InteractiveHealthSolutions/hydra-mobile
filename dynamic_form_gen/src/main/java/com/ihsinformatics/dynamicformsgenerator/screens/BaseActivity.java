@@ -203,6 +203,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existingFieldsJson.put("confirmationType","");
                         existingFieldsJson.put("tbType","");
                         existingFieldsJson.put("nextTBAppointment","");
+                        existingFieldsJson.put("recentVisits",new JSONObject());
+
                         offlinePatient.setFieldDataJson(existingFieldsJson.toString());
 
                         for (int i = 0; i < ParamNames.ENCOUNTER_TYPES.length; i++) {
@@ -234,6 +236,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         String fieldJsonString = existineOfflinePatient.getFieldDataJson();
                         if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
+                        JSONObject  recentVisits = new JSONObject(existingFieldsJson.optJSONObject("recentVisits").toString());
 
                         Iterator<String> fieldsKeys = offlineValues.keys();
                         while (fieldsKeys.hasNext()) {
@@ -261,18 +264,35 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(53019);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(53000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
+
                             if (null != patientType.getValue()) {
                                 existingFieldsJson.put("patientType", patientType.getValue());
                             }
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
                             SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(52014);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(52000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
                             if (null != patientType.getValue()) {
                                 existingFieldsJson.put("patientType", patientType.getValue());
                             }
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(31037);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(31000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
+
                             if (null != presumptive.getValue()) {
                                 if (presumptive.getValue().equals("Yes"))
                                     existingFieldsJson.put("patientRiskCategory", "Presumptive");
@@ -282,6 +302,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
                             SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(32037);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(32000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
+
                             if (null != presumptive.getValue()) {
                                 if (presumptive.getValue().equals("Yes"))
                                     existingFieldsJson.put("patientRiskCategory", "Presumptive");
@@ -293,7 +319,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             EditTextWidget weight = (EditTextWidget) inputWidgets.get(41007);
                             EditTextWidget height = (EditTextWidget) inputWidgets.get(41008);
                             EditTextWidget bmi = (EditTextWidget) inputWidgets.get(41009);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(41000);
 
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
 
                             if (null != weight.getValue())
                                 existingFieldsJson.put("weight", weight.getValue());
@@ -308,7 +338,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             EditTextWidget weight = (EditTextWidget) inputWidgets.get(42007);
                             EditTextWidget height = (EditTextWidget) inputWidgets.get(42008);
                             EditTextWidget bmi = (EditTextWidget) inputWidgets.get(42009);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(42000);
 
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
                             if (null != weight.getValue())
                                 existingFieldsJson.put("weight", weight.getValue());
                             if (null != height.getValue())
@@ -321,6 +355,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             SpinnerWidget endOfFollowUpFor = (SpinnerWidget) inputWidgets.get(21006);
                             String eofFor = endOfFollowUpFor.getValue();
                             existingFieldsJson.put("endOfFollowUpFor", eofFor);
+
+                            DateWidget formDate = (DateWidget) inputWidgets.get(21000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
 
                             SpinnerWidget relatedOutcome = (SpinnerWidget) inputWidgets.get(21006);
                             if (eofFor.equals("TB Investigation")) {
@@ -339,12 +379,23 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
                             DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(53040);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(53000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
+
                             if (null != nextAppointmentDate.getValue())
                                 existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
 
                         }
                         if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
                             DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(52028);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(52000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
 
                             if (null != nextAppointmentDate.getValue())
                                 existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
@@ -353,6 +404,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             SpinnerWidget diseaseSite = (SpinnerWidget) inputWidgets.get(49007);
                             SpinnerWidget confirmationType = (SpinnerWidget) inputWidgets.get(49010);
                             SpinnerWidget tbType = (SpinnerWidget) inputWidgets.get(49015);
+                            DateWidget formDate = (DateWidget) inputWidgets.get(49000);
+
+                            if (null != formDate.getValue()) {
+                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
+                            }
 
 
                             if (null != diseaseSite.getValue())
@@ -365,6 +421,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         }
 
+                        existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
                     }

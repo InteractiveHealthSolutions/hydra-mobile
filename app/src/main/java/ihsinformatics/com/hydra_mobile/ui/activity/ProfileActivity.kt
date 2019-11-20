@@ -91,12 +91,12 @@ class ProfileActivity : BaseActivity() {
 
                 temp = existingFieldsJson.get("endOfFollowUpFor").toString()
                 if (temp != null && temp != "") {
-                    outcome.add(temp)
+                    outcome.add("End Of Follow Up For: "+temp)
                 }
 
                 temp = existingFieldsJson.get("relatedOutcome").toString()
                 if (temp != null && temp != "") {
-                    outcome.add(temp)
+                    outcome.add("Related Outcome: "+temp)
                 }
 
                 temp = existingFieldsJson.get("weight").toString()
@@ -118,9 +118,9 @@ class ProfileActivity : BaseActivity() {
                 if (temp != null && temp != "") {
                     nextTBAppointment.add(temp)
                 }
-                temp=existingFieldsJson.get("nextTBAppointment").toString()
+                temp=existingFieldsJson.get("recentVisits").toString()
                 if (temp != null || temp != "")
-                    {nextTBAppointment.add(temp)}
+                    {recentVisits.add(temp)}
 
 
                 listData.put("Patient Source", patientSource)
