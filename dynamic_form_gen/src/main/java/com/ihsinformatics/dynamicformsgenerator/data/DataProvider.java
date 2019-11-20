@@ -1353,16 +1353,19 @@ public class DataProvider {
         this.questions.add(new Question(false, ContactRegistryFormId, 51012, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Male Children (under 5y)", generateUUID(), numeric2Digit));
         this.questions.add(new Question(false, ContactRegistryFormId, 51013, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Female Children (under 5y)", generateUUID(), numeric2Digit));
         this.questions.add(new Question(true, ContactRegistryFormId, 51014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Total Number of childhood contacts (under 5 yrs)", generateUUID(), numeric2Digit));
-        this.questions.add(new Question(true, ContactRegistryFormId, 51015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Total Number of contacts", generateUUID(), numeric2Digit));
+        Question q =new Question(true, ContactRegistryFormId, 51015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Total Number of contacts", generateUUID(), numeric2Digit);
+        this.questions.add(q);
         this.questions.add(new Question(true, ContactRegistryFormId, 51016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Details for Individual Contacts?", generateUUID(), null));
         this.options.add(new Option(51016, 5101, null, null, "1", "Yes", -1));
         this.options.add(new Option(51016, 5102, null, null, "2", "No", -1));
 
 //TODO NEED TO REPEAT THIS NUMBER OF QUESTIONS TIMES
+        q.setRepeatGroupHeadingPrefix("Contact Details");
 
-        this.questions.add(new Question(true, ContactRegistryFormId, 51017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Name", generateUUID(), alpha20DigitSpace));
-        this.questions.add(new Question(true, ContactRegistryFormId, 51018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Age", generateUUID(), null));
-        this.questions.add(new Question(true, ContactRegistryFormId, 51019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Gender", generateUUID(), null));
+        q.addRepeatable(new Question(true, ContactRegistryFormId, 51017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Name", ParamNames.contact_name, alpha20DigitSpace));
+        q.addRepeatable(new Question(true, ContactRegistryFormId, 51018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Age", ParamNames.contact_age, numeric2Digit));
+        q.addRepeatable(new Question(true, ContactRegistryFormId, 51019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Gender", ParamNames.contact_gender, alpha7DigitSpace));
+
         this.questions.add(new Question(false, ContactRegistryFormId, 51020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Relationship to Index", generateUUID(), null));
         this.options.add(new Option(51020, 5101, null, null, "", "Mother", -1));
         this.options.add(new Option(51020, 5102, null, null, "", "Father", -1));

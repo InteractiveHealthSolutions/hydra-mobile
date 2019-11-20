@@ -20,8 +20,6 @@ import org.json.JSONObject
 import android.util.DisplayMetrics
 
 
-
-
 class ProfileActivity : BaseActivity() {
 
     lateinit var tvID: TextView;
@@ -91,43 +89,41 @@ class ProfileActivity : BaseActivity() {
 
                 temp = existingFieldsJson.get("endOfFollowUpFor").toString()
                 if (temp != null && temp != "") {
-                    outcome.add("End Of Follow Up For: "+temp)
+                    outcome.add("End Of Follow Up For: " + temp)
                 }
 
                 temp = existingFieldsJson.get("relatedOutcome").toString()
                 if (temp != null && temp != "") {
-                    outcome.add("Related Outcome: "+temp)
+                    outcome.add("Related Outcome: " + temp)
                 }
 
                 temp = existingFieldsJson.get("weight").toString()
                 if (temp != null && temp != "") {
-                    vitals.add("Weight: "+temp)
+                    vitals.add("Weight: " + temp)
                 }
 
                 temp = existingFieldsJson.get("height").toString()
                 if (temp != null && temp != "") {
-                    vitals.add("Height: "+temp)
+                    vitals.add("Height: " + temp)
                 }
 
                 temp = existingFieldsJson.get("bmi").toString()
                 if (temp != null && temp != "") {
-                    vitals.add("BMI: "+temp)
+                    vitals.add("BMI: " + temp)
                 }
 
                 temp = existingFieldsJson.get("nextTBAppointment").toString()
                 if (temp != null && temp != "") {
                     nextTBAppointment.add(temp)
                 }
-                var tempJSONobj=JSONObject(existingFieldsJson.get("recentVisits").toString())
-                if (tempJSONobj != null && tempJSONobj.toString() != "" && tempJSONobj.toString() != "{}")
-                    {
-                            var iter=tempJSONobj.keys()
-                            while(iter.hasNext())
-                            {
-                                var key=iter.next()
-                                recentVisits.add(key+": "+tempJSONobj.get(key).toString())
-                            }
+                var tempJSONobj = JSONObject(existingFieldsJson.get("recentVisits").toString())
+                if (tempJSONobj != null && tempJSONobj.toString() != "" && tempJSONobj.toString() != "{}") {
+                    var iter = tempJSONobj.keys()
+                    while (iter.hasNext()) {
+                        var key = iter.next()
+                        recentVisits.add(key + ": " + tempJSONobj.get(key).toString())
                     }
+                }
 
 
                 listData.put("Patient Source", patientSource)
@@ -211,7 +207,7 @@ class ProfileActivity : BaseActivity() {
             //expandableListView!!.setOnGroupClickListener{parent,v, i,l->setListViewHeight(parent,i)}
 
             expandableListView!!.setOnGroupExpandListener { groupPosition ->
-//                Toast.makeText(
+                //                Toast.makeText(
 //                    applicationContext,
 //                    (titleList as ArrayList<String>)[groupPosition] + " List Expanded.",
 //                    Toast.LENGTH_SHORT
@@ -219,7 +215,7 @@ class ProfileActivity : BaseActivity() {
             }
 
             expandableListView!!.setOnGroupCollapseListener { groupPosition ->
-//                Toast.makeText(
+                //                Toast.makeText(
 //                    applicationContext,
 //                    (titleList as ArrayList<String>)[groupPosition] + " List Collapsed.",
 //                    Toast.LENGTH_SHORT
@@ -227,7 +223,7 @@ class ProfileActivity : BaseActivity() {
             }
 
             expandableListView!!.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-//                Toast.makeText(
+                //                Toast.makeText(
 //                    applicationContext,
 //                    "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(
 //                        childPosition
@@ -242,7 +238,10 @@ class ProfileActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        overridePendingTransition(ihsinformatics.com.hydra_mobile.R.anim.slide_from_left, ihsinformatics.com.hydra_mobile.R.anim.slide_to_right)
+        overridePendingTransition(
+            ihsinformatics.com.hydra_mobile.R.anim.slide_from_left,
+            ihsinformatics.com.hydra_mobile.R.anim.slide_to_right
+        )
     }
 
 

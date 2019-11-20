@@ -204,6 +204,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existingFieldsJson.put("tbType","");
                         existingFieldsJson.put("nextTBAppointment","");
                         existingFieldsJson.put("recentVisits",new JSONObject());
+                        existingFieldsJson.put("relationships",new JSONArray());
+
+
 
                         offlinePatient.setFieldDataJson(existingFieldsJson.toString());
 
@@ -237,6 +240,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
                         JSONObject  recentVisits = new JSONObject(existingFieldsJson.optJSONObject("recentVisits").toString());
+                        JSONArray relationships = new JSONArray(existingFieldsJson.optJSONArray("relationships").toString());
 
                         Iterator<String> fieldsKeys = offlineValues.keys();
                         while (fieldsKeys.hasNext()) {
@@ -421,6 +425,18 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         }
 
+                        if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+                            final EditTextWidget contactNames = (EditTextWidget) inputWidgets.get(51015);
+
+
+
+
+                            if (contactNames != null) contactNames.getAnswer();
+
+                            relationships=contactNames.getAnswer().getJSONArray("conceptGroupMembers").getJSONArray(0);
+                        }
+
+                        existingFieldsJson.put("relationships", relationships);
                         existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
@@ -807,7 +823,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             infant_females.setOnValueChangeListener(valueChangeListener3);
             infant_males.setOnValueChangeListener(valueChangeListener3);
 
-            //51015,  51014,51011,51008
 
 
             final EditTextWidget all_adults_total = (EditTextWidget) inputWidgets.get(51008);
@@ -837,6 +852,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             all_adults_total.setOnValueChangeListener(valueChangeListener4);
             all_child_total.setOnValueChangeListener(valueChangeListener4);
             all_infant_total.setOnValueChangeListener(valueChangeListener4);
+
+
+
 
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {

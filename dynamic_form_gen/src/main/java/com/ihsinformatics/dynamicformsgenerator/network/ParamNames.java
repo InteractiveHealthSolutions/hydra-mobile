@@ -1034,4 +1034,9 @@ public class ParamNames {
     public static String eligible_for_treatment="abcdef138";
     public static String proposed_treatment_facility="abcdef139";
     public static String other_proposed_treatment_facility="abcdef140";
+
+
+    public static String contact_gender;
+    public static String contact_name;
+    public static String contact_age;
 }
