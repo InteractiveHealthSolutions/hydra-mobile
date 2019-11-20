@@ -118,9 +118,16 @@ class ProfileActivity : BaseActivity() {
                 if (temp != null && temp != "") {
                     nextTBAppointment.add(temp)
                 }
-                temp=existingFieldsJson.get("recentVisits").toString()
-                if (temp != null || temp != "")
-                    {recentVisits.add(temp)}
+                var tempJSONobj=JSONObject(existingFieldsJson.get("recentVisits").toString())
+                if (tempJSONobj != null && tempJSONobj.toString() != "" && tempJSONobj.toString() != "{}")
+                    {
+                            var iter=tempJSONobj.keys()
+                            while(iter.hasNext())
+                            {
+                                var key=iter.next()
+                                recentVisits.add(key+": "+tempJSONobj.get(key).toString())
+                            }
+                    }
 
 
                 listData.put("Patient Source", patientSource)
