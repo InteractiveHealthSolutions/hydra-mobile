@@ -31,9 +31,9 @@ class ProfileActivity : BaseActivity() {
     internal var titleList: List<String>? = null
 
 
-    val data: HashMap<String, List<String>>
+    val data: LinkedHashMap<String, List<String>>
         get() {
-            val listData = HashMap<String, List<String>>()
+            val listData = LinkedHashMap<String, List<String>>()
 
             val access = DataAccess.getInstance()
             val existineOfflinePatient = access.getPatientByMRNumber(this, patientData.getPatient().getIdentifier())
