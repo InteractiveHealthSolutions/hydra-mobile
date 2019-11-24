@@ -146,14 +146,18 @@
 
 
     <color name="app_orange">#f6701d</color>
-    <color name="lhc_blue">#4158d0</color>   -> LHC BLUE
-    <color name="lhc_purple">#c850c0</color>   -> LHC PURPLE
+    <color name="lhc_blue">#4158d0</color>
+<!--    -> LHC BLUE end color-->
+
+    <color name="lhc_purple">#c850c0</color>
+<!--    -> LHC PURPLE start color-->
+
     <color name="app_blue">#4158d0</color>
-    <color name="app_icon_color">#4158d0</color>
+    <color name="app_icon_color">@color/app_orange</color>
     <color name="app_main_theme">#4158d0</color>
 
-    <color name="app_gradient_end_color">@color/app_main_theme</color>
-    <color name="app_gradient_start_color">@color/app_main_theme</color>
+    <color name="app_gradient_end_color">@color/lhc_blue</color>
+    <color name="app_gradient_start_color">@color/lhc_purple</color>
 
     <color name="login_gradient_second_color">#ffe5fd</color>
 
