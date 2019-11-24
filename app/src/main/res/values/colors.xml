@@ -140,6 +140,22 @@
     <color name="bootstrap_dropdown_divider">#e7e7e7</color>
     <color name="bootstrap_well_border_color">#E7E7E7</color>
     <color name="bootstrap_alert_cross_default">#64818a91</color>
+
+
+
+
+
     <color name="app_orange">#f6701d</color>
+    <color name="lhc_blue">#4158d0</color>   -> LHC BLUE
+    <color name="lhc_purple">#c850c0</color>   -> LHC PURPLE
+    <color name="app_blue">#4158d0</color>
+    <color name="app_icon_color">#4158d0</color>
+    <color name="app_main_theme">#4158d0</color>
+
+    <color name="app_gradient_end_color">@color/app_main_theme</color>
+    <color name="app_gradient_start_color">@color/app_main_theme</color>
+
+    <color name="login_gradient_second_color">#ffe5fd</color>
+
 
 </resources>

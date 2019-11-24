@@ -90,8 +90,6 @@
     <color name="DarkGray">#A9A9A9</color>
     <color name="Brown">#A52A2A</color>
 
-    <color name="app_orange">#f6701d</color>
-    <color name="app_blue">#4158d0</color>
 
     <color name="Sienna">#A0522D</color>
     <color name="YellowGreen">#9ACD32</color>
@@ -168,4 +166,19 @@
     <color name="light_blue_4991f7">#4991f7</color>
     <color name="form_title">#4c4c4c</color>
     <!-- <color name="gradiet_start">#e1cf88</color> -->
+
+
+    <color name="app_orange">#f6701d</color>
+    <color name="lhc_blue">#4158d0</color>   -> LHC BLUE
+    <color name="lhc_purple">#c850c0</color>   -> LHC PURPLE
+    <color name="app_blue">#4158d0</color>
+    <color name="app_icon_color">#4158d0</color>
+    <color name="app_main_theme">#4158d0</color>
+
+    <color name="app_gradient_end_color">@color/app_main_theme</color>
+    <color name="app_gradient_start_color">@color/app_main_theme</color>
+
+    <color name="login_gradient_second_color">#ffe5fd</color>
+
+
 </resources>

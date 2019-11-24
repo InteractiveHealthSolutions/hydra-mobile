@@ -74,7 +74,7 @@
                         android:background="@drawable/edittext_rounded_shap"
                         android:drawableLeft="@drawable/ic_userprofile"
                         android:drawablePadding="8dp"
-                        android:drawableTint="@color/app_orange"
+                        android:drawableTint="@color/app_icon_color"
                         android:hint="@string/edt_username_hint"
                         android:inputType="textPersonName"
                         android:padding="@dimen/dimen_12dp"
@@ -96,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
                             android:drawablePadding="8dp"
-                            android:drawableTint="@color/app_orange"
+                            android:drawableTint="@color/app_icon_color"
                             android:background="@drawable/edittext_plain_shape"
                             android:hint="@string/edt_password_hint"
                             android:inputType="textPassword"
@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/layout_password"
                         android:layout_marginTop="@dimen/dimen_10dp"
-                        android:buttonTint="@color/app_orange"
+                        android:buttonTint="@color/app_icon_color"
                         android:text="@string/check_remember"/>
 
                 <Button
