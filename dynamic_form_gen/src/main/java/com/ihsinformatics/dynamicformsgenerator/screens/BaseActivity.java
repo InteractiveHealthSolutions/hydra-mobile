@@ -801,7 +801,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             final EditTextWidget infant_males = (EditTextWidget) inputWidgets.get(51012);
             final EditTextWidget infant_females = (EditTextWidget) inputWidgets.get(51013);
             final EditTextWidget total_infants = (EditTextWidget) inputWidgets.get(51014);
-            total_child.setEnabled(false);
+            total_infants.setEnabled(false);
 
             OnValueChangeListener valueChangeListener3 = new OnValueChangeListener() {
                 @Override

@@ -738,7 +738,7 @@ public class DataProvider {
         this.options.add(new Option(32007, 3108, new int[]{32017, 32019, 32020}, new int[]{320361, 320362, 320363, 32008}, "1", "Verbal Questionaire", -1));
         this.options.add(new Option(32007, 3108, new int[]{320361, 320362, 320363}, new int[]{32008, 32017, 32019, 32020}, "2", "Chest Xray", -1));
         this.options.add(new Option(32007, 3109, new int[]{32008}, new int[]{32017, 32019, 32020, 320361, 320362, 320363}, "3", "Other", -1));
-        this.questions.add(new Question(true, AdultScreeningFormId, 32008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), null));
+        this.questions.add(new Question(true, AdultScreeningFormId, 32008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), alphanumeric100DigitSpace));
 
 
         this.questions.add(new Question(true, AdultScreeningFormId, 32009, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Type of Population being Screened", generateUUID(), null));
@@ -769,10 +769,10 @@ public class DataProvider {
 
         this.questions.add(new Question(false, AdultScreeningFormId, 32014, "", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "SYMPTOMS", null, null));
         this.questions.add(new Question(true, AdultScreeningFormId, 32015, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Do you have a cough?", generateUUID(), null));
-        this.options.add(new Option(32015, 3121, new int[]{31016, 320161, 320162}, null, "1", "Yes", -1));
-        this.options.add(new Option(32015, 3122, null, new int[]{31016, 320161, 320162}, "2", "No", -1));
-        this.options.add(new Option(32015, 3123, null, new int[]{31016, 320161, 320162}, "3", "Unknown", -1));
-        this.options.add(new Option(32015, 3124, null, new int[]{31016, 320161, 320162}, "4", "Refused", -1));
+        this.options.add(new Option(32015, 3121, new int[]{32016, 320161, 320162}, null, "1", "Yes", -1));
+        this.options.add(new Option(32015, 3122, null, new int[]{32016, 320161, 320162}, "2", "No", -1));
+        this.options.add(new Option(32015, 3123, null, new int[]{32016, 320161, 320162}, "3", "Unknown", -1));
+        this.options.add(new Option(32015, 3124, null, new int[]{32016, 320161, 320162}, "4", "Refused", -1));
 
 
         this.questions.add(new Question(true, AdultScreeningFormId, 32016, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Duration of cough", generateUUID(), null));
@@ -851,7 +851,7 @@ public class DataProvider {
         this.options.add(new Option(32032, 3172, null, new int[]{32033}, "3", "HepC", -1));
         this.options.add(new Option(32032, 3173, null, new int[]{32033}, "4", "Renal Condition", -1));
         this.options.add(new Option(32032, 3174, new int[]{32033}, null, "5", "Other", -1));
-        this.questions.add(new Question(true, AdultScreeningFormId, 32033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other Comorbid Condition", generateUUID(), null));
+        this.questions.add(new Question(true, AdultScreeningFormId, 32033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other Comorbid Condition", generateUUID(), alphanumeric100DigitSpace));
 
 //        this.questions.add(new Question(false,ChildScreeningFormId,31034,"35",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Would you like the child to be tested for co-morbid conditions?",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildScreeningFormId,31035,"36",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Are you referring the patient for screening tests?",generateUUID(),null));
@@ -908,7 +908,7 @@ public class DataProvider {
         this.questions.add(new Question(true, ChildScreeningFormId, 31007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Screening Tool Being Used", generateUUID(), null));
         this.options.add(new Option(31007, 3008, null, new int[]{31008}, "1", "Verbal Questionaire", -1));
         this.options.add(new Option(31007, 3009, new int[]{31008}, null, "2", "Other", -1));
-        this.questions.add(new Question(true, ChildScreeningFormId, 31008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), null));
+        this.questions.add(new Question(true, ChildScreeningFormId, 31008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), alphanumeric100DigitSpace));
 
 
         this.questions.add(new Question(true, ChildScreeningFormId, 31009, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Type of Population being Screened", generateUUID(), null));
@@ -1018,7 +1018,7 @@ public class DataProvider {
         this.options.add(new Option(31032, 3072, null, new int[]{31033}, "3", "HepC", -1));
         this.options.add(new Option(31032, 3073, null, new int[]{31033}, "4", "Renal Condition", -1));
         this.options.add(new Option(31032, 3074, new int[]{31033}, null, "5", "Other", -1));
-        this.questions.add(new Question(true, ChildScreeningFormId, 31033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other Comorbid Condition", generateUUID(), null));
+        this.questions.add(new Question(true, ChildScreeningFormId, 31033, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other Comorbid Condition", generateUUID(), alphanumeric100DigitSpace));
 
 //        this.questions.add(new Question(false,ChildScreeningFormId,31034,"35",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Would you like the child to be tested for co-morbid conditions?",generateUUID(),null));
 //        this.questions.add(new Question(false,ChildScreeningFormId,31035,"36",InputWidget.InputWidgetsType.WIDGET_TYPE_a,View.VISIBLE,Validation.CHECK_FOR_EMPTY,"Are you referring the patient for screening tests?",generateUUID(),null));
