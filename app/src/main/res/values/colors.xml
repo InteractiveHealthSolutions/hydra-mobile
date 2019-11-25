@@ -157,9 +157,9 @@
 
 
     <!--To change for LHC-->
-    <color name="app_icon_color">@color/app_blue</color>
-    <color name="app_gradient_end_color">@color/app_blue</color>
-    <color name="app_gradient_start_color">@color/app_blue</color>
+    <color name="app_icon_color">@color/app_orange</color>
+    <color name="app_gradient_end_color">@color/lhc_blue</color>
+    <color name="app_gradient_start_color">@color/lhc_purple</color>
 
 
 </resources>
