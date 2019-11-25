@@ -41,10 +41,12 @@
         </activity>
         <activity
                 android:name=".ui.activity.ProfileActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.HelpActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
@@ -56,34 +58,41 @@
         <activity
                 android:name=".ui.activity.ExpandedFormsActivity"
                 android:theme="@style/AppTheme.NoActionBar"
+                android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".ui.activity.EventsActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.ReportActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.SearchActivity"
                 android:label="@string/title_activity_search"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.NotificationActivity"
                 android:label="@string/title_activity_notification"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.HomeActivity"
                 android:label="@string/title_activity_main_menu"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".ui.activity.SplashActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.HideStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -93,6 +102,7 @@
         </activity>
         <activity
                 android:name=".ui.activity.LoginActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.HideStatusBar"
                 android:windowSoftInputMode="stateHidden">
         </activity>

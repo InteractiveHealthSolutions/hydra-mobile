@@ -361,6 +361,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val months = period.getMonths()
             val days = period.getDays()
             tvAge?.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
+            Global.patientData.getPatient().age=years
             tvPatientIdentifier?.setText(identifiers)
             if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))

@@ -78,6 +78,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                     context.startActivity(Intent(context, Form::class.java))
                 } else {
 
+
                     if (Global.patientData == null) {
 //                        PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
 //                        context.startActivity(Intent(context, PatientInfoFetcher::class.java))
@@ -88,8 +89,23 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                         )
 
                     } else {
-                        Form.setENCOUNTER_NAME(Constant.formName)
-                        context.startActivity(Intent(context, Form::class.java))
+                        var age = Global.patientData.patient.age
+                        if (null != age && age > 17 && (Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION) || Constant.formName.equals(
+                                ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING
+                            ) || Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION))
+                        ) {
+                            ToastyWidget.getInstance()
+                                .displayError(context, "You need to fill adult form", Toast.LENGTH_SHORT)
+                        } else if (null != age && age < 18 && (Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION) || Constant.formName.equals(
+                                ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING
+                            ) || Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION))
+                        ) {
+                            ToastyWidget.getInstance()
+                                .displayError(context, "You need to fill child form", Toast.LENGTH_SHORT)
+                        } else {
+                            Form.setENCOUNTER_NAME(Constant.formName)
+                            context.startActivity(Intent(context, Form::class.java))
+                        }
                     }
                 }
             }
