@@ -75,7 +75,7 @@ public class DataProvider {
     private List<Question> questions;
     private Context context;
     private final String degree_sign = "°";
-    QuestionConfiguration mobileNumber, landlineNumber, circumcisionIdentifier, alphaNumeric160DigitSpace, alphaNumeric300DigitSpace, screenerInitials, dateMinTodayMaxLastMonday, dateTimeMinTodayMaxLastMonday, dateMinTodayMaxNextYear, dateMinTodayMaxNextYearTime, dateMinLastYearMaxNextYear, time, sid, dob, numeric2Digit, numeric3DigitMin1, numeric3DigitMin2, numeric4DigitMin1, numeric5Digit, numeric6Digit, numeric8Digit, alpha20DigitSpace, alpha25Digit, alpha30DigitSpace, alpha40DigitSpace, numeric10Digit, numeric11Digit, numeric13Digit, numeric12Digit, numeric33Digit, alpha50DigitSpace, alpha150DigitSpace, alpha150DigitAll, alphaNumeric50DigitSpace, alphaNumeric60DigitSpace, alpha60DigitSpace, alpha50DigitSpaceDot, alpha80DigitSpace, alpha7DigitSpace, alpha50DigitSpaceCapsOnly, alpha100DigitSpace, alpha5DigitSpace, alpha10DigitSpaceWithHyphen, numeric3DigitWithHypen, numeric12DigitWithHypen, numeric13DigitWithHypen, alphanumeric10DigitWithHypen, alphanumeric13DigitWithHypen, alphanumeric100DigitSpace, alphaNumeric150DigitSpace, alpha150DigitSpaceMin3, alpha160DigitSpace, alphaNumeric200DigitSpace, alphaNumeric100DigitSpace, numericDecimal4Digit;
+    QuestionConfiguration mobileNumber, landlineNumber, circumcisionIdentifier, alphaNumeric160DigitSpace, alphaNumeric300DigitSpace, screenerInitials, dateMinTodayMaxLastMonday, dateTimeMinTodayMaxLastMonday, dateMinTodayMaxNextYear, dateMinTodayMaxNextYearTime, dateMinLastYearMaxNextYear, time, sid, dob, numeric2Digit, numeric3DigitMin1, numeric3DigitMin2, numeric4DigitMin1, numeric5Digit, numeric6Digit, numeric8Digit, alpha20DigitSpace, alpha25Digit, alpha30DigitSpace, alpha40DigitSpace, numeric10Digit, numeric11Digit, numeric13Digit, numeric12Digit, numeric33Digit, alpha50DigitSpace, alpha150DigitSpace, alpha150DigitAll, alphaNumeric50DigitSpace, alphaNumeric60DigitSpace, alpha60DigitSpace, alpha50DigitSpaceDot, alpha80DigitSpace, alpha7DigitSpace, alpha50DigitSpaceCapsOnly, alpha100DigitSpace, alpha5DigitSpace, alpha10DigitSpaceWithHyphen, numeric3DigitWithHypen, numeric12DigitWithHypen, numeric13DigitWithHypen, alphanumeric10DigitWithHypen, alphanumeric13DigitWithHypen, alphanumeric100DigitSpace, alphaNumeric150DigitSpace, alpha150DigitSpaceMin3, alpha160DigitSpace, alphaNumeric200DigitSpace, alphaNumeric100DigitSpace, numericDecimal4Digit, alphaMax30Min3Digit;
     AddressConfiguration addressConfiguration;
 
     // No patient is needed to be loaded before opening these forms
@@ -116,6 +116,7 @@ public class DataProvider {
         screenerInitials = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, 2, 2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha5DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha7DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 7, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
+        alphaMax30Min3Digit = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 30, 3, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha20DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 20, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha25Digit = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 25, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha30DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 30, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
@@ -1324,10 +1325,13 @@ public class DataProvider {
 //TODO NEED TO REPEAT THIS NUMBER OF QUESTIONS TIMES
         q.setRepeatGroupHeadingPrefix("Contact Details");
 
-        q.addRepeatable(new Question(true, ContactRegistryFormId, 51017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Name", ParamNames.contact_name, alpha20DigitSpace));
+        q.addRepeatable(new Question(true, ContactRegistryFormId, 51017, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Name", ParamNames.contact_name, alphaMax30Min3Digit));
         q.addRepeatable(new Question(true, ContactRegistryFormId, 51018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Age", ParamNames.contact_age, numeric2Digit));
-        q.addRepeatable(new Question(true, ContactRegistryFormId, 51019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Gender", ParamNames.contact_gender, alpha7DigitSpace));
-        //TODO make it spinner
+        Question contactGender= new Question(true, ContactRegistryFormId, 51019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Gender", ParamNames.contact_gender, null);
+        q.addRepeatable(contactGender);
+        contactGender.addOption(new Option(6003, 604, null, null, "", "Male", -1));
+        contactGender.addOption(new Option(6003, 605, null, null, "", "Female", -1));
+
 
 
         this.questions.add(new Question(false, ContactRegistryFormId, 51020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contact Relationship to Index", generateUUID(), null));
@@ -1346,8 +1350,8 @@ public class DataProvider {
         Integer patientCreationId = 1;
         questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null));
         this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
-        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alpha50DigitSpace));
-        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alpha50DigitSpace));
+        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit));
+        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alphaMax30Min3Digit));
         this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
         this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
         this.options.add(new Option(6003, 605, null, null, "", "Female", -1));
@@ -1364,9 +1368,9 @@ public class DataProvider {
     private void initPatientInformation() {
         int patientInfoFormId = 2;
 
-        this.questions.add(new Question(true, patientInfoFormId, 20000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday));
+        this.questions.add(new Question(true, patientInfoFormId, 20000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
+        //this.questions.add(new Question(true, patientInfoFormId, 20001, "1", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateTimeMinTodayMaxLastMonday));
 
         this.questions.add(new Question(true, patientInfoFormId, 20002, "2", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", null, null));
         this.options.add(new Option(20002, 2237, null, null, "", "Bedford Hospital", -1));
@@ -1386,7 +1390,7 @@ public class DataProvider {
         this.questions.add(new Question(true, patientInfoFormId, 20005, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Specify Other", generateUUID(), alphanumeric100DigitSpace));
         this.questions.add(new Question(true, patientInfoFormId, 20006, "4.1", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "Index Patient ID", generateUUID(), alphanumeric13DigitWithHypen));
 
-        this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality", generateUUID(), alphanumeric100DigitSpace));
+        this.questions.add(new Question(true, patientInfoFormId, 20007, "5", InputWidget.InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Primary Nationality of Country", generateUUID(), alpha100DigitSpace));
         this.options.addAll(DynamicOptions.getFromArray(context, 20007, null, null, context.getResources().getStringArray(R.array.countries_array)));
 
         this.questions.add(new Question(true, patientInfoFormId, 20008, "6", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "National ID Number", generateUUID(), numeric13DigitWithHypen));
@@ -1505,7 +1509,7 @@ public class DataProvider {
 
         this.questions.add(new Question(false, TBDiseaseConfirmationFormId, 49018, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.GONE, Validation.CHECK_FOR_EMPTY, "ENRS Number Assigned", ParamNames.enrs_no, numeric13Digit));
 
-        this.questions.add(new Question(false, TBDiseaseConfirmationFormId, 49019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "MTB diagnosis date:", ParamNames.mtb_diagnosis_date, null));
+        this.questions.add(new Question(false, TBDiseaseConfirmationFormId, 49019, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.GONE, Validation.CHECK_FOR_EMPTY, "MTB diagnosis date:", ParamNames.mtb_diagnosis_date, dateMinLastYearMaxNextYear));
 
 
         this.questions.add(new Question(false, TBDiseaseConfirmationFormId, 49020, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.GONE, Validation.CHECK_FOR_EMPTY, "Histopathological evidence", ParamNames.histopathology_evidence, null));

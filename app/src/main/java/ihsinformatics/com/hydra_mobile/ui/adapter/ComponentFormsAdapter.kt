@@ -95,13 +95,13 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                             ) || Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION))
                         ) {
                             ToastyWidget.getInstance()
-                                .displayError(context, "You need to fill adult form", Toast.LENGTH_SHORT)
+                                .displayError(context, "You don't have access to child form", Toast.LENGTH_SHORT)
                         } else if (null != age && age < 18 && (Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION) || Constant.formName.equals(
                                 ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING
                             ) || Constant.formName.equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION))
                         ) {
                             ToastyWidget.getInstance()
-                                .displayError(context, "You need to fill child form", Toast.LENGTH_SHORT)
+                                .displayError(context, "You don't have access to adult form", Toast.LENGTH_SHORT)
                         } else {
                             Form.setENCOUNTER_NAME(Constant.formName)
                             context.startActivity(Intent(context, Form::class.java))

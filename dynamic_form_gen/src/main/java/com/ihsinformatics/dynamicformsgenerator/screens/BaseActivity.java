@@ -862,9 +862,39 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
 
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION)) {
+
+            EditTextWidget cadScore= (EditTextWidget) inputWidgets.get(49022);
+
+            int random = new Random().nextInt(100);
+
+            cadScore.setAnswer(String.valueOf(random), "", LANGUAGE.ENGLISH);
+            cadScore.setEnabled(false);
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+
+//            final SpinnerWidget contactTB = (SpinnerWidget) inputWidgets.get(32009);
+//            final SpinnerWidget contactTBValue = (SpinnerWidget) inputWidgets.get(32027);
+//
+//
+//            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+//                @Override
+//                public void onValueChanged(String newValue) {
+//                    if (contactTB.getValue().equals("Contacts of TB patients"))
+//                    {
+//                        contactTBValue.setEnabled(false);
+//                        contactTBValue.setClickable(false);
+//                        contactTBValue.setAnswer("Yes","",LANGUAGE.ENGLISH);
+//                    }else
+//                    {
+//                        contactTBValue.setEnabled(true);
+//                        contactTBValue.setClickable(true);
+//                    }
+//                }
+//            };
+//            contactTB.setOnValueChangeListener(valueChangeListener);
+
+
 
 
             final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
