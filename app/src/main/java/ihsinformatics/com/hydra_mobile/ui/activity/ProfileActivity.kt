@@ -3,11 +3,6 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.ExpandableListAdapter
-import android.widget.ExpandableListView
-import android.widget.TextView
-import android.widget.Toast
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.utils.Global.patientData
@@ -18,13 +13,16 @@ import org.joda.time.Interval
 import org.joda.time.PeriodType
 import org.json.JSONObject
 import android.util.DisplayMetrics
+import android.widget.*
 
 
 class ProfileActivity : BaseActivity() {
 
-    lateinit var tvID: TextView;
-    lateinit var tvAge: TextView;
-    lateinit var tvName: TextView;
+    lateinit var tvID: TextView
+    lateinit var tvAge: TextView
+    lateinit var tvName: TextView
+
+    lateinit var ivGender: ImageView
 
     internal var expandableListView: ExpandableListView? = null
     internal var adapter: ExpandableListAdapter? = null
@@ -163,6 +161,7 @@ class ProfileActivity : BaseActivity() {
         tvID = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvId)
         tvAge = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvAge)
         tvName = findViewById(ihsinformatics.com.hydra_mobile.R.id.tvName)
+        ivGender = findViewById<ImageView>(ihsinformatics.com.hydra_mobile.R.id.gender_image)
 
         if (Global.patientData != null) {
             var identifiers = ""
@@ -194,6 +193,11 @@ class ProfileActivity : BaseActivity() {
             // tvAge.setText(Global.patientData.patient.age.toString())
             tvName.setText(Global.patientData.patient.givenName)
 
+            if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
+            } else {
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
+            }
         }
 
 

@@ -366,7 +366,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
             } else {
-                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
+                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
             }
         }
 

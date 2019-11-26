@@ -873,26 +873,35 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
         } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
 
-//            final SpinnerWidget contactTB = (SpinnerWidget) inputWidgets.get(32009);
-//            final SpinnerWidget contactTBValue = (SpinnerWidget) inputWidgets.get(32027);
-//
-//
-//            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-//                @Override
-//                public void onValueChanged(String newValue) {
-//                    if (contactTB.getValue().equals("Contacts of TB patients"))
-//                    {
-//                        contactTBValue.setEnabled(false);
-//                        contactTBValue.setClickable(false);
-//                        contactTBValue.setAnswer("Yes","",LANGUAGE.ENGLISH);
-//                    }else
-//                    {
-//                        contactTBValue.setEnabled(true);
-//                        contactTBValue.setClickable(true);
-//                    }
-//                }
-//            };
-//            contactTB.setOnValueChangeListener(valueChangeListener);
+            final SpinnerWidget personFemale = (SpinnerWidget) inputWidgets.get(31013);
+
+            if(Global.patientData.getPatient().getGender().toLowerCase().equals("male"))
+            {
+                personFemale.setVisibility(View.GONE);
+            }
+
+
+            final SpinnerWidget contactTB = (SpinnerWidget) inputWidgets.get(32009);
+
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    final SpinnerWidget contactTBValue = (SpinnerWidget) inputWidgets.get(32027);
+
+                    if (newValue.equals("Contacts of TB patients"))
+                    {
+                        contactTBValue.setEnabled(false);
+                        contactTBValue.setClickable(false);
+                        contactTBValue.setAnswer("Yes","",LANGUAGE.ENGLISH);
+                    }else
+                    {
+                        contactTBValue.setEnabled(true);
+                        contactTBValue.setClickable(true);
+                    }
+                }
+            };
+            contactTB.setOnValueChangeListener(valueChangeListener);
 
 
 
@@ -950,7 +959,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         if (patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
             ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
         } else {
-            ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_profile));
+            ivGender.setImageDrawable(getDrawable(R.drawable.ic_user_female));
         }
 
     }
