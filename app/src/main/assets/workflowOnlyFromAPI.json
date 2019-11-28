@@ -1,0 +1,99 @@
+{
+  "workflowPhasesMap": [
+    {
+      "uuid": "2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "id": 1,
+      "displayOrder": 1,
+      "phaseUUID": "7c5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "workflowUUID": "2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "phaseName": "Search",
+      "workflowName": "Community Based",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5"
+        },
+        {
+          "rel": "full",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5?v=full"
+        }
+      ]
+    },
+    {
+      "uuid": "5d5d7a68-3b3f-4d3e-nd9a-d213956bcda5",
+      "id": 4,
+      "displayOrder": 1,
+      "phaseUUID": "7c5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "workflowUUID": "8f5be542-adbc-4fe0-9c77-f3a75c25db53",
+      "phaseName": "Search",
+      "workflowName": "Facility Based",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/5d5d7a68-3b3f-4d3e-nd9a-d213956bcda5"
+        },
+        {
+          "rel": "full",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/5d5d7a68-3b3f-4d3e-nd9a-d213956bcda5?v=full"
+        }
+      ]
+    },
+    {
+      "uuid": "7c5d7a68-3b3f-dd3e-bd9a-d213956bcda5",
+      "id": 2,
+      "displayOrder": 2,
+      "phaseUUID": "7c5d7a68-3b3f-4d3g-bd9a-d213956bcda5",
+      "workflowUUID": "2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "phaseName": "Treat",
+      "workflowName": "Community Based",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/7c5d7a68-3b3f-dd3e-bd9a-d213956bcda5"
+        },
+        {
+          "rel": "full",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/7c5d7a68-3b3f-dd3e-bd9a-d213956bcda5?v=full"
+        }
+      ]
+    },
+    {
+      "uuid": "4b5d7a68-3b3f-4d3e-nd9a-d213956bcda5",
+      "id": 5,
+      "displayOrder": 2,
+      "phaseUUID": "7c5d7a68-3b3f-4d3g-bd9a-d213956bcda5",
+      "workflowUUID": "8f5be542-adbc-4fe0-9c77-f3a75c25db53",
+      "phaseName": "Treat",
+      "workflowName": "Facility Based",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/4b5d7a68-3b3f-4d3e-nd9a-d213956bcda5"
+        },
+        {
+          "rel": "full",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/4b5d7a68-3b3f-4d3e-nd9a-d213956bcda5?v=full"
+        }
+      ]
+    },
+    {
+      "uuid": "7c5d7a68-3b3f-4d3e-nd9a-d213956bcda5",
+      "id": 3,
+      "displayOrder": 3,
+      "phaseUUID": "7c5d7a68-3b3f-4d3e-bd6a-d213956bcda5",
+      "workflowUUID": "2d5d7a68-3b3f-4d3e-bd9a-d213956bcda5",
+      "phaseName": "Prevent",
+      "workflowName": "Community Based",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/7c5d7a68-3b3f-4d3e-nd9a-d213956bcda5"
+        },
+        {
+          "rel": "full",
+          "uri": "http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/hydra/workflowphases/7c5d7a68-3b3f-4d3e-nd9a-d213956bcda5?v=full"
+        }
+      ]
+    }
+  ]
+}
