@@ -16,23 +16,31 @@ import java.nio.charset.StandardCharsets
 
 class MetaDataHelper(context: Context) {
 
-    lateinit var workflowPhasesRepository: WorkflowPhasesRepository
     lateinit var workflowRepository: WorkFlowRepository
     lateinit var phaseRepository: PhaseRepository
+    lateinit var componentRepository: ComponentRepository
+
+    lateinit var workflowPhasesRepository: WorkflowPhasesRepository
+
     var context: Context
 
 
     init {
         this.context = context
-        workflowPhasesRepository = WorkflowPhasesRepository(context)
+
         workflowRepository = WorkFlowRepository(context)
         phaseRepository = PhaseRepository(context)
+        componentRepository = ComponentRepository(context)
+
+        workflowPhasesRepository = WorkflowPhasesRepository(context)
+
 
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
         getWorkFlowFromAPI()
         getPhasesFromAPI()
+        getComponentsFromAPI()
         parseMetaData(object : RESTCallback {
 
                 override fun onFailure(t: Throwable) {
@@ -65,6 +73,10 @@ class MetaDataHelper(context: Context) {
         phaseRepository.getRemotePhaseData()
     }
 
+    fun getComponentsFromAPI()
+    {
+        componentRepository.getRemoteComponentData()
+    }
 
     //Todo: remove  in production and sync with api
     private fun parseMetaData(restCallback: RESTCallback) {
@@ -96,7 +108,7 @@ class MetaDataHelper(context: Context) {
                         val componentId = insideComponent.getInt("id")
                         val formList = insideComponent.getJSONArray("forms")
 
-                        ComponentRepository(context).insertComponent(Component(componentName, componentId))
+                      //  ComponentRepository(context).insertComponent(Component(componentName, componentId))
                         phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
 
                         for (k in 0 until formList.length()) {

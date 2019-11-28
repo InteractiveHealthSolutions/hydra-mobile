@@ -109,11 +109,11 @@ class DynamicFragment : BaseFragment() {
             var componentResults = phasesComponentJoinViewModel.getComponentByPhasesID(phaseId)
 
             for (i in componentResults.indices) {
-                val componentId = componentResults[i].id
+                val componentId = componentResults[i].componentId
                 val componentName = componentResults[i].name
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
-                    if (componentId == formList[j].component.id) {
+                    if (componentId == formList[j].component.componentId) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
                                 componentName,

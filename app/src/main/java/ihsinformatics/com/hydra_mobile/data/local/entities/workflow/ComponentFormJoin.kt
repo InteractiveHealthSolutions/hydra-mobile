@@ -6,12 +6,12 @@ import androidx.room.ForeignKey
 
 @Entity(
     tableName = "component_form_join",
-    primaryKeys = ["comId", "formId"],
+    primaryKeys = ["componentId", "formId"],
     foreignKeys = [
         ForeignKey(
             entity = Component::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("comId")
+            parentColumns = arrayOf("componentId"),
+            childColumns = arrayOf("componentId")
         ), ForeignKey(
             entity = Forms::class,
             parentColumns = arrayOf("id"),
@@ -19,7 +19,7 @@ import androidx.room.ForeignKey
         )]
 )
 class ComponentFormJoin(
-    val comId: Int,
+    val componentId: Int,
     val formId: Int
 ) {
 }

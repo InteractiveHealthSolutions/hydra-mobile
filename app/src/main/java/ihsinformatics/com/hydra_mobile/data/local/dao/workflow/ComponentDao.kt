@@ -17,10 +17,10 @@ interface ComponentDao {
     @Delete
     fun deleteComponent(component: Component)
 
-    @Query("SELECT * FROM `Component` WHERE id == :id")
+    @Query("SELECT * FROM Component WHERE componentId == :id")
     fun getComponentById(id: Int): List<Component>
 
-    @Query("SELECT * FROM `Component`")
+    @Query("SELECT * FROM Component")
     fun getAllComponent(): LiveData<List<Component>>
 
 }

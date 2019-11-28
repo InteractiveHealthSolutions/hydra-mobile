@@ -19,7 +19,7 @@ interface ComponentFormJoinDao {
            SELECT * FROM Forms
            INNER JOIN component_form_join
            ON Forms.id=component_form_join.formId
-           WHERE component_form_join.comId=:componentId
+           WHERE component_form_join.componentId=:componentId
            """
     )
     fun getComponentFormList(componentId: Int): List<Forms>

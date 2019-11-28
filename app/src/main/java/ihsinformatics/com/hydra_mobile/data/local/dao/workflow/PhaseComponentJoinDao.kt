@@ -20,7 +20,7 @@ interface PhaseComponentJoinDao {
         """
            SELECT * FROM Component
            INNER JOIN phase_component_join
-           ON Component.id=phase_component_join.componentId
+           ON Component.componentId=phase_component_join.componentId
            WHERE phase_component_join.phaseId=:phaseId
            """
     )

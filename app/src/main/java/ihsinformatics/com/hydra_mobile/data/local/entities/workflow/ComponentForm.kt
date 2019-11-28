@@ -8,7 +8,7 @@ class ComponentForm {
     @Embedded
     lateinit var component: Component
 
-    @Relation(parentColumn = "id",
+    @Relation(parentColumn = "componentId",
         entityColumn = "componentId")
     lateinit var  formList:List<Forms>
 }
