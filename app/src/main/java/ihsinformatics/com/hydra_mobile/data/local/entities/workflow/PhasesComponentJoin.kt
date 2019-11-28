@@ -10,7 +10,7 @@ import androidx.room.ForeignKey
     foreignKeys = [
         ForeignKey(
             entity = Phases::class,
-            parentColumns = arrayOf("id"),
+            parentColumns = arrayOf("phaseId"),
             childColumns = arrayOf("phaseId")
         ), ForeignKey(
             entity = Component::class,

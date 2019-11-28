@@ -18,6 +18,7 @@ class MetaDataHelper(context: Context) {
 
     lateinit var workflowPhasesRepository: WorkflowPhasesRepository
     lateinit var workflowRepository: WorkFlowRepository
+    lateinit var phaseRepository: PhaseRepository
     var context: Context
 
 
@@ -25,11 +26,13 @@ class MetaDataHelper(context: Context) {
         this.context = context
         workflowPhasesRepository = WorkflowPhasesRepository(context)
         workflowRepository = WorkFlowRepository(context)
+        phaseRepository = PhaseRepository(context)
 
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
         getWorkFlowFromAPI()
+        getPhasesFromAPI()
         parseMetaData(object : RESTCallback {
 
                 override fun onFailure(t: Throwable) {
@@ -55,7 +58,11 @@ class MetaDataHelper(context: Context) {
     fun getWorkFlowFromAPI() {
         workflowPhasesRepository.getRemoteWorkflowData()
         workflowRepository.getRemoteWorkFlowData()
+    }
 
+    fun getPhasesFromAPI()
+    {
+        phaseRepository.getRemotePhaseData()
     }
 
 
@@ -81,7 +88,7 @@ class MetaDataHelper(context: Context) {
 
                     val components = insidePhase.getJSONArray("components")
 
-                    PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
+                 //   PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
 
                     for (j in 0 until components.length()) {
                         val insideComponent = components.getJSONObject(j)

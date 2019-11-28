@@ -91,7 +91,7 @@ class DemoWorker (context: Context, workerParams: WorkerParameters) : Worker(con
                         phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
                     }
 
-                    PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
+                  //  PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
                     //WorkFlowPhasesJoinRepository(context).insert(WorkFlowPhasesJoin(phaseId, workFlowId))
 
                 }

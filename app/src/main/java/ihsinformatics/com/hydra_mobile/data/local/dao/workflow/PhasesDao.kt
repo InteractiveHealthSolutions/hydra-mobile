@@ -16,7 +16,7 @@ interface PhasesDao {
     @Delete
     fun deletePhase(phases: Phases)
 
-    @Query("SELECT * FROM `Phases` WHERE id == :id")
+    @Query("SELECT * FROM `Phases` WHERE phaseId == :id")
     fun getPhaseById(id: Int): List<Phases>
 
     @Query("SELECT * FROM `Phases`")
