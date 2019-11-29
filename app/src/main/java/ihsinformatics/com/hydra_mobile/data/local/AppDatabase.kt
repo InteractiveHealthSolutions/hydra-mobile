@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.*
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 
 /**
@@ -16,8 +17,8 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhases
 
 @Database(
     entities = [AppSetting::class, Patient::class, Person::class, User::class,Location::class,WorkFlow::class,
-        Phases::class, Component::class, Forms::class, /*WorkFlowPhasesJoin::class ,*/ PhasesComponentJoin::class, ComponentFormJoin::class,
-        WorkflowPhasesMap::class],
+        Phases::class, Component::class, Forms::class, /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class,
+        WorkflowPhasesMap::class, PhaseComponentMap::class],
     version = 1,
     exportSchema = false
 )
@@ -33,11 +34,11 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getComponent(): ComponentDao
     abstract fun getForm(): FormDao
     abstract fun getComponentForm(): ComponentFormDao
-    abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
+    //abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
     //abstract fun getWorkFlowPhaseJoin(): WorkFlowPhaseJoinDao
     abstract fun getComponentFormJoin(): ComponentFormJoinDao
     abstract fun getWorkflowPhases(): WorkflowPhasesMapDao
-
+    abstract fun getPhaseComponentMap(): PhaseComponentMapDao
 
     companion object {
         private var instance: AppDatabase? = null

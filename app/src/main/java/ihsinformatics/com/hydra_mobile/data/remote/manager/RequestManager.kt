@@ -15,10 +15,7 @@ import timber.log.Timber
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.*
 
 
@@ -111,6 +108,32 @@ class RequestManager {
         })
     }
 
+
+    fun getPhaseComponentMap(representation: String, restCallback: RESTCallback) {
+        val phaseComponentService = retrofit.create(PhaseComponentApiService::class.java)
+        phaseComponentService.getPhaseComponent(representation).enqueue(object : Callback<PhaseComponentApiResponse> {
+
+            override fun onResponse(
+                call: Call<PhaseComponentApiResponse>,
+                response: Response<PhaseComponentApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<PhaseComponentApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
 
 
 

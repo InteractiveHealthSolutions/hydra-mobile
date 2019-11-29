@@ -98,11 +98,11 @@ class WorkflowPhasesRepository(context: Context) {
         }
     }
 
-//    fun deleteAllWorkflowPhases() {
-//        doAsync {
-//            workflowPhasesMapDao.deleteAllWorkflowPhases()
-//        }
-//    }
+    fun deleteAllWorkflowPhases() {
+        doAsync {
+            workflowPhasesMapDao.deleteAllWorkflowPhases()
+        }
+    }
 
     fun getAllWorkflowPhases(): List<WorkflowPhasesMap> {
         return workflowPhasesMapDao.getAllWorkflowPhases()

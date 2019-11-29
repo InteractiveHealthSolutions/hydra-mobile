@@ -21,6 +21,7 @@ class MetaDataHelper(context: Context) {
     lateinit var componentRepository: ComponentRepository
 
     lateinit var workflowPhasesRepository: WorkflowPhasesRepository
+    lateinit var phaseComponentRepository: PhaseComponentRepository
 
     var context: Context
 
@@ -33,24 +34,27 @@ class MetaDataHelper(context: Context) {
         componentRepository = ComponentRepository(context)
 
         workflowPhasesRepository = WorkflowPhasesRepository(context)
-
+        phaseComponentRepository= PhaseComponentRepository(context)
 
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
+
+        deleteExisitingLocalData()
+
         getWorkFlowFromAPI()
         getPhasesFromAPI()
         getComponentsFromAPI()
         parseMetaData(object : RESTCallback {
 
-                override fun onFailure(t: Throwable) {
-                    restCallback.onFailure(t)
-                }
-
-                override fun <T> onSuccess(o: T) {
-                    restCallback.onSuccess(o)
-                }
+            override fun onFailure(t: Throwable) {
+                restCallback.onFailure(t)
             }
+
+            override fun <T> onSuccess(o: T) {
+                restCallback.onSuccess(o)
+            }
+        }
         )
 
 
@@ -60,27 +64,34 @@ class MetaDataHelper(context: Context) {
     }
 
 
-
-
-
     fun getWorkFlowFromAPI() {
         workflowPhasesRepository.getRemoteWorkflowData()
         workflowRepository.getRemoteWorkFlowData()
     }
 
-    fun getPhasesFromAPI()
-    {
+    fun getPhasesFromAPI() {
         phaseRepository.getRemotePhaseData()
+        phaseComponentRepository.getRemotePhaseComponentMapData()
     }
 
-    fun getComponentsFromAPI()
-    {
+    fun getComponentsFromAPI() {
         componentRepository.getRemoteComponentData()
+    }
+
+    fun deleteExisitingLocalData()
+    {
+        workflowRepository.deleteAllWorkflow()
+        phaseRepository.deleteAllPhases()
+        componentRepository.deleteAllComponents()
+
+        workflowPhasesRepository.deleteAllWorkflowPhases()
+        phaseComponentRepository.deleteAllPhaseComponents()
+
     }
 
     //Todo: remove  in production and sync with api
     private fun parseMetaData(restCallback: RESTCallback) {
-        val phaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(context)
+       // val phaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(context)
         val componentFormJoinRepository = ComponentFormJoinRepository(context)
         try {
             val completeFile = JSONArray(loadJSONFromAsset())
@@ -100,7 +111,7 @@ class MetaDataHelper(context: Context) {
 
                     val components = insidePhase.getJSONArray("components")
 
-                 //   PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
+                    //   PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))
 
                     for (j in 0 until components.length()) {
                         val insideComponent = components.getJSONObject(j)
@@ -108,8 +119,8 @@ class MetaDataHelper(context: Context) {
                         val componentId = insideComponent.getInt("id")
                         val formList = insideComponent.getJSONArray("forms")
 
-                      //  ComponentRepository(context).insertComponent(Component(componentName, componentId))
-                        phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
+                        //  ComponentRepository(context).insertComponent(Component(componentName, componentId))
+                      //  phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
 
                         for (k in 0 until formList.length()) {
                             val insideForm = formList.getJSONObject(k)
@@ -121,10 +132,9 @@ class MetaDataHelper(context: Context) {
                         }
 
 
-
                     }
 
-                   // WorkFlowPhasesJoinRepository(context).insert(WorkFlowPhasesJoin(workFlowId, phaseId))
+                    // WorkFlowPhasesJoinRepository(context).insert(WorkFlowPhasesJoin(workFlowId, phaseId))
 
                 }
                 //restCallback.onSuccess(true)
@@ -139,7 +149,7 @@ class MetaDataHelper(context: Context) {
     }
 
 
-    private fun loadJSONFromFileName(file:String): String? {
+    private fun loadJSONFromFileName(file: String): String? {
         var json: String? = null
         try {
             val `is` = context.assets.open(file)

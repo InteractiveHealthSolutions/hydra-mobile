@@ -23,8 +23,8 @@ interface WorkflowPhasesMapDao {
     @Query("SELECT * FROM `WorkflowPhasesMap`")
     fun getAllWorkflowPhasesWithLiveData(): LiveData<List<WorkflowPhasesMap>>
 
-   // @Query("DELETE FROM `WorkflowPhasesMap` ")
-    //fun deleteAllWorkflowPhases()
+    @Query("DELETE FROM `WorkflowPhasesMap` ")
+    fun deleteAllWorkflowPhases()
 
 
     @Query("SELECT * FROM `WorkflowPhasesMap`")

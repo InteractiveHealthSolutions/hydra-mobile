@@ -4,15 +4,17 @@ import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentFormJoinDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhaseComponentJoinDao
+import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhaseComponentMapDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
 
-class PhaseComponentFormJoinRepository(context: Context) {
+class PhaseComponentMapRepository(context: Context) {
 
 
-    private var phaseComponentJoinDao: PhaseComponentJoinDao
+    private var phaseComponentMapDao: PhaseComponentMapDao
     private var componentFormJoinDao: ComponentFormJoinDao
     private var context: Context
 
@@ -21,15 +23,15 @@ class PhaseComponentFormJoinRepository(context: Context) {
         val database: AppDatabase = AppDatabase.getInstance(
             context.applicationContext
         )!!
-        phaseComponentJoinDao = database.getPhaseComponentJoin()
+        phaseComponentMapDao = database.getPhaseComponentMap()
         componentFormJoinDao = database.getComponentFormJoin()
         this.context = context
     }
 
 
-    fun insert(phasesComponentJoin: PhasesComponentJoin) {
+    fun insert(phasesComponentMap: PhaseComponentMap) {
         doAsync {
-            phaseComponentJoinDao.insert(phasesComponentJoin)
+            phaseComponentMapDao.insertPhaseComponent(phasesComponentMap)
         }
     }
 
@@ -40,9 +42,9 @@ class PhaseComponentFormJoinRepository(context: Context) {
     }
 
 
-    fun updatePhaseComponentJoin(phasesComponentJoin: PhasesComponentJoin) {
+    fun updatePhaseComponentMap(phasesComponentMap: PhaseComponentMap) {
         doAsync {
-            phaseComponentJoinDao.updatePhasesComponentJoin(phasesComponentJoin)
+            phaseComponentMapDao.updatePhaseComponent(phasesComponentMap)
         }
     }
 
@@ -51,13 +53,13 @@ class PhaseComponentFormJoinRepository(context: Context) {
         return componentFormJoinDao.getComponentFormList(componentId)
     }
 
-    fun getPhaseComponentJoinListByPhaseId(phaseId: Int): List<PhasesComponentJoin> {
-        return ArrayList<PhasesComponentJoin>()
+    fun getPhaseComponentMapListByPhaseId(phaseId: String): List<PhaseComponentMap> {
+        return ArrayList<PhaseComponentMap>()
 
     }
 
-    fun getComponentListByPhaseId(phaseId: Int): List<Component> {
-        return phaseComponentJoinDao.getComponentsByPhaseID(phaseId)
+    fun getComponentListByPhaseUUID(phaseId: String): List<PhaseComponentMap> {
+        return phaseComponentMapDao.getPhaseComponentByPhaseUUID(phaseId)
 
     }
 

@@ -56,11 +56,21 @@ class ComponentRepository(context: Context) {
         var formList = GlobalScope.async {
             componentFormDao.getComponentFormList()
         }
-        return  formList.await()
+        return formList.await()
+    }
+
+    fun getComponentByUUID(phaseID: String): Component {
+        return componentDao.getComponentByUUID(phaseID)
     }
 
 
-    fun getRemoteComponentData(){
+    fun deleteAllComponents() {
+        doAsync {
+            componentDao.deleteAllComponents()
+        }
+    }
+
+    fun getRemoteComponentData() {
         RequestManager(
             context, sessionManager.getUsername(),
             sessionManager.getPassword()

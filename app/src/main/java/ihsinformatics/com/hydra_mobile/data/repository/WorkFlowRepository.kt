@@ -75,6 +75,12 @@ class WorkFlowRepository(context: Context) {
         return workFlowPhasesMapDao.getWorkflowPhasesByName(name)
     }
 
+    fun deleteAllWorkflow() {
+        doAsync {
+            workFlowDao.deleteAllWorkflow()
+        }
+    }
+
 
     fun getRemoteWorkFlowData() {
 

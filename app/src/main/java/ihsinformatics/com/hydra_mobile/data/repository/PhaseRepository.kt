@@ -47,6 +47,12 @@ class PhaseRepository(context: Context) {
         return phasesDao.getAllPhases()
     }
 
+    fun deleteAllPhases() {
+        doAsync {
+            phasesDao.deleteAllPhases()
+        }
+    }
+
 
     fun getRemotePhaseData(){
         RequestManager(

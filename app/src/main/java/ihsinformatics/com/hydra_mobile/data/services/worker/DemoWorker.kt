@@ -51,7 +51,7 @@ class DemoWorker (context: Context, workerParams: WorkerParameters) : Worker(con
 
     //Todo: remove  in production and sync with api
     private fun parseMetaData() {
-        val phaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(context)
+       // val phaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(context)
         try {
             val completeFile = JSONArray(loadJSONFromAsset())
 
@@ -88,7 +88,7 @@ class DemoWorker (context: Context, workerParams: WorkerParameters) : Worker(con
 
 
                        // ComponentRepository(context).insertComponent(Component(componentName, componentId))
-                        phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
+                      //  phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
                     }
 
                   //  PhaseRepository(context).insertPhase(Phases(phaseName, phaseId))

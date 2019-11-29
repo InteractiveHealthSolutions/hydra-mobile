@@ -12,7 +12,7 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
-import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentFormJoinRepository
+import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentMapRepository
 import ihsinformatics.com.hydra_mobile.data.repository.PhaseRepository
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -24,7 +24,7 @@ class PhasesViewModel(application: Application) : AndroidViewModel(application) 
     private var repository: PhaseRepository = PhaseRepository(application)
 
     //Todo: just for testing purpose ..
-    private var repositoryPhaseCom: PhaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(application)
+    private var repositoryPhaseCom: PhaseComponentMapRepository = PhaseComponentMapRepository(application)
     private var repoComponentForm: ComponentRepository = ComponentRepository(application)
 
     private var allPhases: LiveData<List<Phases>> = repository.getAllPhases()
@@ -41,14 +41,14 @@ class PhasesViewModel(application: Application) : AndroidViewModel(application) 
         return allPhases
     }
 
-    suspend fun getComponentByPhaseId(phaseId: Int): List<Component> {
-
-        var componentList = GlobalScope.async {
-            repositoryPhaseCom.getComponentListByPhaseId(phaseId)
-        }
-
-        return componentList.await()
-    }
+//    suspend fun getComponentByPhaseId(phaseId: Int): List<Component> {
+//
+//        var componentList = GlobalScope.async {
+//            repositoryPhaseCom.getComponentListByPhaseId(phaseId)
+//        }
+//
+//        return componentList.await()
+//    }
 
     fun getFormByPComponentId(componentId: Int): List<Forms> {
 
@@ -63,27 +63,27 @@ class PhasesViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-    public fun loadPhases(): Observable<Resource<List<WorkflowPhasesMap>>> {
-        return object : NetworkBoundResource<List<WorkflowPhasesMap>, WorkflowPhasesApiResponse>() {
-            override fun createCall(): Observable<Resource<WorkflowPhasesApiResponse>> {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun saveCallResult(@NonNull item: WorkflowPhasesApiResponse) {
-
-            }
-
-            override fun shouldFetch(): Boolean {
-                return true
-            }
-
-            @NonNull
-            override fun loadFromDb(): Flowable<List<WorkflowPhasesMap>> {
-                return Flowable.empty<List<WorkflowPhasesMap>>()
-            }
-
-
-        }.asObservable
-
-    }
+//    public fun loadPhases(): Observable<Resource<List<WorkflowPhasesMap>>> {
+//        return object : NetworkBoundResource<List<WorkflowPhasesMap>, WorkflowPhasesApiResponse>() {
+//            override fun createCall(): Observable<Resource<WorkflowPhasesApiResponse>> {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//            override fun saveCallResult(@NonNull item: WorkflowPhasesApiResponse) {
+//
+//            }
+//
+//            override fun shouldFetch(): Boolean {
+//                return true
+//            }
+//
+//            @NonNull
+//            override fun loadFromDb(): Flowable<List<WorkflowPhasesMap>> {
+//                return Flowable.empty<List<WorkflowPhasesMap>>()
+//            }
+//
+//
+//        }.asObservable
+//
+//    }
 }

@@ -19,7 +19,6 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentFormsObject
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
-import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentFormJoinRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
@@ -39,13 +38,13 @@ class DynamicFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dynamic_fragment_layout, container, false)
         val bundle = this.arguments
-        val phaseId = bundle!!.getInt("PhaseId", 0)
+        val phaseId = bundle!!.getString("PhaseUUID", "null")
         initViews(view, phaseId)
         return view
     }
 
     @SuppressLint("WrongConstant")
-    private fun initViews(view: View, phaseId: Int) {
+    private fun initViews(view: View, phaseId: String) {
         componentFormsObjectList = ArrayList()
         getPhases(phaseId)
         val recyclerView = view.rv_phase_container as RecyclerView
@@ -97,7 +96,7 @@ class DynamicFragment : BaseFragment() {
         super.onDestroy()
     }
 
-    private fun getPhases(phaseId: Int) {
+    private fun getPhases(phaseId: String) {
 
         // val componentList = PhaseComponentFormJoinRepository(HydraApp.context!!)
         val phasesComponentJoinViewModel =   ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
@@ -106,22 +105,27 @@ class DynamicFragment : BaseFragment() {
 
         runBlocking {
 
-            var componentResults = phasesComponentJoinViewModel.getComponentByPhasesID(phaseId)
+            var componentResults = phasesComponentJoinViewModel.getComponentByPhasesUUID(phaseId)
+            var num=1
 
             for (i in componentResults.indices) {
-                val componentId = componentResults[i].componentId
-                val componentName = componentResults[i].name
+                val componentId = componentResults[i].componentUUID
+                var componentObj=phasesComponentJoinViewModel.getComponentByComponentUUID( componentResults[i].componentUUID)
+               // val componentName = componentResults[i].name
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
-                    if (componentId == formList[j].component.componentId) {
+                    //TODO Enable form integration
+                    //if (componentId == formList[j].component.componentId) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
-                                componentName,
-                                componentId,
+                                componentObj.name,
+                                //componentId,
+                                num,
                                 formList[j].formList
                             )
                         )
-                    }
+                    num++
+               //     }
                 }
 
                 adapter.setPhaseComponentList(componentFormsObjectList)

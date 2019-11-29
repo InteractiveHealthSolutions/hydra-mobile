@@ -2,34 +2,38 @@ package ihsinformatics.com.hydra_mobile.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.PhasesComponentJoin
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
-import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentFormJoinRepository
-import ihsinformatics.com.hydra_mobile.data.repository.WorkflowPhasesRepository
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
+import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
+import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentMapRepository
 
 
 class PhaseComponentJoinViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var repository: PhaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(application)
+    private var repository: PhaseComponentMapRepository = PhaseComponentMapRepository(application)
 
+    private var componentRepository: ComponentRepository = ComponentRepository(application)
 
-    fun insertPhaseComponentJoin(phasesComponentJoin: PhasesComponentJoin) {
-        repository.insert(phasesComponentJoin)
+    fun insertPhaseComponentMap(phasesComponentMap: PhaseComponentMap) {
+        repository.insert(phasesComponentMap)
     }
 
-    fun updatePhaseComponentJoin(phasesComponentJoin: PhasesComponentJoin) {
-        repository.updatePhaseComponentJoin(phasesComponentJoin)
+    fun updatePhaseComponentMap(phasesComponentMap: PhaseComponentMap) {
+        repository.updatePhaseComponentMap(phasesComponentMap)
     }
 
-    fun getPhaseComponentJoinByPhasesID(phaseID:Int):List<PhasesComponentJoin>
+    fun getPhaseComponentMapByPhasesUUID(phaseID:String):List<PhaseComponentMap>
     {
-        return repository.getPhaseComponentJoinListByPhaseId(phaseID)
+        return repository.getPhaseComponentMapListByPhaseId(phaseID)
     }
 
-    fun getComponentByPhasesID(phaseID:Int):List<Component>
+    fun getComponentByPhasesUUID(phaseID:String):List<PhaseComponentMap>
     {
-        return repository.getComponentListByPhaseId(phaseID)
+        return repository.getComponentListByPhaseUUID(phaseID)
+    }
+
+    fun getComponentByComponentUUID(phaseID:String):Component
+    {
+        return componentRepository.getComponentByUUID(phaseID)
     }
 }
