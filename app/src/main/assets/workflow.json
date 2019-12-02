@@ -9,7 +9,7 @@
         "components": [
           {
             "name": "Screening",
-            "id": 1001,
+            "id": 1,
             "forms": [
               {
                 "formId": 7,
@@ -39,7 +39,7 @@
           },
           {
             "name": "Diagnosis",
-            "id": 1002,
+            "id": 2,
             "forms": [
               {
                 "formId": 13,
@@ -55,7 +55,7 @@
         "components": [
           {
             "name": "Initiation",
-            "id": 2001,
+            "id": 3,
             "forms": [
               {
                 "formId": 14,
@@ -73,7 +73,7 @@
           },
           {
             "name": "Progression",
-            "id": 2002,
+            "id": 4,
             "forms": [
               {
                 "formId": 16,
@@ -95,7 +95,7 @@
           },
           {
             "name": "Post Treatment",
-            "id": 2003,
+            "id": 7,
             "forms": [
               {
                 "formId": 19,
@@ -111,7 +111,7 @@
         "components": [
           {
             "name": "Investigate",
-            "id": 1032,
+            "id": 8,
             "forms": [
               {
                 "formId": 22,
@@ -133,7 +133,7 @@
           },
           {
             "name": "Identify",
-            "id": 1031,
+            "id": 5,
             "forms": [
               {
                 "formId": 20,
@@ -147,7 +147,7 @@
           },
           {
             "name": "Prevention Therapy",
-            "id": 1033,
+            "id": 6,
             "forms": [
               {
                 "formId": 26,
@@ -155,170 +155,6 @@
               },
               {
                 "formId": 27,
-                "encounterType": "PT Post Treatment Outcome"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 10000,
-    "name": "Facility Based",
-    "phases": [
-      {
-        "name": "Search",
-        "id": 4,
-        "components": [
-          {
-            "name": "Screening",
-            "id": 100001,
-            "forms": [
-              {
-                "formId": 100005,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 100006,
-                "encounterType": "Child Screening"
-              },
-              {
-                "formId": 100002,
-                "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 100003,
-                "encounterType": "Child Clinician Evaluation"
-              },
-              {
-                "formId": 100004,
-                "encounterType": "Adult Clinician Evaluation"
-              },
-              {
-                "formId": 100007,
-                "encounterType": "End Of Followup"
-              }
-            ]
-          },
-          {
-            "name": "Diagnosis",
-            "id": 200002,
-            "forms": [
-              {
-                "formId": 200003,
-                "encounterType": "TB Disease Confirmation"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Treat",
-        "id": 5,
-        "components": [
-          {
-            "name": "Initiation",
-            "id": 30001,
-            "forms": [
-              {
-                "formId": 30002,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 30011,
-                "encounterType": "Adult Treatment Initiation"
-              },
-              {
-                "formId": 30004,
-                "encounterType": "Child Treatment Initiation"
-              }
-            ]
-          },
-          {
-            "name": "Progression",
-            "id": 30007,
-            "forms": [
-              {
-                "formId": 30008,
-                "encounterType": "Adult Treatment Initiation"
-              },
-              {
-                "formId": 30009,
-                "encounterType": "Child Treatment Initiation"
-              },
-              {
-                "formId": 30010,
-                "encounterType": "Adverse Event"
-              },
-              {
-                "formId": 30012,
-                "encounterType": "TB Treatment Adherance"
-              }
-            ]
-          },
-          {
-            "name": "Post Treatment",
-            "id": 2004,
-            "forms": [
-              {
-                "formId": 700001,
-                "encounterType": "TB Post-Treatment Outcome"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Prevent",
-        "id": 6,
-        "components": [
-          {
-            "name": "Investigate",
-            "id": 6032,
-            "forms": [
-              {
-                "formId": 600003,
-                "encounterType": "Child Screening"
-              },
-              {
-                "formId": 600004,
-                "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 600005,
-                "encounterType": "Child Clinician Evaluation"
-              },
-              {
-                "formId": 600006,
-                "encounterType": "Adult Clinician Evaluation"
-              }
-            ]
-          },
-          {
-            "name": "Identify",
-            "id": 5031,
-            "forms": [
-              {
-                "formId": 600001,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 600002,
-                "encounterType": "Contact Registry"
-              }
-            ]
-          },
-          {
-            "name": "Prevention Therapy",
-            "id": 1033,
-            "forms": [
-              {
-                "formId": 600007,
-                "encounterType": "PT Treatment Initiation"
-              },
-              {
-                "formId": 600008,
                 "encounterType": "PT Post Treatment Outcome"
               }
             ]

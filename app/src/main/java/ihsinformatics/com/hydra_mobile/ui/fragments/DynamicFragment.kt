@@ -106,7 +106,6 @@ class DynamicFragment : BaseFragment() {
         runBlocking {
 
             var componentResults = phasesComponentJoinViewModel.getComponentByPhasesUUID(phaseId)
-            var num=1
 
             for (i in componentResults.indices) {
                 val componentId = componentResults[i].componentUUID
@@ -115,7 +114,7 @@ class DynamicFragment : BaseFragment() {
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
                     //TODO Enable form integration
-                    if (componentId == formList[j].component.uuid) {
+                    if (componentObj.uuid == formList[j].component.uuid) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
                                 componentObj.name,
@@ -124,7 +123,6 @@ class DynamicFragment : BaseFragment() {
                                 formList[j].formList
                             )
                         )
-                    num++
                     }
                 }
 

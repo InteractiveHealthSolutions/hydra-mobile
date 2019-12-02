@@ -57,7 +57,7 @@ class PhaseComponentAdapter() :
         fun bindItems(componentFormsObject: ComponentFormsObject) {
 
             componentName.text = componentFormsObject.name
-            if (componentFormsObject.forms.size < 3) {
+            if (componentFormsObject.forms.size <= 3) {
                 itemView.img_expend_form.visibility = View.INVISIBLE
             }
 
