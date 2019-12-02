@@ -21,7 +21,7 @@ class DynamicFragmentAdapter(
         val b = Bundle()
         b.putInt("position", position)
         //b.putInt("PhaseId", 101)
-        b.putInt("PhaseId", workflowPhasesList[position].id)
+        b.putString("PhaseUUID", workflowPhasesList[position].phaseUUID)
         val frag = DynamicFragment.newInstance()
         frag.arguments = b
         return frag

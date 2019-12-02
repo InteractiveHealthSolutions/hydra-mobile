@@ -115,17 +115,17 @@ class DynamicFragment : BaseFragment() {
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
                     //TODO Enable form integration
-                    //if (componentId == formList[j].component.componentId) {
+                    if (componentId == formList[j].component.uuid) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
                                 componentObj.name,
-                                //componentId,
-                                num,
+                                componentObj.uuid,
+                               // num,
                                 formList[j].formList
                             )
                         )
                     num++
-               //     }
+                    }
                 }
 
                 adapter.setPhaseComponentList(componentFormsObjectList)
