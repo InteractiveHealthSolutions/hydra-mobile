@@ -22,6 +22,7 @@ import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import kotlinx.android.synthetic.main.dynamic_fragment_layout.view.*
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.anko.find
@@ -30,7 +31,7 @@ import org.jetbrains.anko.find
 class DynamicFragment : BaseFragment() {
 
     private lateinit var componentFormsObjectList: ArrayList<ComponentFormsObject>
-    var adapter= PhaseComponentAdapter()
+    var adapter = PhaseComponentAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -98,28 +99,26 @@ class DynamicFragment : BaseFragment() {
 
     private fun getPhases(phaseId: String) {
 
-        // val componentList = PhaseComponentFormJoinRepository(HydraApp.context!!)
-        val phasesComponentJoinViewModel =   ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
-        //componentList.getComponentByPhaseId(phaseId).observe(this, Observer<List<Component>> {
-        val formModel =  ComponentRepository(HydraApp.context!!) //ViewModelProviders.of(this).get(PhasesViewModel::class.java)
+        val phasesComponentJoinViewModel = ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
+        val formModel =
+            ComponentRepository(HydraApp.context!!) //ViewModelProviders.of(this).get(PhasesViewModel::class.java)
 
+        var currentWorkflowUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID,"-1")
         runBlocking {
 
             var componentResults = phasesComponentJoinViewModel.getComponentByPhasesUUID(phaseId)
 
             for (i in componentResults.indices) {
-                val componentId = componentResults[i].componentUUID
-                var componentObj=phasesComponentJoinViewModel.getComponentByComponentUUID( componentResults[i].componentUUID)
-               // val componentName = componentResults[i].name
+                var componentObj =
+                    phasesComponentJoinViewModel.getComponentByComponentUUID(componentResults[i].componentUUID)
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
                     //TODO Enable form integration
-                    if (componentObj.uuid == formList[j].component.uuid) {
+                    if (componentObj.uuid.equals(formList[j].component.uuid) && (componentResults[i].workflowUUID.equals(currentWorkflowUUID))) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
                                 componentObj.name,
                                 componentObj.uuid,
-                               // num,
                                 formList[j].formList
                             )
                         )
@@ -130,7 +129,6 @@ class DynamicFragment : BaseFragment() {
             }
         }
 
-        // adapter.setPhaseComponentList(componentFormsObjectList)
     }
 
 

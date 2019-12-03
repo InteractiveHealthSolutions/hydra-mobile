@@ -14,7 +14,8 @@ public class GlobalPreferences {
 		LANGUAGE,
 		LOCATION,
 		FIRST_RUN,
-		WORKFLOW
+		WORKFLOW,
+		WORKFLOWUUID
 	}
 	
 	private static GlobalPreferences instance;

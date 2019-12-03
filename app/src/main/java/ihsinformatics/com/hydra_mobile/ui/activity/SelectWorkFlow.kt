@@ -18,11 +18,13 @@ import androidx.databinding.DataBindingUtil
 import ihsinformatics.com.hydra_mobile.databinding.ActivitySelectWorkflowBinding
 import android.view.MotionEvent
 import android.view.WindowManager
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
 
 class SelectWorkFlow : AppCompatActivity() {
 
     lateinit var binding: ActivitySelectWorkflowBinding
+    lateinit var workflows:List<WorkFlow>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,7 @@ class SelectWorkFlow : AppCompatActivity() {
          workflowViewModel.getAllPWorkflow().observe(this, Observer<List<WorkFlow>> { worklist ->
              if (worklist.isNotEmpty()) {
                  //val ll_main = findViewById(R.id.ll_main_layout) as LinearLayout
+                 workflows=ArrayList<WorkFlow>(worklist)
                  val rg = findViewById(R.id.rg_workflow) as RadioGroup
                  rg.removeAllViews()
                  for (element in worklist) {
@@ -92,6 +95,14 @@ class SelectWorkFlow : AppCompatActivity() {
                     selectedVal= selectedRadioID.text as String
                     val returnIntent = Intent()
                     returnIntent.putExtra("result", selectedVal)
+                    for(i in workflows)
+                    {
+                        if(selectedVal.equals(i.name))
+                        {
+                            GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, i.uuid)
+                        }
+                    }
+
                     setResult(Activity.RESULT_OK, returnIntent)
                     finish()
                 }
