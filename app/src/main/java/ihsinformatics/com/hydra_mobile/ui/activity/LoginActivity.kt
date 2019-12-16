@@ -146,6 +146,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         openMetaDataFetcher()
 
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
+
 
 
                     }
