@@ -109,10 +109,13 @@ class WorkflowPhasesRepository(context: Context) {
     }
 
 
-    fun getPhasesByWorkFlowName(workflowString:String):List<WorkflowPhasesMap>
-    {
-           return workflowPhasesMapDao.getWorkflowPhasesByName(workflowString)
-        }
+    fun getPhasesByWorkFlowName(workflowString: String): List<WorkflowPhasesMap> {
+        return workflowPhasesMapDao.getWorkflowPhasesByName(workflowString)
+    }
+
+    fun getPhasesByWorkFlowUUID(workflowUUID: String): List<WorkflowPhasesMap> {
+        return workflowPhasesMapDao.getWorkflowPhasesByUUID(workflowUUID)
+    }
 
 
 

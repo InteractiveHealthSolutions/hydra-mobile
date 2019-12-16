@@ -4,7 +4,6 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -102,7 +101,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         //previous workflow check (if set then continue and fetch phases for that workflow)
-        val selectedWorkFlow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOW, null)
+        val selectedWorkFlow = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
         if (selectedWorkFlow == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else {
@@ -147,11 +147,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
             override fun onCentreButtonClick() {
-                if(Global.patientData==null)
-                {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity,"Patient Not Loaded",Toast.LENGTH_SHORT)
-                }
-                else {
+                if (Global.patientData == null) {
+                    ToastyWidget.getInstance()
+                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
+                } else {
                     startActivity(Intent(applicationContext, ProfileActivity::class.java))
                     finish()
                 }
@@ -175,8 +174,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun bottomBarListener(itemName: String) {
         when (itemName) {
             resources.getString(R.string.search_title) -> {
-                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                startActivityForResult(Intent(this, PatientInfoFetcher::class.java),112)
+                PatientInfoFetcher.init(
+                    Constant.formName,
+                    PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO
+                )
+                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
 
 //                startActivity(Intent(applicationContext, SearchActivity::class.java))
 //                finish()
@@ -218,7 +220,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val id = item.itemId
         if (id == R.id.action_logout) {
 
-           logoutDialog()
+            logoutDialog()
 
         } else if (id == R.id.action_change_workflow) {
             startActivityForResult(Intent(this@HomeActivity, SelectWorkFlow::class.java), 0)
@@ -232,7 +234,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var drawerArrow = DrawerArrowDrawable(this)
         drawerArrow.color = ContextCompat.getColor(this@HomeActivity, R.color.colorWhite)
         toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         toggle.isDrawerIndicatorEnabled = true
         toggle.drawerArrowDrawable = drawerArrow!!
@@ -289,8 +295,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initPhase() {
         binding.mainMenuLayout.vpPhases.offscreenPageLimit = 2
-        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.mainMenuLayout.tbPhase))
-        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(
+            TabLayout.TabLayoutOnPageChangeListener(
+                binding.mainMenuLayout.tbPhase
+            )
+        )
+        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
@@ -332,11 +343,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun fillPatientInfoBar() {
 
-        if (Global.patientData!=null) {
-            tvPatientName?.visibility=View.VISIBLE
-            tvPatientLastName?.visibility=View.VISIBLE
-            tvAge?.visibility=View.VISIBLE
-            tvAgeLabel?.visibility=View.VISIBLE
+        if (Global.patientData != null) {
+            tvPatientName?.visibility = View.VISIBLE
+            tvPatientLastName?.visibility = View.VISIBLE
+            tvAge?.visibility = View.VISIBLE
+            tvAgeLabel?.visibility = View.VISIBLE
             var identifiers = ""
             val ids = Global.patientData.getIdentifiers()
             if (ids != null) {
@@ -361,57 +372,66 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val months = period.getMonths()
             val days = period.getDays()
             tvAge?.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
-            Global.patientData.getPatient().age=years
+            Global.patientData.getPatient().age = years
             tvPatientIdentifier?.setText(identifiers)
             if (Global.patientData.getPatient().getGender().toLowerCase().startsWith("m")) {
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
             } else {
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
             }
-        }
-
-        else
-        {
-            tvPatientName?.visibility=View.GONE
-            tvPatientLastName?.visibility=View.GONE
-            tvAge?.visibility=View.GONE
-            tvAgeLabel?.visibility=View.GONE
+        } else {
+            tvPatientName?.visibility = View.GONE
+            tvPatientLastName?.visibility = View.GONE
+            tvAge?.visibility = View.GONE
+            tvAgeLabel?.visibility = View.GONE
             tvPatientIdentifier?.setText("Patient Not Loaded")
-                ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
+            ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
 
         }
     }
 
 
     //Todo workflow must come according to ID and not name
-    fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow: String) {
+    fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow:String) {
 
 
-        val workflowPhaseMapViewModel = ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
-        val work=workflowPhaseMapViewModel.getPhasesByWorkFlowName(selectedWorkFlow)
+        val workflowPhaseMapViewModel =
+            ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
+//        var selectedWorkFlow = GlobalPreferences.getinstance(this)
+//            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
+        if (null != selectedWorkFlow && !selectedWorkFlow.equals("")) {
+            val work = workflowPhaseMapViewModel.getPhasesByWorkFlowUUID(selectedWorkFlow)
 
 
-        //TODO remove repository and try viewModel
-        // work = workflowPhasesRepository.getPhasesByWorkFlowName(selectedWorkFlow)
-        binding.mainMenuLayout.tbPhase.removeAllTabs()
-        binding.mainMenuLayout.vpPhases.removeAllViews()
-        if (work.isNotEmpty()) {
+            //TODO remove repository and try viewModel
+            // work = workflowPhasesRepository.getPhasesByWorkFlowName(selectedWorkFlow)
+            binding.mainMenuLayout.tbPhase.removeAllTabs()
+            binding.mainMenuLayout.vpPhases.removeAllViews()
+            if (work.isNotEmpty()) {
 
-            for (element in work) {
-                binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + element.phaseName))
+                for (element in work) {
+                    binding.mainMenuLayout.tbPhase.addTab(
+                        binding.mainMenuLayout.tbPhase.newTab().setText(
+                            "" + element.phaseName
+                        )
+                    )
+                }
+
+
+                mDynamicFragmentAdapter =
+                    DynamicFragmentAdapter(
+                        supportFragmentManager,
+                        binding.mainMenuLayout.tbPhase.tabCount,
+                        work
+                    )
+                binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
+                binding.mainMenuLayout.vpPhases.currentItem = 0
+
+
             }
-
-
-            mDynamicFragmentAdapter =
-                DynamicFragmentAdapter(
-                    supportFragmentManager,
-                    binding.mainMenuLayout.tbPhase.tabCount,
-                    work
-                )
-            binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
-            binding.mainMenuLayout.vpPhases.currentItem = 0
-
-
+        }else
+        {
+            ToastyWidget.getInstance().displayError(this@HomeActivity,"Workflow not loaded",Toast.LENGTH_SHORT)
         }
 
 
@@ -428,23 +448,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 GlobalPreferences.getinstance(this)
                     .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, result)
                 if (result != null) {
-                    getWorkFlowsAndBindAlongWithPhases(result)
+                    val selectedWorkFlow = GlobalPreferences.getinstance(this)
+                        .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
+
+                    getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow)
                 }
                 Toast.makeText(this, "Workflow Changed to: " + result, Toast.LENGTH_SHORT).show()
             }
             if (resultCode === Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
-        }
-        else if (requestCode === 112)
-        {
+        } else if (requestCode === 112) {
             fillPatientInfoBar()
         }
     }
 
 
-    private fun logoutDialog()
-    {
+    private fun logoutDialog() {
         val dialog = AlertDialog.Builder(this)
             .setMessage("Are you sure to logout?")
             .setTitle("Are you sure?")
@@ -454,7 +474,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             ) { dialog, which ->
 
                 SessionManager(applicationContext).logoutUser()
-                GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                GlobalPreferences.getinstance(this)
+                    .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
                 finish()
 
             }

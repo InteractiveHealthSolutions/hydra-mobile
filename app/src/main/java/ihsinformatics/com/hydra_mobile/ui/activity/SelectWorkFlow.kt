@@ -97,6 +97,7 @@ class SelectWorkFlow : AppCompatActivity() {
                     returnIntent.putExtra("result", selectedVal)
                     for(i in workflows)
                     {
+
                         if(selectedVal.equals(i.name))
                         {
                             GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, i.uuid)

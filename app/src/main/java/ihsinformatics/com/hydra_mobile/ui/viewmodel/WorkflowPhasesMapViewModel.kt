@@ -31,4 +31,9 @@ class WorkflowPhasesMapViewModel(application: Application) : AndroidViewModel(ap
         return repository.getPhasesByWorkFlowName(workflowString)
     }
 
+    fun getPhasesByWorkFlowUUID(workflowUUID:String):List<WorkflowPhasesMap>
+    {
+        return repository.getPhasesByWorkFlowUUID(workflowUUID)
+    }
+
 }

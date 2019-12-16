@@ -21,7 +21,15 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
 
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FIRST_NAME;
 import static com.ihsinformatics.dynamicformsgenerator.network.ParamNames.FORM3_ABSENT;
@@ -66,7 +74,7 @@ public class DataProvider {
     private static Date lastMonday;
     private static Date lastYear;
     private static Date nextYear;
-    private static Date projectStartDate;
+    private static java.util.Date projectStartDate;
     private static Date today;
     private static Date date110YearsAgo;
     private LinkedHashMap<Integer, String> encounterTypes;

@@ -34,5 +34,8 @@ interface WorkflowPhasesMapDao {
     @Query("SELECT * FROM `WorkflowPhasesMap` WHERE workflowName == :name")
     fun getWorkflowPhasesByName(name: String): List<WorkflowPhasesMap>
 
+    @Query("SELECT * FROM `WorkflowPhasesMap` WHERE workflowUUID == :uuid")
+    fun getWorkflowPhasesByUUID(uuid: String): List<WorkflowPhasesMap>
+
 
 }
