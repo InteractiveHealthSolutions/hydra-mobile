@@ -19,6 +19,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -763,7 +764,7 @@ public class DataProvider {
         this.options.add(new Option(32009, 3118, null, null, "10", "PWID", -1));
 
 
-        this.questions.add(new Question(true, AdultScreeningFormId, 32010, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Is the child a patient or an attendant?", generateUUID(), null));
+        this.questions.add(new Question(true, AdultScreeningFormId, 32010, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Is the person a patient or an attendant?", generateUUID(), null));
         this.options.add(new Option(32010, 3119, null, null, "1", "Patient", -1));
         this.options.add(new Option(32010, 3120, null, null, "2", "Attendant", -1));
 
