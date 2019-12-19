@@ -1,0 +1,68 @@
+[
+  {
+    "encounterTypeName": "Patient Information",
+    "questions": [
+      {
+        "id": "123",
+        "description": "Do you have cough?",
+        "conceptName": "cough",
+        "concetUUID": "123-asd-123-asd-123",
+        "initialVisibility": "VISIBLE",
+        "required": 1,
+        "options": [
+          {
+            "default": 1,
+            "conceptUUID": "123-asd-123-asd-123",
+            "display": "Yes"
+          },
+          {
+            "default": 0,
+            "conceptUUID": "123-asd-123-asd-123",
+            "display": "No"
+          }
+        ],
+        "visibleWhen": [
+          {
+            "id": "rule1",
+            "questionId": "123",
+            "equals": [
+              {
+                "uuid": "Yes_UUID"
+              },
+              {
+                "uuid": "Very Yes_UUID"
+              }
+            ],
+            "notEquals": [
+              {
+                "uuid": "No_UUID"
+              },
+              {
+                "uuid": "Never_UUID"
+              }
+            ],
+            "equalTo": [
+              15,
+              12
+            ],
+            "notEqualTo": [
+              15
+            ],
+            "lessThan": [
+              12
+            ],
+            "greaterThan": [
+              14
+            ]
+          }
+        ],
+        "hiddenWhen": [
+
+        ],
+        "requiredWhen": [
+
+        ]
+      }
+    ]
+  }
+]

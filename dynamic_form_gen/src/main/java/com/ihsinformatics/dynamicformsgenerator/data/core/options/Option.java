@@ -1,5 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.data.core.options;
 
+import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class Option implements Cloneable {
 		this.uuid = uuid;
 		this.text = text;
 		this.score = score;
+
 	}
 
 	public Option(int questionId, int optionId, int[] opensQuestions, int[] hidesQuestions, String uuid, String text) {

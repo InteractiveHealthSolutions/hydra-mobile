@@ -23,12 +23,14 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.SingleSelectTextVi
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.AgeWidget;
 
+import org.json.JSONException;
+
 /**
  * Created by Naveed Iqbal on 11/24/2017.
  * Email: h.naveediqbal@gmail.com
  */
 public class InputWidgetBakery {
-    public InputWidget bakeInputWidget(Context context, Question q) {
+    public InputWidget bakeInputWidget(Context context, Question q) throws JSONException {
         InputWidget inputWidget = null;
         if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT) {
             inputWidget = new EditTextWidget(context, q, R.layout.layout_widget_edit_text);

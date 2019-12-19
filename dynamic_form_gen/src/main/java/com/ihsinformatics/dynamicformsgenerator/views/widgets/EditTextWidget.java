@@ -178,8 +178,13 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(onValueChangeListener!=null)
-            onValueChangeListener.onValueChanged(s.toString());
+        if(onValueChangeListener!=null) {
+            try {
+                onValueChangeListener.onValueChanged(s.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         String newValue = s.toString();
         if (rangeOptions != null && rangeOptions.size() > 0) {
             try {
@@ -219,7 +224,12 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
             for(int i=0; i<repeatTimes; i++) {
                 childWidgets = new HashMap<>();
-                InputWidget headingWidget  = createHeading(i);
+                InputWidget headingWidget  = null;
+                try {
+                    headingWidget = createHeading(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 llRepeatSpace.addView(headingWidget);
 
                 for(Question q: question.getRepeatables()) {
@@ -230,7 +240,12 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                     q.setQuestionId(uniqueId);
                     q.setRuntimeGenerated(true);
                     q.updateSkipLogicReferences(99999, (i+1));
-                    InputWidget inputWidget = widgetBakery.bakeInputWidget(context, q);
+                    InputWidget inputWidget = null;
+                    try {
+                        inputWidget = widgetBakery.bakeInputWidget(context, q);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     childWidgets.put(uniqueId, inputWidget);
                     baseActivity.addRunTimeWidgetReference(uniqueId, inputWidget);
                     // adding in linear layout
@@ -242,7 +257,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
         }
     }
 
-    private InputWidget createHeading(int i) {
+    private InputWidget createHeading(int i) throws JSONException {
         Question q = (new Question(
                 false,
                 question.getFormTypeId(),

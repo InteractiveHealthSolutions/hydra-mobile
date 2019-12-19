@@ -146,7 +146,11 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		String val = ((RadioButton)group.findViewById(checkedId)).getText().toString();
 		if(onValueChangeListener!=null) {
-			onValueChangeListener.onValueChanged(val);
+			try {
+				onValueChangeListener.onValueChanged(val);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 		if(Global.SCOREABLE_QUESTIONS.contains(question.getQuestionId())) {
 			Option o = mOptions.get(val);

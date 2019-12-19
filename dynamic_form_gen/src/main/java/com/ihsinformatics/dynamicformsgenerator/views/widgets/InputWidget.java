@@ -201,7 +201,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
 
     public abstract void onFocusGained();
 
-    public abstract void setAnswer(String answer, String uuid, LANGUAGE language);
+    public abstract void setAnswer(String answer, String uuid, LANGUAGE language) throws JSONException;
 
     public abstract JSONObject getAnswer() throws JSONException;
 

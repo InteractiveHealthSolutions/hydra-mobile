@@ -31,7 +31,7 @@ public class DateWidget extends InputWidget {
     private boolean isSetAnswerFromOnCreate = false;
     private QuestionConfiguration configuration;
 
-    public DateWidget(Context context, Question question, int layoutId) {
+    public DateWidget(Context context, Question question, int layoutId) throws JSONException {
         super(context, question,layoutId);
         if(super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
@@ -101,7 +101,7 @@ public class DateWidget extends InputWidget {
     }
 
     @Override
-    public void setAnswer(String answer, String uuid, LANGUAGE language) {
+    public void setAnswer(String answer, String uuid, LANGUAGE language) throws JSONException {
         if(onValueChangeListener!=null) {
             onValueChangeListener.onValueChanged(answer);
         }

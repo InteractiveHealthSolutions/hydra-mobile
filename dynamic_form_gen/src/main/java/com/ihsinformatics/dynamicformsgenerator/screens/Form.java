@@ -11,6 +11,7 @@ import android.widget.Toolbar;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
+import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
@@ -19,6 +20,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidgetProvider;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
 
 import org.json.JSONArray;
@@ -79,11 +81,13 @@ public class Form extends BaseActivity {
         JSONUtils jsonUtils = JSONUtils.getInstance();
         JSONObject temp;
         InputWidgetBakery inputWidgetBakery = new InputWidgetBakery();
-        for (Question q : questions) {
+        for (final Question q : questions) {
             try {
+                List<Option> o=dataProvider.getOptionsByQuestionsID(q.getQuestionId());
+                q.setOptions(o);
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
                 llMain.addView(w);
-                inputWidgets.put(w.getQuestionId(), w);
+
                 if (loadData && jsonData != null) {
                     temp = jsonUtils.findJSONObjectInJSONArray(q.getParamName(), jsonData);
                     if (temp != null && w != null) {
@@ -91,11 +95,21 @@ public class Form extends BaseActivity {
                         w.setAnswer(answer, "", LANGUAGE.URDU);
                     }
                 }
+                w.setOnValueChangeListener(new OnValueChangeListener() {
+                    @Override
+                    public void onValueChanged(String newValue) throws JSONException {
+                        checkSkipLogics();
+                    }
+                });
+
+                w.setVisibility(q.getInitialVisibility());
+                inputWidgets.put(w.getQuestionId(), w);
             } catch (Exception je) {
                 je.printStackTrace();
             }
         }
-        super.handleEncounterType();
+
+        //super.handleEncounterType();
     }
 
     public static String getENCOUNTER_NAME() {

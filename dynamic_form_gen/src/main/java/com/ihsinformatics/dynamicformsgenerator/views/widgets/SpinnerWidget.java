@@ -105,8 +105,13 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // inform the user class about value change
-        if(onValueChangeListener != null)
-            onValueChangeListener.onValueChanged(spAnswer.getSelectedItem().toString());
+        if(onValueChangeListener != null) {
+            try {
+                onValueChangeListener.onValueChanged(spAnswer.getSelectedItem().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (Global.SCOREABLE_QUESTIONS.contains(question.getQuestionId())) {
             Option o = options.get(arg2);
@@ -297,4 +302,6 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     public String getValue() {
         return spAnswer.getSelectedItem().toString();
     }
+
+
 }

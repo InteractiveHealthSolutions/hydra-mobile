@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import android.widget.*;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
@@ -24,11 +25,14 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
+import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
+import com.ihsinformatics.dynamicformsgenerator.data.utils.SkipLogic;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -59,6 +63,7 @@ import org.joda.time.PeriodType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.*;
@@ -182,30 +187,28 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     JSONObject encounterCount = new JSONObject();
 
 
-
                     if (offlinePatient.getMrNumber() != null) {
 
                         String fieldJsonString = offlinePatient.getFieldDataJson();
                         if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
 
-                        existingFieldsJson.put("patientSource","");
-                        existingFieldsJson.put("patientType","");
-                        existingFieldsJson.put("patientRiskCategory","");
-                        existingFieldsJson.put("weight","");
-                        existingFieldsJson.put("height","");
-                        existingFieldsJson.put("bmi","");
-                        existingFieldsJson.put("bmi","");
+                        existingFieldsJson.put("patientSource", "");
+                        existingFieldsJson.put("patientType", "");
+                        existingFieldsJson.put("patientRiskCategory", "");
+                        existingFieldsJson.put("weight", "");
+                        existingFieldsJson.put("height", "");
+                        existingFieldsJson.put("bmi", "");
+                        existingFieldsJson.put("bmi", "");
 
-                        existingFieldsJson.put("endOfFollowUpFor","");
-                        existingFieldsJson.put("relatedOutcome","");
-                        existingFieldsJson.put("diseaseSite","");
-                        existingFieldsJson.put("confirmationType","");
-                        existingFieldsJson.put("tbType","");
-                        existingFieldsJson.put("nextTBAppointment","");
-                        existingFieldsJson.put("recentVisits",new JSONObject());
-                        existingFieldsJson.put("relationships",new JSONArray());
-
+                        existingFieldsJson.put("endOfFollowUpFor", "");
+                        existingFieldsJson.put("relatedOutcome", "");
+                        existingFieldsJson.put("diseaseSite", "");
+                        existingFieldsJson.put("confirmationType", "");
+                        existingFieldsJson.put("tbType", "");
+                        existingFieldsJson.put("nextTBAppointment", "");
+                        existingFieldsJson.put("recentVisits", new JSONObject());
+                        existingFieldsJson.put("relationships", new JSONArray());
 
 
                         offlinePatient.setFieldDataJson(existingFieldsJson.toString());
@@ -239,7 +242,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         String fieldJsonString = existineOfflinePatient.getFieldDataJson();
                         if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
-                        JSONObject  recentVisits = new JSONObject(existingFieldsJson.optJSONObject("recentVisits").toString());
+                        JSONObject recentVisits = new JSONObject(existingFieldsJson.optJSONObject("recentVisits").toString());
                         JSONArray relationships = new JSONArray(existingFieldsJson.optJSONArray("relationships").toString());
 
                         Iterator<String> fieldsKeys = offlineValues.keys();
@@ -425,15 +428,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         }
 
-                        if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
                             final EditTextWidget contactNames = (EditTextWidget) inputWidgets.get(51015);
-
-
 
 
                             if (contactNames != null) contactNames.getAnswer();
 
-                            relationships=contactNames.getAnswer().getJSONArray("conceptGroupMembers").getJSONArray(0);
+                            relationships = contactNames.getAnswer().getJSONArray("conceptGroupMembers").getJSONArray(0);
                         }
 
                         existingFieldsJson.put("relationships", relationships);
@@ -566,6 +567,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
                 } catch (NullPointerException e) {
                     Logger.log(e);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             } else if (w instanceof AgeWidget) {
                 AgeWidget d = (AgeWidget) w;
@@ -682,246 +685,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             Toasty.error(this, "Could not parse server response", Toast.LENGTH_LONG).show();
             Logger.log(e);
         }
-    }
-
-    // TODO handle some form type specific tasks
-    protected void handleEncounterType() {
-
-        if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-            // Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-
-        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
-            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(41007);
-            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(41008);
-            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(41009);
-            bmiWidget.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
-                        return;
-
-                    float weight = Float.valueOf(weightWidget.getValue());
-                    float height = Float.valueOf(heightWidget.getValue()) / 100;
-                    height = height * height;
-
-                    if (height <= 0 || weight <= 0) return;
-
-                    float bmi = weight / height;
-                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
-                }
-            };
-            heightWidget.setOnValueChangeListener(valueChangeListener);
-            weightWidget.setOnValueChangeListener(valueChangeListener);
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION)) {
-            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(42007);
-            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(42008);
-            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(42009);
-            bmiWidget.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
-                        return;
-
-                    int weight = Integer.valueOf(weightWidget.getValue());
-                    int height = Integer.valueOf(heightWidget.getValue()) / 100;
-                    height = height * height;
-                    if (height <= 0 || weight <= 0) return;
-
-                    long bmi = weight / height;
-                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
-                }
-            };
-            heightWidget.setOnValueChangeListener(valueChangeListener);
-            weightWidget.setOnValueChangeListener(valueChangeListener);
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
-
-
-            final EditTextWidget adult_males = (EditTextWidget) inputWidgets.get(51006);
-            final EditTextWidget adult_females = (EditTextWidget) inputWidgets.get(51007);
-            final EditTextWidget total_adults = (EditTextWidget) inputWidgets.get(51008);
-            total_adults.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || adult_males.getValue().isEmpty() || adult_females.getValue().isEmpty())
-                        return;
-
-                    int adult_ma = Integer.valueOf(adult_males.getValue());
-                    int adult_fe = Integer.valueOf(adult_females.getValue());
-
-
-                    if (adult_ma >= 0 || adult_fe >= 0) {
-                        int tot = adult_ma + adult_fe;
-                        total_adults.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
-                    }
-                    //else if()
-                }
-            };
-            adult_females.setOnValueChangeListener(valueChangeListener);
-            adult_males.setOnValueChangeListener(valueChangeListener);
-
-
-            final EditTextWidget child_males = (EditTextWidget) inputWidgets.get(51009);
-            final EditTextWidget child_females = (EditTextWidget) inputWidgets.get(51010);
-            final EditTextWidget total_child = (EditTextWidget) inputWidgets.get(51011);
-            total_child.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener2 = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || child_males.getValue().isEmpty() || child_females.getValue().isEmpty())
-                        return;
-
-                    int child_ma = Integer.valueOf(child_males.getValue());
-                    int child_fe = Integer.valueOf(child_females.getValue());
-
-
-                    if (child_ma >= 0 || child_fe >= 0) {
-                        int tot = child_ma + child_fe;
-                        total_child.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
-                    }
-                    //else if()
-                }
-            };
-            child_females.setOnValueChangeListener(valueChangeListener2);
-            child_males.setOnValueChangeListener(valueChangeListener2);
-
-
-            final EditTextWidget infant_males = (EditTextWidget) inputWidgets.get(51012);
-            final EditTextWidget infant_females = (EditTextWidget) inputWidgets.get(51013);
-            final EditTextWidget total_infants = (EditTextWidget) inputWidgets.get(51014);
-            total_infants.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener3 = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || infant_males.getValue().isEmpty() || infant_females.getValue().isEmpty())
-                        return;
-
-                    int infant_male = Integer.valueOf(infant_males.getValue());
-                    int infant_female = Integer.valueOf(infant_females.getValue());
-
-
-                    if (infant_male >= 0 || infant_female >= 0) {
-                        int tot = infant_male + infant_female;
-                        total_infants.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
-                    }
-                    //else if()
-                }
-            };
-            infant_females.setOnValueChangeListener(valueChangeListener3);
-            infant_males.setOnValueChangeListener(valueChangeListener3);
-
-
-
-            final EditTextWidget all_adults_total = (EditTextWidget) inputWidgets.get(51008);
-            final EditTextWidget all_child_total = (EditTextWidget) inputWidgets.get(51011);
-            final EditTextWidget all_infant_total = (EditTextWidget) inputWidgets.get(51014);
-            final EditTextWidget all_total = (EditTextWidget) inputWidgets.get(51015);
-            all_total.setEnabled(false);
-
-            OnValueChangeListener valueChangeListener4 = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    if (newValue.isEmpty() || all_adults_total.getValue().isEmpty() || all_child_total.getValue().isEmpty() || all_infant_total.getValue().isEmpty())
-                        return;
-
-                    int adults_tot = Integer.valueOf(all_adults_total.getValue());
-                    int child_tot = Integer.valueOf(all_child_total.getValue());
-                    int infant_tot = Integer.valueOf(all_infant_total.getValue());
-
-
-                    if (adults_tot >= 0 || child_tot >= 0 || infant_tot >= 0) {
-                        int tot = adults_tot + child_tot + infant_tot;
-                        all_total.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
-                    }
-                    //else if()
-                }
-            };
-            all_adults_total.setOnValueChangeListener(valueChangeListener4);
-            all_child_total.setOnValueChangeListener(valueChangeListener4);
-            all_infant_total.setOnValueChangeListener(valueChangeListener4);
-
-
-
-
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-            // llPatientInfoDisplayer.setVisibility(View.GONE);
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION)) {
-
-            EditTextWidget cadScore= (EditTextWidget) inputWidgets.get(49022);
-
-            int random = new Random().nextInt(100);
-
-            cadScore.setAnswer(String.valueOf(random), "", LANGUAGE.ENGLISH);
-            cadScore.setEnabled(false);
-
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
-
-            final SpinnerWidget personFemale = (SpinnerWidget) inputWidgets.get(31013);
-
-            if(Global.patientData.getPatient().getGender().toLowerCase().equals("male"))
-            {
-                personFemale.setVisibility(View.GONE);
-            }
-
-
-            final SpinnerWidget contactTB = (SpinnerWidget) inputWidgets.get(32009);
-
-
-            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-                @Override
-                public void onValueChanged(String newValue) {
-                    final SpinnerWidget contactTBValue = (SpinnerWidget) inputWidgets.get(32027);
-
-                    if (newValue.equals("Contacts of TB patients"))
-                    {
-                        contactTBValue.setEnabled(false);
-                        contactTBValue.setClickable(false);
-                        contactTBValue.setAnswer("Yes","",LANGUAGE.ENGLISH);
-                    }else
-                    {
-                        contactTBValue.setEnabled(true);
-                        contactTBValue.setClickable(true);
-                    }
-                }
-            };
-            contactTB.setOnValueChangeListener(valueChangeListener);
-
-
-
-
-            final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
-
-            String vals[] = {"Normal", "Abnormal, Not Suggestive of TB", "Abnormal, Suggestive of TB"};
-            int random = new Random().nextInt(3);
-
-            xray.setAnswer(vals[random] + "", "", LANGUAGE.ENGLISH);
-            xray.setEnabled(false);
-
-        }
-        if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
-            // tvRatings.setVisibility(View.GONE);
-            llPatientInfoDisplayer.setVisibility(View.GONE);
-        } else {
-            fillPatientInfoBar();
-        }
-
     }
 
 
@@ -1260,6 +1023,279 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             }
         }
         finish();
+    }
+
+
+    public void checkSkipLogics() throws JSONException {
+
+        List<Question> questionList = DataProvider.getInstance(this).getQuestions(1);
+
+        for (final Question q : questionList) {
+            final InputWidget iw = inputWidgets.get(q.getQuestionId());
+
+            List<SkipLogics> showables = q.getVisibleWhen();
+            List<SkipLogics> hiddenable = q.getHiddenWhen();
+
+            if (showables != null) {
+                for (SkipLogics s : showables) {
+                    InputWidget otherQuestion = inputWidgets.get(s.getQuestionID());
+                    if (null != otherQuestion.getOptions()) {
+
+                        if (s.getEqualsList().contains(otherQuestion.getValue())) {
+                            iw.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            }
+
+            if (hiddenable != null) {
+                for (SkipLogics s : hiddenable) {
+                    InputWidget otherQuestion = inputWidgets.get(s.getQuestionID());
+                    if (null != otherQuestion) {
+                        if (s.getEqualsList().contains(otherQuestion.getValue())) {
+                            iw.setVisibility(View.GONE);
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+    // TODO handle some form type specific tasks
+    protected void handleEncounterType() {
+
+
+        if (Global.patientData == null && !Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+            // Toasty.warning(this, getResources().getString(R.string.patient_not_loaded), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
+            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(41007);
+            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(41008);
+            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(41009);
+            bmiWidget.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
+                        return;
+
+                    float weight = Float.valueOf(weightWidget.getValue());
+                    float height = Float.valueOf(heightWidget.getValue()) / 100;
+                    height = height * height;
+
+                    if (height <= 0 || weight <= 0) return;
+
+                    float bmi = weight / height;
+                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
+                }
+            };
+            heightWidget.setOnValueChangeListener(valueChangeListener);
+            weightWidget.setOnValueChangeListener(valueChangeListener);
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION)) {
+            final EditTextWidget weightWidget = (EditTextWidget) inputWidgets.get(42007);
+            final EditTextWidget heightWidget = (EditTextWidget) inputWidgets.get(42008);
+            final EditTextWidget bmiWidget = (EditTextWidget) inputWidgets.get(42009);
+            bmiWidget.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || weightWidget.getValue().isEmpty() || heightWidget.getValue().isEmpty())
+                        return;
+
+                    int weight = Integer.valueOf(weightWidget.getValue());
+                    int height = Integer.valueOf(heightWidget.getValue()) / 100;
+                    height = height * height;
+                    if (height <= 0 || weight <= 0) return;
+
+                    long bmi = weight / height;
+                    bmiWidget.setAnswer(bmi + "", "", LANGUAGE.ENGLISH);
+                }
+            };
+            heightWidget.setOnValueChangeListener(valueChangeListener);
+            weightWidget.setOnValueChangeListener(valueChangeListener);
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+
+
+            final EditTextWidget adult_males = (EditTextWidget) inputWidgets.get(51006);
+            final EditTextWidget adult_females = (EditTextWidget) inputWidgets.get(51007);
+            final EditTextWidget total_adults = (EditTextWidget) inputWidgets.get(51008);
+            total_adults.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || adult_males.getValue().isEmpty() || adult_females.getValue().isEmpty())
+                        return;
+
+                    int adult_ma = Integer.valueOf(adult_males.getValue());
+                    int adult_fe = Integer.valueOf(adult_females.getValue());
+
+
+                    if (adult_ma >= 0 || adult_fe >= 0) {
+                        int tot = adult_ma + adult_fe;
+                        total_adults.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                    //else if()
+                }
+            };
+            adult_females.setOnValueChangeListener(valueChangeListener);
+            adult_males.setOnValueChangeListener(valueChangeListener);
+
+
+            final EditTextWidget child_males = (EditTextWidget) inputWidgets.get(51009);
+            final EditTextWidget child_females = (EditTextWidget) inputWidgets.get(51010);
+            final EditTextWidget total_child = (EditTextWidget) inputWidgets.get(51011);
+            total_child.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener2 = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || child_males.getValue().isEmpty() || child_females.getValue().isEmpty())
+                        return;
+
+                    int child_ma = Integer.valueOf(child_males.getValue());
+                    int child_fe = Integer.valueOf(child_females.getValue());
+
+
+                    if (child_ma >= 0 || child_fe >= 0) {
+                        int tot = child_ma + child_fe;
+                        total_child.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                    //else if()
+                }
+            };
+            child_females.setOnValueChangeListener(valueChangeListener2);
+            child_males.setOnValueChangeListener(valueChangeListener2);
+
+
+            final EditTextWidget infant_males = (EditTextWidget) inputWidgets.get(51012);
+            final EditTextWidget infant_females = (EditTextWidget) inputWidgets.get(51013);
+            final EditTextWidget total_infants = (EditTextWidget) inputWidgets.get(51014);
+            total_infants.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener3 = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || infant_males.getValue().isEmpty() || infant_females.getValue().isEmpty())
+                        return;
+
+                    int infant_male = Integer.valueOf(infant_males.getValue());
+                    int infant_female = Integer.valueOf(infant_females.getValue());
+
+
+                    if (infant_male >= 0 || infant_female >= 0) {
+                        int tot = infant_male + infant_female;
+                        total_infants.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                    //else if()
+                }
+            };
+            infant_females.setOnValueChangeListener(valueChangeListener3);
+            infant_males.setOnValueChangeListener(valueChangeListener3);
+
+
+            final EditTextWidget all_adults_total = (EditTextWidget) inputWidgets.get(51008);
+            final EditTextWidget all_child_total = (EditTextWidget) inputWidgets.get(51011);
+            final EditTextWidget all_infant_total = (EditTextWidget) inputWidgets.get(51014);
+            final EditTextWidget all_total = (EditTextWidget) inputWidgets.get(51015);
+            all_total.setEnabled(false);
+
+            OnValueChangeListener valueChangeListener4 = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    if (newValue.isEmpty() || all_adults_total.getValue().isEmpty() || all_child_total.getValue().isEmpty() || all_infant_total.getValue().isEmpty())
+                        return;
+
+                    int adults_tot = Integer.valueOf(all_adults_total.getValue());
+                    int child_tot = Integer.valueOf(all_child_total.getValue());
+                    int infant_tot = Integer.valueOf(all_infant_total.getValue());
+
+
+                    if (adults_tot >= 0 || child_tot >= 0 || infant_tot >= 0) {
+                        int tot = adults_tot + child_tot + infant_tot;
+                        all_total.setAnswer(tot + "", "", LANGUAGE.ENGLISH);
+                    }
+                    //else if()
+                }
+            };
+            all_adults_total.setOnValueChangeListener(valueChangeListener4);
+            all_child_total.setOnValueChangeListener(valueChangeListener4);
+            all_infant_total.setOnValueChangeListener(valueChangeListener4);
+
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+            // llPatientInfoDisplayer.setVisibility(View.GONE);
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION)) {
+
+            EditTextWidget cadScore = (EditTextWidget) inputWidgets.get(49022);
+
+            int random = new Random().nextInt(100);
+
+            cadScore.setAnswer(String.valueOf(random), "", LANGUAGE.ENGLISH);
+            cadScore.setEnabled(false);
+
+        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+
+            final SpinnerWidget personFemale = (SpinnerWidget) inputWidgets.get(31013);
+
+            if (Global.patientData.getPatient().getGender().toLowerCase().equals("male")) {
+                personFemale.setVisibility(View.GONE);
+            }
+
+
+            final SpinnerWidget contactTB = (SpinnerWidget) inputWidgets.get(32009);
+
+
+            OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
+                @Override
+                public void onValueChanged(String newValue) {
+                    final SpinnerWidget contactTBValue = (SpinnerWidget) inputWidgets.get(32027);
+
+                    if (newValue.equals("Contacts of TB patients")) {
+                        contactTBValue.setEnabled(false);
+                        contactTBValue.setClickable(false);
+                        contactTBValue.setAnswer("Yes", "", LANGUAGE.ENGLISH);
+                    } else {
+                        contactTBValue.setEnabled(true);
+                        contactTBValue.setClickable(true);
+                    }
+                }
+            };
+            contactTB.setOnValueChangeListener(valueChangeListener);
+
+
+            final EditTextWidget xray = (EditTextWidget) inputWidgets.get(320363);
+
+            String vals[] = {"Normal", "Abnormal, Not Suggestive of TB", "Abnormal, Suggestive of TB"};
+            int random = new Random().nextInt(3);
+
+            xray.setAnswer(vals[random] + "", "", LANGUAGE.ENGLISH);
+            xray.setEnabled(false);
+
+        }
+        if (DataProvider.directOpenableForms.contains(Form.getENCOUNTER_NAME())) {
+            // tvRatings.setVisibility(View.GONE);
+            llPatientInfoDisplayer.setVisibility(View.GONE);
+        } else {
+            fillPatientInfoBar();
+        }
+
     }
 
 

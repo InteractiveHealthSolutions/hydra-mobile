@@ -1,8 +1,10 @@
 package com.ihsinformatics.dynamicformsgenerator.data.core.questions;
 
+import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Displayable;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Configuration;
+import com.ihsinformatics.dynamicformsgenerator.data.utils.SkipLogic;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.InputWidgetsType;
 
 import java.util.ArrayList;
@@ -30,6 +32,34 @@ public class Question extends Displayable implements Cloneable {
 	private List<Option> options;
 	private String tag;
 
+
+	private List<SkipLogics> visibleWhen;
+	private List<SkipLogics> hiddenWhen;
+	private List<SkipLogics> requiredWhen;
+
+	public List<SkipLogics> getVisibleWhen() {
+		return visibleWhen;
+	}
+
+	public void setVisibleWhen(List<SkipLogics> visibleWhen) {
+		this.visibleWhen = visibleWhen;
+	}
+
+	public List<SkipLogics> getHiddenWhen() {
+		return hiddenWhen;
+	}
+
+	public void setHiddenWhen(List<SkipLogics> hiddenWhen) {
+		this.hiddenWhen = hiddenWhen;
+	}
+
+	public List<SkipLogics> getRequiredWhen() {
+		return requiredWhen;
+	}
+
+	public void setRequiredWhen(List<SkipLogics> requiredWhen) {
+		this.requiredWhen = requiredWhen;
+	}
 
 	// if this question is generataed on runtime
 	private boolean isRuntimeGenerated = false;
@@ -254,5 +284,6 @@ public class Question extends Displayable implements Cloneable {
 
 		return clone;
 	}
+
 
 }
