@@ -213,8 +213,21 @@ public class DataProvider {
         this.options.add(new Option(6005, 605, null, null, "222", "ZYX", -1));
 
 
+        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Aesi 2 Question 2", "location", null));
+        this.options.add(new Option(6006, 604, null, null, "111", "AAA", -1));
+        this.options.add(new Option(6006, 605, null, null, "222", "BBB", -1));
+
+        this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Aesi 3 Question 3", "location", null));
+        this.options.add(new Option(6007, 604, null, null, "111", "CCC", -1));
+        this.options.add(new Option(6007, 605, null, null, "222", "DDD", -1));
+
+        this.questions.add(new Question(true, patientCreationId, 6008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Aesi 4 Question 4", "location", null));
+        this.options.add(new Option(6008, 604, null, null, "111", "EEE", -1));
+        this.options.add(new Option(6008, 605, null, null, "222", "FFF", -1));
+
+
         //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        Question q=new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
+        Question q=new Question(true, patientCreationId, 6100, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
 
         //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
@@ -226,30 +239,38 @@ public class DataProvider {
         arr5.add("XYZ");
 
         ArrayList<String> arr2=new ArrayList<>();
-        arr2.add("Male");
+        arr2.add("AAA");
         ArrayList<String> arr4=new ArrayList<>();
-        arr4.add("DEF");
+        arr4.add("CCC");
         ArrayList<String> arr6=new ArrayList<>();
-        arr6.add("ZYX");
+        arr6.add("EEE");
 
         List<SExpression> sExpList1=new ArrayList<>();
+
+        List<SExpression> sExpListNested=new ArrayList<>();
+
+        ArrayList<SkipLogics> nestedSkipLogics =new ArrayList<>();
+        nestedSkipLogics.add(new SkipLogics("1",6006,arr2,null,null,null,null,null));
+        nestedSkipLogics.add(new SkipLogics("2",6007,arr4,null,null,null,null,null));
+        nestedSkipLogics.add(new SkipLogics("3",6008,arr6,null,null,null,null,null));
+        sExpListNested.add(new SExpression("OR",nestedSkipLogics,null));
 
         ArrayList<SkipLogics> s =new ArrayList<>();
         s.add(new SkipLogics("1",6003,arr,null,null,null,null,null));
         s.add(new SkipLogics("2",6004,arr3,null,null,null,null,null));
         s.add(new SkipLogics("3",6005,arr5,null,null,null,null,null));
-        sExpList1.add(new SExpression("AND",s,null));
-        //q.setVisibleWhen(sExpList1);
+        sExpList1.add(new SExpression("AND",s,sExpListNested));
+        q.setVisibleWhen(sExpList1);
 
 
-        List<SExpression> sExpList2=new ArrayList<>();
-
-        ArrayList<SkipLogics> s2 =new ArrayList<>();
-        s2.add(new SkipLogics("1",6003,arr2,null,null,null,null,null));
-        s2.add(new SkipLogics("2",6004,arr4,null,null,null,null,null));
-        s2.add(new SkipLogics("3",6005,arr6,null,null,null,null,null));
-        sExpList2.add(new SExpression("AND",s2,null));
-        q.setHiddenWhen(sExpList2);
+//        List<SExpression> sExpList2=new ArrayList<>();
+//
+//        ArrayList<SkipLogics> s2 =new ArrayList<>();
+//        s2.add(new SkipLogics("1",6003,arr2,null,null,null,null,null));
+//        s2.add(new SkipLogics("2",6004,arr4,null,null,null,null,null));
+//        s2.add(new SkipLogics("3",6005,arr6,null,null,null,null,null));
+//        sExpList2.add(new SExpression("AND",s2,null));
+        //q.setHiddenWhen(sExpList2);
 
         this.questions.add(q);
 

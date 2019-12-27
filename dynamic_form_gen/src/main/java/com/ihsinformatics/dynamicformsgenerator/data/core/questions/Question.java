@@ -1,5 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.data.core.questions;
 
+import android.view.View;
+
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Displayable;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
@@ -24,6 +26,7 @@ public class Question extends Displayable implements Cloneable {
 	private int questionId;
 	private InputWidgetsType questionType;
 	private int initialVisibility;
+	private String initialVisibilityStr;
 	private String validationFunction;
 	private String text;
 	private String paramName;
@@ -185,13 +188,8 @@ public class Question extends Displayable implements Cloneable {
 		this.questionType = questionType;
 	}
 
-	public int getInitialVisibility() {
-		return initialVisibility;
-	}
 
-	public void setInitialVisibility(int initialVisibility) {
-		this.initialVisibility = initialVisibility;
-	}
+
 
 
 	public String getValidationFunction() {
@@ -305,5 +303,15 @@ public class Question extends Displayable implements Cloneable {
 		return clone;
 	}
 
+	public int getInitialVisibility() {
+		return initialVisibility;
+	}
 
+	public void setInitialVisibility(String initialVisibilityStr) {
+		this.initialVisibilityStr = initialVisibilityStr;
+		if(initialVisibilityStr.equalsIgnoreCase("VISIBLE"))
+			initialVisibility = View.VISIBLE;
+		else if(initialVisibilityStr.equalsIgnoreCase("GONE"))
+			initialVisibility = View.GONE;
+	}
 }

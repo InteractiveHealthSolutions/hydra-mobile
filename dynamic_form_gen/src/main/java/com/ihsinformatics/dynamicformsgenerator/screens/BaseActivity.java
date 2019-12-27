@@ -1041,35 +1041,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 changeable.setVisibility(changeableQuestion.getInitialVisibility());
                 for (SExpression sExp : showables) {
 
-                    if (sExp.getOperator().equals("OR")) {
-                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
-                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                            if (null != changer.getOptions()) {
-
-                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
-                                    changeable.setVisibility(View.VISIBLE);
-                                }
-
-
-                            }
-                        }
-                    } else if (sExp.getOperator().equals("AND")) {
-                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
-                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                            if (null != changer.getOptions()) {
-
-                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
-                                    changeable.setVisibility(View.VISIBLE);
-                                } else {
-                                    changeable.setVisibility(View.GONE);
-                                    break;
-
-                                }
-
-                            }
-                        }
+                    Boolean final_visibility = showableLogicChecker(sExp, changeable);
+                    if (final_visibility == true) {
+                        changeable.setVisibility(View.VISIBLE);
+                    } else {
+                        changeable.setVisibility(View.GONE);
                     }
-
                 }
             }
 
@@ -1077,32 +1054,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 changeable.setVisibility(changeableQuestion.getInitialVisibility());
                 for (SExpression sExp : hiddenable) {
 
-                    if (sExp.getOperator().equals("OR")) {
 
-                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
-                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                            if (null != changer) {
-                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
-                                    changeable.setVisibility(View.GONE);
-                                }
-
-                            }
-                        }
-                    } else if (sExp.getOperator().equals("AND")) {
-                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
-                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                            if (null != changer.getOptions()) {
-
-                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
-                                    changeable.setVisibility(View.GONE);
-                                } else {
-                                    changeable.setVisibility(View.VISIBLE);
-                                    break;
-
-                                }
-
-                            }
-                        }
+                    Boolean final_visibility = hideableLogicChecker(sExp, changeable);
+                    if (final_visibility == false) {
+                        changeable.setVisibility(View.GONE);
+                    } else {
+                        changeable.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -1112,6 +1069,109 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     }
 
+
+    protected Boolean showableLogicChecker(SExpression sExp, InputWidget changeable) throws JSONException {
+        Boolean final_visibility = false;
+        if (sExp.getOperator().equals("OR")) {
+            if (null != sExp.getSkipLogicsArray()) {
+                for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
+                    final_visibility = showableLogicChecker(nestedSExp, changeable);
+                }
+            }
+
+            for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                if (null != changer.getOptions()) {
+
+                    if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                        changeable.setVisibility(View.VISIBLE);
+                        final_visibility = true;
+                    }
+
+
+                }
+            }
+
+        } else if (sExp.getOperator().equals("AND")) {
+            if (null != sExp.getSkipLogicsArray()) {
+                for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
+                    final_visibility = showableLogicChecker(nestedSExp, changeable);
+                }
+            }
+            if (final_visibility) {
+                for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                    InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                    if (null != changer.getOptions()) {
+
+                        if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                            changeable.setVisibility(View.VISIBLE);
+                            final_visibility = true;
+                        } else {
+                            changeable.setVisibility(View.GONE);
+                            final_visibility = false;
+                            break;
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+        return final_visibility;
+    }
+
+
+    protected boolean hideableLogicChecker(SExpression sExp, InputWidget changeable) throws JSONException {
+
+        Boolean final_visibility = false;
+        if (sExp.getOperator().equals("OR")) {
+            if (null != sExp.getSkipLogicsArray()) {
+                for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
+                    final_visibility = hideableLogicChecker(nestedSExp, changeable);
+                }
+            }
+
+            for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                if (null != changer) {
+                    if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                        changeable.setVisibility(View.GONE);
+                        final_visibility = false;
+                    }
+
+                }
+            }
+
+        } else if (sExp.getOperator().equals("AND")) {
+            if (null != sExp.getSkipLogicsArray()) {
+                for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
+                    hideableLogicChecker(nestedSExp, changeable);
+                }
+            }
+            if (final_visibility) {
+                for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                    InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                    if (null != changer.getOptions()) {
+
+                        if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                            changeable.setVisibility(View.GONE);
+                            final_visibility = false;
+                        } else {
+                            changeable.setVisibility(View.VISIBLE);
+                            final_visibility = true;
+                            break;
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+        return final_visibility;
+    }
 
     // TODO handle some form type specific tasks
     protected void handleEncounterType() {
