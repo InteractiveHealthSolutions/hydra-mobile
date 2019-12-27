@@ -13,149 +13,158 @@
             "forms": [
               {
                 "formId": 7,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 8,
-                "encounterType": "Child Screening"
-              },
-              {
-                "formId": 9,
-                "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 10,
-                "encounterType": "Child Clinician Evaluation"
-              },
-              {
-                "formId": 11,
-                "encounterType": "Adult Clinician Evaluation"
-              },
-              {
-                "formId": 12,
-                "encounterType": "End Of Followup"
-              }
-            ]
-          },
-          {
-            "name": "Diagnosis",
-            "id": 2,
-            "forms": [
-              {
-                "formId": 13,
-                "encounterType": "TB Disease Confirmation"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Treat",
-        "id": 2,
-        "components": [
-          {
-            "name": "Initiation",
-            "id": 3,
-            "forms": [
-              {
-                "formId": 14,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 15,
-                "encounterType": "Adult Treatment Initiation"
-              },
-              {
-                "formId": 28,
-                "encounterType": "Child Treatment Initiation"
-              }
-            ]
-          },
-          {
-            "name": "Progression",
-            "id": 4,
-            "forms": [
-              {
-                "formId": 16,
-                "encounterType": "Adult Treatment Initiation"
-              },
-              {
-                "formId": 31,
-                "encounterType": "Child Treatment Initiation"
-              },
-              {
-                "formId": 17,
-                "encounterType": "Adverse Event"
-              },
-              {
-                "formId": 18,
-                "encounterType": "TB Treatment Adherance"
-              }
-            ]
-          },
-          {
-            "name": "Post Treatment",
-            "id": 7,
-            "forms": [
-              {
-                "formId": 19,
-                "encounterType": "TB Post-Treatment Outcome"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Prevent",
-        "id": 3,
-        "components": [
-          {
-            "name": "Investigate",
-            "id": 8,
-            "forms": [
-              {
-                "formId": 22,
-                "encounterType": "Child Screening"
-              },
-              {
-                "formId": 23,
-                "encounterType": "Adult Screening"
-              },
-              {
-                "formId": 24,
-                "encounterType": "Child Clinician Evaluation"
-              },
-              {
-                "formId": 25,
-                "encounterType": "Adult Clinician Evaluation"
-              }
-            ]
-          },
-          {
-            "name": "Identify",
-            "id": 5,
-            "forms": [
-              {
-                "formId": 20,
-                "encounterType": "Patient Information"
-              },
-              {
-                "formId": 21,
-                "encounterType": "Contact Registry"
-              }
-            ]
-          },
-          {
-            "name": "Prevention Therapy",
-            "id": 6,
-            "forms": [
-              {
-                "formId": 26,
-                "encounterType": "PT Treatment Initiation"
-              },
-              {
-                "formId": 27,
-                "encounterType": "PT Post Treatment Outcome"
+                "encounterType": "Patient Information",
+                "questions": [
+                  {
+                    "config": {
+                      "id": 123,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "radio",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "maxValue": 110,
+                      "minValue": 15,
+                      "maxDate": "23-12-2019",
+                      "minDate": "23-10-2019",
+                      "maxLines": 3
+                    },
+                    "id": 123,
+                    "questionNumber":"1",
+                    "description": "Do you have a cough?",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "Yes"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "No"
+                      }
+                    ],
+                    "visibleWhen": [
+                      "OR",
+                      {
+                        "id": "rule1",
+                        "questionId": 111,
+                        "equals": [
+                          {
+                            "uuid": "Yes_UUID"
+                          },
+                          {
+                            "uuid": "Very Yes_UUID"
+                          }
+                        ],
+                        "notEquals": [
+                          {
+                            "uuid": "No_UUID"
+                          },
+                          {
+                            "uuid": "Never_UUID"
+                          }
+                        ],
+                        "equalTo": [
+                          15,
+                          12
+                        ],
+                        "notEqualTo": [
+                          15
+                        ],
+                        "lessThan": [
+                          12
+                        ],
+                        "greaterThan": [
+                          14
+                        ]
+                      },
+                      {
+                        "id": "rule1",
+                        "questionId": 111,
+                        "equals": [
+                          {
+                            "uuid": "Yes_UUID"
+                          },
+                          {
+                            "uuid": "Very Yes_UUID"
+                          }
+                        ],
+                        "notEquals": [
+                          {
+                            "uuid": "No_UUID"
+                          },
+                          {
+                            "uuid": "Never_UUID"
+                          }
+                        ],
+                        "equalTo": [
+                          15,
+                          12
+                        ],
+                        "notEqualTo": [
+                          15
+                        ],
+                        "lessThan": [
+                          12
+                        ],
+                        "greaterThan": [
+                          14
+                        ]
+                      },
+                      [
+                        "AND",
+                        {
+                          "id": "rule1",
+                          "questionId": "111",
+                          "equals": [],
+                          "notEquals": [
+                            {
+                              "uuid": "Yes_UUID"
+                            }
+                          ],
+                          "equalTo": [],
+                          "notEqualTo": [],
+                          "lessThan": [],
+                          "greaterThan": []
+                        },
+                        [
+                          "OR",
+                          {
+                            "id": "rule2",
+                            "questionId": "222",
+                            "equals": [
+                              {
+                                "uuid": "Yes_UUID"
+                              }
+                            ],
+                            "notEquals": [],
+                            "equalTo": [],
+                            "notEqualTo": [],
+                            "lessThan": [],
+                            "greaterThan": []
+                          },
+                          {
+                            "id": "rule3",
+                            "questionId": "333",
+                            "equals": [],
+                            "notEquals": [],
+                            "equalTo": [],
+                            "notEqualTo": [],
+                            "lessThan": [],
+                            "greaterThan": []
+                          }
+                        ]
+                      ]
+                    ],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  }
+                ]
               }
             ]
           }

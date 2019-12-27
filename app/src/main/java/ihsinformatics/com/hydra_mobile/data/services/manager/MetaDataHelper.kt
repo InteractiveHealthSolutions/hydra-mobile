@@ -1,17 +1,23 @@
 package ihsinformatics.com.hydra_mobile.data.services.manager
 
 import android.content.Context
+import android.text.InputType
 import android.util.Log
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
+import android.view.View
+import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
-import com.google.gson.Gson
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
-import java.io.InputStreamReader
-import java.nio.charset.StandardCharsets
 
 
 class MetaDataHelper(context: Context) {
@@ -122,12 +128,90 @@ class MetaDataHelper(context: Context) {
                         //  ComponentRepository(context).insertComponent(Component(componentName, componentId))
                       //  phaseComponentFormJoinRepository.insert(PhasesComponentJoin(phaseId, componentId))
 
-                        for (k in 0 until formList.length()) {
+                         for (k in 0 until formList.length()) {
+
                             val insideForm = formList.getJSONObject(k)
                             val formName = insideForm.getString("encounterType")
                             val formId = insideForm.getInt("formId")
+                            val questionsList = insideForm.getJSONArray("questions")
+
+                             var listOfQuestions=ArrayList<Question>()
+                            for(l in 0 until questionsList.length())
+                            {
+                                val question=questionsList.getJSONObject(l)
+
+                                val config = question.getJSONObject("config")
+                                val id=config.getInt("id")
+                                val inputType=config.getString("inputType")
+                                val keyboardCharacters=config.getString("keyboardCharacters")
+                                val widgetType=config.getString("widgetType")
+                                val minLength=config.getInt("minLength")
+                                val maxLength=config.getInt("maxLength")
+                                val maxValue=config.getInt("maxValue")
+                                val minValue=config.getInt("minValue")
+                                val maxDate=config.getString("maxDate")
+                                val minDate=config.getString("minDate")
+                                val maxLines=config.getInt("maxLines")
+
+                                val configuration: QuestionConfiguration = QuestionConfiguration(
+                                    InputType.TYPE_CLASS_NUMBER,maxLength,minLength,keyboardCharacters,id,maxValue,minValue,maxDate,minDate,maxLines)
+
+                                val questionId=question.getInt("id")
+                                val questionNumber=question.getString("questionNumber")
+                                val description=question.getString("description")
+                                val conceptName=question.getString("conceptName")
+                                val concetUUID=question.getString("concetUUID")
+                                var initialVisibility= View.VISIBLE
+
+                                if (question.getString("initialVisibility").toLowerCase().equals("visible"))
+                                {
+                                    initialVisibility=View.VISIBLE
+                                }
+                                else {
+                                    initialVisibility=View.GONE
+                                }
+
+                                var required=false
+                                if (question.getInt("required")==0)
+                                {
+                                    required=false
+                                }
+                                else {
+                                    required = true
+                                }
+                                //ToDo discuss about widgetType in wrong field
+                                // QuestionNumber, initialVisiblility and required types, concept Name vs conceptParams and validation function
+                                // Change edittext to proper widget type  ~Taha
+
+
+                                val optionsList=question.getJSONArray("options")
+                                for(m in 0 until optionsList.length())
+                                {
+                                    val option=optionsList.getJSONObject(m)
+                                    val default=option.getInt("default")
+                                    val optionConceptUUID=option.getString("conceptUUID")
+                                    val display=option.getString("display")
+
+                                }
+                                var visible:List<SkipLogics>
+
+
+                                val visibleWhenList=question.getJSONArray("visibleWhen")
+                                val visibleWhen=skipLogicParser(visibleWhenList)
+
+                                val hiddenWhenList=question.getJSONArray("hiddenWhen")
+                                val hiddenWhen=skipLogicParser(hiddenWhenList)
+
+                                val requiredWhenList=question.getJSONArray("requiredWhen")
+                                val requiredWhen=skipLogicParser(requiredWhenList)
+
+                                var completeQuestion:Question = Question(required,formId,questionId,questionNumber,InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,initialVisibility,null,description,conceptName,configuration,visibleWhen,hiddenWhen,requiredWhen)
+                                listOfQuestions.add(completeQuestion)
+
+                            }
                             componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
-                            FormRepository(context).insertForm(Forms(formId, formName, componentId, formName))
+                            FormRepository(context).insertForm(Forms(formId, formName, componentId, formName,questionsList.toString()))
+
 
                         }
 
@@ -148,6 +232,89 @@ class MetaDataHelper(context: Context) {
         restCallback.onSuccess(false)
     }
 
+
+
+    private fun skipLogicParser(sExpressionList:JSONArray):List<SExpression>
+    {
+        var SExpressionCompleteList=ArrayList<SExpression>()
+        var sExpression:SExpression= SExpression()
+        for(n in 0 until sExpressionList.length())
+        {
+            val obj=sExpressionList.get(n)
+
+
+
+            if(obj is String)
+            {
+                sExpression.operator=obj
+            }
+            else if(obj is JSONObject)
+            {
+
+                var s:SkipLogics= SkipLogics()
+                //TODO QuestionId must be a string ~Taha
+                val skiplogicID=obj.getString("id")
+                val skiplogicQuestionId=obj.getInt("questionId")
+
+                s.id=skiplogicID
+                s.questionID=skiplogicQuestionId
+
+                val skiplogicEqualList=obj.getJSONArray("equals")
+                for(o in 0 until skiplogicEqualList.length()) {
+                    val optionUUIDObject = skiplogicEqualList.getJSONObject(o)
+                    val optionUUID = optionUUIDObject.getString("uuid")
+
+                    s.equalsList.add(o,optionUUID)
+                }
+
+                val skiplogicNotEqualList=obj.getJSONArray("notEquals")
+                for(o in 0 until skiplogicNotEqualList.length()) {
+                    val optionUUIDObject = skiplogicNotEqualList.getJSONObject(o)
+                    val optionUUID = optionUUIDObject.getString("uuid")
+
+                    s.notEqualsList.add(o,optionUUID)
+                }
+
+                val skiplogicEqualsTo=obj.getJSONArray("equalTo")
+                for(o in 0 until skiplogicEqualsTo.length()) {
+                    val optionWithNumbers = skiplogicEqualsTo.getInt(o)
+
+                    s.equalsToList.add(o,optionWithNumbers)
+                }
+
+                val skiplogicNotEqualsTo=obj.getJSONArray("notEqualTo")
+                for(o in 0 until skiplogicNotEqualsTo.length()) {
+                    val optionWithNumbers = skiplogicNotEqualsTo.getInt(o)
+
+                    s.notEqualsToList.add(o,optionWithNumbers)
+                }
+
+                val skiplogicLessThan=obj.getJSONArray("lessThan")
+                for(o in 0 until skiplogicLessThan.length()) {
+                    val optionWithNumbers = skiplogicLessThan.getInt(o)
+
+                    s.lessThanList.add(o,optionWithNumbers)
+                }
+
+                val skiplogicGreaterThan=obj.getJSONArray("greaterThan")
+                for(o in 0 until skiplogicGreaterThan.length()) {
+                    val optionWithNumbers = skiplogicGreaterThan.getInt(o)
+
+                    s.greaterThanList.add(o,optionWithNumbers)
+                }
+
+                sExpression.skipLogicsObjects.add(s)
+            }
+            else if(obj is JSONArray)
+            {
+                sExpression.skipLogicsArray=skipLogicParser(obj)
+            }
+
+
+        }
+        SExpressionCompleteList.add(sExpression)
+        return  SExpressionCompleteList
+    }
 
     private fun loadJSONFromFileName(file: String): String? {
         var json: String? = null

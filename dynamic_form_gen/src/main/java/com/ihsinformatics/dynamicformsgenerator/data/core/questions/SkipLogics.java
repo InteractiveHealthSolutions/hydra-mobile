@@ -1,41 +1,47 @@
 package com.ihsinformatics.dynamicformsgenerator.data.core.questions;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SkipLogics {
 
 
-    private String operator;
+
     private String id;
     private int questionID;
 
     private List<String> equalsList;
     private List<String> notEqualsList;
 
-    private int[] equalsToList;
-    private int[] notEqualsToList;
-    private int[] lessThanList;
-    private int[] greaterThanList;
+    private List<Integer> equalsToList;
+    private List<Integer> notEqualsToList;
+    private List<Integer> lessThanList;
+    private List<Integer> greaterThanList;
 
+   // private List<SkipLogics> nestedLogics;
+   public SkipLogics(){
+       equalsList=new ArrayList<String>();
+       notEqualsList=new ArrayList<String>();
 
-    public SkipLogics(String id, int questionID, String operation, List<String> equalsList, List<String> notEqualsList, int[] equalsToList, int[] notEqualsToList, int[] lessThanList, int[] greaterThanList) {
+       equalsToList=new ArrayList<Integer>();
+       notEqualsToList=new ArrayList<Integer>();
+       lessThanList=new ArrayList<Integer>();
+       greaterThanList=new ArrayList<Integer>();
+
+   }
+
+    public SkipLogics(String id, int questionID, List<String> equalsList, List<String> notEqualsList, List<Integer> equalsToList, List<Integer> notEqualsToList, List<Integer> lessThanList, List<Integer> greaterThanList) {
         this.id = id;
         this.questionID = questionID;
-        this.operator=operation;
         this.equalsList = equalsList;
         this.notEqualsList = notEqualsList;
         this.equalsToList = equalsToList;
         this.notEqualsToList = notEqualsToList;
         this.lessThanList = lessThanList;
         this.greaterThanList = greaterThanList;
-    }
 
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
+      //  this.nestedLogics = nestedLogic;
     }
 
     public String getId() {
@@ -70,35 +76,35 @@ public class SkipLogics {
         this.notEqualsList = notEqualsList;
     }
 
-    public int[] getEqualsToList() {
+    public List<Integer> getEqualsToList() {
         return equalsToList;
     }
 
-    public void setEqualsToList(int[] equalsToList) {
+    public void setEqualsToList(List<Integer> equalsToList) {
         this.equalsToList = equalsToList;
     }
 
-    public int[] getNotEqualsToList() {
+    public List<Integer> getNotEqualsToList() {
         return notEqualsToList;
     }
 
-    public void setNotEqualsToList(int[] notEqualsToList) {
+    public void setNotEqualsToList(List<Integer> notEqualsToList) {
         this.notEqualsToList = notEqualsToList;
     }
 
-    public int[] getLessThanList() {
+    public List<Integer> getLessThanList() {
         return lessThanList;
     }
 
-    public void setLessThanList(int[] lessThanList) {
+    public void setLessThanList(List<Integer> lessThanList) {
         this.lessThanList = lessThanList;
     }
 
-    public int[] getGreaterThanList() {
+    public List<Integer> getGreaterThanList() {
         return greaterThanList;
     }
 
-    public void setGreaterThanList(int[] greaterThanList) {
+    public void setGreaterThanList(List<Integer> greaterThanList) {
         this.greaterThanList = greaterThanList;
     }
 }

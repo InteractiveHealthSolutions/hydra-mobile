@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.Form;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
@@ -203,33 +204,57 @@ public class DataProvider {
         this.options.add(new Option(6003, 604, null, null, "123", "Male", -1));
         this.options.add(new Option(6003, 605, null, null, "456", "Female", -1));
 
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null));
+        this.options.add(new Option(6004, 604, null, null, "111", "ABC", -1));
+        this.options.add(new Option(6004, 605, null, null, "222", "DEF", -1));
+
+        this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Aesi Question", "location", null));
+        this.options.add(new Option(6005, 604, null, null, "111", "XYZ", -1));
+        this.options.add(new Option(6005, 605, null, null, "222", "ZYX", -1));
 
 
         //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        Question q=new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
+        Question q=new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
 
         //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
         ArrayList<String> arr=new ArrayList<>();
         arr.add("Female");
+        ArrayList<String> arr3=new ArrayList<>();
+        arr3.add("ABC");
+        ArrayList<String> arr5=new ArrayList<>();
+        arr5.add("XYZ");
+
         ArrayList<String> arr2=new ArrayList<>();
         arr2.add("Male");
+        ArrayList<String> arr4=new ArrayList<>();
+        arr4.add("DEF");
+        ArrayList<String> arr6=new ArrayList<>();
+        arr6.add("ZYX");
+
+        List<SExpression> sExpList1=new ArrayList<>();
 
         ArrayList<SkipLogics> s =new ArrayList<>();
-        s.add(new SkipLogics("1",6003,"AND",arr,null,null,null,null,null));
-        q.setVisibleWhen(s);
+        s.add(new SkipLogics("1",6003,arr,null,null,null,null,null));
+        s.add(new SkipLogics("2",6004,arr3,null,null,null,null,null));
+        s.add(new SkipLogics("3",6005,arr5,null,null,null,null,null));
+        sExpList1.add(new SExpression("AND",s,null));
+        //q.setVisibleWhen(sExpList1);
+
+
+        List<SExpression> sExpList2=new ArrayList<>();
 
         ArrayList<SkipLogics> s2 =new ArrayList<>();
-        s2.add(new SkipLogics("1",6003,"AND",arr2,null,null,null,null,null));
-        q.setHiddenWhen(s2);
+        s2.add(new SkipLogics("1",6003,arr2,null,null,null,null,null));
+        s2.add(new SkipLogics("2",6004,arr4,null,null,null,null,null));
+        s2.add(new SkipLogics("3",6005,arr6,null,null,null,null,null));
+        sExpList2.add(new SExpression("AND",s2,null));
+        q.setHiddenWhen(sExpList2);
 
         this.questions.add(q);
 
         this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
 
-        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null));
-        this.options.add(new Option(6006, 604, null, null, "111", "ABC", -1));
-        this.options.add(new Option(6006, 605, null, null, "222", "DEF", -1));
 
         //this.options.addAll(DynamicOptions.getFromArray(context, 6006, null, null, context.getResources().getStringArray(R.array.locations_list)));
 

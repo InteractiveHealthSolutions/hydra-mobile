@@ -77,7 +77,7 @@ class DemoWorker (context: Context, workerParams: WorkerParameters) : Worker(con
                             val insideForm = formList.getJSONObject(k)
                             val formName = insideForm.getString("encounterType")
                             val formId = insideForm.getInt("formId")
-                            FormRepository(context).insertForm(Forms(formId, formName, componentId, formName))
+                           // FormRepository(context).insertForm(Forms(formId, formName, componentId, formName))
                             //                          phaseComponentFormJoinRepository.insertComponentForm(
                             //                            ComponentFormJoin(
                             //                                componentId,

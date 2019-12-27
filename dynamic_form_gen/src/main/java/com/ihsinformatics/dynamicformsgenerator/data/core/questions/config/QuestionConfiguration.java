@@ -1,5 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.data.core.questions.config;
 
+import android.text.InputType;
+
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 
 import java.util.Date;
@@ -17,6 +19,11 @@ public class QuestionConfiguration extends Configuration {
 	private Date maxDate;
 	private Date minDate;
     private DateSelector.WIDGET_TYPE widgetType;
+
+
+	private int maxValue;
+	private int minValue;
+	private int maxLines;
 
 	public QuestionConfiguration() {
 		
@@ -43,6 +50,26 @@ public class QuestionConfiguration extends Configuration {
 		this.allowedCharacters = allowedCharacters;
 		this.id = id;
 	}
+
+	//TODO Need to convert date to date format rather string  ~Taha
+	//TODO id needed the utilize widgetType given in json format in config field  ~Taha
+
+
+	public QuestionConfiguration(int inputType,
+								 int maxLength, int minLenght, String allowedCharacters, int id,int maxValue, int minValue,String maxDate,String minDate, int maxLines) {
+		super();
+		this.inputType = inputType;
+		this.maxLength = maxLength;
+		this.minLenght = minLenght;
+		this.allowedCharacters = allowedCharacters;
+		this.id = id;
+		this.maxValue=maxValue;
+		this.minValue=minValue;
+		this.maxLines=maxLines;
+
+	}
+
+
 
 	public int getInputType() {
 		return inputType;

@@ -27,6 +27,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
@@ -1027,38 +1028,84 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
     public void checkSkipLogics() throws JSONException {
-
+//ToDo Provide proper Form id ~Taha
         List<Question> questionList = DataProvider.getInstance(this).getQuestions(1);
 
-        for (final Question q : questionList) {
-            final InputWidget iw = inputWidgets.get(q.getQuestionId());
+        for (final Question changeableQuestion : questionList) {
+            final InputWidget changeable = inputWidgets.get(changeableQuestion.getQuestionId());
 
-            List<SkipLogics> showables = q.getVisibleWhen();
-            List<SkipLogics> hiddenable = q.getHiddenWhen();
+            List<SExpression> showables = changeableQuestion.getVisibleWhen();
+            List<SExpression> hiddenable = changeableQuestion.getHiddenWhen();
 
             if (showables != null) {
-                for (SkipLogics s : showables) {
-                    InputWidget otherQuestion = inputWidgets.get(s.getQuestionID());
-                    if (null != otherQuestion.getOptions()) {
+                changeable.setVisibility(changeableQuestion.getInitialVisibility());
+                for (SExpression sExp : showables) {
 
-                        if (s.getEqualsList().contains(otherQuestion.getValue())) {
-                            iw.setVisibility(View.VISIBLE);
+                    if (sExp.getOperator().equals("OR")) {
+                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                            if (null != changer.getOptions()) {
+
+                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                                    changeable.setVisibility(View.VISIBLE);
+                                }
+
+
+                            }
                         }
+                    } else if (sExp.getOperator().equals("AND")) {
+                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                            if (null != changer.getOptions()) {
 
+                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                                    changeable.setVisibility(View.VISIBLE);
+                                } else {
+                                    changeable.setVisibility(View.GONE);
+                                    break;
+
+                                }
+
+                            }
+                        }
                     }
+
                 }
             }
 
             if (hiddenable != null) {
-                for (SkipLogics s : hiddenable) {
-                    InputWidget otherQuestion = inputWidgets.get(s.getQuestionID());
-                    if (null != otherQuestion) {
-                        if (s.getEqualsList().contains(otherQuestion.getValue())) {
-                            iw.setVisibility(View.GONE);
-                        }
+                changeable.setVisibility(changeableQuestion.getInitialVisibility());
+                for (SExpression sExp : hiddenable) {
 
+                    if (sExp.getOperator().equals("OR")) {
+
+                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                            if (null != changer) {
+                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                                    changeable.setVisibility(View.GONE);
+                                }
+
+                            }
+                        }
+                    } else if (sExp.getOperator().equals("AND")) {
+                        for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
+                            InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
+                            if (null != changer.getOptions()) {
+
+                                if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                                    changeable.setVisibility(View.GONE);
+                                } else {
+                                    changeable.setVisibility(View.VISIBLE);
+                                    break;
+
+                                }
+
+                            }
+                        }
                     }
                 }
+
             }
 
         }

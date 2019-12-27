@@ -33,31 +33,31 @@ public class Question extends Displayable implements Cloneable {
 	private String tag;
 
 
-	private List<SkipLogics> visibleWhen;
-	private List<SkipLogics> hiddenWhen;
-	private List<SkipLogics> requiredWhen;
+	private List<SExpression> visibleWhen;
+	private List<SExpression> hiddenWhen;
+	private List<SExpression> requiredWhen;
 
-	public List<SkipLogics> getVisibleWhen() {
+	public List<SExpression> getVisibleWhen() {
 		return visibleWhen;
 	}
 
-	public void setVisibleWhen(List<SkipLogics> visibleWhen) {
+	public void setVisibleWhen(List<SExpression> visibleWhen) {
 		this.visibleWhen = visibleWhen;
 	}
 
-	public List<SkipLogics> getHiddenWhen() {
+	public List<SExpression> getHiddenWhen() {
 		return hiddenWhen;
 	}
 
-	public void setHiddenWhen(List<SkipLogics> hiddenWhen) {
+	public void setHiddenWhen(List<SExpression> hiddenWhen) {
 		this.hiddenWhen = hiddenWhen;
 	}
 
-	public List<SkipLogics> getRequiredWhen() {
+	public List<SExpression> getRequiredWhen() {
 		return requiredWhen;
 	}
 
-	public void setRequiredWhen(List<SkipLogics> requiredWhen) {
+	public void setRequiredWhen(List<SExpression> requiredWhen) {
 		this.requiredWhen = requiredWhen;
 	}
 
@@ -81,7 +81,7 @@ public class Question extends Displayable implements Cloneable {
 
 	}
 
-	public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
+	public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, List<SExpression> visibleWhen, List<SExpression> hiddenWhen,List<SExpression> requiredWhen) {
 		super();
 		this.isMandatory = isMandatory;
 		this.formTypeId = formTypeId;
@@ -94,6 +94,10 @@ public class Question extends Displayable implements Cloneable {
 		this.questionConfiguration = questionConfiguration;
 		this.questionNumber = questionNumber;
 		this.tag = QUESTION_TAG.TAG_OBS.toString();
+
+		this.visibleWhen=visibleWhen;
+		this.hiddenWhen=hiddenWhen;
+		this.requiredWhen=requiredWhen;
 	}
 
 	public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, QUESTION_TAG tag) {
@@ -109,6 +113,22 @@ public class Question extends Displayable implements Cloneable {
 		this.questionConfiguration = questionConfiguration;
 		this.questionNumber = questionNumber;
 		this.tag = tag.toString();
+	}
+
+
+	public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
+		super();
+		this.isMandatory = isMandatory;
+		this.formTypeId = formTypeId;
+		this.questionId = questionId;
+		this.questionType = questionType;
+		this.initialVisibility = initialVisibility;
+		this.validationFunction = validationFunction;
+		this.text = text;
+		this.paramName = paramName;
+		this.questionConfiguration = questionConfiguration;
+		this.questionNumber = questionNumber;
+		this.tag = QUESTION_TAG.TAG_OBS.toString();
 	}
 
 	public void addOption(Option option) {
