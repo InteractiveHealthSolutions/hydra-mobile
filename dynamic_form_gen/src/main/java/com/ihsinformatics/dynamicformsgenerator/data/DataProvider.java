@@ -260,17 +260,9 @@ public class DataProvider {
         s.add(new SkipLogics("2",6004,arr3,null,null,null,null,null));
         s.add(new SkipLogics("3",6005,arr5,null,null,null,null,null));
         sExpList1.add(new SExpression("AND",s,sExpListNested));
-        q.setVisibleWhen(sExpList1);
+        q.setHiddenWhen(sExpList1);
 
 
-//        List<SExpression> sExpList2=new ArrayList<>();
-//
-//        ArrayList<SkipLogics> s2 =new ArrayList<>();
-//        s2.add(new SkipLogics("1",6003,arr2,null,null,null,null,null));
-//        s2.add(new SkipLogics("2",6004,arr4,null,null,null,null,null));
-//        s2.add(new SkipLogics("3",6005,arr6,null,null,null,null,null));
-//        sExpList2.add(new SExpression("AND",s2,null));
-        //q.setHiddenWhen(sExpList2);
 
         this.questions.add(q);
 
