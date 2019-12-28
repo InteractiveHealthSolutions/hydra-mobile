@@ -1079,13 +1079,21 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     final_visibility = logicChecker(nestedSExp);
                 }
             }
+            if(final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
+                return true;
 
             for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                 InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
                 if (null != changer.getOptions()) {
 
-                    if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                    if(changerQuestion.getEqualsList().contains(changer.getValue())) {
                         final_visibility = true;
+                    }
+                    if (!final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
+                        final_visibility = false;
+                    }else if(changerQuestion.getNotEqualsList().size()!=0 && !changerQuestion.getNotEqualsList().contains(changer.getValue()))
+                    {
+                        final_visibility=true;
                     }
                 }
             }
@@ -1102,12 +1110,19 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
                     if (null != changer.getOptions()) {
 
-                        if (changerQuestion.getEqualsList().contains(changer.getValue())) {
+                        if (changerQuestion.getEqualsList().size()==0 || changerQuestion.getEqualsList().contains(changer.getValue())) {
                             final_visibility = true;
                         } else {
                             final_visibility = false;
                             break;
 
+                        }
+                        if (changerQuestion.getNotEqualsList().contains(changer.getValue())) {
+
+                            final_visibility = false;
+                            break;
+                        } else {
+                            final_visibility = true;
                         }
                     }
                 }

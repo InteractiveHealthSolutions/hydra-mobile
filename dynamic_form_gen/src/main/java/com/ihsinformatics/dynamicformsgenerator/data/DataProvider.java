@@ -245,22 +245,25 @@ public class DataProvider {
         ArrayList<String> arr6=new ArrayList<>();
         arr6.add("EEE");
 
+        ArrayList<String> emptyArr=new ArrayList<>();
+
+
         List<SExpression> sExpList1=new ArrayList<>();
 
         List<SExpression> sExpListNested=new ArrayList<>();
 
         ArrayList<SkipLogics> nestedSkipLogics =new ArrayList<>();
-        nestedSkipLogics.add(new SkipLogics("1",6006,arr2,null,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("2",6007,arr4,null,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("3",6008,arr6,null,null,null,null,null));
+        nestedSkipLogics.add(new SkipLogics("1",6006,arr2,emptyArr,null,null,null,null));
+        nestedSkipLogics.add(new SkipLogics("2",6007,emptyArr,arr4,null,null,null,null));
+        nestedSkipLogics.add(new SkipLogics("3",6008,arr6,emptyArr,null,null,null,null));
         sExpListNested.add(new SExpression("OR",nestedSkipLogics,null));
 
         ArrayList<SkipLogics> s =new ArrayList<>();
-        s.add(new SkipLogics("1",6003,arr,null,null,null,null,null));
-        s.add(new SkipLogics("2",6004,arr3,null,null,null,null,null));
-        s.add(new SkipLogics("3",6005,arr5,null,null,null,null,null));
+        s.add(new SkipLogics("1",6003,emptyArr,arr,null,null,null,null));
+        s.add(new SkipLogics("2",6004,arr3,emptyArr,null,null,null,null));
+        s.add(new SkipLogics("3",6005,arr5,emptyArr,null,null,null,null));
         sExpList1.add(new SExpression("AND",s,sExpListNested));
-        q.setHiddenWhen(sExpList1);
+        q.setVisibleWhen(sExpList1);
 
 
 
