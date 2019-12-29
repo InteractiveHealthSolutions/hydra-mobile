@@ -1027,9 +1027,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-    public void checkSkipLogics() throws JSONException {
+    public void checkSkipLogics(int formID) throws JSONException {
 //ToDo Provide proper Form id ~Taha
-        List<Question> questionList = DataProvider.getInstance(this).getQuestions(1);
+        List<Question> questionList = DataProvider.getInstance(this).getQuestions(formID);
 
         for (final Question changeableQuestion : questionList) {
             final InputWidget changeable = inputWidgets.get(changeableQuestion.getQuestionId());

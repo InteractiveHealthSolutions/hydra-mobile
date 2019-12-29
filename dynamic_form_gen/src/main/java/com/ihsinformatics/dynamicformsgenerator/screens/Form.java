@@ -76,7 +76,7 @@ public class Form extends BaseActivity {
             jsonData = null;
             je.printStackTrace();
         }
-        DataProvider dataProvider = DataProvider.getInstance(this);
+        final DataProvider dataProvider = DataProvider.getInstance(this);
         List<Question> questions = dataProvider.getQuestions(dataProvider.getFormId(ENCOUNTER_NAME));
         JSONUtils jsonUtils = JSONUtils.getInstance();
         JSONObject temp;
@@ -98,7 +98,7 @@ public class Form extends BaseActivity {
                 w.setOnValueChangeListener(new OnValueChangeListener() {
                     @Override
                     public void onValueChanged(String newValue) throws JSONException {
-                        checkSkipLogics();
+                        checkSkipLogics(dataProvider.getFormId(ENCOUNTER_NAME));
                     }
                 });
 
