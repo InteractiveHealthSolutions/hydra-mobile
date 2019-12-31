@@ -12,26 +12,26 @@
             "id": 1,
             "forms": [
               {
-                "formId": 7,
-                "encounterType": "Patient Information",
+                "formId": 1,
+                "encounterType": "Create Patient",
                 "questions": [
                   {
                     "config": {
-                      "id": 123,
+                      "id": 900,
                       "inputType": "NUMERIC",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
-                      "widgetType": "radio",
+                      "widgetType": "spinner",
                       "minLength": 1,
                       "maxLength": 2,
-                      "maxValue": 110,
                       "minValue": 15,
-                      "maxDate": "23-12-2019",
+                      "maxValue": 110,
                       "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
                       "maxLines": 3
                     },
-                    "id": 123,
-                    "questionNumber":"1",
-                    "description": "Do you have a cough?",
+                    "id": 111,
+                    "questionNumber": "1",
+                    "description": "Will hide second question on no",
                     "conceptName": "cough",
                     "concetUUID": "123-asd-123-asd-123",
                     "initialVisibility": "VISIBLE",
@@ -48,117 +48,436 @@
                         "display": "No"
                       }
                     ],
-                    "visibleWhen": [
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 112,
+                    "questionNumber": "1",
+                    "description": "Aesi Question?",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "Yes"
+                      },
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "No"
+                      }
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [
                       "OR",
                       {
                         "id": "rule1",
                         "questionId": 111,
                         "equals": [
                           {
-                            "uuid": "Yes_UUID"
-                          },
-                          {
-                            "uuid": "Very Yes_UUID"
+                            "uuid": "No"
                           }
                         ],
-                        "notEquals": [
-                          {
-                            "uuid": "No_UUID"
-                          },
-                          {
-                            "uuid": "Never_UUID"
-                          }
-                        ],
-                        "equalTo": [
-                          15,
-                          12
-                        ],
-                        "notEqualTo": [
-                          15
-                        ],
-                        "lessThan": [
-                          12
-                        ],
-                        "greaterThan": [
-                          14
-                        ]
+                        "notEquals": [],
+                        "equalTo": [],
+                        "notEqualTo": [],
+                        "lessThan": [],
+                        "greaterThan": []
+                      }
+                    ],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "heading",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 113,
+                    "questionNumber": "1",
+                    "description": "TOP 4 Questions have AND Relation and last two questions + Final answer of first 4 question are OR. As a result 7th Question is hidden. Eveyone should have option abc enable",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 114,
+                    "questionNumber": "1",
+                    "description": "Question 1",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
                       },
                       {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      }
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 115,
+                    "questionNumber": "1",
+                    "description": "Question 2",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      },
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      }
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 116,
+                    "questionNumber": "1",
+                    "description": "Question 3",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      },
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      }
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 117,
+                    "questionNumber": "1",
+                    "description": "Question 4",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      }
+
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 118,
+                    "questionNumber": "1",
+                    "description": "Question 5",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      }
+
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 119,
+                    "questionNumber": "1",
+                    "description": "Question 6",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      }
+
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 2,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 120,
+                    "questionNumber": "1",
+                    "description": "Question 7",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "Visible",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "abc"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "def"
+                      }
+
+                    ],
+                    "visibleWhen": [
+                      "OR",
+                      {
                         "id": "rule1",
-                        "questionId": 111,
+                        "questionId": 119,
                         "equals": [
                           {
-                            "uuid": "Yes_UUID"
-                          },
-                          {
-                            "uuid": "Very Yes_UUID"
+                            "uuid": "abc"
                           }
                         ],
-                        "notEquals": [
+                        "notEquals": [],
+                        "equalTo": [],
+                        "notEqualTo": [],
+                        "lessThan": [],
+                        "greaterThan": []
+                      },
+                      {
+                        "id": "rule2",
+                        "questionId": 118,
+                        "equals": [
                           {
-                            "uuid": "No_UUID"
-                          },
-                          {
-                            "uuid": "Never_UUID"
+                            "uuid": "abc"
                           }
                         ],
-                        "equalTo": [
-                          15,
-                          12
-                        ],
-                        "notEqualTo": [
-                          15
-                        ],
-                        "lessThan": [
-                          12
-                        ],
-                        "greaterThan": [
-                          14
-                        ]
+                        "notEquals": [],
+                        "equalTo": [],
+                        "notEqualTo": [],
+                        "lessThan": [],
+                        "greaterThan": []
                       },
                       [
                         "AND",
                         {
-                          "id": "rule1",
-                          "questionId": "111",
-                          "equals": [],
-                          "notEquals": [
+                          "id": "rule3",
+                          "questionId": 117,
+                          "equals": [
                             {
-                              "uuid": "Yes_UUID"
+                              "uuid": "abc"
                             }
                           ],
+                          "notEquals": [],
                           "equalTo": [],
                           "notEqualTo": [],
                           "lessThan": [],
                           "greaterThan": []
                         },
-                        [
-                          "OR",
-                          {
-                            "id": "rule2",
-                            "questionId": "222",
-                            "equals": [
-                              {
-                                "uuid": "Yes_UUID"
-                              }
-                            ],
-                            "notEquals": [],
-                            "equalTo": [],
-                            "notEqualTo": [],
-                            "lessThan": [],
-                            "greaterThan": []
-                          },
-                          {
-                            "id": "rule3",
-                            "questionId": "333",
-                            "equals": [],
-                            "notEquals": [],
-                            "equalTo": [],
-                            "notEqualTo": [],
-                            "lessThan": [],
-                            "greaterThan": []
-                          }
-                        ]
+                        {
+                          "id": "rule4",
+                          "questionId": 116,
+                          "equals": [
+                            {
+                              "uuid": "abc"
+                            }
+                          ],
+                          "notEquals": [],
+                          "equalTo": [],
+                          "notEqualTo": [],
+                          "lessThan": [],
+                          "greaterThan": []
+                        },
+                        {
+                          "id": "rule5",
+                          "questionId": 115,
+                          "equals": [
+                            {
+                              "uuid": "abc"
+                            }
+                          ],
+                          "notEquals": [],
+                          "equalTo": [],
+                          "notEqualTo": [],
+                          "lessThan": [],
+                          "greaterThan": []
+                        },
+                        {
+                          "id": "rule6",
+                          "questionId": 114,
+                          "equals": [
+                            {
+                              "uuid": "abc"
+                            }
+                          ],
+                          "notEquals": [],
+                          "equalTo": [],
+                          "notEqualTo": [],
+                          "lessThan": [],
+                          "greaterThan": []
+                        }
                       ]
                     ],
                     "hiddenWhen": [],

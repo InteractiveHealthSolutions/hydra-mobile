@@ -30,6 +30,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
     RecyclerView.Adapter<FormsListDataAdapter.SingleItemRowHolder>() {
 
     var clickedFormID = -1
+    var clickedFormData=""
     var context: Context = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemRowHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_forms_card, null)
@@ -55,6 +56,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
 
         holder.tvTitle.text = formModel.encounterType
         clickedFormID = formModel.id
+        clickedFormData=formModel.questions
         GlideApp.with(context)
             .load(imageId)
             .into(holder.imgForm);
@@ -73,8 +75,10 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
             itemView.setOnClickListener {
                 Constant.formName = tvTitle.text.toString()
                 Constant.formID = clickedFormID
+                Constant.formData=clickedFormData
                 if (DataProvider.directOpenableForms.contains(Constant.formName)) {
                     Form.setENCOUNTER_NAME(Constant.formName)
+                    Form.setENCOUNTER_NAME_DATA(Constant.formData)
                     context.startActivity(Intent(context, Form::class.java))
                 } else {
 
@@ -104,6 +108,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                                 .displayError(context, "You don't have access to adult form", Toast.LENGTH_SHORT)
                         } else {
                             Form.setENCOUNTER_NAME(Constant.formName)
+                            Form.setENCOUNTER_NAME_DATA(Constant.formData)
                             context.startActivity(Intent(context, Form::class.java))
                         }
                     }

@@ -5,11 +5,15 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration
+import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget
+import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.common.Constant.Companion.formID
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
@@ -25,6 +29,8 @@ class MetaDataHelper(context: Context) {
     lateinit var workflowRepository: WorkFlowRepository
     lateinit var phaseRepository: PhaseRepository
     lateinit var componentRepository: ComponentRepository
+    lateinit var formRepository: FormRepository
+
 
     lateinit var workflowPhasesRepository: WorkflowPhasesRepository
     lateinit var phaseComponentRepository: PhaseComponentRepository
@@ -38,6 +44,7 @@ class MetaDataHelper(context: Context) {
         workflowRepository = WorkFlowRepository(context)
         phaseRepository = PhaseRepository(context)
         componentRepository = ComponentRepository(context)
+        formRepository = FormRepository(context)
 
         workflowPhasesRepository = WorkflowPhasesRepository(context)
         phaseComponentRepository= PhaseComponentRepository(context)
@@ -89,6 +96,8 @@ class MetaDataHelper(context: Context) {
         workflowRepository.deleteAllWorkflow()
         phaseRepository.deleteAllPhases()
         componentRepository.deleteAllComponents()
+        formRepository.deleteAllForms()
+
 
         workflowPhasesRepository.deleteAllWorkflowPhases()
         phaseComponentRepository.deleteAllPhaseComponents()
@@ -147,10 +156,10 @@ class MetaDataHelper(context: Context) {
                                 val widgetType=config.getString("widgetType")
                                 val minLength=config.getInt("minLength")
                                 val maxLength=config.getInt("maxLength")
-                                val maxValue=config.getInt("maxValue")
                                 val minValue=config.getInt("minValue")
-                                val maxDate=config.getString("maxDate")
+                                val maxValue=config.getInt("maxValue")
                                 val minDate=config.getString("minDate")
+                                val maxDate=config.getString("maxDate")
                                 val maxLines=config.getInt("maxLines")
 
                                 val configuration: QuestionConfiguration = QuestionConfiguration(
@@ -161,15 +170,8 @@ class MetaDataHelper(context: Context) {
                                 val description=question.getString("description")
                                 val conceptName=question.getString("conceptName")
                                 val concetUUID=question.getString("concetUUID")
-                                var initialVisibility= View.VISIBLE
+                                var initialVisibility=question.getString("initialVisibility")
 
-                                if (question.getString("initialVisibility").toLowerCase().equals("visible"))
-                                {
-                                    initialVisibility=View.VISIBLE
-                                }
-                                else {
-                                    initialVisibility=View.GONE
-                                }
 
                                 var required=false
                                 if (question.getInt("required")==0)
@@ -205,13 +207,13 @@ class MetaDataHelper(context: Context) {
                                 val requiredWhenList=question.getJSONArray("requiredWhen")
                                 val requiredWhen=skipLogicParser(requiredWhenList)
 
-                                var completeQuestion:Question = Question(required,formId,questionId,questionNumber,InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT,initialVisibility,null,description,conceptName,configuration,visibleWhen,hiddenWhen,requiredWhen)
+                                var completeQuestion:Question = Question(required,formId,questionId,questionNumber,widgetType,initialVisibility,null,description,conceptName,configuration,visibleWhen,hiddenWhen,requiredWhen)
                                 listOfQuestions.add(completeQuestion)
 
                             }
                             componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
                             FormRepository(context).insertForm(Forms(formId, formName, componentId, formName,questionsList.toString()))
-
+                            Constants.getInstance().encounterTypes.put(formId,formName)
 
                         }
 

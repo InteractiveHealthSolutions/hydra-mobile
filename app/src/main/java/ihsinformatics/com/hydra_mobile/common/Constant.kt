@@ -50,6 +50,7 @@ class Constant {
         var formList: List<Forms> = ArrayList()
         var componentName = ""
         var formName = ""
+        var formData = ""
         var formID=-1
 
         var tempLogin: Boolean = false

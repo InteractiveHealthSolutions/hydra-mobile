@@ -20,5 +20,11 @@ interface FormDao {
     fun getFormById(id: Int): List<Forms>
 
     @Query("SELECT * FROM `Forms`")
-    fun getAllForm(): LiveData<List<Forms>>
+    fun getAllLiveForms(): LiveData<List<Forms>>
+
+    @Query("SELECT * FROM `Forms`")
+    fun getAllForms(): List<Forms>
+
+    @Query("DELETE FROM `Forms`")
+    fun deleteAllForms()
 }

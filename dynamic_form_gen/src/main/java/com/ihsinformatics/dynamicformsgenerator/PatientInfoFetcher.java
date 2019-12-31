@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper;
@@ -193,6 +194,8 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             public void onClick(View view) {
 
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT);
+               //ToDo Add encounter_name_data here ~Taha
+                // Form.setENCOUNTER_NAME_DATA(Constant.formData);
                 try {
                     startForm(Global.patientData, null);
                 } catch (JSONException e) {

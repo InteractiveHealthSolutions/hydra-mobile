@@ -1,3 +1,4 @@
+
 package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.app.Application
@@ -29,14 +30,23 @@ class FormRepository(context: Context) {
         }
     }
 
-    fun updateComponent(form: Forms) {
+    fun updateForm(form: Forms) {
         doAsync {
             formDao.updateForm(form)
         }
     }
 
-    fun getAllForm(): LiveData<List<Forms>> {
-        return formDao.getAllForm()
+    fun getAllLiveForm(): LiveData<List<Forms>> {
+        return formDao.getAllLiveForms()
     }
 
+    fun getAllForms(): List<Forms> {
+        return formDao.getAllForms()
+    }
+
+    fun deleteAllForms() {
+        doAsync {
+            formDao.deleteAllForms()
+        }
+    }
 }

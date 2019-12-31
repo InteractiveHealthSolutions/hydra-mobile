@@ -30,7 +30,7 @@ class RequestManager {
 
     lateinit var retrofit: Retrofit
     var okHttpClient: OkHttpClient? = null
-    lateinit var gson: Gson
+   // lateinit var gson: Gson
 
     constructor(context: Context, username: String, password: String) {
 

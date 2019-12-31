@@ -263,8 +263,8 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                 question.getFormTypeId(),
                 -1,
                 "-1",
-                InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING,
-                View.VISIBLE, null,
+                "heading",
+                "visible", null,
                 question.getRepeatGroupHeadingPrefix()+" "+ (i+1), null, null)); // TODO get the heading form question or question config class
         InputWidget headingWidget = widgetBakery.bakeInputWidget(context, q);
 
