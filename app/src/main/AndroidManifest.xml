@@ -67,6 +67,11 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".ui.activity.CommonLabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
                 android:name=".ui.activity.ReportActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">

@@ -24,7 +24,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
-import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
@@ -32,12 +31,9 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -45,7 +41,6 @@ import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
-import java.util.ArrayList
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -282,6 +277,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_reports -> {
                 startActivity(Intent(this, ReportActivity::class.java))
                 finish()
+            }
+            R.id.nav_common_lab_module -> {
+                startActivity(Intent(this,CommonLabActivity::class.java))
             }
             R.id.nav_logout -> {
                 logoutDialog()
