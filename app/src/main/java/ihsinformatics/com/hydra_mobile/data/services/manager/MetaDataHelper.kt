@@ -144,73 +144,73 @@ class MetaDataHelper(context: Context) {
                             val formId = insideForm.getInt("formId")
                             val questionsList = insideForm.getJSONArray("questions")
 
-                             var listOfQuestions=ArrayList<Question>()
-                            for(l in 0 until questionsList.length())
-                            {
-                                val question=questionsList.getJSONObject(l)
-
-                                val config = question.getJSONObject("config")
-                                val id=config.getInt("id")
-                                val inputType=config.getString("inputType")
-                                val keyboardCharacters=config.getString("keyboardCharacters")
-                                val widgetType=config.getString("widgetType")
-                                val minLength=config.getInt("minLength")
-                                val maxLength=config.getInt("maxLength")
-                                val minValue=config.getInt("minValue")
-                                val maxValue=config.getInt("maxValue")
-                                val minDate=config.getString("minDate")
-                                val maxDate=config.getString("maxDate")
-                                val maxLines=config.getInt("maxLines")
-
-                                val configuration: QuestionConfiguration = QuestionConfiguration(
-                                    InputType.TYPE_CLASS_NUMBER,maxLength,minLength,keyboardCharacters,id,maxValue,minValue,maxDate,minDate,maxLines)
-
-                                val questionId=question.getInt("id")
-                                val questionNumber=question.getString("questionNumber")
-                                val description=question.getString("description")
-                                val conceptName=question.getString("conceptName")
-                                val concetUUID=question.getString("concetUUID")
-                                var initialVisibility=question.getString("initialVisibility")
-
-
-                                var required=false
-                                if (question.getInt("required")==0)
-                                {
-                                    required=false
-                                }
-                                else {
-                                    required = true
-                                }
-                                //ToDo discuss about widgetType in wrong field
-                                // QuestionNumber, initialVisiblility and required types, concept Name vs conceptParams and validation function
-                                // Change edittext to proper widget type  ~Taha
-
-
-                                val optionsList=question.getJSONArray("options")
-                                for(m in 0 until optionsList.length())
-                                {
-                                    val option=optionsList.getJSONObject(m)
-                                    val default=option.getInt("default")
-                                    val optionConceptUUID=option.getString("conceptUUID")
-                                    val display=option.getString("display")
-
-                                }
-                                var visible:List<SkipLogics>
-
-
-                                val visibleWhenList=question.getJSONArray("visibleWhen")
-                                val visibleWhen=skipLogicParser(visibleWhenList)
-
-                                val hiddenWhenList=question.getJSONArray("hiddenWhen")
-                                val hiddenWhen=skipLogicParser(hiddenWhenList)
-
-                                val requiredWhenList=question.getJSONArray("requiredWhen")
-                                val requiredWhen=skipLogicParser(requiredWhenList)
-
-                                var completeQuestion:Question = Question(required,formId,questionId,questionNumber,widgetType,initialVisibility,null,description,conceptName,configuration,visibleWhen,hiddenWhen,requiredWhen)
-                                listOfQuestions.add(completeQuestion)
-
-                            }
+//                             var listOfQuestions=ArrayList<Question>()
+//                            for(l in 0 until questionsList.length())
+//                            {
+//                                val question=questionsList.getJSONObject(l)
+//
+//                                val config = question.getJSONObject("config")
+//                                val id=config.getInt("id")
+//                                val inputType=config.getString("inputType")
+//                                val keyboardCharacters=config.getString("keyboardCharacters")
+//                                val widgetType=config.getString("widgetType")
+//                                val minLength=config.getInt("minLength")
+//                                val maxLength=config.getInt("maxLength")
+//                                val minValue=config.getInt("minValue")
+//                                val maxValue=config.getInt("maxValue")
+//                                val minDate=config.getString("minDate")
+//                                val maxDate=config.getString("maxDate")
+//                                val maxLines=config.getInt("maxLines")
+//
+//                                val configuration: QuestionConfiguration = QuestionConfiguration(
+//                                    InputType.TYPE_CLASS_NUMBER,maxLength,minLength,keyboardCharacters,id,maxValue,minValue,maxDate,minDate,maxLines)
+//
+//                                val questionId=question.getInt("id")
+//                                val questionNumber=question.getString("questionNumber")
+//                                val description=question.getString("description")
+//                                val conceptName=question.getString("conceptName")
+//                                val concetUUID=question.getString("concetUUID")
+//                                var initialVisibility=question.getString("initialVisibility")
+//
+//
+//                                var required=false
+//                                if (question.getInt("required")==0)
+//                                {
+//                                    required=false
+//                                }
+//                                else {
+//                                    required = true
+//                                }
+//                                //ToDo discuss about widgetType in wrong field
+//                                // QuestionNumber, initialVisiblility and required types, concept Name vs conceptParams and validation function
+//                                // Change edittext to proper widget type  ~Taha
+//
+//
+//                                val optionsList=question.getJSONArray("options")
+//                                for(m in 0 until optionsList.length())
+//                                {
+//                                    val option=optionsList.getJSONObject(m)
+//                                    val default=option.getInt("default")
+//                                    val optionConceptUUID=option.getString("conceptUUID")
+//                                    val display=option.getString("display")
+//
+//                                }
+//                                var visible:List<SkipLogics>
+//
+//
+//                                val visibleWhenList=question.getJSONArray("visibleWhen")
+//                                val visibleWhen=skipLogicParser(visibleWhenList)
+//
+//                                val hiddenWhenList=question.getJSONArray("hiddenWhen")
+//                                val hiddenWhen=skipLogicParser(hiddenWhenList)
+//
+//                                val requiredWhenList=question.getJSONArray("requiredWhen")
+//                                val requiredWhen=skipLogicParser(requiredWhenList)
+//
+//                                var completeQuestion:Question = Question(required,formId,questionId,questionNumber,widgetType,initialVisibility,null,description,conceptName,configuration,visibleWhen,hiddenWhen,requiredWhen)
+//                                listOfQuestions.add(completeQuestion)
+//
+//                            }
                             componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
                             FormRepository(context).insertForm(Forms(formId, formName, componentId, formName,questionsList.toString()))
                             Constants.getInstance().encounterTypes.put(formId,formName)

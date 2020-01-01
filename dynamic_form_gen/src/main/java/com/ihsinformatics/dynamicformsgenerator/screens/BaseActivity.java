@@ -1043,8 +1043,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             List<SExpression> showables = changeableQuestion.getVisibleWhen();
             List<SExpression> hiddenable = changeableQuestion.getHiddenWhen();
 
+            changeable.setVisibility(changeableQuestion.getInitialVisibility());
+
             if (showables != null && showables.size()>0) {
-                changeable.setVisibility(changeableQuestion.getInitialVisibility());
+
                 for (SExpression sExp : showables) {
 
                     Boolean final_visibility = logicChecker(sExp);
@@ -1057,7 +1059,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             }
 
             if (hiddenable != null && hiddenable.size()>0) {
-                changeable.setVisibility(changeableQuestion.getInitialVisibility());
+
                 for (SExpression sExp : hiddenable) {
 
 
@@ -1177,5 +1179,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     }
 
+
+    public String getOptionUUIDByQuestionsID(List<Option> option,String selectedValue ,int questionId) {
+
+        for(int i=0;i<option.size();i++)
+        {
+            if(option.get(i).getText().equals(selectedValue) && option.get(i).getQuestionId()==questionId)
+            {
+                return option.get(i).getUuid();
+            }
+        }
+        return "";
+    }
 
 }
