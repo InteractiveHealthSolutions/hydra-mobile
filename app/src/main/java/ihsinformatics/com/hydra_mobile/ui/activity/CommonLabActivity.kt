@@ -3,11 +3,17 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_common_lab.*
 
 class CommonLabActivity : BaseActivity() {
+
+    val TAG = "Test Type"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +22,32 @@ class CommonLabActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        val rv = findViewById<RecyclerView>(R.id.recyclerView)
+        rv.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+        val testTypeList =ArrayList<CommonLabModel>()
+
+        testTypeList.add(CommonLabModel(TAG,"RNA Viral Load Test"))
+        testTypeList.add(CommonLabModel(TAG,"RNA Viral Load Test"))
+        testTypeList.add(CommonLabModel(TAG,"CBC"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"Hemoglobin Result Value"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+
+
+        var adapter = CustomRecycleViewAdapter(testTypeList)
+        rv.adapter = adapter
+
 
     }
 
