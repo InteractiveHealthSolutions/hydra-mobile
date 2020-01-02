@@ -490,7 +490,7 @@
                       "id": 900,
                       "inputType": "NUMERIC",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
-                      "widgetType": "abc",
+                      "widgetType": "edittext",
                       "minLength": 1,
                       "maxLength": 2,
                       "minValue": 15,
