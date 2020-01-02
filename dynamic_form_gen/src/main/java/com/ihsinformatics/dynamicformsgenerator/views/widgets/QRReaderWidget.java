@@ -68,6 +68,7 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
                 return false;
             }
         }
+        // TODO IDENTIFIER needs to PASS indus_mrno as string in validationFunction. Right now null is passed ~Taha
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
     }
 

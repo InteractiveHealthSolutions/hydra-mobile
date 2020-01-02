@@ -176,7 +176,7 @@ public class Form extends BaseActivity {
             int maxLines = config.getInt("maxLines");
 
             QuestionConfiguration configuration = new QuestionConfiguration(
-                    InputType.TYPE_CLASS_TEXT, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
+                    inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
 
             int questionId = question.getInt("id");
             String questionNumber = question.getString("questionNumber");
@@ -313,7 +313,13 @@ public class Form extends BaseActivity {
     }
 
     public String getFormDataByEncounterType(String encounterType) {
-        return Constants.getInstance().getEncounterTypesData().get(encounterType);
+        String result="";
+
+        if(null!=result)
+        {
+            result=Constants.getInstance().getEncounterTypesData().get(encounterType);
+        }
+        return result;
     }
 
 

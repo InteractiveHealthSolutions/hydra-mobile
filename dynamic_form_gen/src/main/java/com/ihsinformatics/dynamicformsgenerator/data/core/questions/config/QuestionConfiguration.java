@@ -34,13 +34,17 @@ public class QuestionConfiguration extends Configuration {
     }
 
     public QuestionConfiguration(String inputType,
-                                 int maxLength, int minLenght, String allowedCharacters, int id) {
+                                 int maxLength, int minLenght, String allowedCharacters, int id, int maxValue, int minValue, String maxDate, String minDate, int maxLines) {
         super();
         this.inputType = filterInputTypes(inputType);
         this.maxLength = maxLength;
         this.minLenght = minLenght;
         this.allowedCharacters = allowedCharacters;
         this.id = id;
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+        this.maxLines = maxLines;
+
     }
 
     public QuestionConfiguration(Date maxDate, Date minDate, DateSelector.WIDGET_TYPE widgetType, int id) {

@@ -488,11 +488,11 @@
                   {
                     "config": {
                       "id": 900,
-                      "inputType": "NUMERIC",
+                      "inputType": "text",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
                       "widgetType": "edittext",
                       "minLength": 1,
-                      "maxLength": 2,
+                      "maxLength": 10,
                       "minValue": 15,
                       "maxValue": 110,
                       "minDate": "23-10-2019",
@@ -614,7 +614,7 @@
                   {
                     "config": {
                       "id": 901,
-                      "inputType": "NUMERIC",
+                      "inputType": "text",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
                       "widgetType": "radio_button",
                       "minLength": 1,
@@ -653,7 +653,7 @@
                       "id": 901,
                       "inputType": "NUMERIC",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
-                      "widgetType": "check_box",
+                      "widgetType": "spinner",
                       "minLength": 1,
                       "maxLength": 2,
                       "minValue": 15,
@@ -664,7 +664,7 @@
                     },
                     "id": 116,
                     "questionNumber": "1",
-                    "description": "check_box test",
+                    "description": "spinner test",
                     "conceptName": "cough",
                     "concetUUID": "123-asd-123-asd-123",
                     "initialVisibility": "VISIBLE",
@@ -908,10 +908,10 @@
                     "config": {
                       "id": 901,
                       "inputType": "NUMERIC",
-                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "keyboardCharacters": "1234567890",
                       "widgetType": "qr_reader",
-                      "minLength": 1,
-                      "maxLength": 2,
+                      "minLength": 11,
+                      "maxLength": 11,
                       "minValue": 15,
                       "maxValue": 110,
                       "minDate": "23-10-2019",
@@ -934,10 +934,10 @@
                     "config": {
                       "id": 901,
                       "inputType": "NUMERIC",
-                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "keyboardCharacters": "1234567890",
                       "widgetType": "identifier",
-                      "minLength": 1,
-                      "maxLength": 2,
+                      "minLength": 11,
+                      "maxLength": 11,
                       "minValue": 15,
                       "maxValue": 110,
                       "minDate": "23-10-2019",
@@ -959,11 +959,11 @@
                   {
                     "config": {
                       "id": 901,
-                      "inputType": "NUMERIC",
+                      "inputType": "text",
                       "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
                       "widgetType": "autocomplete_edittext",
                       "minLength": 1,
-                      "maxLength": 2,
+                      "maxLength": 12,
                       "minValue": 15,
                       "maxValue": 110,
                       "minDate": "23-10-2019",
@@ -973,32 +973,6 @@
                     "id": 126,
                     "questionNumber": "1",
                     "description": "autocomplete_edittext test",
-                    "conceptName": "cough",
-                    "concetUUID": "123-asd-123-asd-123",
-                    "initialVisibility": "Visible",
-                    "required": 1,
-                    "options": [],
-                    "visibleWhen": [],
-                    "hiddenWhen": [],
-                    "requiredWhen": []
-                  },
-                  {
-                    "config": {
-                      "id": 901,
-                      "inputType": "NUMERIC",
-                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
-                      "widgetType": "address",
-                      "minLength": 1,
-                      "maxLength": 10,
-                      "minValue": 15,
-                      "maxValue": 110,
-                      "minDate": "23-10-2019",
-                      "maxDate": "23-12-2019",
-                      "maxLines": 3
-                    },
-                    "id": 127,
-                    "questionNumber": "1",
-                    "description": "address test",
                     "conceptName": "cough",
                     "concetUUID": "123-asd-123-asd-123",
                     "initialVisibility": "Visible",
@@ -1017,6 +991,59 @@
                     ],
                     "visibleWhen": [],
                     "hiddenWhen": [],
+                    "requiredWhen": []
+                  },
+                  {
+                    "config": {
+                      "id": 901,
+                      "inputType": "NUMERIC",
+                      "keyboardCharacters": "abcdefghijklmnopqrstuvwxyz",
+                      "widgetType": "spinner",
+                      "minLength": 1,
+                      "maxLength": 10,
+                      "minValue": 15,
+                      "maxValue": 110,
+                      "minDate": "23-10-2019",
+                      "maxDate": "23-12-2019",
+                      "maxLines": 3
+                    },
+                    "id": 127,
+                    "questionNumber": "1",
+                    "description": "spinner test",
+                    "conceptName": "cough",
+                    "concetUUID": "123-asd-123-asd-123",
+                    "initialVisibility": "VISIBLE",
+                    "required": 1,
+                    "options": [
+                      {
+                        "default": 1,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "Yes"
+                      },
+                      {
+                        "default": 0,
+                        "conceptUUID": "123-asd-123-asd-123",
+                        "display": "Yeeess"
+                      }
+                    ],
+                    "visibleWhen": [],
+                    "hiddenWhen": [
+                      "OR",
+                      {
+                        "id": "rule1",
+                        "questionId": 114,
+                        "equals": [],
+                        "notEquals": [
+                          {
+                            "uuid": "def"
+                          }
+                        ],
+                        "equalTo": [],
+                        "notEqualTo": [],
+                        "lessThan": [],
+                        "greaterThan": []
+                      }
+                    ],
                     "requiredWhen": []
                   }
                 ]
