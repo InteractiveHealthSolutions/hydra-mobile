@@ -7,6 +7,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Displayable;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Configuration;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.SkipLogic;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.InputWidgetsType;
 
 import java.util.ArrayList;
@@ -124,14 +125,14 @@ public class Question extends Displayable implements Cloneable {
     }
 
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
         this.questionId = questionId;
 
-        setQuestionType(questionType);
-        setInitialVisibility(initialVisibility);
+        this.questionType=questionType;
+        this.initialVisibility=initialVisibility;
 
         this.validationFunction = validationFunction;
         this.text = text;

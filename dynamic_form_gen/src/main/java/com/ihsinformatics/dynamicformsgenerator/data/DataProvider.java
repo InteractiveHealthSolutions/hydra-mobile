@@ -194,171 +194,23 @@ public class DataProvider {
 
     private void initPatientCreation() {
         Integer patientCreationId = 1;
+        questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null));
+        this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
+        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit));
+        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alphaMax30Min3Digit));
+        this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
+        this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
+        this.options.add(new Option(6003, 605, null, null, "", "Female", -1));
+        //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob));
+        //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
-        questions.add(new Question(false, patientCreationId, 7999, "-1", "heading", "Visible", null, "Patient Registration Form", null, null));
-        this.questions.add(new Question(true, patientCreationId, 7000, "", "identifier", "Visible", Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
-        this.questions.add(new Question(true, patientCreationId, 7001, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit));
-        this.questions.add(new Question(true, patientCreationId, 7002, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alphaMax30Min3Digit));
-        this.questions.add(new Question(true, patientCreationId, 7003, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
-        this.options.add(new Option(7003, 604, null, null, "123", "Male", -1));
-        this.options.add(new Option(7003, 605, null, null, "456", "Female", -1));
+        this.questions.add(new Question(true, patientCreationId, 6007, "", InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
 
-        this.questions.add(new Question(true, patientCreationId, 7004, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi ", "abcdefg", null));
-        this.options.add(new Option(7004, 604, null, null, "111", "ABC", -1));
-        this.options.add(new Option(7004, 605, null, null, "222", "DEF", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7005, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi Question", "abcdefg", null));
-        this.options.add(new Option(7005, 604, null, null, "111", "XYZ", -1));
-        this.options.add(new Option(7005, 605, null, null, "222", "ZYX", -1));
-
-
-        this.questions.add(new Question(true, patientCreationId, 7006, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 2 Question 2", "abcdefg", null));
-        this.options.add(new Option(7006, 604, null, null, "111", "AAA", -1));
-        this.options.add(new Option(7006, 605, null, null, "222", "BBB", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7007, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 3 Question 3", "abcdefg", null));
-        this.options.add(new Option(7007, 604, null, null, "111", "CCC", -1));
-        this.options.add(new Option(7007, 605, null, null, "222", "DDD", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7008, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 4 Question 4", "abcdefg", null));
-        this.options.add(new Option(7008, 604, null, null, "111", "EEE", -1));
-        this.options.add(new Option(7008, 605, null, null, "222", "FFF", -1));
-
-
-        //   this.questions.add(new Question(true, patientCreationId, 6004, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        Question q=new Question(true, patientCreationId, 7100, "", "age", "Visible", Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
-
-        //  this.questions.add(new Question(true, patientCreationId, 6005, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
-
-        ArrayList<String> arr=new ArrayList<>();
-        arr.add("Female");
-        ArrayList<String> arr3=new ArrayList<>();
-        arr3.add("ABC");
-        ArrayList<String> arr5=new ArrayList<>();
-        arr5.add("XYZ");
-
-        ArrayList<String> arr2=new ArrayList<>();
-        arr2.add("AAA");
-        ArrayList<String> arr4=new ArrayList<>();
-        arr4.add("CCC");
-        ArrayList<String> arr6=new ArrayList<>();
-        arr6.add("EEE");
-
-        ArrayList<String> emptyArr=new ArrayList<>();
-
-
-        List<SExpression> sExpList1=new ArrayList<>();
-
-        List<SExpression> sExpListNested=new ArrayList<>();
-
-        ArrayList<SkipLogics> nestedSkipLogics =new ArrayList<>();
-        nestedSkipLogics.add(new SkipLogics("1",7006,arr2,emptyArr,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("2",7007,emptyArr,arr4,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("3",7008,arr6,emptyArr,null,null,null,null));
-        sExpListNested.add(new SExpression("OR",nestedSkipLogics,null));
-
-        ArrayList<SkipLogics> s =new ArrayList<>();
-        s.add(new SkipLogics("1",7003,emptyArr,arr,null,null,null,null));
-        s.add(new SkipLogics("2",7004,arr3,emptyArr,null,null,null,null));
-        s.add(new SkipLogics("3",7005,arr5,emptyArr,null,null,null,null));
-        sExpList1.add(new SExpression("AND",s,sExpListNested));
-        q.setVisibleWhen(sExpList1);
-
-
-
-        this.questions.add(q);
-
-        this.questions.add(new Question(true, patientCreationId, 7007, "", "address", "Visible", Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
-
-
-        //this.options.addAll(DynamicOptions.getFromArray(context, 6006, null, null, context.getResources().getStringArray(R.array.locations_list)));
+        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null));
+        this.options.addAll(DynamicOptions.getFromArray(context, 6006, null, null, context.getResources().getStringArray(R.array.locations_list)));
 
     }
-
-
-    private void initPatientInformation() {
-        Integer patientCreationId = 2;
-        questions.add(new Question(false, patientCreationId, 7999, "-1", "heading", "Visible", null, "Patient Registration Form", null, null));
-        this.questions.add(new Question(true, patientCreationId, 7000, "", "identifier", "Visible", Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit));
-        this.questions.add(new Question(true, patientCreationId, 7001, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit));
-        this.questions.add(new Question(true, patientCreationId, 7002, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alphaMax30Min3Digit));
-        this.questions.add(new Question(true, patientCreationId, 7003, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Gender", SEX, null));
-        this.options.add(new Option(7003, 604, null, null, "123", "Male", -1));
-        this.options.add(new Option(7003, 605, null, null, "456", "Female", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7004, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi ", "abcdefg", null));
-        this.options.add(new Option(7004, 604, null, null, "111", "ABC", -1));
-        this.options.add(new Option(7004, 605, null, null, "222", "DEF", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7005, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi Question", "abcdefg", null));
-        this.options.add(new Option(7005, 604, null, null, "111", "XYZ", -1));
-        this.options.add(new Option(7005, 605, null, null, "222", "ZYX", -1));
-
-
-        this.questions.add(new Question(true, patientCreationId, 7006, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 2 Question 2", "abcdefg", null));
-        this.options.add(new Option(7006, 604, null, null, "111", "AAA", -1));
-        this.options.add(new Option(7006, 605, null, null, "222", "BBB", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7007, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 3 Question 3", "abcdefg", null));
-        this.options.add(new Option(7007, 604, null, null, "111", "CCC", -1));
-        this.options.add(new Option(7007, 605, null, null, "222", "DDD", -1));
-
-        this.questions.add(new Question(true, patientCreationId, 7008, "", "spinner", "Visible", Validation.CHECK_FOR_EMPTY, "Aesi 4 Question 4", "abcdefg", null));
-        this.options.add(new Option(7008, 604, null, null, "111", "EEE", -1));
-        this.options.add(new Option(7008, 605, null, null, "222", "FFF", -1));
-
-
-        //   this.questions.add(new Question(true, patientCreationId, 6004, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        Question q=new Question(true, patientCreationId, 7100, "", "age", "Visible", Validation.CHECK_FOR_DATE, "Date of Birth", ParamNames.DOB, dob);
-
-        //  this.questions.add(new Question(true, patientCreationId, 6005, "", "edittext", "Visible", Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
-
-        ArrayList<String> arr=new ArrayList<>();
-        arr.add("Female");
-        ArrayList<String> arr3=new ArrayList<>();
-        arr3.add("ABC");
-        ArrayList<String> arr5=new ArrayList<>();
-        arr5.add("XYZ");
-
-        ArrayList<String> arr2=new ArrayList<>();
-        arr2.add("AAA");
-        ArrayList<String> arr4=new ArrayList<>();
-        arr4.add("CCC");
-        ArrayList<String> arr6=new ArrayList<>();
-        arr6.add("EEE");
-
-        ArrayList<String> emptyArr=new ArrayList<>();
-
-
-        List<SExpression> sExpList1=new ArrayList<>();
-
-        List<SExpression> sExpListNested=new ArrayList<>();
-
-        ArrayList<SkipLogics> nestedSkipLogics =new ArrayList<>();
-        nestedSkipLogics.add(new SkipLogics("1",7006,arr2,emptyArr,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("2",7007,emptyArr,arr4,null,null,null,null));
-        nestedSkipLogics.add(new SkipLogics("3",7008,arr6,emptyArr,null,null,null,null));
-        sExpListNested.add(new SExpression("OR",nestedSkipLogics,null));
-
-        ArrayList<SkipLogics> s =new ArrayList<>();
-        s.add(new SkipLogics("1",7003,emptyArr,arr,null,null,null,null));
-        s.add(new SkipLogics("2",7004,arr3,emptyArr,null,null,null,null));
-        s.add(new SkipLogics("3",7005,arr5,emptyArr,null,null,null,null));
-        sExpList1.add(new SExpression("AND",s,sExpListNested));
-        q.setVisibleWhen(sExpList1);
-
-
-
-        this.questions.add(q);
-
-        this.questions.add(new Question(true, patientCreationId, 7007, "", "address", "Visible", Validation.CHECK_FOR_EMPTY, "Address", ParamNames.ADDRESS, addressConfiguration));
-
-
-        //this.options.addAll(DynamicOptions.getFromArray(context, 6006, null, null, context.getResources().getStringArray(R.array.locations_list)));
-
-    }
-
-    //form1safecircumcision
 
 
     private static void initDates() {

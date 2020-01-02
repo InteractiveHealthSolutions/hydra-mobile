@@ -64,24 +64,30 @@ public class Form extends BaseActivity {
             throw new UnsupportedOperationException("You need to set value of static variable REGISTRATION_ENCOUNTER in DataProvider class");
         }
         // PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
-        if (Global.patientData != null) {
+        if (Global.patientData != null && !DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
             this.patientData = Global.patientData;
+
+            try {
+                parseQuestionsFromEncounterNameData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         } else if (DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
+            DataProvider dataProvider = DataProvider.getInstance(this);
+            this.questions = dataProvider.getQuestions(dataProvider.getFormId(ENCOUNTER_NAME));
+
 
         } else {
-            // Toasty.warning(this, "No record found", Toast.LENGTH_SHORT).show();
-            // TODO finish();
-            //return;
+
+
         }
+
+
+
         setTitle(ENCOUNTER_NAME);
         toolbar.setTitle(ENCOUNTER_NAME);
 
-        try {
-            parseQuestionsFromEncounterNameData();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        // collapsingToolbar.setTitle(ENCOUNTER_NAME);
 
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);
@@ -97,15 +103,15 @@ public class Form extends BaseActivity {
         }
 
 
-        // final DataProvider dataProvider = DataProvider.getInstance(this);
-        //questions = dataProvider.getQuestions(dataProvider.getFormId(ENCOUNTER_NAME));
         JSONUtils jsonUtils = JSONUtils.getInstance();
         JSONObject temp;
         InputWidgetBakery inputWidgetBakery = new InputWidgetBakery();
         for (final Question q : questions) {
             try {
-                List<Option> optionsList = getOptionsByQuestionsID(q.getQuestionId());
-                q.setOptions(optionsList);
+                if (DataProvider.directOpenableForms != null && !DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
+                    List<Option> optionsList = getOptionsByQuestionsID(q.getQuestionId());
+                    q.setOptions(optionsList);
+                }
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
                 llMain.addView(w);
 
@@ -117,12 +123,14 @@ public class Form extends BaseActivity {
                     }
                 }
 
+                if (DataProvider.directOpenableForms != null && !DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
                 w.setOnValueChangeListener(new OnValueChangeListener() {
                     @Override
                     public void onValueChanged(String newValue) throws JSONException {
                         checkSkipLogics(getFormId(ENCOUNTER_NAME));
                     }
                 });
+                }
 
                 w.setVisibility(q.getInitialVisibility());
                 inputWidgets.put(w.getQuestionId(), w);
@@ -193,7 +201,7 @@ public class Form extends BaseActivity {
                 int defaultValue = option.getInt("default");
                 String optionConceptUUID = option.getString("conceptUUID");
                 String display = option.getString("display");
-                options.add(new Option(questionId, j, null, null, optionConceptUUID, display, -1));
+                this.options.add(new Option(questionId, j, null, null, optionConceptUUID, display, -1));
             }
 
             JSONArray visibleWhenList = question.getJSONArray("visibleWhen");
@@ -206,7 +214,7 @@ public class Form extends BaseActivity {
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
             Question completeQuestion = new Question(required, getFormId(ENCOUNTER_NAME), questionId, questionNumber, widgetType, initialVisibility, null, description, conceptName, configuration, visibleWhen, hiddenWhen, requiredWhen);
-            questions.add(completeQuestion);
+            this.questions.add(completeQuestion);
 
         }
     }
