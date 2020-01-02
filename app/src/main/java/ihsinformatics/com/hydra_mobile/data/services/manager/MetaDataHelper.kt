@@ -214,7 +214,7 @@ class MetaDataHelper(context: Context) {
                             componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
                             FormRepository(context).insertForm(Forms(formId, formName, componentId, formName,questionsList.toString()))
                             Constants.getInstance().encounterTypes.put(formId,formName)
-
+                             Constants.getInstance().encounterTypesData.put(formName,questionsList.toString())
                         }
 
 

@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 public class Constants {
 
     private LinkedHashMap<Integer, String> encounterTypes;
+    private LinkedHashMap<String, String> encounterTypesData;
+
     private static Constants constants;
 
     private Constants()
@@ -12,6 +14,8 @@ public class Constants {
         if(encounterTypes==null)
         {
             encounterTypes= new LinkedHashMap<Integer,String>();
+            encounterTypesData= new LinkedHashMap<String,String>();
+
         }
     }
 
@@ -29,9 +33,11 @@ public class Constants {
         return encounterTypes;
     }
 
-    public void putEncounterTypes(Integer key,String encounterType)
+    public LinkedHashMap<String, String> getEncounterTypesData()
     {
-       this.encounterTypes.put(key,encounterType);
+        return encounterTypesData;
     }
+
+
 
 }

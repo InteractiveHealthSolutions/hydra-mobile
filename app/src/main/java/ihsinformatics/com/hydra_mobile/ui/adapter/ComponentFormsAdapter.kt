@@ -78,7 +78,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                 Constant.formData=clickedFormData
                 if (DataProvider.directOpenableForms.contains(Constant.formName)) {
                     Form.setENCOUNTER_NAME(Constant.formName)
-                    Form.setENCOUNTER_NAME_DATA(Constant.formData)
+                    //Form.setENCOUNTER_NAME_DATA(Constant.formData)
                     context.startActivity(Intent(context, Form::class.java))
                 } else {
 
@@ -108,7 +108,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                                 .displayError(context, "You don't have access to adult form", Toast.LENGTH_SHORT)
                         } else {
                             Form.setENCOUNTER_NAME(Constant.formName)
-                            Form.setENCOUNTER_NAME_DATA(Constant.formData)
+                            //Form.setENCOUNTER_NAME_DATA(Constant.formData)
                             context.startActivity(Intent(context, Form::class.java))
                         }
                     }

@@ -45,7 +45,7 @@ import es.dmoral.toasty.Toasty;
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
-    private static String ENCOUNTER_NAME_DATA;
+   // private static String ENCOUNTER_NAME_DATA;
 
 
     // public static String REGISTRATION_ENCOUNTER;
@@ -150,13 +150,15 @@ public class Form extends BaseActivity {
         ENCOUNTER_NAME = eNCOUNTER_NAME;
     }
 
-    public static void setENCOUNTER_NAME_DATA(String eNCOUNTER_NAME_DATA) {
-        ENCOUNTER_NAME_DATA = eNCOUNTER_NAME_DATA;
-    }
+//    public static void setENCOUNTER_NAME_DATA(String eNCOUNTER_NAME_DATA) {
+//        ENCOUNTER_NAME_DATA = eNCOUNTER_NAME_DATA;
+//    }
 
 
     private void parseQuestionsFromEncounterNameData() throws JSONException {
-        JSONArray questionsList = new JSONArray(ENCOUNTER_NAME_DATA);
+
+
+        JSONArray questionsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < questionsList.length(); i++) {
             JSONObject question = questionsList.getJSONObject(i);
 
@@ -174,7 +176,7 @@ public class Form extends BaseActivity {
             int maxLines = config.getInt("maxLines");
 
             QuestionConfiguration configuration = new QuestionConfiguration(
-                    InputType.TYPE_CLASS_NUMBER, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
+                    InputType.TYPE_CLASS_TEXT, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
 
             int questionId = question.getInt("id");
             String questionNumber = question.getString("questionNumber");
@@ -310,13 +312,11 @@ public class Form extends BaseActivity {
         return -1;
     }
 
-//    protected int getFormId(String paramString) {
-//        for (int i = 0; i < Constants.getInstance().getEncounterTypes().size(); i++) {
-//            if (Constants.getInstance().getEncounterTypes().get(i)) {
-//
-//            }
-//        }
-//    }
+    public String getFormDataByEncounterType(String encounterType) {
+        return Constants.getInstance().getEncounterTypesData().get(encounterType);
+    }
+
+
 
     public List<Option> getOptionsByQuestionsID(int questionId) {
         Enumeration<Option> localIterator = Collections.enumeration(this.options);

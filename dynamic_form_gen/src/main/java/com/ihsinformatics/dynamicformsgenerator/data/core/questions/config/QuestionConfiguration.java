@@ -8,123 +8,155 @@ import java.util.Date;
 
 public class QuestionConfiguration extends Configuration {
 
-	
-	private int inputType;
-	private int maxLength;
-	private int minLenght;
-	private String allowedCharacters;
-	private int id;
-	
-	//For date widget
-	private Date maxDate;
-	private Date minDate;
+
+    private int inputType;
+    private int maxLength;
+    private int minLenght;
+    private String allowedCharacters;
+    private int id;
+
+    //For date widget
+    private Date maxDate;
+    private Date minDate;
     private DateSelector.WIDGET_TYPE widgetType;
 
 
-	private int maxValue;
-	private int minValue;
-	private int maxLines;
+    private int maxValue;
+    private int minValue;
+    private int maxLines;
 
-	public QuestionConfiguration() {
-		
-	}
+    public QuestionConfiguration() {
+
+    }
 
     public DateSelector.WIDGET_TYPE getWidgetType() {
         return widgetType;
     }
 
+    public QuestionConfiguration(String inputType,
+                                 int maxLength, int minLenght, String allowedCharacters, int id) {
+        super();
+        this.inputType = filterInputTypes(inputType);
+        this.maxLength = maxLength;
+        this.minLenght = minLenght;
+        this.allowedCharacters = allowedCharacters;
+        this.id = id;
+    }
+
     public QuestionConfiguration(Date maxDate, Date minDate, DateSelector.WIDGET_TYPE widgetType, int id) {
-		super();
-		this.maxDate = maxDate;
-		this.minDate = minDate;
-		this.id = id;
+        super();
+        this.maxDate = maxDate;
+        this.minDate = minDate;
+        this.id = id;
         this.widgetType = widgetType;
-	}
-	
-	public QuestionConfiguration(int inputType,
-			int maxLength, int minLenght, String allowedCharacters, int id) {
-		super();
-		this.inputType = inputType;
-		this.maxLength = maxLength;
-		this.minLenght = minLenght;
-		this.allowedCharacters = allowedCharacters;
-		this.id = id;
-	}
+    }
 
-	//TODO Need to convert date to date format rather string  ~Taha
-	//TODO id needed the utilize widgetType given in json format in config field  ~Taha
+    public QuestionConfiguration(int inputType,
+                                 int maxLength, int minLenght, String allowedCharacters, int id) {
+        super();
+        this.inputType = inputType;
+        this.maxLength = maxLength;
+        this.minLenght = minLenght;
+        this.allowedCharacters = allowedCharacters;
+        this.id = id;
+    }
 
-
-	public QuestionConfiguration(int inputType,
-								 int maxLength, int minLenght, String allowedCharacters, int id,int maxValue, int minValue,String maxDate,String minDate, int maxLines) {
-		super();
-		this.inputType = inputType;
-		this.maxLength = maxLength;
-		this.minLenght = minLenght;
-		this.allowedCharacters = allowedCharacters;
-		this.id = id;
-		this.maxValue=maxValue;
-		this.minValue=minValue;
-		this.maxLines=maxLines;
-
-	}
+    //TODO Need to convert date to date format rather string  ~Taha
+    //TODO id needed the utilize widgetType given in json format in config field  ~Taha
 
 
+    public QuestionConfiguration(int inputType,
+                                 int maxLength, int minLenght, String allowedCharacters, int id, int maxValue, int minValue, String maxDate, String minDate, int maxLines) {
+        super();
+        this.inputType = inputType;
+        this.maxLength = maxLength;
+        this.minLenght = minLenght;
+        this.allowedCharacters = allowedCharacters;
+        this.id = id;
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+        this.maxLines = maxLines;
 
-	public int getInputType() {
-		return inputType;
-	}
+    }
 
-	public void setInputType(int inputType) {
-		this.inputType = inputType;
-	}
 
-	public int getMaxLength() {
-		return maxLength;
-	}
+    private int filterInputTypes(String inputType) {
+        switch (inputType.toLowerCase()) {
 
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	}
+            case "text": {
+                return InputType.TYPE_CLASS_TEXT;
+            }
 
-	public int getMinLenght() {
-		return minLenght;
-	}
+            case "numeric": {
+                return InputType.TYPE_CLASS_NUMBER;
+            }
 
-	public void setMinLenght(int minLenght) {
-		this.minLenght = minLenght;
-	}
+            case "caps": {
+                return InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+            }
 
-	public String getAllowedCharacters() {
-		return allowedCharacters;
-	}
+            case "decimalNumeric": {
+                return InputType.TYPE_NUMBER_FLAG_DECIMAL;
+            }
+        }
 
-	public void setAllowedCharacters(String allowedCharacters) {
-		this.allowedCharacters = allowedCharacters;
-	}
+        return -1;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getInputType() {
+        return inputType;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public Date getMaxDate() {
-		return maxDate;
-	}
+    public void setInputType(int inputType) {
+        this.inputType = inputType;
+    }
 
-	public void setMaxDate(Date maxDate) {
-		this.maxDate = maxDate;
-	}
+    public int getMaxLength() {
+        return maxLength;
+    }
 
-	public Date getMinDate() {
-		return minDate;
-	}
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    }
 
-	public void setMinDate(Date minDate) {
-		this.minDate = minDate;
-	}
-	
+    public int getMinLenght() {
+        return minLenght;
+    }
+
+    public void setMinLenght(int minLenght) {
+        this.minLenght = minLenght;
+    }
+
+    public String getAllowedCharacters() {
+        return allowedCharacters;
+    }
+
+    public void setAllowedCharacters(String allowedCharacters) {
+        this.allowedCharacters = allowedCharacters;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getMaxDate() {
+        return maxDate;
+    }
+
+    public void setMaxDate(Date maxDate) {
+        this.maxDate = maxDate;
+    }
+
+    public Date getMinDate() {
+        return minDate;
+    }
+
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
+    }
+
 }

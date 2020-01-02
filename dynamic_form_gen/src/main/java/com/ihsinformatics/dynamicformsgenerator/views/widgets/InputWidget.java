@@ -43,7 +43,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
         WIDGET_TYPE_SCORE_SPINNER,
         WIDGET_TYPE_MULTI_SELECT_SPINNER,
         WIDGET_TYPE_RADIO_BUTTON,
-        WIDGET_TYPE_CHECK_BOX,
+      //  WIDGET_TYPE_CHECK_BOX,
         WIDGET_TYPE_HEADING,
         WIDGET_TYPE_GPS,
         WIDGET_TYPE_HIDDEN_INPUT,
@@ -55,6 +55,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
         WIDGETS_TYPE_IDENTIFIER,
         WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT,
         WIDGET_TYPE_ADDRESS,
+        WIDGETS_TYPE_ABC
     }
 
     protected TextView tvQuestion;

@@ -219,10 +219,10 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON;
                 break;
             }
-            case "check_box": {
-                this.questionType = InputWidgetsType.WIDGET_TYPE_CHECK_BOX;
-                break;
-            }
+//            case "check_box": {
+//                this.questionType = InputWidgetsType.WIDGET_TYPE_CHECK_BOX;
+//                break;
+//            }
             case "heading": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_HEADING;
                 break;
