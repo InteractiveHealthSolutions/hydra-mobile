@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
+import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_common_lab.*
 
@@ -45,7 +45,10 @@ class CommonLabActivity : BaseActivity() {
         testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
 
 
-        var adapter = CustomRecycleViewAdapter(testTypeList)
+        var adapter =
+            CommonLabAdapter(
+                testTypeList
+            )
         rv.adapter = adapter
 
 

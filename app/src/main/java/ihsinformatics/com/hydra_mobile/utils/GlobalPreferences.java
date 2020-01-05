@@ -49,17 +49,17 @@ public class GlobalPreferences {
 		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key.toString(), defaultValue);
 	}
 
-	
+
 	public Translator.LANGUAGE findLanguagePrferenceValue() {
 		String language =  PreferenceManager.getDefaultSharedPreferences(context).getString(KEY.LANGUAGE.toString(), Translator.LANGUAGE.ENGLISH.toString());
 		Translator.LANGUAGE l = Translator.LANGUAGE.valueOf(language.toUpperCase(Locale.US));
 		if(l !=null) {
 			 return l;
 		}
-		
+
 		return Translator.LANGUAGE.ENGLISH;
-		
-		
+
+
 	}
 /*	public LOCATION findLocationPrferenceValue() {
 		String location =  PreferenceManager.getDefaultSharedPreferences(context).getString(KEY.LOCATION.toString(), LOCATION.KARACHI.toString());

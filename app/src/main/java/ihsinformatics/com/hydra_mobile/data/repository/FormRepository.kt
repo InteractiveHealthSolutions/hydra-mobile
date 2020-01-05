@@ -1,9 +1,7 @@
 
 package ihsinformatics.com.hydra_mobile.data.repository
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.FormDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
@@ -28,20 +26,6 @@ class FormRepository(context: Context) {
         doAsync {
             formDao.insertForm(form)
         }
-    }
-
-    fun updateForm(form: Forms) {
-        doAsync {
-            formDao.updateForm(form)
-        }
-    }
-
-    fun getAllLiveForm(): LiveData<List<Forms>> {
-        return formDao.getAllLiveForms()
-    }
-
-    fun getAllForms(): List<Forms> {
-        return formDao.getAllForms()
     }
 
     fun deleteAllForms() {

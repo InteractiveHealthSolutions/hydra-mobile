@@ -10,20 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
-import ihsinformatics.com.hydra_mobile.ui.activity.FormsActivity
 import ihsinformatics.com.hydra_mobile.ui.helper.GlideApp
-import androidx.core.content.ContextCompat.startActivity
-import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
-import org.json.JSONException
 
 
 internal class FormsListDataAdapter(private val itemModels: List<Forms>, context: Context) :

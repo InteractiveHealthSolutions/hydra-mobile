@@ -29,12 +29,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true" tools:replace="android:allowBackup,android:name">
-        <activity android:name=".widgets.SingleSelect">
-        </activity>
-        <activity android:name=".forms.BaseFormActivity">
-        </activity>
-        <activity android:name=".forms.EndFollowUp">
-        </activity>
         <activity
                 android:name=".ui.activity.SelectWorkFlow"
                 android:theme="@style/PrefDialogTheme">
@@ -48,12 +42,6 @@
                 android:name=".ui.activity.HelpActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".ui.activity.FormsActivity"
-                android:label="@string/title_activity_patient_information"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".ui.activity.ExpandedFormsActivity"

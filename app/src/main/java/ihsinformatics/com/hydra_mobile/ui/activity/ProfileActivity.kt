@@ -14,6 +14,7 @@ import org.joda.time.PeriodType
 import org.json.JSONObject
 import android.util.DisplayMetrics
 import android.widget.*
+import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableListAdapter
 
 
 class ProfileActivity : BaseActivity() {
@@ -205,7 +206,12 @@ class ProfileActivity : BaseActivity() {
         if (expandableListView != null) {
             val listData = data
             titleList = ArrayList(listData.keys)
-            adapter = CustomExpandableListAdapter(this, titleList as ArrayList<String>, listData)
+            adapter =
+                CustomExpandableListAdapter(
+                    this,
+                    titleList as ArrayList<String>,
+                    listData
+                )
             expandableListView!!.setAdapter(adapter)
 
             //expandableListView!!.setOnGroupClickListener{parent,v, i,l->setListViewHeight(parent,i)}

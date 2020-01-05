@@ -2,7 +2,6 @@ package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentDao
@@ -12,7 +11,6 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFor
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseApiResponse
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -42,15 +40,6 @@ class ComponentRepository(context: Context) {
         }
     }
 
-    fun updateComponent(component: Component) {
-        doAsync {
-            componentDao.updateComponent(component)
-        }
-    }
-
-    fun getAllComponent(): LiveData<List<Component>> {
-        return componentDao.getAllComponent()
-    }
 
     suspend fun getAllComponentForm(): List<ComponentForm> {
         var formList = GlobalScope.async {

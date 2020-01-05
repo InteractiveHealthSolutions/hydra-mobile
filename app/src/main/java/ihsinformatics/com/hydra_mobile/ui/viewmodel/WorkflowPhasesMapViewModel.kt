@@ -12,24 +12,10 @@ class WorkflowPhasesMapViewModel(application: Application) : AndroidViewModel(ap
     private var repository: WorkflowPhasesRepository = WorkflowPhasesRepository(application)
 
 
-    //private var allWorkflowPhases: LiveData<List<WorkflowPhasesMap>> = repository.getAllWorkflowPhases()
-
-    fun insertWorkflowPhases(workflowPhasesMap: WorkflowPhasesMap) {
-        repository.insertWorkflowPhases(workflowPhasesMap)
-    }
-
     fun update(workflowPhasesMap: WorkflowPhasesMap) {
         repository.updateWorkflowPhases(workflowPhasesMap)
     }
 
-    fun getAllPWorkflowPhases(): List<WorkflowPhasesMap> {
-        return repository.getAllWorkflowPhases()
-    }
-
-    fun getPhasesByWorkFlowName(workflowString:String):List<WorkflowPhasesMap>
-    {
-        return repository.getPhasesByWorkFlowName(workflowString)
-    }
 
     fun getPhasesByWorkFlowUUID(workflowUUID:String):List<WorkflowPhasesMap>
     {

@@ -1,7 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.helper
 
 import android.content.Context
-import android.provider.ContactsContract
 import androidx.annotation.NonNull
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder

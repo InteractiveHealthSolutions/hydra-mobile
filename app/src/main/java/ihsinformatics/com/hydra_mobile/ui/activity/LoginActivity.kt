@@ -11,7 +11,6 @@ import ihsinformatics.com.hydra_mobile.databinding.ActivityLoginBinding
 import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
 import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
-import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import android.widget.Toast
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.entities.User
@@ -26,6 +25,7 @@ import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
 

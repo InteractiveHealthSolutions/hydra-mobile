@@ -15,13 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ihsinformatics.com.hydra_mobile.HydraApp
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentFormsObject
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhasesViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import kotlinx.android.synthetic.main.dynamic_fragment_layout.view.*
 import kotlinx.coroutines.runBlocking

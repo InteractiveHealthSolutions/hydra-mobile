@@ -3,12 +3,9 @@ package ihsinformatics.com.hydra_mobile.data.repository
 import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentFormJoinDao
-import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhaseComponentJoinDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.PhaseComponentMapDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
 
 class PhaseComponentMapRepository(context: Context) {

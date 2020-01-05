@@ -7,8 +7,6 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.PatientDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.Patient
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse

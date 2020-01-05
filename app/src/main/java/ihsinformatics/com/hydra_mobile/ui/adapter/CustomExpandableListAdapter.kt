@@ -1,4 +1,4 @@
-package ihsinformatics.com.hydra_mobile.ui.activity
+package ihsinformatics.com.hydra_mobile.ui.adapter
 
 
 import android.content.Context
