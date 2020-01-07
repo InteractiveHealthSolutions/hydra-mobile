@@ -18,6 +18,12 @@ android {
 
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -55,5 +61,16 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.2.5'
     implementation 'com.google.code.gson:gson:2.8.2'//Bootstrap library for android
     //implementation 'com.beardedhen:androidbootstrap:2.3.2'
+    testImplementation group: "org.powermock", name: "powermock-module-junit4", version: "2.0.0"
+    testImplementation group: "org.powermock", name: "powermock-api-mockito2", version: "2.0.0"
+    testImplementation group: "org.hamcrest", name: "hamcrest-junit", version: "2.0.0.0"
+    testImplementation "org.robolectric:robolectric:3.8"
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.2.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:2.18.3'
+    testImplementation 'org.mockito:mockito-core:2.18.3'
+    // required if you want to use Mockito for Android tests
+    androidTestImplementation 'org.mockito:mockito-android:2.18.3'
 
 }
