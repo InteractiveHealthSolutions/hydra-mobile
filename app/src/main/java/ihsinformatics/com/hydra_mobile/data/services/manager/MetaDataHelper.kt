@@ -58,6 +58,7 @@ class MetaDataHelper(context: Context) {
         getWorkFlowFromAPI()
         getPhasesFromAPI()
         getComponentsFromAPI()
+        //getFormsFromAPI();
         parseMetaData(object : RESTCallback {
 
             override fun onFailure(t: Throwable) {
@@ -68,7 +69,9 @@ class MetaDataHelper(context: Context) {
                 restCallback.onSuccess(o)
             }
         }
+
         )
+
 
 
     } catch (e: Throwable) {
@@ -89,6 +92,14 @@ class MetaDataHelper(context: Context) {
 
     fun getComponentsFromAPI() {
         componentRepository.getRemoteComponentData()
+
+       // componentFormJoinRepository.getRemoteComponentFormMapData()
+    }
+
+    fun getFormsFromAPI(){
+        formRepository.getRemoteFormData()
+
+
     }
 
     fun deleteExisitingLocalData()
@@ -101,6 +112,7 @@ class MetaDataHelper(context: Context) {
 
         workflowPhasesRepository.deleteAllWorkflowPhases()
         phaseComponentRepository.deleteAllPhaseComponents()
+
 
     }
 
