@@ -10,6 +10,7 @@ import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.screens.FormDataDisplayActivity;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -35,6 +36,7 @@ public class ToastyWidgetTest {
         //context = ApplicationProvider.getApplicationContext();
     }
 
+    @Ignore
     @Test
     public void shouldDisplayError() {
         //1 initialization

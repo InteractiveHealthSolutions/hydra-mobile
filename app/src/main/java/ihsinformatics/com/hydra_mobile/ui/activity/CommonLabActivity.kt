@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_common_lab.*
 
 class CommonLabActivity : BaseActivity() {
 
-    val TAG = "Test Type"
+    val TAG = "This is description"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,22 +27,22 @@ class CommonLabActivity : BaseActivity() {
         rv.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
         val testTypeList =ArrayList<CommonLabModel>()
 
-        testTypeList.add(CommonLabModel(TAG,"RNA Viral Load Test"))
-        testTypeList.add(CommonLabModel(TAG,"RNA Viral Load Test"))
-        testTypeList.add(CommonLabModel(TAG,"CBC"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"Hemoglobin Result Value"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
-        testTypeList.add(CommonLabModel(TAG,"AFB Culture"))
+        testTypeList.add(CommonLabModel("RNA Viral Load Test",TAG))
+        testTypeList.add(CommonLabModel("RNA Viral Load Test",TAG))
+        testTypeList.add(CommonLabModel("CBC",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("Hemoglobin Result Value",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
+        testTypeList.add(CommonLabModel("AFB Culture",TAG))
 
 
         var adapter =

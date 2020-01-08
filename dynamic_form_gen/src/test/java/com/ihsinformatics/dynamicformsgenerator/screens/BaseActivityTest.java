@@ -64,6 +64,20 @@ public class BaseActivityTest {
     }
 
 
+    @Test
+    public void shouldRemoveRuntimeWidgetReference()
+    {
+        int expectedSize=0;
+        int id=1;
+        baseActivity.addRunTimeWidgetReference(1,inputWidget);
+
+
+        baseActivity.removeRuntimeWidgetReference(id);
+
+        assertEquals(expectedSize, baseActivity.runtimeGeneratedWidgets.size());
+
+    }
+
 
     private void initAesiForm() {
         Integer AesiForm = 2;

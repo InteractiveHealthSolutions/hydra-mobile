@@ -209,7 +209,7 @@
     <string name="search_title">Search</string>
     <string name="title_activity_patient_information">PatientInformationActivity</string>
     <string name="event_title_name">Event</string>
-    <string name="common_lab_title_name">Common Lab</string>
+    <string name="common_lab_title_name">Manage Test Types</string>
     <string name="report_title_name">Report</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
