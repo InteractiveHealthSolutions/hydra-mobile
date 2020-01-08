@@ -1,104 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="ihsinformatics.com.hydra_mobile">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ihsinformatics.com.hydra_mobile">
 
     <uses-permission
-            android:name="android.permission.ACCESS_COARSE_LOCATION"
-            android:required="true"/>
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:required="true" />
     <uses-permission
-            android:name="android.permission.ACCESS_FINE_LOCATION"
-            android:required="true"/>
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:required="true" />
     <uses-permission
-            android:name="android.permission.INTERNET"
-            android:required="true"/>
+        android:name="android.permission.INTERNET"
+        android:required="true" />
     <uses-permission
-            android:name="android.permission.ACCESS_NETWORK_STATE"
-            android:required="true"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
-            android:name=".HydraApp"
-            android:allowBackup="true"
-
-            android:icon="@drawable/hydra_logo"
-            android:label="@string/app_name"
-            android:roundIcon="@drawable/hydra_logo"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true" tools:replace="android:allowBackup,android:name">
+        android:name=".HydraApp"
+        android:allowBackup="true"
+        android:icon="@drawable/hydra_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/hydra_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup,android:name">
+        <activity android:name=".ui.activity.TestSummary"></activity>
         <activity
-                android:name=".ui.activity.SelectWorkFlow"
-                android:theme="@style/PrefDialogTheme">
-        </activity>
+            android:name=".ui.activity.SelectWorkFlow"
+            android:theme="@style/PrefDialogTheme"></activity>
         <activity
-                android:name=".ui.activity.ProfileActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.HelpActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.HelpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.ExpandedFormsActivity"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:name=".ui.activity.ExpandedFormsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
-                android:name=".ui.activity.EventsActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.EventsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.CommonLabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.ReportActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.ReportActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.SearchActivity"
-                android:label="@string/title_activity_search"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.NotificationActivity"
-                android:label="@string/title_activity_notification"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.activity.NotificationActivity"
+            android:label="@string/title_activity_notification"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.activity.HomeActivity"
-                android:label="@string/title_activity_main_menu"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:name=".ui.activity.HomeActivity"
+            android:label="@string/title_activity_main_menu"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
-                android:name=".ui.activity.SplashActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.HideStatusBar">
+            android:name=".ui.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.HideStatusBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.activity.LoginActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.HideStatusBar"
-                android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.HideStatusBar"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>
