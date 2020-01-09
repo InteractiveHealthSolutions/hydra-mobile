@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
@@ -35,7 +36,7 @@ class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context)
     inner class SingleItemTestHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val testtype = itemView.findViewById<TextView>(R.id.testType)
         val testDescription = itemView.findViewById<TextView>(R.id.testDescription)
-        val manageTest = itemView.findViewById<LinearLayout>(R.id.manageTest)
+        val manageTest = itemView.findViewById<CardView>(R.id.manageTest)
 
         init {
             itemView.setOnClickListener{

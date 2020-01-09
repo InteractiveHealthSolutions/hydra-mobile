@@ -294,7 +294,9 @@
     <string name="patient_last_name">Patient-Last-Name</string>
     <string name="initiation_tv">Initiation</string>
     <string name="loading">Loading...</string>
-
+    <string name="descriptionHeading"><u>Description</u></string>
+    <string name="common_lab">Lab</string>
+    <string name="patient_summary">Patient Summary</string>
 
 
     <string-array name="end_of_followup_for">

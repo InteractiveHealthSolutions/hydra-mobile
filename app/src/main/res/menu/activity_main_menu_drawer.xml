@@ -36,10 +36,9 @@
                     android:icon="@drawable/ic_event_filled"
                     android:title="@string/menu_events"/>
             <item
-                    android:id="@+id/nav_common_lab_module"
-                    android:icon="@drawable/ic_form_filled"
-                    android:title="@string/menu_common_lab_module"/>
-
+                    android:id="@+id/nav_search"
+                    android:icon="@drawable/ic_search"
+                    android:title="@string/search_title"/>
 
         </menu>
     </item>

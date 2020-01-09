@@ -116,39 +116,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                resources.getString(R.string.menu_forms),
-                R.drawable.ic_form_filled
+                resources.getString(R.string.common_lab),
+                R.drawable.ic_testtubes
             )
-        );
+        )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                resources.getString(R.string.search_title),
-                R.drawable.ic_search
+                resources.getString(R.string.patient_summary),
+                R.drawable.ic_form
             )
-        );
-        /*spaceNavigationView.addSpaceItem(
-            SpaceItem(
-                resources.getString(R.string.report_title_name),
-                R.drawable.ic_report_filled
-            )
-        );
-        spaceNavigationView.addSpaceItem(
-            SpaceItem(
-                resources.getString(R.string.event_title_name),
-                R.drawable.ic_event_filled
-            )
-        );*/
+        )
+
+
 
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
             override fun onCentreButtonClick() {
-                if (Global.patientData == null) {
-                    ToastyWidget.getInstance()
-                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
-                } else {
-                    startActivity(Intent(applicationContext, ProfileActivity::class.java))
-                    finish()
-                }
+
             }
 
             override fun onItemReselected(itemIndex: Int, itemName: String?) {
@@ -168,25 +152,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun bottomBarListener(itemName: String) {
         when (itemName) {
-            resources.getString(R.string.search_title) -> {
-                PatientInfoFetcher.init(
-                    Constant.formName,
-                    PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO
-                )
-                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
+            resources.getString(R.string.patient_summary) -> {
 
-//                startActivity(Intent(applicationContext, SearchActivity::class.java))
-//                finish()
+                if (Global.patientData == null) {
+                    ToastyWidget.getInstance()
+                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
+                } else {
+                    startActivity(Intent(applicationContext, ProfileActivity::class.java))
+                    finish()
+                }
             }
 
-            /*resources.getString(R.string.event_title_name) -> {
-                startActivity(Intent(applicationContext, EventsActivity::class.java))
+            resources.getString(R.string.common_lab) -> {
+
+                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
                 finish()
             }
-            resources.getString(R.string.report_title_name) -> {
-                startActivity(Intent(applicationContext, ReportActivity::class.java))
-                finish()
-            }*/
+
         }
     }
 
@@ -278,8 +260,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity(Intent(this, ReportActivity::class.java))
                 finish()
             }
-            R.id.nav_common_lab_module -> {
-                startActivity(Intent(this,CommonLabActivity::class.java))
+            R.id.nav_search -> {
+                PatientInfoFetcher.init(
+                    Constant.formName,
+                    PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO
+                )
+                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
+
             }
             R.id.nav_logout -> {
                 logoutDialog()
@@ -390,7 +377,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
     //Todo workflow must come according to ID and not name
-    fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow:String) {
+    fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow: String) {
 
 
         val workflowPhaseMapViewModel =
@@ -427,9 +414,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
             }
-        }else
-        {
-            ToastyWidget.getInstance().displayError(this@HomeActivity,"Workflow not loaded",Toast.LENGTH_SHORT)
+        } else {
+            ToastyWidget.getInstance()
+                .displayError(this@HomeActivity, "Workflow not loaded", Toast.LENGTH_SHORT)
         }
 
 

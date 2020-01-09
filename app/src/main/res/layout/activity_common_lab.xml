@@ -33,22 +33,39 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/searchstyle"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/recyclerView"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:layout_marginTop="80dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/searchstyle" />
 
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/buttonstyle"
+                android:text="Add Test"
+                android:textColor="@color/White">
+
+        </Button>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:padding="10dp" />
+
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
