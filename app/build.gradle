@@ -43,6 +43,10 @@ android {
         checkReleaseBuilds false
 
     }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {

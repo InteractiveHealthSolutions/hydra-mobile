@@ -45,7 +45,7 @@ import es.dmoral.toasty.Toasty;
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
-   // private static String ENCOUNTER_NAME_DATA;
+    // private static String ENCOUNTER_NAME_DATA;
 
 
     // public static String REGISTRATION_ENCOUNTER;
@@ -82,7 +82,6 @@ public class Form extends BaseActivity {
 
 
         }
-
 
 
         setTitle(ENCOUNTER_NAME);
@@ -124,12 +123,12 @@ public class Form extends BaseActivity {
                 }
 
                 if (DataProvider.directOpenableForms != null && !DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
-                w.setOnValueChangeListener(new OnValueChangeListener() {
-                    @Override
-                    public void onValueChanged(String newValue) throws JSONException {
-                        checkSkipLogics(getFormId(ENCOUNTER_NAME));
-                    }
-                });
+                    w.setOnValueChangeListener(new OnValueChangeListener() {
+                        @Override
+                        public void onValueChanged(String newValue) throws JSONException {
+                            checkSkipLogics(getFormId(ENCOUNTER_NAME));
+                        }
+                    });
                 }
 
                 w.setVisibility(q.getInitialVisibility());
@@ -313,15 +312,14 @@ public class Form extends BaseActivity {
     }
 
     public String getFormDataByEncounterType(String encounterType) {
-        String result="";
 
-        if(null!=result)
-        {
-            result=Constants.getInstance().getEncounterTypesData().get(encounterType);
+        String result = Constants.getInstance().getEncounterTypesData().get(encounterType);
+
+        if (null != result) {
+            return result;
         }
-        return result;
+        return "[]";
     }
-
 
 
     public List<Option> getOptionsByQuestionsID(int questionId) {
