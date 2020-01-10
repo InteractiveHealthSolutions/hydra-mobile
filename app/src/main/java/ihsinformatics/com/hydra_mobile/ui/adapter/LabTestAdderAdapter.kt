@@ -12,7 +12,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
 
-class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context): RecyclerView.Adapter<CommonLabAdapter.SingleItemTestHolder>() {
+class LabTestAdderAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context): RecyclerView.Adapter<LabTestAdderAdapter.SingleItemTestHolder>() {
 
     var context:Context=c
 
@@ -23,7 +23,7 @@ class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemTestHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.common_lab_item_layout, parent, false)
+        val v = LayoutInflater.from(parent?.context).inflate(R.layout.lab_test_added_item_layout, parent, false)
         return SingleItemTestHolder(v)
 
     }

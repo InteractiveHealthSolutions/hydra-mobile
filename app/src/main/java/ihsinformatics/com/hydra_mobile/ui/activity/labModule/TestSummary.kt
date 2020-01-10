@@ -1,4 +1,4 @@
-package ihsinformatics.com.hydra_mobile.ui.activity
+package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

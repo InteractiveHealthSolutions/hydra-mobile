@@ -32,6 +32,7 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel

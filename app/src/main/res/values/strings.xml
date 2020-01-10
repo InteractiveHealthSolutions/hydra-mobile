@@ -297,6 +297,7 @@
     <string name="descriptionHeading"><u>Description</u></string>
     <string name="common_lab">Lab</string>
     <string name="patient_summary">Patient Summary</string>
+    <string name="lab_test_adder">Add Tests</string>
 
 
     <string-array name="end_of_followup_for">
