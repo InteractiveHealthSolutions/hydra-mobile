@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="470dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/my_shape"
         android:orientation="vertical">
 
@@ -167,6 +168,8 @@
                 <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_gravity="top|start"
+                        android:gravity="top|start"
                         android:background="@null" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

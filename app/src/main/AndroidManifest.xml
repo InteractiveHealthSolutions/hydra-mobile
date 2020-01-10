@@ -30,7 +30,10 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:replace="android:allowBackup,android:name">
-        <activity android:name=".ui.activity.labModule.TestAdder"></activity>
+        <activity
+                android:name=".ui.activity.labModule.InstructionsAdder"
+                android:theme="@style/PrefDialogTheme" />
+        <activity android:name=".ui.activity.labModule.TestAdder" />
         <activity android:name=".ui.activity.labModule.TestSummary" />
         <activity
                 android:name=".ui.activity.SelectWorkFlow"

@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
@@ -52,6 +53,13 @@ class CommonLabActivity : BaseActivity() {
             )
         rv.adapter = adapter
 
+        var addTest=findViewById<Button>(R.id.addTest)
+
+        addTest.setOnClickListener {
+
+            startActivity(Intent(this@CommonLabActivity,TestAdder::class.java))
+
+        }
 
     }
 

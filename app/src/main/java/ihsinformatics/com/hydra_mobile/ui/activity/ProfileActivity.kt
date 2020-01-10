@@ -144,7 +144,7 @@ class ProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = ""
+        title = ""  //Hiding hydra text on top
         setContentView(ihsinformatics.com.hydra_mobile.R.layout.activity_expandable_profile)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

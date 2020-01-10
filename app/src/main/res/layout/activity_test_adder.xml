@@ -100,6 +100,21 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Black"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp">
+            </LinearLayout>
+
+
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen_16dp"
+                    layout="@layout/content_expandable_profile"/>
+
         </LinearLayout>
 
 

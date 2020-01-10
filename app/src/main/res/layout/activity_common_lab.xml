@@ -48,25 +48,30 @@
                 android:background="@drawable/searchstyle" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_10dp"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="left"
-                android:text="show only complicated" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="2.5"
+                    android:text="Show only completed" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="280dp"
-                android:background="@drawable/buttonstyle"
-                android:text="Add Test"
-                android:textColor="@color/White">
+                    android:id="@+id/addTest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/buttonstyle"
+                    android:text="Add Test"
+                    android:textColor="@color/White">
 
             </Button>
         </LinearLayout>
@@ -76,7 +81,6 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
                 android:padding="10dp" />
 
     </LinearLayout>

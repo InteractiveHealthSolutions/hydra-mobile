@@ -35,10 +35,10 @@ class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context)
     inner class SingleItemTestHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val testtype = itemView.findViewById<TextView>(R.id.testType)
         val testDescription = itemView.findViewById<TextView>(R.id.testDescription)
-        val manageTest = itemView.findViewById<CardView>(R.id.manageTest)
+        val summary = itemView.findViewById<TextView>(R.id.summary)
 
         init {
-            itemView.setOnClickListener{
+            summary.setOnClickListener{
                 context.startActivity(Intent(context,
                     TestSummary::class.java))
             }
