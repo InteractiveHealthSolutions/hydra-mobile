@@ -47,17 +47,29 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/searchstyle" />
 
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:orientation="horizontal">
+
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="left"
+                android:text="show only complicated" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
                 android:background="@drawable/buttonstyle"
                 android:text="Add Test"
                 android:textColor="@color/White">
 
-        </Button>
+            </Button>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
 
