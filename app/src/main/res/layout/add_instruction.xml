@@ -145,7 +145,7 @@
             android:layout_marginLeft="@dimen/dimen_10dp"
             android:layout_weight="1"
             android:paddingLeft="@dimen/dimen_10dp"
-            android:text="Instructions"
+            android:text="Instructions:"
             android:textColor="@color/Black">
 
         </TextView>
