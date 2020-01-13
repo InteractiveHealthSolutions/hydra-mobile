@@ -10,6 +10,7 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 
 /**
  * It represents the DB, it holds a connection to the actual SQLite DB.

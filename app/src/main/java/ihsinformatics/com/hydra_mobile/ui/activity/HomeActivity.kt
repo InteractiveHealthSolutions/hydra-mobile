@@ -99,7 +99,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //previous workflow check (if set then continue and fetch phases for that workflow)
         var selectedWorkFlow = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
-        selectedWorkFlow="Taha"
+
         if (selectedWorkFlow == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else {
@@ -269,6 +269,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 )
                 startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
 
+            }
+            R.id.nav_search_online -> {
+
+                startActivityForResult(Intent(this, SearchActivity::class.java), 112)
+                finish()
             }
             R.id.nav_logout -> {
                 logoutDialog()

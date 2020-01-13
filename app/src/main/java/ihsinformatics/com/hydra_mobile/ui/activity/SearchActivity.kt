@@ -21,15 +21,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : BaseActivity(), View.OnClickListener {
 
 
-    override fun onClick(v: View?) {
 
-        when (v!!.id) {
-            R.id.btn_patient_search -> {
-                patientViewModel.search(edtIdentifier.text.toString())
-            }
-        }
-
-    }
 
     private lateinit var edtName: EditText
     private lateinit var edtContactNumber: EditText
@@ -76,15 +68,26 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
         btnSearch.setOnClickListener(this)
-        patientViewModel.getAllPatient().observe(this, Observer { patientList ->
+        var patientList=patientViewModel.getAllPatient()
 
-            for (i in patientList.indices) {
+           // for (i in patientList.indices) {
                 patientSearchAdapter.updatePatientList(patientList)
-            }
+           // }
 
-        })
+
 
     }
 
+    override fun onClick(v: View?) {
 
+        when (v!!.id) {
+            R.id.btn_patient_search -> {
+//                patientViewModel.search(edtIdentifier.text.toString())
+//                var patientList=patientViewModel.getAllPatient()
+//
+//                patientSearchAdapter.updatePatientList(patientList)
+            }
+        }
+
+    }
 }

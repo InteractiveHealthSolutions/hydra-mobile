@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.local.entities.Patient
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 
 class SearchPatientAdapter() : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
@@ -45,9 +45,9 @@ class SearchPatientAdapter() : RecyclerView.Adapter<SearchPatientAdapter.ViewHol
 
         fun bindItems(patient: Patient) {
 
-            tvPatientName.text = patient.givenName
-            tvPatientAge.text = patient.age.toString()
-            tvPatientGender.text = patient.gender
+            tvPatientName.text = patient.displayName
+            tvPatientAge.text = "23"
+            tvPatientGender.text = "male"
 
         }
 

@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestOrderModel
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
 
-class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context): RecyclerView.Adapter<CommonLabAdapter.SingleItemTestHolder>() {
+class CommonLabAdapter (val testOrderTypeList: List<TestOrderModel>, c: Context): RecyclerView.Adapter<CommonLabAdapter.SingleItemTestHolder>() {
 
+    var testOrderList=testOrderTypeList
     var context:Context=c
 
     override fun onBindViewHolder(holder: SingleItemTestHolder, position: Int) {
-        holder?.testtype?.text = testTypeList[position].testType
-        holder?.testDescription?.text = testTypeList[position].testDescription
+        holder?.testtype?.text = testOrderList[position].labTestType.name
+        holder?.testDescription?.text = testOrderList[position].labTestType.description
 
     }
 
@@ -29,7 +29,12 @@ class CommonLabAdapter (val testTypeList: ArrayList<CommonLabModel>, c: Context)
     }
 
     override fun getItemCount(): Int {
-        return testTypeList.size
+        return testOrderTypeList.size
+    }
+
+    fun updateTestOrderList(testOrderOrder: ArrayList<TestOrderModel>) {
+        this.testOrderList = testOrderOrder
+        notifyDataSetChanged()
     }
 
     inner class SingleItemTestHolder(itemView: View): RecyclerView.ViewHolder(itemView){

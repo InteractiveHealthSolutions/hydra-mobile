@@ -2,7 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import ihsinformatics.com.hydra_mobile.data.local.entities.Patient
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 
 @Dao
 interface PatientDao {
@@ -20,5 +20,8 @@ interface PatientDao {
     fun getPatientById(uuid: String): LiveData<List<Patient>>
 
     @Query("SELECT * FROM Patient ")
-    fun getAllPatient(): LiveData<List<Patient>>
+    fun getAllPatient(): List<Patient>
+
+    @Query("SELECT * FROM Patient WHERE identifier == :id")
+    fun getPatientByID(id: String): List<Patient>
 }

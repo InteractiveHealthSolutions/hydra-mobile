@@ -1,22 +1,19 @@
 package ihsinformatics.com.hydra_mobile.ui.viewmodel
 
 import android.app.Application
-import android.app.DownloadManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import ihsinformatics.com.hydra_mobile.data.local.entities.Patient
 import ihsinformatics.com.hydra_mobile.data.repository.PatientRepository
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
     private var repository: PatientRepository = PatientRepository(application)
 
 
-    private var patientList: LiveData<List<Patient>> = repository.getAllPatient()
-
-    fun  search(query: String){
-        repository.searchPatientByIdentifier(query)
-    }
+//    fun  search(query: String){
+//        repository.searchPatientByIdentifier(query)
+//    }
 
     fun insert(patient: Patient) {
         repository.insertPatient(patient)
@@ -26,9 +23,11 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         repository.updatePatient(patient)
     }
 
-    fun getAllPatient(): LiveData<List<Patient>> {
-        return patientList
+    fun getAllPatient(): List<Patient> {
+        return repository.getAllPatient()
     }
 
-
+    fun getPatientByIdentifier(id:String): List<Patient> {
+        return repository.getPatientByIdentifier(id)
+    }
 }

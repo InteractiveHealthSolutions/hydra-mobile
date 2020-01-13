@@ -4,18 +4,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.SearchView
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabModel
+import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestOrderModel
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.CommonLabApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_common_lab.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 class CommonLabActivity : BaseActivity() {
 
     val TAG = "This is description"
+    lateinit var testTypeList: ArrayList<TestOrderModel>
+    lateinit var adapter: CommonLabAdapter
+    lateinit var rv: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,41 +41,63 @@ class CommonLabActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val rv = findViewById<RecyclerView>(R.id.recyclerView)
+        rv = findViewById<RecyclerView>(R.id.testOrder)
         rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val testTypeList = ArrayList<CommonLabModel>()
-
-        testTypeList.add(CommonLabModel("RNA Viral Load Test", TAG))
-        testTypeList.add(CommonLabModel("RNA Viral Load Test", TAG))
-        testTypeList.add(CommonLabModel("CBC", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("Hemoglobin Result Value", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
-        testTypeList.add(CommonLabModel("AFB Culture", TAG))
 
 
-        var adapter =
-            CommonLabAdapter(
-                testTypeList, this
-            )
-        rv.adapter = adapter
+        val testOrderSearch = RequestManager(
+            applicationContext, sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).getPatientRetrofit().create(CommonLabApiService::class.java)
 
-        var addTest=findViewById<Button>(R.id.addTest)
+        testOrderSearch.getLabTestOrderByPatientUUID(
+            "dbac89bb-508b-4693-aad1-3b5a5310252e",
+            Constant.REPRESENTATION
+        )
+            .enqueue(object : Callback<CommonLabApiResponse> {
+                override fun onResponse(
+                    call: Call<CommonLabApiResponse>,
+                    response: Response<CommonLabApiResponse>
+                ) {
+                    Timber.e(response.message())
+                    if (response.isSuccessful) {
+                        testTypeList = response.body()!!.labTests
+
+                    } else {
+                        testTypeList = ArrayList<TestOrderModel>()
+                    }
+                    setTestOrderList()
+                }
+
+                override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
+                    Timber.e(t.localizedMessage)
+
+
+                    setTestOrderList()
+                }
+
+            })
+
+
+        var addTest = findViewById<Button>(R.id.addTest)
 
         addTest.setOnClickListener {
 
-            startActivity(Intent(this@CommonLabActivity,TestAdder::class.java))
+            startActivity(Intent(this@CommonLabActivity, TestAdder::class.java))
 
         }
+
+    }
+
+    fun setTestOrderList() {
+
+
+        adapter =
+            CommonLabAdapter(
+                testTypeList, this
+            )
+
+        rv.adapter = adapter
 
     }
 

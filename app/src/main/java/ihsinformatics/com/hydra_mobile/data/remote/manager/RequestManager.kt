@@ -12,26 +12,23 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.*
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 
-
-/**
- * @author  Shujaat ali
- * @Email   shujaat.ali@ihsinformatics.com
- * @version 1.0.0
- * @DateCreated   2019-5-14
- */
 
 class RequestManager {
 
     lateinit var retrofit: Retrofit
 
+    lateinit var retrofitTestOrder: Retrofit
+
 
     var okHttpClient: OkHttpClient? = null
+
+    var okHttpClientPatientList: OkHttpClient? = null
     // lateinit var gson: Gson
 
     constructor(context: Context, username: String, password: String) {
@@ -40,12 +37,24 @@ class RequestManager {
             username,
             password
         )
+
+        initOkHttpPatientList(
+            "Irtiza.ahmed",
+            "Irtiza1234"
+        )
+
         retrofit = Retrofit.Builder()
             .baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
 
+
+        retrofitTestOrder = Retrofit.Builder()
+            .baseUrl("http://ihs.ihsinformatics.com:9902/openmrs/ws/rest/v1/commonlab/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClientPatientList)
+            .build()
 
     }
 
@@ -59,6 +68,24 @@ class RequestManager {
         )
 
         okHttpClient = httpClient.build()
+    }
+
+
+    private fun initOkHttpPatientList(username: String, password: String) {
+        val httpClient = OkHttpClient().newBuilder()
+        httpClient.addInterceptor(
+            BasicAuthInterceptor(
+                username,
+                password
+            )
+        )
+
+        okHttpClientPatientList = httpClient.build()
+    }
+
+
+    fun getPatientRetrofit(): Retrofit {
+        return retrofitTestOrder;
     }
 
     private fun getBaseUrl(application: Application): String {
@@ -253,7 +280,7 @@ class RequestManager {
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
         val patientSearch = retrofit.create(PatientApiService::class.java)
 
-        patientSearch.getPatientByQuery(searchQuery, representation)
+        patientSearch.getPatientByIdentifier(searchQuery)
             .enqueue(object : Callback<PatientApiResponse> {
                 override fun onResponse(
                     call: Call<PatientApiResponse>,
@@ -275,5 +302,33 @@ class RequestManager {
 
             })
     }
+
+
+//    fun patientListByIdentifier(searchQuery: String) {
+//        val patientSearch = retrofit.create(PatientApiService::class.java)
+//        lateinit var patientList: List<Patient>
+//        patientSearch.getPatientByIdentifier(searchQuery)
+//            .enqueue(object : Callback<PatientApiResponse> {
+//                override fun onResponse(
+//                    call: Call<PatientApiResponse>,
+//                    response: Response<PatientApiResponse>
+//                ) {
+//                    Timber.e(response.message())
+//                    if (response.isSuccessful) {
+//                        patientList = response.body()!!.patient
+//                    } else {
+//                        patientList = ArrayList<Patient>()
+//                    }
+//
+//                }
+//
+//                override fun onFailure(call: Call<PatientApiResponse>, t: Throwable) {
+//                    Timber.e(t.localizedMessage)
+//                    patientList = ArrayList<Patient>()
+//                }
+//
+//            })
+//
+//    }
 
 }

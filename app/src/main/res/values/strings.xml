@@ -206,10 +206,10 @@
     <string name="menu_reports">Report</string>
     <string name="menu_events">Events</string>
     <string name="menu_common_lab_module">Common Lab Module</string>
-    <string name="search_title">Search</string>
+    <string name="search_title">Search Offline Patient</string>
     <string name="title_activity_patient_information">PatientInformationActivity</string>
     <string name="event_title_name">Event</string>
-    <string name="common_lab_title_name">Manage Test Types</string>
+    <string name="common_lab_title_name">Test Order</string>
     <string name="report_title_name">Report</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
@@ -298,6 +298,7 @@
     <string name="common_lab">Lab</string>
     <string name="patient_summary">Patient Summary</string>
     <string name="lab_test_adder">Add Tests</string>
+    <string name="search_online_title">Search Online</string>
 
 
     <string-array name="end_of_followup_for">
