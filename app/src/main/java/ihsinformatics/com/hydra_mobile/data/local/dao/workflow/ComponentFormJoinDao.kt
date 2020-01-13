@@ -24,4 +24,6 @@ interface ComponentFormJoinDao {
     )
     fun getComponentFormList(componentId: Int): List<Forms>
 
+    @Query("DELETE FROM `component_form_join` ")
+    fun deleteAllComponentForms()
 }

@@ -34,6 +34,7 @@ class MetaDataHelper(context: Context) {
 
     lateinit var workflowPhasesRepository: WorkflowPhasesRepository
     lateinit var phaseComponentRepository: PhaseComponentRepository
+    lateinit var componentFormJoinRepository:ComponentFormJoinRepository
 
     var context: Context
 
@@ -49,6 +50,7 @@ class MetaDataHelper(context: Context) {
         workflowPhasesRepository = WorkflowPhasesRepository(context)
         phaseComponentRepository= PhaseComponentRepository(context)
 
+        componentFormJoinRepository= ComponentFormJoinRepository(context)
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
@@ -58,7 +60,7 @@ class MetaDataHelper(context: Context) {
         getWorkFlowFromAPI()
         getPhasesFromAPI()
         getComponentsFromAPI()
-        //getFormsFromAPI();
+       // getFormsFromAPI();
         parseMetaData(object : RESTCallback {
 
             override fun onFailure(t: Throwable) {
@@ -93,7 +95,11 @@ class MetaDataHelper(context: Context) {
     fun getComponentsFromAPI() {
         componentRepository.getRemoteComponentData()
 
-       // componentFormJoinRepository.getRemoteComponentFormMapData()
+//        componentFormJoinRepository.insert(ComponentFormJoin(1, 2))
+//        componentFormJoinRepository.insert(ComponentFormJoin(1, 3))
+
+
+        // componentFormJoinRepository.getRemoteComponentFormMapData()
     }
 
     fun getFormsFromAPI(){
@@ -112,6 +118,7 @@ class MetaDataHelper(context: Context) {
 
         workflowPhasesRepository.deleteAllWorkflowPhases()
         phaseComponentRepository.deleteAllPhaseComponents()
+        componentFormJoinRepository.deleteAllComponentForms()
 
 
     }

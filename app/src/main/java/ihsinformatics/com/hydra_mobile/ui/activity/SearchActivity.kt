@@ -82,10 +82,10 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
         when (v!!.id) {
             R.id.btn_patient_search -> {
-//                patientViewModel.search(edtIdentifier.text.toString())
-//                var patientList=patientViewModel.getAllPatient()
-//
-//                patientSearchAdapter.updatePatientList(patientList)
+                patientViewModel.search(edtIdentifier.text.toString())
+                var patientList=patientViewModel.getAllPatient()
+
+                patientSearchAdapter.updatePatientList(patientList)
             }
         }
 

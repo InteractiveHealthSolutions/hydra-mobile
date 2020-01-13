@@ -11,9 +11,9 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
     private var repository: PatientRepository = PatientRepository(application)
 
 
-//    fun  search(query: String){
-//        repository.searchPatientByIdentifier(query)
-//    }
+    fun  search(query: String){
+        repository.searchPatientByIdentifier(query)
+    }
 
     fun insert(patient: Patient) {
         repository.insertPatient(patient)

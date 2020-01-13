@@ -22,7 +22,7 @@ import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 class RequestManager {
 
     lateinit var retrofit: Retrofit
-
+    lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
     lateinit var retrofitTestOrder: Retrofit
 
 
@@ -49,6 +49,12 @@ class RequestManager {
             .client(okHttpClient)
             .build()
 
+
+        retrofitForFormAPI = Retrofit.Builder()
+            .baseUrl("http://192.168.0.105:3000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
 
         retrofitTestOrder = Retrofit.Builder()
             .baseUrl("http://ihs.ihsinformatics.com:9902/openmrs/ws/rest/v1/commonlab/")
@@ -251,7 +257,7 @@ class RequestManager {
 
 
     fun getForms(representation: String, restCallback: RESTCallback) {
-        val formService = retrofit.create(FormApiService::class.java)
+        val formService = retrofitForFormAPI.create(FormApiService::class.java)
         formService.getForms().enqueue(object : Callback<FormApiResponse> {
 
             override fun onResponse(

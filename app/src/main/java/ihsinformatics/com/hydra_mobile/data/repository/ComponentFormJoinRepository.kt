@@ -29,4 +29,12 @@ class ComponentFormJoinRepository(context: Context) {
         }
     }
 
+    fun deleteAllComponentForms() {
+        doAsync {
+            ComponentFormJoinDao.deleteAllComponentForms()
+        }
+
+
+    }
+
 }

@@ -30,30 +30,30 @@ class PatientRepository(context: Context) {
 
     }
 
-//    fun searchPatientByIdentifier(identifier: String) {
-//        RequestManager(
-//            context, "Irtiza.ahmed",
-//            "Irtiza1234"
-//        ).searchPatient(Constant.REPRESENTATION, identifier,
-//            object :
-//                RESTCallback {
-//                override fun <T> onSuccess(o: T) {
-//                    try {
-//                         val response = (o as PatientApiResponse)
+    fun searchPatientByIdentifier(identifier: String) {
+        RequestManager(
+            context, "Irtiza.ahmed",
+            "Irtiza1234"
+        ).searchPatient(Constant.REPRESENTATION, identifier,
+            object :
+                RESTCallback {
+                override fun <T> onSuccess(o: T) {
+                    try {
+                         val response = (o as PatientApiResponse)
 //                        response.patient[0].identifier=identifier
 //                         insertPatient(response.patient[0])
-////                         getPatient(response.patientList)
-//                    } catch (e: Exception) {
-//                        Timber.e(e.localizedMessage)
-//                    }
-//                }
-//
-//                override fun onFailure(t: Throwable) {
-//                    Timber.e(t.localizedMessage)
-//                }
-//            })
-//
-//    }
+//                         getPatient(response.patientList)
+                    } catch (e: Exception) {
+                        Timber.e(e.localizedMessage)
+                    }
+                }
+
+                override fun onFailure(t: Throwable) {
+                    Timber.e(t.localizedMessage)
+                }
+            })
+
+    }
 
 
 
