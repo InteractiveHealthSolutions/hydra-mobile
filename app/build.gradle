@@ -220,5 +220,5 @@ dependencies {
 
     //recycleView
 
-
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
 }
