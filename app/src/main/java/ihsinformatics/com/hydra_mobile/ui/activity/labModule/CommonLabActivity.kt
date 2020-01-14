@@ -101,16 +101,7 @@ class CommonLabActivity : BaseActivity() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+
 
     override fun onBackPressed() {
         startActivity(Intent(this, HomeActivity::class.java))

@@ -14,16 +14,17 @@ interface ComponentFormJoinDao {
     @Insert
     fun insert(componentFormJoin: ComponentFormJoin)
 
-    @Query(
-        """
-           SELECT * FROM Forms
-           INNER JOIN component_form_join
-           ON Forms.id=component_form_join.formId
-           WHERE component_form_join.componentId=:componentId
-           """
-    )
-    fun getComponentFormList(componentId: Int): List<Forms>
+//    @Query(
+//        """
+//           SELECT * FROM Forms
+//           INNER JOIN component_form_join
+//           ON Forms.id=component_form_join.formId
+//           WHERE component_form_join.componentId=:componentId
+//           """
+//    )
+//    fun getComponentFormList(componentId: Int): List<Forms>
 
-    @Query("DELETE FROM `component_form_join` ")
+
+    @Query("DELETE FROM `ComponentFormJoin` ")
     fun deleteAllComponentForms()
 }

@@ -18,7 +18,7 @@ class CommonLabAdapter (val testOrderTypeList: List<TestOrderModel>, c: Context)
 
     override fun onBindViewHolder(holder: SingleItemTestHolder, position: Int) {
         holder?.testtype?.text = testOrderList[position].labTestType.name
-        holder?.testDescription?.text = testOrderList[position].labTestType.description
+        holder?.testDescription?.text = testOrderList[position].labReferenceNumber
 
     }
 

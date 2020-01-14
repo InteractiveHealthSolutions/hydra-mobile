@@ -46,9 +46,9 @@ class PhaseComponentMapRepository(context: Context) {
     }
 
 
-    fun getFormListByComponentId(componentId: Int): List<Forms> {
-        return componentFormJoinDao.getComponentFormList(componentId)
-    }
+//    fun getFormListByComponentId(componentId: Int): List<Forms> {
+//        return componentFormJoinDao.getComponentFormList(componentId)
+//    }
 
     fun getPhaseComponentMapListByPhaseId(phaseId: String): List<PhaseComponentMap> {
         return ArrayList<PhaseComponentMap>()

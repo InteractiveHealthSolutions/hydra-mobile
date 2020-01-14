@@ -6,6 +6,9 @@ data class TestOrderModel(
     @SerializedName("display")
     val display: String,
 
+    @SerializedName("labReferenceNumber")
+    val labReferenceNumber: String,
+
     @SerializedName("labTestType")
     val labTestType: LabTestType
 )

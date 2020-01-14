@@ -7,9 +7,11 @@ import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import timber.log.Timber
 
@@ -139,6 +141,17 @@ abstract class BaseActivity : AppCompatActivity(){
         dialog.show()
     }
 
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 
 }

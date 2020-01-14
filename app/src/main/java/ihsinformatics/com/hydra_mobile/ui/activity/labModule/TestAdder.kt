@@ -1,15 +1,19 @@
 package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.MenuItem
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
+import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_profile.*
 
-class TestAdder : AppCompatActivity() {
+class TestAdder : BaseActivity() {
 
     internal var expandableListView: ExpandableListView? = null
     internal var adapter: ExpandableListAdapter? = null
@@ -55,7 +59,7 @@ class TestAdder : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        expandableListView = findViewById(R.id.expandableListView)
+        expandableListView = findViewById<ExpandableListView>(R.id.expandableListView)
 
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
@@ -85,5 +89,16 @@ class TestAdder : AppCompatActivity() {
         val scale = resources.displayMetrics.density
         // Convert the dps to pixels, based on density scale
         return (pixels * scale + 0.5f).toInt()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                startActivity(Intent(this, CommonLabActivity::class.java))
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -51,7 +51,7 @@ class RequestManager {
 
 
         retrofitForFormAPI = Retrofit.Builder()
-            .baseUrl("http://192.168.0.105:3000/")
+            .baseUrl("http://199.172.1.217:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -282,6 +282,32 @@ class RequestManager {
         })
     }
 
+
+    fun getFormsResult(restCallback: RESTCallback) {
+        val formService = retrofitForFormAPI.create(FormResultApiService::class.java)
+        formService.getFormsResult().enqueue(object : Callback<FormResultApiResponse> {
+
+            override fun onResponse(
+                call: Call<FormResultApiResponse>,
+                response: Response<FormResultApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<FormResultApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
 
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
         val patientSearch = retrofit.create(PatientApiService::class.java)
