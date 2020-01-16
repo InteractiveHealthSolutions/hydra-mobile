@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:src="@drawable/ic_testtubes">
+                android:src="@drawable/ic_managetesttypes">
 
             </ImageView>
 
@@ -35,19 +35,19 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/testType"
+                    android:id="@+id/specimenType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Test Type"
+                    android:text="Specimen Type"
                     android:textColor="@color/bootstrap_gray_dark"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/testDescription"
+                    android:id="@+id/specimenSite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="Description"
+                    android:text="Specimen Site"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="completed"
+                    android:text="accepted"
                     android:textSize="8sp"
                     android:textStyle="bold">
 
@@ -88,7 +88,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/summary"
+                    android:id="@+id/accept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -101,7 +101,7 @@
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/update"
+                    android:id="@+id/reject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -16,7 +16,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.InstructionsAdder
 
 
-class CustomExpandableTestAdderAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, List<String>>) : BaseExpandableListAdapter() {
+class CustomExpandableTestAdderAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, ArrayList<String>>) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]

@@ -2,36 +2,32 @@ package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Button
-import android.widget.SearchView
-import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestOrderModel
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.CommonLabApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
-import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
-import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.activity_common_lab.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class CommonLabActivity : BaseActivity() {
+class CommonLabActivity : AppCompatActivity() {
 
     val TAG = "This is description"
-    lateinit var testTypeList: ArrayList<TestOrderModel>
+    lateinit var testTypeList: ArrayList<LabTestOrder>
     lateinit var adapter: CommonLabAdapter
     lateinit var rv: RecyclerView
+    lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +37,12 @@ class CommonLabActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        sessionManager = SessionManager(this)
+
         rv = findViewById<RecyclerView>(R.id.testOrder)
         rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
+        testTypeList = ArrayList<LabTestOrder>()
 
         val testOrderSearch = RequestManager(
             applicationContext, sessionManager.getUsername(),
@@ -64,7 +63,7 @@ class CommonLabActivity : BaseActivity() {
                         testTypeList = response.body()!!.labTests
 
                     } else {
-                        testTypeList = ArrayList<TestOrderModel>()
+                        testTypeList = ArrayList<LabTestOrder>()
                     }
                     setTestOrderList()
                 }
@@ -96,11 +95,9 @@ class CommonLabActivity : BaseActivity() {
             CommonLabAdapter(
                 testTypeList, this
             )
-
         rv.adapter = adapter
 
     }
-
 
 
     override fun onBackPressed() {

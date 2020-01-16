@@ -12,4 +12,8 @@ interface ComponentFormDao {
     @Query("SELECT * from Component")
     fun getComponentFormList(): List<ComponentForm>
 
+
+    @Query("SELECT * from Component where uuid=:id")
+    fun getFormListByComponentUUID(id:String): List<ComponentForm>
+
 }

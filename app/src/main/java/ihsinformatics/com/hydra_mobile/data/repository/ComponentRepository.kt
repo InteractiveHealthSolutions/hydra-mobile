@@ -48,8 +48,12 @@ class ComponentRepository(context: Context) {
         return formList.await()
     }
 
-    fun getComponentByUUID(phaseID: String): Component {
-        return componentDao.getComponentByUUID(phaseID)
+    fun getFormListByComponentUUID(uuid:String):List<ComponentForm>{
+        return componentFormDao.getFormListByComponentUUID(uuid)
+    }
+
+    fun getComponentByUUID(componentUUID: String): Component {
+        return componentDao.getComponentByUUID(componentUUID)
     }
 
 
@@ -58,6 +62,8 @@ class ComponentRepository(context: Context) {
             componentDao.deleteAllComponents()
         }
     }
+
+
 
     fun getRemoteComponentData() {
         RequestManager(

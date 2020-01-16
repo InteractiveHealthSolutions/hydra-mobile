@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestTypeApiResponse
 import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -51,13 +52,13 @@ class RequestManager {
 
 
         retrofitForFormAPI = Retrofit.Builder()
-            .baseUrl("http://199.172.1.217:3000/")
+            .baseUrl("http://192.168.0.109:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
 
         retrofitTestOrder = Retrofit.Builder()
-            .baseUrl("http://ihs.ihsinformatics.com:9902/openmrs/ws/rest/v1/commonlab/")
+            .baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/commonlab/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClientPatientList)
             .build()
@@ -308,6 +309,34 @@ class RequestManager {
 
         })
     }
+
+
+    fun getLabTestTypeResult(restCallback: RESTCallback) {
+        val labTestType = retrofit.create(LabTestTypeApiService::class.java)
+        labTestType.getLabTestType().enqueue(object : Callback<LabTestTypeApiResponse> {
+
+            override fun onResponse(
+                call: Call<LabTestTypeApiResponse>,
+                response: Response<LabTestTypeApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<LabTestTypeApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
+
 
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
         val patientSearch = retrofit.create(PatientApiService::class.java)

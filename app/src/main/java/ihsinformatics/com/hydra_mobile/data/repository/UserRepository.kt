@@ -47,11 +47,11 @@ class UserRepository(application: Application) {
                         for (item in userResponse.userList) {
                             insertUser(
                                 User(
-                                    username = item.username,
-                                    fullName = item.display,
-                                    systemId = item.systemId,
-                                    retired = item.retired,
-                                    uuid = item.uuid
+                                    username = item.username
+//                                    fullName = item.display,
+//                                    systemId = item.systemId,
+//                                    retired = item.retired,
+//                                    uuid = item.uuid
                                 )
                             )
                         }

@@ -117,8 +117,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                     override fun onFailure(t: Throwable) {
                         networkProgressDialog.dismiss()
-                        //Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                       //     .show()
+                        Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                            .show()
                         onSuccess(t)
                     }
 

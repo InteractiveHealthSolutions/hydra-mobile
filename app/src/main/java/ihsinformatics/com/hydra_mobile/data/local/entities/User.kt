@@ -10,11 +10,11 @@ class User() {
     lateinit var password: String
 
     constructor(
-        username: String,
-        fullName:String,
-        systemId: String,
-        retired:Boolean,
-        uuid: String
+        username: String
+//        fullName:String,
+//        systemId: String,
+//        retired:Boolean,
+//        uuid: String
 
     ) : this() {
         this.username = username

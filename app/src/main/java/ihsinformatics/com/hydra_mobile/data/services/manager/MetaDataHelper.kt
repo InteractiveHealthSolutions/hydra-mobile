@@ -29,6 +29,9 @@ class MetaDataHelper(context: Context) {
 
     lateinit var componentFormJoinRepository: ComponentFormJoinRepository
 
+    lateinit var labTestTypeRepository: LabTestTypeRepository
+
+
     var context: Context
 
 
@@ -47,6 +50,8 @@ class MetaDataHelper(context: Context) {
         componentFormJoinRepository = ComponentFormJoinRepository(context)
 
         formResultRepository = FormResultRepository(context)
+
+        labTestTypeRepository = LabTestTypeRepository(context)
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
@@ -57,6 +62,7 @@ class MetaDataHelper(context: Context) {
         getPhasesFromAPI()
         getComponentsFromAPI()
         getFormsFromAPI();
+        getAllLabTestTypesFromAPI()
 
         parseMetaData(object : RESTCallback {
 
@@ -105,6 +111,11 @@ class MetaDataHelper(context: Context) {
     }
 
 
+    fun getAllLabTestTypesFromAPI()
+    {
+        labTestTypeRepository.getRemoteLabTestTypesData()
+    }
+
     fun deleteExisitingLocalData() {
         workflowRepository.deleteAllWorkflow()
         phaseRepository.deleteAllPhases()
@@ -113,6 +124,8 @@ class MetaDataHelper(context: Context) {
 
 
         formResultRepository.deleteFormResult()
+
+        labTestTypeRepository.deleteAllLabTestType()
 
         workflowPhasesRepository.deleteAllWorkflowPhases()
         phaseComponentRepository.deleteAllPhaseComponents()

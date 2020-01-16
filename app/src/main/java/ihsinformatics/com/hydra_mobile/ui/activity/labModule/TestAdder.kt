@@ -1,17 +1,18 @@
 package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.MenuItem
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
+import ihsinformatics.com.hydra_mobile.data.repository.WorkflowPhasesRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_profile.*
+
 
 class TestAdder : BaseActivity() {
 
@@ -19,37 +20,33 @@ class TestAdder : BaseActivity() {
     internal var adapter: ExpandableListAdapter? = null
     internal var titleList: List<String>? = null
 
-    val data: LinkedHashMap<String, List<String>>
+
+    val data: HashMap<String, ArrayList<String>>
         get() {
 
-            val listData = LinkedHashMap<String, List<String>>()
+            val listData = HashMap<String, ArrayList<String>>()
 
-            val cricket = ArrayList<String>();
-            cricket.add("India");
-            cricket.add("Pakistan");
-            cricket.add("Australia");
-            cricket.add("England");
-            cricket.add("South Africa");
 
-            val football = ArrayList<String>();
-            football.add("Brazil");
-            football.add("Spain");
-            football.add("Germany");
-            football.add("Netherlands");
-            football.add("Italy");
+            var labTestRepository= LabTestTypeRepository(this@TestAdder)
 
-            val basketball = ArrayList<String>();
-            basketball.add("United States");
-            basketball.add("Spain");
-            basketball.add("Argentina");
-            basketball.add("France");
-            basketball.add("Russia");
+            var allTestTypes=labTestRepository.getAllTestTypes()
 
-            listData.put("CRICKET TEAMS", cricket);
-            listData.put("FOOTBALL TEAMS", football);
-            listData.put("BASKETBALL TEAMS", basketball);
+            for(i in 0 until allTestTypes.size)
+            {
+               if (!listData.containsKey(allTestTypes.get(i).testGroup)) {
+                    val list: ArrayList<String> = ArrayList<String>()
+                    list.add(allTestTypes.get(i).name)
+                    listData.put(allTestTypes.get(i).testGroup, list)
+                } else {
+                    listData.get(allTestTypes.get(i).testGroup)!!.add(allTestTypes.get(i).name)
+                }
+
+            }
+
             return listData;
         }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +79,8 @@ class TestAdder : BaseActivity() {
             expandableListView!!.setAdapter(adapter)
         }
 
+        init();
+
     }
 
     fun GetPixelFromDips(pixels: Float): Int {
@@ -100,5 +99,22 @@ class TestAdder : BaseActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+
+        startActivity(Intent(this, CommonLabActivity::class.java))
+        finish()
+        super.onBackPressed()
+    }
+
+
+    private fun init()
+    {
+//        val phasesComponentJoinViewModel = ViewModelProviders.of(this).get(
+//            PhaseComponentJoinViewModel::class.java)
+//
+//        phasesComponentJoinViewModel.getFormsByPhaseUUID()
+
     }
 }

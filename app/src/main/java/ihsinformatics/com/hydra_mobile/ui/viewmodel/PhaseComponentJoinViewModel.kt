@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
 import ihsinformatics.com.hydra_mobile.data.repository.PhaseComponentMapRepository
@@ -32,8 +33,24 @@ class PhaseComponentJoinViewModel(application: Application) : AndroidViewModel(a
         return repository.getComponentListByPhaseUUID(phaseID)
     }
 
-    fun getComponentByComponentUUID(phaseID:String):Component
+    fun getComponentByComponentUUID(componentUUID:String):Component
     {
-        return componentRepository.getComponentByUUID(phaseID)
+        return componentRepository.getComponentByUUID(componentUUID)
+    }
+
+    fun getFormsByPhaseUUID(phaseID:String){
+        var componentList=repository.getComponentListByPhaseUUID(phaseID)
+        var componentFormList:List<ComponentForm>
+        componentFormList = ArrayList<ComponentForm>()
+        var requiredList:ArrayList<ArrayList<ComponentForm>>
+
+        requiredList=ArrayList<ArrayList<ComponentForm>>()
+
+        for(i in 0 until componentList.size)
+        {
+            componentFormList=componentRepository.getFormListByComponentUUID(componentList.get(i).componentUUID)
+            requiredList.add(componentFormList as java.util.ArrayList<ComponentForm>)
+
+        }
     }
 }

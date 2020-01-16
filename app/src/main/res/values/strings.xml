@@ -227,8 +227,8 @@
     <string name="notification_textview">0</string>
     <string name="org_name">Lung Health</string>
     <string name="corporation_name">Corporation</string>
-    <string name="admin">admin</string>
-    <string name="admin_321">Admin321</string>
+    <string name="admin">Irtiza.ahmed</string>
+    <string name="admin_321">Irtiza1234</string>
     <string name="check_remember">Remember me</string>
     <string name="tpowered_by">Powered by</string>
     <string name="hydra_text">HYDRA</string>
@@ -299,6 +299,8 @@
     <string name="patient_summary">Patient Summary</string>
     <string name="lab_test_adder">Add Tests</string>
     <string name="search_online_title">Search Online</string>
+    <string name="manage_test_sample">Manage Test Sample</string>
+    <string name="test_result">Test Result</string>
 
 
     <string-array name="end_of_followup_for">
