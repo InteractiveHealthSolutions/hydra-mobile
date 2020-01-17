@@ -2,6 +2,7 @@ package ihsinformatics.com.hydra_mobile.ui.adapter
 
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,11 @@ import android.opengl.ETC1.getWidth
 import android.widget.*
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.InstructionsAdder
 
 
-class CustomExpandableListAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, List<String>>) : BaseExpandableListAdapter() {
+class CustomExpandableManageTestSampleAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, ArrayList<TestSample>>) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]
@@ -26,13 +29,23 @@ class CustomExpandableListAdapter internal constructor(private val context: Cont
 
     override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        val expandedListText = getChild(listPosition, expandedListPosition) as String
+        val expandedListText = getChild(listPosition, expandedListPosition) as TestSample
         if (convertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(ihsinformatics.com.hydra_mobile.R.layout.activity_listitems, null)
+            convertView = layoutInflater.inflate(R.layout.manage_test_sample_item_layout, null)
         }
-        val expandedListTextView = convertView!!.findViewById<TextView>(ihsinformatics.com.hydra_mobile.R.id.expandedListItem)
-        expandedListTextView.text = expandedListText
+        val specimenType = convertView!!.findViewById<TextView>(R.id.specimenType)
+        val specimenSite = convertView!!.findViewById<TextView>(R.id.specimenSite)
+        specimenType.text = expandedListText.specimenType.display
+        specimenSite.text = expandedListText.specimenSite.display
+
+        //val addInstructionsButton = convertView!!.findViewById<TextView>(R.id.specimenSite)
+
+//        addInstructionsButton.setOnClickListener {
+//            context.startActivity(Intent(context,InstructionsAdder::class.java))
+//
+//        }
+
         return convertView
     }
 
@@ -56,42 +69,27 @@ class CustomExpandableListAdapter internal constructor(private val context: Cont
         var convertView = convertView
         val listTitle = getGroup(listPosition) as String
 
-        var imageId = R.drawable.ic_diagonosis
-        imageId = when (listTitle) {
-            "Recent Visits" -> R.drawable.ic_recent_visit
-            "Relationships" -> R.drawable.ic_relation
-            "Patient Risk Category" -> R.drawable.ic_allergy
-            "Patient Type" -> R.drawable.ic_patient
-            "Diagnosis" -> R.drawable.ic_diagonosis
-            "Next TB Appointment" -> R.drawable.ic_appointment
-            "Patient Source" -> R.drawable.ic_patient_source
-            "Outcome" -> R.drawable.ic_outcome
-            "Vitals" -> R.drawable.vitals
-
-
-            else -> R.drawable.ic_diagonosis
-        }
 
         if (convertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(ihsinformatics.com.hydra_mobile.R.layout.list_group, null)
+            convertView = layoutInflater.inflate(R.layout.add_test_list_item, null)
         }
-        val listTitleTextView = convertView!!.findViewById<TextView>(ihsinformatics.com.hydra_mobile.R.id.listTitle)
-       // val arrowImage = convertView!!.findViewById<ImageView>(ihsinformatics.com.hydra_mobile.R.id.arrow)
-        val listTitleImage = convertView!!.findViewById<ImageView>(ihsinformatics.com.hydra_mobile.R.id.imageTitle)
+        val listTitleTextView = convertView!!.findViewById<TextView>(R.id.listTitle)
+        val arrowImage = convertView!!.findViewById<ImageView>(R.id.arrow)
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
 
-        listTitleImage.setImageDrawable(context.resources.getDrawable(imageId))
 
-//        if(isExpanded)
-//        {
-//            arrowImage.setImageDrawable(context.resources.getDrawable(R.drawable.ic_up_arrow))
-//        }
-//        else
-//        {
-//            arrowImage.setImageDrawable(context.resources.getDrawable(R.drawable.ic_arrow_down))
-//        }
+
+
+        if(isExpanded)
+        {
+            arrowImage.setImageDrawable(context.resources.getDrawable(R.drawable.ic_up_arrow))
+        }
+        else
+        {
+            arrowImage.setImageDrawable(context.resources.getDrawable(R.drawable.ic_arrow_down))
+        }
         return convertView
     }
 

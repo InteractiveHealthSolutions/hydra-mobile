@@ -37,15 +37,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:weightSum="10"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/manageTestSample"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp" />
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="9.4"
+            android:background="@drawable/white_rounded_background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <include
+                    layout="@layout/content_expandable_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen_16dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:textColor="@color/White"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/add_test_sample"
+            android:background="@drawable/blue_rounded_background"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

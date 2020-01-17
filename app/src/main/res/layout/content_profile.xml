@@ -95,7 +95,7 @@
             <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@drawable/ic_vitals"/>
+                    android:src="@drawable/vitals"/>
             <TextView
                     android:textStyle="bold"
                     android:layout_gravity="center_vertical"

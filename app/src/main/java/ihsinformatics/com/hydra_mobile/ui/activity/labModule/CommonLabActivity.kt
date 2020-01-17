@@ -10,7 +10,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.CommonLabApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
@@ -93,7 +93,7 @@ class CommonLabActivity : AppCompatActivity() {
 
         adapter =
             CommonLabAdapter(
-                testTypeList, this
+                testTypeList, this,applicationContext
             )
         rv.adapter = adapter
 

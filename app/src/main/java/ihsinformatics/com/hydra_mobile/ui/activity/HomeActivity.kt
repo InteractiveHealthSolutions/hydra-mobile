@@ -99,7 +99,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //previous workflow check (if set then continue and fetch phases for that workflow)
         var selectedWorkFlow = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
+
         selectedWorkFlow="Taha"
+
         if (selectedWorkFlow == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else {

@@ -23,7 +23,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:src="@drawable/ic_managetesttypes">
+                android:visibility="gone"
+                android:src="@drawable/ic_testtubes">
 
             </ImageView>
 
@@ -63,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:src="@drawable/round_green_check">
 
                 </ImageView>
@@ -73,6 +75,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="accepted"
+                    android:visibility="gone"
                     android:textSize="8sp"
                     android:textStyle="bold">
 
@@ -96,7 +99,7 @@
                     android:background="@drawable/circular_button"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Summary"
+                    android:text="Accept"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/White" />
 
@@ -110,7 +113,7 @@
                     android:background="@drawable/circular_button"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Update"
+                    android:text="Reject"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/White" />
             </LinearLayout>

@@ -18,14 +18,14 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="10dp"
-                android:weightSum="7">
+                android:weightSum="8">
 
             <CheckBox
                     android:id="@+id/testType"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_gravity="center"
                     android:text="Test Type"
                     android:textSize="12sp">
@@ -34,9 +34,9 @@
 
 
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -46,10 +46,10 @@
 
             <TextView
                     android:id="@+id/addInstructions"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:background="@drawable/blue_rounded_background"
                     android:gravity="center"
                     android:padding="10dp"

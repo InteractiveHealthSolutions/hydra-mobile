@@ -1,4 +1,4 @@
-package ihsinformatics.com.hydra_mobile.data.remote.model.patient
+package ihsinformatics.com.hydra_mobile.data.remote.model.commonLab
 
 
 import com.google.gson.annotations.SerializedName

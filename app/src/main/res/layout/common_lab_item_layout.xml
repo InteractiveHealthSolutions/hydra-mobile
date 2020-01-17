@@ -101,7 +101,7 @@
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/update"
+                    android:id="@+id/edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -110,7 +110,7 @@
                     android:background="@drawable/circular_button"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Update"
+                    android:text="Edit"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/White" />
             </LinearLayout>

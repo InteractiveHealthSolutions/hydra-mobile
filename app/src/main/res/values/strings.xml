@@ -299,8 +299,9 @@
     <string name="patient_summary">Patient Summary</string>
     <string name="lab_test_adder">Add Tests</string>
     <string name="search_online_title">Search Online</string>
-    <string name="manage_test_sample">Manage Test Sample</string>
+    <string name="manage_test_sample">Test Sample</string>
     <string name="test_result">Test Result</string>
+    <string name="add_test_sample">Add Test Sample</string>
 
 
     <string-array name="end_of_followup_for">

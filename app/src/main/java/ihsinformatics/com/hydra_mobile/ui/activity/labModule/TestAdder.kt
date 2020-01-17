@@ -27,13 +27,12 @@ class TestAdder : BaseActivity() {
             val listData = HashMap<String, ArrayList<String>>()
 
 
-            var labTestRepository= LabTestTypeRepository(this@TestAdder)
+            var labTestRepository = LabTestTypeRepository(this@TestAdder)
 
-            var allTestTypes=labTestRepository.getAllTestTypes()
+            var allTestTypes = labTestRepository.getAllTestTypes()
 
-            for(i in 0 until allTestTypes.size)
-            {
-               if (!listData.containsKey(allTestTypes.get(i).testGroup)) {
+            for (i in 0 until allTestTypes.size) {
+                if (!listData.containsKey(allTestTypes.get(i).testGroup)) {
                     val list: ArrayList<String> = ArrayList<String>()
                     list.add(allTestTypes.get(i).name)
                     listData.put(allTestTypes.get(i).testGroup, list)
@@ -45,7 +44,6 @@ class TestAdder : BaseActivity() {
 
             return listData;
         }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +60,10 @@ class TestAdder : BaseActivity() {
         windowManager.defaultDisplay.getMetrics(metrics)
         val width = metrics.widthPixels
 
-        expandableListView!!.setIndicatorBounds(width - GetPixelFromDips(50f), width - GetPixelFromDips(10f));
+        expandableListView!!.setIndicatorBounds(
+            width - GetPixelFromDips(50f),
+            width - GetPixelFromDips(10f)
+        );
 
 
 
@@ -109,8 +110,7 @@ class TestAdder : BaseActivity() {
     }
 
 
-    private fun init()
-    {
+    private fun init() {
 //        val phasesComponentJoinViewModel = ViewModelProviders.of(this).get(
 //            PhaseComponentJoinViewModel::class.java)
 //
