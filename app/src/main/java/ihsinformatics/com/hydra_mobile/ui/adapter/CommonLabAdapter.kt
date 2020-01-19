@@ -1,14 +1,10 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
-import android.R.id.button1
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +12,12 @@ import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSampleApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.ManageTestSample
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleResult
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import retrofit2.Call
@@ -55,6 +51,7 @@ class CommonLabAdapter(
             var intent = Intent(context, TestSummary::class.java)
             val dataListJson: String = gson.toJson(testOrderList[position])
             intent.putExtra("lab", dataListJson)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
         }
 
@@ -62,6 +59,8 @@ class CommonLabAdapter(
 
 
         holder?.edit.setOnClickListener {
+
+            holder.edit.isEnabled=false
 
             val testOrderSearch = RequestManager(
                 applicationContext, sessionManager.getUsername(),
@@ -84,12 +83,15 @@ class CommonLabAdapter(
 
                             if (testTypeList.size == 0) {
                                 Toast.makeText(context,"No Test Samples Available",Toast.LENGTH_SHORT).show()
+                                holder.edit.isEnabled=true
+                                //TODO Implement logic for adding test sample
                             }
-                                //TODO Implement logic for if status is accepted
-//                            else if(0)
-//                            {
-//
-//                            }
+
+                            else if(checkStatusForTestSample())
+                            {
+                                holder.edit.isEnabled=true
+                                context.startActivity(Intent(context, TestSampleResult::class.java))
+                            }
                             else
                             {
                                 var intent = Intent(context, ManageTestSample::class.java)
@@ -97,20 +99,42 @@ class CommonLabAdapter(
                                 intent.putExtra("testSamples", testSampleListJson)
                                 context.startActivity(intent)
                             }
-                        } else {
-                            testTypeList = ArrayList<TestSample>()
                         }
                     }
 
                     override fun onFailure(call: Call<TestSampleApiResponse>, t: Throwable) {
                         Timber.e(t.localizedMessage)
 
+
+                        holder.edit.isEnabled=true
                     }
 
                 })
 
 
         }
+    }
+
+
+    fun checkStatusForTestSample():Boolean
+    {
+        if(null!=testTypeList && testTypeList.size!=0)
+        {
+            for(i in 0 until testTypeList.size)
+            {
+                if(!testTypeList.get(i).status.toLowerCase().equals("accepted"))
+                {
+                   return false
+                }
+                else
+                {
+                    Toast.makeText(context,"One of the sample is already accepted",Toast.LENGTH_SHORT).show()
+                    return true
+                }
+
+            }
+        }
+        return false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemTestHolder {

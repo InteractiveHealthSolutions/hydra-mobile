@@ -58,7 +58,7 @@ class RequestManager {
             .build()
 
         retrofitTestOrder = Retrofit.Builder()
-            .baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/commonlab/")
+            .baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClientPatientList)
             .build()

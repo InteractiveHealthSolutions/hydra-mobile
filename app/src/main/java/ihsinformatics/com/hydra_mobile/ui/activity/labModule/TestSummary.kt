@@ -32,10 +32,10 @@ class TestSummary : AppCompatActivity() {
 
         //Layout 2
         findViewById<TextView>(R.id.testOrderID).setText("This is fake text")
-        findViewById<TextView>(R.id.testGroup).setText("This is fake text")
+        findViewById<TextView>(R.id.testGroup).setText(testOrder.labTestType.testGroup)
         findViewById<TextView>(R.id.testType).setText("This is fake text")
         findViewById<TextView>(R.id.encounterType).setText("This is fake text")
-        findViewById<TextView>(R.id.labReferenceNumber).setText("This is fake text")
+        findViewById<TextView>(R.id.labReferenceNumber).setText(testOrder.labReferenceNumber)
         findViewById<TextView>(R.id.requireSpecimen).setText("This is fake text")
         findViewById<TextView>(R.id.createdBy).setText("This is fake text")
         findViewById<TextView>(R.id.dateCreated).setText("This is fake text")
