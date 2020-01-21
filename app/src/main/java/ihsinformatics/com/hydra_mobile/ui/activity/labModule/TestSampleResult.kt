@@ -31,11 +31,7 @@ class TestSampleResult : BaseActivity() {
     lateinit var sessionManager: SessionManager
     lateinit var labTestAttribute: ArrayList<LabTestAttribute>
     lateinit var llMain: LinearLayout
-    var labTestAttributesGetter=RequestManager(
-        applicationContext, sessionManager.getUsername(),
-        sessionManager.getPassword()
-    ).getPatientRetrofit().create(CommonLabApiService::class.java)
-
+    lateinit var labTestAttributesGetter:CommonLabApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +46,11 @@ class TestSampleResult : BaseActivity() {
         val intent = intent
         val testOrderID = intent.getStringExtra("testOrderID")
 
+
+        labTestAttributesGetter=RequestManager(
+            applicationContext, sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).getPatientRetrofit().create(CommonLabApiService::class.java)
 
 
         labTestAttributesGetter.getLabTestAttribute(
@@ -89,7 +90,7 @@ class TestSampleResult : BaseActivity() {
                 questions.add(Question(true, 1, startId, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, labTestAttribute.get(i).attributeType.display, generateUUID(), QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1)))
             }
             else if(labTestAttribute.get(i).attributeType.datatypeClassname.equals("org.openmrs.customdatatype.datatype.ConceptDatatype")){
-  //              questions.add(Question(true, 1, startId, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, labTestAttribute.get(i).attributeType.display, generateUUID(),null))
+                questions.add(Question(true, 1, startId, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, labTestAttribute.get(i).attributeType.display, generateUUID(),null))
 
 
 //                for(j in 0 until )
