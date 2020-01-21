@@ -1,11 +1,12 @@
 package ihsinformatics.com.hydra_mobile.data.remote.model.commonLab
 
-data class LabTestType(
-    val description: String,
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class LabTestAllType(
     val display: String,
     val name: String,
-    val requiresSpecimen: Boolean,
-    val shortName: String,
     val testGroup: String,
-    val uuid: String
+    @PrimaryKey val uuid: String
 )

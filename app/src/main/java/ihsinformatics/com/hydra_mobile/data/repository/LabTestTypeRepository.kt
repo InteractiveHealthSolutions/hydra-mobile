@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentFormJoin
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestType
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestTypeApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
@@ -32,13 +33,13 @@ class LabTestTypeRepository(context: Context) {
     }
 
 
-    fun insert(labTest: LabTestType) {
+    fun insert(labTest: LabTestAllType) {
         doAsync {
             labTestTypeDao.insert(labTest)
         }
     }
 
-    fun getAllTestTypes():List<LabTestType>
+    fun getAllTestTypes():List<LabTestAllType>
     {
         return labTestTypeDao.getAllLabTestTypes()
     }

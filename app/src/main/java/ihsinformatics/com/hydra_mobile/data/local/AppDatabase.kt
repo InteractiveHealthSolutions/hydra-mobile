@@ -9,6 +9,7 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.commonLab.LabTestTypeDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestType
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormResultApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
@@ -23,7 +24,7 @@ import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
 @Database(
     entities = [AppSetting::class, Patient::class, Person::class, User::class, Location::class, WorkFlow::class, FormResultApiResponse::class,
         Phases::class, Component::class, Forms::class, /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class,
-        WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestType::class],
+        WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class],
     version = 1,
     exportSchema = false
 )

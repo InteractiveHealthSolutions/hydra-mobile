@@ -31,19 +31,19 @@ class TestSummary : AppCompatActivity() {
         findViewById<TextView>(R.id.value).setText("This is fake text")
 
         //Layout 2
-        findViewById<TextView>(R.id.testOrderID).setText("This is fake text")
+        findViewById<TextView>(R.id.testOrderID).setText(testOrder.uuid)
         findViewById<TextView>(R.id.testGroup).setText(testOrder.labTestType.testGroup)
-        findViewById<TextView>(R.id.testType).setText("This is fake text")
-        findViewById<TextView>(R.id.encounterType).setText("This is fake text")
+        findViewById<TextView>(R.id.testType).setText(testOrder.labTestType.name)
+        findViewById<TextView>(R.id.encounterType).setText(testOrder.order.encounter.display)
         findViewById<TextView>(R.id.labReferenceNumber).setText(testOrder.labReferenceNumber)
-        findViewById<TextView>(R.id.requireSpecimen).setText("This is fake text")
+        findViewById<TextView>(R.id.requireSpecimen).setText(testOrder.labTestType.requiresSpecimen.toString())
         findViewById<TextView>(R.id.createdBy).setText("This is fake text")
-        findViewById<TextView>(R.id.dateCreated).setText("This is fake text")
-        findViewById<TextView>(R.id.uuid).setText("This is fake text")
-        findViewById<TextView>(R.id.testOrder).setText("This is fake text")
-        findViewById<TextView>(R.id.specimenType).setText("This is fake text")
-        findViewById<TextView>(R.id.specimenSite).setText("This is fake text")
-        findViewById<TextView>(R.id.status).setText("This is fake text")
+        findViewById<TextView>(R.id.dateCreated).setText(testOrder.auditInfo.dateCreated)
+        findViewById<TextView>(R.id.uuid).setText(testOrder.uuid)
+        findViewById<TextView>(R.id.testOrder).setText(testOrder.display)
+        findViewById<TextView>(R.id.specimenType).setText(testOrder.labTestSamples.get(0).specimenType.display)
+        findViewById<TextView>(R.id.specimenSite).setText(testOrder.labTestSamples.get(0).specimenSite.display)
+        findViewById<TextView>(R.id.status).setText(testOrder.labTestSamples.get(0).status)
 
 
     }

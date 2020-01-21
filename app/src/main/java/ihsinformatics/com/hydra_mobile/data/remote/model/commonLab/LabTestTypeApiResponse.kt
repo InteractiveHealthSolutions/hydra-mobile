@@ -13,9 +13,9 @@ class LabTestTypeApiResponse {
 
     @PrimaryKey
     @SerializedName("results")
-    val result: List<LabTestType>
+    val result: List<LabTestAllType>
 
-    constructor(result: List<LabTestType>) {
+    constructor(result: List<LabTestAllType>) {
         this.result = result
     }
 

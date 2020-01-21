@@ -52,7 +52,7 @@ class RequestManager {
 
 
         retrofitForFormAPI = Retrofit.Builder()
-            .baseUrl("http://192.168.0.109:3000/")
+            .baseUrl("http://199.172.1.217:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -92,7 +92,7 @@ class RequestManager {
 
 
     fun getPatientRetrofit(): Retrofit {
-        return retrofitTestOrder;
+        return retrofitTestOrder
     }
 
     private fun getBaseUrl(application: Application): String {

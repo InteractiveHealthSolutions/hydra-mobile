@@ -10,20 +10,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.common.Constant
-import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSampleApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.ManageTestSample
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleResult
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
 
 
 class CommonLabAdapter(
@@ -39,96 +31,69 @@ class CommonLabAdapter(
     val gson = Gson()
     var sessionManager = SessionManager(context)
     var applicationContext = applicationContext
-    var testTypeList = ArrayList<TestSample>()
 
     override fun onBindViewHolder(holder: SingleItemTestHolder, position: Int) {
         holder?.testtype?.text = testOrderList[position].labTestType!!.name
         holder?.testDescription?.text = testOrderList[position].labReferenceNumber
 
+        if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
+            holder?.edit.setText("Result")
+        } else {
+            holder?.edit.setText("Manage Test")
+        }
+
 
 
         holder?.summary.setOnClickListener {
-            var intent = Intent(context, TestSummary::class.java)
-            val dataListJson: String = gson.toJson(testOrderList[position])
-            intent.putExtra("lab", dataListJson)
-            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            context.startActivity(intent)
-        }
 
+            if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
+                var intent = Intent(context, TestSummary::class.java)
+                val dataListJson: String = gson.toJson(testOrderList[position])
+                intent.putExtra("lab", dataListJson)
+                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                context.startActivity(intent)
+            } else {
+                Toast.makeText(context, "No Summary to Show", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
 
 
         holder?.edit.setOnClickListener {
 
-            holder.edit.isEnabled=false
+            holder.edit.isEnabled = false
 
-            val testOrderSearch = RequestManager(
-                applicationContext, sessionManager.getUsername(),
-                sessionManager.getPassword()
-            ).getPatientRetrofit().create(CommonLabApiService::class.java)
-
-            testOrderSearch.getTestSampleByLabTestUUID(
-                testOrderList[position].uuid,
-                Constant.REPRESENTATION
-            )
-                .enqueue(object : Callback<TestSampleApiResponse> {
-                    override fun onResponse(
-                        call: Call<TestSampleApiResponse>,
-                        response: Response<TestSampleApiResponse>
-                    ) {
-                        Timber.e(response.message())
-                        if (response.isSuccessful) {
-                            testTypeList.clear()
-                            testTypeList = response.body()!!.testSamples
-
-                            if (testTypeList.size == 0) {
-                                Toast.makeText(context,"No Test Samples Available",Toast.LENGTH_SHORT).show()
-                                holder.edit.isEnabled=true
-                                //TODO Implement logic for adding test sample
-                            }
-
-                            else if(checkStatusForTestSample())
-                            {
-                                holder.edit.isEnabled=true
-                                context.startActivity(Intent(context, TestSampleResult::class.java))
-                            }
-                            else
-                            {
-                                var intent = Intent(context, ManageTestSample::class.java)
-                                val testSampleListJson: String = gson.toJson(testTypeList)
-                                intent.putExtra("testSamples", testSampleListJson)
-                                context.startActivity(intent)
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TestSampleApiResponse>, t: Throwable) {
-                        Timber.e(t.localizedMessage)
-
-
-                        holder.edit.isEnabled=true
-                    }
-
-                })
+            if (testOrderList[position].labTestSamples.size == 0) {
+                Toast.makeText(context, "No Test Samples Available", Toast.LENGTH_SHORT).show()
+                holder.edit.isEnabled = true
+                //TODO Implement logic for adding test sample
+            }else if (checkStatusForTestSample(position)) {
+                holder.edit.isEnabled = true
+                context.startActivity(Intent(context, TestSampleResult::class.java))
+            } else {
+                var intent = Intent(context, ManageTestSample::class.java)
+                val testSampleListJson: String = gson.toJson(testOrderList[position].labTestSamples)
+                intent.putExtra("testSamples", testSampleListJson)
+                context.startActivity(intent)
+            }
 
 
         }
     }
 
 
-    fun checkStatusForTestSample():Boolean
-    {
-        if(null!=testTypeList && testTypeList.size!=0)
-        {
-            for(i in 0 until testTypeList.size)
-            {
-                if(!testTypeList.get(i).status.toLowerCase().equals("accepted"))
-                {
-                   return false
-                }
-                else
-                {
-                    Toast.makeText(context,"One of the sample is already accepted",Toast.LENGTH_SHORT).show()
+    fun checkStatusForTestSample(position:Int): Boolean {
+        if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
+            for (i in 0 until testOrderList[position].labTestSamples.size) {
+                if (!testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {
+                    return false
+                } else {
+                    Toast.makeText(
+                        context,
+                        "One of the sample is already accepted",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return true
                 }
 

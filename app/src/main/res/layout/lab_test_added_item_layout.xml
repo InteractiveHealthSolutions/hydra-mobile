@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/manageTest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:padding="30dp">
+        android:id="@+id/manageTest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:padding="30dp">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:weightSum="8">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="8">
 
             <CheckBox
-                    android:id="@+id/testType"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="2"
-                    android:layout_gravity="center"
-                    android:text="Test Type"
-                    android:textSize="12sp">
+                android:id="@+id/testType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="Test Type"
+                android:textSize="12sp">
 
             </CheckBox>
 
 
-            <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:background="@drawable/searchstyle">
+            <TextView
+                android:id="@+id/reference"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="4"
+                android:background="@drawable/searchstyle"
+                android:gravity="center">
 
-            </EditText>
+            </TextView>
 
             <TextView
-                    android:id="@+id/addInstructions"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/blue_rounded_background"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:layout_gravity="center"
-                    android:text="Add\nInstructions"
-                    android:textColor="@color/White">
+                android:id="@+id/addInstructions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="2"
+                android:background="@drawable/blue_rounded_background"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Add\nInstructions"
+                android:textColor="@color/White">
 
             </TextView>
 

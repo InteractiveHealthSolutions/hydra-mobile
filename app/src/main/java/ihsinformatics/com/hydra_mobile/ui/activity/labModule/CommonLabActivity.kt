@@ -24,7 +24,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import ihsinformatics.com.hydra_mobile.R
-import android.app.ProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 
 
@@ -56,6 +55,7 @@ class CommonLabActivity : AppCompatActivity() {
         networkProgressDialog.show();
 
         rv = findViewById<RecyclerView>(R.id.testOrder)
+        rv.isFocusable=false
         rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         testTypeList = ArrayList<LabTestOrder>()
@@ -118,6 +118,7 @@ class CommonLabActivity : AppCompatActivity() {
                             val gson = Gson()
                             val encountersListJson: String = gson.toJson(encountersList)
                             intent.putExtra("encountersList", encountersListJson)
+                            intent.putExtra("orderID", encountersListJson)
                             networkProgressDialog.dismiss()
                             startActivity(intent)
                         } else {

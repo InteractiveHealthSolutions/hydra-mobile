@@ -12,13 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
-import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
-import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableManageTestSampleAdapter
-import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
-import ihsinformatics.com.hydra_mobile.ui.adapter.ManageTestSampleAdapter
 
 class ManageTestSample : AppCompatActivity() {
 
@@ -35,14 +30,19 @@ class ManageTestSample : AppCompatActivity() {
             val intent = intent
             val jsonObj = intent.getStringExtra("testSamples")
 
-            val gson = Gson()
-            val token: TypeToken<ArrayList<TestSample?>?> =
-                object : TypeToken<ArrayList<TestSample?>?>() {}
-            var manageTestSamplesList: ArrayList<TestSample> = gson.fromJson(jsonObj, token.type)
+            if (null != jsonObj) {
+                val gson = Gson()
+                val token: TypeToken<ArrayList<TestSample?>?> =
+                    object : TypeToken<ArrayList<TestSample?>?>() {}
+                var manageTestSamplesList: ArrayList<TestSample> =
+                    gson.fromJson(jsonObj, token.type)
+
+                listData.put("Test Samples", manageTestSamplesList)
+            }
 
 
 
-            listData.put("Test Samples", manageTestSamplesList)
+
 
             return listData
         }
@@ -52,25 +52,6 @@ class ManageTestSample : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_test_sample)
 
-
-//        val testTypeList = ArrayList<String>()
-//
-//        testTypeList.add("Fake Text 1")
-//        testTypeList.add("Fake Text 2")
-//        testTypeList.add("Fake Text 3")
-//        testTypeList.add("Fake Text 4")
-//        testTypeList.add("Fake Text 5")
-//        testTypeList.add("Fake Text 6")
-//        testTypeList.add("Fake Text 7")
-//
-//
-//        var adapter =
-//            ManageTestSampleAdapter(
-//                testTypeList, this
-//            )
-//        rv.adapter = adapter
-//
-//        adapter.updateTestOrderList(testTypeList)
 
         expandableListView = findViewById(ihsinformatics.com.hydra_mobile.R.id.expandableListView)
 

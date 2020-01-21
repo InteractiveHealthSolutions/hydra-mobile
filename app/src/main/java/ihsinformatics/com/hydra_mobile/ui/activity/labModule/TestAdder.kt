@@ -26,12 +26,15 @@ import kotlinx.coroutines.runBlocking
 class TestAdder : BaseActivity() {
 
     internal var expandableListView: ExpandableListView? = null
-    internal var adapter: ExpandableListAdapter? = null
+    var adapter: CustomExpandableTestAdderAdapter? = null
     internal var titleList: List<String>? = null
 
     lateinit var phasesSpinner: Spinner
     lateinit var encounterSpinner: Spinner
 
+    var testTypeMap = HashMap<String, String>()
+
+    var uuids=ArrayList<String>()
 
     val data: HashMap<String, ArrayList<String>>
         get() {
@@ -48,10 +51,11 @@ class TestAdder : BaseActivity() {
                     val list: ArrayList<String> = ArrayList<String>()
                     list.add(allTestTypes.get(i).name)
                     listData.put(allTestTypes.get(i).testGroup, list)
+
                 } else {
                     listData.get(allTestTypes.get(i).testGroup)!!.add(allTestTypes.get(i).name)
                 }
-
+                testTypeMap.put(allTestTypes.get(i).name, allTestTypes.get(i).uuid)
             }
 
             return listData;
@@ -80,13 +84,12 @@ class TestAdder : BaseActivity() {
         var encountersList: ArrayList<Encounter> = gson.fromJson(jsonObj, token.type)
 
 
-
-        var encountersMap=HashMap<String,String>()
-        for(i in 0 until encountersList.size)
-        {
-            encountersMap.put(encountersList.get(i).display,encountersList.get(i).uuid)
+        var encountersMap = HashMap<String, String>()
+        for (i in 0 until encountersList.size) {
+            encountersMap.put(encountersList.get(i).display, encountersList.get(i).uuid)
         }
-        encounterSpinner.adapter=ArrayAdapter(this,android.R.layout.simple_list_item_1,encountersMap.keys.toList())
+        encounterSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, encountersMap.keys.toList())
 
 
         val metrics = DisplayMetrics()
@@ -111,7 +114,24 @@ class TestAdder : BaseActivity() {
                     listData
                 )
             expandableListView!!.setAdapter(adapter)
+
+
         }
+
+
+        val saveRequest = findViewById<Button>(R.id.saveRequest)
+
+        saveRequest.setOnClickListener {
+            uuids.clear()
+            var myMutable = adapter?.mCheckBoxData
+
+            if (myMutable != null) {
+                for (i in myMutable) {
+                    uuids.add(testTypeMap.get(i.key).toString())
+                }
+            }
+        }
+
 
         init();
 
@@ -145,22 +165,23 @@ class TestAdder : BaseActivity() {
 
     private fun init() {
 
-        var selectedWorkFlow= GlobalPreferences.getinstance(this@TestAdder).findPrferenceValue(
-            GlobalPreferences.KEY.WORKFLOWUUID,"-1")
+        var selectedWorkFlow = GlobalPreferences.getinstance(this@TestAdder).findPrferenceValue(
+            GlobalPreferences.KEY.WORKFLOWUUID, "-1"
+        )
 
 
-       // if(!selectedWorkFlow.equals("-1")) {
-            val workflowPhaseMapViewModel =
-                ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
-            val work = workflowPhaseMapViewModel.getPhasesByWorkFlowUUID(selectedWorkFlow)
+        // if(!selectedWorkFlow.equals("-1")) {
+        val workflowPhaseMapViewModel =
+            ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
+        val work = workflowPhaseMapViewModel.getPhasesByWorkFlowUUID(selectedWorkFlow)
 
-            var phasesArraylist=HashMap<String,String>()
-            for(i in 0 until work.size)
-            {
-                phasesArraylist.put(work.get(i).phaseName,work.get(i).phaseUUID)
-            }
+        var phasesArraylist = HashMap<String, String>()
+        for (i in 0 until work.size) {
+            phasesArraylist.put(work.get(i).phaseName, work.get(i).phaseUUID)
+        }
 
-            phasesSpinner.adapter=ArrayAdapter(this,android.R.layout.simple_list_item_1,phasesArraylist.keys.toList())
+        phasesSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, phasesArraylist.keys.toList())
 
 //            phasesArraylist.get(phasesSpinner.selectedItem.toString())
 

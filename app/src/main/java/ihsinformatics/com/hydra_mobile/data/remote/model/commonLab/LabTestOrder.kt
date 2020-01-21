@@ -5,7 +5,7 @@ data class LabTestOrder(
     val auditInfo: AuditInfo,
     val display: String,
     val labReferenceNumber: String,
-    val labTestSamples: List<Any>,
+    val labTestSamples: List<TestSample>,
     val labTestType: LabTestType,
     val links: List<Link>,
     val order: Order,
