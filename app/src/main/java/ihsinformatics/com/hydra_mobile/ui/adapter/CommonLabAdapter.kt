@@ -36,7 +36,11 @@ class CommonLabAdapter(
         holder?.testtype?.text = testOrderList[position].labTestType!!.name
         holder?.testDescription?.text = testOrderList[position].labReferenceNumber
 
-
+        if (null == testOrderList[position].labTestSamples || testOrderList[position].labTestSamples.size == 0) {
+            holder?.edit.setText("Manage Test")
+        } else {
+            holder?.edit.setText("Result")
+        }
 
 
 
@@ -66,7 +70,9 @@ class CommonLabAdapter(
                 //TODO Implement logic for adding test sample
             }else if (checkStatusForTestSample(position)) {
                 holder.edit.isEnabled = true
-                context.startActivity(Intent(context, TestSampleResult::class.java))
+                var intent = Intent(context, TestSampleResult::class.java)
+                intent.putExtra("testOrderID",testOrderList[position].testOrderId)
+                context.startActivity(intent)
             } else {
                 var intent = Intent(context, ManageTestSample::class.java)
                 val testSampleListJson: String = gson.toJson(testOrderList[position].labTestSamples)

@@ -130,6 +130,20 @@ class TestAdder : BaseActivity() {
                     uuids.add(testTypeMap.get(i.key).toString())
                 }
             }
+
+            var encounterUUID:String
+            var conceptUUID:String
+
+            for(i in encountersList)
+            {
+                if(i.display.equals(encounterSpinner.selectedItem.toString()))
+                {
+                    encounterUUID = i.uuid
+                    //Todo need to add other required paramters  ~Taha
+                    break
+                }
+            }
+
         }
 
 

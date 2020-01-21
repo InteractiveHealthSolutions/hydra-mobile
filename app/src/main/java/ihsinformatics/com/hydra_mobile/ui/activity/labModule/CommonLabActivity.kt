@@ -29,6 +29,7 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 
 class CommonLabActivity : AppCompatActivity() {
 
+    var patientID="dbac89bb-508b-4693-aad1-3b5a5310252e"
 
     lateinit var testTypeList: ArrayList<LabTestOrder>
     lateinit var encountersList: ArrayList<Encounter>
@@ -67,7 +68,7 @@ class CommonLabActivity : AppCompatActivity() {
         ).getPatientRetrofit().create(CommonLabApiService::class.java)
 
         testOrderSearch.getLabTestOrderByPatientUUID(
-            "dbac89bb-508b-4693-aad1-3b5a5310252e",
+            patientID,
             Constant.REPRESENTATION
         ).enqueue(object : Callback<CommonLabApiResponse> {
             override fun onResponse(
@@ -101,7 +102,7 @@ class CommonLabActivity : AppCompatActivity() {
             networkProgressDialog.show();
             //Fetching Encounters
             testOrderSearch.getEncountersByPatientUUID(
-                "dbac89bb-508b-4693-aad1-3b5a5310252e",
+                patientID,
                 Constant.REPRESENTATION
             ).enqueue(object : Callback<EncountersApiResponse> {
                 override fun onResponse(
@@ -118,7 +119,10 @@ class CommonLabActivity : AppCompatActivity() {
                             val gson = Gson()
                             val encountersListJson: String = gson.toJson(encountersList)
                             intent.putExtra("encountersList", encountersListJson)
-                            intent.putExtra("orderID", encountersListJson)
+                            intent.putExtra("patientID", patientID)
+
+
+
                             networkProgressDialog.dismiss()
                             startActivity(intent)
                         } else {

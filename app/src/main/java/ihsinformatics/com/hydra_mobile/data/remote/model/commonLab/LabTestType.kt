@@ -7,5 +7,6 @@ data class LabTestType(
     val requiresSpecimen: Boolean,
     val shortName: String,
     val testGroup: String,
-    val uuid: String
+    val uuid: String,
+    val referenceConcept: ReferenceConcept
 )
