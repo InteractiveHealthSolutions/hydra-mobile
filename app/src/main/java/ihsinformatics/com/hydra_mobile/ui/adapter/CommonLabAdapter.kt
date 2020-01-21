@@ -36,11 +36,7 @@ class CommonLabAdapter(
         holder?.testtype?.text = testOrderList[position].labTestType!!.name
         holder?.testDescription?.text = testOrderList[position].labReferenceNumber
 
-        if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
-            holder?.edit.setText("Result")
-        } else {
-            holder?.edit.setText("Manage Test")
-        }
+
 
 
 
