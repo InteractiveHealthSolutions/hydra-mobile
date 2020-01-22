@@ -303,6 +303,7 @@
     <string name="test_result">Test Result</string>
     <string name="add_test_sample">Add Test Sample</string>
     <string name="save_test_request">Save Test Request</string>
+    <string name="backup">Upload Data</string>
 
 
     <string-array name="end_of_followup_for">

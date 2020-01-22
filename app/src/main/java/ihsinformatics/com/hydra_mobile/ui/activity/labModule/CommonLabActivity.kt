@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
@@ -80,7 +81,8 @@ class CommonLabActivity : AppCompatActivity() {
                     testTypeList = response.body()!!.labTests
 
                 } else {
-                    testTypeList = ArrayList<LabTestOrder>()
+                    ToastyWidget.getInstance().displayError(this@CommonLabActivity,"Could not fetch test orders",Toast.LENGTH_LONG)
+                    startActivity(Intent(this@CommonLabActivity, HomeActivity::class.java))
                 }
                 setTestOrderList()
             }
@@ -88,8 +90,8 @@ class CommonLabActivity : AppCompatActivity() {
             override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
                 Timber.e(t.localizedMessage)
 
-
-                setTestOrderList()
+                ToastyWidget.getInstance().displayError(this@CommonLabActivity,"Could not fetch test orders",Toast.LENGTH_LONG)
+                startActivity(Intent(this@CommonLabActivity, HomeActivity::class.java))
             }
 
         })
