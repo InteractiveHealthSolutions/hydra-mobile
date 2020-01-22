@@ -13,6 +13,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.ManageTestSample
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleAdder
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleResult
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -67,6 +68,9 @@ class CommonLabAdapter(
             if (testOrderList[position].labTestSamples.size == 0) {
                 Toast.makeText(context, "No Test Samples Available", Toast.LENGTH_SHORT).show()
                 holder.edit.isEnabled = true
+                var intent = Intent(context, TestSampleAdder::class.java)
+                intent.putExtra("testOrderID",testOrderList[position].testOrderId)
+                context.startActivity(intent)
                 //TODO Implement logic for adding test sample
             }else if (checkStatusForTestSample(position)) {
                 holder.edit.isEnabled = true
