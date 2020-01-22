@@ -20,7 +20,7 @@ class CustomExpandableTestAdderAdapter constructor(
 
 ) : BaseExpandableListAdapter() {
 
-    var mCheckBoxData=HashMap<String, String>()
+    private var mCheckBoxData=HashMap<String, String>()
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]

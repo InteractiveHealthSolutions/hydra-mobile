@@ -4,11 +4,9 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.AttributesApi
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Concept
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.EncountersApiResponse
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface CommonLabApiService {
@@ -39,6 +37,9 @@ interface CommonLabApiService {
 
     @GET("concept/{uuid}")
     fun getConcepts(@Path(value = "uuid") uuid :String): Call<Concept>
+
+    @POST("commonlab/labtestorder")
+    fun addLabTestOrder(@Body body: RequestBody): Call<CommonLabApiResponse>
 
 }
 

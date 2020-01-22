@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -52,8 +54,17 @@ class ManageTestSample : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_test_sample)
 
-
+        var addTestSample = findViewById<Button>(R.id.addTestSample)
         expandableListView = findViewById(ihsinformatics.com.hydra_mobile.R.id.expandableListView)
+
+
+        addTestSample.setOnClickListener {
+
+
+            var intent = Intent(this@ManageTestSample, TestSampleAdder::class.java)
+            //intent.putExtra("testOrderID",testOrderList[position].testOrderId)
+            startActivity(intent)
+        }
 
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
