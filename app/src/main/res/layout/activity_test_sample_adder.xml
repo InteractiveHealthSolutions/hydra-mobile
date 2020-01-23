@@ -55,7 +55,8 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/specimen_type" />
+                android:text="@string/specimen_type"
+                android:textColor="@color/Black"/>
 
             <Spinner
                 android:layout_width="0dp"
@@ -84,7 +85,8 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/specimen_site" />
+                android:text="@string/specimen_site"
+                android:textColor="@color/Black"/>
 
             <Spinner
                 android:layout_width="0dp"
@@ -112,7 +114,8 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/quantity" />
+                android:text="@string/quantity"
+                android:textColor="@color/Black"/>
 
             <EditText
                 android:layout_width="0dp"
@@ -120,8 +123,7 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
                 android:layout_weight="2"
-                android:background="@drawable/white_rounded_background"
-                android:minHeight="50dip" />
+                android:background="@drawable/white_rounded_background" />
 
         </LinearLayout>
 
@@ -139,7 +141,8 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/unit" />
+                android:text="@string/unit"
+                android:textColor="@color/Black"/>
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -166,16 +169,16 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/sample_identifier" />
+                android:text="@string/sample_identifier"
+                android:textColor="@color/Black"/>
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_react"
-                android:minHeight="50dip" />
+                android:background="@drawable/white_rounded_background"
+                android:layout_weight="2" />
 
         </LinearLayout>
 
@@ -193,7 +196,8 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/collection_data" />
+                android:text="@string/collection_data"
+                android:textColor="@color/Black"/>
 
             <EditText
                 android:layout_width="0dp"
@@ -201,8 +205,7 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
                 android:layout_weight="2"
-                android:background="@drawable/white_rounded_background"
-                android:minHeight="50dip" />
+                android:background="@drawable/white_rounded_background" />
 
         </LinearLayout>
 
