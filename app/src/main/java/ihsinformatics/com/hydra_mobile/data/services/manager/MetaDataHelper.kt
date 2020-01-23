@@ -58,10 +58,13 @@ class MetaDataHelper(context: Context) {
 
         deleteExisitingLocalData()
 
+        getProviderID()
+
         getWorkFlowFromAPI()
         getPhasesFromAPI()
         getComponentsFromAPI()
         getFormsFromAPI();
+
         getAllLabTestTypesFromAPI()
 
         parseMetaData(object : RESTCallback {
@@ -81,6 +84,12 @@ class MetaDataHelper(context: Context) {
     } catch (e: Throwable) {
         Log.e(LOG_TAG, "Error executing work: " + e.message, e)
         false
+    }
+
+
+    fun getProviderID()
+    {
+
     }
 
 

@@ -23,10 +23,21 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.CheckBox
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.AttributesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAttribute
+import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -36,8 +47,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivityLoginBinding
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
-    private lateinit var checkboxRemember:CheckBox
-    private var showPassword=0
+    private lateinit var checkboxRemember: CheckBox
+    private var showPassword = 0
 
     init {
 
@@ -66,27 +77,26 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         usernameEditText = binding.edtUsername;
         passwordEditText = binding.edtPassword
-        checkboxRemember=binding.checkRemember
+        checkboxRemember = binding.checkRemember
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
 
         flipit(binding.ivLogo)
 
-        binding.loginEye.setOnClickListener{view ->
+        binding.loginEye.setOnClickListener { view ->
 
-            if(showPassword==0)
-            {
+            if (showPassword == 0) {
                 binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_show_eye))
-                showPassword=1
-                binding.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                showPassword = 1
+                binding.edtPassword.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
 
-            }
-            else
-            {
+            } else {
                 binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_cross_eye))
-                showPassword=0
-                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                showPassword = 0
+                binding.edtPassword.transformationMethod =
+                    PasswordTransformationMethod.getInstance()
 
             }
         }
@@ -117,37 +127,72 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                     override fun onFailure(t: Throwable) {
                         networkProgressDialog.dismiss()
-                        Toast.makeText(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                            .show()
-                        onSuccess(t)
+                        Toast.makeText(
+                            this@LoginActivity,
+                            getString(R.string.authentication_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     override fun <T> onSuccess(o: T) {
-                        if(checkboxRemember.isChecked)
-                        {
-                            SessionManager(applicationContext).createLoginSession(
-                            usernameEditText.text.toString(),
+
+                        val providerFetcher = RequestManager(
+                            applicationContext,  usernameEditText.text.toString(),
                             passwordEditText.text.toString()
-                        )
-                        }
-//                        SessionManager(applicationContext).createLoginSession(
-//                            usernameEditText.text.toString(),
-//                            passwordEditText.text.toString()
-//                        )
-                        //Not required
-                        Constant.currentUser = User(
-                            username = usernameEditText.text.toString(),
-                            password = passwordEditText.text.toString()
-                        )
+                        ).retrofit.create(ProviderApiService::class.java)
+                        var delimiter = "."
+                        var userSplit = usernameEditText.text.toString().split(delimiter)
+                        providerFetcher.getProviderData(userSplit[0].toString())
+                            .enqueue(object : Callback<ProviderApiResponse> {
+                                override fun onFailure(
+                                    call: Call<ProviderApiResponse>,
+                                    t: Throwable
+                                ) {
+                                    ToastyWidget.getInstance().displayError(
+                                        this@LoginActivity,
+                                        "Error Login",
+                                        Toast.LENGTH_LONG
+                                    )
+                                }
 
-                        networkProgressDialog.dismiss()
+                                override fun onResponse(
+                                    call: Call<ProviderApiResponse>,
+                                    response: Response<ProviderApiResponse>
+                                ) {
+                                    if (response.isSuccessful && null!=response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
+                                        if (checkboxRemember.isChecked) {
+                                            SessionManager(applicationContext).createLoginSession(
+                                                usernameEditText.text.toString(),
+                                                passwordEditText.text.toString(),
+                                                response.body()!!.providerResult[0].uuid
+                                            )
+                                        }
 
 
-                        openMetaDataFetcher()
+                                        networkProgressDialog.dismiss()
 
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
+                                        openMetaDataFetcher()
+
+                                        GlobalPreferences.getinstance(this@LoginActivity)
+                                            .addOrUpdatePreference(
+                                                GlobalPreferences.KEY.WORKFLOW,
+                                                null
+                                            )
+                                        GlobalPreferences.getinstance(this@LoginActivity)
+                                            .addOrUpdatePreference(
+                                                GlobalPreferences.KEY.WORKFLOWUUID,
+                                                null
+                                            )
+                                    }else
+                                    {
+                                        networkProgressDialog.dismiss()
+                                        ToastyWidget.getInstance().displayError(this@LoginActivity,"Error Login",Toast.LENGTH_SHORT)
+                                    }
+                                }
+
+
+                            })
 
 
                     }
@@ -165,7 +210,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun validation(): Boolean {
         var isValidated = true;
         if (usernameEditText.text.isBlank() || usernameEditText.text.isEmpty()) {
-            usernameEditText.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+            usernameEditText.error =
+                resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
             usernameEditText.requestFocus()
             isValidated = false
         } else if (passwordEditText.text.isBlank() || passwordEditText.text.isEmpty()) {

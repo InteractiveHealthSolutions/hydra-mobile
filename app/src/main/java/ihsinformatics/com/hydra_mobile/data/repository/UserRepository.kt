@@ -45,9 +45,10 @@ class UserRepository(application: Application) {
                     var userResponse = o as UserResponse
                     if (userResponse != null) {
                         for (item in userResponse.userList) {
+                            //TODO before insertion of user fetch provider uuid
                             insertUser(
                                 User(
-                                    username = item.username
+                                    item.username
 //                                    fullName = item.display,
 //                                    systemId = item.systemId,
 //                                    retired = item.retired,

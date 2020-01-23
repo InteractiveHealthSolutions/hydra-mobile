@@ -30,6 +30,7 @@ class SessionManager(context: Context) {
 
     val KEY_NAME = "productName"
     val KEY_PASS = "password"
+    val KEY_PROVIDER = "provider"
 
     init {
         this._context = context
@@ -40,7 +41,7 @@ class SessionManager(context: Context) {
     /**
      * Create login session
      */
-    fun createLoginSession(name: String, password: String) {
+    fun createLoginSession(name: String, password: String,provider:String) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true)
 
@@ -49,6 +50,8 @@ class SessionManager(context: Context) {
 
         // Storing email in pref
         editor.putString(KEY_PASS, password)
+        editor.putString(KEY_PROVIDER, provider)
+
 
         // commit changes
         editor.commit()

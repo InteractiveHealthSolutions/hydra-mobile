@@ -56,7 +56,7 @@ class Constant {
         var tempLogin: Boolean = false
         //
 
-        var currentUser  =  User()
+
     }
 
 
