@@ -9,18 +9,25 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.AttributesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Encounter
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAttribute
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
-import ihsinformatics.com.hydra_mobile.data.repository.WorkflowPhasesRepository
-import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 
 class TestAdder : BaseActivity() {
@@ -34,7 +41,21 @@ class TestAdder : BaseActivity() {
 
     var testTypeMap = HashMap<String, String>()
 
-    var uuids=ArrayList<String>()
+    var labTestTypeUUIDs = ArrayList<String>()
+
+
+    lateinit var sendParams: JSONObject
+    lateinit var order: JSONObject
+    var patientUUID: String = "dbac89bb-508b-4693-aad1-3b5a5310252e"
+    var conceptUUID: String = "17AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    var ordererUUID: String = "2eaa7e49-2e4f-4846-9056-b4f97d8e1b7e"
+    var type: String = "testorder"
+    var careSettingUUID: String = "6f0c9a92-6f24-11e3-af88-005056821db0"
+    var encounterUUID: String = "9fd970e7-0289-490d-bd37-8b0bb6178158"
+    lateinit var labTestType: String
+    var labReferenceNumber: String = "adding test test2"
+    var labInstructions: String = "adding test test2"
+
 
     val data: HashMap<String, ArrayList<String>>
         get() {
@@ -122,28 +143,74 @@ class TestAdder : BaseActivity() {
         val saveRequest = findViewById<Button>(R.id.saveRequest)
 
         saveRequest.setOnClickListener {
-            uuids.clear()
-            var myMutable = adapter?.mCheckBoxData
+            labTestTypeUUIDs.clear()
+
+            var addTestOrder = RequestManager(
+                applicationContext, sessionManager.getUsername(),
+                sessionManager.getPassword()
+            ).getPatientRetrofit().create(CommonLabApiService::class.java)
+
+            var myMutable = adapter?.getCheckBoxData()
 
             if (myMutable != null) {
                 for (i in myMutable) {
-                    uuids.add(testTypeMap.get(i.key).toString())
+                    labTestTypeUUIDs.add(testTypeMap.get(i.key).toString())
                 }
             }
 
-            var encounterUUID:String
-            var conceptUUID:String
 
-            for(i in encountersList)
-            {
-                if(i.display.equals(encounterSpinner.selectedItem.toString()))
-                {
+            for (i in encountersList) {
+                if (i.display.equals(encounterSpinner.selectedItem.toString())) {
                     encounterUUID = i.uuid
                     //Todo need to add other required paramters  ~Taha
                     break
                 }
             }
 
+            for (i in labTestTypeUUIDs) {
+                order = JSONObject()
+                sendParams = JSONObject()
+                labTestType = i
+                order.put("patient", patientUUID)
+                order.put("concept", conceptUUID)
+                order.put("orderer", ordererUUID)
+                order.put("type", type)
+                order.put("careSetting", careSettingUUID)
+                order.put("encounter", encounterUUID)
+
+                sendParams.put("order", order)
+                sendParams.put("labTestType", labTestType)
+                sendParams.put("labReferenceNumber", labReferenceNumber)
+                sendParams.put("labInstructions", labInstructions)
+
+                val body: RequestBody = RequestBody.create(
+                    MediaType.parse("application/json; charset=utf-8"),
+                    sendParams.toString()
+                )
+                addTestOrder.addLabTestOrder(body).enqueue(object :
+                    Callback<CommonLabApiResponse> {
+                    override fun onResponse(
+                        call: Call<CommonLabApiResponse>,
+                        response: Response<CommonLabApiResponse>
+                    ) {
+                        Timber.e(response.message())
+                        if (response.isSuccessful) {
+
+                        } else {
+
+                        }
+                        init()
+                    }
+
+                    override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
+                        Timber.e(t.localizedMessage)
+
+                    }
+
+                })
+
+            }
+            startActivity(Intent(this, CommonLabActivity::class.java))
         }
 
 

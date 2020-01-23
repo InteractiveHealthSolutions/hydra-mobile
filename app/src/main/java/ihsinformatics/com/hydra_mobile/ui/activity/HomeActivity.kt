@@ -100,7 +100,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var selectedWorkFlow = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
-        selectedWorkFlow="Taha"
 
         if (selectedWorkFlow == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
@@ -126,8 +125,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                resources.getString(R.string.patient_summary),
-                R.drawable.ic_form
+                resources.getString(R.string.report),
+                R.drawable.ic_report_filled
             )
         )
 
@@ -136,6 +135,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
 
             override fun onCentreButtonClick() {
+
+                if (Global.patientData == null) {
+                    ToastyWidget.getInstance()
+                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
+                } else {
+                    startActivity(Intent(applicationContext, ProfileActivity::class.java))
+                    finish()
+                }
 
             }
 
@@ -156,20 +163,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun bottomBarListener(itemName: String) {
         when (itemName) {
-            resources.getString(R.string.patient_summary) -> {
+
+            resources.getString(R.string.common_lab) -> {
 
                 if (Global.patientData == null) {
                     ToastyWidget.getInstance()
                         .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
                 } else {
-                    startActivity(Intent(applicationContext, ProfileActivity::class.java))
+                    startActivity(Intent(applicationContext, CommonLabActivity::class.java))
                     finish()
                 }
             }
 
-            resources.getString(R.string.common_lab) -> {
+            resources.getString(R.string.report) -> {
 
-                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+                startActivity(Intent(applicationContext, ReportActivity::class.java))
                 finish()
             }
 
@@ -182,10 +190,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun initToolbar() {
-        toolbar.action_notification_.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
-            finish()
-        })
+//        toolbar.action_notification_.setOnClickListener(View.OnClickListener {
+//            startActivity(Intent(this, NotificationActivity::class.java))
+//            finish()
+//        })
 
 
     }
@@ -256,14 +264,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity(Intent(this, HelpActivity::class.java))
                 finish()
             }
+            R.id.nav_backup -> {
+                startActivity(Intent(this, NotificationActivity::class.java))
+                finish()
+            }
+
             R.id.nav_events -> {
                 startActivity(Intent(this, EventsActivity::class.java))
                 finish()
             }
-            R.id.nav_reports -> {
-                startActivity(Intent(this, ReportActivity::class.java))
-                finish()
-            }
+
             R.id.nav_search -> {
                 PatientInfoFetcher.init(
                     Constant.formName,
