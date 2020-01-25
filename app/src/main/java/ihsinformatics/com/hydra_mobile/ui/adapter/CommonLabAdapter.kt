@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +21,8 @@ import ihsinformatics.com.hydra_mobile.utils.SessionManager
 
 
 class CommonLabAdapter(
-    val testOrderTypeList: List<LabTestOrder>,
-    c: Context,
-    applicationContext: Context
-) :
-    RecyclerView.Adapter<CommonLabAdapter.SingleItemTestHolder>() {
+    val testOrderTypeList: List<LabTestOrder>, c: Context, applicationContext: Context
+                      ) : RecyclerView.Adapter<CommonLabAdapter.SingleItemTestHolder>() {
 
     var testOrderList = testOrderTypeList
     var context: Context = c
@@ -34,20 +32,30 @@ class CommonLabAdapter(
     var applicationContext = applicationContext
 
     override fun onBindViewHolder(holder: SingleItemTestHolder, position: Int) {
-        holder?.testtype?.text = testOrderList[position].labTestType!!.name
-        holder?.testDescription?.text = testOrderList[position].labReferenceNumber
+        holder.testtype?.text = testOrderList[position].labTestType.name
+        holder.testDescription?.text = testOrderList[position].labReferenceNumber
 
-        if (null == testOrderList[position].labTestSamples || testOrderList[position].labTestSamples.size == 0) {
-            holder?.edit.setText("Manage Test")
-        } else {
-            holder?.edit.setText("Result")
+
+        if (testOrderList[position].labTestType.requiresSpecimen && testOrderList[position].labTestSamples.size == 0) {
+            holder.edit.setText("Add Test Sample")
+        } else if (testOrderList[position].labTestSamples.size != 0 && testOrderList[position].labTestType.requiresSpecimen && !checkStatusForTestSample(position)) {
+            holder.edit.setText("Manage Test")
+        } else if (!testOrderList[position].labTestType.requiresSpecimen || checkStatusForTestSample(position)) {
+            holder.edit.setText("Add Result")
         }
 
+
+        //TODO Add completed tag on recycler view where result is submitted
+//        for (i in 0 until testOrderList[position].labTestSamples.size) {
+//            if (testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {
+//                holder.completedTag.visibility = View.VISIBLE
+//            }
+//        }
 
 
         holder?.summary.setOnClickListener {
 
-            if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
+            if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0 && checkStatusForTestSample(position)) {
                 var intent = Intent(context, TestSummary::class.java)
                 val dataListJson: String = gson.toJson(testOrderList[position])
                 intent.putExtra("lab", dataListJson)
@@ -65,22 +73,34 @@ class CommonLabAdapter(
 
             holder.edit.isEnabled = false
 
-            if (testOrderList[position].labTestSamples.size == 0) {
+            if (testOrderList[position].labTestType.requiresSpecimen && testOrderList[position].labTestSamples.size == 0) {
                 Toast.makeText(context, "No Test Samples Available", Toast.LENGTH_SHORT).show()
                 holder.edit.isEnabled = true
                 var intent = Intent(context, TestSampleAdder::class.java)
-                intent.putExtra("testOrderID",testOrderList[position].testOrderId)
+                intent.putExtra("testOrderID", testOrderList[position].testOrderId)
+                intent.putExtra("labTest", testOrderList[position].uuid)
+
                 context.startActivity(intent)
                 //TODO Implement logic for adding test sample
-            }else if (checkStatusForTestSample(position)) {
-                holder.edit.isEnabled = true
-                var intent = Intent(context, TestSampleResult::class.java)
-                intent.putExtra("testOrderID",testOrderList[position].testOrderId)
-                context.startActivity(intent)
-            } else {
+            } else if (testOrderList[position].labTestSamples.size != 0 && testOrderList[position].labTestType.requiresSpecimen && !checkStatusForTestSample(position)) {
+
                 var intent = Intent(context, ManageTestSample::class.java)
                 val testSampleListJson: String = gson.toJson(testOrderList[position].labTestSamples)
                 intent.putExtra("testSamples", testSampleListJson)
+                holder.edit.isEnabled = true
+                context.startActivity(intent)
+
+            } else if (!testOrderList[position].labTestType.requiresSpecimen || checkStatusForTestSample(position)) {
+
+                holder.edit.isEnabled = true
+                var intent = Intent(context, TestSampleResult::class.java)
+                intent.putExtra("testTypeUuid", testOrderList[position].labTestType.uuid)
+                intent.putExtra("OrderUUID", testOrderList[position].order.uuid)
+                intent.putExtra("labReferenceNumber", testOrderList[position].labReferenceNumber)
+                intent.putExtra("labTestType", testOrderList[position].labTestType.uuid)
+
+
+
                 context.startActivity(intent)
             }
 
@@ -89,28 +109,20 @@ class CommonLabAdapter(
     }
 
 
-    fun checkStatusForTestSample(position:Int): Boolean {
-        if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0) {
-            for (i in 0 until testOrderList[position].labTestSamples.size) {
-                if (!testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {
-                    return false
-                } else {
-                    Toast.makeText(
-                        context,
-                        "One of the sample is already accepted",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return true
-                }
+    //returns true for accepted or collected test samples
+    fun checkStatusForTestSample(position: Int): Boolean {
+        for (i in 0 until testOrderList[position].labTestSamples.size) {
+            if (testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {
 
+                return true
             }
         }
+
         return false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemTestHolder {
-        val v = LayoutInflater.from(parent?.context)
-            .inflate(R.layout.common_lab_item_layout, parent, false)
+        val v = LayoutInflater.from(parent?.context).inflate(R.layout.common_lab_item_layout, parent, false)
         return SingleItemTestHolder(v)
 
     }
@@ -119,17 +131,12 @@ class CommonLabAdapter(
         return testOrderTypeList.size
     }
 
-    fun updateTestOrderList(testOrderOrder: ArrayList<LabTestOrder>) {
-        this.testOrderList = testOrderOrder
-        notifyDataSetChanged()
-    }
-
     inner class SingleItemTestHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val testtype = itemView.findViewById<TextView>(R.id.testType)
         val testDescription = itemView.findViewById<TextView>(R.id.testDescription)
         val summary = itemView.findViewById<TextView>(R.id.summary)
         val edit = itemView.findViewById<TextView>(R.id.edit)
-
+        val completedTag = itemView.findViewById<LinearLayout>(R.id.completedTag)
 
     }
 

@@ -4,7 +4,8 @@ data class LabTestAttribute(
     val attributeType: AttributeType,
     val auditInfo: AuditInfo,
     val display: String,
-    val labTest: LabTest,
+    val labTest: LabTestType,
     val uuid: String,
     val valueReference: String
 )
+

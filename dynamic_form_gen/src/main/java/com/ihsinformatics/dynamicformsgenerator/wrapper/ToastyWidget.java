@@ -24,6 +24,11 @@ public class ToastyWidget {
         Toasty.warning(context, message, duration).show();
     }
 
+    public void displaySuccess(Context context, String message, int duration)
+    {
+        Toasty.success(context, message, duration).show();
+    }
+
 
 
 }

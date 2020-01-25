@@ -52,10 +52,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/completedTag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:visibility="invisible"
                 android:orientation="vertical">
 
                 <ImageView

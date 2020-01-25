@@ -7,7 +7,6 @@ data class LabTestOrder(
     val labReferenceNumber: String,
     val labTestSamples: List<TestSample>,
     val labTestType: LabTestType,
-    val links: List<Link>,
     val testOrderId:String,
     val order: Order,
     val resourceVersion: String,

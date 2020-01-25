@@ -12,9 +12,9 @@ import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Encounter
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.EncountersApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.EncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter

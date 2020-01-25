@@ -1,12 +1,10 @@
-package ihsinformatics.com.hydra_mobile.data.remote.model.commonLab
+package ihsinformatics.com.hydra_mobile.data.remote.APIResponses
 
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.ihsinformatics.dynamicformsgenerator.data.core.Form
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 
 @Entity
 class LabTestTypeApiResponse {

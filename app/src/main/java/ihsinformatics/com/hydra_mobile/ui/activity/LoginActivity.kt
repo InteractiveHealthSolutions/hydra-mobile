@@ -12,8 +12,6 @@ import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
 import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import android.widget.Toast
-import ihsinformatics.com.hydra_mobile.common.Constant
-import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
@@ -27,17 +25,13 @@ import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.AttributesApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAttribute
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -89,14 +83,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             if (showPassword == 0) {
                 binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_show_eye))
                 showPassword = 1
-                binding.edtPassword.transformationMethod =
-                    HideReturnsTransformationMethod.getInstance()
+                binding.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
 
             } else {
                 binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_cross_eye))
                 showPassword = 0
-                binding.edtPassword.transformationMethod =
-                    PasswordTransformationMethod.getInstance()
+                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
 
             }
         }
@@ -120,83 +112,53 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
-            UserRepository(application).userAuthentication(
-                usernameEditText.text.toString(),
-                passwordEditText.text.toString(),
-                object :
-                    RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
-                    override fun onFailure(t: Throwable) {
-                        networkProgressDialog.dismiss()
-                        Toast.makeText(
-                            this@LoginActivity,
-                            getString(R.string.authentication_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
+                override fun onFailure(t: Throwable) {
+                    networkProgressDialog.dismiss()
+                    ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                }
 
-                    override fun <T> onSuccess(o: T) {
+                override fun <T> onSuccess(o: T) {
 
-                        val providerFetcher = RequestManager(
-                            applicationContext,  usernameEditText.text.toString(),
-                            passwordEditText.text.toString()
-                        ).retrofit.create(ProviderApiService::class.java)
-                        var delimiter = "."
-                        var userSplit = usernameEditText.text.toString().split(delimiter)
-                        providerFetcher.getProviderData(userSplit[0].toString())
-                            .enqueue(object : Callback<ProviderApiResponse> {
-                                override fun onFailure(
-                                    call: Call<ProviderApiResponse>,
-                                    t: Throwable
-                                ) {
-                                    ToastyWidget.getInstance().displayError(
-                                        this@LoginActivity,
-                                        "Error Login",
-                                        Toast.LENGTH_LONG
-                                    )
-                                }
+                    val providerFetcher = RequestManager(applicationContext, usernameEditText.text.toString(), passwordEditText.text.toString()).retrofit.create(ProviderApiService::class.java)
+                    var delimiter = "."
+                    var userSplit = usernameEditText.text.toString().split(delimiter)
+                    providerFetcher.getProviderData(userSplit[0].toString()).enqueue(object : Callback<ProviderApiResponse> {
+                        override fun onFailure(
+                            call: Call<ProviderApiResponse>, t: Throwable
+                                              ) {
+                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                        }
 
-                                override fun onResponse(
-                                    call: Call<ProviderApiResponse>,
-                                    response: Response<ProviderApiResponse>
-                                ) {
-                                    if (response.isSuccessful && null!=response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
-                                        if (checkboxRemember.isChecked) {
-                                            SessionManager(applicationContext).createLoginSession(
-                                                usernameEditText.text.toString(),
-                                                passwordEditText.text.toString(),
-                                                response.body()!!.providerResult[0].uuid
-                                            )
-                                        }
+                        override fun onResponse(
+                            call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
+                                               ) {
+                            if (response.isSuccessful && null != response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
+                               // if (checkboxRemember.isChecked) {
+                                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
 
 
-                                        networkProgressDialog.dismiss()
+
+                                    networkProgressDialog.dismiss()
 
 
-                                        openMetaDataFetcher()
+                                    openMetaDataFetcher()
 
-                                        GlobalPreferences.getinstance(this@LoginActivity)
-                                            .addOrUpdatePreference(
-                                                GlobalPreferences.KEY.WORKFLOW,
-                                                null
-                                            )
-                                        GlobalPreferences.getinstance(this@LoginActivity)
-                                            .addOrUpdatePreference(
-                                                GlobalPreferences.KEY.WORKFLOWUUID,
-                                                null
-                                            )
-                                    }else
-                                    {
-                                        networkProgressDialog.dismiss()
-                                        ToastyWidget.getInstance().displayError(this@LoginActivity,"Error Login",Toast.LENGTH_SHORT)
-                                    }
-                                }
+                                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
+                             //   }
+                            } else {
+                                networkProgressDialog.dismiss()
+                                ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                            }
+                        }
 
 
-                            })
+                    })
 
 
-                    }
-                })
+                }
+            })
         }
     }
 
@@ -210,8 +172,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun validation(): Boolean {
         var isValidated = true;
         if (usernameEditText.text.isBlank() || usernameEditText.text.isEmpty()) {
-            usernameEditText.error =
-                resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+            usernameEditText.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
             usernameEditText.requestFocus()
             isValidated = false
         } else if (passwordEditText.text.isBlank() || passwordEditText.text.isEmpty()) {

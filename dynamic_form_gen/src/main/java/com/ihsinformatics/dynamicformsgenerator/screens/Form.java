@@ -25,6 +25,7 @@ import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
+import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidgetProvider;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
@@ -214,7 +215,8 @@ public class Form extends BaseActivity {
             JSONArray requiredWhenList = question.getJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
-            Question completeQuestion = new Question(required, getFormId(ENCOUNTER_NAME), questionId, questionNumber, widgetType, initialVisibility, null, description, conceptName, configuration, visibleWhen, hiddenWhen, requiredWhen);
+            //TODO replace validation function with regrex
+            Question completeQuestion = new Question(required, getFormId(ENCOUNTER_NAME), questionId, questionNumber, widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, description, conceptName, configuration, visibleWhen, hiddenWhen, requiredWhen);
             this.questions.add(completeQuestion);
 
         }

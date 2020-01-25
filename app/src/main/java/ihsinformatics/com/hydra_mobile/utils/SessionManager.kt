@@ -92,6 +92,10 @@ class SessionManager(context: Context) {
         return pref.getString(KEY_PASS, "")
     }
 
+    fun getProviderUUID():String{
+        return  pref.getString(KEY_PROVIDER,"")
+    }
+
 
     /**
      * Get stored session data

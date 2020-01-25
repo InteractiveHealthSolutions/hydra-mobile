@@ -10,10 +10,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.AttributesApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.CommonLabApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Encounter
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAttribute
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
@@ -36,6 +34,7 @@ class TestAdder : BaseActivity() {
     var adapter: CustomExpandableTestAdderAdapter? = null
     internal var titleList: List<String>? = null
 
+
     lateinit var phasesSpinner: Spinner
     lateinit var encounterSpinner: Spinner
 
@@ -46,15 +45,8 @@ class TestAdder : BaseActivity() {
 
     lateinit var sendParams: JSONObject
     lateinit var order: JSONObject
-    var patientUUID: String = "dbac89bb-508b-4693-aad1-3b5a5310252e"
-    var conceptUUID: String = "17AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    var ordererUUID: String = "2eaa7e49-2e4f-4846-9056-b4f97d8e1b7e"
-    var type: String = "testorder"
-    var careSettingUUID: String = "6f0c9a92-6f24-11e3-af88-005056821db0"
-    var encounterUUID: String = "9fd970e7-0289-490d-bd37-8b0bb6178158"
-    lateinit var labTestType: String
-    var labReferenceNumber: String = "adding test test2"
-    var labInstructions: String = "adding test test2"
+
+
 
 
     val data: HashMap<String, ArrayList<String>>
@@ -90,6 +82,16 @@ class TestAdder : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        var patientUUID: String = "dbac89bb-508b-4693-aad1-3b5a5310252e"
+        var conceptUUID: String = "17AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        var ordererUUID: String = sessionManager.getProviderUUID()
+        var type: String = "testorder"
+        var careSettingUUID: String = "6f0c9a92-6f24-11e3-af88-005056821db0"
+        var encounterUUID: String = "9fd970e7-0289-490d-bd37-8b0bb6178158"
+        lateinit var labTestType: String
+        var labReferenceNumber: String = "adding test test2"
+        var labInstructions: String = ""
 
         expandableListView = findViewById<ExpandableListView>(R.id.expandableListView)
         phasesSpinner = findViewById<Spinner>(R.id.phasesSpinner)

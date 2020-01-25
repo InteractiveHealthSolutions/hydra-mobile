@@ -52,7 +52,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
         etAnswer = (EditText) findViewById(R.id.etAnswer);
-        options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
+        options = DataProvider.getInstance(context).getOptions(question.getQuestionId());   //TODO This is the problem in few widgets ~Taha
         for (Option option : options) {
             if (option instanceof RangeOption) {
                 rangeOptions.add((RangeOption) option);

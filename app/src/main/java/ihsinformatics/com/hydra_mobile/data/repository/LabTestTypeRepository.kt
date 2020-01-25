@@ -4,14 +4,10 @@ import android.content.Context
 import android.util.Log
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.commonLab.LabTestTypeDao
-import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentFormJoinDao
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestType
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestTypeApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.LabTestTypeApiResponse
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 

@@ -166,13 +166,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             resources.getString(R.string.common_lab) -> {
 
-                if (Global.patientData == null) {
-                    ToastyWidget.getInstance()
-                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
-                } else {
+//                if (Global.patientData == null) {
+//                    ToastyWidget.getInstance()
+//                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
+//                } else {
                     startActivity(Intent(applicationContext, CommonLabActivity::class.java))
                     finish()
-                }
+                //}
             }
 
             resources.getString(R.string.report) -> {
@@ -269,10 +269,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 finish()
             }
 
-            R.id.nav_events -> {
-                startActivity(Intent(this, EventsActivity::class.java))
-                finish()
-            }
+//            R.id.nav_events -> {
+//                startActivity(Intent(this, EventsActivity::class.java))
+//                finish()
+//            }
 
             R.id.nav_search -> {
                 PatientInfoFetcher.init(

@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -14,13 +15,12 @@ import java.util.*
 
 
 class CustomExpandableTestAdderAdapter constructor(
-    private val context: Context,
-    private val titleList: List<String>,
-    private val dataList: HashMap<String, ArrayList<String>>
+    private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, ArrayList<String>>
 
-) : BaseExpandableListAdapter() {
+                                                  ) : BaseExpandableListAdapter() {
 
-    private var mCheckBoxData=HashMap<String, String>()
+    var REQUEST_FOR_ACTIVITY_CODE = 100
+    private var mCheckBoxData = HashMap<String, TestsAdditionalData>()
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]
@@ -31,17 +31,12 @@ class CustomExpandableTestAdderAdapter constructor(
     }
 
     override fun getChildView(
-        listPosition: Int,
-        expandedListPosition: Int,
-        isLastChild: Boolean,
-        convertView: View?,
-        parent: ViewGroup
-    ): View {
+        listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup
+                             ): View {
         var convertView = convertView
         val expandedListText = getChild(listPosition, expandedListPosition) as String
         if (convertView == null) {
-            val layoutInflater =
-                this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.lab_test_added_item_layout, null)
         }
 
@@ -49,15 +44,14 @@ class CustomExpandableTestAdderAdapter constructor(
         val testType = convertView!!.findViewById<CheckBox>(R.id.testType)
         testType.text = expandedListText
 
-        val tag = Pair(
-            getGroupId(listPosition),
-            getChildId(listPosition, expandedListPosition)
-        )
-        testType.tag=tag
+        val tag = Pair(getGroupId(listPosition), getChildId(listPosition, expandedListPosition))
+        testType.tag = tag
         testType.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(arg0: CompoundButton?, value: Boolean) {
+
+
                 reference.setText("2020-01-20 10:54:47.201")
-                mCheckBoxData.put(arg0!!.text.toString(), reference.text.toString());
+                mCheckBoxData.put(arg0!!.text.toString(), TestsAdditionalData(reference.text.toString()));
             }
         })
 //        testType.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -69,6 +63,9 @@ class CustomExpandableTestAdderAdapter constructor(
         val addInstructionsButton = convertView!!.findViewById<TextView>(R.id.addInstructions)
 
         addInstructionsButton.setOnClickListener {
+
+            var intent = Intent(context, InstructionsAdder::class.java)
+            (context as Activity).startActivityForResult(intent, REQUEST_FOR_ACTIVITY_CODE)
             context.startActivity(Intent(context, InstructionsAdder::class.java))
 
         }
@@ -93,18 +90,14 @@ class CustomExpandableTestAdderAdapter constructor(
     }
 
     override fun getGroupView(
-        listPosition: Int,
-        isExpanded: Boolean,
-        convertView: View?,
-        parent: ViewGroup
-    ): View {
+        listPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup
+                             ): View {
         var convertView = convertView
         val listTitle = getGroup(listPosition) as String
 
 
         if (convertView == null) {
-            val layoutInflater =
-                this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.add_test_list_item, null)
         }
         val listTitleTextView = convertView!!.findViewById<TextView>(R.id.listTitle)
@@ -132,8 +125,24 @@ class CustomExpandableTestAdderAdapter constructor(
     }
 
 
-    fun getCheckBoxData(): HashMap<String, String>? {
+    fun getCheckBoxData(): HashMap<String, TestsAdditionalData>? {
         return mCheckBoxData
     }
+
+
+    protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == REQUEST_FOR_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data.getStringExtra("result")
+            }
+            if (resultCode == Activity.RESULT_CANCELED) { //Write your code if there's no result
+
+            }
+        }
+    }
+
+    class TestsAdditionalData(
+        referenceNumber: String
+                             )
 
 }
