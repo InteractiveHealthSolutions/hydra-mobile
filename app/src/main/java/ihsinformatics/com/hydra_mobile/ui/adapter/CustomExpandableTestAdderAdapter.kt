@@ -49,6 +49,7 @@ class CustomExpandableTestAdderAdapter constructor(
         testType.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(arg0: CompoundButton?, value: Boolean) {
 
+                //TODO need to send instructions along with checkedBox ~Taha CommonLAB
 
                 reference.setText("2020-01-20 10:54:47.201")
                 mCheckBoxData.put(arg0!!.text.toString(), TestsAdditionalData(reference.text.toString()));

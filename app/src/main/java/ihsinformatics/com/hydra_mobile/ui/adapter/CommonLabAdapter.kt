@@ -45,7 +45,7 @@ class CommonLabAdapter(
         }
 
 
-        //TODO Add completed tag on recycler view where result is submitted
+        //TODO Add completed tag on recycler view where result is submitted (for now it can not be donw because attribute field is not enabled in api) ~Taha
 //        for (i in 0 until testOrderList[position].labTestSamples.size) {
 //            if (testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {
 //                holder.completedTag.visibility = View.VISIBLE
@@ -54,7 +54,7 @@ class CommonLabAdapter(
 
 
         holder?.summary.setOnClickListener {
-
+            //TODO API doesnot return fields for summary (attribute) so cant show proper summary for now ~Taha
             if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0 && checkStatusForTestSample(position)) {
                 var intent = Intent(context, TestSummary::class.java)
                 val dataListJson: String = gson.toJson(testOrderList[position])
@@ -77,16 +77,16 @@ class CommonLabAdapter(
                 Toast.makeText(context, "No Test Samples Available", Toast.LENGTH_SHORT).show()
                 holder.edit.isEnabled = true
                 var intent = Intent(context, TestSampleAdder::class.java)
-                intent.putExtra("testOrderID", testOrderList[position].testOrderId)
                 intent.putExtra("labTest", testOrderList[position].uuid)
 
                 context.startActivity(intent)
-                //TODO Implement logic for adding test sample
+
             } else if (testOrderList[position].labTestSamples.size != 0 && testOrderList[position].labTestType.requiresSpecimen && !checkStatusForTestSample(position)) {
 
                 var intent = Intent(context, ManageTestSample::class.java)
                 val testSampleListJson: String = gson.toJson(testOrderList[position].labTestSamples)
                 intent.putExtra("testSamples", testSampleListJson)
+                intent.putExtra("labTest", testOrderList[position].uuid)
                 holder.edit.isEnabled = true
                 context.startActivity(intent)
 
@@ -109,7 +109,7 @@ class CommonLabAdapter(
     }
 
 
-    //returns true for accepted or collected test samples
+    //returns true for accepted
     fun checkStatusForTestSample(position: Int): Boolean {
         for (i in 0 until testOrderList[position].labTestSamples.size) {
             if (testOrderList[position].labTestSamples.get(i).status.toLowerCase().equals("accepted")) {

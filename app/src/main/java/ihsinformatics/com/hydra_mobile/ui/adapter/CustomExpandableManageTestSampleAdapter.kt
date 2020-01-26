@@ -9,16 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 
 import java.util.HashMap
-import android.opengl.ETC1.getWidth
 import android.widget.*
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.TestSampleApi
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.InstructionsAdder
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class CustomExpandableManageTestSampleAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, ArrayList<TestSample>>) : BaseExpandableListAdapter() {
+class CustomExpandableManageTestSampleAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, ArrayList<TestSample>>, testSampleConcepts: CommonLabApiService) : BaseExpandableListAdapter() {
 
+    val testSampleConceptAdder=testSampleConcepts
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]
     }
@@ -36,15 +44,21 @@ class CustomExpandableManageTestSampleAdapter internal constructor(private val c
         }
         val specimenType = convertView!!.findViewById<TextView>(R.id.specimenType)
         val specimenSite = convertView!!.findViewById<TextView>(R.id.specimenSite)
+        val acceptButton = convertView!!.findViewById<TextView>(R.id.accept)
+        val rejectButton = convertView!!.findViewById<TextView>(R.id.reject)
+
         specimenType.text = expandedListText.specimenType.display
         specimenSite.text = expandedListText.specimenSite.display
 
-        //val addInstructionsButton = convertView!!.findViewById<TextView>(R.id.specimenSite)
+        acceptButton.setOnClickListener{
+            acceptRejectSample(expandedListText,"ACCEPTED")
 
-//        addInstructionsButton.setOnClickListener {
-//            context.startActivity(Intent(context,InstructionsAdder::class.java))
-//
-//        }
+        }
+
+        rejectButton.setOnClickListener{
+            acceptRejectSample(expandedListText,"REJECTED")
+        }
+
 
         return convertView
     }
@@ -102,5 +116,45 @@ class CustomExpandableManageTestSampleAdapter internal constructor(private val c
     }
 
 
+    fun acceptRejectSample(expandedListText: TestSample,status:String)
+    {
+        var sendParams = JSONObject()
+        sendParams.put("labTest", expandedListText.labTest.uuid)
+        sendParams.put("labTestSampleId", expandedListText.labTestSampleId)
+        sendParams.put("specimenType", expandedListText.specimenType.uuid)
+        sendParams.put("specimenSite", expandedListText.specimenSite.uuid)
+        sendParams.put("quantity", expandedListText.quantity.toString())
+        sendParams.put("sampleIdentifier", expandedListText.sampleIdentifier.toString())
+        sendParams.put("collectionDate", expandedListText.collectionDate)
+        sendParams.put("collector", expandedListText.collector.uuid)
+        sendParams.put("expiryDate", expandedListText.expiryDate)
+        sendParams.put("status", status)
+        sendParams.put("comments", expandedListText.comments)
+
+
+        val body: RequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), sendParams.toString())
+
+
+        testSampleConceptAdder.addTestSample(body).enqueue(object : Callback<TestSampleApi> {
+            override fun onFailure(call: Call<TestSampleApi>, t: Throwable) {
+
+                ToastyWidget.getInstance().displayError(context, context.getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                context.startActivity(Intent(context, CommonLabActivity::class.java))
+
+            }
+
+            override fun onResponse(
+                call: Call<TestSampleApi>, response: Response<TestSampleApi>
+                                   ) {
+                if (response.isSuccessful) {
+                    ToastyWidget.getInstance().displaySuccess(context, "Test Sample Status Changed Successfully", Toast.LENGTH_SHORT)
+                    context.startActivity(Intent(context, CommonLabActivity::class.java))
+                } else {
+                    ToastyWidget.getInstance().displayError(context, "Error Changing Test Sample Status", Toast.LENGTH_SHORT)
+                }
+            }
+
+        })
+    }
 
 }

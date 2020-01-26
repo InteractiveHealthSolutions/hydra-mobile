@@ -37,23 +37,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp"
-        android:weightSum="10"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_rounded_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="9.4"
-            android:background="@drawable/white_rounded_background"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <include
                     layout="@layout/content_expandable_profile"
@@ -63,18 +59,19 @@
             </LinearLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/addTestSample"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:textColor="@color/White"
-            android:layout_marginEnd="30dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginStart="30dp"
-            android:text="@string/add_test_sample"
-            android:background="@drawable/blue_rounded_background"/>
+
     </LinearLayout>
+    <Button
+        android:id="@+id/addTestSample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/White"
+        android:layout_marginEnd="30dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/add_test_sample"
+        android:background="@drawable/blue_rounded_background"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

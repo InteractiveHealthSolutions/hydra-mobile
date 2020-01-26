@@ -1,5 +1,8 @@
 package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
+//TODO error while parsing edittext answer and api not accepting result ~Taha CommonLAB
+//TODO also cannot display summary results since attribute field is not coming   ~Taha CommonLAB
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -23,6 +26,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResp
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -44,13 +48,17 @@ class TestSampleResult : BaseActivity() {
     lateinit var sendParams: JSONObject
     lateinit var attributesObj: JSONObject
     lateinit var attributes: JSONArray
-
+    private lateinit var networkProgressDialog: NetworkProgressDialog
 
     var myQuestions = ArrayList<Question>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_sample_result)
+
+        networkProgressDialog = NetworkProgressDialog(this)
+        networkProgressDialog.show()
+
         questions = ArrayList<Question>()
         options = ArrayList<Option>()
 
@@ -78,23 +86,29 @@ class TestSampleResult : BaseActivity() {
                 Timber.e(response.message())
                 if (response.isSuccessful) {
                     labTestAttribute = response.body()!!.attributes
+                    init()
 
                 } else {
-                    labTestAttribute = ArrayList<AttributeTypeResponse>()
+                    networkProgressDialog.dismiss()
+                    ToastyWidget.getInstance().displayError(this@TestSampleResult, "Error fetching Test Results Meta Data", Toast.LENGTH_LONG)
+                    startActivity(Intent(this@TestSampleResult, CommonLabActivity::class.java))
                 }
 
-                init()
 
             }
 
             override fun onFailure(call: Call<AttributesApiResponse>, t: Throwable) {
                 Timber.e(t.localizedMessage)
-
+                networkProgressDialog.dismiss()
+                ToastyWidget.getInstance().displayError(this@TestSampleResult, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                startActivity(Intent(this@TestSampleResult, CommonLabActivity::class.java))
             }
 
         })
 
         saveResults.setOnClickListener {
+
+            networkProgressDialog.show()
 
             attributesObj = JSONObject()
             sendParams = JSONObject()
@@ -124,19 +138,22 @@ class TestSampleResult : BaseActivity() {
                     Timber.e(response.message())
                     if (response.isSuccessful) {
 
+                        networkProgressDialog.dismiss()
                         ToastyWidget.getInstance().displaySuccess(this@TestSampleResult, "Result saved successfully", Toast.LENGTH_SHORT)
 
                         startActivity(Intent(this@TestSampleResult, CommonLabActivity::class.java))
                     } else {
+                        networkProgressDialog.dismiss()
                         ToastyWidget.getInstance().displayError(this@TestSampleResult, "Error saving Result", Toast.LENGTH_SHORT)
 
-                        startActivity(Intent(this@TestSampleResult, CommonLabActivity::class.java))
                     }
                 }
 
                 override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
                     Timber.e(t.localizedMessage)
-
+                    networkProgressDialog.dismiss()
+                    ToastyWidget.getInstance().displayError(this@TestSampleResult, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                    startActivity(Intent(this@TestSampleResult, CommonLabActivity::class.java))
                 }
 
             })
@@ -191,7 +208,7 @@ class TestSampleResult : BaseActivity() {
                 })
 
 
-            } else   //TODO There are alot more datatypes as well such as float etc... you need to figure out all datatypes and according make widget rather making all widgets edit text
+            } else   //TODO There are alot more datatypes as well such as float etc... you need to figure out all datatypes and according make widget rather making all widgets edit text   ~Taha
             {
                 var q = Question(true, 1, questionsId, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, labTestAttribute.get(i).display, labTestAttribute.get(i).uuid, QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1))
 
@@ -201,8 +218,9 @@ class TestSampleResult : BaseActivity() {
             questionsId++
         }
 
+        networkProgressDialog.dismiss()
 
-    }
+    }   //TODO Questions that are manadatory are getting saved if they are not filled
 
 
     fun display(question: Question, optionsList: List<Option>) {

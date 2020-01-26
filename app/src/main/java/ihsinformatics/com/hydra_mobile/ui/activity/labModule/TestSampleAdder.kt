@@ -1,5 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
+//TODO Error parsing edit text answers(value)  ~Taha CommonLAB  once this error is resuolved then API will submit this(verified with postman)
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -37,8 +39,8 @@ class TestSampleAdder : BaseActivity() {
 
 
     lateinit var sessionManager: SessionManager
-    lateinit var llMain: LinearLayout
-    var specimenSiteUUID = "159959AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    lateinit var llMain: LinearLayout           //TODO DISCUSS what if these concepts are changed in OPENMRS, since we are using hardcoded concept values here ~Taha
+    var specimenSiteUUID = "159959AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"   //These concepts should be hardcoded
     var specimenTypeUUID = "162476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     var unitUUID = "5db4f53e-6218-4ae0-ae4e-5e0343b5d301"
 
@@ -61,7 +63,7 @@ class TestSampleAdder : BaseActivity() {
 
     lateinit var labTest: String
     val comments: String = "None"
-    val status: String = "Collected"
+    val status: String = "Collected"   //Initially sample status will be collected
     var expiryDate = null
 
     lateinit var questionSpecimenType: Question
@@ -100,6 +102,8 @@ class TestSampleAdder : BaseActivity() {
             val print = SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             var collectionDate = print.format(parsedDate)
+
+            //TODO question cannot get quantity and sample thats why one cant send it... ~Taha
 
             var sendParams = JSONObject()
             sendParams.put("labTest", labTest)

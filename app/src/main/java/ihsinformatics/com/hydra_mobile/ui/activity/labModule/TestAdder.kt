@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResponse
@@ -47,8 +48,6 @@ class TestAdder : BaseActivity() {
     lateinit var order: JSONObject
 
 
-
-
     val data: HashMap<String, ArrayList<String>>
         get() {
 
@@ -83,6 +82,8 @@ class TestAdder : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+
+        //TODO HardCODED most of the fields... ~Taha
         var patientUUID: String = "dbac89bb-508b-4693-aad1-3b5a5310252e"
         var conceptUUID: String = "17AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         var ordererUUID: String = sessionManager.getProviderUUID()
@@ -102,8 +103,7 @@ class TestAdder : BaseActivity() {
         val jsonObj = intent.getStringExtra("encountersList")
 
         val gson = Gson()
-        val token: TypeToken<ArrayList<Encounter?>?> =
-            object : TypeToken<ArrayList<Encounter?>?>() {}
+        val token: TypeToken<ArrayList<Encounter?>?> = object : TypeToken<ArrayList<Encounter?>?>() {}
         var encountersList: ArrayList<Encounter> = gson.fromJson(jsonObj, token.type)
 
 
@@ -111,18 +111,14 @@ class TestAdder : BaseActivity() {
         for (i in 0 until encountersList.size) {
             encountersMap.put(encountersList.get(i).display, encountersList.get(i).uuid)
         }
-        encounterSpinner.adapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, encountersMap.keys.toList())
+        encounterSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, encountersMap.keys.toList())
 
 
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
         val width = metrics.widthPixels
 
-        expandableListView!!.setIndicatorBounds(
-            width - GetPixelFromDips(50f),
-            width - GetPixelFromDips(10f)
-        );
+        expandableListView!!.setIndicatorBounds(width - GetPixelFromDips(50f), width - GetPixelFromDips(10f));
 
 
 
@@ -130,12 +126,7 @@ class TestAdder : BaseActivity() {
         if (expandableListView != null) {
             val listData = data
             titleList = ArrayList(listData.keys)
-            adapter =
-                CustomExpandableTestAdderAdapter(
-                    this,
-                    titleList as ArrayList<String>,
-                    listData
-                )
+            adapter = CustomExpandableTestAdderAdapter(this, titleList as ArrayList<String>, listData)
             expandableListView!!.setAdapter(adapter)
 
 
@@ -147,10 +138,7 @@ class TestAdder : BaseActivity() {
         saveRequest.setOnClickListener {
             labTestTypeUUIDs.clear()
 
-            var addTestOrder = RequestManager(
-                applicationContext, sessionManager.getUsername(),
-                sessionManager.getPassword()
-            ).getPatientRetrofit().create(CommonLabApiService::class.java)
+            var addTestOrder = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getPatientRetrofit().create(CommonLabApiService::class.java)
 
             var myMutable = adapter?.getCheckBoxData()
 
@@ -185,38 +173,37 @@ class TestAdder : BaseActivity() {
                 sendParams.put("labReferenceNumber", labReferenceNumber)
                 sendParams.put("labInstructions", labInstructions)
 
-                val body: RequestBody = RequestBody.create(
-                    MediaType.parse("application/json; charset=utf-8"),
-                    sendParams.toString()
-                )
-                addTestOrder.addLabTestOrder(body).enqueue(object :
-                    Callback<CommonLabApiResponse> {
+                val body: RequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), sendParams.toString())
+                addTestOrder.addLabTestOrder(body).enqueue(object : Callback<CommonLabApiResponse> {
                     override fun onResponse(
-                        call: Call<CommonLabApiResponse>,
-                        response: Response<CommonLabApiResponse>
-                    ) {
+                        call: Call<CommonLabApiResponse>, response: Response<CommonLabApiResponse>
+                                           ) {
                         Timber.e(response.message())
                         if (response.isSuccessful) {
 
+                            ToastyWidget.getInstance().displaySuccess(this@TestAdder, "Test Order Added Successfully", Toast.LENGTH_LONG)
+                            startActivity(Intent(this@TestAdder, CommonLabActivity::class.java))
+
                         } else {
 
+                            ToastyWidget.getInstance().displaySuccess(this@TestAdder, "Error Adding Test Order", Toast.LENGTH_LONG)
+
                         }
-                        init()
                     }
 
                     override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
                         Timber.e(t.localizedMessage)
+                        ToastyWidget.getInstance().displaySuccess(this@TestAdder, getString(R.string.internet_issue), Toast.LENGTH_LONG)
 
                     }
 
                 })
 
             }
-            startActivity(Intent(this, CommonLabActivity::class.java))
         }
 
 
-        init();
+        init()
 
     }
 
@@ -248,14 +235,11 @@ class TestAdder : BaseActivity() {
 
     private fun init() {
 
-        var selectedWorkFlow = GlobalPreferences.getinstance(this@TestAdder).findPrferenceValue(
-            GlobalPreferences.KEY.WORKFLOWUUID, "-1"
-        )
+        var selectedWorkFlow = GlobalPreferences.getinstance(this@TestAdder).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "-1")
 
 
         // if(!selectedWorkFlow.equals("-1")) {
-        val workflowPhaseMapViewModel =
-            ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
+        val workflowPhaseMapViewModel = ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
         val work = workflowPhaseMapViewModel.getPhasesByWorkFlowUUID(selectedWorkFlow)
 
         var phasesArraylist = HashMap<String, String>()
@@ -263,8 +247,7 @@ class TestAdder : BaseActivity() {
             phasesArraylist.put(work.get(i).phaseName, work.get(i).phaseUUID)
         }
 
-        phasesSpinner.adapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, phasesArraylist.keys.toList())
+        phasesSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, phasesArraylist.keys.toList())
 
 //            phasesArraylist.get(phasesSpinner.selectedItem.toString())
 

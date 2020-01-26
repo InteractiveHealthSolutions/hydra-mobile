@@ -311,7 +311,7 @@
     <string name="quantity">Quantity</string>
     <string name="collection_data">Collection Data</string>
     <string name="save_test_sample">Save Test Sample</string>
-    <string name="internet_issue">Error Login. Check your internet connection</string>
+    <string name="internet_issue">Error. Check your internet connection</string>
 
 
     <string-array name="end_of_followup_for">

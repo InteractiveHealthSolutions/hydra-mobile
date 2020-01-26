@@ -16,5 +16,6 @@ data class TestSample(
     val specimenType: SpecimenType,
     val status: String,
     val units: Any,
-    val uuid: String
+    val uuid: String,
+    val labTestSampleId:String
 )

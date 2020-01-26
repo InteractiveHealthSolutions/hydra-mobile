@@ -30,7 +30,8 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 
 class CommonLabActivity : AppCompatActivity() {
 
-    var patientID="dbac89bb-508b-4693-aad1-3b5a5310252e"
+    //TODO patient needs to be fetched from online openmrs server... Here we have hardcoded due to not enabling feature of online search for patient  ~Taha
+    var patientID = "dbac89bb-508b-4693-aad1-3b5a5310252e"
 
     lateinit var testTypeList: ArrayList<LabTestOrder>
     lateinit var encountersList: ArrayList<Encounter>
@@ -57,40 +58,34 @@ class CommonLabActivity : AppCompatActivity() {
         networkProgressDialog.show();
 
         rv = findViewById<RecyclerView>(R.id.testOrder)
-        rv.isFocusable=false
+        rv.isFocusable = false
         rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         testTypeList = ArrayList<LabTestOrder>()
         encountersList = ArrayList<Encounter>()
 
-        val testOrderSearch = RequestManager(
-            applicationContext, sessionManager.getUsername(),
-            sessionManager.getPassword()
-        ).getPatientRetrofit().create(CommonLabApiService::class.java)
+        val testOrderSearch = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getPatientRetrofit().create(CommonLabApiService::class.java)
 
-        testOrderSearch.getLabTestOrderByPatientUUID(
-            patientID,
-            Constant.REPRESENTATION
-        ).enqueue(object : Callback<CommonLabApiResponse> {
+        testOrderSearch.getLabTestOrderByPatientUUID(patientID, Constant.REPRESENTATION).enqueue(object : Callback<CommonLabApiResponse> {
             override fun onResponse(
-                call: Call<CommonLabApiResponse>,
-                response: Response<CommonLabApiResponse>
-            ) {
+                call: Call<CommonLabApiResponse>, response: Response<CommonLabApiResponse>
+                                   ) {
                 Timber.e(response.message())
                 if (response.isSuccessful) {
                     testTypeList = response.body()!!.labTests
-
+                    setTestOrderList()
                 } else {
-                    ToastyWidget.getInstance().displayError(this@CommonLabActivity,"Could not fetch test orders",Toast.LENGTH_LONG)
+                    networkProgressDialog.dismiss()
+                    ToastyWidget.getInstance().displayError(this@CommonLabActivity, "Could not fetch test orders", Toast.LENGTH_LONG)
                     startActivity(Intent(this@CommonLabActivity, HomeActivity::class.java))
                 }
-                setTestOrderList()
+
             }
 
             override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
                 Timber.e(t.localizedMessage)
-
-                ToastyWidget.getInstance().displayError(this@CommonLabActivity,"Could not fetch test orders",Toast.LENGTH_LONG)
+                networkProgressDialog.dismiss()
+                ToastyWidget.getInstance().displayError(this@CommonLabActivity, "Could not fetch test orders", Toast.LENGTH_LONG)
                 startActivity(Intent(this@CommonLabActivity, HomeActivity::class.java))
             }
 
@@ -103,14 +98,10 @@ class CommonLabActivity : AppCompatActivity() {
             addTest.isClickable = false
             networkProgressDialog.show();
             //Fetching Encounters
-            testOrderSearch.getEncountersByPatientUUID(
-                patientID,
-                Constant.REPRESENTATION
-            ).enqueue(object : Callback<EncountersApiResponse> {
+            testOrderSearch.getEncountersByPatientUUID(patientID, Constant.REPRESENTATION).enqueue(object : Callback<EncountersApiResponse> {
                 override fun onResponse(
-                    call: Call<EncountersApiResponse>,
-                    response: Response<EncountersApiResponse>
-                ) {
+                    call: Call<EncountersApiResponse>, response: Response<EncountersApiResponse>
+                                       ) {
                     Timber.e(response.message())
                     if (response.isSuccessful) {
                         encountersList.clear()
@@ -122,19 +113,22 @@ class CommonLabActivity : AppCompatActivity() {
                             val encountersListJson: String = gson.toJson(encountersList)
                             intent.putExtra("encountersList", encountersListJson)
                             intent.putExtra("patientID", patientID)
-
+//                            intent.putExtra("concept", patientID)
+//                            intent.putExtra("orderer", sessionManager.getProviderUUID())
+//                            intent.putExtra("type", patientID)
+//                            intent.putExtra("careSetting", patientID)
+//                            intent.putExtra("encounter", patientID)
+//                            intent.putExtra("labReferenceNumber", patientID)
 
 
                             networkProgressDialog.dismiss()
                             startActivity(intent)
+
                         } else {
-                            Toast.makeText(
-                                this@CommonLabActivity,
-                                "No encounters for patient",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@CommonLabActivity, "No encounters for patient", Toast.LENGTH_SHORT).show()
                             addTest.isClickable = true
                             networkProgressDialog.dismiss()
+
                         }
 
                     }
@@ -146,11 +140,7 @@ class CommonLabActivity : AppCompatActivity() {
                     addTest.isClickable = true
                     networkProgressDialog.dismiss()
 
-                    Toast.makeText(
-                        this@CommonLabActivity,
-                        "Error fetching Encounters",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@CommonLabActivity, "Error fetching Encounters", Toast.LENGTH_SHORT).show()
                 }
             })
 
@@ -161,10 +151,7 @@ class CommonLabActivity : AppCompatActivity() {
     fun setTestOrderList() {
 
 
-        adapter =
-            CommonLabAdapter(
-                testTypeList, this, applicationContext
-            )
+        adapter = CommonLabAdapter(testTypeList, this, applicationContext)
         rv.adapter = adapter
         networkProgressDialog.dismiss()
     }
