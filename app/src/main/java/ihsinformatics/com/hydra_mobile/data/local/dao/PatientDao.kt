@@ -2,7 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 
 @Dao
 interface PatientDao {
@@ -16,7 +16,7 @@ interface PatientDao {
     @Delete
     fun deletePatient(patient: Patient)
 
-    @Query("SELECT * FROM Patient WHERE uuid == :uuid")
+    @Query("SELECT * FROM Patient WHERE patientUUID == :uuid")
     fun getPatientById(uuid: String): LiveData<List<Patient>>
 
     @Query("SELECT * FROM Patient ")

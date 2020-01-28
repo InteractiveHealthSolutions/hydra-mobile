@@ -1,9 +1,6 @@
 package ihsinformatics.com.hydra_mobile.data.remote.service
 
-import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.AttributesApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.EncountersApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.TestSampleApi
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.*
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -25,11 +22,21 @@ interface CommonLabApiService {
         @Query("patient") patient: String, @Query("v") representation: String
     ): Call<EncountersApiResponse>
 
+    @GET("encounter")
+    fun getEncountersOfPatient(
+        @Query("q") queryString: String, @Query("v") representation: String
+                                  ): Call<EncountersApiResponse>
+
 
     @GET("commonlab/labtestattributetype")
     fun getLabTestAttributeType(
         @Query("testTypeUuid") testTypeUuid: String, @Query("v") representation: String
     ): Call<AttributesApiResponse>
+
+    @GET("commonlab/labtestattribute")
+    fun getLabTestAttribute(
+        @Query("testOrderId") testOrderId: String, @Query("v") representation: String
+                               ): Call<AttributeResponse>
 
     @GET("concept/{uuid}")
     fun getConcepts(@Path(value = "uuid") uuid :String): Call<Concept>

@@ -1,21 +1,24 @@
 package ihsinformatics.com.hydra_mobile.data.local
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
+import androidx.room.TypeConverters
 import ihsinformatics.com.hydra_mobile.data.local.dao.*
 import ihsinformatics.com.hydra_mobile.data.local.dao.commonLab.LabTestTypeDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
-import ihsinformatics.com.hydra_mobile.data.local.entities.*
+import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
+import ihsinformatics.com.hydra_mobile.data.local.entities.Location
+import ihsinformatics.com.hydra_mobile.data.local.entities.Person
+import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestType
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormResultApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
-import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
+import ihsinformatics.com.hydra_mobile.utils.Converters
 
 /**
  * It represents the DB, it holds a connection to the actual SQLite DB.
@@ -28,6 +31,7 @@ import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun appSettingDao(): AppSettingDao

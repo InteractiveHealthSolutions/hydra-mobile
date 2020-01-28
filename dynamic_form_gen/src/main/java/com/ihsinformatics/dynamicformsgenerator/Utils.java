@@ -92,7 +92,7 @@ public class Utils {
         Iterator<String> fieldsKeys = fieldJson.keys();
         while (fieldsKeys.hasNext()) {
             String key = fieldsKeys.next();
-            toReturn.put(key, fieldJson.opt(key));    // TODO FieldData is making summary null... Need to resolve this(Solution: no need for summary column seperately. Use FieldData to save summary)
+            toReturn.put(key, fieldJson.opt(key));
         }
 
         return toReturn;

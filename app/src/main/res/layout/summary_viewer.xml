@@ -1,166 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:id="@+id/parentLayout"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="20dp">-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="20dp">-->
 
-<!--        <androidx.appcompat.widget.AppCompatTextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
+    <!--        <androidx.appcompat.widget.AppCompatTextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"/>-->
 
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
     <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:layout_gravity="center|bottom"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/blue_rounded_background"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/blue_rounded_background"
+            android:orientation="vertical">
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="350dp"
-                    android:gravity="top"
-                    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="350dp"
+                android:gravity="top"
+                android:orientation="vertical">
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Test Result Detail"
-                        android:textColor="@color/White"
-                        android:textSize="18sp"
-                        android:textStyle="bold">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Test Result Detail"
+                    android:textColor="@color/White"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
 
                 </TextView>
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="3dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:background="@color/White">
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@color/White">
 
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Group Name: "
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Group Name: "
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/groupName"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:id="@+id/groupName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Question: "
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Question: "
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/question"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:id="@+id/question"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Value: "
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Value: "
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/value"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textColor="@color/White"
-                                android:textSize="15sp">
+                            android:id="@+id/value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textColor="@color/White"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
@@ -170,439 +170,445 @@
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/summaryLayout"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_gravity="center|top"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/white_rounded_background">
+            android:id="@+id/summaryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/white_rounded_background">
 
             <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp">
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/space_transparent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:background="@color/space_transparent"
-                        android:orientation="vertical">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Test Order ID: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Test Order ID: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/testOrderID"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/testOrderID"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Test Group: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Test Group: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/testGroup"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/testGroup"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Test Type: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Test Type: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/testType"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/testType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Encounter Type: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Encounter Type: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/encounterType"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/encounterType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Lab Reference Number: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Lab Reference Number: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/labReferenceNumber"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/labReferenceNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Requires Specimen: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Requires Specimen: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/requireSpecimen"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/requireSpecimen"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Created By: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Created By: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/createdBy"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/createdBy"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Date Created: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Date Created: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/dateCreated"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/dateCreated"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="4">
 
                         <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="UUID: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="UUID: "
+                            android:textColor="@color/Black"
+                            android:textSize="15sp">
 
                         </TextView>
 
                         <TextView
-                                android:id="@+id/uuid"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+                            android:id="@+id/uuid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:text="Summary Content should be written here"
+                            android:textSize="15sp">
 
                         </TextView>
                     </LinearLayout>
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center"
-                            android:text="Test Sample Details"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Test Sample Details"
+                        android:textColor="@color/Black"
+                        android:textSize="18sp">
 
                     </TextView>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:background="@color/app_blue">
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/app_blue">
 
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
-
-                        <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Test Order: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
-
-                        </TextView>
-
-                        <TextView
-                                android:id="@+id/testOrder"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
-
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+                        android:id="@+id/labTestSample"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp" />
 
-                        <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Specimen Type: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:weightSum="4">-->
 
-                        </TextView>
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Test Order: "-->
+<!--                            android:textColor="@color/Black"-->
+<!--                            android:textSize="15sp">-->
 
-                        <TextView
-                                android:id="@+id/specimenType"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+<!--                        </TextView>-->
 
-                        </TextView>
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/testOrder"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_weight="3"-->
+<!--                            android:text="Summary Content should be written here"-->
+<!--                            android:textSize="15sp">-->
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+<!--                        </TextView>-->
+<!--                    </LinearLayout>-->
 
-                        <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Specimen Site: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:weightSum="4">-->
 
-                        </TextView>
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Specimen Type: "-->
+<!--                            android:textColor="@color/Black"-->
+<!--                            android:textSize="15sp">-->
 
-                        <TextView
-                                android:id="@+id/specimenSite"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+<!--                        </TextView>-->
 
-                        </TextView>
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/specimenType"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_weight="3"-->
+<!--                            android:text="Summary Content should be written here"-->
+<!--                            android:textSize="15sp">-->
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-                            android:weightSum="4">
+<!--                        </TextView>-->
+<!--                    </LinearLayout>-->
 
-                        <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Status: "
-                                android:textColor="@color/Black"
-                                android:textSize="15sp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:weightSum="4">-->
 
-                        </TextView>
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Specimen Site: "-->
+<!--                            android:textColor="@color/Black"-->
+<!--                            android:textSize="15sp">-->
 
-                        <TextView
-                                android:id="@+id/status"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="3"
-                                android:text="Summary Content should be written here"
-                                android:textSize="15sp">
+<!--                        </TextView>-->
 
-                        </TextView>
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/specimenSite"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_weight="3"-->
+<!--                            android:text="Summary Content should be written here"-->
+<!--                            android:textSize="15sp">-->
+
+<!--                        </TextView>-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:weightSum="4">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Status: "-->
+<!--                            android:textColor="@color/Black"-->
+<!--                            android:textSize="15sp">-->
+
+<!--                        </TextView>-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/status"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_weight="3"-->
+<!--                            android:text="Summary Content should be written here"-->
+<!--                            android:textSize="15sp">-->
+
+<!--                        </TextView>-->
+<!--                    </LinearLayout>-->
 
                 </LinearLayout>
             </ScrollView>

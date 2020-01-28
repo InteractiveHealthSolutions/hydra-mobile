@@ -2,9 +2,8 @@ package ihsinformatics.com.hydra_mobile.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.data.repository.PatientRepository
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -12,7 +11,7 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
 
 
     fun  search(query: String){
-        repository.searchPatientByIdentifier(query)
+        repository.searchPatientByQuery(query)
     }
 
     fun insert(patient: Patient) {

@@ -51,6 +51,8 @@ class TestSampleResult : BaseActivity() {
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
     var myQuestions = ArrayList<Question>()
+    var inputWidgetMap= HashMap<String, InputWidget>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,10 +118,11 @@ class TestSampleResult : BaseActivity() {
             val inputWidgetBakery = InputWidgetBakery()
 
             for (i in myQuestions) {
-                var w = inputWidgetBakery.bakeInputWidget(this, i)
+               // var w = inputWidgetBakery.bakeInputWidget(this, i)
+                var w=inputWidgetMap.get(i.paramName)
                 attributesObj = JSONObject()
                 attributesObj.put("attributeType", i.paramName)
-                attributesObj.put("valueReference", w.value)
+                attributesObj.put("valueReference", w!!.value)
                 attributes.put(attributesObj)
             }
 
@@ -229,7 +232,8 @@ class TestSampleResult : BaseActivity() {
         try {
             question.options = optionsList
             myQuestions.add(question)
-            val w = inputWidgetBakery.bakeInputWidget(this, question)
+            val w= inputWidgetBakery.bakeInputWidget(this, question)
+            inputWidgetMap.put(question.paramName,w)
             llMain.addView(w)
 
             inputWidgets.put(w.questionId, w)

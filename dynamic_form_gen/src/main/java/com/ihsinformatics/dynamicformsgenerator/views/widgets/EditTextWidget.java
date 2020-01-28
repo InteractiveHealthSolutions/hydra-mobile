@@ -46,9 +46,9 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     private List<Map<Integer, InputWidget>> repeatGroups;
     BaseActivity baseActivity;
 
-    public EditTextWidget(Context context, Question question, int layoutId){
+    public EditTextWidget(Context context, Question question, int layoutId) {
         super(context, question, layoutId);
-        if(super.configuration instanceof QuestionConfiguration)
+        if (super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
         etAnswer = (EditText) findViewById(R.id.etAnswer);
@@ -64,7 +64,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
         InputFilter[] filterArray;
         String allowedCharacters = configuration.getAllowedCharacters();
-        if(allowedCharacters!=null) {
+        if (allowedCharacters != null) {
             filterArray = new InputFilter[2];
             filterArray[1] = DigitsKeyListener.getInstance(configuration.getAllowedCharacters());
         } else {
@@ -77,7 +77,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
         etAnswer.addTextChangedListener(this);
         widgetBakery = new InputWidgetBakery();
-        if(question.getRepeatables()!= null && question.getRepeatables().size()>0) {
+        if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
             llRepeatSpace = findViewById(R.id.llRepeats);
             repeatGroups = new ArrayList<>();
         }
@@ -122,9 +122,9 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             activity.addValidationError(getQuestionId(), "Invalid input");
         }
 
-        if(question.getRepeatables() != null && question.getRepeatables().size()>0) {
+        if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
             JSONArray childrenArray = new JSONArray();
-            for(Map<Integer, InputWidget> li: repeatGroups) {
+            for (Map<Integer, InputWidget> li : repeatGroups) {
                 Iterator<Integer> it = li.keySet().iterator();
                 JSONArray childArray = new JSONArray();
                 while (it.hasNext()) {
@@ -135,11 +135,11 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                             && childWidget.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING
                             && childWidget.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE)
 
-                        if(childWidget.isValidInput(childWidget.getQuestion().isMandatory())) {
+                        if (childWidget.isValidInput(childWidget.getQuestion().isMandatory())) {
                             JSONObject ans = childWidget.getAnswer();
                             childArray.put(ans);
                         } else
-                            activity.addValidationError(getQuestionId(), childWidget.getQuestionId()+"");
+                            activity.addValidationError(getQuestionId(), childWidget.getQuestionId() + "");
 
                 }
 
@@ -151,7 +151,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     }
 
     public String getValue() {
-
+        Question question = this.question;
         return etAnswer.getText().toString();
     }
 
@@ -178,7 +178,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(onValueChangeListener!=null) {
+        if (onValueChangeListener != null) {
             try {
                 onValueChangeListener.onValueChanged(s.toString());
             } catch (JSONException e) {
@@ -213,8 +213,8 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             }
         }
 
-        if(question.getRepeatables() != null && question.getRepeatables().size()>0) {
-            if(!newValue.matches(Regex.NUMERIC.toString())) return;
+        if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
+            if (!newValue.matches(Regex.NUMERIC.toString())) return;
 
             int repeatTimes = Integer.parseInt(newValue);
             // removing references from parent, clearing local references, and removing from the layout
@@ -222,9 +222,9 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             Map<Integer, InputWidget> childWidgets;
             int uniqueId = 99999;
 
-            for(int i=0; i<repeatTimes; i++) {
+            for (int i = 0; i < repeatTimes; i++) {
                 childWidgets = new HashMap<>();
-                InputWidget headingWidget  = null;
+                InputWidget headingWidget = null;
                 try {
                     headingWidget = createHeading(i);
                 } catch (JSONException e) {
@@ -232,14 +232,17 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                 }
                 llRepeatSpace.addView(headingWidget);
 
-                for(Question q: question.getRepeatables()) {
-                    try {q = (Question) q.clone();}
-                    catch (CloneNotSupportedException e) {continue;}
+                for (Question q : question.getRepeatables()) {
+                    try {
+                        q = (Question) q.clone();
+                    } catch (CloneNotSupportedException e) {
+                        continue;
+                    }
 
-                    uniqueId = (99999*(i+1))+q.getQuestionId();
+                    uniqueId = (99999 * (i + 1)) + q.getQuestionId();
                     q.setQuestionId(uniqueId);
                     q.setRuntimeGenerated(true);
-                    q.updateSkipLogicReferences(99999, (i+1));
+                    q.updateSkipLogicReferences(99999, (i + 1));
                     InputWidget inputWidget = null;
                     try {
                         inputWidget = widgetBakery.bakeInputWidget(context, q);
@@ -265,7 +268,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                 "-1",
                 InputWidgetsType.WIDGET_TYPE_HEADING,
                 View.VISIBLE, null,
-                question.getRepeatGroupHeadingPrefix()+" "+ (i+1), null, null)); // TODO get the heading form question or question config class
+                question.getRepeatGroupHeadingPrefix() + " " + (i + 1), null, null)); // TODO get the heading form question or question config class
         InputWidget headingWidget = widgetBakery.bakeInputWidget(context, q);
 
         return headingWidget;
@@ -274,7 +277,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     private void reset() {
         // removing references from parent, and clearing local references, removing from the layout
         llRepeatSpace.removeAllViews();
-        for(Map w: repeatGroups) {
+        for (Map w : repeatGroups) {
             Iterator<Integer> it = w.keySet().iterator();
             while (it.hasNext()) baseActivity.removeRuntimeWidgetReference(it.next());
         }

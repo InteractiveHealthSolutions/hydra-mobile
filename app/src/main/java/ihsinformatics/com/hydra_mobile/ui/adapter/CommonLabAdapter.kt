@@ -10,14 +10,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.AttributeResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.AttributesApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.ManageTestSample
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleAdder
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleResult
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.ui.activity.labModule.*
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 
 class CommonLabAdapter(
@@ -26,6 +34,8 @@ class CommonLabAdapter(
 
     var testOrderList = testOrderTypeList
     var context: Context = c
+
+    val networkProgressDialog = NetworkProgressDialog(context)
 
     val gson = Gson()
     var sessionManager = SessionManager(context)
@@ -55,15 +65,50 @@ class CommonLabAdapter(
 
         holder?.summary.setOnClickListener {
             //TODO API doesnot return fields for summary (attribute) so cant show proper summary for now ~Taha
-            if (null != testOrderList[position].labTestSamples && testOrderList[position].labTestSamples.size != 0 && checkStatusForTestSample(position)) {
-                var intent = Intent(context, TestSummary::class.java)
-                val dataListJson: String = gson.toJson(testOrderList[position])
-                intent.putExtra("lab", dataListJson)
-                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                context.startActivity(intent)
-            } else {
-                Toast.makeText(context, "No Summary to Show", Toast.LENGTH_SHORT).show()
-            }
+
+            val labTestAttributesGetter = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getPatientRetrofit().create(CommonLabApiService::class.java)
+            networkProgressDialog.show()
+
+
+            labTestAttributesGetter.getLabTestAttribute(testOrderList[position].testOrderId, Constant.REPRESENTATION).enqueue(object : Callback<AttributeResponse> {
+                override fun onResponse(
+                    call: Call<AttributeResponse>, response: Response<AttributeResponse>
+                                       ) {
+                    Timber.e(response.message())
+                    if (response.isSuccessful) {
+
+                        var intent = Intent(context, TestSummary::class.java)
+                        if (testOrderList != null) {
+                            val dataListJson: String = gson.toJson(testOrderList[position])
+                            intent.putExtra("lab", dataListJson)
+                        } else {
+                            intent.putExtra("lab", "")
+                        }
+
+                        val attributesJson: String = gson.toJson(response.body()!!.attributes)
+                        intent.putExtra("attributes",attributesJson)
+
+                        networkProgressDialog.dismiss()
+                        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        context.startActivity(intent)
+
+                    } else {
+                        networkProgressDialog.dismiss()
+                        ToastyWidget.getInstance().displayError(context, "Error fetching Test Results Attributes", Toast.LENGTH_LONG)
+                    }
+
+
+                }
+
+                override fun onFailure(call: Call<AttributeResponse>, t: Throwable) {
+                    Timber.e(t.localizedMessage)
+                    networkProgressDialog.dismiss()
+                    ToastyWidget.getInstance().displayError(context, context.getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                    context.startActivity(Intent(context, CommonLabActivity::class.java))
+                }
+
+            })
+
 
         }
 

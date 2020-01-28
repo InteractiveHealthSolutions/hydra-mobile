@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class IdentifierType(
     @SerializedName("display")
-    val display: String,
+    val identifierTypeDisplay: String,
     @SerializedName("uuid")
-    val uuid: String
+    val identifierTypeUUID: String
 )

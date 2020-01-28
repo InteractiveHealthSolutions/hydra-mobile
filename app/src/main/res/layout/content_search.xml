@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_search"
-        tools:context=".ui.activity.SearchActivity" android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.activity.SearchActivity"
+    tools:showIn="@layout/activity_search">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_24dp"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:layout_marginRight="@dimen/dimen_24dp">
+
+        <EditText
+            android:id="@+id/edt_search_by_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_rounded_shap"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/bootstrap_alert_cross_default"
+            android:hint="@string/search_by_name"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:visibility="gone" />
+
+
+        <EditText
+            android:id="@+id/edt_search_by_identifier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_search_by_name"
             android:layout_marginTop="@dimen/dimen_24dp"
-            android:layout_marginLeft="@dimen/dimen_24dp"
-            android:layout_marginRight="@dimen/dimen_24dp"
-    >
+            android:background="@drawable/edittext_rounded_shap"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/bootstrap_alert_cross_default"
+            android:hint="@string/search_by_id"
+            android:inputType="textPersonName"
+            android:padding="8dp" />
 
         <EditText
-                android:id="@+id/edt_search_by_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableTint="@color/bootstrap_alert_cross_default"
-                android:drawableLeft="@drawable/ic_search"
-                android:drawablePadding="8dp"
-                android:padding="8dp"
-                android:hint="@string/search_by_name"
-                android:background="@drawable/edittext_rounded_shap"
-                android:inputType="textPersonName"/>
-
-
-        <EditText
-                android:layout_marginTop="@dimen/dimen_24dp"
-                android:layout_below="@+id/edt_search_by_name"
-                android:id="@+id/edt_search_by_identifier"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableTint="@color/bootstrap_alert_cross_default"
-                android:drawableLeft="@drawable/ic_search"
-                android:drawablePadding="8dp"
-                android:padding="8dp"
-                android:hint="@string/search_by_id"
-                android:background="@drawable/edittext_rounded_shap"
-                android:inputType="textPersonName"/>
-
-        <EditText
-                android:layout_marginTop="@dimen/dimen_24dp"
-                android:layout_below="@+id/edt_search_by_identifier"
-                android:id="@+id/edt_search_by_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableTint="@color/bootstrap_alert_cross_default"
-                android:drawableLeft="@drawable/ic_search"
-                android:drawablePadding="8dp"
-                android:padding="8dp"
-                android:hint="@string/search_by_number"
-                android:background="@drawable/edittext_rounded_shap"
-                android:inputType="number"/>
+            android:id="@+id/edt_search_by_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_search_by_identifier"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            android:background="@drawable/edittext_rounded_shap"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/bootstrap_alert_cross_default"
+            android:hint="@string/search_by_number"
+            android:inputType="number"
+            android:padding="8dp"
+            android:visibility="gone" />
 
         <Button
-                android:layout_below="@+id/edt_search_by_number"
-                android:id="@+id/btn_patient_search"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="@dimen/dimen_33dp"
-                android:text="@string/btn_login_search"
-                android:textSize="16sp"
-                android:textColor="@color/White"
-                android:background="@drawable/button_rounded_shap"
-        />
+            android:id="@+id/btn_patient_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/edt_search_by_number"
+            android:layout_marginTop="@dimen/dimen_33dp"
+            android:background="@drawable/button_rounded_shap"
+            android:text="@string/btn_login_search"
+            android:textColor="@color/White"
+            android:textSize="16sp" />
 
 
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bootstrap_gray_lightest"
-            android:layout_marginTop="@dimen/dimen_24dp"
-            android:layout_marginLeft="@dimen/dimen_24dp"
-            android:layout_marginRight="@dimen/dimen_24dp"
-            app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dimen_24dp"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:layout_marginRight="@dimen/dimen_24dp"
+        app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_search_patient"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_patient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </androidx.core.widget.NestedScrollView>
 

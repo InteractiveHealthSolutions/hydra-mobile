@@ -31,6 +31,8 @@ class MetaDataHelper(context: Context) {
 
     lateinit var labTestTypeRepository: LabTestTypeRepository
 
+    lateinit var locationRepository:LocationRepository
+
 
     var context: Context
 
@@ -51,10 +53,14 @@ class MetaDataHelper(context: Context) {
 
         formResultRepository = FormResultRepository(context)
 
+        locationRepository=LocationRepository(context)
+
         labTestTypeRepository = LabTestTypeRepository(context)
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
+
+        getAllLocations()
 
         deleteExisitingLocalData()
 
@@ -63,7 +69,9 @@ class MetaDataHelper(context: Context) {
         getWorkFlowFromAPI()
         getPhasesFromAPI()
         getComponentsFromAPI()
-        getFormsFromAPI();
+        getFormsFromAPI()
+
+
 
         getAllLabTestTypesFromAPI()
 
@@ -124,6 +132,12 @@ class MetaDataHelper(context: Context) {
     {
         labTestTypeRepository.getRemoteLabTestTypesData()
     }
+
+    fun getAllLocations()
+    {
+        locationRepository.getRemoteLocationsData()
+    }
+
 
     fun deleteExisitingLocalData() {
         workflowRepository.deleteAllWorkflow()

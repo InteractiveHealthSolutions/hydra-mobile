@@ -10,8 +10,6 @@ data class Attribute(
     val display: String,
     @SerializedName("uuid")
     val uuid: String,
-    @SerializedName("value")
-    val value: Value,
-    @SerializedName("voided")
-    val voided: Boolean
+    @SerializedName("valueReference")
+    val valueReference: String
 )

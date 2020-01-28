@@ -17,5 +17,8 @@ class AppSettingViewModel(application: Application) : AndroidViewModel(applicati
         repository.updateSetting(setting)
     }
 
+    suspend fun get(){
+        repository.getSettingList()
+    }
 
 }

@@ -16,9 +16,12 @@ interface LocationDao {
     @Delete
     fun deleteLocation(location: Location)
 
-    @Query("SELECT * FROM Location WHERE id == :id")
-    fun getLocationById(id: Int): List<Location>
+    @Query("SELECT * FROM Location WHERE uuid == :id")
+    fun getLocationByUUID(id: String): List<Location>
 
     @Query("SELECT * FROM Location")
     fun getAllLocation(): List<Location>
+
+    @Query("DELETE FROM Location")
+    fun deleteLocation()
 }

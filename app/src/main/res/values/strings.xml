@@ -196,7 +196,7 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="search_by_name">Search by name...</string>
     <string name="search_by_id">Search by ID...</string>
-    <string name="search_by_number">Search by Contact number..</string>
+    <string name="search_by_number">Search Patient</string>
     <string name="btn_login_search">Search</string>
     <string name="txt_viewall">view all</string>
     <string name="menu_settings">Setting</string>

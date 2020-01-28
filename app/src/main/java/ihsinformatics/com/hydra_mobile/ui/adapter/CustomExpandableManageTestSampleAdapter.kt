@@ -118,6 +118,7 @@ class CustomExpandableManageTestSampleAdapter internal constructor(private val c
 
     fun acceptRejectSample(expandedListText: TestSample,status:String)
     {
+
         var sendParams = JSONObject()
         sendParams.put("labTest", expandedListText.labTest.uuid)
         sendParams.put("labTestSampleId", expandedListText.labTestSampleId)

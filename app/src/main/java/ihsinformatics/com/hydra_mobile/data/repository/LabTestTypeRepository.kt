@@ -2,6 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.content.Context
 import android.util.Log
+import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.commonLab.LabTestTypeDao
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
@@ -52,6 +53,7 @@ class LabTestTypeRepository(context: Context) {
             context, sessionManager.getUsername(),
             sessionManager.getPassword()
         ).getLabTestTypeResult(
+            Constant.REPRESENTATION,
             object :
                 RESTCallback {
                 override fun <T> onSuccess(o: T) {

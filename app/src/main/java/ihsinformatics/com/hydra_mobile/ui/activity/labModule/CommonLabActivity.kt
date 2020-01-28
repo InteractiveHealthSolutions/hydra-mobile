@@ -55,7 +55,7 @@ class CommonLabActivity : AppCompatActivity() {
         addTest.isClickable = true
 
         networkProgressDialog = NetworkProgressDialog(this)
-        networkProgressDialog.show();
+        networkProgressDialog.show()
 
         rv = findViewById<RecyclerView>(R.id.testOrder)
         rv.isFocusable = false
@@ -149,7 +149,6 @@ class CommonLabActivity : AppCompatActivity() {
     }
 
     fun setTestOrderList() {
-
 
         adapter = CommonLabAdapter(testTypeList, this, applicationContext)
         rv.adapter = adapter

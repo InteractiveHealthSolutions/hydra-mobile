@@ -13,6 +13,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.CommonLabApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Encounter
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.repository.LabTestTypeRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableTestAdderAdapter
@@ -39,10 +40,11 @@ class TestAdder : BaseActivity() {
     lateinit var phasesSpinner: Spinner
     lateinit var encounterSpinner: Spinner
 
-    var testTypeMap = HashMap<String, String>()
+    var testTypeMap = HashMap<String, LabTestAllType>()
 
     var labTestTypeUUIDs = ArrayList<String>()
 
+    var conceptUUIDList = ArrayList<String>()
 
     lateinit var sendParams: JSONObject
     lateinit var order: JSONObject
@@ -61,13 +63,13 @@ class TestAdder : BaseActivity() {
             for (i in 0 until allTestTypes.size) {
                 if (!listData.containsKey(allTestTypes.get(i).testGroup)) {
                     val list: ArrayList<String> = ArrayList<String>()
-                    list.add(allTestTypes.get(i).name)
+                    list.add(allTestTypes.get(i).nameLabTest)
                     listData.put(allTestTypes.get(i).testGroup, list)
 
                 } else {
-                    listData.get(allTestTypes.get(i).testGroup)!!.add(allTestTypes.get(i).name)
+                    listData.get(allTestTypes.get(i).testGroup)!!.add(allTestTypes.get(i).nameLabTest)
                 }
-                testTypeMap.put(allTestTypes.get(i).name, allTestTypes.get(i).uuid)
+                testTypeMap.put(allTestTypes.get(i).nameLabTest, allTestTypes.get(i))
             }
 
             return listData;
@@ -83,13 +85,12 @@ class TestAdder : BaseActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
 
-        //TODO HardCODED most of the fields... ~Taha
+        //TODO HardCODED most of the fields... ~Taha CommonLAB
         var patientUUID: String = "dbac89bb-508b-4693-aad1-3b5a5310252e"
-        var conceptUUID: String = "17AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         var ordererUUID: String = sessionManager.getProviderUUID()
-        var type: String = "testorder"
-        var careSettingUUID: String = "6f0c9a92-6f24-11e3-af88-005056821db0"
-        var encounterUUID: String = "9fd970e7-0289-490d-bd37-8b0bb6178158"
+        var type: String = "testorder"   //Keep it hardcoded for now ~Shujaat and Taha
+        var careSettingUUID: String = "6f0c9a92-6f24-11e3-af88-005056821db0"  //Keep it hardcoded for now ~Shujaat and Taha
+        var encounterUUID: String = "9fd970e7-0289-490d-bd37-8b0bb6178158"  //change and fetch selected one
         lateinit var labTestType: String
         var labReferenceNumber: String = "adding test test2"
         var labInstructions: String = ""
@@ -144,7 +145,8 @@ class TestAdder : BaseActivity() {
 
             if (myMutable != null) {
                 for (i in myMutable) {
-                    labTestTypeUUIDs.add(testTypeMap.get(i.key).toString())
+                    labTestTypeUUIDs.add(testTypeMap.get(i.key)!!.uuidLabTest)
+                    conceptUUIDList.add(testTypeMap.get(i.key)!!.referenceConcept.uuid)
                 }
             }
 
@@ -157,12 +159,12 @@ class TestAdder : BaseActivity() {
                 }
             }
 
-            for (i in labTestTypeUUIDs) {
+            for (i in 0 until labTestTypeUUIDs.size) {
                 order = JSONObject()
                 sendParams = JSONObject()
-                labTestType = i
+                labTestType = labTestTypeUUIDs.get(i)
                 order.put("patient", patientUUID)
-                order.put("concept", conceptUUID)
+                order.put("concept", conceptUUIDList.get(i))
                 order.put("orderer", ordererUUID)
                 order.put("type", type)
                 order.put("careSetting", careSettingUUID)
@@ -186,14 +188,14 @@ class TestAdder : BaseActivity() {
 
                         } else {
 
-                            ToastyWidget.getInstance().displaySuccess(this@TestAdder, "Error Adding Test Order", Toast.LENGTH_LONG)
+                            ToastyWidget.getInstance().displayError(this@TestAdder, "Error Adding Test Order", Toast.LENGTH_LONG)
 
                         }
                     }
 
                     override fun onFailure(call: Call<CommonLabApiResponse>, t: Throwable) {
                         Timber.e(t.localizedMessage)
-                        ToastyWidget.getInstance().displaySuccess(this@TestAdder, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                        ToastyWidget.getInstance().displayError(this@TestAdder, getString(R.string.internet_issue), Toast.LENGTH_LONG)
 
                     }
 

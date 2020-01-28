@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 
-class SearchPatientAdapter() : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
+class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
 
-    private var searchPatientList: List<Patient> = ArrayList()
-    lateinit var context: Context
+    private var searchPatientList=patientSearched
+    val context=c
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        this.context = parent.context
+        //this.context = parent.context
         val v = LayoutInflater.from(context)
             .inflate(R.layout.search_patient_item_view, parent, false)
         return ViewHolder(v)
@@ -45,9 +46,9 @@ class SearchPatientAdapter() : RecyclerView.Adapter<SearchPatientAdapter.ViewHol
 
         fun bindItems(patient: Patient) {
 
-            tvPatientName.text = patient.displayName
-            tvPatientAge.text = "23"
-            tvPatientGender.text = "male"
+            tvPatientName.text = patient.patientDisplay
+            tvPatientAge.text = patient.patientPerson.age.toString()
+            tvPatientGender.text = patient.patientPerson.gender
 
         }
 

@@ -1,15 +1,13 @@
 package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.PatientDao
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Result
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 import timber.log.Timber
@@ -30,19 +28,19 @@ class PatientRepository(context: Context) {
 
     }
 
-    fun searchPatientByIdentifier(identifier: String) {
+    fun searchPatientByQuery(query: String) {
         RequestManager(
-            context, "Irtiza.ahmed",
-            "Irtiza1234"
-        ).searchPatient(Constant.REPRESENTATION, identifier,
+            context, sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).searchPatient(Constant.REPRESENTATION, query,
             object :
                 RESTCallback {
                 override fun <T> onSuccess(o: T) {
                     try {
                          val response = (o as PatientApiResponse)
-//                        response.patient[0].identifier=identifier
+//                         response.patient[0].identifier=identifier
 //                         insertPatient(response.patient[0])
-//                         getPatient(response.patientList)
+                         //getPatient(response.patientList)
                     } catch (e: Exception) {
                         Timber.e(e.localizedMessage)
                     }

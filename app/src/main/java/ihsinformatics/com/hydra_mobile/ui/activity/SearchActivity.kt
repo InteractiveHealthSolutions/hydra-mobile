@@ -9,13 +9,22 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
+import ihsinformatics.com.hydra_mobile.ui.adapter.CommonLabAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.SearchPatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 
 import kotlinx.android.synthetic.main.activity_search.*
+import timber.log.Timber
 
 
 class SearchActivity : BaseActivity(), View.OnClickListener {
@@ -30,6 +39,10 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var searchPatientResultRecyclerView: RecyclerView
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
+
+    private lateinit var patientSearchedList:List<Patient>
+
+    private lateinit var networkProgressDialog: NetworkProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,19 +72,21 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        edtName = findViewById<EditText>(R.id.edt_search_by_name)
-        edtContactNumber = findViewById<EditText>(R.id.edt_search_by_number)
+
+        networkProgressDialog = NetworkProgressDialog(this)
         edtIdentifier = findViewById<EditText>(R.id.edt_search_by_identifier)
         btnSearch = findViewById<Button>(R.id.btn_patient_search)
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
-        patientSearchAdapter = SearchPatientAdapter()
+
+        searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
         btnSearch.setOnClickListener(this)
-        var patientList=patientViewModel.getAllPatient()
+      //  var patientList=patientViewModel.getAllPatient()
 
            // for (i in patientList.indices) {
-                patientSearchAdapter.updatePatientList(patientList)
+//                patientSearchAdapter.updatePatientList(patientList)
            // }
 
 
@@ -82,12 +97,48 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
         when (v!!.id) {
             R.id.btn_patient_search -> {
-                patientViewModel.search(edtIdentifier.text.toString())
-                var patientList=patientViewModel.getAllPatient()
-
-                patientSearchAdapter.updatePatientList(patientList)
+//                patientViewModel.search(edtIdentifier.text.toString())
+//                var patientList=patientViewModel.getAllPatient()
+//
+//                patientSearchAdapter.updatePatientList(patientList)
+                networkProgressDialog.show()
+                searchPatientOnline(edtIdentifier.text.toString())
             }
         }
 
     }
+
+    fun searchPatientOnline(queryString:String)
+    {
+        RequestManager(
+            this, sessionManager.getUsername(),
+            sessionManager.getPassword()
+                      ).searchPatient(Constant.REPRESENTATION, queryString,
+            object : RESTCallback {
+                override fun <T> onSuccess(o: T) {
+                    try {
+                        val response = (o as PatientApiResponse)
+                        patientSearchedList=response.results
+                        setPatientSearchedList()
+                    } catch (e: Exception) {
+                        Timber.e(e.localizedMessage)
+
+                        networkProgressDialog.dismiss()
+                    }
+                }
+
+                override fun onFailure(t: Throwable) {
+                    Timber.e(t.localizedMessage)
+                    networkProgressDialog.dismiss()
+                }
+            })
+    }
+
+    fun setPatientSearchedList() {
+
+        patientSearchAdapter = SearchPatientAdapter(patientSearchedList, this)
+        searchPatientResultRecyclerView.adapter = patientSearchAdapter
+        networkProgressDialog.dismiss()
+    }
+
 }

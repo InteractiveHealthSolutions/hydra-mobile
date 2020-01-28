@@ -1,6 +1,5 @@
 package ihsinformatics.com.hydra_mobile.ui.activity.labModule
 
-//TODO Error parsing edit text answers(value)  ~Taha CommonLAB  once this error is resuolved then API will submit this(verified with postman)
 
 import android.content.Intent
 import android.os.Bundle
@@ -66,6 +65,8 @@ class TestSampleAdder : BaseActivity() {
     val status: String = "Collected"   //Initially sample status will be collected
     var expiryDate = null
 
+    var inputWidgetMap= HashMap<String, InputWidget>()
+
     lateinit var questionSpecimenType: Question
     lateinit var questionSpecimenSite: Question
     lateinit var questionQuantity: Question
@@ -109,8 +110,8 @@ class TestSampleAdder : BaseActivity() {
             sendParams.put("labTest", labTest)
             sendParams.put("specimenType", getSelectedValueUUID(questionSpecimenType))
             sendParams.put("specimenSite", getSelectedValueUUID(questionSpecimenSite))
-            sendParams.put("quantity", inputWidgetBakery.bakeInputWidget(this, questionQuantity).value.toString())
-            sendParams.put("sampleIdentifier", inputWidgetBakery.bakeInputWidget(this, questionSampleIdentitfier))
+            sendParams.put("quantity", inputWidgetMap.get(questionQuantity.paramName)!!.value)
+            sendParams.put("sampleIdentifier", inputWidgetMap.get(questionSampleIdentitfier.paramName)!!.value)
             sendParams.put("collectionDate", collectionDate)
             sendParams.put("collector", sessionManager.getProviderUUID())
             sendParams.put("expiryDate", expiryDate)
@@ -153,23 +154,23 @@ class TestSampleAdder : BaseActivity() {
 
     fun initQuestions() {
 
-        questionSpecimenType = Question(true, 1, specimenTypeQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Specimen Type", "abcd", null)
+        questionSpecimenType = Question(true, 1, specimenTypeQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Specimen Type", "specimenType", null)
 
-        questionSpecimenSite = Question(true, 1, specimenSiteQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Specimen Site", "abcd", null)
+        questionSpecimenSite = Question(true, 1, specimenSiteQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Specimen Site", "specimenSite", null)
 
-        questionQuantity = Question(true, 1, quantityQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Quantity", "abcd", QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1))
+        questionQuantity = Question(true, 1, quantityQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Quantity", "quantity", QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1))
         display(null, questionQuantity)
 
 
-        questionUnit = Question(true, 1, unitQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Unit", "abcd", null)
+        questionUnit = Question(true, 1, unitQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Unit", "unit", null)
 
-        questionSampleIdentitfier = Question(true, 1, sampleIdentifierQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Sample Identifier", "abcd", QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1))
+        questionSampleIdentitfier = Question(true, 1, sampleIdentifierQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Sample Identifier", "sampleIdentifier", QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 5, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1))
 
         display(null, questionSampleIdentitfier)
 
         var dob = QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE, 9)
 
-        questionDateOfCollection = Question(true, 1, dateQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Collection Date ", "abcd", dob)
+        questionDateOfCollection = Question(true, 1, dateQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Collection Date ", "collectionDate", dob)
 
         display(null, questionDateOfCollection)
 
@@ -205,6 +206,7 @@ class TestSampleAdder : BaseActivity() {
                 if (null != optionsList) question.options = optionsList
 
                 val w = inputWidgetBakery.bakeInputWidget(this, question)
+                inputWidgetMap.put(question.paramName,w)
                 llMain.addView(w)
 
                 inputWidgets.put(w.questionId, w)
@@ -308,7 +310,7 @@ class TestSampleAdder : BaseActivity() {
     }
 
     fun getSelectedValueUUID(question: Question): String {
-        val selectedValue = inputWidgetBakery.bakeInputWidget(this, question).value
+        val selectedValue = inputWidgetMap.get(question.paramName)!!.value
 
         for (i in question.options) {
             if (i.text.equals(selectedValue)) {
