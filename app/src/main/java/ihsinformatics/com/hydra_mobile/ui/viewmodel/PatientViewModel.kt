@@ -26,7 +26,7 @@ class PatientViewModel(application: Application) : AndroidViewModel(application)
         return repository.getAllPatient()
     }
 
-    fun getPatientByIdentifier(id:String): List<Patient> {
-        return repository.getPatientByIdentifier(id)
-    }
+//    fun getPatientByIdentifier(id:String): List<Patient> {
+//        return repository.getPatientByIdentifier(id)
+//    }
 }

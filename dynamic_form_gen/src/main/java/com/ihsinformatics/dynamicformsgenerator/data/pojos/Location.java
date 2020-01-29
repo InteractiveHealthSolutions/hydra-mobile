@@ -3,6 +3,7 @@ package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
 
@@ -30,19 +31,21 @@ public class Location implements Serializable {
     private String uuid;
     private String name;
     private String country; // Country
-    private String state_province; // Division
-    private String country_district; // District
-    private String city_village; // Upazilla
+    private String stateProvince; // Division
+    private String countryDistrict; // District
+    private String cityVillage; // Upazilla
     private String address1; // House/ unit
     private String address2; // Street/ area
     private String address3; // Union
     private String address4;
     private String address5;
     private String address6; // Display name
-    private Long parentLocation;
+   // @Transient
+   // private Long parentLocation;
     private Boolean voided;
     @Transient
     private Date dateCreated;
+    
     private String parentLocationUUID;
     @Transient
     private ArrayList<LocationTag> locationTags;
@@ -113,29 +116,6 @@ public class Location implements Serializable {
         this.country = country;
     }
 
-    public String getState_province() {
-        return this.state_province;
-    }
-
-    public void setState_province(String state_province) {
-        this.state_province = state_province;
-    }
-
-    public String getCountry_district() {
-        return this.country_district;
-    }
-
-    public void setCountry_district(String country_district) {
-        this.country_district = country_district;
-    }
-
-    public String getCity_village() {
-        return this.city_village;
-    }
-
-    public void setCity_village(String city_village) {
-        this.city_village = city_village;
-    }
 
     public String getAddress1() {
         return this.address1;
@@ -185,13 +165,13 @@ public class Location implements Serializable {
         this.address6 = address6;
     }
 
-    public Long getParentLocation() {
-        return this.parentLocation;
-    }
-
-    public void setParentLocation(Long parentLocation) {
-        this.parentLocation = parentLocation;
-    }
+//    public Long getParentLocation() {
+//        return this.parentLocation;
+//    }
+//
+//    public void setParentLocation(Long parentLocation) {
+//        this.parentLocation = parentLocation;
+//    }
 
     public Boolean getVoided() {
         return this.voided;
@@ -199,6 +179,30 @@ public class Location implements Serializable {
 
     public void setVoided(Boolean voided) {
         this.voided = voided;
+    }
+
+    public String getStateProvince() {
+        return this.stateProvince;
+    }
+
+    public void setStateProvince(String stateProvince) {
+        this.stateProvince = stateProvince;
+    }
+
+    public String getCountryDistrict() {
+        return this.countryDistrict;
+    }
+
+    public void setCountryDistrict(String countryDistrict) {
+        this.countryDistrict = countryDistrict;
+    }
+
+    public String getCityVillage() {
+        return this.cityVillage;
+    }
+
+    public void setCityVillage(String cityVillage) {
+        this.cityVillage = cityVillage;
     }
 
     public Location(Long id, String uuid, String name, String country,
@@ -209,9 +213,9 @@ public class Location implements Serializable {
         this.uuid = uuid;
         this.name = name;
         this.country = country;
-        this.state_province = state_province;
-        this.country_district = country_district;
-        this.city_village = city_village;
+        this.stateProvince = state_province;
+        this.countryDistrict = country_district;
+        this.cityVillage = city_village;
         this.address1 = address1;
         this.address2 = address2;
         this.address3 = address3;
@@ -222,30 +226,27 @@ public class Location implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    @Generated(hash = 891102973)
-    public Location(Long id, String uuid, String name, String country, String state_province,
-            String country_district, String city_village, String address1, String address2,
-            String address3, String address4, String address5, String address6, Long parentLocation,
-            Boolean voided, String parentLocationUUID) {
+    public Location()
+    {
+        
+    }
+
+    @Generated(hash = 473085409)
+    public Location(Long id, String uuid, String name, String country, String stateProvince, String countryDistrict, String cityVillage, String address1, String address2, String address3, String address4, String address5, String address6, Boolean voided, String parentLocationUUID) {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
         this.country = country;
-        this.state_province = state_province;
-        this.country_district = country_district;
-        this.city_village = city_village;
+        this.stateProvince = stateProvince;
+        this.countryDistrict = countryDistrict;
+        this.cityVillage = cityVillage;
         this.address1 = address1;
         this.address2 = address2;
         this.address3 = address3;
         this.address4 = address4;
         this.address5 = address5;
         this.address6 = address6;
-        this.parentLocation = parentLocation;
         this.voided = voided;
         this.parentLocationUUID = parentLocationUUID;
-    }
-
-    @Generated(hash = 375979639)
-    public Location() {
     }
 }

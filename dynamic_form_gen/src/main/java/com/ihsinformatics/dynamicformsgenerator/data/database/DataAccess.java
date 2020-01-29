@@ -431,8 +431,8 @@ public class DataAccess {
         LocationAttributeDao locationAttributeDao = App.getDaoSession(context).getLocationAttributeDao();
         LocationTagMapDao locationTagMapDao = App.getDaoSession(context).getLocationTagMapDao();
         Location parent = fetchLocationByUUID(context, location.getParentLocationUUID());
-        if(parent!=null)
-            location.setParentLocation(parent.getId());
+        //if(parent!=null)
+            //location.setParentLocation(parent.getId());
         Long locationId = locationDao.insertOrReplace(location);
         ArrayList<LocationTag> locationTagsList = location.getLocationTags();
         if (locationTagsList!=null) {

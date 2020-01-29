@@ -11,6 +11,7 @@ import java.util.Locale;
 
 public class Global {
 	public static PatientData patientData;
+	public static PatientData temp;
 	public static String USERNAME;
 	public static String PASSWORD;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.US);

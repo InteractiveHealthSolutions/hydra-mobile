@@ -83,12 +83,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
         btnSearch.setOnClickListener(this)
-      //  var patientList=patientViewModel.getAllPatient()
-
-           // for (i in patientList.indices) {
-//                patientSearchAdapter.updatePatientList(patientList)
-           // }
-
 
 
     }
@@ -97,10 +91,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
         when (v!!.id) {
             R.id.btn_patient_search -> {
-//                patientViewModel.search(edtIdentifier.text.toString())
-//                var patientList=patientViewModel.getAllPatient()
-//
-//                patientSearchAdapter.updatePatientList(patientList)
                 networkProgressDialog.show()
                 searchPatientOnline(edtIdentifier.text.toString())
             }

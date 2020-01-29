@@ -108,8 +108,8 @@ class PatientRepository(context: Context) {
         return patientDao.getAllPatient()
     }
 
-    fun getPatientByIdentifier(id:String):List<Patient>{
-        return patientDao.getPatientByID(id)
-    }
+//    fun getPatientByIdentifier(id:String):List<Patient>{
+//        return patientDao.getPatientByID(id)
+//    }
 
 }

@@ -13,6 +13,8 @@ public class PatientData implements Serializable {
     private HashMap<String, String> identifiers;
     Patient patient;
 
+
+
     public PatientData(Patient patient) {
         this.patient = patient;
     }

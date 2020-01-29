@@ -2,11 +2,12 @@ package ihsinformatics.com.hydra_mobile.data.services.manager
 
 import android.content.Context
 import android.util.Log
-import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location
+import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
 import org.json.JSONArray
@@ -136,6 +137,7 @@ class MetaDataHelper(context: Context) {
     fun getAllLocations()
     {
         locationRepository.getRemoteLocationsData()
+
     }
 
 

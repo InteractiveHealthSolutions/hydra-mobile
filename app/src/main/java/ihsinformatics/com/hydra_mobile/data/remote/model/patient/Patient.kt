@@ -9,14 +9,9 @@ import com.google.gson.annotations.SerializedName
 import ihsinformatics.com.hydra_mobile.utils.Converters
 
 @Entity(tableName = "Patient")
-data class Patient(
-    @SerializedName("display")val patientDisplay: String = "",
-//    @TypeConverters(Converters::class)
-//    @Embedded
-//    @SerializedName("identifiers")val patientIdentifiers: List<Identifier>,
-    @Nullable var identifier: String,
-    @TypeConverters(Converters::class)
-    @Embedded
-    @SerializedName("person")val patientPerson: Person,
-    @SerializedName("uuid")@PrimaryKey val patientUUID: String = ""
+class Patient(
+    val display: String = "",
+    val identifiers: List<Identifier>,
+    val person: Person,
+    @PrimaryKey val uuid: String = ""
 )

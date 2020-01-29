@@ -99,6 +99,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //previous workflow check (if set then continue and fetch phases for that workflow)
         var selectedWorkFlow = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
+         selectedWorkFlow="Taha"
 
 
         if (selectedWorkFlow == null) {
@@ -348,6 +349,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun fillPatientInfoBar() {
 
         if (Global.patientData != null) {
+            Global.temp=Global.patientData
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE

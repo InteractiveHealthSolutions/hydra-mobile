@@ -16,12 +16,12 @@ interface PatientDao {
     @Delete
     fun deletePatient(patient: Patient)
 
-    @Query("SELECT * FROM Patient WHERE patientUUID == :uuid")
+    @Query("SELECT * FROM Patient WHERE uuid == :uuid")
     fun getPatientById(uuid: String): LiveData<List<Patient>>
 
     @Query("SELECT * FROM Patient ")
     fun getAllPatient(): List<Patient>
 
-    @Query("SELECT * FROM Patient WHERE identifier == :id")
-    fun getPatientByID(id: String): List<Patient>
+//    @Query("SELECT * FROM Patient WHERE identifier == :id")
+//    fun getPatientByID(id: String): List<Patient>
 }
