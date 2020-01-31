@@ -132,11 +132,8 @@ public class DataProvider {
         openAddressFields.add(openAddressField);
         addressConfiguration = new AddressConfiguration(
                 openAddressFields,
-                new AddressConfiguration.AddressTag(1, "Province"),
-                new AddressConfiguration.AddressTag(3, "Division"),
-                new AddressConfiguration.AddressTag(4, "District"),
-                new AddressConfiguration.AddressTag(5, "Tehsil"),
-                new AddressConfiguration.AddressTag(6, "Union"));
+                new AddressConfiguration.AddressTag(1, "Province/State"),
+                new AddressConfiguration.AddressTag(3, "City/Village"));
         System.out.print("");
 
         // TODO create separate configuration class for the date/ time

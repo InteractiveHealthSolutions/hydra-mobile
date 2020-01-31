@@ -9,11 +9,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.Utils
+import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import org.json.JSONObject
 
 class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
@@ -67,7 +69,21 @@ class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : Recycler
 
             searchLayout.setOnClickListener {
 
-                Global.patientData = Global.temp
+                var serverResponse: JSONObject? = null
+
+
+                var offlinePatient=OfflinePatient(patient.identifiers.get(0).identifier,"","","","",0,patient.person.getDisplay(),patient.person.getGender(),1,null,null)
+
+                val encounterCount = JSONObject()
+                for (i in ParamNames.ENCOUNTER_TYPES.indices) {
+                    encounterCount.put(ParamNames.ENCOUNTER_TYPES[i], 0)
+                }
+                offlinePatient.encounterJson = encounterCount.toString()
+
+                serverResponse = Utils.converToServerResponse(offlinePatient)
+                var requestType = ParamNames.GET_PATIENT_INFO
+
+                Utils.convertPatientToPatientData(context,serverResponse, 0,requestType)
                 context.startActivity(Intent(context,HomeActivity::class.java))
             }
 

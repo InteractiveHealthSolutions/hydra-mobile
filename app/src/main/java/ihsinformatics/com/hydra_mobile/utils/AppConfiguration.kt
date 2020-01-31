@@ -23,6 +23,8 @@ class AppConfiguration() {
                 }
             } else {
                 baseUrl = "http://" + "ihs.ihsinformatics.com"+ ":" + "6811" + "/openmrs/ws/rest/v1/"
+              //  baseUrl = "http://" + "199.172.1.215"+ ":" + "3000/"
+
             }
         }
         return baseUrl

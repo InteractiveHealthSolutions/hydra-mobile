@@ -4,9 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location
-import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
@@ -32,7 +29,7 @@ class MetaDataHelper(context: Context) {
 
     lateinit var labTestTypeRepository: LabTestTypeRepository
 
-    lateinit var locationRepository:LocationRepository
+    lateinit var relatedRepository:RelatedDataRepository
 
 
     var context: Context
@@ -49,19 +46,18 @@ class MetaDataHelper(context: Context) {
 
         workflowPhasesRepository = WorkflowPhasesRepository(context)
         phaseComponentRepository = PhaseComponentRepository(context)
-
         componentFormJoinRepository = ComponentFormJoinRepository(context)
 
         formResultRepository = FormResultRepository(context)
 
-        locationRepository=LocationRepository(context)
-
+        relatedRepository=RelatedDataRepository(context)
         labTestTypeRepository = LabTestTypeRepository(context)
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
 
-        getAllLocations()
+
+        getAllRelatedData()
 
         deleteExisitingLocalData()
 
@@ -74,7 +70,6 @@ class MetaDataHelper(context: Context) {
 
 
 
-        getAllLabTestTypesFromAPI()
 
         parseMetaData(object : RESTCallback {
 
@@ -115,8 +110,7 @@ class MetaDataHelper(context: Context) {
     fun getComponentsFromAPI() {
         componentRepository.getRemoteComponentData()
 
-        componentFormJoinRepository.insert(ComponentFormJoin(1, 1, 2))
-        componentFormJoinRepository.insert(ComponentFormJoin(2, 1, 3))
+
 
 
         // componentFormJoinRepository.getRemoteComponentFormMapData()
@@ -134,9 +128,12 @@ class MetaDataHelper(context: Context) {
         labTestTypeRepository.getRemoteLabTestTypesData()
     }
 
-    fun getAllLocations()
+    fun getAllRelatedData()  //e.g Location, currency, AllLabTestTypes
     {
-        locationRepository.getRemoteLocationsData()
+
+        getAllLabTestTypesFromAPI()
+        relatedRepository.getRemoteLocationsData()
+        relatedRepository.getRemoteLocationsAndCurrencyData()
 
     }
 
@@ -150,7 +147,7 @@ class MetaDataHelper(context: Context) {
 
         formResultRepository.deleteFormResult()
 
-        labTestTypeRepository.deleteAllLabTestType()
+        //labTestTypeRepository.deleteAllLabTestType()
 
         workflowPhasesRepository.deleteAllWorkflowPhases()
         phaseComponentRepository.deleteAllPhaseComponents()

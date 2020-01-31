@@ -18,6 +18,8 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Configuration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
@@ -160,34 +162,53 @@ public class Form extends BaseActivity {
 
         JSONArray questionsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < questionsList.length(); i++) {
-            JSONObject question = questionsList.getJSONObject(i);
+            JSONObject question = questionsList.optJSONObject(i);
 
-            JSONObject config = question.getJSONObject("config");
-            int id = config.getInt("id");
-            String inputType = config.getString("inputType");
-            String keyboardCharacters = config.getString("keyboardCharacters");
-            String widgetType = config.getString("widgetType");
-            int minLength = config.getInt("minLength");
-            int maxLength = config.getInt("maxLength");
-            int minValue = config.getInt("minValue");
-            int maxValue = config.getInt("maxValue");
-            String minDate = config.getString("minDate");
-            String maxDate = config.getString("maxDate");
-            int maxLines = config.getInt("maxLines");
+            JSONObject config = question.optJSONObject("config");
+            int id = config.optInt("id");
+            String inputType = config.optString("inputType");
+            String keyboardCharacters = config.optString("keyboardCharacters");
+            String widgetType = config.optString("widgetType");
+            int minLength = config.optInt("minLength");
+            int maxLength = config.optInt("maxLength");
+            int minValue = config.optInt("minValue");
+            int maxValue = config.optInt("maxValue");
+            String minDate = config.optString("minDate");
+            String maxDate = config.optString("maxDate");
+            int maxLines = config.optInt("maxLines");
 
-            QuestionConfiguration configuration = new QuestionConfiguration(
-                    inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
+            Configuration configuration;
+            if(widgetType.equals("address"))
+            {
+                QuestionConfiguration alphaNumeric160DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 160, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
 
-            int questionId = question.getInt("id");
-            String questionNumber = question.getString("questionNumber");
-            String description = question.getString("description");
-            String conceptName = question.getString("conceptName");
-            String concetUUID = question.getString("concetUUID");
-            String initialVisibility = question.getString("initialVisibility");
+                AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
+                        1,
+                        "Address",
+                        alphaNumeric160DigitSpace,
+                        true,
+                        ParamNames.ADDRESS2);
+                List<AddressConfiguration.OpenAddressField> openAddressFields = new ArrayList<>();
+                openAddressFields.add(openAddressField);
+                configuration = new AddressConfiguration(
+                        openAddressFields,
+                        new AddressConfiguration.AddressTag(1, "Province/State"),
+                        new AddressConfiguration.AddressTag(3, "City/Village"));
+            }
+            else {
+                configuration = new QuestionConfiguration(
+                        inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
+            }
+            int questionId = question.optInt("id");
+            String questionNumber = question.optString("questionNumber");
+            String description = question.optString("description");
+            String conceptName = question.optString("conceptName");
+            String concetUUID = question.optString("concetUUID");
+            String initialVisibility = question.optString("initialVisibility");
 
 
             Boolean required = false;
-            if (question.getInt("required") == 0) {
+            if (question.optInt("required") == 0) {
                 required = false;
             } else {
                 required = true;
@@ -200,9 +221,9 @@ public class Form extends BaseActivity {
             JSONArray optionsList = question.getJSONArray("options");
             for (int j = 0; j < optionsList.length(); j++) {
                 JSONObject option = optionsList.getJSONObject(j);
-                int defaultValue = option.getInt("default");
-                String optionConceptUUID = option.getString("conceptUUID");
-                String display = option.getString("display");
+                int defaultValue = option.optInt("default");
+                String optionConceptUUID = option.optString("conceptUUID");
+                String display = option.optString("display");
                 this.options.add(new Option(questionId, j, null, null, optionConceptUUID, display, -1));
             }
 
@@ -236,8 +257,8 @@ public class Form extends BaseActivity {
                 JSONObject JSONObj = (JSONObject) obj;
                 SkipLogics s = new SkipLogics();
                 //TODO QuestionId must be a string ~Taha
-                String skiplogicID = JSONObj.getString("id");
-                int skiplogicQuestionId = JSONObj.getInt("questionId");
+                String skiplogicID = JSONObj.optString("id");
+                int skiplogicQuestionId = JSONObj.optInt("questionId");
 
                 s.setId(skiplogicID);
                 s.setQuestionID(skiplogicQuestionId);
@@ -245,7 +266,7 @@ public class Form extends BaseActivity {
                 JSONArray skiplogicEqualList = JSONObj.getJSONArray("equals");
                 for (int o = 0; o < skiplogicEqualList.length(); o++) {
                     JSONObject optionUUIDObject = skiplogicEqualList.getJSONObject(o);
-                    String optionUUID = optionUUIDObject.getString("uuid");
+                    String optionUUID = optionUUIDObject.optString("uuid");
 
                     s.getEqualsList().add(o, optionUUID);
                 }
@@ -253,35 +274,35 @@ public class Form extends BaseActivity {
                 JSONArray skiplogicNotEqualList = JSONObj.getJSONArray("notEquals");
                 for (int o = 0; o < skiplogicNotEqualList.length(); o++) {
                     JSONObject optionUUIDObject = skiplogicNotEqualList.getJSONObject(o);
-                    String optionUUID = optionUUIDObject.getString("uuid");
+                    String optionUUID = optionUUIDObject.optString("uuid");
 
                     s.getNotEqualsList().add(o, optionUUID);
                 }
 
                 JSONArray skiplogicEqualsTo = JSONObj.getJSONArray("equalTo");
                 for (int o = 0; o < skiplogicEqualsTo.length(); o++) {
-                    int optionWithNumbers = skiplogicEqualsTo.getInt(o);
+                    int optionWithNumbers = skiplogicEqualsTo.optInt(o);
 
                     s.getEqualsToList().add(o, optionWithNumbers);
                 }
 
                 JSONArray skiplogicNotEqualsTo = JSONObj.getJSONArray("notEqualTo");
                 for (int o = 0; o < skiplogicNotEqualsTo.length(); o++) {
-                    int optionWithNumbers = skiplogicNotEqualsTo.getInt(o);
+                    int optionWithNumbers = skiplogicNotEqualsTo.optInt(o);
 
                     s.getNotEqualsToList().add(o, optionWithNumbers);
                 }
 
                 JSONArray skiplogicLessThan = JSONObj.getJSONArray("lessThan");
                 for (int o = 0; o < skiplogicLessThan.length(); o++) {
-                    int optionWithNumbers = skiplogicLessThan.getInt(o);
+                    int optionWithNumbers = skiplogicLessThan.optInt(o);
 
                     s.getLessThanList().add(o, optionWithNumbers);
                 }
 
                 JSONArray skiplogicGreaterThan = JSONObj.getJSONArray("greaterThan");
                 for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
-                    int optionWithNumbers = skiplogicGreaterThan.getInt(o);
+                    int optionWithNumbers = skiplogicGreaterThan.optInt(o);
 
                     s.getGreaterThanList().add(o, optionWithNumbers);
                 }

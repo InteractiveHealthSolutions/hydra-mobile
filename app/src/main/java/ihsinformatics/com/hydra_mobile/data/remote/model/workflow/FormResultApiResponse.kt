@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 import com.ihsinformatics.dynamicformsgenerator.data.core.Form
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
+import org.json.JSONObject
 
 @Entity
 class FormResultApiResponse {

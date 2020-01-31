@@ -12,9 +12,9 @@ interface FormResultApiService {
 
     @Headers("Accept: application/json")
 
-    @GET("hydra")
-    fun getFormsResult(): Call<FormResultApiResponse>
+    @GET("hydra/form")
+    fun getFormsResult(): Call<String>
 
-    @GET("hydra")
-    fun fetchFormsResult(): Observable<FormResultApiResponse>
+    @GET("hydra/form")
+    fun fetchFormsResult(): Observable<MyFormResultApiResponse>
 }

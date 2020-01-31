@@ -16,6 +16,7 @@ class Constant {
          lateinit var TIME_FORMAT: SimpleDateFormat*/
         val BASE_URL = "http://mrs.ghd.ihn.org.pk/openmrs/ws/rest/v1"
         val REPRESENTATION = "full"
+        val HYDRA_QUERY="hydra"
         val REQUEST_TIMEOUT = 60
         var USERNAME: String? = null
         var PASSWORD: String? = null

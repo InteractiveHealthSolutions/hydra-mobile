@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.LabTestTypeApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.LocationApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.SystemSettingApiResponse
 import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -21,13 +22,14 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.*
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 
 class RequestManager {
 
     lateinit var retrofit: Retrofit
-    lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
+   // lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
     lateinit var retrofitTestOrder: Retrofit
 
 
@@ -42,10 +44,10 @@ class RequestManager {
 
         initOkHttpPatientList(username, password)
 
-        retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
+        retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
 
-        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.217:3000/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
+       // retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:3000/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
         retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList).build()
 
@@ -54,7 +56,7 @@ class RequestManager {
     private fun initOkHttp(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(10000,TimeUnit.SECONDS).build()
 
         okHttpClient = httpClient.build()
     }
@@ -229,7 +231,7 @@ class RequestManager {
 
 
     fun getForms(representation: String, restCallback: RESTCallback) {
-        val formService = retrofitForFormAPI.create(FormApiService::class.java)
+        val formService = retrofit.create(FormApiService::class.java)
         formService.getForms().enqueue(object : Callback<FormApiResponse> {
 
             override fun onResponse(
@@ -255,11 +257,11 @@ class RequestManager {
 
 
     fun getFormsResult(restCallback: RESTCallback) {
-        val formService = retrofitForFormAPI.create(FormResultApiService::class.java)
-        formService.getFormsResult().enqueue(object : Callback<FormResultApiResponse> {
+        val formService = retrofit.create(FormResultApiService::class.java)
+        formService.getFormsResult().enqueue(object : Callback<String> {
 
             override fun onResponse(
-                call: Call<FormResultApiResponse>, response: Response<FormResultApiResponse>
+                call: Call<String>, response: Response<String>
                                    ) {
                 Timber.e(response.message())
 
@@ -270,7 +272,7 @@ class RequestManager {
                 }
             }
 
-            override fun onFailure(call: Call<FormResultApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<String>, t: Throwable) {
 
                 Timber.e(t.localizedMessage)
                 restCallback.onFailure(t)
@@ -332,6 +334,32 @@ class RequestManager {
         })
     }
 
+
+    fun getLocationAndCurrency(queryString:String, representation: String, restCallback: RESTCallback) {
+        val location = retrofit.create(LocationApiService::class.java)
+        location.getLocationAndCurrency(queryString,representation).enqueue(object : Callback<SystemSettingApiResponse> {
+
+            override fun onResponse(
+                call: Call<SystemSettingApiResponse>, response: Response<SystemSettingApiResponse>
+                                   ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<SystemSettingApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
 
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
         val patientSearch = retrofit.create(PatientApiService::class.java)

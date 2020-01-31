@@ -221,4 +221,5 @@ dependencies {
     //recycleView
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
 }

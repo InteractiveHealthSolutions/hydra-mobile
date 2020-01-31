@@ -11,14 +11,17 @@ class Person{
     private var dead: Boolean =false
     private lateinit var display: String
     private lateinit var gender: String
+    private lateinit var birthdate: String
 
 
-    constructor(a:Int, d:Boolean,dis:String,g:String)
+
+    constructor(a:Int, d:Boolean,dis:String,g:String,birth:String)
     {
         this.age=a
         this.dead=d
         this.display=dis
         this.gender=g
+        this.birthdate=birth
     }
 
 
@@ -38,6 +41,15 @@ class Person{
     fun setDisplay(display:String)
     {
         this.display=display
+    }
+
+    fun getBirthDate():String{
+        return birthdate
+    }
+
+    fun setBirthDate(b:String)
+    {
+        birthdate=b
     }
 
     fun getAge():Int

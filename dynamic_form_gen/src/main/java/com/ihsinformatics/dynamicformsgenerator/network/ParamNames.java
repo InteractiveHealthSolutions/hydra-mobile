@@ -16,9 +16,6 @@ public class ParamNames {
     public static final String ENCOUNTER_TB_DISEASE_CONFIRMATION = "TB Disease Confirmation";
 
 
-
-
-
     public static final String[] ENCOUNTER_TYPES = new String[]{
             ENCOUNTER_TYPE_CREATE_PATIENT,
             ENCOUNTER_TYPE_PATIENT_INFO,
@@ -31,6 +28,14 @@ public class ParamNames {
             ENCOUNTER_TYPE_EOF,
             ENCOUNTER_TYPE_CONTACT_REGISTRY
     };
+
+    public static final String[] SUMMARY_VARIBALES = new String[]{
+            "patientType", "patientRiskCategory",
+            "weight", "height", "bmi", "endOfFollowUpFor", "relatedOutcome", "diseaseSite", "confirmationTyp",
+            "tbType", "nextTBAppointme", "recentVisits", "relationships",
+            "nextTBAppointment"
+    };
+
 
     public static final String COUNTRY = "country";
     public static final String STATE = "stateProvince";
@@ -68,7 +73,7 @@ public class ParamNames {
     public static final String OTHER_DESC_7 = "d2513e2b-cadc-4ba7-be1b-176acaacd713"; // other day 7
     public static final String OTHER_DESC_10 = "fe83f3b8-68ef-41e9-aa56-ad929298ed05"; // other day 10
     public static final String HAS_THE_RING_FALLEN = "60edb1c9-fc7f-4541-89a5-9d72c12a4008";
-    
+
     public static final String UUID = "uuid";
     public static final String PROVIDER = "provider";
     public static final String DISPLAY = "display";
@@ -205,10 +210,10 @@ public class ParamNames {
     public static final String ENCOUNER_NAME = "encounter_name";
 
 
-
     public static final String VIEW_PATIENT_HISTORY = "VIEW_HISTORY";
     public static final String FIND_PATIENT = "FIND_PATIENT";
     public static final String GET_PATIENT_INFO = "GET_PATIENT_INFO";
+
     public static final String GET_EVALUATORS = "GET_EVALUATORS";
     public static final String EFFECTED_FOOT = "effected_foot";
     public static final String GET_PATIENT_IMAGES_INFO = "Patient Images";
@@ -982,7 +987,7 @@ public class ParamNames {
     public static final String FORM3_SIGN_OF_INFECTION = "615671e3-c363-426a-8526-f19e11f95782";
     public static final String FORM3_CONTACT_NOT_ESTABLISHED_DAY7 = "e07136f2-6ec2-47cf-86fb-40c32abd24db";
     public static final String FORM3_COMPLICATIONS = "120240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-    public static  final String COMPLICATION_OUTCOME = "259a19ff-bb2f-4118-bd63-439dbea0bdbd";
+    public static final String COMPLICATION_OUTCOME = "259a19ff-bb2f-4118-bd63-439dbea0bdbd";
     public static final String FORM3_COMPLICATIONS_OF_CS = "d68c2f38-e1d6-49c3-a0ef-99165c580258";
     public static final String FORM3_CLASSIFY_COMPLICATIONS = "370bd978-e6bd-4743-a386-529b4c98db5e";
     public static final String FORM3_POST_CIRC_BLEED = "519fa3bc-4c39-44d8-a122-9887a4a518c7";
@@ -1012,28 +1017,27 @@ public class ParamNames {
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
 
 
-
     // TB Disease Confirmation Form
 
-    public static String tb_type="abcdef123";
-    public static String extra_pulmonary_site="abcdef124";
-    public static String extra_pulmonary_site_other="abcdef125";
-    public static String mtb_confirmation="abcdef126";
-    public static String mtb_confirmation_method="abcdef126";
-    public static String mtb_confirmation_method_other="abcdef127";
-    public static String confirmed_diagnosis="abcdef128";
-    public static String other_diagnosis="abcdef129";
-    public static String drug_resistance_profile="abcdef130";
-    public static String tb_registration_no="abcdef131";
-    public static String drug_resistant_profile_class="abcdef132";
-    public static String enrs_no="abcdef133";
-    public static String mtb_diagnosis_date="abcdef134";
-    public static String histopathology_evidence="abcdef135";
-    public static String radiological_evidence="abcdef136";
-    public static String cad4tb_score="abcdef137";
-    public static String eligible_for_treatment="abcdef138";
-    public static String proposed_treatment_facility="abcdef139";
-    public static String other_proposed_treatment_facility="abcdef140";
+    public static String tb_type = "abcdef123";
+    public static String extra_pulmonary_site = "abcdef124";
+    public static String extra_pulmonary_site_other = "abcdef125";
+    public static String mtb_confirmation = "abcdef126";
+    public static String mtb_confirmation_method = "abcdef126";
+    public static String mtb_confirmation_method_other = "abcdef127";
+    public static String confirmed_diagnosis = "abcdef128";
+    public static String other_diagnosis = "abcdef129";
+    public static String drug_resistance_profile = "abcdef130";
+    public static String tb_registration_no = "abcdef131";
+    public static String drug_resistant_profile_class = "abcdef132";
+    public static String enrs_no = "abcdef133";
+    public static String mtb_diagnosis_date = "abcdef134";
+    public static String histopathology_evidence = "abcdef135";
+    public static String radiological_evidence = "abcdef136";
+    public static String cad4tb_score = "abcdef137";
+    public static String eligible_for_treatment = "abcdef138";
+    public static String proposed_treatment_facility = "abcdef139";
+    public static String other_proposed_treatment_facility = "abcdef140";
 
 
     public static String contact_gender;

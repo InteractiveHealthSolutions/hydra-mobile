@@ -23,6 +23,8 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTagMapDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.OptionDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Procedure;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettings;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettingsDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
@@ -352,7 +354,10 @@ public class DataAccess {
 
     public Long insertLocationTag(Context context, LocationTag locationTag) {
         LocationTagDao locationTagDao = App.getDaoSession(context).getLocationTagDao();
-        return locationTagDao.insert(locationTag);
+        LocationTag existingTag = fetchLocationTagByName(context, locationTag.getName());
+        if(existingTag == null)
+            return locationTagDao.insert(locationTag);
+        return existingTag.getId();
     }
 
     public synchronized void insertLocations(Context context, List<Location> locations) {
@@ -430,6 +435,7 @@ public class DataAccess {
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
         LocationAttributeDao locationAttributeDao = App.getDaoSession(context).getLocationAttributeDao();
         LocationTagMapDao locationTagMapDao = App.getDaoSession(context).getLocationTagMapDao();
+        LocationTagDao locationTagDao = App.getDaoSession(context).getLocationTagDao();
         Location parent = fetchLocationByUUID(context, location.getParentLocationUUID());
         //if(parent!=null)
             //location.setParentLocation(parent.getId());
@@ -438,6 +444,7 @@ public class DataAccess {
         if (locationTagsList!=null) {
             ArrayList<LocationTagMap> locationTagMaps = new ArrayList<>();
             for (LocationTag locationTag : locationTagsList) {
+                locationTag.setId(insertLocationTag(context, locationTag));
                 LocationTagMap locationTagMap = new LocationTagMap(null, locationId, locationTag.getId());
                 locationTagMaps.add(locationTagMap);
             }
@@ -449,6 +456,31 @@ public class DataAccess {
                 la.setLocationId(locationId);
             }
             locationAttributeDao.insertOrReplaceInTx(locationAttributesList);
+        }
+    }
+
+
+    public SystemSettings fetchSystemSettingsByUUID(Context context, String uuid) {
+        SystemSettingsDao locationTagDao = App.getDaoSession(context).getSystemSettingsDao();
+        List<SystemSettings> tagList = locationTagDao.queryBuilder()
+                .where(SystemSettingsDao.Properties.Uuid.eq(uuid))
+                .list();
+
+        if (tagList.size() > 0)
+            return tagList.get(0);
+        return null;
+    }
+
+
+
+
+    public void insertSystemSettings(Context context, List<SystemSettings> systemSettings) {
+        SystemSettingsDao systemSettingsDao = App.getDaoSession(context).getSystemSettingsDao();
+
+        for (int i = 0; i < systemSettings.size(); i++) {
+            SystemSettings settings=fetchSystemSettingsByUUID(context,systemSettings.get(i).getUuid());
+            if(settings==null)
+                systemSettingsDao.insert(systemSettings.get(i));
         }
     }
 }

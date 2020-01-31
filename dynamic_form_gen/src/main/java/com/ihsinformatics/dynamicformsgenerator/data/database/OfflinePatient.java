@@ -26,11 +26,7 @@ public class OfflinePatient {
     public final static String COLUMN_FIELDS_DATA_JSON = "fields_data_json";
 
 
-    public static final String[] SUMMARY_VARIBALES = new String[]{
-            "patientSource", "patientType", "patientRiskCategory",
-            "weight", "height", "bmi",
-            "Next TB Appointment"
-    };
+
 
 
     // Added for backward compatibility only, newer calls should use stringFormData
