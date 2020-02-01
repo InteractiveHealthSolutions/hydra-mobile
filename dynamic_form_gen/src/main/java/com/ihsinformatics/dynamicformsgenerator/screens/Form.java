@@ -152,12 +152,9 @@ public class Form extends BaseActivity {
         ENCOUNTER_NAME = eNCOUNTER_NAME;
     }
 
-//    public static void setENCOUNTER_NAME_DATA(String eNCOUNTER_NAME_DATA) {
-//        ENCOUNTER_NAME_DATA = eNCOUNTER_NAME_DATA;
-//    }
 
-
-    private void parseQuestionsFromEncounterNameData() throws JSONException {
+    // Only changing the name of parser above wont work because Question class et types accordingly
+    private void oldParseQuestionsFromEncounterNameData() throws JSONException {
 
 
         JSONArray questionsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
@@ -178,8 +175,7 @@ public class Form extends BaseActivity {
             int maxLines = config.optInt("maxLines");
 
             Configuration configuration;
-            if(widgetType.equals("address"))
-            {
+            if (widgetType.equals("address")) {
                 QuestionConfiguration alphaNumeric160DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 160, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
 
                 AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
@@ -194,10 +190,9 @@ public class Form extends BaseActivity {
                         openAddressFields,
                         new AddressConfiguration.AddressTag(1, "Province/State"),
                         new AddressConfiguration.AddressTag(3, "City/Village"));
-            }
-            else {
+            } else {
                 configuration = new QuestionConfiguration(
-                        inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue, maxDate, minDate, maxLines);
+                        inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue);//, maxDate, minDate, maxLines);
             }
             int questionId = question.optInt("id");
             String questionNumber = question.optString("questionNumber");
@@ -241,82 +236,180 @@ public class Form extends BaseActivity {
             this.questions.add(completeQuestion);
 
         }
+    }   //Old frm parser
+
+
+    private void parseQuestionsFromEncounterNameData() throws JSONException {
+
+        int configurationID = 2;   // configurationID=1 is for address widget
+
+        JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
+        for (int i = 0; i < formFieldsList.length(); i++) {
+            JSONObject formFields = formFieldsList.optJSONObject(i);
+
+            int formFieldId = formFields.optInt("formFieldId");
+            int displayOrder = formFields.optInt("displayOrder");  //Not mapped
+            int minOccurrence = formFields.optInt("minOccurrence");  //Not mapped
+            int maxOccurrence = formFields.optInt("maxOccurrence");  //Not mapped
+            int minValue = formFields.optInt("minValue");
+            int maxValue = formFields.optInt("maxValue");
+            int minLength = formFields.optInt("minLength");
+            int maxLength = formFields.optInt("maxLength");
+            int minSelections = formFields.optInt("minSelections");  //Not Mapped
+            Boolean allowFutureDate = formFields.optBoolean("allowFutureDate");  //Not Mapped
+            Boolean allowPastDate = formFields.optBoolean("allowPastDate");  //Not Mapped
+            String displayText = formFields.optString("displayText");
+            String errorMessage = formFields.optString("errorMessage"); //Not Mapped
+            Boolean scoreable = formFields.optBoolean("scoreable");  //Not Mapped
+            Boolean allowDecimal = formFields.optBoolean("allowDecimal");  //Not Mapped
+            Boolean mandatory = formFields.optBoolean("mandatory");
+            String defaultValue = formFields.optString("defaultValue");
+            String regix = formFields.optString("regix");  // Need to check this field Onc done
+            String characters = formFields.optString("characters");
+
+            JSONObject field = formFields.getJSONObject("field");
+
+            JSONObject fieldType = field.getJSONObject("fieldType");
+
+            JSONObject concept = field.getJSONObject("concept");
+            String conceptUUID = concept.optString("uuid");
+            JSONArray optionsList = concept.getJSONArray("names");
+
+            for (int j = 0; j < optionsList.length(); j++) {
+                JSONObject option = optionsList.getJSONObject(j);
+                String optionUUID = option.optString("uuid");
+                String optionDisplay = option.optString("display");
+                this.options.add(new Option(formFieldId, j, null, null, optionUUID, optionDisplay, -1));
+            }
+
+
+            String widgetType = fieldType.optString("name");
+
+            JSONObject datatype = concept.optJSONObject("datatype");
+            String inputType = datatype.optString("display");
+
+            Configuration configuration;
+            if (widgetType.equals("address")) {
+                QuestionConfiguration alphaNumeric160DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 160, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
+
+                AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
+                        1,
+                        "Address",
+                        alphaNumeric160DigitSpace,
+                        true,
+                        ParamNames.ADDRESS2);
+                List<AddressConfiguration.OpenAddressField> openAddressFields = new ArrayList<>();
+                openAddressFields.add(openAddressField);
+                configuration = new AddressConfiguration(
+                        openAddressFields,
+                        new AddressConfiguration.AddressTag(1, "Province/State"),
+                        new AddressConfiguration.AddressTag(3, "City/Village"));
+            } else {
+                configuration = new QuestionConfiguration(
+                        inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
+                configurationID++;
+            }
+
+
+            //ToDo discuss about widgetType in wrong field
+            // QuestionNumber, initialVisiblility , concept Name vs conceptParams and validation function
+
+
+            JSONArray visibleWhenList = formFields.optJSONArray("visibleWhen");
+            List<SExpression> visibleWhen = skipLogicParser(visibleWhenList);
+
+            JSONArray hiddenWhenList = formFields.optJSONArray("hiddenWhen");
+            List<SExpression> hiddenWhen = skipLogicParser(hiddenWhenList);
+
+            JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
+            List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
+
+
+            //TODO replace validation function with regrex
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, visibleWhen, hiddenWhen, requiredWhen);
+            this.questions.add(completeQuestion);
+
+        }
     }
 
 
     private List<SExpression> skipLogicParser(JSONArray sExpressionList) throws JSONException {
         ArrayList<SExpression> SExpressionCompleteList = new ArrayList<SExpression>();
         SExpression sExpression = new SExpression();
-        for (int n = 0; n < sExpressionList.length(); n++) {
-            Object obj = sExpressionList.get(n);
+        if (sExpressionList != null) {
+            for (int n = 0; n < sExpressionList.length(); n++) {
+                Object obj = sExpressionList.get(n);
 
 
-            if (obj instanceof String || obj.getClass().equals(String.class)) {
-                sExpression.setOperator(obj.toString());
-            } else if (obj instanceof JSONObject || obj.getClass().equals(JSONObject.class)) {
-                JSONObject JSONObj = (JSONObject) obj;
-                SkipLogics s = new SkipLogics();
-                //TODO QuestionId must be a string ~Taha
-                String skiplogicID = JSONObj.optString("id");
-                int skiplogicQuestionId = JSONObj.optInt("questionId");
+                if (obj instanceof String || obj.getClass().equals(String.class)) {
+                    sExpression.setOperator(obj.toString());
+                } else if (obj instanceof JSONObject || obj.getClass().equals(JSONObject.class)) {
+                    JSONObject JSONObj = (JSONObject) obj;
+                    SkipLogics s = new SkipLogics();
+                    //TODO QuestionId must be a string ~Taha
+                    String skiplogicID = JSONObj.optString("id");
+                    int skiplogicQuestionId = JSONObj.optInt("questionId");
 
-                s.setId(skiplogicID);
-                s.setQuestionID(skiplogicQuestionId);
+                    s.setId(skiplogicID);
+                    s.setQuestionID(skiplogicQuestionId);
 
-                JSONArray skiplogicEqualList = JSONObj.getJSONArray("equals");
-                for (int o = 0; o < skiplogicEqualList.length(); o++) {
-                    JSONObject optionUUIDObject = skiplogicEqualList.getJSONObject(o);
-                    String optionUUID = optionUUIDObject.optString("uuid");
+                    JSONArray skiplogicEqualList = JSONObj.getJSONArray("equals");
+                    for (int o = 0; o < skiplogicEqualList.length(); o++) {
+                        JSONObject optionUUIDObject = skiplogicEqualList.getJSONObject(o);
+                        String optionUUID = optionUUIDObject.optString("uuid");
 
-                    s.getEqualsList().add(o, optionUUID);
+                        s.getEqualsList().add(o, optionUUID);
+                    }
+
+                    JSONArray skiplogicNotEqualList = JSONObj.getJSONArray("notEquals");
+                    for (int o = 0; o < skiplogicNotEqualList.length(); o++) {
+                        JSONObject optionUUIDObject = skiplogicNotEqualList.getJSONObject(o);
+                        String optionUUID = optionUUIDObject.optString("uuid");
+
+                        s.getNotEqualsList().add(o, optionUUID);
+                    }
+
+                    JSONArray skiplogicEqualsTo = JSONObj.getJSONArray("equalTo");
+                    for (int o = 0; o < skiplogicEqualsTo.length(); o++) {
+                        int optionWithNumbers = skiplogicEqualsTo.optInt(o);
+
+                        s.getEqualsToList().add(o, optionWithNumbers);
+                    }
+
+                    JSONArray skiplogicNotEqualsTo = JSONObj.getJSONArray("notEqualTo");
+                    for (int o = 0; o < skiplogicNotEqualsTo.length(); o++) {
+                        int optionWithNumbers = skiplogicNotEqualsTo.optInt(o);
+
+                        s.getNotEqualsToList().add(o, optionWithNumbers);
+                    }
+
+                    JSONArray skiplogicLessThan = JSONObj.getJSONArray("lessThan");
+                    for (int o = 0; o < skiplogicLessThan.length(); o++) {
+                        int optionWithNumbers = skiplogicLessThan.optInt(o);
+
+                        s.getLessThanList().add(o, optionWithNumbers);
+                    }
+
+                    JSONArray skiplogicGreaterThan = JSONObj.getJSONArray("greaterThan");
+                    for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
+                        int optionWithNumbers = skiplogicGreaterThan.optInt(o);
+
+                        s.getGreaterThanList().add(o, optionWithNumbers);
+                    }
+
+                    sExpression.getSkipLogicsObjects().add(s);
+                } else if (obj instanceof JSONArray || obj.getClass().equals(JSONArray.class)) {
+                    sExpression.setSkipLogicsArray(skipLogicParser((JSONArray) obj));
                 }
 
-                JSONArray skiplogicNotEqualList = JSONObj.getJSONArray("notEquals");
-                for (int o = 0; o < skiplogicNotEqualList.length(); o++) {
-                    JSONObject optionUUIDObject = skiplogicNotEqualList.getJSONObject(o);
-                    String optionUUID = optionUUIDObject.optString("uuid");
 
-                    s.getNotEqualsList().add(o, optionUUID);
-                }
-
-                JSONArray skiplogicEqualsTo = JSONObj.getJSONArray("equalTo");
-                for (int o = 0; o < skiplogicEqualsTo.length(); o++) {
-                    int optionWithNumbers = skiplogicEqualsTo.optInt(o);
-
-                    s.getEqualsToList().add(o, optionWithNumbers);
-                }
-
-                JSONArray skiplogicNotEqualsTo = JSONObj.getJSONArray("notEqualTo");
-                for (int o = 0; o < skiplogicNotEqualsTo.length(); o++) {
-                    int optionWithNumbers = skiplogicNotEqualsTo.optInt(o);
-
-                    s.getNotEqualsToList().add(o, optionWithNumbers);
-                }
-
-                JSONArray skiplogicLessThan = JSONObj.getJSONArray("lessThan");
-                for (int o = 0; o < skiplogicLessThan.length(); o++) {
-                    int optionWithNumbers = skiplogicLessThan.optInt(o);
-
-                    s.getLessThanList().add(o, optionWithNumbers);
-                }
-
-                JSONArray skiplogicGreaterThan = JSONObj.getJSONArray("greaterThan");
-                for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
-                    int optionWithNumbers = skiplogicGreaterThan.optInt(o);
-
-                    s.getGreaterThanList().add(o, optionWithNumbers);
-                }
-
-                sExpression.getSkipLogicsObjects().add(s);
-            } else if (obj instanceof JSONArray || obj.getClass().equals(JSONArray.class)) {
-                sExpression.setSkipLogicsArray(skipLogicParser((JSONArray) obj));
             }
 
+            if (sExpressionList.length() > 0) {
+                SExpressionCompleteList.add(sExpression);
+            }
+        }
 
-        }
-        if (sExpressionList.length() > 0) {
-            SExpressionCompleteList.add(sExpression);
-        }
         return SExpressionCompleteList;
     }
 
@@ -324,10 +417,10 @@ public class Form extends BaseActivity {
     public int getFormId(String paramString) {
         int index;
         FormType formType;
-        Iterator<Integer> it = Constants.getInstance().getEncounterTypes().keySet().iterator();
+        Iterator<Integer> it = Constants.getEncounterTypes().keySet().iterator();
         while (it.hasNext()) {
             index = it.next();
-            if (Constants.getInstance().getEncounterTypes().get(index).equals(paramString)) {
+            if (Constants.getEncounterTypes().get(index).equals(paramString)) {
                 return index;
             }
         }
@@ -336,7 +429,7 @@ public class Form extends BaseActivity {
 
     public String getFormDataByEncounterType(String encounterType) {
 
-        String result = Constants.getInstance().getEncounterTypesData().get(encounterType);
+        String result = Constants.getEncounterTypesData().get(encounterType);
 
         if (null != result) {
             return result;

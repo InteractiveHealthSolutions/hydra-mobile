@@ -194,16 +194,16 @@ public class Question extends Displayable implements Cloneable {
 
     public void setQuestionType(String questionType) {
 
-        switch (questionType.toLowerCase()) {
-            case "date": {
+        switch (questionType) {
+            case "Date/ Time Picker": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_DATE;
                 break;
             }
-            case "edittext": {
+            case "Textbox": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_EDITTEXT;
                 break;
             }
-            case "spinner": {
+            case "Single Select Dropdown": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_SPINNER;
                 break;
             }
@@ -211,11 +211,11 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_SCORE_SPINNER;
                 break;
             }
-            case "multi_select_spinner": {
+            case "Multiple Choice": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER;
                 break;
             }
-            case "radio_button": {
+            case "Single Select Radiobuttons": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON;
                 break;
             }
@@ -223,7 +223,7 @@ public class Question extends Displayable implements Cloneable {
 //                this.questionType = InputWidgetsType.WIDGET_TYPE_CHECK_BOX;
 //                break;
 //            }
-            case "heading": {
+            case "Heading": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_HEADING;
                 break;
             }
@@ -235,7 +235,7 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_HIDDEN_INPUT;
                 break;
             }
-            case "age": {
+            case "Age": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_AGE;
                 break;
             }
@@ -261,7 +261,7 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT;
                 break;
             }
-            case "address": {
+            case "Address": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_ADDRESS;
                 break;
             }

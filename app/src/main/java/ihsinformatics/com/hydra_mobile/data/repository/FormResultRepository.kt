@@ -30,9 +30,7 @@ class FormResultRepository(context: Context) {
 
     init {
 
-        val database: AppDatabase = AppDatabase.getInstance(
-            context.applicationContext
-        )!!
+        val database: AppDatabase = AppDatabase.getInstance(context.applicationContext)!!
         formResultDao = database.getFormsResult()
         this.context = context
 
@@ -58,65 +56,55 @@ class FormResultRepository(context: Context) {
 
 
     fun getRemoteFormResultData() {
-        RequestManager(
-            context, sessionManager.getUsername(),
-            sessionManager.getPassword()
-        ).getFormsResult(
-            object :
-                RESTCallback {
-                override fun <T> onSuccess(o: T) {
+        RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getFormsResult(object : RESTCallback {
+            override fun <T> onSuccess(o: T) {
 
-                    try {
-                        val response = (o as String)
-                      //  insertFormResults(response)
+                try {
+                    val response = (o as String)
+                    //  insertFormResults(response)
 
-                        parseForms(response)
+                    parseForms(response)
 
-                        Log.e("FormLoading", "completed")
-                    } catch (e: Exception) {
-
-                    }
-                }
-
-                override fun onFailure(t: Throwable) {
+                    Log.e("FormLoading", "completed")
+                } catch (e: Exception) {
 
                 }
-            })
+            }
+
+            override fun onFailure(t: Throwable) {
+
+            }
+        })
     }
 
-    private fun parseForms(result:String)
-    {
+    private fun parseForms(result: String) {
         try {
 
-            val completeFile= JSONObject(result)
-            val formList=completeFile.getJSONArray("forms")
+            val completeFile = JSONObject(result)
+            val formList = completeFile.getJSONArray("forms")
 
             for (k in 0 until formList.length()) {
 
-                val insideForm = formList.getJSONObject(k)
-                val formName = insideForm.getString("name")
-                val formId = insideForm.getInt("hydramoduleFormId")
-                val questionsList = insideForm.getJSONArray("formFields")
-
-                //  componentFormJoinRepository.insert(ComponentFormJoin(componentId, formId))
-                FormRepository(context).insertForm(
-                    Forms(
-                        formId,
-                        formName,
-                        3,
-                        formName,
-                        questionsList.toString()
-                    )
-                )
+                val insideForm = formList.optJSONObject(k)
+                val formName = insideForm.optString("name")
+                val formId = insideForm.optInt("hydramoduleFormId")
+                val questionsList = insideForm.optJSONArray("formFields")
+                val component = insideForm.optJSONObject("component")
 
 
-                Constants.getInstance().encounterTypes.put(formId, formName)
-                Constants.getInstance().encounterTypesData.put(
-                    formName,
-                    questionsList.toString()
-                )
+                if (component != null) {
 
-                componentFormJoinRepository.insert(ComponentFormJoin(k, 3, formId))
+                    val componentID = component.optInt("componentId")
+
+                    FormRepository(context).insertForm(Forms(formId, formName, componentID, formName, questionsList.toString()))
+
+                    Constants.setEncounterType(formId, formName)
+                    Constants.setEncounterTypeData(formName, questionsList.toString())
+
+                    componentFormJoinRepository.insert(ComponentFormJoin(k, componentID, formId))
+                }
+
+
             }
 
 

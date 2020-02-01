@@ -23,6 +23,7 @@ import android.view.WindowManager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
@@ -217,10 +218,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         offlinePatient.setFieldDataJson(existingFieldsJson.toString());
 
-                        for (int i = 0; i < ParamNames.ENCOUNTER_TYPES.length; i++) {
-                            encounterCount.put(ParamNames.ENCOUNTER_TYPES[i], 0);
+                        Collection<String> encounters = Constants.getEncounterTypes().values();
+                        for (String i: encounters) {
+                            encounterCount.put(i, 0);
                         }
                         offlinePatient.setEncounterJson(encounterCount.toString());
+
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient);
                     } else
                         return;

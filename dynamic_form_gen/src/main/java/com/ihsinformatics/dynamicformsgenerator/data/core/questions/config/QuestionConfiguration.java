@@ -34,7 +34,7 @@ public class QuestionConfiguration extends Configuration {
     }
 
     public QuestionConfiguration(String inputType,
-                                 int maxLength, int minLenght, String allowedCharacters, int id, int maxValue, int minValue, String maxDate, String minDate, int maxLines) {
+                                 int maxLength, int minLenght, String allowedCharacters, int id, int maxValue, int minValue) {
         super();
         this.inputType = filterInputTypes(inputType);
         this.maxLength = maxLength;
@@ -43,7 +43,7 @@ public class QuestionConfiguration extends Configuration {
         this.id = id;
         this.maxValue = maxValue;
         this.minValue = minValue;
-        this.maxLines = maxLines;
+        //this.maxLines = maxLines;
 
     }
 

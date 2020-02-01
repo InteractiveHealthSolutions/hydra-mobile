@@ -16,18 +16,18 @@ public class ParamNames {
     public static final String ENCOUNTER_TB_DISEASE_CONFIRMATION = "TB Disease Confirmation";
 
 
-    public static final String[] ENCOUNTER_TYPES = new String[]{
-            ENCOUNTER_TYPE_CREATE_PATIENT,
-            ENCOUNTER_TYPE_PATIENT_INFO,
-            ENCOUNTER_TYPE_ADULT_SCREENING,
-            ENCOUNTER_TYPE_CHILD_SCREENING,
-            ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION,
-            ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION,
-            ENCOUNTER_TYPE_ADULT_TX_INITIATION,
-            ENCOUNTER_TYPE_CHILD_TX_INITIATION,
-            ENCOUNTER_TYPE_EOF,
-            ENCOUNTER_TYPE_CONTACT_REGISTRY
-    };
+//    public static final String[] ENCOUNTER_TYPES = new String[]{
+//            ENCOUNTER_TYPE_CREATE_PATIENT,
+//            ENCOUNTER_TYPE_PATIENT_INFO,
+//            ENCOUNTER_TYPE_ADULT_SCREENING,
+//            ENCOUNTER_TYPE_CHILD_SCREENING,
+//            ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION,
+//            ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION,
+//            ENCOUNTER_TYPE_ADULT_TX_INITIATION,
+//            ENCOUNTER_TYPE_CHILD_TX_INITIATION,
+//            ENCOUNTER_TYPE_EOF,
+//            ENCOUNTER_TYPE_CONTACT_REGISTRY
+//    };
 
     public static final String[] SUMMARY_VARIBALES = new String[]{
             "patientType", "patientRiskCategory",

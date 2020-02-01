@@ -57,11 +57,11 @@ class FormRepository(context: Context) {
                         for (i in response.forms.indices) {
                             //insert into local database
                             insertForm(response.forms[i])
-                            Constants.getInstance().encounterTypes.put(
+                            Constants.setEncounterType(
                                 response.forms[i].id,
                                 response.forms[i].name
                             )
-                            Constants.getInstance().encounterTypesData.put(
+                            Constants.setEncounterTypeData(
                                 response.forms[i].name,
                                 response.forms[i].questions
                             )

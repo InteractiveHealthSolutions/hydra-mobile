@@ -4,40 +4,29 @@ import java.util.LinkedHashMap;
 
 public class Constants {
 
-    private LinkedHashMap<Integer, String> encounterTypes;
-    private LinkedHashMap<String, String> encounterTypesData;
+    private static LinkedHashMap<Integer, String> encounterTypes= new LinkedHashMap<>();
+    private static LinkedHashMap<String, String> encounterTypesData = new LinkedHashMap<>();
 
-    private static Constants constants;
 
-    private Constants()
-    {
-        if(encounterTypes==null)
-        {
-            encounterTypes= new LinkedHashMap<Integer,String>();
-            encounterTypesData= new LinkedHashMap<String,String>();
-
-        }
-    }
-
-    public static Constants getInstance()
-    {
-        if(constants==null)
-        {
-            constants=new Constants();
-        }
-        return constants;
-    }
-
-    public LinkedHashMap<Integer, String> getEncounterTypes()
-    {
+    public static LinkedHashMap<Integer, String> getEncounterTypes() {
         return encounterTypes;
     }
 
-    public LinkedHashMap<String, String> getEncounterTypesData()
-    {
+    public static LinkedHashMap<String, String> getEncounterTypesData() {
         return encounterTypesData;
     }
 
 
+    public static void setEncounterType(Integer formId, String formName) {
+
+        encounterTypes.put(formId,formName);
+
+    }
+
+    public static void setEncounterTypeData(String formName, String formData) {
+
+        encounterTypesData.put(formName,formData);
+
+    }
 
 }

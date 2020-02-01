@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
+import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import ihsinformatics.com.hydra_mobile.R
@@ -75,8 +76,9 @@ class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : Recycler
                 var offlinePatient=OfflinePatient(patient.identifiers.get(0).identifier,"","","","",0,patient.person.getDisplay(),patient.person.getGender(),1,null,null)
 
                 val encounterCount = JSONObject()
-                for (i in ParamNames.ENCOUNTER_TYPES.indices) {
-                    encounterCount.put(ParamNames.ENCOUNTER_TYPES[i], 0)
+                val encounters=Constants.getEncounterTypes().values
+                for (i in encounters) {
+                    encounterCount.put(i, 0)
                 }
                 offlinePatient.encounterJson = encounterCount.toString()
 
