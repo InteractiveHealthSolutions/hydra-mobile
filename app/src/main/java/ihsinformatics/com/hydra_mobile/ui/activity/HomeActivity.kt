@@ -97,8 +97,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         //previous workflow check (if set then continue and fetch phases for that workflow)
-        var selectedWorkFlow = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
+        var selectedWorkFlow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
 
 
@@ -118,18 +117,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(
-            SpaceItem(
-                resources.getString(R.string.common_lab),
-                R.drawable.ic_testtubes
-            )
-        )
-        spaceNavigationView.addSpaceItem(
-            SpaceItem(
-                resources.getString(R.string.report),
-                R.drawable.ic_report_filled
-            )
-        )
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.common_lab), R.drawable.ic_testtubes))
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.report), R.drawable.ic_report_filled))
 
 
 
@@ -137,13 +126,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             override fun onCentreButtonClick() {
 
+
                 if (Global.patientData == null) {
-                    ToastyWidget.getInstance()
-                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
                 } else {
                     startActivity(Intent(applicationContext, ProfileActivity::class.java))
                     finish()
                 }
+
 
             }
 
@@ -166,22 +156,36 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (itemName) {
 
             resources.getString(R.string.common_lab) -> {
+                if (isInternetConnected()) {
+                    if (Global.patientData == null) {
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                    } else {
+                        startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+                        finish()
+                    }
+                } else {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
 
-//                if (Global.patientData == null) {
-//                    ToastyWidget.getInstance()
-//                        .displayWarning(this@HomeActivity, "Patient Not Loaded", Toast.LENGTH_SHORT)
-//                } else {
-                    startActivity(Intent(applicationContext, CommonLabActivity::class.java))
-                    finish()
-                //}
+                }
             }
 
             resources.getString(R.string.report) -> {
 
-                startActivity(Intent(applicationContext, ReportActivity::class.java))
-                finish()
-            }
+                if (isInternetConnected()) {
 
+                    if (Global.patientData == null) {
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                    } else {
+                        startActivity(Intent(applicationContext, ReportActivity::class.java))
+                        finish()
+                    }
+
+                } else {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+
+                }
+
+            }
         }
     }
 
@@ -223,13 +227,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val navView: NavigationView = binding.navView
         var drawerArrow = DrawerArrowDrawable(this)
         drawerArrow.color = ContextCompat.getColor(this@HomeActivity, R.color.colorWhite)
-        toggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
+        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.isDrawerIndicatorEnabled = true
         toggle.drawerArrowDrawable = drawerArrow!!
         drawerLayout.addDrawerListener(toggle)
@@ -276,10 +274,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //            }
 
             R.id.nav_search -> {
-                PatientInfoFetcher.init(
-                    Constant.formName,
-                    PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO
-                )
+                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
                 startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
 
             }
@@ -300,13 +295,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initPhase() {
         binding.mainMenuLayout.vpPhases.offscreenPageLimit = 2
-        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(
-            TabLayout.TabLayoutOnPageChangeListener(
-                binding.mainMenuLayout.tbPhase
-            )
-        )
-        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
+        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.mainMenuLayout.tbPhase))
+        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
@@ -349,7 +339,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun fillPatientInfoBar() {
 
         if (Global.patientData != null) {
-            Global.temp=Global.patientData
+            Global.temp = Global.patientData
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE
@@ -401,8 +391,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow: String) {
 
 
-        val workflowPhaseMapViewModel =
-            ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
+        val workflowPhaseMapViewModel = ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
 //        var selectedWorkFlow = GlobalPreferences.getinstance(this)
 //            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
         if (null != selectedWorkFlow && !selectedWorkFlow.equals("")) {
@@ -416,28 +405,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (work.isNotEmpty()) {
 
                 for (element in work) {
-                    binding.mainMenuLayout.tbPhase.addTab(
-                        binding.mainMenuLayout.tbPhase.newTab().setText(
-                            "" + element.phaseName
-                        )
-                    )
+                    binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab().setText("" + element.phaseName))
                 }
 
 
-                mDynamicFragmentAdapter =
-                    DynamicFragmentAdapter(
-                        supportFragmentManager,
-                        binding.mainMenuLayout.tbPhase.tabCount,
-                        work
-                    )
+                mDynamicFragmentAdapter = DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, work)
                 binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
                 binding.mainMenuLayout.vpPhases.currentItem = 0
 
 
             }
         } else {
-            ToastyWidget.getInstance()
-                .displayError(this@HomeActivity, "Workflow not loaded", Toast.LENGTH_SHORT)
+            ToastyWidget.getInstance().displayError(this@HomeActivity, "Workflow not loaded", Toast.LENGTH_SHORT)
         }
 
 
@@ -451,11 +430,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (requestCode === 0) {
             if (resultCode === Activity.RESULT_OK) {
                 val result = data?.getStringExtra("result")
-                GlobalPreferences.getinstance(this)
-                    .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, result)
+                GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, result)
                 if (result != null) {
-                    val selectedWorkFlow = GlobalPreferences.getinstance(this)
-                        .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
+                    val selectedWorkFlow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
 
                     getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow)
                 }
@@ -471,20 +448,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
     private fun logoutDialog() {
-        val dialog = AlertDialog.Builder(this)
-            .setMessage("Are you sure to logout?")
-            .setTitle("Are you sure?")
-            .setNegativeButton("No", null)
-            .setPositiveButton(
-                "Yes"
-            ) { dialog, which ->
+        val dialog = AlertDialog.Builder(this).setMessage("Are you sure to logout?").setTitle("Are you sure?").setNegativeButton("No", null).setPositiveButton("Yes") { dialog, which ->
 
-                SessionManager(applicationContext).logoutUser()
-                GlobalPreferences.getinstance(this)
-                    .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                finish()
+            SessionManager(applicationContext).logoutUser()
+            GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+            finish()
 
-            }
+        }
         dialog.show()
     }
 

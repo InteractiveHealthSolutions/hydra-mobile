@@ -30,12 +30,17 @@ public class ParamNames {
 //    };
 
     public static final String[] SUMMARY_VARIBALES = new String[]{
-            "patientType", "patientRiskCategory",
-            "weight", "height", "bmi", "endOfFollowUpFor", "relatedOutcome", "diseaseSite", "confirmationTyp",
-            "tbType", "nextTBAppointme", "recentVisits", "relationships",
-            "nextTBAppointment"
+            "patientType", "patientRiskCategory","patientSource","confirmationType",
+            "weight", "height", "bmi", "endOfFollowUpFor", "relatedOutcome", "diseaseSite",
+            "tbType", "nextTBAppointment", "nextTBAppointment"
+    };
+    public static final String[] SUMMARY_VARIABLES_OBJECTS = new String[]{
+            "recentVisits"
     };
 
+    public static final String[] SUMMARY_VARIABLES_ARRAYS = new String[]{
+            "relationships"
+    };
 
     public static final String COUNTRY = "country";
     public static final String STATE = "stateProvince";

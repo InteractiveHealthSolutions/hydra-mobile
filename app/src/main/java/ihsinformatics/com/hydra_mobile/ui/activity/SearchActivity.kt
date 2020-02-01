@@ -40,7 +40,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
 
-    private lateinit var patientSearchedList:List<Patient>
+    private lateinit var patientSearchedList:PatientApiResponse
 
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
@@ -108,7 +108,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                 override fun <T> onSuccess(o: T) {
                     try {
                         val response = (o as PatientApiResponse)
-                        patientSearchedList=response.results
+                        patientSearchedList=response
                         setPatientSearchedList()
                     } catch (e: Exception) {
                         Timber.e(e.localizedMessage)

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
@@ -31,7 +32,7 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 class CommonLabActivity : AppCompatActivity() {
 
     //TODO patient needs to be fetched from online openmrs server... Here we have hardcoded due to not enabling feature of online search for patient  ~Taha
-    var patientID = "dbac89bb-508b-4693-aad1-3b5a5310252e"
+    var patientID = Global.patientData.patient.uuid
 
     lateinit var testTypeList: ArrayList<LabTestOrder>
     lateinit var encountersList: ArrayList<Encounter>
@@ -125,7 +126,7 @@ class CommonLabActivity : AppCompatActivity() {
                             startActivity(intent)
 
                         } else {
-                            Toast.makeText(this@CommonLabActivity, "No encounters for patient", Toast.LENGTH_SHORT).show()
+                            ToastyWidget.getInstance().displayError(this@CommonLabActivity,getString(R.string.no_encounter_for_patient),Toast.LENGTH_LONG)
                             addTest.isClickable = true
                             networkProgressDialog.dismiss()
 

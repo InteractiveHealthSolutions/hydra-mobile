@@ -15,13 +15,16 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import org.json.JSONArray
 import org.json.JSONObject
 
-class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
+class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
 
-    private var searchPatientList=patientSearched
+    private var resultFromAPI=patientSearched
+    private var searchPatientList=patientSearched.results
     val context=c
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -75,12 +78,32 @@ class SearchPatientAdapter(patientSearched:List<Patient>, c: Context) : Recycler
 
                 var offlinePatient=OfflinePatient(patient.identifiers.get(0).identifier,"","","","",0,patient.person.getDisplay(),patient.person.getGender(),1,null,null)
 
+
+                //Initialization of summary fields
+                var fieldJsonString = offlinePatient.fieldDataJson
+                if (fieldJsonString == null) fieldJsonString = JSONObject().toString()
+                val existingFieldsJson = JSONObject(fieldJsonString)
+                for (i in ParamNames.SUMMARY_VARIBALES) {
+                    existingFieldsJson.put(i, "")
+                }
+                for (i in ParamNames.SUMMARY_VARIABLES_OBJECTS) {
+                    existingFieldsJson.put(i, JSONObject())
+                }
+                for (i in ParamNames.SUMMARY_VARIABLES_ARRAYS) {
+                    existingFieldsJson.put(i, JSONArray())
+                }
+                offlinePatient.fieldDataJson = existingFieldsJson.toString()
+
+
+                //Initialization of all filled encounters count via this device as 0
                 val encounterCount = JSONObject()
                 val encounters=Constants.getEncounterTypes().values
                 for (i in encounters) {
                     encounterCount.put(i, 0)
                 }
                 offlinePatient.encounterJson = encounterCount.toString()
+
+
 
                 serverResponse = Utils.converToServerResponse(offlinePatient)
                 var requestType = ParamNames.GET_PATIENT_INFO

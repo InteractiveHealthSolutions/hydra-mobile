@@ -81,6 +81,7 @@ class FormResultRepository(context: Context) {
         try {
 
             val completeFile = JSONObject(result)
+
             val formList = completeFile.getJSONArray("forms")
 
             for (k in 0 until formList.length()) {

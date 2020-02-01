@@ -25,6 +25,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
+import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
@@ -37,8 +38,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -48,10 +53,9 @@ import es.dmoral.toasty.Toasty;
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
-    // private static String ENCOUNTER_NAME_DATA;
-
-
-    // public static String REGISTRATION_ENCOUNTER;
+    private java.util.Date projectStartDate;
+    private Date date25YearsAgo,today,date25YearsAhead,lastMonday,startDate,endDate;
+    private static Calendar cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,22 +217,22 @@ public class Form extends BaseActivity {
             // Change edittext to proper widget type  ~Taha
 
 
-            JSONArray optionsList = question.getJSONArray("options");
+            JSONArray optionsList = question.optJSONArray("options");
             for (int j = 0; j < optionsList.length(); j++) {
-                JSONObject option = optionsList.getJSONObject(j);
+                JSONObject option = optionsList.optJSONObject(j);
                 int defaultValue = option.optInt("default");
                 String optionConceptUUID = option.optString("conceptUUID");
                 String display = option.optString("display");
                 this.options.add(new Option(questionId, j, null, null, optionConceptUUID, display, -1));
             }
 
-            JSONArray visibleWhenList = question.getJSONArray("visibleWhen");
+            JSONArray visibleWhenList = question.optJSONArray("visibleWhen");
             List<SExpression> visibleWhen = skipLogicParser(visibleWhenList);
 
-            JSONArray hiddenWhenList = question.getJSONArray("hiddenWhen");
+            JSONArray hiddenWhenList = question.optJSONArray("hiddenWhen");
             List<SExpression> hiddenWhen = skipLogicParser(hiddenWhenList);
 
-            JSONArray requiredWhenList = question.getJSONArray("requiredWhen");
+            JSONArray requiredWhenList = question.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
             //TODO replace validation function with regrex
@@ -242,7 +246,7 @@ public class Form extends BaseActivity {
     private void parseQuestionsFromEncounterNameData() throws JSONException {
 
         int configurationID = 2;   // configurationID=1 is for address widget
-
+        initDates();
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < formFieldsList.length(); i++) {
             JSONObject formFields = formFieldsList.optJSONObject(i);
@@ -256,8 +260,8 @@ public class Form extends BaseActivity {
             int minLength = formFields.optInt("minLength");
             int maxLength = formFields.optInt("maxLength");
             int minSelections = formFields.optInt("minSelections");  //Not Mapped
-            Boolean allowFutureDate = formFields.optBoolean("allowFutureDate");  //Not Mapped
-            Boolean allowPastDate = formFields.optBoolean("allowPastDate");  //Not Mapped
+            Boolean allowFutureDate = formFields.optBoolean("allowFutureDate");
+            Boolean allowPastDate = formFields.optBoolean("allowPastDate");
             String displayText = formFields.optString("displayText");
             String errorMessage = formFields.optString("errorMessage"); //Not Mapped
             Boolean scoreable = formFields.optBoolean("scoreable");  //Not Mapped
@@ -267,29 +271,38 @@ public class Form extends BaseActivity {
             String regix = formFields.optString("regix");  // Need to check this field Onc done
             String characters = formFields.optString("characters");
 
-            JSONObject field = formFields.getJSONObject("field");
+            JSONObject field = formFields.optJSONObject("field");
 
-            JSONObject fieldType = field.getJSONObject("fieldType");
+            JSONObject fieldType = field.optJSONObject("fieldType");
 
-            JSONObject concept = field.getJSONObject("concept");
-            String conceptUUID = concept.optString("uuid");
-            JSONArray optionsList = concept.getJSONArray("names");
+            JSONObject concept = field.optJSONObject("concept");
+            String conceptUUID = field.optString("uuid");
+            String inputType = "";
+            if (concept != null) {
+                conceptUUID = concept.optString("uuid");
 
-            for (int j = 0; j < optionsList.length(); j++) {
-                JSONObject option = optionsList.getJSONObject(j);
-                String optionUUID = option.optString("uuid");
-                String optionDisplay = option.optString("display");
-                this.options.add(new Option(formFieldId, j, null, null, optionUUID, optionDisplay, -1));
+
+                JSONArray optionsList = concept.optJSONArray("names");
+
+                for (int j = 0; j < optionsList.length(); j++) {
+                    JSONObject option = optionsList.optJSONObject(j);
+                    String optionUUID = option.optString("uuid");
+                    String optionDisplay = option.optString("display");
+                    this.options.add(new Option(formFieldId, j, null, null, optionUUID, optionDisplay, -1));
+                }
+
+                JSONObject datatype = concept.optJSONObject("datatype");
+                inputType = datatype.optString("display");
             }
-
 
             String widgetType = fieldType.optString("name");
 
-            JSONObject datatype = concept.optJSONObject("datatype");
-            String inputType = datatype.optString("display");
 
-            Configuration configuration;
-            if (widgetType.equals("address")) {
+            Configuration configuration = new QuestionConfiguration(
+                    inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
+
+            if (widgetType.equals("Address")) {
+
                 QuestionConfiguration alphaNumeric160DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 160, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
 
                 AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
@@ -304,7 +317,28 @@ public class Form extends BaseActivity {
                         openAddressFields,
                         new AddressConfiguration.AddressTag(1, "Province/State"),
                         new AddressConfiguration.AddressTag(3, "City/Village"));
+            } else if (widgetType.equals("Date/ Time Picker")) {
+
+                startDate=today;
+                endDate=today;
+
+                if(allowFutureDate!=null && allowFutureDate){
+                    endDate=date25YearsAhead;
+                }
+                if(allowPastDate!=null && allowPastDate){
+                    startDate=date25YearsAgo;
+                }
+
+                configuration = new QuestionConfiguration(endDate,startDate, DateSelector.WIDGET_TYPE.DATE, 8);
+
+
+
             } else {
+                if(allowDecimal!=null && allowDecimal)
+                {
+                    characters=characters+".";
+                }
+
                 configuration = new QuestionConfiguration(
                         inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
                 configurationID++;
@@ -353,44 +387,44 @@ public class Form extends BaseActivity {
                     s.setId(skiplogicID);
                     s.setQuestionID(skiplogicQuestionId);
 
-                    JSONArray skiplogicEqualList = JSONObj.getJSONArray("equals");
+                    JSONArray skiplogicEqualList = JSONObj.optJSONArray("equals");
                     for (int o = 0; o < skiplogicEqualList.length(); o++) {
-                        JSONObject optionUUIDObject = skiplogicEqualList.getJSONObject(o);
+                        JSONObject optionUUIDObject = skiplogicEqualList.optJSONObject(o);
                         String optionUUID = optionUUIDObject.optString("uuid");
 
                         s.getEqualsList().add(o, optionUUID);
                     }
 
-                    JSONArray skiplogicNotEqualList = JSONObj.getJSONArray("notEquals");
+                    JSONArray skiplogicNotEqualList = JSONObj.optJSONArray("notEquals");
                     for (int o = 0; o < skiplogicNotEqualList.length(); o++) {
-                        JSONObject optionUUIDObject = skiplogicNotEqualList.getJSONObject(o);
+                        JSONObject optionUUIDObject = skiplogicNotEqualList.optJSONObject(o);
                         String optionUUID = optionUUIDObject.optString("uuid");
 
                         s.getNotEqualsList().add(o, optionUUID);
                     }
 
-                    JSONArray skiplogicEqualsTo = JSONObj.getJSONArray("equalTo");
+                    JSONArray skiplogicEqualsTo = JSONObj.optJSONArray("equalTo");
                     for (int o = 0; o < skiplogicEqualsTo.length(); o++) {
                         int optionWithNumbers = skiplogicEqualsTo.optInt(o);
 
                         s.getEqualsToList().add(o, optionWithNumbers);
                     }
 
-                    JSONArray skiplogicNotEqualsTo = JSONObj.getJSONArray("notEqualTo");
+                    JSONArray skiplogicNotEqualsTo = JSONObj.optJSONArray("notEqualTo");
                     for (int o = 0; o < skiplogicNotEqualsTo.length(); o++) {
                         int optionWithNumbers = skiplogicNotEqualsTo.optInt(o);
 
                         s.getNotEqualsToList().add(o, optionWithNumbers);
                     }
 
-                    JSONArray skiplogicLessThan = JSONObj.getJSONArray("lessThan");
+                    JSONArray skiplogicLessThan = JSONObj.optJSONArray("lessThan");
                     for (int o = 0; o < skiplogicLessThan.length(); o++) {
                         int optionWithNumbers = skiplogicLessThan.optInt(o);
 
                         s.getLessThanList().add(o, optionWithNumbers);
                     }
 
-                    JSONArray skiplogicGreaterThan = JSONObj.getJSONArray("greaterThan");
+                    JSONArray skiplogicGreaterThan = JSONObj.optJSONArray("greaterThan");
                     for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
                         int optionWithNumbers = skiplogicGreaterThan.optInt(o);
 
@@ -452,6 +486,24 @@ public class Form extends BaseActivity {
                     op.add(localOption);
             }
         }
+    }
+
+    private void initDates() {
+        try {
+            projectStartDate = new SimpleDateFormat("yyyyMMdd").parse("20160601");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar localCalendar = Calendar.getInstance();
+        localCalendar.set(Calendar.DAY_OF_WEEK, 2);
+        lastMonday = localCalendar.getTime();
+        cal = Calendar.getInstance();
+        today = cal.getTime();
+        cal.add(Calendar.YEAR, -25);
+        date25YearsAgo = cal.getTime();
+        cal.add(Calendar.YEAR, 25);
+        date25YearsAhead = cal.getTime();
+
     }
 
 }

@@ -194,35 +194,34 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                     if (offlinePatient.getMrNumber() != null) {
 
+                        //Initialization of summary fields
                         String fieldJsonString = offlinePatient.getFieldDataJson();
                         if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
                         JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
 
-                        existingFieldsJson.put("patientSource", "");
-                        existingFieldsJson.put("patientType", "");
-                        existingFieldsJson.put("patientRiskCategory", "");
-                        existingFieldsJson.put("weight", "");
-                        existingFieldsJson.put("height", "");
-                        existingFieldsJson.put("bmi", "");
-                        existingFieldsJson.put("bmi", "");
+                        for (String i : ParamNames.SUMMARY_VARIBALES) {
+                            existingFieldsJson.put(i, "");
+                        }
 
-                        existingFieldsJson.put("endOfFollowUpFor", "");
-                        existingFieldsJson.put("relatedOutcome", "");
-                        existingFieldsJson.put("diseaseSite", "");
-                        existingFieldsJson.put("confirmationType", "");
-                        existingFieldsJson.put("tbType", "");
-                        existingFieldsJson.put("nextTBAppointment", "");
-                        existingFieldsJson.put("recentVisits", new JSONObject());
-                        existingFieldsJson.put("relationships", new JSONArray());
+                        for (String i : ParamNames.SUMMARY_VARIABLES_OBJECTS) {
+                            existingFieldsJson.put(i, new JSONObject());
+                        }
+
+                        for (String i : ParamNames.SUMMARY_VARIABLES_ARRAYS) {
+                            existingFieldsJson.put(i, new JSONArray());
+                        }
 
 
                         offlinePatient.setFieldDataJson(existingFieldsJson.toString());
 
+
+                        //Initialization of all filled encounters count via this device as 0
                         Collection<String> encounters = Constants.getEncounterTypes().values();
-                        for (String i: encounters) {
+                        for (String i : encounters) {
                             encounterCount.put(i, 0);
                         }
                         offlinePatient.setEncounterJson(encounterCount.toString());
+
 
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient);
                     } else
@@ -1033,8 +1032,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-
-
     public void checkSkipLogics(int formID) throws JSONException {
 //ToDo Provide proper Form id ~Taha
         //TODO Questions are skipped based on specific formID. So the scenario will fail if we want to skip a question based on another form skiplogic ~Taha
@@ -1046,41 +1043,42 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             List<SExpression> showables = changeableQuestion.getVisibleWhen();
             List<SExpression> hiddenable = changeableQuestion.getHiddenWhen();
 
-            changeable.setVisibility(changeableQuestion.getInitialVisibility());
+            if (changeable != null) {
+                changeable.setVisibility(changeableQuestion.getInitialVisibility());
 
-            if (showables != null && showables.size()>0) {
+                if (showables != null && showables.size() > 0) {
 
-                for (SExpression sExp : showables) {
+                    for (SExpression sExp : showables) {
 
-                    Boolean final_visibility = logicChecker(sExp);
-                    if (final_visibility == true) {
-                        changeable.setVisibility(View.VISIBLE);
-                    } else {
-                        changeable.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            if (hiddenable != null && hiddenable.size()>0) {
-
-                for (SExpression sExp : hiddenable) {
-
-
-                    Boolean final_visibility = logicChecker(sExp);
-                    if (final_visibility == true) {
-                        changeable.setVisibility(View.GONE);
-                    } else {
-                        changeable.setVisibility(View.VISIBLE);
+                        Boolean final_visibility = logicChecker(sExp);
+                        if (final_visibility == true) {
+                            changeable.setVisibility(View.VISIBLE);
+                        } else {
+                            changeable.setVisibility(View.GONE);
+                        }
                     }
                 }
 
-            }
+                if (hiddenable != null && hiddenable.size() > 0) {
 
+                    for (SExpression sExp : hiddenable) {
+
+
+                        Boolean final_visibility = logicChecker(sExp);
+                        if (final_visibility == true) {
+                            changeable.setVisibility(View.GONE);
+                        } else {
+                            changeable.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                }
+            }
         }
 
     }
 
-//TODO options ka name dekh raha hai rather uuid ~Taha
+    //TODO options ka name dekh raha hai rather uuid ~Taha
     protected Boolean logicChecker(SExpression sExp) throws JSONException {
         if (sExp != null) {
             Boolean final_visibility = false;
@@ -1183,12 +1181,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-    public String getOptionUUIDByQuestionsID(List<Option> option,String selectedValue ,int questionId) {
+    public String getOptionUUIDByQuestionsID(List<Option> option, String selectedValue, int questionId) {
 
-        for(int i=0;i<option.size();i++)
-        {
-            if(option.get(i).getText().equals(selectedValue) && option.get(i).getQuestionId()==questionId)
-            {
+        for (int i = 0; i < option.size(); i++) {
+            if (option.get(i).getText().equals(selectedValue) && option.get(i).getQuestionId() == questionId) {
                 return option.get(i).getUuid();
             }
         }

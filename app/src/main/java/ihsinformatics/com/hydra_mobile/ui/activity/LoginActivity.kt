@@ -115,7 +115,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                 override fun onFailure(t: Throwable) {
                     networkProgressDialog.dismiss()
-                    ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                    if (t.localizedMessage.toString().equals(getString(R.string.authentication_error))) ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                    else  ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                 }
 
                 override fun <T> onSuccess(o: T) {
@@ -134,19 +135,23 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
                                                ) {
                             if (response.isSuccessful && null != response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
-                               // if (checkboxRemember.isChecked) {
-                                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
+                                // if (checkboxRemember.isChecked) {
+                                SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
 
 
 
-                                    networkProgressDialog.dismiss()
+                                networkProgressDialog.dismiss()
 
 
+                                if (isInternetConnected()) {
                                     openMetaDataFetcher()
+                                } else {
+                                    ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                                }
 
-                                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
-                             //   }
+                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
+                                //   }
                             } else {
                                 networkProgressDialog.dismiss()
                                 ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)

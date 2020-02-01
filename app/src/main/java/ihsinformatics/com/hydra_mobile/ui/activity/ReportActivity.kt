@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
@@ -31,7 +32,7 @@ import timber.log.Timber
 class ReportActivity : BaseActivity() {
 
     //TODO Hardcoded patient must be fetch from api     ~Taha PatientIssue
-    var patientID = "4R44V-3"
+    var patientID = Global.patientData.patient.identifier
 
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
@@ -77,7 +78,9 @@ class ReportActivity : BaseActivity() {
 
                         } else {
                             networkProgressDialog.dismiss()
-                            Toast.makeText(this@ReportActivity, "No encounters for patient", Toast.LENGTH_SHORT).show()
+
+                            ToastyWidget.getInstance().displayError(this@ReportActivity,getString(R.string.no_encounter_for_patient),Toast.LENGTH_LONG)
+                            startActivity(Intent(this@ReportActivity,HomeActivity::class.java))
                             networkProgressDialog.dismiss()
 
                         }
