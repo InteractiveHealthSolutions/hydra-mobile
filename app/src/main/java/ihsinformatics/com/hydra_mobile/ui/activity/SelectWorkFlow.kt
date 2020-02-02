@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import ihsinformatics.com.hydra_mobile.databinding.ActivitySelectWorkflowBinding
 import android.view.MotionEvent
 import android.view.WindowManager
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
 
@@ -47,7 +48,7 @@ class SelectWorkFlow : AppCompatActivity() {
 
 
         val workflowViewModel = ViewModelProviders.of(this).get(WorkFlowViewModel::class.java)
-         workflowViewModel.getAllPWorkflow().observe(this, Observer<List<WorkFlow>> { worklist ->
+         workflowViewModel.getAllWorkflowLiveData().observe(this, Observer<List<WorkFlow>> { worklist ->
              if (worklist.isNotEmpty()) {
                  //val ll_main = findViewById(R.id.ll_main_layout) as LinearLayout
                  workflows=ArrayList<WorkFlow>(worklist)
@@ -79,8 +80,11 @@ class SelectWorkFlow : AppCompatActivity() {
                      rg.addView(viewDivider)
 
                  }
-                 //ll_main.removeAllViews()
-                 //ll_main.addView(rg)
+
+             }else
+             {
+                 ToastyWidget.getInstance().displayError(this,getString(R.string.need_to_sync),Toast.LENGTH_LONG)
+                 startActivity(Intent(this,LoginActivity::class.java))
              }
          })
 

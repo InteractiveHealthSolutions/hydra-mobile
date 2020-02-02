@@ -26,6 +26,8 @@ interface WorkFlowDao {
     fun getAllWorkFlowsLiveData(): LiveData<List<WorkFlow>>
 
     @Query("SELECT * FROM WorkFlow")
-    fun getAllWorkFlows(): LiveData<List<WorkFlow>>
+    fun getAllWorkFlows(): List<WorkFlow>
+
+
 
 }

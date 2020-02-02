@@ -159,35 +159,45 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (itemName) {
 
             resources.getString(R.string.common_lab) -> {
-                if (isInternetConnected()) {
-                    if (Global.patientData == null) {
-                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+
+                if (!sessionManager.isOfflineMode()) {
+
+                    if (isInternetConnected()) {
+                        if (Global.patientData == null) {
+                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        } else {
+                            startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+                            finish()
+                        }
                     } else {
-                        startActivity(Intent(applicationContext, CommonLabActivity::class.java))
-                        finish()
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                     }
                 } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
 
                 }
             }
 
             resources.getString(R.string.report) -> {
 
-                if (isInternetConnected()) {
+                if (!sessionManager.isOfflineMode()) {
+                    if (isInternetConnected()) {
 
-                    if (Global.patientData == null) {
-                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        if (Global.patientData == null) {
+                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        } else {
+                            startActivity(Intent(applicationContext, ReportActivity::class.java))
+                            finish()
+                        }
+
                     } else {
-                        startActivity(Intent(applicationContext, ReportActivity::class.java))
-                        finish()
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+
                     }
 
                 } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
                 }
-
             }
         }
     }
@@ -283,8 +293,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_search_online -> {
 
-                startActivityForResult(Intent(this, SearchActivity::class.java), 112)
-                finish()
+                if (!sessionManager.isOfflineMode()) {
+                    if (isInternetConnected()) {
+                        startActivityForResult(Intent(this, SearchActivity::class.java), 112)
+                        finish()
+                    } else {
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                    }
+                } else {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_SHORT)
+                }
             }
             R.id.nav_logout -> {
                 logoutDialog()
@@ -317,25 +335,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    /*  My Logic Functions  */
+/*  My Logic Functions  */
 
-    /*   private fun openLoadingScreen() {
+/*   private fun openLoadingScreen() {
 
-           val fragmentManager = supportFragmentManager.beginTransaction()
-           val loadingScreening = LoadingProgressDialog.newInstance()
-           loadingScreening.show(fragmentManager, "loading screening")
+       val fragmentManager = supportFragmentManager.beginTransaction()
+       val loadingScreening = LoadingProgressDialog.newInstance()
+       loadingScreening.show(fragmentManager, "loading screening")
 
 
-           Handler().postDelayed(
-               Runnable {
-                   kotlin.run {
-                       sessionManager.checkFirstTimeInstall(false)
-                       loadingScreening.dismiss()
-                       getWorkFlowsAndBindAlongWithPhases()
-                   }
-               }, 5000
-           )
-       }
+       Handler().postDelayed(
+           Runnable {
+               kotlin.run {
+                   sessionManager.checkFirstTimeInstall(false)
+                   loadingScreening.dismiss()
+                   getWorkFlowsAndBindAlongWithPhases()
+               }
+           }, 5000
+       )
+   }
 */
 
 
@@ -395,8 +413,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         val workflowPhaseMapViewModel = ViewModelProviders.of(this).get(WorkflowPhasesMapViewModel::class.java)
-//        var selectedWorkFlow = GlobalPreferences.getinstance(this)
-//            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
+
         if (null != selectedWorkFlow && !selectedWorkFlow.equals("")) {
             val work = workflowPhaseMapViewModel.getPhasesByWorkFlowUUID(selectedWorkFlow)
 
@@ -426,7 +443,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    /*Return from Select Workflow Activity Logic*/
+/*Return from Select Workflow Activity Logic*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -467,13 +484,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         loadFormDataInEncounterTypes()
     }
 
-    private fun loadFormDataInEncounterTypes()
-    {
+    private fun loadFormDataInEncounterTypes() {
         val formViewModel = ViewModelProviders.of(this).get(FormViewModel::class.java)
 
-        val forms= formViewModel.getAllForms()
+        val forms = formViewModel.getAllForms()
         Constants.clearEncounters()
-        for(i in forms){
+        for (i in forms) {
 
             Constants.setEncounterType(i.id, i.name)
             Constants.setEncounterTypeData(i.name, i.questions)

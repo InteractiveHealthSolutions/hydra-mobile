@@ -27,6 +27,8 @@ class SessionManager(context: Context) {
 
     private val IS_LOGIN = "IsLoggedIn"
     private val IS_FIRST_TIME = "IsFirstTime"
+    private val IS_OFFLINE_MODE = "IsOfflineMode"
+
 
     val KEY_NAME = "productName"
     val KEY_PASS = "password"
@@ -142,6 +144,19 @@ class SessionManager(context: Context) {
 
     fun isFirstTime(): Boolean {
         return pref.getBoolean(IS_FIRST_TIME, true)
+    }
+
+    fun isOfflineMode(): Boolean {
+        return pref.getBoolean(IS_OFFLINE_MODE, false)
+    }
+
+    fun enableOfflineMode() {
+        editor.putBoolean(IS_OFFLINE_MODE, true)
+        editor.commit()
+    }
+    fun disableOfflineMode() {
+        editor.putBoolean(IS_OFFLINE_MODE, false)
+        editor.commit()
     }
 
 }

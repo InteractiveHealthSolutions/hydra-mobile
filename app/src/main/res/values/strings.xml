@@ -230,6 +230,7 @@
     <string name="admin">Irtiza.ahmed</string>
     <string name="admin_321">Irtiza1234</string>
     <string name="check_remember">Remember me</string>
+    <string name="check_offline_mode">Offline Mode</string>
     <string name="tpowered_by">Powered by</string>
     <string name="hydra_text">HYDRA</string>
     <string name="person_name">Shujaat Ali</string>
@@ -315,6 +316,8 @@
     <string name="patient_identitier">Patient Identitier: </string>
     <string name="patient_not_loaded">Patient Not Loaded</string>
     <string name="no_encounter_for_patient">No encounters for patient</string>
+    <string name="feature_of_offlineMode">This feature is not supported in offline mode</string>
+    <string name="need_to_sync">Data Not Available. Needs to Sync</string>
 
 
     <string-array name="end_of_followup_for">

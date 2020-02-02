@@ -20,6 +20,7 @@ import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.CheckBox
+import androidx.lifecycle.ViewModelProviders
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 
@@ -28,6 +29,8 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,7 +44,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivityLoginBinding
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
-    private lateinit var checkboxRemember: CheckBox
+    private lateinit var checkboxOffline: CheckBox
     private var showPassword = 0
 
     init {
@@ -66,7 +69,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         usernameEditText = binding.edtUsername;
         passwordEditText = binding.edtPassword
-        checkboxRemember = binding.checkRemember
+        checkboxOffline = binding.checkOfflineMode
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
@@ -111,7 +114,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 override fun onFailure(t: Throwable) {
                     networkProgressDialog.dismiss()
                     if (t.localizedMessage.toString().equals(getString(R.string.authentication_error))) ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                    else  ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                    else ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                 }
 
                 override fun <T> onSuccess(o: T) {
@@ -130,7 +133,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
                                                ) {
                             if (response.isSuccessful && null != response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
-                                // if (checkboxRemember.isChecked) {
+
+                                if (checkboxOffline.isChecked) {
+                                     SessionManager(applicationContext).enableOfflineMode()
+
+                                } else {
+                                    SessionManager(applicationContext).disableOfflineMode()
+                                }
+
                                 SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
 
 
@@ -160,6 +170,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 }
             })
         }
+    }
+
+
+    //checks if workflows exist in offline db and return boolean accordingly
+    private fun doesWorkflowExsist(): Boolean {
+
+        val workflowViewModel = ViewModelProviders.of(this).get(WorkFlowViewModel::class.java)
+
+        val work = workflowViewModel.getAllWorkflow()
+
+        if(work.size!=0)
+        {
+            return true
+        }
+
+        return false
     }
 
     private fun openSettingDialog() {

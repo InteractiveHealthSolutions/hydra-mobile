@@ -50,7 +50,7 @@ class WorkFlowRepository(context: Context) {
         }
     }
 
-    fun getAllWorkFlows(): LiveData<List<WorkFlow>> {
+    fun getAllWorkFlows(): List<WorkFlow> {
         return workFlowDao.getAllWorkFlows()
 
     }

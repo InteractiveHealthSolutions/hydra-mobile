@@ -15,9 +15,14 @@ class WorkFlowViewModel(application: Application) : AndroidViewModel(application
         repository.updateWorkFlow(workFlow)
     }
 
-    fun getAllPWorkflow(): LiveData<List<WorkFlow>> {
+    fun getAllWorkflowLiveData(): LiveData<List<WorkFlow>> {
+        return repository.getAllWorkFlowsFromLiveData()
+    }
+
+    fun getAllWorkflow(): List<WorkFlow> {
         return repository.getAllWorkFlows()
     }
+
 
 
 }
