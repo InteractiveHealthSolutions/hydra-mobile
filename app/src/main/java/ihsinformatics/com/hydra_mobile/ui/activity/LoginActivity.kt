@@ -60,11 +60,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun startSampleForm() {
-        var encounterName = "Patient Registration"
-        startActivity(Intent(this, Form::class.java))
-        Form.setENCOUNTER_NAME(encounterName)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -21,9 +21,7 @@ class FormRepository(context: Context) {
 
     init {
 
-        val database: AppDatabase = AppDatabase.getInstance(
-            context.applicationContext
-        )!!
+        val database: AppDatabase = AppDatabase.getInstance(context.applicationContext)!!
         formDao = database.getForm()
         this.context = context
     }
@@ -41,40 +39,32 @@ class FormRepository(context: Context) {
         }
     }
 
+    fun getAllForms(): List<Forms> {
+        return formDao.getAllForms()
+
+    }
 
     fun getRemoteFormData() {
-        RequestManager(
-            context, sessionManager.getUsername(),
-            sessionManager.getPassword()
-        ).getForms(
-            Constant.REPRESENTATION,
-            object :
-                RESTCallback {
-                override fun <T> onSuccess(o: T) {
+        RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getForms(Constant.REPRESENTATION, object : RESTCallback {
+            override fun <T> onSuccess(o: T) {
 
-                    try {
-                        val response = (o as FormApiResponse)
-                        for (i in response.forms.indices) {
-                            //insert into local database
-                            insertForm(response.forms[i])
-                            Constants.setEncounterType(
-                                response.forms[i].id,
-                                response.forms[i].name
-                            )
-                            Constants.setEncounterTypeData(
-                                response.forms[i].name,
-                                response.forms[i].questions
-                            )
-                        }
-                        Log.e("FormLoading", "completed")
-                    } catch (e: Exception) {
-
+                try {
+                    val response = (o as FormApiResponse)
+                    for (i in response.forms.indices) {
+                        //insert into local database
+                        insertForm(response.forms[i])
+                        Constants.setEncounterType(response.forms[i].id, response.forms[i].name)
+                        Constants.setEncounterTypeData(response.forms[i].name, response.forms[i].questions)
                     }
-                }
+                    Log.e("FormLoading", "completed")
+                } catch (e: Exception) {
 
-                override fun onFailure(t: Throwable) {
-
                 }
-            })
+            }
+
+            override fun onFailure(t: Throwable) {
+
+            }
+        })
     }
 }

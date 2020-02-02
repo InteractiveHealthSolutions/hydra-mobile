@@ -81,6 +81,7 @@ class FormResultRepository(context: Context) {
     private fun parseForms(result: String) {
         try {
 
+            Constants.clearEncounters()
             val completeFile = JSONObject(result)
             val componentsFormsMap = completeFile.optJSONArray("ComponentsFormsMap")
             for (k in 0 until componentsFormsMap.length()) {

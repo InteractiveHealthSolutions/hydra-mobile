@@ -17,9 +17,7 @@ public class Constants {
     }
 
     public static LinkedHashMap<String, String> getEncounterTypesData() {
-        if (encounterTypesData.size() == 0) {
-            //TODO implement logic for fetching from forms
-        }
+
         return encounterTypesData;
     }
 
@@ -36,4 +34,10 @@ public class Constants {
 
     }
 
+    public static void clearEncounters()
+    {
+        if (encounterTypes!=null) encounterTypes.clear();
+        if (encounterTypesData!=null) encounterTypesData.clear();
+
+    }
 }

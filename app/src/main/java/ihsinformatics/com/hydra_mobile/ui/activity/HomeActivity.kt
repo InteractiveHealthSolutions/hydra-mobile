@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
+import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
@@ -35,6 +36,7 @@ import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -85,6 +87,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tvAgeLabel = findViewById<TextView>(R.id.tvAgeLabel)
         tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
         ivGender = findViewById<ImageView>(R.id.ivGender)
+
 
         fillPatientInfoBar()
 
@@ -456,6 +459,26 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         }
         dialog.show()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        loadFormDataInEncounterTypes()
+    }
+
+    private fun loadFormDataInEncounterTypes()
+    {
+        val formViewModel = ViewModelProviders.of(this).get(FormViewModel::class.java)
+
+        val forms= formViewModel.getAllForms()
+        Constants.clearEncounters()
+        for(i in forms){
+
+            Constants.setEncounterType(i.id, i.name)
+            Constants.setEncounterTypeData(i.name, i.questions)
+        }
+
     }
 
 }
