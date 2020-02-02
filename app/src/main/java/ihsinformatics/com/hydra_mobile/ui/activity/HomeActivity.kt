@@ -37,6 +37,8 @@ import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -321,6 +323,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
+                setCurrentPhase(tab.text.toString())
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -355,6 +358,15 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
        )
    }
 */
+
+
+    private fun setCurrentPhase(current:String){
+
+        val phaseViewModel = ViewModelProviders.of(this).get(PhaseViewModel::class.java)
+        val phase=phaseViewModel.getPhaseUUIDByName(current)
+        GlobalPreferences.getinstance(this@HomeActivity).addOrUpdatePreference(GlobalPreferences.KEY.CURRENT_PHASE_UUID, phase.uuid)
+
+    }
 
 
     private fun fillPatientInfoBar() {

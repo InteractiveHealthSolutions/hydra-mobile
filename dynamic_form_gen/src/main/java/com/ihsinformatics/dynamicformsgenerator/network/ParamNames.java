@@ -1010,7 +1010,7 @@ public class ParamNames {
     public static final String FORM3_RING_CUT_AND_REMOVED = "05f09a03-c45e-43e3-9dd6-4c8eff59542d";
     public static final String FORM3_YES = FORM1_YES;
     public static final String FORM3_NO = FORM1_NO;
-
+    public static final String PARAM_NAME = "param_name";
     public static final String PARAM_STEPS_TAKEN = "steps_taken";
 
 
@@ -1020,6 +1020,7 @@ public class ParamNames {
     public static final byte[] KEY_VALUE =
             new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't',
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
+    public static final String PAYLOAD_TYPE = "payload_type";
 
 
     // TB Disease Confirmation Form

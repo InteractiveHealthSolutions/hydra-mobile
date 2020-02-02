@@ -28,4 +28,7 @@ interface ComponentFormJoinDao {
 
     @Query("DELETE FROM `ComponentFormJoin` ")
     fun deleteAllComponentForms()
+
+    @Query("SELECT * from ComponentFormJoin")
+    fun getAllJoins():List<ComponentFormJoin>
 }

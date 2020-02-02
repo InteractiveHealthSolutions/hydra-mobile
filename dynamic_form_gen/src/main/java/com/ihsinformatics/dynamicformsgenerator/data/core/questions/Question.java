@@ -23,6 +23,26 @@ public class Question extends Displayable implements Cloneable {
         TAG_ADDRESS
     }
 
+    public static enum PAYLOAD_TYPE {
+        IDENTIFIER,
+        PERSON_ATTRIBUTE,
+        NAME,
+        OBS,
+        OBS_CODED,
+        OBS_NUMERIC,
+        OBS_CODED_MULTI,
+        OBS_DATE_TIME,
+        LOCATION,
+        ENCOUNTER_TYPE,   //need to resolve
+        AGE,
+        GENDER,
+        DOB,
+        DATE_ENTERED    //need to resolve
+    }
+
+    private Boolean isAttribute = false;
+    private PAYLOAD_TYPE payload_type;
+
     private int formTypeId;
     private boolean isMandatory;
     private int questionId;
@@ -65,6 +85,15 @@ public class Question extends Displayable implements Cloneable {
         this.requiredWhen = requiredWhen;
     }
 
+
+    public Boolean getAttribute() {
+        return isAttribute;
+    }
+
+    public void setAttribute(Boolean attribute) {
+        isAttribute = attribute;
+    }
+
     // if this question is generataed on runtime
     private boolean isRuntimeGenerated = false;
 
@@ -84,6 +113,33 @@ public class Question extends Displayable implements Cloneable {
     public Question() {
 
     }
+
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
+        super();
+        this.isMandatory = isMandatory;
+        this.formTypeId = formTypeId;
+        this.questionId = questionId;
+
+
+        setQuestionType(questionType);
+        setInitialVisibility(initialVisibility);
+
+        this.validationFunction = validationFunction;
+        this.text = text;
+        this.paramName = paramName;
+        this.questionConfiguration = questionConfiguration;
+        this.questionNumber = questionNumber;
+        this.tag = QUESTION_TAG.TAG_OBS.toString();
+
+        this.visibleWhen = visibleWhen;
+        this.hiddenWhen = hiddenWhen;
+        this.requiredWhen = requiredWhen;
+
+        isAttribute=true;
+        payload_type=filterPayloadType(questionType,inputType);
+    }
+
+
 
     public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
         super();
@@ -131,8 +187,8 @@ public class Question extends Displayable implements Cloneable {
         this.formTypeId = formTypeId;
         this.questionId = questionId;
 
-        this.questionType=questionType;
-        this.initialVisibility=initialVisibility;
+        this.questionType = questionType;
+        this.initialVisibility = initialVisibility;
 
         this.validationFunction = validationFunction;
         this.text = text;
@@ -146,6 +202,14 @@ public class Question extends Displayable implements Cloneable {
         if (options == null) options = new ArrayList<>();
 
         options.add(option);
+    }
+
+    public PAYLOAD_TYPE getPayload_type() {
+        return payload_type;
+    }
+
+    public void setPayload_type(PAYLOAD_TYPE payload_type) {
+        this.payload_type = payload_type;
     }
 
     public List<Option> getOptions() {
@@ -242,10 +306,12 @@ public class Question extends Displayable implements Cloneable {
             case "image": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_IMAGE;
                 break;
-            }case "single_select_edittext": {
+            }
+            case "single_select_edittext": {
                 this.questionType = InputWidgetsType.WIDGETS_TYPE_SINGLE_SELECT_EDITTEXT;
                 break;
-            }case "single_select_textview": {
+            }
+            case "single_select_textview": {
                 this.questionType = InputWidgetsType.WIDGETS_TYPE_SINGLE_SELECT_TEXTVIEW;
                 break;
             }
@@ -389,5 +455,48 @@ public class Question extends Displayable implements Cloneable {
             this.initialVisibility = View.VISIBLE;
         else if (initialVisibilityStr.equalsIgnoreCase("GONE"))
             this.initialVisibility = View.GONE;
+    }
+
+
+    public PAYLOAD_TYPE filterPayloadType(String questionType,String inputType){
+        PAYLOAD_TYPE payload=PAYLOAD_TYPE.OBS;
+
+        switch (questionType) {
+            case "Date/ Time Picker": {
+                return PAYLOAD_TYPE.OBS_DATE_TIME;
+
+            }
+            case "Textbox": {
+
+                if(inputType.equalsIgnoreCase("text"))
+                    return PAYLOAD_TYPE.OBS;
+                else if(inputType.equalsIgnoreCase("numeric"))
+                    return PAYLOAD_TYPE.OBS_NUMERIC;
+
+            }
+            case "Single Select Dropdown": {
+                return PAYLOAD_TYPE.OBS_CODED;
+            }
+
+            case "Multiple Choice": {
+               return PAYLOAD_TYPE.OBS_CODED_MULTI;
+            }
+            case "Single Select Radiobuttons": {
+               return PAYLOAD_TYPE.OBS_CODED;
+            }
+            case "Age": {
+             return PAYLOAD_TYPE.AGE;
+            }
+
+            case "identifier": {
+                return PAYLOAD_TYPE.IDENTIFIER
+            }
+
+            case "Address": {
+                return PAYLOAD_TYPE.LOCATION;
+            }
+        }
+
+        return payload;
     }
 }

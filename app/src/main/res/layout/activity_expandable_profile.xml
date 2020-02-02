@@ -43,10 +43,8 @@
                                 android:id="@+id/gender_image"
                                 android:layout_marginTop="25dp"
                                 android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:gravity="center"
                                 android:tint="@color/White"
                                 app:srcCompat="@drawable/ic_user_profile"/>
                         <TextView
@@ -55,9 +53,6 @@
                                 android:layout_gravity="center"
                                 android:layout_width="match_parent"
                                 android:textAlignment="center"
-                                android:gravity="center"
-                                android:layout_marginRight="@dimen/dimen_50dp"
-                                android:layout_marginLeft="@dimen/dimen_50dp"
                                 android:layout_height="wrap_content"
                                 android:text="@string/person_name"
                                 android:typeface="serif"

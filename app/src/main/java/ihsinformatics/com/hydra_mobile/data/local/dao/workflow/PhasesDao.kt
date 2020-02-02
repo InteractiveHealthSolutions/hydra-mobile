@@ -25,4 +25,7 @@ interface PhasesDao {
 
     @Query("SELECT * FROM `Phases`")
     fun getAllPhases(): LiveData<List<Phases>>
+
+    @Query("SELECT * FROM `Phases` WHERE name == :name")
+    fun getPhaseUUIDByName(name:String):Phases
 }

@@ -53,6 +53,10 @@ class PhaseRepository(context: Context) {
         }
     }
 
+    fun getPhaseUUIDByName(name:String):Phases{
+        return phasesDao.getPhaseUUIDByName(name)
+    }
+
 
     fun getRemotePhaseData(){
         RequestManager(

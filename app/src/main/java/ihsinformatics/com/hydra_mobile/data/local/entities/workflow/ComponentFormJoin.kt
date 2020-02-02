@@ -24,6 +24,8 @@ class ComponentFormJoin(
 
     @PrimaryKey
     val id:Int,
+    val workflowUUID: String,
+    val phaseUUID: String,
     val componentId: Int,
     val formId: Int
 ) {

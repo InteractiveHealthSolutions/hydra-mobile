@@ -37,4 +37,10 @@ class ComponentFormJoinRepository(context: Context) {
 
     }
 
+
+    fun getAllJoins():List<ComponentFormJoin>
+    {
+        return ComponentFormJoinDao.getAllJoins()
+    }
+
 }

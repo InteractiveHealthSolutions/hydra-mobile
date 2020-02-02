@@ -89,8 +89,14 @@ class FormResultRepository(context: Context) {
                 val singleObject=componentsFormsMap.getJSONObject(k)
                 val insideForm = singleObject.optJSONObject("form")
                 val component = singleObject.optJSONObject("component")
+                val phase = singleObject.optJSONObject("phase")
                 val workflow = singleObject.optJSONObject("workflow")
-                val workflowUUID = workflow.optString("uuid")
+                var workflowUUID=""
+                var phaseUUID=""
+
+                if(workflow!=null) workflowUUID = workflow.optString("uuid")
+
+                if(phase!=null) phaseUUID = phase.optString("uuid")
 
 
                 val formName = insideForm.optString("name")
@@ -108,7 +114,7 @@ class FormResultRepository(context: Context) {
                     Constants.setEncounterType(formId, formName)
                     Constants.setEncounterTypeData(formName, questionsList.toString())
 
-                    componentFormJoinRepository.insert(ComponentFormJoin(k,componentID, formId))
+                    componentFormJoinRepository.insert(ComponentFormJoin(k,workflowUUID,phaseUUID,componentID, formId))
                 }
 
 

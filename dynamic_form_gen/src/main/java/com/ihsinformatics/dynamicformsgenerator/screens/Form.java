@@ -158,7 +158,7 @@ public class Form extends BaseActivity {
 
 
     // Only changing the name of parser above wont work because Question class et types accordingly
-    private void oldParseQuestionsFromEncounterNameData() throws JSONException {
+   /* private void oldParseQuestionsFromEncounterNameData() throws JSONException {
 
 
         JSONArray questionsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
@@ -237,10 +237,11 @@ public class Form extends BaseActivity {
 
             //TODO replace validation function with regrex
             Question completeQuestion = new Question(required, getFormId(ENCOUNTER_NAME), questionId, questionNumber, widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, description, conceptName, configuration, visibleWhen, hiddenWhen, requiredWhen);
+
             this.questions.add(completeQuestion);
 
         }
-    }   //Old frm parser
+    }   //Old frm parser  */
 
 
     private void parseQuestionsFromEncounterNameData() throws JSONException {
@@ -275,19 +276,27 @@ public class Form extends BaseActivity {
 
             JSONObject fieldType = field.optJSONObject("fieldType");
 
+            String isAttribute=  field.optString("tableName");
+            Boolean attribute=false;
+            if(isAttribute!=null && !isAttribute.equalsIgnoreCase("null") && !isAttribute.equalsIgnoreCase("") && isAttribute.equals(""))
+            {
+                attribute=true;
+            }
+
             JSONObject concept = field.optJSONObject("concept");
             String conceptUUID = field.optString("uuid");
-            String inputType = "";
+            String inputType = "text";
             if (concept != null) {
                 conceptUUID = concept.optString("uuid");
 
 
-                JSONArray optionsList = concept.optJSONArray("names");
+                JSONArray optionsList = field.optJSONArray("answers");
 
                 for (int j = 0; j < optionsList.length(); j++) {
                     JSONObject option = optionsList.optJSONObject(j);
-                    String optionUUID = option.optString("uuid");
-                    String optionDisplay = option.optString("display");
+                    JSONObject optionConcept=option.optJSONObject("concept");
+                    String optionUUID = optionConcept.optString("uuid");
+                    String optionDisplay = optionConcept.optString("display");
                     this.options.add(new Option(formFieldId, j, null, null, optionUUID, optionDisplay, -1));
                 }
 
@@ -295,7 +304,7 @@ public class Form extends BaseActivity {
                 inputType = datatype.optString("display");
             }
 
-            String widgetType = fieldType.optString("name");
+            String widgetType = fieldType.optString("display");
 
 
             Configuration configuration = new QuestionConfiguration(
@@ -321,6 +330,8 @@ public class Form extends BaseActivity {
 
                 startDate=today;
                 endDate=today;
+                regix=Validation.CHECK_FOR_DATE_TIME;
+
 
                 if(allowFutureDate!=null && allowFutureDate){
                     endDate=date25YearsAhead;
@@ -358,9 +369,11 @@ public class Form extends BaseActivity {
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
 
-            //TODO replace validation function with regrex
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, visibleWhen, hiddenWhen, requiredWhen);
+            if(regix!=null && !regix.equalsIgnoreCase("null")) {
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
+            }
             this.questions.add(completeQuestion);
 
         }

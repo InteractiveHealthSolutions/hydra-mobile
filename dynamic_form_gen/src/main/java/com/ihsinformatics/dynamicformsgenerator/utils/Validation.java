@@ -142,6 +142,11 @@ public class Validation {
         } else if (functionToCall.equals(CHECK_FOR_9)) {
             return checkForSingleSelecctSpinnerDecimal(value, 0, 999.99, isMandatory);
         }
+        else if(functionToCall!="" && functionToCall!=null)   //checking regix
+        {
+            if(checkForEmpty(value, isMandatory) && value.matches(functionToCall))
+            return true;
+        }
         return false;
     }
 

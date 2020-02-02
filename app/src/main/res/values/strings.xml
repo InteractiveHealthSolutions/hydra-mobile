@@ -206,7 +206,7 @@
     <string name="menu_reports">Report</string>
     <string name="menu_events">Events</string>
     <string name="menu_common_lab_module">Common Lab Module</string>
-    <string name="search_title">Search Offline Patient</string>
+    <string name="search_title">Search Patient</string>
     <string name="title_activity_patient_information">PatientInformationActivity</string>
     <string name="event_title_name">Event</string>
     <string name="common_lab_title_name">Test Order</string>

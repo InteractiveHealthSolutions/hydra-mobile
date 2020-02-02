@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ihsinformatics.com.hydra_mobile.HydraApp
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentFormsObject
+import ihsinformatics.com.hydra_mobile.data.repository.ComponentFormJoinRepository
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
@@ -97,21 +98,25 @@ class DynamicFragment : BaseFragment() {
     private fun getPhases(phaseId: String) {
 
         val phasesComponentJoinViewModel = ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
+
         val formModel =
             ComponentRepository(HydraApp.context!!) //ViewModelProviders.of(this).get(PhasesViewModel::class.java)
 
+        val componentFormJoin=ComponentFormJoinRepository(HydraApp.context!!)
+
         var currentWorkflowUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID,"-1")
+        var currentPhaseUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.CURRENT_PHASE_UUID,"-1")
         runBlocking {
 
             var componentResults = phasesComponentJoinViewModel.getComponentByPhasesUUID(phaseId)
-
+            var allJoins=componentFormJoin.getAllJoins()
             for (i in componentResults.indices) {
                 var componentObj =
                     phasesComponentJoinViewModel.getComponentByComponentUUID(componentResults[i].componentUUID)
                 var formList = formModel.getAllComponentForm()
                 for (j in formList.indices) {
                     //TODO Enable form integration
-                    if (componentObj.uuid.equals(formList[j].component.uuid) && (componentResults[i].workflowUUID.equals(currentWorkflowUUID))) {
+                    if (componentObj.uuid.equals(formList[j].component.uuid) && (componentResults[i].workflowUUID.equals(currentWorkflowUUID)) && (componentResults[i].phaseUUID.equals(currentPhaseUUID))) {
                         componentFormsObjectList.add(
                             ComponentFormsObject(
                                 componentObj.name,

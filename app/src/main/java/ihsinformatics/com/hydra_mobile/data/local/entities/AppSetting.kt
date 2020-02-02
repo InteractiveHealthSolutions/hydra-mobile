@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 class AppSetting(
     val ip: String,
-    val port: String,
-    val ssl: Boolean
+    val port: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

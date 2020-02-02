@@ -110,11 +110,18 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+        param.put(ParamNames.PARAM_NAME, question.getParamName());
+        if(!question.getAttribute()) {
+            param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        } else {
+            param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.PERSON_ATTRIBUTE.toString());
+        }
         if (isValidInput(question.isMandatory())) {
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
-                param.put(question.getParamName(), null);
+                param.put(ParamNames.VALUE, null);
             } else {
-                param.put(question.getParamName(), etAnswer.getText().toString());
+                // param.put(question.getParamName(), etAnswer.getText().toString());
+                param.put(ParamNames.VALUE, etAnswer.getText().toString());
             }
             dismissMessage();
             //  param.put(question.getParamName(), etAnswer.getText().toString());
