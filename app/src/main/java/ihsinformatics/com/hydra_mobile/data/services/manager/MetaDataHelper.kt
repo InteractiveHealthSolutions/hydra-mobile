@@ -80,9 +80,7 @@ class MetaDataHelper(context: Context) {
             override fun <T> onSuccess(o: T) {
                 restCallback.onSuccess(o)
             }
-        }
-
-        )
+        })
 
 
     } catch (e: Throwable) {

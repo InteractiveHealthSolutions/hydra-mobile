@@ -16,6 +16,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormResultApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.MyFormResultApiResponse
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 import org.json.JSONException
@@ -81,28 +82,32 @@ class FormResultRepository(context: Context) {
         try {
 
             val completeFile = JSONObject(result)
+            val componentsFormsMap = completeFile.optJSONArray("ComponentsFormsMap")
+            for (k in 0 until componentsFormsMap.length()) {
 
-            val formList = completeFile.getJSONArray("forms")
+                val singleObject=componentsFormsMap.getJSONObject(k)
+                val insideForm = singleObject.optJSONObject("form")
+                val component = singleObject.optJSONObject("component")
+                val workflow = singleObject.optJSONObject("workflow")
+                val workflowUUID = workflow.optString("uuid")
 
-            for (k in 0 until formList.length()) {
 
-                val insideForm = formList.optJSONObject(k)
                 val formName = insideForm.optString("name")
                 val formId = insideForm.optInt("hydramoduleFormId")
                 val questionsList = insideForm.optJSONArray("formFields")
-                val component = insideForm.optJSONObject("component")
+                // val component = insideForm.optJSONObject("component")
 
 
                 if (component != null) {
 
                     val componentID = component.optInt("componentId")
 
-                    FormRepository(context).insertForm(Forms(formId, formName, componentID, formName, questionsList.toString()))
+                    FormRepository(context).insertForm(Forms(formId, formName,componentID, formName, questionsList.toString()))
 
                     Constants.setEncounterType(formId, formName)
                     Constants.setEncounterTypeData(formName, questionsList.toString())
 
-                    componentFormJoinRepository.insert(ComponentFormJoin(k, componentID, formId))
+                    componentFormJoinRepository.insert(ComponentFormJoin(k,componentID, formId))
                 }
 
 
