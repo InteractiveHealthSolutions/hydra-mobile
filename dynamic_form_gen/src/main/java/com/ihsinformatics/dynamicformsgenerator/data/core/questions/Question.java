@@ -489,7 +489,7 @@ public class Question extends Displayable implements Cloneable {
             }
 
             case "identifier": {
-                return PAYLOAD_TYPE.IDENTIFIER
+                return PAYLOAD_TYPE.IDENTIFIER;
             }
 
             case "Address": {
