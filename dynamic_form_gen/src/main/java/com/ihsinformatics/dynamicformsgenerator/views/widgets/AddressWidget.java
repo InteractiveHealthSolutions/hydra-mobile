@@ -19,6 +19,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.AppUtility;
 
 import org.json.JSONException;
@@ -122,7 +123,11 @@ public class AddressWidget extends InputWidget {
             addressJson.put(addressItem.paramName, addressItem.etValues.getText().toString());
         }
 
-        answer.put(question.getParamName(), addressJson);
+        answer.put(question.getParamName(), question.getParamName());
+        answer.put(ParamNames.VALUE, addressJson);
+        answer.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
+
+
         return answer;
     }
 

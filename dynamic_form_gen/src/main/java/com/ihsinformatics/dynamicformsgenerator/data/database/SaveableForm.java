@@ -17,7 +17,7 @@ public class SaveableForm {
 	
 	public final static String COLUMN_FORM_TYPE_ID = "form_type_id";
 	public final static String COLUMN_FORM_ID = "form_id";
-	public final static String COLUMN_FORM_DATA = "form_data";
+	public final static String COLUMN_FORM_DATA = "data";
 	public final static String COLUMN_FORM_ERROR = "form_error";
 
 	// Added for backward compatibility only, newer calls should use stringFormData

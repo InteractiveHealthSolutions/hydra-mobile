@@ -29,13 +29,14 @@ import java.util.concurrent.TimeUnit
 class RequestManager {
 
     lateinit var retrofit: Retrofit
-   // lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
+    lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
     lateinit var retrofitTestOrder: Retrofit
 
 
     var okHttpClient: OkHttpClient? = null
 
     var okHttpClientPatientList: OkHttpClient? = null
+    var okHttpClientForm: OkHttpClient? = null
     // lateinit var gson: Gson
 
     constructor(context: Context, username: String, password: String) {
@@ -44,13 +45,20 @@ class RequestManager {
 
         initOkHttpPatientList(username, password)
 
+        initOkHttpForm("admin","Admin321")
+
         retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
 
-       // retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:3000/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
+        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:3000/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
 
         retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList).build()
 
+    }
+
+    public fun getFormRetrofit():Retrofit
+    {
+        return retrofitForFormAPI
     }
 
     private fun initOkHttp(username: String, password: String) {
@@ -70,6 +78,13 @@ class RequestManager {
         okHttpClientPatientList = httpClient.build()
     }
 
+    private fun initOkHttpForm(username: String, password: String) {
+        val httpClient = OkHttpClient().newBuilder()
+        httpClient.addInterceptor(BasicAuthInterceptor(username, password))
+        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+
+        okHttpClientForm = httpClient.build()
+    }
 
     fun getPatientRetrofit(): Retrofit {
         return retrofitTestOrder

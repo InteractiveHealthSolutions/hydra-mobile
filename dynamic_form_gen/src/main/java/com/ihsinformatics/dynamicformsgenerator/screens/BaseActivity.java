@@ -183,8 +183,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             if (errors.size() < 1) {
                 // inserting user and patient related metadata
-                putAuthenticationData(savableData);
-                putMetaData(savableData);
+                JSONObject metaDataField = new JSONObject();
+                putAuthenticationData(metaDataField);
+                putMetaData(metaDataField);
+                savableData.put(ParamNames.METADATA,metaDataField);
                 // inserting record into the database
                 DataAccess dataAccess = DataAccess.getInstance();
                 int id = dataAccess.getFormTypeId(BaseActivity.this, Form.getENCOUNTER_NAME());

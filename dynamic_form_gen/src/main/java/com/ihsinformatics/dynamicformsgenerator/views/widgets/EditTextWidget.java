@@ -118,7 +118,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
         }
         if (isValidInput(question.isMandatory())) {
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
-                param.put(ParamNames.VALUE, null);
+                param.put(ParamNames.VALUE, "");
             } else {
                 // param.put(question.getParamName(), etAnswer.getText().toString());
                 param.put(ParamNames.VALUE, etAnswer.getText().toString());

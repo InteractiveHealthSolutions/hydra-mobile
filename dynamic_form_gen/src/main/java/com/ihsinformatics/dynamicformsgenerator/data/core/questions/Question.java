@@ -135,33 +135,12 @@ public class Question extends Displayable implements Cloneable {
         this.hiddenWhen = hiddenWhen;
         this.requiredWhen = requiredWhen;
 
-        isAttribute=true;
+        isAttribute=attribute;
         payload_type=filterPayloadType(questionType,inputType);
     }
 
 
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
-        super();
-        this.isMandatory = isMandatory;
-        this.formTypeId = formTypeId;
-        this.questionId = questionId;
-
-
-        setQuestionType(questionType);
-        setInitialVisibility(initialVisibility);
-
-        this.validationFunction = validationFunction;
-        this.text = text;
-        this.paramName = paramName;
-        this.questionConfiguration = questionConfiguration;
-        this.questionNumber = questionNumber;
-        this.tag = QUESTION_TAG.TAG_OBS.toString();
-
-        this.visibleWhen = visibleWhen;
-        this.hiddenWhen = hiddenWhen;
-        this.requiredWhen = requiredWhen;
-    }
 
     public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, QUESTION_TAG tag) {
         super();
@@ -460,6 +439,10 @@ public class Question extends Displayable implements Cloneable {
 
     public PAYLOAD_TYPE filterPayloadType(String questionType,String inputType){
         PAYLOAD_TYPE payload=PAYLOAD_TYPE.OBS;
+
+        if(isAttribute){
+            return PAYLOAD_TYPE.PERSON_ATTRIBUTE;
+        }
 
         switch (questionType) {
             case "Date/ Time Picker": {

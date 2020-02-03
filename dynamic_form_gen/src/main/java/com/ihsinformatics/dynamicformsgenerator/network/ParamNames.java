@@ -54,7 +54,7 @@ public class ParamNames {
     public static final String ADDRESS6 = "address6";
     public static final String PARENT_LOCATION = "parentLocation";
     public static final String PATIENT = "patient";
-    public static final String FORM_DATA = "form_data";
+    public static final String FORM_DATA = "data";
     public static final String AUTHENTICATION = "authentication";
     public static final String JSON_DATA = "json_data";
     public static final String NAME_OF_PROCEDURE = "nameOfProcedure";
@@ -1021,6 +1021,7 @@ public class ParamNames {
             new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't',
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
     public static final String PAYLOAD_TYPE = "payload_type";
+    public static final String METADATA = "metadata";
 
 
     // TB Disease Confirmation Form

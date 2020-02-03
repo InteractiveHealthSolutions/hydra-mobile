@@ -7,24 +7,26 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
@@ -32,20 +34,30 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.TestSampleApi
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
+import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseViewModel
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import kotlinx.android.synthetic.main.app_bar_main_menu.view.*
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -279,14 +291,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 finish()
             }
             R.id.nav_backup -> {
-                startActivity(Intent(this, NotificationActivity::class.java))
-                finish()
+
+            val saveableForms = DataAccess.getInstance().getAllForms(this)
+
+                for(i in saveableForms)
+                {
+                    sendData(i.formData)
+                }
+
             }
 
-//            R.id.nav_events -> {
-//                startActivity(Intent(this, EventsActivity::class.java))
-//                finish()
-//            }
 
             R.id.nav_search -> {
                 PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
@@ -314,6 +328,36 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun sendData(formData: JSONObject?) {
+
+        val dataSender=RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit().create(FormSubmissionApiService::class.java)
+        val dataArray = formData!!.getJSONArray(ParamNames.DATA).toString()
+        val metadata = formData!!.getJSONObject(ParamNames.METADATA).toString()
+
+        val requestBody=FormSubmissionReqBody(dataArray, metadata)
+        //val body: RequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBody)
+
+        dataSender.submitForm(requestBody).enqueue(object : Callback<formSubmission> {
+            override fun onFailure(call: Call<formSubmission>, t: Throwable) {
+
+                ToastyWidget.getInstance().displayError(this@HomeActivity,"Error",Toast.LENGTH_SHORT)
+            }
+
+            override fun onResponse(
+                call: Call<formSubmission>, response: Response<formSubmission>
+                                   ) {
+                if(response.isSuccessful)
+                ToastyWidget.getInstance().displaySuccess(this@HomeActivity,"Success",Toast.LENGTH_SHORT)
+                else
+                {
+                    ToastyWidget.getInstance().displayError(this@HomeActivity,"Error sending",Toast.LENGTH_SHORT)
+
+                }
+            }
+
+        })
     }
 
     private fun initPhase() {

@@ -272,13 +272,15 @@ public class Form extends BaseActivity {
             String regix = formFields.optString("regix");  // Need to check this field Onc done
             String characters = formFields.optString("characters");
 
+            characters="0123456789. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,   ";  //hardcoded
+
             JSONObject field = formFields.optJSONObject("field");
 
             JSONObject fieldType = field.optJSONObject("fieldType");
 
             String isAttribute=  field.optString("tableName");
             Boolean attribute=false;
-            if(isAttribute!=null && !isAttribute.equalsIgnoreCase("null") && !isAttribute.equalsIgnoreCase("") && isAttribute.equals(""))
+            if(isAttribute!=null && !isAttribute.equalsIgnoreCase("null") && !isAttribute.equalsIgnoreCase("") && !isAttribute.equals(""))
             {
                 attribute=true;
             }
@@ -368,6 +370,7 @@ public class Form extends BaseActivity {
 
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
+
 
             Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
 

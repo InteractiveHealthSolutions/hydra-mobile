@@ -9,6 +9,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.MultiSelectSpinner;
@@ -77,7 +78,10 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         for (String s : selections) {
             subParams.put(s);
         }
-        param.put(question.getParamName(), subParams);
+        param.put(ParamNames.PARAM_NAME,question.getParamName());
+        param.put(ParamNames.VALUE,subParams);
+        param.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
+
     }
 
     @Override
