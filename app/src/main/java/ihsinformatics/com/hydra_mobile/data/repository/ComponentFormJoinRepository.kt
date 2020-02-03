@@ -43,4 +43,9 @@ class ComponentFormJoinRepository(context: Context) {
         return ComponentFormJoinDao.getAllJoins()
     }
 
+    fun getFormsByOtherJoins(component:String ,phase:String,workflow:String):List<ComponentFormJoin>
+    {
+        return ComponentFormJoinDao.getFormsByOtherJoins(component,phase,workflow)
+    }
+
 }

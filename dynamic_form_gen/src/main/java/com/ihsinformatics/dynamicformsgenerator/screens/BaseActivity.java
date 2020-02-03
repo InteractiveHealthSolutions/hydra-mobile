@@ -162,13 +162,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     if (i.isSendable() && i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         data.put(i.getAnswer());
                         if (i.getQuestion().getQuestionId() == 6003) {
-                            offlinePatient.setGender(i.getAnswer().getString(ParamNames.SEX));
+                            offlinePatient.setGender(i.getValue());
                         } else if (i.getQuestion().getQuestionId() == 6004) {
-                            offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(i.getAnswer().getString(ParamNames.DOB)).getTime());
+                            offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(i.getAnswer().getString(ParamNames.VALUE)).getTime());
                         } else if (i.getQuestion().getQuestionId() == 6001) {
-                            firstName += i.getAnswer().getString(ParamNames.FIRST_NAME);
+                            firstName += i.getValue();
                         } else if (i.getQuestion().getQuestionId() == 6002) {
-                            lastName += i.getAnswer().getString(ParamNames.LAST_NAME);
+                            lastName += i.getValue();
                         }
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
@@ -186,7 +186,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 JSONObject metaDataField = new JSONObject();
                 putAuthenticationData(metaDataField);
                 putMetaData(metaDataField);
-                savableData.put(ParamNames.METADATA,metaDataField);
+                savableData.put(ParamNames.METADATA, metaDataField);
                 // inserting record into the database
                 DataAccess dataAccess = DataAccess.getInstance();
                 int id = dataAccess.getFormTypeId(BaseActivity.this, Form.getENCOUNTER_NAME());
@@ -747,6 +747,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             patientDataJson.put(ParamNames.GIVEN_NAME, patientData.getPatient().getGivenName());
             patientDataJson.put(ParamNames.FAMILY_NAME, patientData.getPatient().getFamilyName());
 
+
             JSONArray identifiers = new JSONArray();
             JSONObject patientIdentifier = new JSONObject();
             patientIdentifier.put(ParamNames.TYPE, ParamNames.MR_NUMBER);
@@ -765,19 +766,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         JSONObject authenticationJson = new JSONObject();
         authenticationJson.put(ParamNames.USERNAME, Global.USERNAME);
         authenticationJson.put(ParamNames.PASSWORD, encPassword);
-        String providerUUID = resolveProviderUUID();
-        authenticationJson.put(ParamNames.PROVIDER_UUID, providerUUID);
+        authenticationJson.put(ParamNames.PROVIDER, Global.PROVIDER);
         data.put(ParamNames.AUTHENTICATION, authenticationJson);
     }
 
-
-    // TODO implement to return provider uuid
-    private String resolveProviderUUID() throws JSONException {
-        String providerUUID;
-
-
-        return "";
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

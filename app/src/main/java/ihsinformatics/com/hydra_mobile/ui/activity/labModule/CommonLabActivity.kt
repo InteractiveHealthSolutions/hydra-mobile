@@ -32,7 +32,7 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 class CommonLabActivity : AppCompatActivity() {
 
     //TODO patient needs to be fetched from online openmrs server... Here we have hardcoded due to not enabling feature of online search for patient  ~Taha
-    var patientID = Global.patientData.patient.uuid
+    var patientID = "dbac89bb-508b-4693-aad1-3b5a5310252e"//Global.patientData.patient.uuid
 
     lateinit var testTypeList: ArrayList<LabTestOrder>
     lateinit var encountersList: ArrayList<Encounter>

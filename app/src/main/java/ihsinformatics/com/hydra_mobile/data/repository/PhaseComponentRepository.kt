@@ -51,10 +51,10 @@ class PhaseComponentRepository(context: Context) {
 
     }
 
-    fun getComponentListByPhaseUUID(phaseId: String): List<PhaseComponentMap> {
-        return phaseComponentMapDao.getPhaseComponentByPhaseUUID(phaseId)
-
-    }
+//    fun getComponentListByPhaseUUID(phaseId: String): List<PhaseComponentMap> {
+//        return phaseComponentMapDao.getPhaseComponentByPhaseUUID(phaseId)
+//
+//    }
 
     fun deleteAllPhaseComponents() {
         doAsync {

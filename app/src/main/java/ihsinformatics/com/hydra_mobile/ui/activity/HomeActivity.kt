@@ -34,11 +34,9 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
-import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.TestSampleApi
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
 import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
-import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
@@ -49,8 +47,6 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
@@ -83,6 +79,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
 
         /*screen level initialization*/
+
+        Global.USERNAME=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
+        Global.PASSWORD=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PASSWORD, null)
+        Global.PROVIDER=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
 
 
 
@@ -292,12 +292,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_backup -> {
 
-            val saveableForms = DataAccess.getInstance().getAllForms(this)
+                val saveableForms = DataAccess.getInstance().getAllForms(this)
 
-                for(i in saveableForms)
-                {
-                    sendData(i.formData)
+                for (i in saveableForms) {
+                    if (isInternetConnected()) {
+                        sendData(i.formData,i.formTypeId)
+                    } else {
+                        ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                    }
                 }
+
 
             }
 
@@ -330,29 +334,29 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
-    private fun sendData(formData: JSONObject?) {
+    private fun sendData(formData: JSONObject?, formId: Int){
 
-        val dataSender=RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit().create(FormSubmissionApiService::class.java)
+        val dataSender = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit().create(FormSubmissionApiService::class.java)
         val dataArray = formData!!.getJSONArray(ParamNames.DATA).toString()
         val metadata = formData!!.getJSONObject(ParamNames.METADATA).toString()
 
-        val requestBody=FormSubmissionReqBody(dataArray, metadata)
+        val requestBody = FormSubmissionReqBody(dataArray, metadata)
         //val body: RequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), requestBody)
 
         dataSender.submitForm(requestBody).enqueue(object : Callback<formSubmission> {
             override fun onFailure(call: Call<formSubmission>, t: Throwable) {
 
-                ToastyWidget.getInstance().displayError(this@HomeActivity,"Error",Toast.LENGTH_SHORT)
+                ToastyWidget.getInstance().displayError(this@HomeActivity, "Error", Toast.LENGTH_SHORT)
             }
 
             override fun onResponse(
                 call: Call<formSubmission>, response: Response<formSubmission>
                                    ) {
-                if(response.isSuccessful)
-                ToastyWidget.getInstance().displaySuccess(this@HomeActivity,"Success",Toast.LENGTH_SHORT)
-                else
-                {
-                    ToastyWidget.getInstance().displayError(this@HomeActivity,"Error sending",Toast.LENGTH_SHORT)
+                if (response.isSuccessful) {
+                    ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
+                    DataAccess.getInstance().deleteForm(this@HomeActivity,formId)
+                } else {
+                    ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
 
                 }
             }
@@ -367,7 +371,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
-                setCurrentPhase(tab.text.toString())
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -404,13 +407,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 */
 
 
-    private fun setCurrentPhase(current:String){
-
-        val phaseViewModel = ViewModelProviders.of(this).get(PhaseViewModel::class.java)
-        val phase=phaseViewModel.getPhaseUUIDByName(current)
-        GlobalPreferences.getinstance(this@HomeActivity).addOrUpdatePreference(GlobalPreferences.KEY.CURRENT_PHASE_UUID, phase.uuid)
-
-    }
 
 
     private fun fillPatientInfoBar() {

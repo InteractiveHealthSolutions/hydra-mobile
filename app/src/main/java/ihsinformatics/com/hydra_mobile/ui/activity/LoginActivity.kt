@@ -22,6 +22,7 @@ import android.text.method.PasswordTransformationMethod
 import android.widget.CheckBox
 import androidx.lifecycle.ViewModelProviders
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 
 import ihsinformatics.com.hydra_mobile.R
@@ -142,8 +143,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                 }
 
                                 SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
-
-
+                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
+                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD,  passwordEditText.text.toString())
+                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PROVIDER, response.body()!!.providerResult[0].uuid)
 
                                 networkProgressDialog.dismiss()
 

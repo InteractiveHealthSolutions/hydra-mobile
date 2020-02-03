@@ -28,9 +28,14 @@ class PhaseComponentJoinViewModel(application: Application) : AndroidViewModel(a
         return repository.getPhaseComponentMapListByPhaseId(phaseID)
     }
 
-    fun getComponentByPhasesUUID(phaseID:String):List<PhaseComponentMap>
+    fun getComponentsByPhaseandWorkflow(phaseUUID:String,workflowUUID:String):List<PhaseComponentMap>
     {
-        return repository.getComponentListByPhaseUUID(phaseID)
+        return repository.getComponentsByPhaseandWorkflow(phaseUUID,workflowUUID)
+    }
+
+    fun getComponentsByWorkflow(workflowUUID:String):List<PhaseComponentMap>
+    {
+        return repository.getComponentsByWorkflow(workflowUUID)
     }
 
     fun getComponentByComponentUUID(componentUUID:String):Component
@@ -38,19 +43,4 @@ class PhaseComponentJoinViewModel(application: Application) : AndroidViewModel(a
         return componentRepository.getComponentByUUID(componentUUID)
     }
 
-    fun getFormsByPhaseUUID(phaseID:String){
-        var componentList=repository.getComponentListByPhaseUUID(phaseID)
-        var componentFormList:List<ComponentForm>
-        componentFormList = ArrayList<ComponentForm>()
-        var requiredList:ArrayList<ArrayList<ComponentForm>>
-
-        requiredList=ArrayList<ArrayList<ComponentForm>>()
-
-        for(i in 0 until componentList.size)
-        {
-            componentFormList=componentRepository.getFormListByComponentUUID(componentList.get(i).componentUUID)
-            requiredList.add(componentFormList as java.util.ArrayList<ComponentForm>)
-
-        }
-    }
 }

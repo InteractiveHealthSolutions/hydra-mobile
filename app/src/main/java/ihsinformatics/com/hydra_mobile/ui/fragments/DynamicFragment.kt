@@ -18,6 +18,7 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentFormsObject
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentFormJoinRepository
 import ihsinformatics.com.hydra_mobile.data.repository.ComponentRepository
+import ihsinformatics.com.hydra_mobile.data.repository.FormRepository
 import ihsinformatics.com.hydra_mobile.ui.adapter.PhaseComponentAdapter
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
@@ -42,8 +43,7 @@ class DynamicFragment : BaseFragment() {
         return view
     }
 
-    @SuppressLint("WrongConstant")
-    private fun initViews(view: View, phaseId: String) {
+    @SuppressLint("WrongConstant") private fun initViews(view: View, phaseId: String) {
         componentFormsObjectList = ArrayList()
         getPhases(phaseId)
         val recyclerView = view.rv_phase_container as RecyclerView
@@ -58,15 +58,9 @@ class DynamicFragment : BaseFragment() {
 
             Toast.makeText(activity, "Refreshed", Toast.LENGTH_SHORT).show()
             swipeContainer.isRefreshing = false
-        }
-        )
+        })
 
-        swipeContainer.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
-        )
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light)
 
 
     }
@@ -98,45 +92,34 @@ class DynamicFragment : BaseFragment() {
     private fun getPhases(phaseId: String) {
 
         val phasesComponentJoinViewModel = ViewModelProviders.of(this).get(PhaseComponentJoinViewModel::class.java)
+        val formModel = FormRepository(HydraApp.context!!)
 
-        val formModel =
-            ComponentRepository(HydraApp.context!!) //ViewModelProviders.of(this).get(PhasesViewModel::class.java)
 
-        val componentFormJoin=ComponentFormJoinRepository(HydraApp.context!!)
-
-        var currentWorkflowUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID,"-1")
-        var currentPhaseUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.CURRENT_PHASE_UUID,"-1")
         runBlocking {
 
-            var componentResults = phasesComponentJoinViewModel.getComponentByPhasesUUID(phaseId)
-            var allJoins=componentFormJoin.getAllJoins()
-            for (i in componentResults.indices) {
-                var componentObj =
-                    phasesComponentJoinViewModel.getComponentByComponentUUID(componentResults[i].componentUUID)
-                var formList = formModel.getAllComponentForm()
-                for (j in formList.indices) {
-                    //TODO Enable form integration
-                    if (componentObj.uuid.equals(formList[j].component.uuid) && (componentResults[i].workflowUUID.equals(currentWorkflowUUID)) && (componentResults[i].phaseUUID.equals(currentPhaseUUID))) {
-                        componentFormsObjectList.add(
-                            ComponentFormsObject(
-                                componentObj.name,
-                                componentObj.uuid,
-                                formList[j].formList
-                            )
-                        )
-                    }
-                }
 
-                adapter.setPhaseComponentList(componentFormsObjectList)
+            var currentWorkflowUUID = GlobalPreferences.getinstance(context).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "-1")
+             var componentResults = phasesComponentJoinViewModel.getComponentsByPhaseandWorkflow(phaseId, currentWorkflowUUID)
+
+            for (i in componentResults) {
+                var componentObj = phasesComponentJoinViewModel.getComponentByComponentUUID(i.componentUUID)
+                var forms = formModel.getAllFormsByFilter(i.componentUUID, phaseId, currentWorkflowUUID)
+
+                componentFormsObjectList.add(ComponentFormsObject(componentObj.name, componentObj.uuid, forms))
             }
+
+
         }
+        adapter.setPhaseComponentList(componentFormsObjectList)
 
     }
 
 
-    companion object {
-        fun newInstance(): DynamicFragment {
-            return DynamicFragment()
-        }
+
+
+companion object {
+    fun newInstance(): DynamicFragment {
+        return DynamicFragment()
     }
+}
 }

@@ -11,6 +11,7 @@ public class GlobalPreferences {
 	public static enum KEY {
 		USERNAME,
 		PASSWORD,
+		PROVIDER,
 		LANGUAGE,
 		LOCATION,
 		FIRST_RUN,

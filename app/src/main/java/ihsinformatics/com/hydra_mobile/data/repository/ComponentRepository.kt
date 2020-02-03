@@ -8,6 +8,7 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.ComponentFormDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Component
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
@@ -41,17 +42,6 @@ class ComponentRepository(context: Context) {
     }
 
 
-    suspend fun getAllComponentForm(): List<ComponentForm> {
-        var formList = GlobalScope.async {
-            componentFormDao.getComponentFormList()
-        }
-        return formList.await()
-    }
-
-    fun getFormListByComponentUUID(uuid:String):List<ComponentForm>{
-        return componentFormDao.getFormListByComponentUUID(uuid)
-    }
-
     fun getComponentByUUID(componentUUID: String): Component {
         return componentDao.getComponentByUUID(componentUUID)
     }
@@ -60,9 +50,13 @@ class ComponentRepository(context: Context) {
     fun deleteAllComponents() {
         doAsync {
             componentDao.deleteAllComponents()
+
         }
     }
 
+    fun getForms(uuid:String): List<ComponentForm>{
+        return componentFormDao.getFormListByComponentUUID(uuid)
+    }
 
 
     fun getRemoteComponentData() {

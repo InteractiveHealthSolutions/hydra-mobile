@@ -14,6 +14,7 @@ public class Global {
 	public static PatientData temp;
 	public static String USERNAME;
 	public static String PASSWORD;
+	public static String PROVIDER;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
 	public static final SimpleDateFormat OPENMRS_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);

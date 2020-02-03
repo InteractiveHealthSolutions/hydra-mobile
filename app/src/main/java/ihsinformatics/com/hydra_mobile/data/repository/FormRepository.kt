@@ -44,6 +44,12 @@ class FormRepository(context: Context) {
 
     }
 
+    fun getAllFormsByFilter(component:String,phase:String,workflow:String): List<Forms> {
+        return formDao.getAllFormsByFilter(component,phase,workflow)
+
+    }
+
+
     fun getRemoteFormData() {
         RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getForms(Constant.REPRESENTATION, object : RESTCallback {
             override fun <T> onSuccess(o: T) {

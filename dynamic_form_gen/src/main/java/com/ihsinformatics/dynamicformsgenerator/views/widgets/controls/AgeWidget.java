@@ -15,6 +15,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.options.DateOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
@@ -119,7 +120,9 @@ public class AgeWidget extends InputWidget implements TextWatcher {
                 String value = null;
                 Date date = Global.DATE_TIME_FORMAT.parse(dateString);
                 value = Global.OPENMRS_DATE_FORMAT.format(date);
-                param.put(question.getParamName(), value);
+                param.put(ParamNames.PARAM_NAME, "age");
+                param.put(ParamNames.VALUE, value);
+                param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.AGE);
             } else {
                 activity.addValidationError(getQuestionId(), "Invalid input");
             }

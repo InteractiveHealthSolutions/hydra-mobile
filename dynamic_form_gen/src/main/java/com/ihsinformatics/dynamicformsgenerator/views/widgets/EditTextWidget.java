@@ -275,7 +275,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                 "-1",
                 InputWidgetsType.WIDGET_TYPE_HEADING,
                 View.VISIBLE, null,
-                question.getRepeatGroupHeadingPrefix() + " " + (i + 1), null, null)); // TODO get the heading form question or question config class
+                question.getRepeatGroupHeadingPrefix() + " " + (i + 1), null, null, Question.PAYLOAD_TYPE.HEADING)); // TODO get the heading form question or question config class
         InputWidget headingWidget = widgetBakery.bakeInputWidget(context, q);
 
         return headingWidget;

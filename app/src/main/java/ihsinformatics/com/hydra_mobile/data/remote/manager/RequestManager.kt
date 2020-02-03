@@ -64,7 +64,7 @@ class RequestManager {
     private fun initOkHttp(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(10000,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(10000,TimeUnit.SECONDS).build()
 
         okHttpClient = httpClient.build()
     }
@@ -73,7 +73,7 @@ class RequestManager {
     private fun initOkHttpPatientList(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
 
         okHttpClientPatientList = httpClient.build()
     }
@@ -81,7 +81,7 @@ class RequestManager {
     private fun initOkHttpForm(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
 
         okHttpClientForm = httpClient.build()
     }

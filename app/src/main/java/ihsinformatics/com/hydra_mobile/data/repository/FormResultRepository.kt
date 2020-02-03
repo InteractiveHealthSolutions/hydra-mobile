@@ -86,18 +86,32 @@ class FormResultRepository(context: Context) {
             val componentsFormsMap = completeFile.optJSONArray("ComponentsFormsMap")
             for (k in 0 until componentsFormsMap.length()) {
 
-                val singleObject=componentsFormsMap.getJSONObject(k)
+                val singleObject = componentsFormsMap.getJSONObject(k)
                 val insideForm = singleObject.optJSONObject("form")
                 val component = singleObject.optJSONObject("component")
                 val phase = singleObject.optJSONObject("phase")
                 val workflow = singleObject.optJSONObject("workflow")
-                var workflowUUID=""
-                var phaseUUID=""
+                var workflowUUID = ""
+                var phaseUUID = ""
+                var componentUUID = ""
+                var workflowName = ""
+                var phaseName = ""
+                var componentName = ""
+                if (workflow != null) {
+                    workflowUUID = workflow.optString("uuid")
+                    workflowName = workflow.optString("name")
 
-                if(workflow!=null) workflowUUID = workflow.optString("uuid")
+                }
+                var formUUID = insideForm.optString("uuid")
 
-                if(phase!=null) phaseUUID = phase.optString("uuid")
-
+                if (phase != null) {
+                    phaseUUID = phase.optString("uuid")
+                    phaseName= phase.optString("name")
+                }
+                if (component != null) {
+                    componentUUID = component.optString("uuid")
+                    componentName= component.optString("name")
+                }
 
                 val formName = insideForm.optString("name")
                 val formId = insideForm.optInt("hydramoduleFormId")
@@ -107,14 +121,15 @@ class FormResultRepository(context: Context) {
 
                 if (component != null) {
 
+                    val kk=k
                     val componentID = component.optInt("componentId")
 
-                    FormRepository(context).insertForm(Forms(formId, formName,componentID, formName, questionsList.toString()))
+                    FormRepository(context).insertForm(Forms(k, formName, workflowUUID, phaseUUID, componentUUID, formUUID, componentID, formName, componentName, phaseName, workflowName, questionsList.toString()))
 
                     Constants.setEncounterType(formId, formName)
                     Constants.setEncounterTypeData(formName, questionsList.toString())
 
-                    componentFormJoinRepository.insert(ComponentFormJoin(k,workflowUUID,phaseUUID,componentID, formId))
+                    //  componentFormJoinRepository.insert(ComponentFormJoin(k,workflowUUID,phaseUUID,componentUUID,formUUID,componentID, formId))
                 }
 
 

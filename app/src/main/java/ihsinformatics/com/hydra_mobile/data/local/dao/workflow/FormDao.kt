@@ -25,6 +25,9 @@ interface FormDao {
     @Query("SELECT * FROM `Forms`")
     fun getAllForms(): List<Forms>
 
+    @Query("SELECT * FROM `Forms` where componentUUID==:component and phaseUUID==:phase and workflowUUID==:workflow")
+    fun getAllFormsByFilter(component:String,phase:String,workflow:String): List<Forms>
+
     @Query("DELETE FROM `Forms`")
     fun deleteAllForms()
 }

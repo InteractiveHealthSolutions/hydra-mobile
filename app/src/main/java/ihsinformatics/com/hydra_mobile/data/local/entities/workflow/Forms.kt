@@ -10,8 +10,15 @@ class Forms(
     @PrimaryKey
     val id: Int,
     val name: String,
+    val workflowUUID: String,
+    val phaseUUID: String,
+    val componentUUID: String,
+    val formUUID: String,
     val componentId: Int,
     val encounterType: String,
+    val component: String,
+    val phase: String,
+    val workflow: String,
     val questions:String
 
 )

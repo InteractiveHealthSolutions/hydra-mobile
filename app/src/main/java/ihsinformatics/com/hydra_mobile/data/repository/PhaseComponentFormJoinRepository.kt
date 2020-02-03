@@ -45,7 +45,7 @@ class PhaseComponentMapRepository(context: Context) {
         }
     }
 
-
+//
 //    fun getFormListByComponentId(componentId: Int): List<Forms> {
 //        return componentFormJoinDao.getComponentFormList(componentId)
 //    }
@@ -55,8 +55,13 @@ class PhaseComponentMapRepository(context: Context) {
 
     }
 
-    fun getComponentListByPhaseUUID(phaseId: String): List<PhaseComponentMap> {
-        return phaseComponentMapDao.getPhaseComponentByPhaseUUID(phaseId)
+    fun getComponentsByPhaseandWorkflow(phaseUUID: String,workflowUUID:String): List<PhaseComponentMap> {
+        return phaseComponentMapDao.getComponentsByPhaseandWorkflow(phaseUUID,workflowUUID)
+
+    }
+
+    fun getComponentsByWorkflow(workflowUUID:String): List<PhaseComponentMap> {
+        return phaseComponentMapDao.getComponentsByWorkflow(workflowUUID)
 
     }
 

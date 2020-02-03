@@ -26,6 +26,8 @@ public class Question extends Displayable implements Cloneable {
     public static enum PAYLOAD_TYPE {
         IDENTIFIER,
         PERSON_ATTRIBUTE,
+        ADDRESS,
+        HEADING,
         NAME,
         OBS,
         OBS_CODED,
@@ -33,10 +35,11 @@ public class Question extends Displayable implements Cloneable {
         OBS_CODED_MULTI,
         OBS_DATE_TIME,
         LOCATION,
-        ENCOUNTER_TYPE,   //need to resolve
+        ENCOUNTER_TYPE,
         AGE,
         GENDER,
         DOB,
+        NONE,
         DATE_ENTERED    //need to resolve
     }
 
@@ -158,8 +161,6 @@ public class Question extends Displayable implements Cloneable {
         this.questionNumber = questionNumber;
         this.tag = tag.toString();
     }
-
-
     public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
         super();
         this.isMandatory = isMandatory;
@@ -175,6 +176,25 @@ public class Question extends Displayable implements Cloneable {
         this.questionConfiguration = questionConfiguration;
         this.questionNumber = questionNumber;
         this.tag = QUESTION_TAG.TAG_OBS.toString();
+        this.payload_type=PAYLOAD_TYPE.NONE;
+    }
+
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,PAYLOAD_TYPE payload) {
+        super();
+        this.isMandatory = isMandatory;
+        this.formTypeId = formTypeId;
+        this.questionId = questionId;
+
+        this.questionType = questionType;
+        this.initialVisibility = initialVisibility;
+
+        this.validationFunction = validationFunction;
+        this.text = text;
+        this.paramName = paramName;
+        this.questionConfiguration = questionConfiguration;
+        this.questionNumber = questionNumber;
+        this.tag = QUESTION_TAG.TAG_OBS.toString();
+        this.payload_type=payload;
     }
 
     public void addOption(Option option) {
@@ -476,7 +496,7 @@ public class Question extends Displayable implements Cloneable {
             }
 
             case "Address": {
-                return PAYLOAD_TYPE.LOCATION;
+                return PAYLOAD_TYPE.ADDRESS;
             }
         }
 

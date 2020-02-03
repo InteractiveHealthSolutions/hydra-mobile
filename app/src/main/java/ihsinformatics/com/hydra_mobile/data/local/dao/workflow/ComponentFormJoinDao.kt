@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 
@@ -17,12 +18,12 @@ interface ComponentFormJoinDao {
 //    @Query(
 //        """
 //           SELECT * FROM Forms
-//           INNER JOIN component_form_join
-//           ON Forms.id=component_form_join.formId
-//           WHERE component_form_join.componentId=:componentId
+//           INNER JOIN componentformjoin
+//           ON Forms.id=componentformjoin.formId
+//           WHERE componentformjoin.componentUUID=:uuid
 //           """
 //    )
-//    fun getComponentFormList(componentId: Int): List<Forms>
+//    fun getFormsByOtherJoins(uuid: String): List<Forms>
 
 
 
@@ -31,4 +32,8 @@ interface ComponentFormJoinDao {
 
     @Query("SELECT * from ComponentFormJoin")
     fun getAllJoins():List<ComponentFormJoin>
+
+    @Query("SELECT * from ComponentFormJoin where componentUUID==:component AND phaseUUID==:phase AND workflowUUID==:workflow")
+    fun getFormsByOtherJoins(component:String ,phase:String,workflow:String):List<ComponentFormJoin>
+
 }

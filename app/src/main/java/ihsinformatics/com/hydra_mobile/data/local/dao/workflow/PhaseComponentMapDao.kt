@@ -32,8 +32,10 @@ interface PhaseComponentMapDao {
     fun getAllPhaseComponent(): List<PhaseComponentMap>
 
 
-    @Query("SELECT * FROM `PhaseComponentMap` WHERE phaseUUID == :name")
-    fun getPhaseComponentByPhaseUUID(name: String): List<PhaseComponentMap>
+    @Query("SELECT * FROM `PhaseComponentMap` WHERE phaseUUID == :phase AND workflowUUID==:workflow")
+    fun getComponentsByPhaseandWorkflow(phase: String,workflow:String): List<PhaseComponentMap>
 
+    @Query("SELECT * FROM `PhaseComponentMap` WHERE  workflowUUID==:workflow")
+    fun getComponentsByWorkflow(workflow:String): List<PhaseComponentMap>
 
 }

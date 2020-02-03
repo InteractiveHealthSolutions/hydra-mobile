@@ -83,15 +83,20 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
         if (isValidInput(question.isMandatory()) && (!suspiciousIdentifier || !etAnswer.isEnabled())) {
             if(question.getParamName() == null) return null;
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
-                param.put(question.getParamName(), null);
+                param.put(ParamNames.PARAM_NAME,question.getParamName());
+                param.put(ParamNames.VALUE, "");
             } else {
-                param.put(question.getParamName(), etAnswer.getText().toString());
+                param.put(ParamNames.PARAM_NAME,question.getParamName());
+                param.put(ParamNames.VALUE, etAnswer.getText().toString());
+
             }
             dismissMessage();
-            param.put(question.getParamName(), etAnswer.getText().toString());
+            param.put(ParamNames.PARAM_NAME,question.getParamName());
+            param.put(ParamNames.VALUE,etAnswer.getText().toString());
         } else {
             activity.addValidationError(getQuestionId(), "Invalid input, or check internet connectivity");
         }
+        param.put(ParamNames.PAYLOAD_TYPE,Question.PAYLOAD_TYPE.IDENTIFIER);
         return param;
     }
 
