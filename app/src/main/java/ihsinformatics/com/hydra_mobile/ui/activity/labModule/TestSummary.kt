@@ -47,26 +47,19 @@ class TestSummary : AppCompatActivity() {
             var ll_layout = findViewById<LinearLayout>(R.id.labTestSample)
 
             val lparams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 4.0f)
-          //  val firstTextViewparams = LinearLayout.LayoutParams(getResources().getDimension(R.dimen.dimen_0dp).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f)
-           // val secondTextViewparams = LinearLayout.LayoutParams(getResources().getDimension(R.dimen.dimen_0dp).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT, 3.0f)
 
 
             val lparamsWithMargin = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 4.0f)
             lparamsWithMargin.setMargins(0, 0, 0, 20)
-//            val scale = resources.displayMetrics.density.toInt()
-//            val padding_10dp = (10 * scale + 0.5f) as Int
 
             for (i in 0 until testOrder.labTestSamples.size) {
                 val firstTextView = TextView(this)
-             //   firstTextView.layoutParams = firstTextViewparams
                 firstTextView.setText("Test Order: ")
                 firstTextView.textAppearance=R.style.fontForSummaryHeading
 
 
                 val secondTextView = TextView(this)
-              //  secondTextView.layoutParams = secondTextViewparams
                 secondTextView.setText(testOrder.labTestSamples.get(i).display.toString())
-                secondTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                 secondTextView.textAppearance=R.style.fontForSummaryValue
 
                 var singleLabSample = LinearLayout(this)
@@ -77,15 +70,11 @@ class TestSummary : AppCompatActivity() {
 
 
                 val firstTextView2 = TextView(this)
-             //   firstTextView2.layoutParams = firstTextViewparams
                 firstTextView2.setText("Specimen Type: ")
-                firstTextView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                 firstTextView2.textAppearance=R.style.fontForSummaryHeading
 
                 val secondTextView2 = TextView(this)
-           //     secondTextView2.layoutParams = secondTextViewparams
                 secondTextView2.setText(testOrder.labTestSamples.get(i).specimenType.display)
-                secondTextView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                 secondTextView2.textAppearance=R.style.fontForSummaryValue
 
                 var singleLabSample2 = LinearLayout(this)
@@ -96,15 +85,11 @@ class TestSummary : AppCompatActivity() {
 
 
                 val firstTextView3 = TextView(this)
-           //     firstTextView3.layoutParams = firstTextViewparams
                 firstTextView3.setText("Specimen Site: ")
-                firstTextView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-                firstTextView3.textAppearance=R.style.fontForSummaryHeading
+                 firstTextView3.textAppearance=R.style.fontForSummaryHeading
 
                 val secondTextView3 = TextView(this)
-          //      secondTextView3.layoutParams = secondTextViewparams
                 secondTextView3.setText(testOrder.labTestSamples.get(i).specimenSite.display)
-                secondTextView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                 secondTextView3.textAppearance=R.style.fontForSummaryValue
 
                 var singleLabSample3 = LinearLayout(this)
@@ -114,15 +99,11 @@ class TestSummary : AppCompatActivity() {
                 ll_layout.addView(singleLabSample3)
 
                 val firstTextView4 = TextView(this)
-           //     firstTextView4.layoutParams = firstTextViewparams
                 firstTextView4.setText("Status: ")
-                firstTextView4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-                firstTextView4.textAppearance=R.style.fontForSummaryHeading
+               firstTextView4.textAppearance=R.style.fontForSummaryHeading
 
                 val secondTextView4 = TextView(this)
-           //     secondTextView4.layoutParams = secondTextViewparams
                 secondTextView4.setText(testOrder.labTestSamples.get(i).status)
-                secondTextView4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                 secondTextView4.textAppearance=R.style.fontForSummaryValue
 
                 var singleLabSample4 = LinearLayout(this)
@@ -136,20 +117,11 @@ class TestSummary : AppCompatActivity() {
         }
 
         //Layout 1
-        // for(i in 0 until attributes.size) {
+
         findViewById<TextView>(R.id.groupName).setText("RADIOLOGY")
         findViewById<TextView>(R.id.question).setText("No Questions")
         findViewById<TextView>(R.id.value).setText("No value")
-        //  }
 
-//        if(jsonAttributes!=null && !jsonAttributes.equals(""))
-//        {
-//            val gson = Gson()
-//            val token: TypeToken< ArrayList<Attribute?>?> = object : TypeToken< ArrayList<Attribute?>?>() {}
-//            var attributes:  ArrayList<Attribute> = gson.fromJson(jsonObj, token.type)
-//
-//
-//        }
 
     }
 

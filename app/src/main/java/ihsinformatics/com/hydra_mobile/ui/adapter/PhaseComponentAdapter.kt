@@ -56,6 +56,7 @@ class PhaseComponentAdapter() :
 
         fun bindItems(componentFormsObject: ComponentFormsObject) {
 
+            if(componentFormsObject.forms!=null && componentFormsObject.forms.size > 0){
             componentName.text = componentFormsObject.name
             if (componentFormsObject.forms.size <= 3) {
                 itemView.img_expend_form.visibility = View.INVISIBLE
@@ -76,7 +77,7 @@ class PhaseComponentAdapter() :
                 Constant.formList = componentFormsObject.forms
                 Constant.componentName = componentFormsObject.name
                 context.startActivity(Intent(context, ExpandedFormsActivity::class.java))
-            })
+            })}
         }
 
     }
