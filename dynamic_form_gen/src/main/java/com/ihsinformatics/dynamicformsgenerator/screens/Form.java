@@ -371,6 +371,9 @@ public class Form extends BaseActivity {
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
+            if(displayText==null || displayText.equalsIgnoreCase("") || displayText.equalsIgnoreCase(" ") || displayText.equalsIgnoreCase("null")){
+                displayText=field.getString("name");
+            }
 
             Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
 
