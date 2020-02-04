@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +20,7 @@ import ihsinformatics.com.hydra_mobile.ui.activity.ExpandedFormsActivity
 import kotlinx.android.synthetic.main.phase_component_view.view.*
 
 
-class PhaseComponentAdapter() :
-    RecyclerView.Adapter<PhaseComponentAdapter.ViewHolder>() {
+class PhaseComponentAdapter() : RecyclerView.Adapter<PhaseComponentAdapter.ViewHolder>() {
 
     private var componentFormsObjectComponentList: ArrayList<ComponentFormsObject> = ArrayList()
     lateinit var snapHelper: SnapHelper
@@ -28,11 +28,9 @@ class PhaseComponentAdapter() :
     lateinit var context: Context
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhaseComponentAdapter.ViewHolder {
         this.context = parent.context
-        val v = LayoutInflater.from(context)
-            .inflate(ihsinformatics.com.hydra_mobile.R.layout.phase_component_view, parent, false)
+        val v = LayoutInflater.from(context).inflate(ihsinformatics.com.hydra_mobile.R.layout.phase_component_view, parent, false)
         snapHelper = GravitySnapHelper(Gravity.START)
         return ViewHolder(v)
     }
@@ -52,33 +50,32 @@ class PhaseComponentAdapter() :
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val componentName: TextView = itemView.tv_component_name as TextView
+
 
         fun bindItems(componentFormsObject: ComponentFormsObject) {
 
-            if(componentFormsObject.forms!=null && componentFormsObject.forms.size > 0){
-            componentName.text = componentFormsObject.name
-            if (componentFormsObject.forms.size <= 3) {
-                itemView.img_expend_form.visibility = View.INVISIBLE
+                val layout=itemView.parentLayout as LinearLayout
+                layout.visibility=View.VISIBLE
+                val componentName: TextView = itemView.tv_component_name as TextView
+                componentName.text = componentFormsObject.name
+                if (componentFormsObject.forms.size <= 3) {
+                    itemView.img_expend_form.visibility = View.INVISIBLE
+                }
+
+                val adapter = FormsListDataAdapter(componentFormsObject.forms, context)
+                itemView.rv_form_container.setHasFixedSize(false)
+                itemView.rv_form_container.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                itemView.rv_form_container.adapter = adapter
+                itemView.rv_form_container.setRecycledViewPool(recycledViewPool)
+                snapHelper.attachToRecyclerView(itemView.rv_form_container)
+
+                itemView.img_expend_form.setOnClickListener(View.OnClickListener { view ->
+                    Constant.formList = componentFormsObject.forms
+                    Constant.componentName = componentFormsObject.name
+                    context.startActivity(Intent(context, ExpandedFormsActivity::class.java))
+                })
             }
 
-            val adapter = FormsListDataAdapter(componentFormsObject.forms, context)
-            itemView.rv_form_container.setHasFixedSize(false)
-            itemView.rv_form_container.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            itemView.rv_form_container.adapter = adapter
-            itemView.rv_form_container.setRecycledViewPool(recycledViewPool)
-            snapHelper.attachToRecyclerView(itemView.rv_form_container)
-
-            itemView.img_expend_form.setOnClickListener(View.OnClickListener { view ->
-                Constant.formList = componentFormsObject.forms
-                Constant.componentName = componentFormsObject.name
-                context.startActivity(Intent(context, ExpandedFormsActivity::class.java))
-            })}
-        }
 
     }
 }

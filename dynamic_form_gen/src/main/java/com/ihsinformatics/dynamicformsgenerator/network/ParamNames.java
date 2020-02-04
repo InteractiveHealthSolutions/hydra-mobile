@@ -90,6 +90,8 @@ public class ParamNames {
     public static final String IDENTIFIER_TYPE = "identifierType";
     public static final String GIVEN_NAME = "givenName";
     public static final String FAMILY_NAME = "familyName";
+    public static final String GIVEN_NAME_PARAM = "GIVEN_NAME";
+    public static final String FAMILY_NAME_PARAM = "FAMILY_NAME";
     public static final String PERSON_AGE = "age";
     public static final String PERSON_GENDER = "gender";
     public static final String BIRTH_DATE = "birthdate";

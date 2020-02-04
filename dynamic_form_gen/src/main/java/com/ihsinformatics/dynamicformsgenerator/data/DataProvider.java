@@ -195,8 +195,7 @@ public class DataProvider {
 
         questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, "Patient Registration Form", null, null,Question.PAYLOAD_TYPE.HEADING));
         this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, "Identifier", ParamNames.PROJECT_IDENTIFIER, numeric11Digit, Question.PAYLOAD_TYPE.IDENTIFIER));
-        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit, Question.PAYLOAD_TYPE.NAME));
-        this.questions.add(new Question(true, patientCreationId, 6002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Father's or Husband's name", LAST_NAME, alphaMax30Min3Digit,Question.PAYLOAD_TYPE.NAME));
+        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Patient's name", FIRST_NAME, alphaMax30Min3Digit, Question.PAYLOAD_TYPE.NAME));
         this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Gender", SEX, null,Question.PAYLOAD_TYPE.GENDER));
         this.options.add(new Option(6003, 604, null, null, "", "Male", -1));
         this.options.add(new Option(6003, 605, null, null, "", "Female", -1));

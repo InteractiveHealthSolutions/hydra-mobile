@@ -148,7 +148,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             JSONObject offlineValues = new JSONObject();
             int postOperativeCallResponse = 0;
             String firstName = "";
-            String lastName = "";
             while (iterator.hasNext()) {
                 InputWidget i = inputWidgets.get(iterator.next());
                 try {
@@ -167,8 +166,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(i.getAnswer().getString(ParamNames.VALUE)).getTime());
                         } else if (i.getQuestion().getQuestionId() == 6001) {
                             firstName += i.getValue();
-                        } else if (i.getQuestion().getQuestionId() == 6002) {
-                            lastName += i.getValue();
                         }
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
@@ -177,7 +174,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     e.printStackTrace();
                 }
             }
-            offlinePatient.setName(firstName + " " + lastName);
+            offlinePatient.setName(firstName);
             // TODO offlinePatient -> offlineValues
             savableData.put(ParamNames.FORM_DATA, data);
 

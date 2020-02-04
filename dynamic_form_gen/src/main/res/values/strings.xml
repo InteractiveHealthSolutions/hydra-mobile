@@ -14,6 +14,9 @@
     <string name="select_string">Select an item</string>
     <string name="search">Search</string>
     <string name="ok">OK</string>
+    <string name="name">Name</string>
+    <string name="first_name">Given Name</string>
+    <string name="last_name">Family Name</string>
     <string name="cancel">Cancel</string>
     <string name="enter_text">Enter text</string>
     <string name="submit">Submit</string>

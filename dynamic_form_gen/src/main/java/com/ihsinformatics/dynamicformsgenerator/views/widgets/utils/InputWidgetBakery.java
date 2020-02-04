@@ -15,6 +15,7 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.IdentifierWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ImageWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.MultiSelectSpinnerWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.NameWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.RadioButtonWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ScoreSpinner;
@@ -66,6 +67,8 @@ public class InputWidgetBakery {
             inputWidget = new AutoCompleteTextViewWidget(context, q, R.layout.layout_widget_autocomplete_edit_text);
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGET_TYPE_ADDRESS) {
             inputWidget = new AddressWidget(context, q, R.layout.layout_widget_address);
+        } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME) {
+            inputWidget = new NameWidget(context, q, R.layout.layout_widget_name);
         }
         return inputWidget;
     }

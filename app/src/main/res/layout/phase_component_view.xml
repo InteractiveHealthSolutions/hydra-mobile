@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayout"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!-- <androidx.cardview.widget.CardView
 
@@ -15,75 +17,74 @@
              card_view:cardUseCompatPadding="true">-->
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginBottom="70dp"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp">
 
 
         <LinearLayout
-                android:layout_marginLeft="@dimen/dimen_24dp"
-                android:layout_marginRight="@dimen/dimen_24dp"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                android:layout_marginBottom="@dimen/dimen_4dp"
-                android:id="@+id/heading_lay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2"
-                android:orientation="horizontal">
+            android:id="@+id/heading_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_24dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:layout_marginRight="@dimen/dimen_24dp"
+            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
-                    android:id="@+id/tv_component_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.8"
-                    android:layout_height="wrap_content"
-                    android:text="@string/initiation_tv"
-                    android:textColor="@color/openChatText"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="monospace"
-            />
+                android:id="@+id/tv_component_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:text="@string/initiation_tv"
+                android:textColor="@color/openChatText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="monospace" />
 
             <ImageView
-                    android:id="@+id/img_expend_form"
-                    android:layout_width="0dp"
-                    android:layout_weight=".2"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_forward_black_24dp"
-            />
+                android:id="@+id/img_expend_form"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
 
 
             <Button
-                    android:visibility="gone"
-                    android:id="@+id/btn_viewall"
-                    android:layout_width="0dp"
-                    android:layout_weight=".4"
-                    android:layout_margin="@dimen/dimen_4dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/txt_viewall"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:background="@drawable/button_rounded_shap"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:textColor="@color/White"
-            />
+                android:id="@+id/btn_viewall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_4dp"
+                android:layout_weight=".4"
+                android:background="@drawable/button_rounded_shap"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="@string/txt_viewall"
+                android:textAlignment="center"
+                android:textColor="@color/White"
+                android:textSize="12sp"
+                android:visibility="gone" />
         </LinearLayout>
+
         <View
-                android:visibility="gone"
-                android:id="@+id/heading_view"
-                android:layout_below="@+id/heading_lay"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/dimen_24dp"
-                android:layout_marginRight="@dimen/dimen_24dp"
-                android:background="#C4C0BFBF"/>
+            android:id="@+id/heading_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/heading_lay"
+            android:layout_marginLeft="@dimen/dimen_24dp"
+            android:layout_marginRight="@dimen/dimen_24dp"
+            android:background="#C4C0BFBF"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_form_container"
-                android:layout_below="@+id/heading_view"
-                android:clipToPadding="false"
-                android:overScrollMode="always"
-                android:layoutAnimation="@anim/layout_animation_slide_right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/rv_form_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/heading_view"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_animation_slide_right"
+            android:overScrollMode="always" />
 
     </RelativeLayout>
     <!--    </androidx.cardview.widget.CardView>-->

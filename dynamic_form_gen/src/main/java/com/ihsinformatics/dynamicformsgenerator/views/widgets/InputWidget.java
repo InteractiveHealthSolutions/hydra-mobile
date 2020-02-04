@@ -55,7 +55,8 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
         WIDGETS_TYPE_IDENTIFIER,
         WIDGET_TYPE_AUTOCOMPLETE_EDITTEXT,
         WIDGET_TYPE_ADDRESS,
-        WIDGETS_TYPE_ABC
+        WIDGETS_TYPE_ABC,
+        WIDGETS_TYPE_NAME
     }
 
     protected TextView tvQuestion;
