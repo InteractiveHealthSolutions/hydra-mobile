@@ -268,6 +268,7 @@ public class Form extends BaseActivity {
             Boolean scoreable = formFields.optBoolean("scoreable");  //Not Mapped
             Boolean allowDecimal = formFields.optBoolean("allowDecimal");  //Not Mapped
             Boolean mandatory = formFields.optBoolean("mandatory");
+
             String defaultValue = formFields.optString("defaultValue");
             String regix = formFields.optString("regix");  // Need to check this field Onc done
             String characters = formFields.optString("characters");
