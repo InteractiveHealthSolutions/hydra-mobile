@@ -102,9 +102,22 @@ public class QuestionConfiguration extends Configuration {
             case "decimalNumeric": {
                 return InputType.TYPE_NUMBER_FLAG_DECIMAL;
             }
+
+            case "coded":{
+                return  InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+            }
+            case "date":{
+                return InputType.TYPE_CLASS_DATETIME;
+            }
+            case "boolean":{
+                return  InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;    //TODO need to fix this  ~taha    we need to make decision in FOrms.java while parsing that if inputType is boolean then make allowCharacters to be 1 and 0 only
+            }
+
+            default:{
+                return  InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+            }
         }
 
-        return -1;
     }
 
     public int getInputType() {

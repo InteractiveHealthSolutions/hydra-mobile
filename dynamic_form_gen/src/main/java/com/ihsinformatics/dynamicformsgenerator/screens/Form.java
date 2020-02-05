@@ -273,7 +273,7 @@ public class Form extends BaseActivity {
             String regix = formFields.optString("regix");  // Need to check this field Onc done
             String characters = formFields.optString("characters");
 
-            characters="0123456789. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,   ";  //hardcoded
+            characters="0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,";  //hardcoded
 
             JSONObject field = formFields.optJSONObject("field");
 
@@ -308,6 +308,17 @@ public class Form extends BaseActivity {
             }
 
             String widgetType = fieldType.optString("display");
+
+
+            if(minLength<=0)
+            {
+                minLength=1;
+            }
+
+            if(maxLength<=0)
+            {
+                maxLength=10;
+            }
 
 
             Configuration configuration = new QuestionConfiguration(
@@ -373,7 +384,7 @@ public class Form extends BaseActivity {
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
             if(displayText==null || displayText.equalsIgnoreCase("") || displayText.equalsIgnoreCase(" ") || displayText.equalsIgnoreCase("null")){
-                displayText=field.getString("name");
+                displayText=field.optString("name");
             }
 
             Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);

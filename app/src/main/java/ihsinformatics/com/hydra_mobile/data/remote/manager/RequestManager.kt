@@ -45,12 +45,12 @@ class RequestManager {
 
         initOkHttpPatientList(username, password)
 
-        initOkHttpForm("admin","Admin321")
+        initOkHttpForm(username,password)
 
         retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
 
-        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:3000/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
+        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:8080/openmrs/ws/rest/v1/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
 
         retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList).build()
 

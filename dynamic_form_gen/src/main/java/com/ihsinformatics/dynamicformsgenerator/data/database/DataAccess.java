@@ -186,6 +186,11 @@ public class DataAccess {
         App.getDaoSession(context).clear();*/
     }
 
+
+    public synchronized void deleteFormByFormID(Context context, long formid) {
+        App.getDaoSession(context).getSaveableFormDao().deleteByKey((long) formid);
+
+    }
     public synchronized void updateFormError(Context context, int formid, String error) {
         SaveableFormDao saveableFormDao = App.getDaoSession(context).getSaveableFormDao();
         SaveableForm saveableForm = App.getDaoSession(context).getSaveableFormDao().load((long) formid);

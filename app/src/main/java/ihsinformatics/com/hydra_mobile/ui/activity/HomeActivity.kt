@@ -43,7 +43,6 @@ import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -296,7 +295,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 for (i in saveableForms) {
                     if (isInternetConnected()) {
-                        sendData(i.formData,i.formTypeId)
+                        sendData(i.formData,i.formId)
                     } else {
                         ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                     }
@@ -334,7 +333,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
-    private fun sendData(formData: JSONObject?, formId: Int){
+    private fun sendData(formData: JSONObject?, formId: Long){
 
         val dataSender = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit().create(FormSubmissionApiService::class.java)
         val dataArray = formData!!.getJSONArray(ParamNames.DATA).toString()
@@ -354,7 +353,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                    ) {
                 if (response.isSuccessful) {
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
-                    DataAccess.getInstance().deleteForm(this@HomeActivity,formId)
+                    DataAccess.getInstance().deleteFormByFormID(this@HomeActivity,formId)
                 } else {
                     ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
 

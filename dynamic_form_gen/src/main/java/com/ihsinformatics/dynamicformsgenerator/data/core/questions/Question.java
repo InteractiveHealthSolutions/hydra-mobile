@@ -476,6 +476,7 @@ public class Question extends Displayable implements Cloneable {
                 else if(inputType.equalsIgnoreCase("numeric"))
                     return PAYLOAD_TYPE.OBS_NUMERIC;
 
+
             }
             case "Single Select Dropdown": {
                 return PAYLOAD_TYPE.OBS_CODED;
