@@ -27,6 +27,8 @@ import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
+import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
+import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
@@ -51,6 +53,7 @@ import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -284,8 +287,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_language -> {
 
             }
-            R.id.nav_forms -> {
-
+            R.id.nav_createPatient -> {
+                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
+                startActivity(Intent(this,Form::class.java))
             }
             R.id.nav_faq -> {
                 startActivity(Intent(this, HelpActivity::class.java))
@@ -587,6 +591,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Global.identifierFormat=identifierFormat.value
         Global.setDateFormat(dateFormat.value)
 
+    }
+
+
+    @Throws(JSONException::class) private fun startForm(patientData: PatientData, bundle: Bundle) {
+        var bundle: Bundle? = bundle
+        if (bundle == null) bundle = Bundle()
+        bundle.putSerializable(ParamNames.DATA, patientData)
+        val intent = Intent(this, Form::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
 }

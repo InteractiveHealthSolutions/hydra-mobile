@@ -5,15 +5,10 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import android.widget.Toolbar;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
-import com.ihsinformatics.dynamicformsgenerator.data.DynamicOptions;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
@@ -25,7 +20,6 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Quest
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
@@ -49,13 +43,11 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
     private java.util.Date projectStartDate;
-    private Date date25YearsAgo,today,date25YearsAhead,lastMonday,startDate,endDate;
+    private Date date25YearsAgo,today,date25YearsAhead,lastMonday,startDate,endDate,oneYearAgo;
     private static Calendar cal;
 
     @Override
@@ -66,6 +58,8 @@ public class Form extends BaseActivity {
 
         this.questions = new ArrayList<>();
         this.options = new ArrayList<>();
+
+        initDates();
 
         Intent i = getIntent();
         if (DataProvider.directOpenableForms == null) {
@@ -158,110 +152,26 @@ public class Form extends BaseActivity {
     }
 
 
-    // Only changing the name of parser above wont work because Question class et types accordingly
-   /* private void oldParseQuestionsFromEncounterNameData() throws JSONException {
-
-
-        JSONArray questionsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
-        for (int i = 0; i < questionsList.length(); i++) {
-            JSONObject question = questionsList.optJSONObject(i);
-
-            JSONObject config = question.optJSONObject("config");
-            int id = config.optInt("id");
-            String inputType = config.optString("inputType");
-            String keyboardCharacters = config.optString("keyboardCharacters");
-            String widgetType = config.optString("widgetType");
-            int minLength = config.optInt("minLength");
-            int maxLength = config.optInt("maxLength");
-            int minValue = config.optInt("minValue");
-            int maxValue = config.optInt("maxValue");
-            String minDate = config.optString("minDate");
-            String maxDate = config.optString("maxDate");
-            int maxLines = config.optInt("maxLines");
-
-            Configuration configuration;
-            if (widgetType.equals("address")) {
-                QuestionConfiguration alphaNumeric160DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 160, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
-
-                AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
-                        1,
-                        "Address",
-                        alphaNumeric160DigitSpace,
-                        true,
-                        ParamNames.ADDRESS2);
-                List<AddressConfiguration.OpenAddressField> openAddressFields = new ArrayList<>();
-                openAddressFields.add(openAddressField);
-                configuration = new AddressConfiguration(
-                        openAddressFields,
-                        new AddressConfiguration.AddressTag(1, "Province/State"),
-                        new AddressConfiguration.AddressTag(3, "City/Village"));
-            } else {
-                configuration = new QuestionConfiguration(
-                        inputType, maxLength, minLength, keyboardCharacters, id, maxValue, minValue);//, maxDate, minDate, maxLines);
-            }
-            int questionId = question.optInt("id");
-            String questionNumber = question.optString("questionNumber");
-            String description = question.optString("description");
-            String conceptName = question.optString("conceptName");
-            String concetUUID = question.optString("concetUUID");
-            String initialVisibility = question.optString("initialVisibility");
-
-
-            Boolean required = false;
-            if (question.optInt("required") == 0) {
-                required = false;
-            } else {
-                required = true;
-            }
-            //ToDo discuss about widgetType in wrong field
-            // QuestionNumber, initialVisiblility and required types, concept Name vs conceptParams and validation function
-            // Change edittext to proper widget type  ~Taha
-
-
-            JSONArray optionsList = question.optJSONArray("options");
-            for (int j = 0; j < optionsList.length(); j++) {
-                JSONObject option = optionsList.optJSONObject(j);
-                int defaultValue = option.optInt("default");
-                String optionConceptUUID = option.optString("conceptUUID");
-                String display = option.optString("display");
-                this.options.add(new Option(questionId, j, null, null, optionConceptUUID, display, -1));
-            }
-
-            JSONArray visibleWhenList = question.optJSONArray("visibleWhen");
-            List<SExpression> visibleWhen = skipLogicParser(visibleWhenList);
-
-            JSONArray hiddenWhenList = question.optJSONArray("hiddenWhen");
-            List<SExpression> hiddenWhen = skipLogicParser(hiddenWhenList);
-
-            JSONArray requiredWhenList = question.optJSONArray("requiredWhen");
-            List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
-
-            //TODO replace validation function with regrex
-            Question completeQuestion = new Question(required, getFormId(ENCOUNTER_NAME), questionId, questionNumber, widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, description, conceptName, configuration, visibleWhen, hiddenWhen, requiredWhen);
-
-            this.questions.add(completeQuestion);
-
-        }
-    }   //Old frm parser  */
-
-
     private void parseQuestionsFromEncounterNameData() throws JSONException {
 
         int configurationID = 2;   // configurationID=1 is for address widget
 
         int idOfForm=getFormId(ENCOUNTER_NAME);
         QuestionConfiguration alphaNumeric150DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 150, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
+        QuestionConfiguration dateMaxTodayMinLastYear = new QuestionConfiguration(today, oneYearAgo, DateSelector.WIDGET_TYPE.DATE, 8);
 
 
         this.questions.add(new Question(true, idOfForm, 1000000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
         this.options.add(new Option(1000000, 2237, null, null, "", "Bedford Hospital", -1));
         this.options.add(new Option(1000000, 2237, null, null, "", "Frere Clinic", -1));
 
-        this.questions.add(new Question(true, idOfForm, 1000001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", "locationCordinates", alphaNumeric150DigitSpace));
+        this.questions.add(new Question(true, idOfForm, 1000001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace));
 
 
 
-        initDates();
+        this.questions.add(new Question(true, 1000002, 6008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", ParamNames.DATE_ENTERED_PARAM , dateMaxTodayMinLastYear,Question.PAYLOAD_TYPE.DATE_ENTERED));
+
+
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < formFieldsList.length(); i++) {
             JSONObject formFields = formFieldsList.optJSONObject(i);
@@ -553,7 +463,8 @@ public class Form extends BaseActivity {
         date25YearsAgo = cal.getTime();
         cal.add(Calendar.YEAR, 25);
         date25YearsAhead = cal.getTime();
-
+        cal.add(Calendar.YEAR, -1);
+        oneYearAgo=cal.getTime();
     }
 
 }

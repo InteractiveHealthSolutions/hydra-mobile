@@ -14,7 +14,7 @@ import android.location.LocationManager;
 import android.widget.Toast;
 
 /**
- * Note: See <b>"BaseActivity"</b> for complete implementation of GPS
+ * Note: See <b>"BaseActivity"</b> for complete implementation of GPS_PARAM
  * <p/>
  * Target class should implement "ConnectionCallbacks" and
  * "OnConnectionFailedListener" interfaces
@@ -36,7 +36,7 @@ import android.widget.Toast;
  */
 public class GPS {
 	/*
-	 * GPS related variables
+	 * GPS_PARAM related variables
 	 */
 	// private static GoogleApiClient mGoogleApiClient;
 

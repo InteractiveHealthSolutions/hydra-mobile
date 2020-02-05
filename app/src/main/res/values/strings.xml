@@ -322,6 +322,7 @@
     <string name="sync_error">Sync Error</string>
     <string name="sync_success">Data Sync Successful</string>
     <string name="Sync">Sync Data</string>
+    <string name="create_patient">Create Patient</string>
 
 
     <string-array name="end_of_followup_for">

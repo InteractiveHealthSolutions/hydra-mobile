@@ -29,9 +29,9 @@
                 android:title="@string/Sync"/>
 
             <item
-                    android:id="@+id/nav_forms"
-                    android:icon="@drawable/ic_form_filled"
-                    android:title="@string/menu_forms"/>
+                    android:id="@+id/nav_createPatient"
+                    android:icon="@drawable/ic_create_user_nav"
+                    android:title="@string/create_patient"/>
             <item
                 android:id="@+id/nav_backup"
                 android:icon="@drawable/ic_cloud_upload"

@@ -229,12 +229,12 @@ public class ParamNames {
     public static final String USERNAME = "USERNAME";
     public static final String PASSWORD = "PASSWORD";
     public static final String PROVIDER_UUID = "provider_uuid";
-    public static final String GPS = "GPS";
+    public static final String GPS_PARAM = "Form Location GPS Coordinates";
     public static final String SRQ10 = "SRQ-10";
     public static final String AKUADS = "AKUADS";
     public static final String SCORE_TYPE = "SCORE_TYPE";
     public static final String ENCOUNTER_OCCURANCES = "encounter_occurances";
-    public static final String PROJECT_IDENTIFIER = "project_identifier";
+    public static final String PROJECT_IDENTIFIER = "Patient Identifier";
     public static final String PQ_PROJECT_IDENTIFIER = "PQ Identifier";
     public static final String CSC_PROJECT_IDENTIFIER = "CSC Identifier";
     /*
@@ -1024,6 +1024,7 @@ public class ParamNames {
                     'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
     public static final String PAYLOAD_TYPE = "payload_type";
     public static final String METADATA = "metadata";
+    public static final String DATE_ENTERED_PARAM = "Date Entered";
 
 
     // TB Disease Confirmation Form

@@ -39,7 +39,7 @@ import java.util.Date;
 public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPermissionsResultCallback,OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
 
-    // // -------- GPS related variables-------\\\\
+    // // -------- GPS_PARAM related variables-------\\\\
 
     GoogleApiClient mGoogleApiClient;
 
@@ -62,7 +62,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
      */
     protected Location mCurrentLocation;
 
-    // // ---------End of GPS variables ----------\\\\
+    // // ---------End of GPS_PARAM variables ----------\\\\
 
 
     static final Integer GPS_SETTINGS = 0x7;
@@ -80,7 +80,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
         etAnswer.setFocusable(false);
         etAnswer.setOnClickListener(this);
 
-        // Setting Google Play Service for GPS
+        // Setting Google Play Service for GPS_PARAM
 
         mRequestingLocationUpdates = true;
 
@@ -88,7 +88,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
         mLocationRequest = GPS.createLocationRequest(GPS.REQ_INTERVAL, GPS.REQ_FASTEST_INTERVAL);
 
         startLocationUpdates();
-        // //-------------End of GPS settings -------------\\\\
+        // //-------------End of GPS_PARAM settings -------------\\\\
     }
 
     @Override
@@ -129,7 +129,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
 
     @Override
     public void onClick(View v) {
-        // CODE TO REFRESH GPS, NOT APPLICABLE IN THIS SCENARIO
+        // CODE TO REFRESH GPS_PARAM, NOT APPLICABLE IN THIS SCENARIO
 
     }
 
@@ -161,7 +161,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
         if (GPS.isGPSEnabled(context)) {
             mGoogleApiClient.connect();
         } else {
-            Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Please enable GPS_PARAM", Toast.LENGTH_LONG).show();
             closeForm();
         }
 
@@ -247,7 +247,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
                 }
             }
         } else {
-            Toast.makeText(context, "Please enable GPS", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Please enable GPS_PARAM", Toast.LENGTH_LONG).show();
             closeForm();
         }
 

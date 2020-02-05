@@ -95,7 +95,7 @@ abstract class BaseActivity : AppCompatActivity(){
     }
 
     /**
-     * Has GPS enabled for the Device
+     * Has GPS_PARAM enabled for the Device
      * @param mContext Application context
      * @return flag indicating the gps status
      */
