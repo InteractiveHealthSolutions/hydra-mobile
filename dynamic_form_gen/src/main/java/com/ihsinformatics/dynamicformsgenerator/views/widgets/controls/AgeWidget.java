@@ -122,7 +122,7 @@ public class AgeWidget extends InputWidget implements TextWatcher {
                 value = Global.OPENMRS_DATE_FORMAT.format(date);
                 param.put(ParamNames.PARAM_NAME, "age");
                 param.put(ParamNames.VALUE, value);
-                param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.AGE);
+                param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
             } else {
                 activity.addValidationError(getQuestionId(), "Invalid input");
             }

@@ -8,14 +8,13 @@ import androidx.room.PrimaryKey
 class User() {
     lateinit var username: String
     lateinit var password: String
+    lateinit var provider: String
+
 
     constructor(
         username: String
-//        fullName:String,
-//        systemId: String,
-//        retired:Boolean,
-//        uuid: String
-
+//        password: String,
+//        provider: String
     ) : this() {
         this.username = username
     }

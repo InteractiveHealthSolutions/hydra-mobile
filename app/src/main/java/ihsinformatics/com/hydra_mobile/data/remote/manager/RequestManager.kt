@@ -56,7 +56,7 @@ class RequestManager {
 
     }
 
-    public fun getFormRetrofit():Retrofit
+    fun getFormRetrofit():Retrofit
     {
         return retrofitForFormAPI
     }

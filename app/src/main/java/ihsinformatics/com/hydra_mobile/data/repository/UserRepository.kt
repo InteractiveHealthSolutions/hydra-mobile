@@ -62,10 +62,6 @@ class UserRepository(application: Application) {
             })
     }
 
-    fun loadUser(username: String, password: String) {
-
-
-    }
 
 
     suspend fun getUserList(): List<User> {

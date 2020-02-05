@@ -111,6 +111,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
+
             UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                 override fun onFailure(t: Throwable) {
                     networkProgressDialog.dismiss()
@@ -152,8 +153,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                                 if (isInternetConnected()) {
                                     openMetaDataFetcher()
-                                } else {
+                                } else if( SessionManager(applicationContext).isFirstTime()) {
                                     ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                                }else
+                                {
+                                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                                    finish()
                                 }
 
                                 GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
