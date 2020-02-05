@@ -58,6 +58,7 @@ public class Question extends Displayable implements Cloneable {
     private Configuration questionConfiguration;
     private List<Option> options;
     private String tag;
+    private String errorMessage="Invalid input";
 
 
     private List<SExpression> visibleWhen;
@@ -117,7 +118,7 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;

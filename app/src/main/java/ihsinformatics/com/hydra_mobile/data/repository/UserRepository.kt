@@ -1,6 +1,10 @@
 package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.app.Application
+import android.content.Intent
+import android.widget.Toast
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
+import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
@@ -8,10 +12,18 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.local.entities.User
+import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
+import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserRepository(application: Application) {
 
@@ -24,44 +36,58 @@ class UserRepository(application: Application) {
 //        }
 
     init {
-        val database: AppDatabase = AppDatabase.getInstance(
-            application.applicationContext
-        )!!
+        val database: AppDatabase = AppDatabase.getInstance(application.applicationContext)!!
         this.application = application
         userDao = database.getUserDao()
     }
 
     fun userAuthentication(username: String, password: String, restCallback: RESTCallback) {
-        RequestManager(application, username, password).authenticateUser(
-            username,
-            Constant.REPRESENTATION,
-            object : RESTCallback {
-                override fun onFailure(t: Throwable) {
-                    restCallback.onFailure(t)
-                }
+        RequestManager(application, username, password).authenticateUser(username, Constant.REPRESENTATION, object : RESTCallback {
+            override fun onFailure(t: Throwable) {
+                restCallback.onFailure(t)
+            }
 
-                override fun <T> onSuccess(o: T) {
+            override fun <T> onSuccess(o: T) {
 
-                    var userResponse = o as UserResponse
-                    if (userResponse != null) {
-                        for (item in userResponse.userList) {
-                            //TODO before insertion of user fetch provider uuid
-                            insertUser(
-                                User(
-                                    item.username
-//                                    fullName = item.display,
-//                                    systemId = item.systemId,
-//                                    retired = item.retired,
-//                                    uuid = item.uuid
-                                )
-                            )
+                var userResponse = o as UserResponse
+
+                val providerFetcher = RequestManager(application, username, password).retrofit.create(ProviderApiService::class.java)
+                var delimiter = "."
+                var userSplit = username.split(delimiter)
+                providerFetcher.getProviderData(userSplit[0].toString()).enqueue(object : Callback<ProviderApiResponse> {
+                    override fun onFailure(
+                        call: Call<ProviderApiResponse>, t: Throwable
+                                          ) {
+                        ToastyWidget.getInstance().displayError(application, application.getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                        restCallback.onFailure(t)
+                    }
+
+                    override fun onResponse(
+                        call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
+                                           ) {
+                        if (response.isSuccessful) {
+                            GlobalPreferences.getinstance(application).addOrUpdatePreference(GlobalPreferences.KEY.PROVIDER, response.body()!!.providerResult[0].uuid)
+
+                            if (userResponse != null) {
+                                for (item in userResponse.userList) {
+                                    //TODO before insertion of user fetch provider uuid
+                                    insertUser(User(item.username, password, response.body()!!.providerResult[0].uuid))
+                                }
+                            }
+                            restCallback.onSuccess(o)
+                        }
+                        else
+                        {
+                            restCallback.onFailure(Throwable("Cannot find provider"))
                         }
                     }
-                    restCallback.onSuccess(o)
-                }
-            })
-    }
 
+
+                })
+
+            }
+        })
+    }
 
 
     suspend fun getUserList(): List<User> {
@@ -71,6 +97,11 @@ class UserRepository(application: Application) {
         return appSettingList.await()
     }
 
+    fun getUserByUsernameAndPass(username:String ,password:String):List<User>
+    {
+        return userDao.getUserByUsernameAndPass(username,password)
+    }
+
     fun insertUser(user: User) {
         doAsync {
             userDao.insertUser(user)
@@ -78,8 +109,7 @@ class UserRepository(application: Application) {
     }
 
     fun updateUser(appSetting: AppSetting) {
-        doAsync {
-        }
+        doAsync {}
     }
 
 }

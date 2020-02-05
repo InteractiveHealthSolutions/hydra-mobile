@@ -12,11 +12,13 @@ class User() {
 
 
     constructor(
-        username: String
-//        password: String,
-//        provider: String
+        username: String,
+        password: String,
+        provider: String
     ) : this() {
         this.username = username
+        this.password=password
+        this.provider=provider
     }
 
     constructor(username: String, password: String) : this() {

@@ -13,6 +13,7 @@ import android.widget.Toolbar;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
+import com.ihsinformatics.dynamicformsgenerator.data.DynamicOptions;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
@@ -247,6 +248,19 @@ public class Form extends BaseActivity {
     private void parseQuestionsFromEncounterNameData() throws JSONException {
 
         int configurationID = 2;   // configurationID=1 is for address widget
+
+        int idOfForm=getFormId(ENCOUNTER_NAME);
+        QuestionConfiguration alphaNumeric150DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 150, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
+
+
+        this.questions.add(new Question(true, idOfForm, 1000000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
+        this.options.add(new Option(1000000, 2237, null, null, "", "Bedford Hospital", -1));
+        this.options.add(new Option(1000000, 2237, null, null, "", "Frere Clinic", -1));
+
+        this.questions.add(new Question(true, idOfForm, 1000001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", "locationCordinates", alphaNumeric150DigitSpace));
+
+
+
         initDates();
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < formFieldsList.length(); i++) {
@@ -387,11 +401,16 @@ public class Form extends BaseActivity {
                 displayText=field.optString("name");
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
+            if(errorMessage==null || errorMessage.equalsIgnoreCase("null") || errorMessage.equalsIgnoreCase("") || errorMessage.equalsIgnoreCase(" ")){
+                errorMessage="Invalid input";
+            }
+
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType,errorMessage ,visibleWhen, hiddenWhen, requiredWhen);
 
             if(regix!=null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, visibleWhen, hiddenWhen, requiredWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, errorMessage,visibleWhen, hiddenWhen, requiredWhen);
             }
+
             this.questions.add(completeQuestion);
 
         }

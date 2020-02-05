@@ -30,6 +30,8 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.UserViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
@@ -112,70 +114,65 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
 
-            UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
-                override fun onFailure(t: Throwable) {
-                    networkProgressDialog.dismiss()
-                    if (t.localizedMessage.toString().equals(getString(R.string.authentication_error))) ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                    else ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                }
+            if (isInternetConnected()) {
+                UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
+                    override fun onFailure(t: Throwable) {
+                        networkProgressDialog.dismiss()
+                        if (t.localizedMessage.toString().equals(getString(R.string.authentication_error))) ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                        else ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                    }
 
-                override fun <T> onSuccess(o: T) {
+                    override fun <T> onSuccess(o: T) {
 
-                    val providerFetcher = RequestManager(applicationContext, usernameEditText.text.toString(), passwordEditText.text.toString()).retrofit.create(ProviderApiService::class.java)
-                    var delimiter = "."
-                    var userSplit = usernameEditText.text.toString().split(delimiter)
-                    providerFetcher.getProviderData(userSplit[0].toString()).enqueue(object : Callback<ProviderApiResponse> {
-                        override fun onFailure(
-                            call: Call<ProviderApiResponse>, t: Throwable
-                                              ) {
+
+                        if (checkboxOffline.isChecked) {
+                            SessionManager(applicationContext).enableOfflineMode()
+
+                        } else {
+                            SessionManager(applicationContext).disableOfflineMode()
+                        }
+                        var provider = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
+
+                        SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), provider)
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+
+                        networkProgressDialog.dismiss()
+
+
+                        if (isInternetConnected()) {
+                            openMetaDataFetcher()
+                        } else if (SessionManager(applicationContext).isFirstTime()) {
                             ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                        } else {
+                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                            finish()
                         }
 
-                        override fun onResponse(
-                            call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
-                                               ) {
-                            if (response.isSuccessful && null != response.body()!!.providerResult[0].uuid && !response.body()!!.providerResult[0].uuid.equals("")) {
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
-                                if (checkboxOffline.isChecked) {
-                                     SessionManager(applicationContext).enableOfflineMode()
+                    }
+                })
+            } else {
+                //fetch patient from database
+                networkProgressDialog.dismiss()
 
-                                } else {
-                                    SessionManager(applicationContext).disableOfflineMode()
-                                }
+                val userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-                                SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), response.body()!!.providerResult[0].uuid)
-                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
-                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD,  passwordEditText.text.toString())
-                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PROVIDER, response.body()!!.providerResult[0].uuid)
+                val users = userViewModel.getUserByUsernameAndPass(usernameEditText.text.toString().toLowerCase(), passwordEditText.text.toString())
 
-                                networkProgressDialog.dismiss()
+                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString())) {
 
+                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
-                                if (isInternetConnected()) {
-                                    openMetaDataFetcher()
-                                } else if( SessionManager(applicationContext).isFirstTime()) {
-                                    ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
-                                }else
-                                {
-                                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
-                                    finish()
-                                }
-
-                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                                GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
-                                //   }
-                            } else {
-                                networkProgressDialog.dismiss()
-                                ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                            }
-                        }
-
-
-                    })
-
-
+                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                    finish()
+                } else {
+                    ToastyWidget.getInstance().displayError(this,getString(R.string.no_offline_user),Toast.LENGTH_LONG)
                 }
-            })
+            }
         }
     }
 
@@ -187,8 +184,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         val work = workflowViewModel.getAllWorkflow()
 
-        if(work.size!=0)
-        {
+        if (work.size != 0) {
             return true
         }
 

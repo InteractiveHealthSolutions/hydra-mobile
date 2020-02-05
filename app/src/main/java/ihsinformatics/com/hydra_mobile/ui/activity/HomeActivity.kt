@@ -79,9 +79,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         /*screen level initialization*/
 
-        Global.USERNAME=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
-        Global.PASSWORD=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PASSWORD, null)
-        Global.PROVIDER=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
+        Global.USERNAME = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
+        Global.PASSWORD = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PASSWORD, null)
+        Global.PROVIDER = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
 
 
 
@@ -295,7 +295,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 for (i in saveableForms) {
                     if (isInternetConnected()) {
-                        sendData(i.formData,i.formId)
+                        sendData(i.formData, i.formId)
                     } else {
                         ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                     }
@@ -306,21 +306,19 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
             R.id.nav_search -> {
-                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
-
-            }
-            R.id.nav_search_online -> {
-
-                if (!sessionManager.isOfflineMode()) {
-                    if (isInternetConnected()) {
-                        startActivityForResult(Intent(this, SearchActivity::class.java), 112)
-                        finish()
-                    } else {
-                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                    }
+                if (SessionManager(application).isOfflineMode() || !isInternetConnected()) {
+                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                    startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
                 } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_SHORT)
+
+                    if (!sessionManager.isOfflineMode()) {
+                        if (isInternetConnected()) {
+                            startActivityForResult(Intent(this, SearchActivity::class.java), 112)
+                            finish()
+                        } else {
+                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                        }
+                    }
                 }
             }
             R.id.nav_logout -> {
@@ -333,7 +331,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
-    private fun sendData(formData: JSONObject?, formId: Long){
+    private fun sendData(formData: JSONObject?, formId: Long) {
 
         val dataSender = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit().create(FormSubmissionApiService::class.java)
         val dataArray = formData!!.getJSONArray(ParamNames.DATA).toString()
@@ -353,7 +351,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                    ) {
                 if (response.isSuccessful) {
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
-                    DataAccess.getInstance().deleteFormByFormID(this@HomeActivity,formId)
+                    DataAccess.getInstance().deleteFormByFormID(this@HomeActivity, formId)
                 } else {
                     ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
 
@@ -404,8 +402,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
        )
    }
 */
-
-
 
 
     private fun fillPatientInfoBar() {

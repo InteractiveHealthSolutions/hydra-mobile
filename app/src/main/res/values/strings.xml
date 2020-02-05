@@ -210,7 +210,7 @@
     <string name="title_activity_patient_information">PatientInformationActivity</string>
     <string name="event_title_name">Event</string>
     <string name="common_lab_title_name">Test Order</string>
-    <string name="report_title_name">Report</string>
+    <string name="report_title_name">View</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
@@ -242,7 +242,7 @@
     <string name="lung_health_text">Lung Health</string>
     <string name="corporation_text">Corporation</string>
     <string name="forms">Forms</string>
-    <string name="report">Report</string>
+    <string name="report">View</string>
     <string name="events">Events</string>
     <string name="first_workflow_rb">First Workflow</string>
     <string name="second_workflow_rb">Second Workflow</string>
@@ -318,6 +318,7 @@
     <string name="no_encounter_for_patient">No encounters for patient</string>
     <string name="feature_of_offlineMode">This feature is not supported in offline mode</string>
     <string name="need_to_sync">Data Not Available. Needs to Sync</string>
+    <string name="no_offline_user">No Offline Data Available For This Username</string>
 
 
     <string-array name="end_of_followup_for">
