@@ -293,7 +293,7 @@
     <string name="patient_id_tv">Patient-Id</string>
     <string name="patient_name_tv">Patient-Name</string>
     <string name="patient_last_name">Patient-Last-Name</string>
-    <string name="initiation_tv">Initiation</string>
+    <string name="initiation_tv"><u>Initiation</u></string>
     <string name="loading">Loading...</string>
     <string name="descriptionHeading"><u>Description</u></string>
     <string name="common_lab">Lab</string>
@@ -319,6 +319,9 @@
     <string name="feature_of_offlineMode">This feature is not supported in offline mode</string>
     <string name="need_to_sync">Data Not Available. Needs to Sync</string>
     <string name="no_offline_user">No Offline Data Available For This Username</string>
+    <string name="sync_error">Sync Error</string>
+    <string name="sync_success">Data Sync Successful</string>
+    <string name="Sync">Sync Data</string>
 
 
     <string-array name="end_of_followup_for">

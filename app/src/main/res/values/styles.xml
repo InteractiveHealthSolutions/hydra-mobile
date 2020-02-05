@@ -188,5 +188,8 @@
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
+    <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15sp</item>
+    </style>
 
 </resources>

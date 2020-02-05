@@ -64,9 +64,10 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
         Validation validation = Validation.getInstance();
         if (configuration.getMinLenght() >= 0) {
             if (etAnswer.getText().toString().length() == 0 && !isMendatory) {
-            } else if (etAnswer.getText().toString().length() < configuration.getMinLenght()) {
-                return false;
             }
+//            else if (etAnswer.getText().toString().length() < configuration.getMinLenght()) {
+//                return false;
+//            }
         }
         // TODO IDENTIFIER needs to PASS indus_mrno as string in validationFunction. Right now null is passed ~Taha
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);

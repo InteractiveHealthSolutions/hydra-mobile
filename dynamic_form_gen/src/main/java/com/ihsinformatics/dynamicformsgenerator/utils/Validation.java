@@ -275,7 +275,7 @@ public class Validation {
 
     private boolean checkIfIndusMrno(String mrno) {
         boolean isValid = true;
-        isValid = mrno.matches(Regex.MRNO.toString());
+        isValid = mrno.matches(Global.identifierFormat);
         return isValid;
     }
 

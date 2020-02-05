@@ -141,10 +141,17 @@ public class Question extends Displayable implements Cloneable {
 
         isAttribute=attribute;
         payload_type=filterPayloadType(questionType,inputType);
+        this.errorMessage=errorMessage;
     }
 
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 
     public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, QUESTION_TAG tag) {
         super();

@@ -80,7 +80,7 @@ public class DataAccess {
                 .where(OfflinePatientDao.Properties.Name.like(name)).unique();
     }
 
-    public synchronized OfflinePatient getPatientByAllFields(Context context, String id,String name,String dob,String gender) {
+    public synchronized OfflinePatient getPatientByAllFields(Context context, String id, String name, String dob, String gender) {
         System.out.println("");
         return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
                 .where(OfflinePatientDao.Properties.Name.like(name))
@@ -191,6 +191,7 @@ public class DataAccess {
         App.getDaoSession(context).getSaveableFormDao().deleteByKey((long) formid);
 
     }
+
     public synchronized void updateFormError(Context context, int formid, String error) {
         SaveableFormDao saveableFormDao = App.getDaoSession(context).getSaveableFormDao();
         SaveableForm saveableForm = App.getDaoSession(context).getSaveableFormDao().load((long) formid);
@@ -263,7 +264,7 @@ public class DataAccess {
                 .where(LocationAttributeTypeDao.Properties.Name.eq(typeName))
                 .list();
 
-        if (tagList.size()>0)
+        if (tagList.size() > 0)
             return tagList.get(0);
         return null;
     }
@@ -274,7 +275,7 @@ public class DataAccess {
                 .where(LocationTagDao.Properties.Name.eq(tagName))
                 .list();
 
-        if (tagList.size()>0)
+        if (tagList.size() > 0)
             return tagList.get(0);
         return null;
     }
@@ -284,13 +285,13 @@ public class DataAccess {
         Location parent = fetchLocationsByNameAndTag(context, parentTag, parentLocationName);
         List<Location> locationList = new ArrayList<>();
         LocationTag locationTag = fetchLocationTagByName(context, tag);
-        if(locationTag == null)
-            throw new IllegalStateException("No location tag found against location tag "+tag);
+        if (locationTag == null)
+            throw new IllegalStateException("No location tag found against location tag " + tag);
         // QueryBuilder.LOG_SQL = true;
 
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
         QueryBuilder<Location> queryBuilder = locationDao.queryBuilder();
-        if(parent!=null)
+        if (parent != null)
             queryBuilder.where(LocationDao.Properties.ParentLocationUUID.eq(parent.getUuid()));
 
         Join locationTagMapJoin = queryBuilder.join(LocationTagMap.class, LocationTagMapDao.Properties.LocationId);
@@ -301,11 +302,11 @@ public class DataAccess {
     }
 
     public Location fetchLocationsByNameAndTag(Context context, String tag, String locationName) throws IllegalStateException {
-        if(locationName == null || tag == null) return null;
+        if (locationName == null || tag == null) return null;
         List<Location> locationList = new ArrayList<>();
         LocationTag locationTag = fetchLocationTagByName(context, tag);
-        if(locationTag == null)
-            throw new IllegalStateException("No location tag found against location tag "+tag);
+        if (locationTag == null)
+            throw new IllegalStateException("No location tag found against location tag " + tag);
         // QueryBuilder.LOG_SQL = true;
 
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
@@ -324,13 +325,13 @@ public class DataAccess {
         Location parent = fetchLocationByName(context, parentLocationName);
         List<Location> locationList = new ArrayList<>();
         LocationTag locationTag = fetchLocationTagByName(context, tag);
-        if(locationTag == null)
-            throw new IllegalStateException("No location tag found against location tag "+tag);
+        if (locationTag == null)
+            throw new IllegalStateException("No location tag found against location tag " + tag);
         // QueryBuilder.LOG_SQL = true;
 
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
         QueryBuilder<Location> queryBuilder = locationDao.queryBuilder();
-        if(parent!=null)
+        if (parent != null)
             return locationList; // return empty list
 
         Join locationTagMapJoin = queryBuilder.join(LocationTagMap.class, LocationTagMapDao.Properties.LocationId);
@@ -341,13 +342,13 @@ public class DataAccess {
     }
 
     public Location fetchLocationByName(Context context, String name) {
-        if(name==null)
+        if (name == null)
             return null;
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
         List<Location> locationsList = locationDao.queryBuilder()
                 .where(LocationDao.Properties.Name.eq(name))
                 .list();
-        if (locationsList.size()>0)
+        if (locationsList.size() > 0)
             return locationsList.get(0);
         else
             return null;
@@ -361,7 +362,7 @@ public class DataAccess {
     public Long insertLocationTag(Context context, LocationTag locationTag) {
         LocationTagDao locationTagDao = App.getDaoSession(context).getLocationTagDao();
         LocationTag existingTag = fetchLocationTagByName(context, locationTag.getName());
-        if(existingTag == null)
+        if (existingTag == null)
             return locationTagDao.insert(locationTag);
         return existingTag.getId();
     }
@@ -369,10 +370,10 @@ public class DataAccess {
     public synchronized void insertLocations(Context context, List<Location> locations) {
         Database db = App.getDaoSession(context).getDatabase();
         db.beginTransaction();
-        for(int i = 0; i<locations.size(); i++) {
+        for (int i = 0; i < locations.size(); i++) {
             Location location = locations.get(i);
             Location savedLocation = fetchLocationByUUID(context, location.getUuid());
-            if(savedLocation != null)
+            if (savedLocation != null)
                 continue;
 
             insertLocation(context, location);
@@ -383,13 +384,13 @@ public class DataAccess {
     }
 
     public Option fetchOptionByValue(Context context, String value) {
-        if(value==null)
+        if (value == null)
             return null;
         OptionDao locationDao = App.getDaoSession(context).getOptionDao();
         List<Option> locationsList = locationDao.queryBuilder()
                 .where(OptionDao.Properties.Value.eq(value))
                 .list();
-        if (locationsList.size()>0)
+        if (locationsList.size() > 0)
             return locationsList.get(0);
         else
             return null;
@@ -407,10 +408,10 @@ public class DataAccess {
     public synchronized void insertOptions(Context context, List<Option> options) {
         Database db = App.getDaoSession(context).getDatabase();
         db.beginTransaction();
-        for(int i = 0; i<options.size(); i++) {
+        for (int i = 0; i < options.size(); i++) {
             Option option = options.get(i);
             Option savedOption = fetchOptionByValue(context, option.getValue());
-            if(savedOption != null)
+            if (savedOption != null)
                 continue;
 
             insertOption(context, option);
@@ -423,14 +424,15 @@ public class DataAccess {
     public void insertOption(Context context, Option option) {
         App.getDaoSession(context).getOptionDao().insert(option);
     }
+
     public Location fetchLocationByUUID(Context context, String uuid) {
-        if(uuid==null)
+        if (uuid == null)
             return null;
         LocationDao locationDao = App.getDaoSession(context).getLocationDao();
         List<Location> locationsList = locationDao.queryBuilder()
                 .where(LocationDao.Properties.Uuid.eq(uuid))
                 .list();
-        if (locationsList.size()>0)
+        if (locationsList.size() > 0)
             return locationsList.get(0);
         else
             return null;
@@ -444,10 +446,10 @@ public class DataAccess {
         LocationTagDao locationTagDao = App.getDaoSession(context).getLocationTagDao();
         Location parent = fetchLocationByUUID(context, location.getParentLocationUUID());
         //if(parent!=null)
-            //location.setParentLocation(parent.getId());
+        //location.setParentLocation(parent.getId());
         Long locationId = locationDao.insertOrReplace(location);
         ArrayList<LocationTag> locationTagsList = location.getLocationTags();
-        if (locationTagsList!=null) {
+        if (locationTagsList != null) {
             ArrayList<LocationTagMap> locationTagMaps = new ArrayList<>();
             for (LocationTag locationTag : locationTagsList) {
                 locationTag.setId(insertLocationTag(context, locationTag));
@@ -457,8 +459,8 @@ public class DataAccess {
             locationTagMapDao.insertOrReplaceInTx(locationTagMaps);
         }
         ArrayList<LocationAttribute> locationAttributesList = location.getLocationAttributes();
-        if(locationAttributesList!=null) {
-            for(LocationAttribute la: locationAttributesList) {
+        if (locationAttributesList != null) {
+            for (LocationAttribute la : locationAttributesList) {
                 la.setLocationId(locationId);
             }
             locationAttributeDao.insertOrReplaceInTx(locationAttributesList);
@@ -484,9 +486,18 @@ public class DataAccess {
         SystemSettingsDao systemSettingsDao = App.getDaoSession(context).getSystemSettingsDao();
 
         for (int i = 0; i < systemSettings.size(); i++) {
-            SystemSettings settings=fetchSystemSettingsByUUID(context,systemSettings.get(i).getUuid());
-            if(settings==null)
-                systemSettingsDao.insert(systemSettings.get(i));
+            systemSettingsDao.insertOrReplace(systemSettings.get(i));
         }
+    }
+
+    public SystemSettings fetchSystemSettingsByFormat(Context context, String format) {
+        SystemSettingsDao locationTagDao = App.getDaoSession(context).getSystemSettingsDao();
+        List<SystemSettings> tagList = locationTagDao.queryBuilder()
+                .where(SystemSettingsDao.Properties.Property.eq(format))
+                .list();
+
+        if (tagList.size() > 0)
+            return tagList.get(0);
+        return null;
     }
 }

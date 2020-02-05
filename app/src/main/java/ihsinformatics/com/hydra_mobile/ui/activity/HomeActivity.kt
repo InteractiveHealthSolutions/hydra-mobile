@@ -36,8 +36,10 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
+import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
 import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
+import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
@@ -101,7 +103,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
         ivGender = findViewById<ImageView>(R.id.ivGender)
 
-
+        initSystemSettings()
         fillPatientInfoBar()
 
         /*user level initialization*/
@@ -300,11 +302,20 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                     }
                 }
-
-
             }
 
+            R.id.nav_sync -> {
 
+                if(isInternetConnected())
+                {
+                    openMetaDataFetcher()
+                }
+                else
+                {
+                    ToastyWidget.getInstance().displayError(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+
+                }
+            }
             R.id.nav_search -> {
                 if (SessionManager(application).isOfflineMode() || !isInternetConnected()) {
                     PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
@@ -541,6 +552,40 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             Constants.setEncounterType(i.id, i.name)
             Constants.setEncounterTypeData(i.name, i.questions)
         }
+
+    }
+
+
+    private fun openMetaDataFetcher() {
+        val metaDataHelper = MetaDataHelper(this)
+        metaDataHelper.getAllMetaData(object : RESTCallback {
+            override fun <T> onSuccess(o: T) {
+                val isSuccess = o as Boolean
+                if (isSuccess) {
+
+                    ToastyWidget.getInstance().displaySuccess(this@HomeActivity,getString(R.string.sync_success),Toast.LENGTH_LONG)
+
+                }
+
+            }
+
+            override fun onFailure(t: Throwable) {
+                ToastyWidget.getInstance().displayError(this@HomeActivity,getString(R.string.sync_error),Toast.LENGTH_LONG)
+
+            }
+        })
+
+
+    }
+
+
+    fun initSystemSettings()
+    {
+        val identifierFormat=DataAccess.getInstance().fetchSystemSettingsByUUID(this,"9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
+        val dateFormat=DataAccess.getInstance().fetchSystemSettingsByUUID(this,"6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
+
+        Global.identifierFormat=identifierFormat.value
+        Global.setDateFormat(dateFormat.value)
 
     }
 
