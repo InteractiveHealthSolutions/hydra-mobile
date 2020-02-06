@@ -20,6 +20,13 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
+            <TextView
+                android:id="@+id/displayObs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp">
+
+            </TextView>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

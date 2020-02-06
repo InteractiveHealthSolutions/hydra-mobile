@@ -205,6 +205,17 @@ public class Form extends BaseActivity {
 
             JSONObject fieldType = field.optJSONObject("fieldType");
 
+            int formID=-1;
+
+            if(field!=null && !field.equals("null"))
+            {
+                formID=field.optInt("fieldId");
+            }
+            else
+            {
+                formID=formFieldId;
+            }
+
             String isAttribute=  field.optString("tableName");
             Boolean attribute=false;
             if(isAttribute!=null && !isAttribute.equalsIgnoreCase("null") && !isAttribute.equalsIgnoreCase("") && !isAttribute.equals(""))
@@ -226,7 +237,7 @@ public class Form extends BaseActivity {
                     JSONObject optionConcept=option.optJSONObject("concept");
                     String optionUUID = optionConcept.optString("uuid");
                     String optionDisplay = optionConcept.optString("display");
-                    this.options.add(new Option(formFieldId, j, null, null, optionUUID, optionDisplay, -1));
+                    this.options.add(new Option(formID, j, null, null, optionUUID, optionDisplay, -1));
                 }
 
                 JSONObject datatype = concept.optJSONObject("datatype");
@@ -310,8 +321,20 @@ public class Form extends BaseActivity {
             JSONArray visibleWhenList = formFields.optJSONArray("visibleWhen");
             List<SExpression> visibleWhen = skipLogicParser(visibleWhenList);
 
-            JSONArray hiddenWhenList = formFields.optJSONArray("hiddenWhen");
-            List<SExpression> hiddenWhen = skipLogicParser(hiddenWhenList);
+            List<SExpression> hiddenWhen;
+            String parsedRule = field.optString("parsedRule");
+            if(null!=parsedRule && !parsedRule.equals("") && !parsedRule.equals("null")){
+                JSONObject parsedRuleJSON = new JSONObject(parsedRule);
+                JSONArray hiddenWhenList = parsedRuleJSON.optJSONArray("hiddenWhen");
+                hiddenWhen = skipLogicParser(hiddenWhenList);
+            }else
+            {
+                JSONArray hiddenWhenList = formFields.optJSONArray("hiddenWhen");
+                hiddenWhen = skipLogicParser(hiddenWhenList);
+            }
+
+
+
 
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
@@ -324,10 +347,10 @@ public class Form extends BaseActivity {
                 errorMessage="Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType,errorMessage ,visibleWhen, hiddenWhen, requiredWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType,errorMessage ,visibleWhen, hiddenWhen, requiredWhen);
 
             if(regix!=null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formFieldId, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, errorMessage,visibleWhen, hiddenWhen, requiredWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, errorMessage,visibleWhen, hiddenWhen, requiredWhen);
             }
 
             this.questions.add(completeQuestion);
@@ -357,6 +380,7 @@ public class Form extends BaseActivity {
                     s.setQuestionID(skiplogicQuestionId);
 
                     JSONArray skiplogicEqualList = JSONObj.optJSONArray("equals");
+                    if(null!=skiplogicEqualList && !skiplogicEqualList.equals("null"))
                     for (int o = 0; o < skiplogicEqualList.length(); o++) {
                         JSONObject optionUUIDObject = skiplogicEqualList.optJSONObject(o);
                         String optionUUID = optionUUIDObject.optString("uuid");
@@ -365,6 +389,7 @@ public class Form extends BaseActivity {
                     }
 
                     JSONArray skiplogicNotEqualList = JSONObj.optJSONArray("notEquals");
+                    if(null!=skiplogicNotEqualList && !skiplogicNotEqualList.equals("null"))
                     for (int o = 0; o < skiplogicNotEqualList.length(); o++) {
                         JSONObject optionUUIDObject = skiplogicNotEqualList.optJSONObject(o);
                         String optionUUID = optionUUIDObject.optString("uuid");
@@ -373,13 +398,16 @@ public class Form extends BaseActivity {
                     }
 
                     JSONArray skiplogicEqualsTo = JSONObj.optJSONArray("equalTo");
+                    if(null!=skiplogicEqualsTo && !skiplogicEqualsTo.equals("null"))
                     for (int o = 0; o < skiplogicEqualsTo.length(); o++) {
                         int optionWithNumbers = skiplogicEqualsTo.optInt(o);
 
                         s.getEqualsToList().add(o, optionWithNumbers);
                     }
 
+
                     JSONArray skiplogicNotEqualsTo = JSONObj.optJSONArray("notEqualTo");
+                    if(null!=skiplogicNotEqualsTo && !skiplogicNotEqualsTo.equals("null"))
                     for (int o = 0; o < skiplogicNotEqualsTo.length(); o++) {
                         int optionWithNumbers = skiplogicNotEqualsTo.optInt(o);
 
@@ -387,6 +415,7 @@ public class Form extends BaseActivity {
                     }
 
                     JSONArray skiplogicLessThan = JSONObj.optJSONArray("lessThan");
+                    if(null!=skiplogicLessThan && !skiplogicLessThan.equals("null"))
                     for (int o = 0; o < skiplogicLessThan.length(); o++) {
                         int optionWithNumbers = skiplogicLessThan.optInt(o);
 
@@ -394,6 +423,7 @@ public class Form extends BaseActivity {
                     }
 
                     JSONArray skiplogicGreaterThan = JSONObj.optJSONArray("greaterThan");
+                    if(null!=skiplogicGreaterThan && !skiplogicGreaterThan.equals("null"))
                     for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
                         int optionWithNumbers = skiplogicGreaterThan.optInt(o);
 

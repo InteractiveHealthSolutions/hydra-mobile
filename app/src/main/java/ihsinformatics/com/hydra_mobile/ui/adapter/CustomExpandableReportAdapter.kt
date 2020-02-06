@@ -34,29 +34,18 @@ class CustomExpandableReportAdapter(
         listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup
                              ): View {
         var convertView = convertView
-        val expandedListText = getChild(listPosition, expandedListPosition) as List<Ob>
+        val expandedListText = getChild(listPosition, expandedListPosition) as Ob
         if (convertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.report_obs_item_layout, null)
         }
 
         val obsValue = convertView!!.findViewById<LinearLayout>(R.id.obsLayout)
-        val textView=TextView(context)
-        for(i in expandedListText){
-            if(null!=i.value)
-            {
-                if(i.value is String || i.value is Int)
-                {
-                    textView.setText(i.value.toString())
-                }
-                else
-                {
-                    val value=JSONObject(i.value.toString())
-                    val display=value.optString("display")
-                    textView.setText(display)
-                }
-            }
-        }
+        val displayObs = convertView!!.findViewById<TextView>(R.id.displayObs)
+
+        displayObs.setText(expandedListText.display)
+
+
 
         return convertView
     }

@@ -28,7 +28,7 @@ import ihsinformatics.com.hydra_mobile.utils.Converters
     entities = [AppSetting::class, Patient::class, Person::class, User::class, Location::class, WorkFlow::class, FormResultApiResponse::class,
         Phases::class, Component::class, Forms::class, /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class,
         WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

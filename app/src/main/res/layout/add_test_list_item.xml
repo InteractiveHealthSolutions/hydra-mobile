@@ -10,6 +10,7 @@
             android:layout_width="match_parent"
             android:elevation="@dimen/dimen_24dp"
             app:contentPadding="10dp"
+        android:layout_margin="15dp"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/app_blue"
             android:layout_marginTop="@dimen/dimen_16dp"
