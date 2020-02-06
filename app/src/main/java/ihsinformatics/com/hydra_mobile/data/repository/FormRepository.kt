@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.data.repository
 import android.content.Context
 import android.util.Log
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.FormDao
@@ -61,6 +62,8 @@ class FormRepository(context: Context) {
                         insertForm(response.forms[i])
                         Constants.setEncounterType(response.forms[i].id, response.forms[i].name)
                         Constants.setEncounterTypeData(response.forms[i].name, response.forms[i].questions)
+                        Constants.setFormDetails(response.forms[i].id, FormDetails(response.forms[i].componentFormId,response.forms[i].componentFormUUID) )
+
                     }
                     Log.e("FormLoading", "completed")
                 } catch (e: Exception) {

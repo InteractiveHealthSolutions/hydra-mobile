@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
+import com.ihsinformatics.dynamicformsgenerator.data.DynamicOptions;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
@@ -161,15 +162,16 @@ public class Form extends BaseActivity {
         QuestionConfiguration dateMaxTodayMinLastYear = new QuestionConfiguration(today, oneYearAgo, DateSelector.WIDGET_TYPE.DATE, 8);
 
 
-        this.questions.add(new Question(true, idOfForm, 1000000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
-        this.options.add(new Option(1000000, 2237, null, null, "", "Bedford Hospital", -1));
-        this.options.add(new Option(1000000, 2237, null, null, "", "Frere Clinic", -1));
+        this.questions.add(new Question(true, idOfForm, 10000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
+        this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccess(this, 10000, null, null));
 
-        this.questions.add(new Question(true, idOfForm, 1000001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace));
-
+        this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
 
-        this.questions.add(new Question(true, 1000002, 6008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", ParamNames.DATE_ENTERED_PARAM , dateMaxTodayMinLastYear,Question.PAYLOAD_TYPE.DATE_ENTERED));
+
+        this.questions.add(new Question(true, idOfForm, 10002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", ParamNames.DATE_ENTERED_PARAM , dateMaxTodayMinLastYear,Question.PAYLOAD_TYPE.DATE_ENTERED));
+
+
 
 
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
@@ -258,8 +260,15 @@ public class Form extends BaseActivity {
                         alphaNumeric160DigitSpace,
                         true,
                         ParamNames.ADDRESS2);
+                AddressConfiguration.OpenAddressField openAddressField2 = new AddressConfiguration.OpenAddressField(
+                        1,
+                        "Nearest Landmark",
+                        alphaNumeric160DigitSpace,
+                        true,
+                        ParamNames.ADDRESS3);
                 List<AddressConfiguration.OpenAddressField> openAddressFields = new ArrayList<>();
                 openAddressFields.add(openAddressField);
+                openAddressFields.add(openAddressField2);
                 configuration = new AddressConfiguration(
                         openAddressFields,
                         new AddressConfiguration.AddressTag(1, "Province/State"),
@@ -408,18 +417,7 @@ public class Form extends BaseActivity {
     }
 
 
-    public int getFormId(String paramString) {
-        int index;
-        FormType formType;
-        Iterator<Integer> it = Constants.getEncounterTypes().keySet().iterator();
-        while (it.hasNext()) {
-            index = it.next();
-            if (Constants.getEncounterTypes().get(index).equals(paramString)) {
-                return index;
-            }
-        }
-        return -1;
-    }
+
 
     public String getFormDataByEncounterType(String encounterType) {
 

@@ -17,6 +17,7 @@ public class SaveableForm {
 	
 	public final static String COLUMN_FORM_TYPE_ID = "form_type_id";
 	public final static String COLUMN_FORM_ID = "form_id";
+	public final static String ENCOUNTER_TYPE = "encounter_type";
 	public final static String COLUMN_FORM_DATA = "data";
 	public final static String COLUMN_FORM_ERROR = "form_error";
 
@@ -32,6 +33,8 @@ public class SaveableForm {
     @NotNull
     @Property(nameInDb = COLUMN_FORM_DATA)
     private String stringFormData;
+    @Property(nameInDb = ENCOUNTER_TYPE)
+	private String encounterType;
     @Property(nameInDb = COLUMN_FORM_ERROR)
 	private String formError;
 	
@@ -39,19 +42,24 @@ public class SaveableForm {
 		
 	}
 
-	@Generated(hash = 109690648)
-	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
-									String formError) {
-					this.formTypeId = formTypeId;
-					this.formId = formId;
-					this.stringFormData = stringFormData;
-					this.formError = formError;
-	}
+
 
 	public SaveableForm(int formTypeId, String stringFormData, String formError) {
 		super();
 		this.formTypeId = formTypeId;
 		this.stringFormData = stringFormData;
+		this.formError = formError;
+	}
+
+
+
+	@Generated(hash = 1298829799)
+	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
+			String encounterType, String formError) {
+		this.formTypeId = formTypeId;
+		this.formId = formId;
+		this.stringFormData = stringFormData;
+		this.encounterType = encounterType;
 		this.formError = formError;
 	}
 	
@@ -113,5 +121,17 @@ public class SaveableForm {
 	public void setFormData(JSONObject formData) {
 		this.formData = formData;
 		stringFormData = formData.toString();
+	}
+
+
+
+	public String getEncounterType() {
+		return this.encounterType;
+	}
+
+
+
+	public void setEncounterType(String encounterType) {
+		this.encounterType = encounterType;
 	}
 }

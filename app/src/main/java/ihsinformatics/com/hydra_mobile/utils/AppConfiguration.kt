@@ -16,7 +16,8 @@ class AppConfiguration() {
             if (list.isNotEmpty()) {
                 val setting: AppSetting = list.get(0)
 
-                baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
+                if(null!=setting.ip && !setting.ip.equals("") && !setting.ip.equals(" ") && null!=setting.port && !setting.port.equals("") && !setting.port.equals(" "))
+                    baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
 
             } else {
                 baseUrl = "http://" + "ihs.ihsinformatics.com"+ ":" + "6811" + "/openmrs/ws/rest/v1/"

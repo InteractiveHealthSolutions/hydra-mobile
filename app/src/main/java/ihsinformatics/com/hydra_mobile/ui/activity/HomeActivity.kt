@@ -25,6 +25,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
@@ -78,6 +79,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var tvAgeLabel: TextView? = null
     private var tvPatientIdentifier: TextView? = null
     private var ivGender: ImageView? = null
+
+    private var Create_Patient_Count: Int = 0
+    private var Send_Create_Patient_Count: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -281,61 +286,81 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_setting -> {
+//
 
-            }
-            R.id.nav_language -> {
-
-            }
             R.id.nav_createPatient -> {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
-                startActivity(Intent(this,Form::class.java))
+                startActivity(Intent(this, Form::class.java))
             }
-            R.id.nav_faq -> {
-                startActivity(Intent(this, HelpActivity::class.java))
-                finish()
-            }
+//            R.id.nav_faq -> {
+//                startActivity(Intent(this, HelpActivity::class.java))
+//                finish()
+//            }
             R.id.nav_backup -> {
 
+                Create_Patient_Count = 0
+                Send_Create_Patient_Count = 0
                 val saveableForms = DataAccess.getInstance().getAllForms(this)
 
+                // find out how many create patients forms are in local db
                 for (i in saveableForms) {
                     if (isInternetConnected()) {
-                        sendData(i.formData, i.formId)
-                    } else {
-                        ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                        if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+                            Create_Patient_Count++
+                        }
+                    }
+                }
+                //sends create patient form first form
+                if (Create_Patient_Count != 0) {
+                    for (i in saveableForms) {
+                        if (isInternetConnected()) {
+                            if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+                                sendData(i.formData, i.formId)
+                            }
+                        } else {
+                            ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                        }
+                    }
+                } else {
+                    for (i in saveableForms) {
+                        if (isInternetConnected()) {
+                            sendData(i.formData, i.formId)
+
+                        } else {
+                            ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                        }
                     }
                 }
             }
 
+
             R.id.nav_sync -> {
 
-                if(isInternetConnected())
-                {
+                if (isInternetConnected()) {
                     openMetaDataFetcher()
-                }
-                else
-                {
+                } else {
                     ToastyWidget.getInstance().displayError(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
 
                 }
             }
             R.id.nav_search -> {
-                if (SessionManager(application).isOfflineMode() || !isInternetConnected()) {
-                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                    startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
-                } else {
 
-                    if (!sessionManager.isOfflineMode()) {
-                        if (isInternetConnected()) {
-                            startActivityForResult(Intent(this, SearchActivity::class.java), 112)
-                            finish()
-                        } else {
-                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                        }
-                    }
+                if (isInternetConnected()) {
+                    startActivityForResult(Intent(this, SearchActivity::class.java), 112)
+                    finish()
+                } else {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                 }
+
+
             }
+
+            R.id.nav_offline_search -> {
+
+                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
+            }
+
             R.id.nav_logout -> {
                 logoutDialog()
 
@@ -367,6 +392,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (response.isSuccessful) {
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance().deleteFormByFormID(this@HomeActivity, formId)
+                    Send_Create_Patient_Count++
+                    if (Create_Patient_Count == Send_Create_Patient_Count) {
+                        val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+
+                        for (i in saveableForms) {
+                            if (isInternetConnected()) {
+                                sendData(i.formData, i.formId)
+                            } else {
+                                ToastyWidget.getInstance().displayError(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                            }
+                        }
+                    }
                 } else {
                     ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
 
@@ -555,6 +592,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             Constants.setEncounterType(i.id, i.name)
             Constants.setEncounterTypeData(i.name, i.questions)
+            Constants.setFormDetails(i.id, FormDetails(i.componentFormId, i.componentFormUUID))
         }
 
     }
@@ -567,14 +605,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 val isSuccess = o as Boolean
                 if (isSuccess) {
 
-                    ToastyWidget.getInstance().displaySuccess(this@HomeActivity,getString(R.string.sync_success),Toast.LENGTH_LONG)
+                    ToastyWidget.getInstance().displaySuccess(this@HomeActivity, getString(R.string.sync_success), Toast.LENGTH_LONG)
 
                 }
 
             }
 
             override fun onFailure(t: Throwable) {
-                ToastyWidget.getInstance().displayError(this@HomeActivity,getString(R.string.sync_error),Toast.LENGTH_LONG)
+                ToastyWidget.getInstance().displayError(this@HomeActivity, getString(R.string.sync_error), Toast.LENGTH_LONG)
 
             }
         })
@@ -583,12 +621,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    fun initSystemSettings()
-    {
-        val identifierFormat=DataAccess.getInstance().fetchSystemSettingsByUUID(this,"9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
-        val dateFormat=DataAccess.getInstance().fetchSystemSettingsByUUID(this,"6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
+    fun initSystemSettings() {
+        val identifierFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
+        val dateFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
 
-        Global.identifierFormat=identifierFormat.value
+        Global.identifierFormat = identifierFormat.value
         Global.setDateFormat(dateFormat.value)
 
     }

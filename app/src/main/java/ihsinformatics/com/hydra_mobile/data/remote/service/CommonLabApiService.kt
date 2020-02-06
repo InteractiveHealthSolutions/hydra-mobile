@@ -25,7 +25,7 @@ interface CommonLabApiService {
     @GET("encounter")
     fun getEncountersOfPatient(
         @Query("q") queryString: String, @Query("v") representation: String
-                                  ): Call<EncountersApiResponse>
+                                  ): Call<ReportEncountersApiResponse>
 
 
     @GET("commonlab/labtestattributetype")

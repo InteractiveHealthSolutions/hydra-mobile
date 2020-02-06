@@ -15,6 +15,8 @@ class Forms(
     val componentUUID: String,
     val formUUID: String,
     val componentId: Int,
+    val componentFormId: Int,
+    val componentFormUUID: String,
     val encounterType: String,
     val component: String,
     val phase: String,

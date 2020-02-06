@@ -6,11 +6,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
@@ -30,8 +32,6 @@ import timber.log.Timber
 class SearchActivity : BaseActivity(), View.OnClickListener {
 
 
-
-
     private lateinit var edtName: EditText
     private lateinit var edtContactNumber: EditText
     private lateinit var edtIdentifier: EditText
@@ -40,7 +40,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
 
-    private lateinit var patientSearchedList:PatientApiResponse
+    private lateinit var patientSearchedList: PatientApiResponse
 
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
@@ -91,37 +91,39 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
         when (v!!.id) {
             R.id.btn_patient_search -> {
-                networkProgressDialog.show()
-                searchPatientOnline(edtIdentifier.text.toString())
+
+                if (isInternetConnected()) {
+                    networkProgressDialog.show()
+
+                    searchPatientOnline(edtIdentifier.text.toString())
+                }else
+                {
+                    ToastyWidget.getInstance().displayError(this,getString(R.string.internet_issue),Toast.LENGTH_LONG)
+                }
             }
         }
 
     }
 
-    fun searchPatientOnline(queryString:String)
-    {
-        RequestManager(
-            this, sessionManager.getUsername(),
-            sessionManager.getPassword()
-                      ).searchPatient(Constant.REPRESENTATION, queryString,
-            object : RESTCallback {
-                override fun <T> onSuccess(o: T) {
-                    try {
-                        val response = (o as PatientApiResponse)
-                        patientSearchedList=response
-                        setPatientSearchedList()
-                    } catch (e: Exception) {
-                        Timber.e(e.localizedMessage)
+    fun searchPatientOnline(queryString: String) {
+        RequestManager(this, sessionManager.getUsername(), sessionManager.getPassword()).searchPatient(Constant.REPRESENTATION, queryString, object : RESTCallback {
+            override fun <T> onSuccess(o: T) {
+                try {
+                    val response = (o as PatientApiResponse)
+                    patientSearchedList = response
+                    setPatientSearchedList()
+                } catch (e: Exception) {
+                    Timber.e(e.localizedMessage)
 
-                        networkProgressDialog.dismiss()
-                    }
-                }
-
-                override fun onFailure(t: Throwable) {
-                    Timber.e(t.localizedMessage)
                     networkProgressDialog.dismiss()
                 }
-            })
+            }
+
+            override fun onFailure(t: Throwable) {
+                Timber.e(t.localizedMessage)
+                networkProgressDialog.dismiss()
+            }
+        })
     }
 
     fun setPatientSearchedList() {

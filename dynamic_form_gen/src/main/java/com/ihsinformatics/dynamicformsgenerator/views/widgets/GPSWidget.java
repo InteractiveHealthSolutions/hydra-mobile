@@ -28,6 +28,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.datatypes.GPSCoordinate;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.GPS;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 
@@ -109,10 +110,13 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
         JSONObject param = new JSONObject();
         if (isValidInput(question.isMandatory())) {
             dismissMessage();
-            param.put(question.getParamName(), etAnswer.getText().toString());
+            param.put(ParamNames.PARAM_NAME,question.getParamName());
+            param.put(ParamNames.VALUE, etAnswer.getText().toString());
+
         } else {
             activity.addValidationError(getQuestionId(), "Invalid input");
         }
+        param.put(ParamNames.PAYLOAD_TYPE,getQuestion().getPayload_type());
         return param;
     }
 

@@ -1025,6 +1025,9 @@ public class ParamNames {
     public static final String PAYLOAD_TYPE = "payload_type";
     public static final String METADATA = "metadata";
     public static final String DATE_ENTERED_PARAM = "Date Entered";
+    public static final String FORM_DETAILS = "formDetails";
+    public static final String COMPONENT_FORM_ID = "componentFormId";
+    public static final String COMPONENT_FORM_UUID = "uuid";
 
 
     // TB Disease Confirmation Form

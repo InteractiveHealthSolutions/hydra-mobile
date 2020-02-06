@@ -123,7 +123,7 @@ public class AddressWidget extends InputWidget {
             addressJson.put(addressItem.paramName, addressItem.etValues.getText().toString());
         }
 
-        answer.put(question.getParamName(), question.getParamName());
+        answer.put(ParamNames.PARAM_NAME, question.getParamName());
         answer.put(ParamNames.VALUE, addressJson);
         answer.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
 

@@ -2,7 +2,11 @@ package ihsinformatics.com.hydra_mobile.data.remote.manager
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
+import ihsinformatics.com.hydra_mobile.HydraApp.Companion.context
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.model.BasicAuthInterceptor
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
@@ -21,6 +25,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiRespo
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.*
+import ihsinformatics.com.hydra_mobile.ui.activity.LoginActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
@@ -38,33 +43,35 @@ class RequestManager {
     var okHttpClientPatientList: OkHttpClient? = null
     var okHttpClientForm: OkHttpClient? = null
     // lateinit var gson: Gson
+    lateinit var context: Context
 
     constructor(context: Context, username: String, password: String) {
+
+        this.context = context
 
         initOkHttp(username, password)
 
         initOkHttpPatientList(username, password)
 
-        initOkHttpForm(username,password)
+        initOkHttpForm(username, password)
 
         retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
-
-        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://199.172.1.215:8080/openmrs/ws/rest/v1/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
+        retrofitForFormAPI = Retrofit.Builder().baseUrl("http://ihs.ihsinformatics.com:6811/openmrs/ws/rest/v1/").addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
 
         retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList).build()
 
+
     }
 
-    fun getFormRetrofit():Retrofit
-    {
+    fun getFormRetrofit(): Retrofit {
         return retrofitForFormAPI
     }
 
     private fun initOkHttp(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(10000,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(10000, TimeUnit.SECONDS).build()
 
         okHttpClient = httpClient.build()
     }
@@ -73,7 +80,7 @@ class RequestManager {
     private fun initOkHttpPatientList(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
 
         okHttpClientPatientList = httpClient.build()
     }
@@ -81,7 +88,7 @@ class RequestManager {
     private fun initOkHttpForm(username: String, password: String) {
         val httpClient = OkHttpClient().newBuilder()
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100,TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
 
         okHttpClientForm = httpClient.build()
     }
@@ -95,6 +102,7 @@ class RequestManager {
     }
 
     fun authenticateUser(username: String, representation: String, restCallback: RESTCallback) {
+
         val userService = retrofit.create(UserApiService::class.java)
 
         userService.getUser(username, representation).enqueue(object : Callback<UserResponse> {
@@ -350,9 +358,9 @@ class RequestManager {
     }
 
 
-    fun getLocationAndCurrency(queryString:String, representation: String, restCallback: RESTCallback) {
+    fun getLocationAndCurrency(queryString: String, representation: String, restCallback: RESTCallback) {
         val location = retrofit.create(LocationApiService::class.java)
-        location.getLocationAndCurrency(queryString,representation).enqueue(object : Callback<SystemSettingApiResponse> {
+        location.getLocationAndCurrency(queryString, representation).enqueue(object : Callback<SystemSettingApiResponse> {
 
             override fun onResponse(
                 call: Call<SystemSettingApiResponse>, response: Response<SystemSettingApiResponse>

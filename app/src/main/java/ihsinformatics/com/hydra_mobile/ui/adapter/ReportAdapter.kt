@@ -1,28 +1,17 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.Encounter
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestOrder
-import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.TestSample
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.ManageTestSample
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleAdder
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSampleResult
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.TestSummary
-import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.Reports.Encounters
 
 
 class ReportAdapter(
-    val encountersList: List<Encounter>, c: Context
+    val encountersList: List<Encounters>, c: Context
                    ) : RecyclerView.Adapter<ReportAdapter.SingleItemTestHolder>() {
 
 

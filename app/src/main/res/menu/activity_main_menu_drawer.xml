@@ -3,23 +3,23 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-                android:id="@+id/nav_language"
-                android:icon="@drawable/ic_language"
-                android:title="@string/menu_language"/>
+<!--    <group android:checkableBehavior="single">-->
+<!--        <item-->
+<!--                android:id="@+id/nav_language"-->
+<!--                android:icon="@drawable/ic_language"-->
+<!--                android:title="@string/menu_language"/>-->
 
-        <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_settings"
-                android:title="@string/menu_settings"/>
+<!--        <item-->
+<!--                android:id="@+id/nav_setting"-->
+<!--                android:icon="@drawable/ic_settings"-->
+<!--                android:title="@string/menu_settings"/>-->
 
-        <item
-                android:id="@+id/nav_faq"
-                android:icon="@drawable/ic_faqs_filled"
-                android:title="@string/menu_faq"/>
+<!--        <item-->
+<!--                android:id="@+id/nav_faq"-->
+<!--                android:icon="@drawable/ic_faqs_filled"-->
+<!--                android:title="@string/menu_faq"/>-->
 
-    </group>
+<!--    </group>-->
 
     <item android:title="Actions">
         <menu>
@@ -36,24 +36,21 @@
                 android:id="@+id/nav_backup"
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/backup"/>
-<!--            <item-->
-<!--                    android:id="@+id/nav_events"-->
-<!--                    android:icon="@drawable/ic_event_filled"-->
-<!--                    android:title="@string/menu_events"/>-->
+
+            <item
+                    android:id="@+id/nav_offline_search"
+                    android:icon="@drawable/ic_search"
+                    android:title="@string/offline_patient_search"/>
             <item
                     android:id="@+id/nav_search"
                     android:icon="@drawable/ic_search"
-                    android:title="@string/search_title"/>
-        </menu>
-    </item>
-
-    <group android:checkableBehavior="single">
-        <item
+                    android:title="@string/search_online_title"/>
+            <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
                 android:title="@string/menu_logout"/>
+        </menu>
 
-    </group>
-
+    </item>
 
 </menu>

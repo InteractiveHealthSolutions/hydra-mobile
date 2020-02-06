@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
+import com.ihsinformatics.dynamicformsgenerator.common.FormDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
@@ -33,6 +34,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.SkipLogic;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
@@ -449,7 +451,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
 
                 }
-                SaveableForm form = new SaveableForm(id, null, savableData.toString(), null);
+                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME() ,null);
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();
@@ -754,6 +756,15 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
             patientDataJson.put(ParamNames.IDENTIFIERS, identifiers);
             data.put(ParamNames.PATIENT, patientDataJson);
+
+            JSONObject formDetails = new JSONObject();
+            FormDetails form=Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME()));
+            formDetails.put(ParamNames.COMPONENT_FORM_ID,form.getComponentFormID());
+            formDetails.put(ParamNames.COMPONENT_FORM_UUID,form.getComponentFormUUID());
+
+
+
+            data.put(ParamNames.FORM_DETAILS,formDetails);
         }
     }
 
@@ -1180,6 +1191,20 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             }
         }
         return "";
+    }
+
+
+    public int getFormId(String paramString) {
+        int index;
+        FormType formType;
+        Iterator<Integer> it = Constants.getEncounterTypes().keySet().iterator();
+        while (it.hasNext()) {
+            index = it.next();
+            if (Constants.getEncounterTypes().get(index).equals(paramString)) {
+                return index;
+            }
+        }
+        return -1;
     }
 
 }

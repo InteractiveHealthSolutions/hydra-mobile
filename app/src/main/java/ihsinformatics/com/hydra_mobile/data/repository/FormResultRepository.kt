@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.FormDao
@@ -86,7 +87,13 @@ class FormResultRepository(context: Context) {
             val componentsFormsMap = completeFile.optJSONArray("ComponentsFormsMap")
             for (k in 0 until componentsFormsMap.length()) {
 
+
+
                 val singleObject = componentsFormsMap.getJSONObject(k)
+
+                val componentFormUUID=singleObject.optString("uuid")
+                val componentFormId=singleObject.optInt("componentFormId")
+
                 val insideForm = singleObject.optJSONObject("form")
                 val component = singleObject.optJSONObject("component")
                 val phase = singleObject.optJSONObject("phase")
@@ -124,10 +131,12 @@ class FormResultRepository(context: Context) {
                     val kk=k
                     val componentID = component.optInt("componentId")
 
-                    FormRepository(context).insertForm(Forms(k, formName, workflowUUID, phaseUUID, componentUUID, formUUID, componentID, formName, componentName, phaseName, workflowName, questionsList.toString()))
+                    FormRepository(context).insertForm(Forms(k, formName, workflowUUID, phaseUUID, componentUUID, formUUID, componentID,componentFormId,componentFormUUID, formName, componentName, phaseName, workflowName, questionsList.toString()))
 
                     Constants.setEncounterType(formId, formName)
                     Constants.setEncounterTypeData(formName, questionsList.toString())
+                    Constants.setFormDetails(formId, FormDetails(componentFormId,componentFormUUID))
+
 
                     //  componentFormJoinRepository.insert(ComponentFormJoin(k,workflowUUID,phaseUUID,componentUUID,formUUID,componentID, formId))
                 }
