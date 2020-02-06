@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentFormJoin
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
 import org.json.JSONArray
@@ -57,20 +56,22 @@ class MetaDataHelper(context: Context) {
     fun getAllMetaData(restCallback: RESTCallback) = try {
 
 
-        getAllRelatedData()
-
-        deleteExisitingLocalData()
-
-
-        getWorkFlowFromAPI()
-        getPhasesFromAPI()
-        getComponentsFromAPI()
-        getFormsFromAPI()
 
 
 
 
-        parseMetaData(object : RESTCallback {
+        parseMetaData(object:RetrofitResponseListener{
+            override fun onSuccess() {
+
+                successCount++
+                if(successCount==totalCount)
+
+            }
+
+            override fun onFailure() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        },object : RESTCallback {
 
             override fun onFailure(t: Throwable) {
                 restCallback.onFailure(t)
@@ -90,9 +91,9 @@ class MetaDataHelper(context: Context) {
 
 
 
-    fun getWorkFlowFromAPI() {
-        workflowPhasesRepository.getRemoteWorkflowData()
-        workflowRepository.getRemoteWorkFlowData()
+    fun getWorkFlowFromAPI(retrofitResponseListener:RetrofitResponseListener) {
+        workflowPhasesRepository.getRemoteWorkflowData(retrofitResponseListener)
+        workflowRepository.getRemoteWorkFlowData(retrofitResponseListener)
     }
 
     fun getPhasesFromAPI() {
@@ -115,17 +116,17 @@ class MetaDataHelper(context: Context) {
     }
 
 
-    fun getAllLabTestTypesFromAPI()
+    fun getAllLabTestTypesFromAPI(retrofitResponseListener:RetrofitResponseListener)
     {
-        labTestTypeRepository.getRemoteLabTestTypesData()
+        labTestTypeRepository.getRemoteLabTestTypesData(retrofitResponseListener)
     }
 
-    fun getAllRelatedData()  //e.g Location, currency, AllLabTestTypes
+    fun getAllRelatedData(retrofitResponseListener:RetrofitResponseListener)  //e.g Location, currency, AllLabTestTypes
     {
 
-        getAllLabTestTypesFromAPI()
-        relatedRepository.getRemoteLocationsData()
-        relatedRepository.getRemoteLocationsAndCurrencyData()
+        getAllLabTestTypesFromAPI(retrofitResponseListener)
+        relatedRepository.getRemoteLocationsData(retrofitResponseListener)
+        relatedRepository.getRemoteLocationsAndCurrencyData(retrofitResponseListener)
 
     }
 
@@ -150,10 +151,18 @@ class MetaDataHelper(context: Context) {
     }
 
     //Todo: remove  in production and sync with api
-    private fun parseMetaData(restCallback: RESTCallback) {
-        // val phaseComponentFormJoinRepository = PhaseComponentFormJoinRepository(context)
+    private fun parseMetaData(retrofitResponseListener:RetrofitResponseListener,restCallback: RESTCallback) {
 
         try {
+            getAllRelatedData(retrofitResponseListener)
+
+            deleteExisitingLocalData()
+
+
+            getWorkFlowFromAPI(retrofitResponseListener)
+            getPhasesFromAPI()
+            getComponentsFromAPI()
+            getFormsFromAPI()
 
             restCallback.onSuccess(true)
 

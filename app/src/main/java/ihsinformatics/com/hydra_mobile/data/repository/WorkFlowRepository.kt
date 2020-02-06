@@ -15,6 +15,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -82,7 +83,7 @@ class WorkFlowRepository(context: Context) {
     }
 
 
-    fun getRemoteWorkFlowData() {
+    fun getRemoteWorkFlowData(retrofitResponseListener: RetrofitResponseListener) {
 
         RequestManager(
             context, sessionManager.getUsername(),
@@ -99,6 +100,7 @@ class WorkFlowRepository(context: Context) {
                             //insert into local database
                             insertWorkFlow(response.workflow[i])
                         }
+                        retrofitResponseListener.onSuccess()
                         Log.e("WorkflowLoading", "completed")
                     } catch (e: Exception) {
 

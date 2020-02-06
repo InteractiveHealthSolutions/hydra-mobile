@@ -9,6 +9,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.LabTestTypeApiResponse
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 
@@ -48,7 +49,7 @@ class LabTestTypeRepository(context: Context) {
     }
 
 
-    fun getRemoteLabTestTypesData() {
+    fun getRemoteLabTestTypesData(retrofitResponseListener: RetrofitResponseListener) {
         RequestManager(
             context, sessionManager.getUsername(),
             sessionManager.getPassword()
@@ -64,7 +65,7 @@ class LabTestTypeRepository(context: Context) {
                             //insert into local database
                             insert(response.result[i])
                         }
-
+                        retrofitResponseListener.onSuccess()
                         Log.e("LabTestType", "completed")
                     } catch (e: Exception) {
 

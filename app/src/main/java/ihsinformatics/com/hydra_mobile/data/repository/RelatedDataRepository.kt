@@ -16,6 +16,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.LocationApiRespo
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.SystemSettingApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 import org.json.JSONArray
@@ -55,7 +56,7 @@ class RelatedDataRepository(context: Context) {
     }
 
 
-    fun getRemoteLocationsData() {
+    fun getRemoteLocationsData(retrofitResponseListener: RetrofitResponseListener) {
         RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getLocation(Constant.REPRESENTATION, object : RESTCallback {
             override fun <T> onSuccess(o: T) {
 
@@ -66,7 +67,7 @@ class RelatedDataRepository(context: Context) {
 
                     dataacess.insertLocations(context, location)
 
-
+                    retrofitResponseListener.onSuccess()
                     Log.e("Location", "completed")
                 } catch (e: Exception) {
                     Log.e(e.message, "incompleted")
@@ -81,7 +82,7 @@ class RelatedDataRepository(context: Context) {
     }
 
 
-    fun getRemoteLocationsAndCurrencyData() {
+    fun getRemoteLocationsAndCurrencyData(retrofitResponseListener:RetrofitResponseListener) {
         RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getLocationAndCurrency(Constant.HYDRA_QUERY, Constant.REPRESENTATION, object : RESTCallback {
             override fun <T> onSuccess(o: T) {
 
@@ -90,6 +91,7 @@ class RelatedDataRepository(context: Context) {
 
                     dataacess.insertSystemSettings(context, response.result)
 
+                    retrofitResponseListener.onSuccess()
 
                     Log.e("Location And Currency", "completed")
                 } catch (e: Exception) {
