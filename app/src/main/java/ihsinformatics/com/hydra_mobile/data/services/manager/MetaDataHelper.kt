@@ -30,6 +30,9 @@ class MetaDataHelper(context: Context) {
 
     lateinit var relatedRepository:RelatedDataRepository
 
+    var successCount=0
+    var totalCount=9
+
 
     var context: Context
 
@@ -65,20 +68,23 @@ class MetaDataHelper(context: Context) {
 
                 successCount++
                 if(successCount==totalCount)
+                {
+                    restCallback.onSuccess(true)
+                }
 
             }
 
             override fun onFailure() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                restCallback.onFailure(Throwable("Some error occured"))
             }
         },object : RESTCallback {
 
             override fun onFailure(t: Throwable) {
-                restCallback.onFailure(t)
+
             }
 
             override fun <T> onSuccess(o: T) {
-                restCallback.onSuccess(o)
+
             }
         })
 
@@ -96,13 +102,13 @@ class MetaDataHelper(context: Context) {
         workflowRepository.getRemoteWorkFlowData(retrofitResponseListener)
     }
 
-    fun getPhasesFromAPI() {
-        phaseRepository.getRemotePhaseData()
-        phaseComponentRepository.getRemotePhaseComponentMapData()
+    fun getPhasesFromAPI(retrofitResponseListener:RetrofitResponseListener) {
+        phaseRepository.getRemotePhaseData(retrofitResponseListener)
+        phaseComponentRepository.getRemotePhaseComponentMapData(retrofitResponseListener)
     }
 
-    fun getComponentsFromAPI() {
-        componentRepository.getRemoteComponentData()
+    fun getComponentsFromAPI(retrofitResponseListener:RetrofitResponseListener) {
+        componentRepository.getRemoteComponentData(retrofitResponseListener)
 
 
 
@@ -110,9 +116,9 @@ class MetaDataHelper(context: Context) {
         // componentFormJoinRepository.getRemoteComponentFormMapData()
     }
 
-    fun getFormsFromAPI() {
+    fun getFormsFromAPI(retrofitResponseListener:RetrofitResponseListener) {
 
-        formResultRepository.getRemoteFormResultData()
+        formResultRepository.getRemoteFormResultData(retrofitResponseListener)
     }
 
 
@@ -160,17 +166,16 @@ class MetaDataHelper(context: Context) {
 
 
             getWorkFlowFromAPI(retrofitResponseListener)
-            getPhasesFromAPI()
-            getComponentsFromAPI()
-            getFormsFromAPI()
+            getPhasesFromAPI(retrofitResponseListener)
+            getComponentsFromAPI(retrofitResponseListener)
+            getFormsFromAPI(retrofitResponseListener)
 
-            restCallback.onSuccess(true)
+
 
         } catch (e: JSONException) {
             e.printStackTrace()
             restCallback.onFailure(e)
         }
-        restCallback.onSuccess(false)
     }
 
 

@@ -10,6 +10,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.PhaseComponentMap
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
 
@@ -63,7 +64,7 @@ class PhaseComponentRepository(context: Context) {
     }
 
 
-    fun getRemotePhaseComponentMapData() {
+    fun getRemotePhaseComponentMapData(retrofitResponseListener:RetrofitResponseListener) {
 
         RequestManager(
             context, sessionManager.getUsername(),
@@ -80,14 +81,15 @@ class PhaseComponentRepository(context: Context) {
                             //insert into local database
                             insert(response.phaseComponentMap[i])
                         }
+                        retrofitResponseListener.onSuccess()
                         Log.e("PhaseComponentLoading", "completed")
                     } catch (e: Exception) {
-
+                        retrofitResponseListener.onFailure()
                     }
                 }
 
                 override fun onFailure(t: Throwable) {
-
+                    retrofitResponseListener.onFailure()
                 }
             })
     }

@@ -17,6 +17,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.FormResultApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.MyFormResultApiResponse
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.jetbrains.anko.doAsync
@@ -57,7 +58,7 @@ class FormResultRepository(context: Context) {
     }
 
 
-    fun getRemoteFormResultData() {
+    fun getRemoteFormResultData(retrofitResponseListener: RetrofitResponseListener) {
         RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getFormsResult(object : RESTCallback {
             override fun <T> onSuccess(o: T) {
 
@@ -67,14 +68,16 @@ class FormResultRepository(context: Context) {
 
                     parseForms(response)
 
+                    retrofitResponseListener.onSuccess()
+
                     Log.e("FormLoading", "completed")
                 } catch (e: Exception) {
-
+                    retrofitResponseListener.onFailure()
                 }
             }
 
             override fun onFailure(t: Throwable) {
-
+                retrofitResponseListener.onFailure()
             }
         })
     }

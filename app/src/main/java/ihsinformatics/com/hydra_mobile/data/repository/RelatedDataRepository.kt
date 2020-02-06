@@ -72,11 +72,12 @@ class RelatedDataRepository(context: Context) {
                 } catch (e: Exception) {
                     Log.e(e.message, "incompleted")
                     ToastyWidget.getInstance().displayError(context, e.message, Toast.LENGTH_LONG)
+                    retrofitResponseListener.onFailure()
                 }
             }
 
             override fun onFailure(t: Throwable) {
-
+                retrofitResponseListener.onFailure()
             }
         })
     }
@@ -97,11 +98,12 @@ class RelatedDataRepository(context: Context) {
                 } catch (e: Exception) {
                     Log.e(e.message, "incompleted")
                     ToastyWidget.getInstance().displayError(context, e.message, Toast.LENGTH_LONG)
+                    retrofitResponseListener.onFailure()
                 }
             }
 
             override fun onFailure(t: Throwable) {
-
+                retrofitResponseListener.onFailure()
             }
         })
     }

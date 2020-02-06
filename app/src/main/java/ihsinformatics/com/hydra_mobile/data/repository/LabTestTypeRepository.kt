@@ -68,12 +68,12 @@ class LabTestTypeRepository(context: Context) {
                         retrofitResponseListener.onSuccess()
                         Log.e("LabTestType", "completed")
                     } catch (e: Exception) {
-
+                        retrofitResponseListener.onFailure()
                     }
                 }
 
                 override fun onFailure(t: Throwable) {
-
+                    retrofitResponseListener.onFailure()
                 }
             })
     }

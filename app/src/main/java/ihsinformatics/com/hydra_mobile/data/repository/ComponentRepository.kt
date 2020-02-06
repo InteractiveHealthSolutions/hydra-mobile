@@ -12,6 +12,7 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.ComponentApiResponse
+import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -59,7 +60,7 @@ class ComponentRepository(context: Context) {
     }
 
 
-    fun getRemoteComponentData() {
+    fun getRemoteComponentData(retrofitResponseListener: RetrofitResponseListener) {
         RequestManager(
             context, sessionManager.getUsername(),
             sessionManager.getPassword()
@@ -75,14 +76,15 @@ class ComponentRepository(context: Context) {
                             //insert into local database
                             insertComponent(response.component[i])
                         }
+                        retrofitResponseListener.onSuccess()
                         Log.e("ComponentLoading", "completed")
                     } catch (e: Exception) {
-
+                        retrofitResponseListener.onFailure()
                     }
                 }
 
                 override fun onFailure(t: Throwable) {
-
+                    retrofitResponseListener.onFailure()
                 }
             })
     }

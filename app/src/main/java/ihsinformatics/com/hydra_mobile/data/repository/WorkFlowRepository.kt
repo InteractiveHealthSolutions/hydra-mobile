@@ -103,12 +103,12 @@ class WorkFlowRepository(context: Context) {
                         retrofitResponseListener.onSuccess()
                         Log.e("WorkflowLoading", "completed")
                     } catch (e: Exception) {
-
+                        retrofitResponseListener.onFailure()
                     }
                 }
 
                 override fun onFailure(t: Throwable) {
-
+                    retrofitResponseListener.onFailure()
                 }
             })
     }
