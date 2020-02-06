@@ -61,7 +61,6 @@ class MetaDataHelper(context: Context) {
 
         deleteExisitingLocalData()
 
-        getProviderID()
 
         getWorkFlowFromAPI()
         getPhasesFromAPI()
@@ -89,10 +88,6 @@ class MetaDataHelper(context: Context) {
     }
 
 
-    fun getProviderID()
-    {
-
-    }
 
 
     fun getWorkFlowFromAPI() {
@@ -115,7 +110,6 @@ class MetaDataHelper(context: Context) {
     }
 
     fun getFormsFromAPI() {
-        //formRepository.getRemoteFormData()
 
         formResultRepository.getRemoteFormResultData()
     }

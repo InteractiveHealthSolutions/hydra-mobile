@@ -123,7 +123,7 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             suspiciousIdentifier = false;
             setMessage("Valid format", MessageType.MESSAGE_TYPE_CORRECT);
             try {
-                checkID();
+               // checkID();
             } catch (Exception e) {
                 e.printStackTrace();
             }

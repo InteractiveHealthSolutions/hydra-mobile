@@ -210,7 +210,7 @@
     <string name="title_activity_patient_information">PatientInformationActivity</string>
     <string name="event_title_name">Event</string>
     <string name="common_lab_title_name">Test Order</string>
-    <string name="report_title_name">View</string>
+    <string name="report_title_name">Service History</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
@@ -324,6 +324,7 @@
     <string name="Sync">Sync Data</string>
     <string name="create_patient">Create Patient</string>
     <string name="offline_patient_search">Search Offline Patient</string>
+    <string name="history">History</string>
 
 
     <string-array name="end_of_followup_for">

@@ -144,7 +144,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.common_lab), R.drawable.ic_testtubes))
-        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.report), R.drawable.ic_report_filled))
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.history), R.drawable.ic_report_filled))
 
 
 
@@ -183,21 +183,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             resources.getString(R.string.common_lab) -> {
 
-                if (!sessionManager.isOfflineMode()) {
+                if (true) {
+                    ToastyWidget.getInstance().displaySuccess(this, "Coming Soon", Toast.LENGTH_LONG)
+                } else {
+                    if (!sessionManager.isOfflineMode()) {
 
-                    if (isInternetConnected()) {
-                        if (Global.patientData == null) {
-                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        if (isInternetConnected()) {
+                            if (Global.patientData == null) {
+                                ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                            } else {
+                                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+                                finish()
+                            }
                         } else {
-                            startActivity(Intent(applicationContext, CommonLabActivity::class.java))
-                            finish()
+                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                         }
                     } else {
-                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                    }
-                } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
+                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
 
+                    }
                 }
             }
 
