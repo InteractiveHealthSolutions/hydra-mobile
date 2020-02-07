@@ -490,9 +490,9 @@ public class Form extends BaseActivity {
         today = cal.getTime();
         cal.add(Calendar.YEAR, -25);
         date25YearsAgo = cal.getTime();
-        cal.add(Calendar.YEAR, 25);
+        cal.add(Calendar.YEAR, 50);
         date25YearsAhead = cal.getTime();
-        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.YEAR, -24);
         oneYearAgo=cal.getTime();
     }
 

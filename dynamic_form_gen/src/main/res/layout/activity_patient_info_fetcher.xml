@@ -66,7 +66,6 @@
                             android:layout_weight="8"
                             android:background="@drawable/drop_shadow"
                             android:padding="10dp"
-                            android:inputType="number"
                             android:maxLength="11"/>
                     <LinearLayout
                             android:layout_width="0dp"
@@ -103,6 +102,7 @@
                     android:inputType="textCapCharacters"
                     android:maxLength="50"/>
             <TextView
+                android:visibility="gone"
                     android:id="@+id/tvName"
                     android:layout_marginTop="20dp"
                     android:layout_below="@+id/cbSearchByProgramId"
@@ -112,6 +112,8 @@
                     android:text="Enter first name or last name"/>
 
             <EditText
+
+                android:visibility="gone"
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,6 +125,8 @@
                     android:maxLength="100"/>
 
             <TextView
+
+                android:visibility="gone"
                     android:id="@+id/tvAge"
                     android:layout_marginTop="20dp"
                     android:layout_below="@+id/cbSearchByProgramId"
@@ -132,6 +136,8 @@
                     android:text="Enter Age"/>
 
             <EditText
+
+                android:visibility="gone"
                     android:id="@+id/etAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -143,6 +149,8 @@
                     android:maxLength="3"/>
 
             <TextView
+
+                android:visibility="gone"
                     android:id="@+id/tvGender"
                     android:layout_marginTop="20dp"
                     android:layout_below="@+id/cbSearchByProgramId"
@@ -152,6 +160,7 @@
                     android:text="Select Gender"/>
 
             <LinearLayout
+                android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
