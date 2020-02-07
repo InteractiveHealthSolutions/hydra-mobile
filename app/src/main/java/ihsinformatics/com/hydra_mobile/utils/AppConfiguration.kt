@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 class AppConfiguration() {
 
     fun getBaseUrl(context: Context): String {
-        var baseUrl = "http://" + "ihs.ihsinformatics.com"+ ":" + "6811" + "/openmrs/ws/rest/v1/"
+        var baseUrl = "http://" + "hydrademo.ihsinformatics.com"+ ":" + "80" + "/openmrs/ws/rest/v1/"
         var repository = AppSettingRepository(context)
         runBlocking {
             var list = repository.getSettingList()
@@ -20,7 +20,7 @@ class AppConfiguration() {
                     baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
 
             } else {
-                baseUrl = "http://" + "ihs.ihsinformatics.com"+ ":" + "6811" + "/openmrs/ws/rest/v1/"
+                baseUrl = "http://" + "hydrademo.ihsinformatics.com"+ ":" + "80" + "/openmrs/ws/rest/v1/"
 
             }
         }
