@@ -113,7 +113,7 @@ class RequestManager {
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 Timber.e(response.message())
-                if (response.isSuccessful && null != response.body()!!.userList[0].username && !response.body()!!.userList[0].username.equals("")) {
+                if (response.isSuccessful && response.body()!!.userList.size > 0 && null != response.body()!!.userList[0].username && !response.body()!!.userList[0].username.equals("")) {
                     restCallback.onSuccess(response.body())
                 } else {
                     restCallback.onFailure(Throwable("Authentication failed! Please enter valid username and password.")) //TODO: change the hard coded string ...

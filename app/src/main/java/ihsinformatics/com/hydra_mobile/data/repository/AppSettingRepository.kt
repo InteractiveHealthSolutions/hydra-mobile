@@ -31,6 +31,11 @@ class AppSettingRepository(context: Context) {
         return appSettingList.await()
     }
 
+     fun getSettings(): List<AppSetting> {
+        return appSettingDao.getAllSetting()
+
+    }
+
     fun insertSetting(appSetting: AppSetting) {
         doAsync {
             appSettingDao.getAllSetting()
@@ -41,6 +46,13 @@ class AppSettingRepository(context: Context) {
     fun updateSetting(appSetting: AppSetting) {
         doAsync {
             appSettingDao.updateSetting(appSetting)
+        }
+    }
+
+    fun deleteAll()
+    {
+        doAsync {
+            appSettingDao.deleteAll()
         }
     }
 

@@ -21,4 +21,7 @@ interface AppSettingDao {
     @Query("SELECT * FROM AppSetting")
     fun getAllSetting(): List<AppSetting>
 
+    @Query("DELETE FROM AppSetting")
+    fun deleteAll()
+
 }

@@ -325,6 +325,7 @@
     <string name="create_patient">Create Patient</string>
     <string name="offline_patient_search">Search Offline Patient</string>
     <string name="history">History</string>
+    <string name="internet_or_server_error">Unable to resolve ip address.</string>
 
 
     <string-array name="end_of_followup_for">

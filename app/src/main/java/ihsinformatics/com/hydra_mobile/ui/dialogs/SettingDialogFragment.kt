@@ -79,4 +79,9 @@ class SettingDialogFragment : DialogFragment() {
         Toast.makeText(activity, "setting changed", Toast.LENGTH_SHORT).show()
     }
 
+    fun getAppSetting():List<AppSetting> {
+        appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
+        return appSettingViewModel.getSettings()
+    }
+
 }

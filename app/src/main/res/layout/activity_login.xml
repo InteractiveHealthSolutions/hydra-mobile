@@ -89,8 +89,7 @@
                             android:drawableTint="@color/app_icon_color"
                             android:hint="@string/edt_username_hint"
                             android:inputType="textPersonName"
-                            android:padding="@dimen/dimen_12dp"
-                            android:text="@string/admin"/>
+                            android:padding="@dimen/dimen_12dp"/>
 
                     <LinearLayout
                             android:id="@+id/layout_password"
@@ -112,8 +111,7 @@
                                 android:background="@drawable/edittext_plain_shape"
                                 android:hint="@string/edt_password_hint"
                                 android:inputType="textPassword"
-                                android:layout_weight="4"
-                                android:text="@string/admin_321"/>
+                                android:layout_weight="4"/>
 
                         <ImageView
                                 android:id="@+id/login_eye"

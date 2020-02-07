@@ -17,8 +17,17 @@ class AppSettingViewModel(application: Application) : AndroidViewModel(applicati
         repository.updateSetting(setting)
     }
 
+    fun deleteAll()
+    {
+        repository.deleteAll()
+    }
+
     suspend fun get(){
         repository.getSettingList()
+    }
+
+    fun getSettings(): List<AppSetting>{
+        return repository.getSettings()
     }
 
 }
