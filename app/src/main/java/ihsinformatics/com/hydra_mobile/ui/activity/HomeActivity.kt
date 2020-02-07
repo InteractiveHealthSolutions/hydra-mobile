@@ -205,7 +205,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
 
-            resources.getString(R.string.report) -> {
+            resources.getString(R.string.history) -> {
 
                 if (!sessionManager.isOfflineMode()) {
                     if (isInternetConnected()) {
