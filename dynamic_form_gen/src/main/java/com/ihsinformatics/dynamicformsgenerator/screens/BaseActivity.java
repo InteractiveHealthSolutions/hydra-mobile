@@ -161,10 +161,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
                     // Some fields are not needed to be sent to server
                     if (i.isSendable() && i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE) {
-                        if( null!=i.getAnswer().opt(ParamNames.VALUE) && !i.getAnswer().opt(ParamNames.VALUE).equals(""))
-                        {
+//                        if( null!=i.getAnswer().opt(ParamNames.VALUE) && !i.getAnswer().opt(ParamNames.VALUE).equals(""))
+//                        {
                             data.put(i.getAnswer());
-                        }
+                       // }
                         if (i.getQuestion().getQuestionId() == 6003) {
                             offlinePatient.setGender(i.getValue());
                         } else if (i.getQuestion().getQuestionId() == 6004) {

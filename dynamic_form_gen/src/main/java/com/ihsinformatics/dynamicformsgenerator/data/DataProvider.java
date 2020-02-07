@@ -207,6 +207,8 @@ public class DataProvider {
          this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
         this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccess(context, 6006, null, null));
 
+//        this.questions.add(new Question(true, patientCreationId, 6008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday,Question.PAYLOAD_TYPE.DATE_ENTERED));
+
 
 
     }

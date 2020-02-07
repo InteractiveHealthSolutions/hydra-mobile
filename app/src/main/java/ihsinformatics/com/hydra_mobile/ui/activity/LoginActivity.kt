@@ -229,11 +229,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun openMetaDataFetcher() {
+        networkProgressDialog.show()
         val metaDataHelper = MetaDataHelper(this)
         metaDataHelper.getAllMetaData(object : RESTCallback {
             override fun <T> onSuccess(o: T) {
                 val isSuccess = o as Boolean
                 if (isSuccess) {
+                    networkProgressDialog.dismiss()
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 

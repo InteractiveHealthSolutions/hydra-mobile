@@ -58,60 +58,58 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : Re
 
         fun bindItems(patient: Patient) {
 
-            tvPatientName.text = patient.display
-            tvPatientAge.text = patient.person.getAge().toString()
-            tvPatientIdentifier.text = patient.identifiers.get(0).display
+            if(patient!=null && null != patient.identifiers && patient.identifiers.size>0) {
+                tvPatientName.text = patient.display
+                tvPatientAge.text = patient.person.getAge().toString()
+                if (null != patient.identifiers.get(0)) tvPatientIdentifier.text = patient.identifiers.get(0).display
 
-            if(patient.person.getGender().toLowerCase().contains("f"))
-            {
-                genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
+                if (patient.person.getGender().toLowerCase().contains("f")) {
+                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
+                } else {
+                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
+                }
+
+                searchLayout.setOnClickListener {
+
+                    var serverResponse: JSONObject? = null
+
+
+                    var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), 1, null, null)
+
+
+                    //Initialization of summary fields
+                    var fieldJsonString = offlinePatient.fieldDataJson
+                    if (fieldJsonString == null) fieldJsonString = JSONObject().toString()
+                    val existingFieldsJson = JSONObject(fieldJsonString)
+                    for (i in ParamNames.SUMMARY_VARIBALES) {
+                        existingFieldsJson.put(i, "")
+                    }
+                    for (i in ParamNames.SUMMARY_VARIABLES_OBJECTS) {
+                        existingFieldsJson.put(i, JSONObject())
+                    }
+                    for (i in ParamNames.SUMMARY_VARIABLES_ARRAYS) {
+                        existingFieldsJson.put(i, JSONArray())
+                    }
+                    offlinePatient.fieldDataJson = existingFieldsJson.toString()
+
+
+                    //Initialization of all filled encounters count via this device as 0
+                    val encounterCount = JSONObject()
+                    val encounters = Constants.getEncounterTypes().values
+                    for (i in encounters) {
+                        encounterCount.put(i, 0)
+                    }
+                    offlinePatient.encounterJson = encounterCount.toString()
+
+
+
+                    serverResponse = Utils.converToServerResponse(offlinePatient)
+                    var requestType = ParamNames.GET_PATIENT_INFO
+
+                    Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
+                    context.startActivity(Intent(context, HomeActivity::class.java))
+                }
             }
-            else
-            {
-                genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
-            }
-
-            searchLayout.setOnClickListener {
-
-                var serverResponse: JSONObject? = null
-
-
-                var offlinePatient=OfflinePatient(patient.identifiers.get(0).identifier,"","","","",0,patient.person.getDisplay(),patient.person.getGender(),1,null,null)
-
-
-                //Initialization of summary fields
-                var fieldJsonString = offlinePatient.fieldDataJson
-                if (fieldJsonString == null) fieldJsonString = JSONObject().toString()
-                val existingFieldsJson = JSONObject(fieldJsonString)
-                for (i in ParamNames.SUMMARY_VARIBALES) {
-                    existingFieldsJson.put(i, "")
-                }
-                for (i in ParamNames.SUMMARY_VARIABLES_OBJECTS) {
-                    existingFieldsJson.put(i, JSONObject())
-                }
-                for (i in ParamNames.SUMMARY_VARIABLES_ARRAYS) {
-                    existingFieldsJson.put(i, JSONArray())
-                }
-                offlinePatient.fieldDataJson = existingFieldsJson.toString()
-
-
-                //Initialization of all filled encounters count via this device as 0
-                val encounterCount = JSONObject()
-                val encounters=Constants.getEncounterTypes().values
-                for (i in encounters) {
-                    encounterCount.put(i, 0)
-                }
-                offlinePatient.encounterJson = encounterCount.toString()
-
-
-
-                serverResponse = Utils.converToServerResponse(offlinePatient)
-                var requestType = ParamNames.GET_PATIENT_INFO
-
-                Utils.convertPatientToPatientData(context,serverResponse, 0,requestType)
-                context.startActivity(Intent(context,HomeActivity::class.java))
-            }
-
         }
 
     }

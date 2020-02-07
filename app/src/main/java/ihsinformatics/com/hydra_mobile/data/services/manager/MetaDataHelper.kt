@@ -58,11 +58,6 @@ class MetaDataHelper(context: Context) {
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
 
-
-
-
-
-
         parseMetaData(object:RetrofitResponseListener{
             override fun onSuccess() {
 
