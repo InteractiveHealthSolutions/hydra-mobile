@@ -38,7 +38,7 @@ class SettingDialogFragment : DialogFragment() {
 
             if (ipAddress != null && ipAddress != "" && ipAddress != " " && portNumber != null && portNumber != "" && portNumber != " ") {
 
-                val baseUrl = "http://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
+                val baseUrl = "https://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
                 if (URLUtil.isValidUrl(baseUrl)) {
                     saveAppSetting(ipAddress, portNumber)
                     dismiss()
@@ -52,7 +52,12 @@ class SettingDialogFragment : DialogFragment() {
             }
         })
 
+        view.btn_reset.setOnClickListener(View.OnClickListener {
 
+            view.edt_ip_address.setText("hydraapi.ihsinformatics.com")
+            view.edt_port_number.setText("443")
+
+            })
         return view
     }
 
@@ -75,6 +80,7 @@ class SettingDialogFragment : DialogFragment() {
 
     fun saveAppSetting(ipAddress: String, portNumber: String) {
         appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
+        appSettingViewModel.deleteAll()
         appSettingViewModel.insert(AppSetting(ip = ipAddress, port = portNumber))
         Toast.makeText(activity, "setting changed", Toast.LENGTH_SHORT).show()
     }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 class AppConfiguration() {
 
     fun getBaseUrl(context: Context): String {
-        var baseUrl = "http://" + "hydrademo.ihsinformatics.com"+ ":" + "80" + "/openmrs/ws/rest/v1/"
+        var baseUrl = "https://" + "hydraapi.ihsinformatics.com"+ ":" + "443" + "/openmrs/ws/rest/v1/"
         var repository = AppSettingRepository(context)
         runBlocking {
             var list = repository.getSettingList()
@@ -17,10 +17,10 @@ class AppConfiguration() {
                 val setting: AppSetting = list.get(0)
 
                 if(null!=setting.ip && !setting.ip.equals("") && !setting.ip.equals(" ") && null!=setting.port && !setting.port.equals("") && !setting.port.equals(" "))
-                    baseUrl = "http://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
+                    baseUrl = "https://" + setting.ip + ":" + setting.port + "/openmrs/ws/rest/v1/"
 
             } else {
-                baseUrl = "http://" + "hydrademo.ihsinformatics.com"+ ":" + "80" + "/openmrs/ws/rest/v1/"
+                baseUrl = "https://" + "hydraapi.ihsinformatics.com"+ ":" + "443" + "/openmrs/ws/rest/v1/"
 
             }
         }

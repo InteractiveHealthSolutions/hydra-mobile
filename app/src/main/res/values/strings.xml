@@ -10,8 +10,8 @@
     <string name="edt_password_hint">Enter Password</string>
     <string name="main_title">HYDRA</string>
     <string name="edt_hint_ip_address_port">port</string>
-    <string name="default_ip_address">hydrademo.ihsinformatics.com</string>
-    <string name="default_port_number">80</string>
+    <string name="default_ip_address">hydraapi.ihsinformatics.com</string>
+    <string name="default_port_number">443</string>
 
     <!---->
 
