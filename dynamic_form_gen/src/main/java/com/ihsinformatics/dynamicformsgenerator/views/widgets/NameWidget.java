@@ -113,7 +113,7 @@ public class NameWidget extends InputWidget implements TextWatcher {
             param.put(ParamNames.GIVEN_NAME, etFirstName.getText().toString());
 
             JSONObject familyNameObj = new JSONObject();
-            param.put(ParamNames.FAMILY_NAME, etFirstName.getText().toString());
+            param.put(ParamNames.FAMILY_NAME, etLastName.getText().toString());
 
             JSONArray names = new JSONArray();
             names.put(givenNameObj);
