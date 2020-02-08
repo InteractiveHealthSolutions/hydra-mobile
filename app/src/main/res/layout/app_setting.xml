@@ -49,6 +49,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_ip_address" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.10"
+        android:scaleY="1.10"
+        android:id="@+id/cb_ssl_enable"
+        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3" android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_port_number" app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.063" style="@android:style/Widget.Holo.CompoundButton.CheckBox"
+        android:text="@string/ssl_enable_text"
+        android:textSize="18sp"
+        android:layout_marginStart="24dp" app:layout_constraintStart_toStartOf="parent"/>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

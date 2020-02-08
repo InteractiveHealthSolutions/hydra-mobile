@@ -24,7 +24,11 @@ class SettingDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.app_setting, container, false)
         dialog!!.window.attributes.windowAnimations = R.style.FullScreenDialogStyle
         view.img_close.setOnClickListener(View.OnClickListener {
@@ -36,28 +40,39 @@ class SettingDialogFragment : DialogFragment() {
             val ipAddress = view.edt_ip_address.text.toString()
             val portNumber = view.edt_port_number.text.toString()
 
+
             if (ipAddress != null && ipAddress != "" && ipAddress != " " && portNumber != null && portNumber != "" && portNumber != " ") {
 
-                val baseUrl = "https://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
-                if (URLUtil.isValidUrl(baseUrl)) {
-                    saveAppSetting(ipAddress, portNumber)
-                    dismiss()
+                var baseUrl = ""
+                var ssl=false
+
+                if (view.cb_ssl_enable.isChecked) {
+                    baseUrl = "https://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
+                    ssl=true
+                } else {
+                    baseUrl = "http://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
                 }
-                else
-                {
-                    ToastyWidget.getInstance().displayError(context, "Invalid URL", Toast.LENGTH_SHORT)
+
+                if (URLUtil.isValidUrl(baseUrl)) {
+                    saveAppSetting(ipAddress, portNumber,ssl)
+                    dismiss()
+                } else {
+                    ToastyWidget.getInstance()
+                        .displayError(context, "Invalid URL", Toast.LENGTH_SHORT)
                 }
             } else {
-                ToastyWidget.getInstance().displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
+                ToastyWidget.getInstance()
+                    .displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
             }
         })
 
-        view.btn_reset.setOnClickListener(View.OnClickListener {
+        view.btn_reset.setOnClickListener(View.OnClickListener
+        {
 
             view.edt_ip_address.setText("hydraapi.ihsinformatics.com")
             view.edt_port_number.setText("443")
 
-            })
+        })
         return view
     }
 
@@ -78,14 +93,14 @@ class SettingDialogFragment : DialogFragment() {
         }
     }
 
-    fun saveAppSetting(ipAddress: String, portNumber: String) {
+    fun saveAppSetting(ipAddress: String, portNumber: String, ssl:Boolean) {
         appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
         appSettingViewModel.deleteAll()
-        appSettingViewModel.insert(AppSetting(ip = ipAddress, port = portNumber))
+        appSettingViewModel.insert(AppSetting(ip = ipAddress, port = portNumber,ssl = ssl))
         Toast.makeText(activity, "setting changed", Toast.LENGTH_SHORT).show()
     }
 
-    fun getAppSetting():List<AppSetting> {
+    fun getAppSetting(): List<AppSetting> {
         appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
         return appSettingViewModel.getSettings()
     }
