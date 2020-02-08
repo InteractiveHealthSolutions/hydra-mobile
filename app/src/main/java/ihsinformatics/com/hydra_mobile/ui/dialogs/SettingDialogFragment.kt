@@ -71,6 +71,7 @@ class SettingDialogFragment : DialogFragment() {
 
             view.edt_ip_address.setText("hydraapi.ihsinformatics.com")
             view.edt_port_number.setText("443")
+            view.cb_ssl_enable.isChecked=true
 
         })
         return view

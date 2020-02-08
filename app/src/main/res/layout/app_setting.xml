@@ -62,6 +62,7 @@
         app:layout_constraintVertical_bias="0.063" style="@android:style/Widget.Holo.CompoundButton.CheckBox"
         android:text="@string/ssl_enable_text"
         android:textSize="18sp"
+        android:buttonTint="@color/app_icon_color"
         android:layout_marginStart="24dp" app:layout_constraintStart_toStartOf="parent"/>
 
 
