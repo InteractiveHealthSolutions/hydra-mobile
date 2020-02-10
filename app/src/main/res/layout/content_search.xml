@@ -31,7 +31,7 @@
 
 
         <EditText
-            android:id="@+id/edt_search_by_identifier"
+            android:id="@+id/edt_search_by_identifier_previous"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edt_search_by_name"
@@ -42,13 +42,55 @@
             android:drawableTint="@color/bootstrap_alert_cross_default"
             android:hint="@string/search_by_id"
             android:inputType="textPersonName"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+
+
+            <EditText
+                android:id="@+id/edt_search_by_identifier"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@drawable/drop_shadow"
+                android:padding="10dp"
+                android:maxLength="11"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:id="@+id/qr_reader"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/qrReader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/photo_camera"/>
+
+                <TextView
+                    android:id="@+id/qrtextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scan"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edt_search_by_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edt_search_by_identifier"
+            android:layout_below="@+id/searchLayout"
             android:layout_marginTop="@dimen/dimen_24dp"
             android:background="@drawable/edittext_rounded_shap"
             android:drawableLeft="@drawable/ic_search"
@@ -64,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/edt_search_by_number"
-            android:layout_marginTop="@dimen/dimen_33dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_rounded_shap"
             android:text="@string/btn_login_search"
             android:textColor="@color/White"

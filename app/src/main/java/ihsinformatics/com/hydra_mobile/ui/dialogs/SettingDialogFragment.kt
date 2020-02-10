@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.dialogs
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,14 +47,21 @@ class SettingDialogFragment : DialogFragment() {
                 var baseUrl = ""
                 var ssl=false
 
+                var openMRSEndpoint=context!!.getString(R.string.openmrs_endpoint)
+                var test_server_ip=context!!.getString(R.string.test_server_ip_address)
+                var test_server_port=context!!.getString(R.string.test_server_port_number)
+                var withoutSSL=context!!.getString(R.string.without_ssl)
+                var withSSL=context!!.getString(R.string.with_ssl)
+
+
                 if (view.cb_ssl_enable.isChecked) {
-                    baseUrl = "https://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
+                    baseUrl = withSSL + ipAddress + portNumber + openMRSEndpoint
                     ssl=true
                 } else {
-                    baseUrl = "http://" + ipAddress + ":" + portNumber + "/openmrs/ws/rest/v1/"
+                    baseUrl = withoutSSL + ipAddress + portNumber + openMRSEndpoint
                 }
 
-                if (URLUtil.isValidUrl(baseUrl)) {
+                if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {
                     saveAppSetting(ipAddress, portNumber,ssl)
                     dismiss()
                 } else {
@@ -69,9 +77,10 @@ class SettingDialogFragment : DialogFragment() {
         view.btn_reset.setOnClickListener(View.OnClickListener
         {
 
-            view.edt_ip_address.setText("hydraapi.ihsinformatics.com")
-            view.edt_port_number.setText("443")
-            view.cb_ssl_enable.isChecked=true
+            //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
+            view.edt_ip_address.setText(getString(R.string.test_server_ip_address))
+            view.edt_port_number.setText(getString(R.string.test_server_port_number))
+            view.cb_ssl_enable.isChecked=false
 
         })
         return view

@@ -35,7 +35,6 @@
                 style="@style/question_answer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:text="@string/patient_id_tv"
                 android:textColor="@android:color/white"
@@ -59,11 +58,9 @@
 
                 <TextView
                     android:id="@+id/tvAge"
-                    style="@style/question_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/activity_horizontal_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:text="@string/age"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
@@ -97,7 +94,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
-                    android:layout_marginLeft="7dp"
                     android:text="@string/patient_last_name"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />

@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    TODO need to change default text to live server before apk update on playstore   ~Taha -->
     <EditText
         android:id="@+id/edt_ip_address"
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/edt_hint_ip_address"
+        android:text="@string/test_server_ip_address"
         android:inputType="text"
         android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +47,7 @@
         android:layout_marginEnd="24dp"
         android:hint="@string/edt_hint_ip_address_port"
         android:inputType="number"
+        android:text="@string/test_server_port_number"
         android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

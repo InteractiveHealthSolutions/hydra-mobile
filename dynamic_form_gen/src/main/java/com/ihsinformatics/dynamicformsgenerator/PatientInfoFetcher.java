@@ -456,7 +456,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             @Override
             public void onQRCodeRead(String text, PointF[] points) {
                 etId.setText(text);
-                etId.setEnabled(false);
+                etId.setEnabled(true);
                 qrCodeReaderView.stopCamera();
                 dialog.dismiss();
             }

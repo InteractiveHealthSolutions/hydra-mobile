@@ -18,6 +18,7 @@ public class Global {
 
 	public static String identifierFormat;
 	public static String countryFormat;
+	public static String currentCountry;
 
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.US);

@@ -160,7 +160,7 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
             @Override
             public void onQRCodeRead(String text, PointF[] points) {
                 etAnswer.setText(text);
-                etAnswer.setEnabled(false);
+                etAnswer.setEnabled(true);
                 qrCodeReaderView.stopCamera();
                 dialog.dismiss();
             }

@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
@@ -63,6 +64,8 @@ import retrofit2.Response
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     lateinit var spaceNavigationView: SpaceNavigationView
     private lateinit var toolbar: Toolbar
     lateinit var binding: ActivityHomeBinding
@@ -87,7 +90,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
         /*screen level initialization*/
+
 
         Global.USERNAME = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
         Global.PASSWORD = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PASSWORD, null)
@@ -629,8 +635,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val identifierFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
         val dateFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
 
+
+
         Global.identifierFormat = identifierFormat.value
         Global.setDateFormat(dateFormat.value)
+    //    Global.currentCountry =
 
     }
 

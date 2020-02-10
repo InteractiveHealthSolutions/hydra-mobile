@@ -488,11 +488,11 @@ public class Form extends BaseActivity {
         lastMonday = localCalendar.getTime();
         cal = Calendar.getInstance();
         today = cal.getTime();
-        cal.add(Calendar.YEAR, -25);
-        date25YearsAgo = cal.getTime();
-        cal.add(Calendar.YEAR, 50);
+        cal.add(Calendar.YEAR, 25);
         date25YearsAhead = cal.getTime();
-        cal.add(Calendar.YEAR, -24);
+        cal.add(Calendar.YEAR, -50);
+        date25YearsAgo = cal.getTime();
+        cal.add(Calendar.YEAR, 24);
         oneYearAgo=cal.getTime();
     }
 
