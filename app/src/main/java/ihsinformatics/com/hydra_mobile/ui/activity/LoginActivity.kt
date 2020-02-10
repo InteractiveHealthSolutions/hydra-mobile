@@ -236,6 +236,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 val isSuccess = o as Boolean
                 if (isSuccess) {
                     networkProgressDialog.dismiss()
+
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 

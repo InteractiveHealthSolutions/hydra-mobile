@@ -55,10 +55,10 @@ class SettingDialogFragment : DialogFragment() {
 
 
                 if (view.cb_ssl_enable.isChecked) {
-                    baseUrl = withSSL + ipAddress + portNumber + openMRSEndpoint
+                    baseUrl = withSSL + ipAddress  + ":" +  portNumber + openMRSEndpoint
                     ssl=true
                 } else {
-                    baseUrl = withoutSSL + ipAddress + portNumber + openMRSEndpoint
+                    baseUrl = withoutSSL + ipAddress  + ":" +  portNumber + openMRSEndpoint
                 }
 
                 if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {

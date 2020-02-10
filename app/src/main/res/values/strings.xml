@@ -327,13 +327,15 @@
     <string name="history">History</string>
     <string name="internet_or_server_error">Please enter correct IP address and port</string>
 
-    <string name="live_ip_address">hydraapi.ihsinformatics.com:</string>
+    <string name="live_ip_address">hydraapi.ihsinformatics.com</string>
     <string name="live_port_number">443</string>
-    <string name="test_server_ip_address">ihs.ihsinformatics.com:</string>
+    <string name="test_server_ip_address">ihs.ihsinformatics.com</string>
     <string name="test_server_port_number">6811</string>
     <string name="with_ssl">https://</string>
     <string name="without_ssl">http://</string>
     <string name="openmrs_endpoint">/openmrs/ws/rest/v1/</string>
+
+
 
 
 

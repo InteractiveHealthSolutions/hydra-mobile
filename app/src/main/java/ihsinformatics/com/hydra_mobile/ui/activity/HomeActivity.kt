@@ -615,6 +615,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 val isSuccess = o as Boolean
                 if (isSuccess) {
 
+                    mDynamicFragmentAdapter.notifyDataSetChanged()
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, getString(R.string.sync_success), Toast.LENGTH_LONG)
 
                 }

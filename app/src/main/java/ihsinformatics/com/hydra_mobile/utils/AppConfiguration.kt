@@ -21,7 +21,7 @@ class AppConfiguration() {
 
         //Todo Need to change here before release or update of app on playstore by uncommenting this line ~Taha
       //  var baseUrl = withSSL+test_server_ip+test_server_port+openMRSEndpoint
-        var baseUrl = withoutSSL+test_server_ip+test_server_port+openMRSEndpoint
+        var baseUrl = withoutSSL+test_server_ip+":"+test_server_port+openMRSEndpoint
         var repository = AppSettingRepository(context)
         runBlocking {
             var list = repository.getSettingList()
@@ -30,14 +30,14 @@ class AppConfiguration() {
 
                 if (null != setting.ip && !setting.ip.equals("") && !setting.ip.equals(" ") && null != setting.port && !setting.port.equals("") && !setting.port.equals(" "))
                     if(setting.ssl)
-                    baseUrl = withSSL + setting.ip + setting.port + openMRSEndpoint
+                    baseUrl = withSSL + setting.ip + ":" + setting.port + openMRSEndpoint
                     else
-                        baseUrl = withoutSSL + setting.ip + setting.port + openMRSEndpoint
+                        baseUrl = withoutSSL + setting.ip  + ":" +  setting.port + openMRSEndpoint
             }
         }
         if (URLUtil.isValidUrl(baseUrl))
         return baseUrl
-        else
+        else   //TODO need to check what to send when url is invalid  ~Taha
             return baseUrl
 
     }
