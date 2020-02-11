@@ -126,12 +126,17 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_patient_search -> {
 
                 if (isInternetConnected()) {
-                    networkProgressDialog.show()
 
-                    searchPatientOnline(edtIdentifier.text.toString())
-                }else
-                {
-                    ToastyWidget.getInstance().displayError(this,getString(R.string.internet_issue),Toast.LENGTH_LONG)
+
+                    if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString().equals("") && !edtIdentifier.text.toString().equals(" ")) {
+                        networkProgressDialog.show()
+                        searchPatientOnline(edtIdentifier.text.toString())
+                    } else {
+                        edtIdentifier.error=resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+                        edtIdentifier.requestFocus()
+                    }
+                } else {
+                    ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_LONG)
                 }
             }
         }
