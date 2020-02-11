@@ -617,6 +617,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                     mDynamicFragmentAdapter.notifyDataSetChanged()
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, getString(R.string.sync_success), Toast.LENGTH_LONG)
+                    finish();
+                    startActivity(getIntent())
 
                 }
 
