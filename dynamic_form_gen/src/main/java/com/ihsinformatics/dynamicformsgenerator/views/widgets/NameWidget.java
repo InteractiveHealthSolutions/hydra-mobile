@@ -120,7 +120,7 @@ public class NameWidget extends InputWidget implements TextWatcher {
             names.put(familyNameObj);
             dismissMessage();
         } else {
-            activity.addValidationError(getQuestionId(), "Names are required!");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
 
         return param;

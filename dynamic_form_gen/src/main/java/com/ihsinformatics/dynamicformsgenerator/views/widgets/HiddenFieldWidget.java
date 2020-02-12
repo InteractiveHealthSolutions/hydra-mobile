@@ -57,7 +57,7 @@ public class HiddenFieldWidget extends InputWidget {
 			dismissMessage();
 			param.put(question.getParamName(), answer);
 		} else {
-			activity.addValidationError(getQuestionId(), "Invalid input");
+			activity.addValidationError(getQuestionId(), question.getErrorMessage());
 		}
 		
 		return param;

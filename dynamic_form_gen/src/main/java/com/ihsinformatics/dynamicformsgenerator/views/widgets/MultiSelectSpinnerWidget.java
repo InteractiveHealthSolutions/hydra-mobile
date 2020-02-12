@@ -67,7 +67,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
             dismissMessage();
             addParams(param);
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         return param;
     }

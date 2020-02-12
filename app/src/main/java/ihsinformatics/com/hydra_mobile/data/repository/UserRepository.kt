@@ -65,7 +65,9 @@ class UserRepository(application: Application) {
                     override fun onResponse(
                         call: Call<ProviderApiResponse>, response: Response<ProviderApiResponse>
                                            ) {
-                        if (response.isSuccessful) {
+                        if (response.isSuccessful && null!=response.body() && response.body()!!.providerResult.size>0) {
+
+
                             GlobalPreferences.getinstance(application).addOrUpdatePreference(GlobalPreferences.KEY.PROVIDER, response.body()!!.providerResult[0].uuid)
 
                             if (userResponse != null) {

@@ -113,7 +113,7 @@ public class AddressWidget extends InputWidget {
         }
 
         if (!isValidOther) {
-            activity.addValidationError(getQuestionId(), context.getResources().getString(R.string.invalid_input));
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
 
         } else {
             dismissMessage();

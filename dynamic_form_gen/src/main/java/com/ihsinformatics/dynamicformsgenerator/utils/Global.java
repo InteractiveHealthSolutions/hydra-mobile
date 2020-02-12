@@ -17,7 +17,6 @@ public class Global {
 	public static String PROVIDER;
 
 	public static String identifierFormat;
-	public static String countryFormat;
 	public static String currentCountry;
 
 

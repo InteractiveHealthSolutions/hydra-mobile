@@ -114,7 +114,7 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
             param.put(ParamNames.VALUE, etAnswer.getText().toString());
 
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         param.put(ParamNames.PAYLOAD_TYPE,getQuestion().getPayload_type());
         return param;

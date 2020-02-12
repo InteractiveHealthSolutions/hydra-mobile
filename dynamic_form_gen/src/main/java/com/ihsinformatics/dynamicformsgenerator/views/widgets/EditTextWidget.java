@@ -126,7 +126,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             dismissMessage();
             //  param.put(question.getParamName(), etAnswer.getText().toString());
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
 
         if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {

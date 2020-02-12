@@ -15,6 +15,7 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.repository.AppSettingRepository
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.AppSettingViewModel
 import kotlinx.android.synthetic.main.app_setting.view.*
+import kotlinx.coroutines.runBlocking
 
 class SettingDialogFragment : DialogFragment() {
 
@@ -26,12 +27,38 @@ class SettingDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+                             ): View? {
         val view = inflater.inflate(R.layout.app_setting, container, false)
         dialog!!.window.attributes.windowAnimations = R.style.FullScreenDialogStyle
+
+        var repository = context?.let { AppSettingRepository(it) }
+        runBlocking {
+            var list = repository!!.getSettingList()
+            if (list.isNotEmpty()) {
+                val setting: AppSetting = list.get(0)
+
+                if (null != setting.ip && !setting.ip.equals("") && !setting.ip.equals(" ") && null != setting.port && !setting.port.equals("") && !setting.port.equals(" ")) {
+                    view.edt_ip_address.setText(setting.ip)
+                    view.edt_port_number.setText(setting.port)
+                    if (setting.ssl) {
+
+                        view.cb_ssl_enable.isChecked = true
+
+                    } else {
+                        view.cb_ssl_enable.isChecked = false
+                    }
+                }
+            }else
+            {
+                view.edt_ip_address.setText(getString(R.string.test_server_ip_address))
+                view.edt_port_number.setText(getString(R.string.test_server_port_number))
+                view.cb_ssl_enable.isChecked = false
+            }
+        }
+
+
+
         view.img_close.setOnClickListener(View.OnClickListener {
             dismiss()
         })
@@ -45,42 +72,39 @@ class SettingDialogFragment : DialogFragment() {
             if (ipAddress != null && ipAddress != "" && ipAddress != " " && portNumber != null && portNumber != "" && portNumber != " ") {
 
                 var baseUrl = ""
-                var ssl=false
+                var ssl = false
 
-                var openMRSEndpoint=context!!.getString(R.string.openmrs_endpoint)
-                var test_server_ip=context!!.getString(R.string.test_server_ip_address)
-                var test_server_port=context!!.getString(R.string.test_server_port_number)
-                var withoutSSL=context!!.getString(R.string.without_ssl)
-                var withSSL=context!!.getString(R.string.with_ssl)
+                var openMRSEndpoint = context!!.getString(R.string.openmrs_endpoint)
+                var test_server_ip = context!!.getString(R.string.test_server_ip_address)
+                var test_server_port = context!!.getString(R.string.test_server_port_number)
+                var withoutSSL = context!!.getString(R.string.without_ssl)
+                var withSSL = context!!.getString(R.string.with_ssl)
 
 
                 if (view.cb_ssl_enable.isChecked) {
-                    baseUrl = withSSL + ipAddress  + ":" +  portNumber + openMRSEndpoint
-                    ssl=true
+                    baseUrl = withSSL + ipAddress + ":" + portNumber + openMRSEndpoint
+                    ssl = true
                 } else {
-                    baseUrl = withoutSSL + ipAddress  + ":" +  portNumber + openMRSEndpoint
+                    baseUrl = withoutSSL + ipAddress + ":" + portNumber + openMRSEndpoint
                 }
 
                 if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {
-                    saveAppSetting(ipAddress, portNumber,ssl)
+                    saveAppSetting(ipAddress, portNumber, ssl)
                     dismiss()
                 } else {
-                    ToastyWidget.getInstance()
-                        .displayError(context, "Invalid URL", Toast.LENGTH_SHORT)
+                    ToastyWidget.getInstance().displayError(context, "Invalid ip address or port", Toast.LENGTH_SHORT)
                 }
             } else {
-                ToastyWidget.getInstance()
-                    .displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
+                ToastyWidget.getInstance().displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
             }
         })
 
-        view.btn_reset.setOnClickListener(View.OnClickListener
-        {
+        view.btn_reset.setOnClickListener(View.OnClickListener {
 
             //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
             view.edt_ip_address.setText(getString(R.string.test_server_ip_address))
             view.edt_port_number.setText(getString(R.string.test_server_port_number))
-            view.cb_ssl_enable.isChecked=false
+            view.cb_ssl_enable.isChecked = false
 
         })
         return view
@@ -103,10 +127,10 @@ class SettingDialogFragment : DialogFragment() {
         }
     }
 
-    fun saveAppSetting(ipAddress: String, portNumber: String, ssl:Boolean) {
+    fun saveAppSetting(ipAddress: String, portNumber: String, ssl: Boolean) {
         appSettingViewModel = ViewModelProviders.of(this).get(AppSettingViewModel::class.java)
         appSettingViewModel.deleteAll()
-        appSettingViewModel.insert(AppSetting(ip = ipAddress, port = portNumber,ssl = ssl))
+        appSettingViewModel.insert(AppSetting(ip = ipAddress, port = portNumber, ssl = ssl))
         Toast.makeText(activity, "setting changed", Toast.LENGTH_SHORT).show()
     }
 

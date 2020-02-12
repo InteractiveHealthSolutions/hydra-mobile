@@ -102,7 +102,7 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
             dismissMessage();
             param.put(question.getParamName(), etAnswer.getText().toString());
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), "Invalid input");   //No need to show custom error message on QRWidget  ~Taha
         }
         return param;
     }

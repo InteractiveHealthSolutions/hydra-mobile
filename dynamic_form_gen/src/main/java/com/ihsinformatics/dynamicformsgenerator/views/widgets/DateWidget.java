@@ -97,7 +97,7 @@ public class DateWidget extends InputWidget {
 
 
             } else {
-                activity.addValidationError(getQuestionId(), "Invalid input");
+                activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         } catch (ParseException e) {
             e.printStackTrace();

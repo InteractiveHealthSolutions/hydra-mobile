@@ -157,7 +157,7 @@ public class SingleSelectEditTextWidget extends InputWidget implements PopupMenu
             }
             dismissMessage();
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         return param;
     }

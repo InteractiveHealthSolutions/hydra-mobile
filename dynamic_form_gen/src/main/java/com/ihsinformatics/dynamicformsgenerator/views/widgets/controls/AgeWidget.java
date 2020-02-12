@@ -124,7 +124,7 @@ public class AgeWidget extends InputWidget implements TextWatcher {
                 param.put(ParamNames.VALUE, value);
                 param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
             } else {
-                activity.addValidationError(getQuestionId(), "Invalid input");
+                activity.addValidationError(getQuestionId(), question.getErrorMessage());
             }
         } catch (ParseException e) {
             e.printStackTrace();

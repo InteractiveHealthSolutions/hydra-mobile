@@ -103,7 +103,7 @@ public class ScoreSpinner extends InputWidget implements OnItemSelectedListener 
 			}
 			
 		} else {
-			activity.addValidationError(getQuestionId(), "Invalid input");
+			activity.addValidationError(getQuestionId(), question.getErrorMessage());
 		}
 		
 		return param;

@@ -637,12 +637,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun initSystemSettings() {
         val identifierFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
         val dateFormat = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
+        val countryName = DataAccess.getInstance().fetchSystemSettingsByUUID(this, "3h98a10f-3edz-43f6-b020-d0823e28ebd1")  //UUID for hydra.contry
 
 
 
         Global.identifierFormat = identifierFormat.value
         Global.setDateFormat(dateFormat.value)
-    //    Global.currentCountry =
+        Global.currentCountry = countryName.value
 
     }
 

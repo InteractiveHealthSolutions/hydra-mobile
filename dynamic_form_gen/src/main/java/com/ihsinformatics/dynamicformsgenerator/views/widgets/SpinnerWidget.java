@@ -100,7 +100,7 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
                 }
             }
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input");
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         param.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
         return param;
