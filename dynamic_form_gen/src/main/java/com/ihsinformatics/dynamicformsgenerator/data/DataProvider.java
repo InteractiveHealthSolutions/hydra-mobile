@@ -132,7 +132,8 @@ public class DataProvider {
         openAddressFields.add(openAddressField);
         addressConfiguration = new AddressConfiguration(
                 openAddressFields,
-                new AddressConfiguration.AddressTag(1, "Province/State"),
+                new AddressConfiguration.AddressTag(1, "Country"),
+                new AddressConfiguration.AddressTag(2, "Province/State"),
                 new AddressConfiguration.AddressTag(3, "City/Village"));
         System.out.print("");
 

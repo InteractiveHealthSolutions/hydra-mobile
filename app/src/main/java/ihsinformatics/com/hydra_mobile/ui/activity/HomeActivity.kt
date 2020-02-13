@@ -60,6 +60,8 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -93,11 +95,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         /*screen level initialization*/
+        //checkSessionTimeOut()
 
 
         Global.USERNAME = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
         Global.PASSWORD = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PASSWORD, null)
         Global.PROVIDER = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
+
 
 
 
@@ -655,6 +659,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val intent = Intent(this, Form::class.java)
         intent.putExtras(bundle)
         startActivity(intent)
+    }
+
+
+    fun checkSessionTimeOut() {
+        val storedTime = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.ACTIVE_TIME, null)
+
+
+        if (null != storedTime) {
+            val simpleDateFormat = SimpleDateFormat("hh:mm a")
+            val timeToCheck = simpleDateFormat.parse(storedTime)
+            val difference = Calendar.getInstance().time.time - timeToCheck.time
+            if (difference > 8) {
+                ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        } else {
+            ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
 }

@@ -41,6 +41,7 @@
                 android:textColor="@color/openChatText"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/cabin"
                 android:typeface="monospace" />
 
             <ImageView

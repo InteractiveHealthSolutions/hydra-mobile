@@ -32,6 +32,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_diagonosis"/>
             <TextView
+                    android:fontFamily="@font/muli"
                     android:layout_weight="8"
                     android:id="@+id/listTitle"
                     android:textStyle="bold"

@@ -46,6 +46,7 @@
         <!--//<item name="android:textColor">@color/DarkSlateGray</item>-->
         <item name="android:textColor">@color/Gray</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/muli</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 

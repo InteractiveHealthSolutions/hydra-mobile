@@ -17,7 +17,8 @@ public class GlobalPreferences {
 		FIRST_RUN,
 		WORKFLOW,
 		WORKFLOWUUID,
-		CURRENT_PHASE_UUID
+		CURRENT_PHASE_UUID,
+		ACTIVE_TIME
 	}
 	
 	private static GlobalPreferences instance;

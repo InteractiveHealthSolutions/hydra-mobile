@@ -227,8 +227,8 @@
     <string name="notification_textview">0</string>
     <string name="org_name">Lung Health</string>
     <string name="corporation_name">Corporation</string>
-    <string name="default_username">Irtiza.ahmed</string>
-    <string name="default_pass">Irtiza1234</string>
+    <string name="default_username">taha</string>
+    <string name="default_pass">Taha1234</string>
     <string name="check_remember">Remember me</string>
     <string name="check_offline_mode">Offline Mode</string>
     <string name="tpowered_by">Powered by</string>
@@ -334,12 +334,7 @@
     <string name="with_ssl">https://</string>
     <string name="without_ssl">http://</string>
     <string name="openmrs_endpoint">/openmrs/ws/rest/v1/</string>
-
-
-
-
-
-
+    <string name="network_problem">Network Problem. Check your internet connection</string>
 
 
     <string-array name="end_of_followup_for">

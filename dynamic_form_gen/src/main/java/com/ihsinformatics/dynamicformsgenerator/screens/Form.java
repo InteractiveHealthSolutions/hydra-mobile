@@ -283,7 +283,8 @@ public class Form extends BaseActivity {
                 openAddressFields.add(openAddressField2);
                 configuration = new AddressConfiguration(
                         openAddressFields,
-                        new AddressConfiguration.AddressTag(1, "Province/State"),
+                        new AddressConfiguration.AddressTag(1, "Country"),
+                        new AddressConfiguration.AddressTag(2, "Province/State"),
                         new AddressConfiguration.AddressTag(3, "City/Village"));
             } else if (widgetType.equals("Date/ Time Picker")) {
 
@@ -304,9 +305,10 @@ public class Form extends BaseActivity {
 
 
             } else {
-                if(allowDecimal!=null && allowDecimal)
+                if(allowDecimal!=null && allowDecimal && inputType.equalsIgnoreCase("numeric"))
                 {
-                    characters=characters+".";
+                    characters="1234567890.-+";
+                    inputType="decimalNumeric";
                 }
 
                 configuration = new QuestionConfiguration(

@@ -71,6 +71,7 @@ class MetaDataHelper(context: Context) {
 
             override fun onFailure() {
                 restCallback.onFailure(Throwable("Some error occured"))
+                restCallback.onSuccess(false)
             }
         },object : RESTCallback {
 

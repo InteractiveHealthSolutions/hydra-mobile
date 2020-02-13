@@ -4,40 +4,31 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.EditText
-import androidx.databinding.DataBindingUtil
-import ihsinformatics.com.hydra_mobile.databinding.ActivityLoginBinding
-import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
-import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
-import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
-import android.widget.Toast
-import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
-import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
-import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.ihsinformatics.dynamicformsgenerator.screens.Form
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
-
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
+import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
+import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
+import ihsinformatics.com.hydra_mobile.databinding.ActivityLoginBinding
+import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.PhaseComponentJoinViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.UserViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -152,6 +143,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
+
                     }
                 })
             } else {
@@ -237,6 +229,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (isSuccess) {
                     networkProgressDialog.dismiss()
 
+                    //saveSessionStartTime()
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 
@@ -245,12 +238,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun onFailure(t: Throwable) {
-
+                networkProgressDialog.dismiss()
+                ToastyWidget.getInstance().displayError(this@LoginActivity,getString(R.string.network_problem),Toast.LENGTH_LONG)
             }
         })
 
 
     }
 
+
+    fun saveSessionStartTime()
+    {
+        val simpleDateFormat = SimpleDateFormat("hh:mm a")
+
+        val currentTime = simpleDateFormat.parse(Calendar.getInstance().getTime().toString());
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime.toString())
+
+    }
 
 }

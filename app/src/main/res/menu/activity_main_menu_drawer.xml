@@ -21,31 +21,38 @@
 
 <!--    </group>-->
 
-    <item android:title="Actions">
+    <item android:title="Actions"
+        android:fontFamily="@font/cabin">
         <menu>
             <item
+                android:fontFamily="@font/cabin"
                 android:id="@+id/nav_sync"
                 android:icon="@drawable/sync"
                 android:title="@string/Sync"/>
 
             <item
+                android:fontFamily="@font/cabin"
                     android:id="@+id/nav_createPatient"
                     android:icon="@drawable/ic_create_user_nav"
                     android:title="@string/create_patient"/>
             <item
+                android:fontFamily="@font/cabin"
                 android:id="@+id/nav_backup"
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/backup"/>
 
             <item
+                android:fontFamily="@font/cabin"
                     android:id="@+id/nav_offline_search"
                     android:icon="@drawable/ic_search"
                     android:title="@string/offline_patient_search"/>
             <item
+                android:fontFamily="@font/cabin"
                     android:id="@+id/nav_search"
                     android:icon="@drawable/ic_search"
                     android:title="@string/search_online_title"/>
             <item
+                android:fontFamily="@font/cabin"
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
                 android:title="@string/menu_logout"/>
