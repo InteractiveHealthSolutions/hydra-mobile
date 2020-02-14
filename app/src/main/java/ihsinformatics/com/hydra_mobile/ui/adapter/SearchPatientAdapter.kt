@@ -13,6 +13,7 @@ import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
@@ -73,8 +74,10 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : Re
 
                     var serverResponse: JSONObject? = null
 
+                    var dob= Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
+
                     //TODO need to integrate age here after changing to openmrs format ~Taha
-                    var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), 1, null, null)
+                    var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null)
 
 
                     //Initialization of summary fields

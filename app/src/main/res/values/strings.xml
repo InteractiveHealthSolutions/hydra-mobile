@@ -320,7 +320,7 @@
     <string name="need_to_sync">Data Not Available. Needs to Sync</string>
     <string name="no_offline_user">No Offline Data Available For This Username</string>
     <string name="sync_error">Sync Error</string>
-    <string name="sync_success">Data Sync Successful</string>
+    <string name="sync_success">Data Sync Successfully</string>
     <string name="Sync">Sync Data</string>
     <string name="create_patient">Create Patient</string>
     <string name="offline_patient_search">Search Offline Patient</string>
