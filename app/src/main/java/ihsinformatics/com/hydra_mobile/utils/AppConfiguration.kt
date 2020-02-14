@@ -21,8 +21,8 @@ class AppConfiguration() {
         var withSSL = context.getString(R.string.with_ssl)
 
         //Todo Need to change here before release or update of app on playstore by uncommenting this line ~Taha
-        //  var baseUrl = withSSL+test_server_ip+test_server_port+openMRSEndpoint
-        var baseUrl = withoutSSL + test_server_ip + ":" + test_server_port + openMRSEndpoint
+          var baseUrl = withSSL+test_server_ip + ":" +test_server_port+openMRSEndpoint
+        //var baseUrl = withoutSSL + test_server_ip + ":" + test_server_port + openMRSEndpoint
         var repository = AppSettingRepository(context)
         runBlocking {
             var list = repository.getSettingList()
