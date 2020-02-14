@@ -27,6 +27,7 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -229,7 +230,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (isSuccess) {
                     networkProgressDialog.dismiss()
 
-                    //saveSessionStartTime()
+                   //saveSessionStartTime()
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 
@@ -249,11 +250,20 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     fun saveSessionStartTime()
     {
-        val simpleDateFormat = SimpleDateFormat("hh:mm a")
+//        val simpleDateFormat = SimpleDateFormat("hh:mm a")
+//
+//        val currentTime = simpleDateFormat.parse(Calendar.getInstance().time.time.toString())
+//        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime.toString())
 
-        val currentTime = simpleDateFormat.parse(Calendar.getInstance().getTime().toString());
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime.toString())
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"))
+        val currentLocalTime = cal.time
+        val date: DateFormat = SimpleDateFormat("HH:mm")
 
+        date.setTimeZone(TimeZone.getTimeZone("GMT+1:00"))
+
+        val localTime: String = date.format(currentLocalTime)
+
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, localTime)
     }
 
 }

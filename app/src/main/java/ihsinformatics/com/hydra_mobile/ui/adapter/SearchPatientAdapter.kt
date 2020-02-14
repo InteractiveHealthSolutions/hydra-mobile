@@ -73,7 +73,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : Re
 
                     var serverResponse: JSONObject? = null
 
-
+                    //TODO need to integrate age here after changing to openmrs format ~Taha
                     var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), 1, null, null)
 
 

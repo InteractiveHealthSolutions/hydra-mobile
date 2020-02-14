@@ -60,6 +60,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -95,7 +96,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         /*screen level initialization*/
-        //checkSessionTimeOut()
+//        checkSessionTimeOut()
 
 
         Global.USERNAME = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
@@ -663,21 +664,28 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
     fun checkSessionTimeOut() {
+
         val storedTime = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.ACTIVE_TIME, null)
 
-
         if (null != storedTime) {
-            val simpleDateFormat = SimpleDateFormat("hh:mm a")
-            val timeToCheck = simpleDateFormat.parse(storedTime)
-            val difference = Calendar.getInstance().time.time - timeToCheck.time
-            if (difference > 8) {
-                ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
-        } else {
-            ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
-            startActivity(Intent(this, LoginActivity::class.java))
+            val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"))
+            val currentLocalTime = cal.time
+            val date: DateFormat = SimpleDateFormat("HH:mm")
+
+            date.setTimeZone(TimeZone.getTimeZone("GMT+1:00"))
+
+            val localTime = date.format(currentLocalTime)
         }
+       //     val difference =
+
+//            if (difference > 8) {
+//                ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
+//                startActivity(Intent(this, LoginActivity::class.java))
+//            }
+//        } else {
+//            ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
+//            startActivity(Intent(this, LoginActivity::class.java))
+//        }
     }
 
 }
