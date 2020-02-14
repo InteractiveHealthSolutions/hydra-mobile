@@ -51,9 +51,9 @@ class SettingDialogFragment : DialogFragment() {
                 }
             }else
             {
-                view.edt_ip_address.setText(getString(R.string.test_server_ip_address))
-                view.edt_port_number.setText(getString(R.string.test_server_port_number))
-                view.cb_ssl_enable.isChecked = false
+                view.edt_ip_address.setText(getString(R.string.live_ip_address))
+                view.edt_port_number.setText(getString(R.string.live_port_number))
+                view.cb_ssl_enable.isChecked = true
             }
         }
 
@@ -75,8 +75,8 @@ class SettingDialogFragment : DialogFragment() {
                 var ssl = false
 
                 var openMRSEndpoint = context!!.getString(R.string.openmrs_endpoint)
-                var test_server_ip = context!!.getString(R.string.test_server_ip_address)
-                var test_server_port = context!!.getString(R.string.test_server_port_number)
+                var test_server_ip = context!!.getString(R.string.live_ip_address)
+                var test_server_port = context!!.getString(R.string.live_port_number)
                 var withoutSSL = context!!.getString(R.string.without_ssl)
                 var withSSL = context!!.getString(R.string.with_ssl)
 
@@ -102,9 +102,9 @@ class SettingDialogFragment : DialogFragment() {
         view.btn_reset.setOnClickListener(View.OnClickListener {
 
             //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
-            view.edt_ip_address.setText(getString(R.string.test_server_ip_address))
-            view.edt_port_number.setText(getString(R.string.test_server_port_number))
-            view.cb_ssl_enable.isChecked = false
+            view.edt_ip_address.setText(getString(R.string.live_ip_address))
+            view.edt_port_number.setText(getString(R.string.live_port_number))
+            view.cb_ssl_enable.isChecked = true
 
         })
         return view

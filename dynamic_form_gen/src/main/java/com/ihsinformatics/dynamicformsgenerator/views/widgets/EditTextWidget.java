@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.View;
@@ -92,6 +93,15 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             if (etAnswer.getText().toString().length() == 0 && !isMendatory) {
             } else if (etAnswer.getText().toString().length() < configuration.getMinLenght()) {
                 return false;
+            }
+
+            //Additon of this configuration by Taha for Hydra  ~Taha
+            if(configuration.getInputType()== InputType.TYPE_CLASS_NUMBER || configuration.getInputType()== InputType.TYPE_NUMBER_FLAG_DECIMAL)
+            {
+                if(Integer.parseInt(etAnswer.getText().toString()) > configuration.getMaxValue() || Integer.parseInt(etAnswer.getText().toString()) < configuration.getMinValue())
+                {
+                    return false;
+                }
             }
         }
         if (Validation.CHECK_FOR_RANGE.equals(question.getValidationFunction())) {

@@ -15,8 +15,8 @@ class AppConfiguration() {
 
         //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
         var openMRSEndpoint = context.getString(R.string.openmrs_endpoint)
-        var test_server_ip = context.getString(R.string.test_server_ip_address)
-        var test_server_port = context.getString(R.string.test_server_port_number)
+        var test_server_ip = context.getString(R.string.live_ip_address)
+        var test_server_port = context.getString(R.string.live_port_number)
         var withoutSSL = context.getString(R.string.without_ssl)
         var withSSL = context.getString(R.string.with_ssl)
 

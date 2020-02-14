@@ -21,8 +21,8 @@ public class QuestionConfiguration extends Configuration {
     private DateSelector.WIDGET_TYPE widgetType;
 
 
-    private int maxValue;
-    private int minValue;
+    private int maxValue=1000000;
+    private int minValue=0;
     private int maxLines;
 
     public QuestionConfiguration() {
@@ -175,5 +175,22 @@ public class QuestionConfiguration extends Configuration {
     public void setMinDate(Date minDate) {
         this.minDate = minDate;
     }
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(int minValue) {
+        this.minValue = minValue;
+    }
+
+
 
 }
