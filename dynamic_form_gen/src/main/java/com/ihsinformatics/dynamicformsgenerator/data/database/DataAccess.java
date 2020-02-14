@@ -500,4 +500,29 @@ public class DataAccess {
             return tagList.get(0);
         return null;
     }
+
+
+
+
+    public List<Location> fetchLocationsByTagCountryAndParent(Context context, String tag,String country, String parentLocationName) throws IllegalStateException {
+        Location parent = fetchLocationByName(context, parentLocationName);
+        List<Location> locationList = new ArrayList<>();
+        LocationTag locationTag = fetchLocationTagByName(context, tag);
+        if (locationTag == null)
+            throw new IllegalStateException("No location tag found against location tag " + tag);
+        if (country == null)
+            throw new IllegalStateException("No Country found in global settings");
+        // QueryBuilder.LOG_SQL = true;
+
+        LocationDao locationDao = App.getDaoSession(context).getLocationDao();
+        QueryBuilder<Location> queryBuilder = locationDao.queryBuilder().where(LocationDao.Properties.Country.eq(country));
+        if (parent != null)
+            return locationList; // return empty list
+
+        Join locationTagMapJoin = queryBuilder.join(LocationTagMap.class, LocationTagMapDao.Properties.LocationId);
+        locationTagMapJoin.where(LocationTagMapDao.Properties.LocationTagId.eq(locationTag.getId()));
+
+        locationList = queryBuilder.list();
+        return locationList;
+    }
 }

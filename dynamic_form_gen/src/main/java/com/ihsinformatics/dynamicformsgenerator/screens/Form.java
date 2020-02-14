@@ -165,7 +165,7 @@ public class Form extends BaseActivity {
 
 
         this.questions.add(new Question(true, idOfForm, 10000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null,Question.PAYLOAD_TYPE.LOCATION));
-        this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccess(this, 10000, null, null));
+        this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccessWithCountryName(this, 10000, null, null));
 
         this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
