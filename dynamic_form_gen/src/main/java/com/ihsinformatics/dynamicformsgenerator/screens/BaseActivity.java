@@ -1054,7 +1054,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     for (SExpression sExp : showables) {
 
                         Boolean final_visibility = logicChecker(sExp);
-                        if (final_visibility == true) {
+                        if(null == final_visibility)
+                        {
+                            changeable.setVisibility(changeableQuestion.getInitialVisibility());
+                        }
+                        else if (final_visibility == true) {
                             changeable.setVisibility(View.VISIBLE);
                         } else {
                             changeable.setVisibility(View.GONE);
@@ -1068,7 +1072,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
                         Boolean final_visibility = logicChecker(sExp);
-                        if (final_visibility == true) {
+                        if(null == final_visibility)
+                        {
+                            changeable.setVisibility(changeableQuestion.getInitialVisibility());
+                        }
+                        else if (final_visibility == true) {
                             changeable.setVisibility(View.GONE);
                         } else {
                             changeable.setVisibility(View.VISIBLE);
@@ -1092,23 +1100,26 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         final_visibility = logicChecker(nestedSExp);
                     }
                 }
-                if (final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
+                if (final_visibility!=null && final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
                     return true;
 
                 for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                    if (null != changer) {
+                    if (null != changer && changer.getVisibility()== View.VISIBLE) {
                         if (null != changer.getOptions()) {
 
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
                             }
-                            if (!final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
+                            if (final_visibility!=null && !final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = false;
                             } else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
                             }
                         }
+                    }else
+                    {
+                        final_visibility = null;
                     }
                 }
 
@@ -1119,11 +1130,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         final_visibility = logicChecker(nestedSExp);
                     }
                 }
-                if (final_visibility) {
+                if (final_visibility!=null && final_visibility) {
                     for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                         InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                        if (null != changer) {
-                            if (null != changer.getOptions()) {
+                        if (null != changer && changer.getVisibility()== View.VISIBLE && final_visibility!=null) {
+                           if (null != changer.getOptions()) {
 
                                 if (changerQuestion.getEqualsList().size() == 0 || changerQuestion.getEqualsList().contains(changer.getValue())) {
                                     final_visibility = true;
@@ -1140,6 +1151,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                     final_visibility = true;
                                 }
                             }
+                        }else
+                        {
+                            final_visibility = null;
+                            break;
                         }
                     }
                 }

@@ -195,6 +195,7 @@ public class Form extends BaseActivity {
             Boolean scoreable = formFields.optBoolean("scoreable");  //Not Mapped
             Boolean allowDecimal = formFields.optBoolean("allowDecimal");  //Not Mapped
             Boolean mandatory = formFields.optBoolean("mandatory");
+            String initialVisibility = "Visible";
 
             String defaultValue = formFields.optString("defaultValue");
             String regix = formFields.optString("regix");  // Need to check this field Onc done
@@ -330,10 +331,14 @@ public class Form extends BaseActivity {
                 JSONObject parsedRuleJSON = new JSONObject(parsedRule);
                 JSONArray hiddenWhenList = parsedRuleJSON.optJSONArray("hiddenWhen");
                 hiddenWhen = skipLogicParser(hiddenWhenList);
+                if(hiddenWhen.size()>0)
+                    initialVisibility="GONE";
             }else
             {
                 JSONArray hiddenWhenList = formFields.optJSONArray("hiddenWhen");
                 hiddenWhen = skipLogicParser(hiddenWhenList);
+                if(hiddenWhen.size()>0)
+                    initialVisibility="GONE";
             }
 
 
@@ -350,10 +355,10 @@ public class Form extends BaseActivity {
                 errorMessage="Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, "Visible", Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType,errorMessage ,visibleWhen, hiddenWhen, requiredWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration,attribute,inputType,errorMessage ,visibleWhen, hiddenWhen, requiredWhen);
 
             if(regix!=null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, "Visible", regix, displayText, conceptUUID, configuration,attribute,inputType, errorMessage,visibleWhen, hiddenWhen, requiredWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration,attribute,inputType, errorMessage,visibleWhen, hiddenWhen, requiredWhen);
             }
 
             this.questions.add(completeQuestion);
