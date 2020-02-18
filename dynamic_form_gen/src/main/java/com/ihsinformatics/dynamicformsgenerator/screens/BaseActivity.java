@@ -1093,8 +1093,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected Boolean logicChecker(SExpression sExp) throws JSONException {
         if (sExp != null) {
             Boolean final_visibility = false;
+            Boolean loopFirstIteration=true;
             if (sExp.getOperator().equals("OR")) {
                 final_visibility = false;
+
                 if (null != sExp.getSkipLogicsArray()) {
                     for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
                         final_visibility = logicChecker(nestedSExp);
@@ -1110,14 +1112,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
+                                loopFirstIteration=false;
                             }
                             if (final_visibility!=null && !final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = false;
+                                loopFirstIteration=false;
                             } else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
+                                loopFirstIteration=false;
                             }
                         }
-                    }else
+                    }else if(loopFirstIteration)
                     {
                         final_visibility = null;
                     }
@@ -1133,22 +1138,26 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 if (final_visibility!=null && final_visibility) {
                     for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                         InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                        if (null != changer && changer.getVisibility()== View.VISIBLE && final_visibility!=null) {
+                        if (null != changer && changer.getVisibility()== View.VISIBLE) {
                            if (null != changer.getOptions()) {
 
                                 if (changerQuestion.getEqualsList().size() == 0 || changerQuestion.getEqualsList().contains(changer.getValue())) {
                                     final_visibility = true;
+                                    loopFirstIteration=false;
                                 } else {
                                     final_visibility = false;
+                                    loopFirstIteration=false;
                                     break;
 
                                 }
                                 if (changerQuestion.getNotEqualsList().contains(changer.getValue())) {
 
                                     final_visibility = false;
+                                    loopFirstIteration=false;
                                     break;
                                 } else {
                                     final_visibility = true;
+                                    loopFirstIteration=false;
                                 }
                             }
                         }else
