@@ -23,6 +23,7 @@ import android.view.WindowManager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.Utils;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
@@ -226,6 +227,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient);
+
+                        JSONObject serverResponse = Utils.converToServerResponse(offlinePatient);
+                        String requestType = ParamNames.GET_PATIENT_INFO;
+
+                        Utils.convertPatientToPatientData(this, serverResponse, 0, requestType);
+
                     } else
                         return;
                 } else {

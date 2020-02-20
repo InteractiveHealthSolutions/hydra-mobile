@@ -305,7 +305,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             R.id.nav_createPatient -> {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
-                startActivity(Intent(this, Form::class.java))
+                startActivityForResult(Intent(this, Form::class.java), 112)
+
             }
 //            R.id.nav_faq -> {
 //                startActivity(Intent(this, HelpActivity::class.java))
