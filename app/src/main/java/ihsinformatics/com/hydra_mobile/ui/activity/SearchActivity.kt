@@ -16,8 +16,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
-import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.Utils
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
@@ -29,6 +31,8 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import org.json.JSONException
+import org.json.JSONObject
 import timber.log.Timber
 
 
@@ -132,11 +136,57 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                         networkProgressDialog.show()
                         searchPatientOnline(edtIdentifier.text.toString())
                     } else {
-                        edtIdentifier.error=resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+                        edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
                         edtIdentifier.requestFocus()
                     }
                 } else {
-                    ToastyWidget.getInstance().displayError(this, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                    /*if(false*/ /*DataSender.isConnected(PatientInfoFetcher.this) ) { // TODO handle this
+                    performClick();
+                } else */
+
+                    var identifier: String? = null
+                    if (edtIdentifier.getVisibility() == View.VISIBLE) {
+                        try {
+                            identifier = edtIdentifier.getText().toString()
+                            var offlinePatient: OfflinePatient? = null
+                            if (!edtIdentifier.getText().toString().isEmpty()) {
+                                offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, identifier)
+                            } else if (!etName.getText().toString().isEmpty()) {
+                                offlinePatient = DataAccess.getInstance().getPatientByName(this, etName.getText().toString())
+                            } else { // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
+                                var name = ""
+                                var gender = ""
+                                var id = ""
+                                val dob = ""
+                                if (!etName.getText().toString().isEmpty()) {
+                                    name = etName.getText().toString()
+                                }
+                                //
+                                val selectedID: Int = rg_gender.getCheckedRadioButtonId()
+                                val rb_gender = findViewById<RadioButton>(selectedID)
+                                if (rb_gender != null && !rb_gender.text.toString().isEmpty()) {
+                                    gender = rb_gender.text.toString()
+                                }
+                                if (!etId.getText().toString().isEmpty()) {
+                                    id = etId.getText().toString()
+                                }
+                                offlinePatient = DataAccess.getInstance().getPatientByAllFields(this@PatientInfoFetcher, id, name, dob, gender)
+                                return
+                            }
+                            var serverResponse: JSONObject? = null
+                            serverResponse = Utils.converToServerResponse(offlinePatient)
+                            var requestType = ParamNames.GET_PATIENT_INFO
+                            onResponseReceived(serverResponse, 0)
+                        } catch (e: JSONException) { // I know its bad to catch NPE -nvd
+                            ToastyWidget.getInstance().displayError(this, "Could not fetch data", Toast.LENGTH_LONG)
+                        } catch (e: NullPointerException) {
+                            ToastyWidget.getInstance().displayError(this, "Could not fetch data", Toast.LENGTH_LONG)
+                        }
+                    } else {
+                        ToastyWidget.getInstance().displayWarning(this, "Offline mode can find by MR Number only", Toast.LENGTH_LONG)
+                    }
+
+
                 }
             }
         }

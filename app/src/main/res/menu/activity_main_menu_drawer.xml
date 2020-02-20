@@ -40,17 +40,11 @@
                 android:id="@+id/nav_backup"
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/backup"/>
-
-            <item
-                android:fontFamily="@font/cabin"
-                    android:id="@+id/nav_offline_search"
-                    android:icon="@drawable/ic_search"
-                    android:title="@string/offline_patient_search"/>
             <item
                 android:fontFamily="@font/cabin"
                     android:id="@+id/nav_search"
                     android:icon="@drawable/ic_search"
-                    android:title="@string/search_online_title"/>
+                    android:title="@string/search_title"/>
             <item
                 android:fontFamily="@font/cabin"
                 android:id="@+id/nav_logout"

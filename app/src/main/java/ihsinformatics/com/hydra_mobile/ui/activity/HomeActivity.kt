@@ -365,20 +365,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     startActivityForResult(Intent(this, SearchActivity::class.java), 112)
                     finish()
                 } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+
+                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+                    startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
+
                 }
 
 
             }
 
-            R.id.nav_offline_search -> {
-
-                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
-            }
+//            R.id.nav_offline_search -> {
+//
+//                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
+//                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
+//            }
 
             R.id.nav_logout -> {
+
                 logoutDialog()
+
 
             }
         }
@@ -587,6 +592,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             SessionManager(applicationContext).logoutUser()
             GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+            Global.patientData = null
             finish()
 
         }
@@ -677,7 +683,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             val localTime = date.format(currentLocalTime)
         }
-       //     val difference =
+        //     val difference =
 
 //            if (difference > 8) {
 //                ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
