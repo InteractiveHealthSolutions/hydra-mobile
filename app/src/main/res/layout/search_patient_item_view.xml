@@ -4,13 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_margin="@dimen/dimen_24dp"
+    android:layout_margin="@dimen/dimen_15dp"
     android:elevation="@dimen/dimen_24dp">
 
     <LinearLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/blue_borders"
         android:weightSum="2">
         <!--image-->
         <LinearLayout
@@ -54,30 +55,34 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-            android:weightSum="5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="5">
 
-            <TextView
-                android:id="@+id/tv_patient_name"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:maxLines="1"
                 android:padding="8dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="2"
-                android:textAlignment="center"
-                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/app_title_name"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/tv_patient_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:text="@string/app_title_name"
+                    android:textAlignment="center"
+                    android:layout_centerInParent="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_weight="3"
                 android:orientation="vertical"
                 android:weightSum="3">
 
@@ -85,19 +90,19 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:weightSum="5"
                     android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/patient_identitier"
-                        android:textStyle="bold"
                         android:layout_weight="2"
+                        android:text="@string/patient_identitier"
                         android:textColor="@color/bootstrap_gray_light"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_patient_identifier"
@@ -114,17 +119,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:weightSum="5"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/patient_age"
-                        android:textStyle="bold"
-                        android:textColor="@color/bootstrap_gray_light"
                         android:layout_weight="2"
-                        android:textSize="15sp" />
+                        android:text="@string/patient_age"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_patient_age"
@@ -135,7 +140,6 @@
                         android:textSize="15sp" />
 
                 </LinearLayout>
-
 
 
             </LinearLayout>

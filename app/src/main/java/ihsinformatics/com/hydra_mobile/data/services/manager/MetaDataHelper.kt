@@ -148,6 +148,10 @@ class MetaDataHelper(context: Context) {
         phaseComponentRepository.deleteAllPhaseComponents()
         componentFormJoinRepository.deleteAllComponentForms()
 
+        labTestTypeRepository.deleteAllLabTestType()
+
+        relatedRepository.deleteAllRelatedData()
+
 
 
     }
@@ -156,7 +160,7 @@ class MetaDataHelper(context: Context) {
     private fun parseMetaData(retrofitResponseListener:RetrofitResponseListener,restCallback: RESTCallback) {
 
         try {
-            getAllRelatedData(retrofitResponseListener)
+
 
             deleteExisitingLocalData()
 
@@ -165,7 +169,7 @@ class MetaDataHelper(context: Context) {
             getPhasesFromAPI(retrofitResponseListener)
             getComponentsFromAPI(retrofitResponseListener)
             getFormsFromAPI(retrofitResponseListener)
-
+            getAllRelatedData(retrofitResponseListener)
 
 
         } catch (e: JSONException) {

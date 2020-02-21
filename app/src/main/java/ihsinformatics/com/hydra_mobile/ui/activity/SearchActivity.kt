@@ -19,13 +19,19 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
+import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.utils.Logger
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
+import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
+import ihsinformatics.com.hydra_mobile.ui.adapter.OfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.SearchPatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
@@ -44,19 +50,26 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var edtIdentifier: EditText
     private lateinit var patientViewModel: PatientViewModel
     private lateinit var searchPatientResultRecyclerView: RecyclerView
+    private lateinit var offlinePatientResultRecyclerView: RecyclerView
+    private lateinit var nothingToShow:TextView
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
 
+    private var offlinePatientList= ArrayList<PatientData>()
+    private lateinit var offlinePatientAdapter: OfflinePatientAdapter
 
     private lateinit var qrReader: ImageView
     private lateinit var qrTextView: TextView
     private lateinit var dialog: Dialog
 
-    private lateinit var patientSearchedList: PatientApiResponse
+    private var patientSearchedList: PatientApiResponse? = null
 
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
     private val MY_CAMERA_REQUEST_CODE = 100
+
+    var requestType: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,9 +103,15 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         networkProgressDialog = NetworkProgressDialog(this)
         edtIdentifier = findViewById<EditText>(R.id.edt_search_by_identifier)
         btnSearch = findViewById<Button>(R.id.btn_patient_search)
-        searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
 
+        nothingToShow=findViewById(R.id.nothingToShow)
+
+        searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        offlinePatientResultRecyclerView = findViewById<RecyclerView>(R.id.offline_search)
+        offlinePatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
 
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
@@ -121,6 +140,36 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             }
         }
 
+    }
+
+    private fun setVisibilities() {
+
+        nothingToShow.visibility=View.GONE
+
+        if (null!=patientSearchedList && patientSearchedList!!.results!=null && patientSearchedList!!.results.size>0)
+        {
+            searchPatientResultRecyclerView.visibility=View.VISIBLE
+        }
+        else
+        {
+            searchPatientResultRecyclerView.visibility=View.GONE
+        }
+
+        if (null!=offlinePatientList && offlinePatientList.size>0)
+        {
+            offlinePatientResultRecyclerView.visibility=View.VISIBLE
+        }
+        else
+        {
+            offlinePatientResultRecyclerView.visibility=View.GONE
+
+            if(searchPatientResultRecyclerView.visibility==View.GONE)
+            {
+                nothingToShow.visibility=View.VISIBLE
+            }
+        }
+
+
 
     }
 
@@ -129,65 +178,33 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         when (v!!.id) {
             R.id.btn_patient_search -> {
 
-                if (isInternetConnected()) {
 
+                if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString().equals("") && !edtIdentifier.text.toString().equals(" ")) {
 
-                    if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString().equals("") && !edtIdentifier.text.toString().equals(" ")) {
+                    if (isInternetConnected()) {
                         networkProgressDialog.show()
                         searchPatientOnline(edtIdentifier.text.toString())
-                    } else {
-                        edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
-                        edtIdentifier.requestFocus()
                     }
+
+                    var offlinePatient: OfflinePatient? = null
+                    offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, edtIdentifier.getText().toString())
+
+                    if (null != offlinePatient) {
+                        networkProgressDialog.show()
+                        var serverResponse: JSONObject? = null
+                        serverResponse = Utils.converToServerResponse(offlinePatient)
+                        requestType = ParamNames.GET_PATIENT_INFO
+                        offlinePatientList.clear()
+                        convertOfflinePatientToPatient(serverResponse, 0)
+                        setOfflinePatientSearchedList()
+
+                    }
+
                 } else {
-                    /*if(false*/ /*DataSender.isConnected(PatientInfoFetcher.this) ) { // TODO handle this
-                    performClick();
-                } else */
-
-                    var identifier: String? = null
-                    if (edtIdentifier.getVisibility() == View.VISIBLE) {
-                        try {
-                            identifier = edtIdentifier.getText().toString()
-                            var offlinePatient: OfflinePatient? = null
-                            if (!edtIdentifier.getText().toString().isEmpty()) {
-                                offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, identifier)
-                            } else if (!etName.getText().toString().isEmpty()) {
-                                offlinePatient = DataAccess.getInstance().getPatientByName(this, etName.getText().toString())
-                            } else { // Toasty.info(PatientInfoFetcher.this, "No record found!").show();
-                                var name = ""
-                                var gender = ""
-                                var id = ""
-                                val dob = ""
-                                if (!etName.getText().toString().isEmpty()) {
-                                    name = etName.getText().toString()
-                                }
-                                //
-                                val selectedID: Int = rg_gender.getCheckedRadioButtonId()
-                                val rb_gender = findViewById<RadioButton>(selectedID)
-                                if (rb_gender != null && !rb_gender.text.toString().isEmpty()) {
-                                    gender = rb_gender.text.toString()
-                                }
-                                if (!etId.getText().toString().isEmpty()) {
-                                    id = etId.getText().toString()
-                                }
-                                offlinePatient = DataAccess.getInstance().getPatientByAllFields(this@PatientInfoFetcher, id, name, dob, gender)
-                                return
-                            }
-                            var serverResponse: JSONObject? = null
-                            serverResponse = Utils.converToServerResponse(offlinePatient)
-                            var requestType = ParamNames.GET_PATIENT_INFO
-                            onResponseReceived(serverResponse, 0)
-                        } catch (e: JSONException) { // I know its bad to catch NPE -nvd
-                            ToastyWidget.getInstance().displayError(this, "Could not fetch data", Toast.LENGTH_LONG)
-                        } catch (e: NullPointerException) {
-                            ToastyWidget.getInstance().displayError(this, "Could not fetch data", Toast.LENGTH_LONG)
-                        }
-                    } else {
-                        ToastyWidget.getInstance().displayWarning(this, "Offline mode can find by MR Number only", Toast.LENGTH_LONG)
-                    }
-
-
+                    edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+                    edtIdentifier.requestFocus()
                 }
+
             }
         }
 
@@ -215,12 +232,18 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun setPatientSearchedList() {
-
-        patientSearchAdapter = SearchPatientAdapter(patientSearchedList, this)
+        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this) }!!
         searchPatientResultRecyclerView.adapter = patientSearchAdapter
+        setVisibilities()
         networkProgressDialog.dismiss()
     }
 
+    fun setOfflinePatientSearchedList() {
+        offlinePatientAdapter = OfflinePatientAdapter(offlinePatientList, this)
+        offlinePatientResultRecyclerView.adapter = offlinePatientAdapter
+        setVisibilities()
+        networkProgressDialog.dismiss()
+    }
 
     protected fun checkCameraPermission() {
         val hasWriteContactsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -253,6 +276,61 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             qrCodeReaderView.stopCamera()
             dialog.dismiss()
         }
+    }
+
+
+    fun convertOfflinePatientToPatient(resp: JSONObject, respId: Int) {
+        networkProgressDialog.dismiss()
+        try {
+            if (!resp.has(ParamNames.SERVER_ERROR)) {
+                if (requestType == ParamNames.GET_PATIENT_INFO) {
+                    var patientData: PatientData? = null
+                    val patient = JsonHelper.getInstance(this).ParsePatientFromUser(resp)
+                    val offlinePatient = OfflinePatient()
+                    if (patient != null) {
+                        patientData = PatientData(patient)
+                        val identifiers = resp.optJSONArray(ParamNames.PATIENT).getJSONObject(0).optJSONArray(ParamNames.IDENTIFIERS)
+                        if (identifiers != null) for (i in 0 until identifiers.length()) {
+                            val id = identifiers.getJSONObject(i)
+                            val identifier = id.optString(ParamNames.IDENTIFIER)
+                            val idType = id.getJSONObject(ParamNames.IDENTIFIER_TYPE)
+                            val identifierType = idType.getString(ParamNames.DISPLAY)
+                            patientData.addIdentifier(identifierType, identifier)
+                            if (identifierType == ParamNames.INDUS_PROJECT_IDENTIFIER) {
+                                offlinePatient.mrNumber = identifier
+                            }
+                        }
+                    }
+                    val encounters = resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT) as JSONObject
+                    if (offlinePatient.mrNumber != null) {
+                        offlinePatient.encounterJson = encounters.toString()
+                        offlinePatient.fieldDataJson = generateFieldsJon(resp).toString()
+                        offlinePatient.name = patient!!.givenName + " " + patient.familyName
+                        offlinePatient.gender = patient.gender
+                        offlinePatient.dob = patient.birthDate.time
+                        DataAccess.getInstance().insertOfflinePatient(this, offlinePatient)
+                    }
+                    if (patientData != null) {
+                        offlinePatientList.add(patientData)
+                    }
+
+                }
+            } else {
+                val value: String
+                value = resp.getString(ParamNames.SERVER_ERROR)
+                ToastyWidget.getInstance().displayError(this, value, Toast.LENGTH_LONG)
+            }
+        } catch (e: JSONException) {
+            ToastyWidget.getInstance().displayError(this, "Could not parse server response", Toast.LENGTH_LONG)
+            Logger.log(e)
+        }
+    }
+
+
+    private fun generateFieldsJon(resp: JSONObject): JSONObject? {
+        resp.remove(ParamNames.ENCOUNTERS_COUNT)
+        resp.remove(ParamNames.PATIENT)
+        return resp
     }
 
 }

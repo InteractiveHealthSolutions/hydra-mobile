@@ -185,6 +185,11 @@ public class Form extends BaseActivity {
             int maxOccurrence = formFields.optInt("maxOccurrence");  //Not mapped
             int minValue = formFields.optInt("minValue");
             int maxValue = formFields.optInt("maxValue");
+            if(minValue==0 && maxValue==0)
+            {
+                minValue=Integer.MIN_VALUE;
+                maxValue=Integer.MAX_VALUE;
+            }
             int minLength = formFields.optInt("minLength");
             int maxLength = formFields.optInt("maxLength");
             int minSelections = formFields.optInt("minSelections");  //Not Mapped

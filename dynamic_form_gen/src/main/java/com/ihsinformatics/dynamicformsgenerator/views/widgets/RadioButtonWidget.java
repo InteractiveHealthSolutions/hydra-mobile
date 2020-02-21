@@ -136,7 +136,7 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
             }
 			
 		} else {
-			activity.addValidationError(getQuestionId(), "select an option");
+			activity.addValidationError(getQuestionId(), question.getErrorMessage());
 		}
 		
 		return param;

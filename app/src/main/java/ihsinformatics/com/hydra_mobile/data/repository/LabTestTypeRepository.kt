@@ -43,9 +43,8 @@ class LabTestTypeRepository(context: Context) {
     }
 
     fun deleteAllLabTestType() {
-        doAsync {
             labTestTypeDao.deleteAllLabTestType()
-        }
+
     }
 
 

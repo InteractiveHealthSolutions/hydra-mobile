@@ -192,6 +192,19 @@ public class DataAccess {
 
     }
 
+
+    //This will delete all related data like locations, their maps, currency and system settings
+    public synchronized void deleteRelatedData(Context context) {
+
+        App.getDaoSession(context).getLocationTagMapDao().deleteAll();
+        App.getDaoSession(context).getLocationDao().deleteAll();
+        App.getDaoSession(context).getLocationAttributeDao().deleteAll();
+        App.getDaoSession(context).getLocationAttributeTypeDao().deleteAll();
+        App.getDaoSession(context).getLocationTagDao().deleteAll();
+        App.getDaoSession(context).getSystemSettingsDao().deleteAll();
+
+    }
+
     public synchronized void updateFormError(Context context, int formid, String error) {
         SaveableFormDao saveableFormDao = App.getDaoSession(context).getSaveableFormDao();
         SaveableForm saveableForm = App.getDaoSession(context).getSaveableFormDao().load((long) formid);

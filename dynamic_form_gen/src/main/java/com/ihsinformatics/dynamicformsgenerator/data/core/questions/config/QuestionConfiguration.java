@@ -21,8 +21,8 @@ public class QuestionConfiguration extends Configuration {
     private DateSelector.WIDGET_TYPE widgetType;
 
 
-    private int maxValue=1000000;
-    private int minValue=0;
+    private int maxValue=Integer.MAX_VALUE;
+    private int minValue=Integer.MIN_VALUE;
     private int maxLines;
 
     public QuestionConfiguration() {

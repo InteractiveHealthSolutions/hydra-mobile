@@ -483,7 +483,8 @@ public class Question extends Displayable implements Cloneable {
                     return PAYLOAD_TYPE.OBS;
                 else if(inputType.equalsIgnoreCase("numeric"))
                     return PAYLOAD_TYPE.OBS_NUMERIC;
-
+                else if(inputType.equalsIgnoreCase("decimalNumeric"))
+                    return PAYLOAD_TYPE.OBS_NUMERIC;
 
             }
             case "Single Select Dropdown": {

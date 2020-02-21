@@ -49,10 +49,10 @@ class RelatedDataRepository(context: Context) {
         return locationDao.getAllLocation()
     }
 
-    fun deleteAllLocations() {
-        doAsync {
-            locationDao.deleteLocation()
-        }
+    fun deleteAllRelatedData() {
+
+        dataacess.deleteRelatedData(context);
+
     }
 
 
@@ -83,7 +83,7 @@ class RelatedDataRepository(context: Context) {
     }
 
 
-    fun getRemoteLocationsAndCurrencyData(retrofitResponseListener:RetrofitResponseListener) {
+    fun getRemoteLocationsAndCurrencyData(retrofitResponseListener: RetrofitResponseListener) {
         RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getLocationAndCurrency(Constant.HYDRA_QUERY, Constant.REPRESENTATION, object : RESTCallback {
             override fun <T> onSuccess(o: T) {
 

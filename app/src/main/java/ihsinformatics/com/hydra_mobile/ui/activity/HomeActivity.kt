@@ -361,15 +361,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_search -> {
 
-                if (isInternetConnected()) {
-                    startActivityForResult(Intent(this, SearchActivity::class.java), 112)
-                    finish()
-                } else {
-
-                    PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-                    startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
-
-                }
+                startActivityForResult(Intent(this, SearchActivity::class.java), 112)
 
 
             }
