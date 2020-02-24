@@ -2,12 +2,15 @@ package ihsinformatics.com.hydra_mobile.ui.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
@@ -40,6 +43,7 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
         return searchPatientList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(searchPatientList[position])
     }
@@ -51,8 +55,9 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
         val tvPatientAge = itemView.findViewById<TextView>(R.id.tv_patient_age)
         val genderImage = itemView.findViewById<ImageView>(R.id.genderImage)
         val searchLayout = itemView.findViewById<LinearLayout>(R.id.searchLayout)
+        val mode = itemView.findViewById<TextView>(R.id.mode)
 
-        fun bindItems(patient: PatientData) {
+        @RequiresApi(Build.VERSION_CODES.M) fun bindItems(patient: PatientData) {
 
             if(patient!=null && null != patient.identifiers && patient.identifiers.size>0) {
                 tvPatientName.text = patient.patient.givenName +" "+patient.patient.familyName
@@ -64,6 +69,9 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
                 } else {
                     genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
                 }
+
+                mode.setText(context.getString(R.string.offline))
+                mode.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
 
                 searchLayout.setOnClickListener {
                     Global.patientData=patient

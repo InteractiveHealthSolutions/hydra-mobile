@@ -155,7 +155,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                 val users = userViewModel.getUserByUsernameAndPass(usernameEditText.text.toString().toLowerCase(), passwordEditText.text.toString())
 
-                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString())) {
+                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider!=null) {
+
+
+                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(),  users[0].provider)
+                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
+                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+
 
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)

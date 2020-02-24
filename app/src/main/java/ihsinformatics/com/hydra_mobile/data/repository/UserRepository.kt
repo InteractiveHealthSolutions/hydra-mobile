@@ -80,6 +80,7 @@ class UserRepository(application: Application) {
                         }
                         else
                         {
+                            ToastyWidget.getInstance().displayError(application,application.getString(R.string.provider_rights),Toast.LENGTH_SHORT)
                             restCallback.onFailure(Throwable("Cannot find provider"))
                         }
                     }

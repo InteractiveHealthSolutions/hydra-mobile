@@ -37,6 +37,9 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.PeriodType
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -45,8 +48,6 @@ import timber.log.Timber
 class SearchActivity : BaseActivity(), View.OnClickListener {
 
 
-    private lateinit var edtName: EditText
-    private lateinit var edtContactNumber: EditText
     private lateinit var edtIdentifier: EditText
     private lateinit var patientViewModel: PatientViewModel
     private lateinit var searchPatientResultRecyclerView: RecyclerView
@@ -178,6 +179,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         when (v!!.id) {
             R.id.btn_patient_search -> {
 
+                offlinePatientList.clear()
 
                 if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString().equals("") && !edtIdentifier.text.toString().equals(" ")) {
 
@@ -194,7 +196,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                         var serverResponse: JSONObject? = null
                         serverResponse = Utils.converToServerResponse(offlinePatient)
                         requestType = ParamNames.GET_PATIENT_INFO
-                        offlinePatientList.clear()
                         convertOfflinePatientToPatient(serverResponse, 0)
                         setOfflinePatientSearchedList()
 
@@ -302,15 +303,31 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                         }
                     }
                     val encounters = resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT) as JSONObject
+
+                    var years=0
+
                     if (offlinePatient.mrNumber != null) {
                         offlinePatient.encounterJson = encounters.toString()
                         offlinePatient.fieldDataJson = generateFieldsJon(resp).toString()
                         offlinePatient.name = patient!!.givenName + " " + patient.familyName
                         offlinePatient.gender = patient.gender
                         offlinePatient.dob = patient.birthDate.time
+
+
+                        val birthDate = patient.birthDate
+                        val birthTime = DateTime(birthDate)
+                        val nowTime = DateTime()
+                        val interval = Interval(birthTime, nowTime)
+                        val period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
+                        years = period.getYears()
+
+
+
+
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient)
                     }
                     if (patientData != null) {
+                        patientData.patient.age=years
                         offlinePatientList.add(patientData)
                     }
 
