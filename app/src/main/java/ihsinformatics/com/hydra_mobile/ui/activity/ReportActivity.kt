@@ -26,7 +26,6 @@ import timber.log.Timber
 
 class ReportActivity : BaseActivity() {
 
-    //TODO Hardcoded patient must be fetch from api     ~Taha PatientIssue
     var patientID = Global.patientData.patient.identifier
 
 

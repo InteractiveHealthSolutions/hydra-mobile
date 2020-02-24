@@ -2,7 +2,10 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
@@ -105,6 +108,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
+            updateResources(this, "in")
 
             if (isInternetConnected()) {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
@@ -270,6 +274,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val localTime: String = date.format(currentLocalTime)
 
         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, localTime)
+    }
+
+
+    private fun updateResources(context: Context, language: String): Boolean {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val resources: Resources = context.getResources()
+        val configuration: Configuration = resources.getConfiguration()
+        configuration.locale = locale
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics())
+        return true
     }
 
 }
