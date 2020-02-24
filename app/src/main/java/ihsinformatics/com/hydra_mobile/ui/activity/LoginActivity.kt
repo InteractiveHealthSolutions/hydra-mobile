@@ -11,9 +11,7 @@ import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
@@ -44,6 +42,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var passwordEditText: EditText
     private lateinit var checkboxOffline: CheckBox
     private var showPassword = 0
+    private lateinit var languagesSpinner: Spinner
 
     init {
 
@@ -71,6 +70,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
+
+        languagesSpinner = binding.language
+
+        var listOfLanguages= arrayListOf<String>()
+        listOfLanguages.add("en")
+        listOfLanguages.add("in")
+
+
+        var adapter = ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item,listOfLanguages)
+
+        languagesSpinner.adapter=adapter
 
         flipit(binding.ivLogo)
 
@@ -284,6 +295,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val configuration: Configuration = resources.getConfiguration()
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.LANGUAGE,language)
+
         return true
     }
 

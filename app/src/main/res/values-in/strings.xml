@@ -341,6 +341,11 @@
 
 
 
+    <string-array name="languages">
+        <item>en</item>
+        <item>in</item>
+    </string-array>
+
     <string name="location">Lokasi</string>
 
     <string-array name="end_of_followup_for">

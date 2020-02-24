@@ -71,9 +71,7 @@
     <string name="time_format"> HH:mm:ss</string>
 
 
-
-
-<!--    Patient Creation Form -->
+    <!--    Patient Creation Form -->
 
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -85,7 +83,6 @@
     <string name="location">Location</string>
     <string name="first_name">Given Name</string>
     <string name="last_name">Family Name</string>
-
 
 
 
