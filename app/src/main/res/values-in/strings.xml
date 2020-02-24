@@ -251,7 +251,6 @@
     <string name="patient_source_title">* Patient Source</string>
     <string name="question_title">* Has the patient provided their address?</string>
     <string name="patient_id">* Index Patient ID</string>
-    <string name="patient_name">Nama</string>
     <string name="primary_nationality">Primary Nationality</string>
     <string name="id_card">National ID Card Number</string>
     <string name="secondary_mobile_number">Secondary Mobile Number</string>
@@ -340,13 +339,16 @@
     <string name="provider_rights">Please check your rights</string>
 
 
-
-    <string-array name="languages">
-        <item>en</item>
-        <item>in</item>
-    </string-array>
-
+    <string name="male">Laki-Laki</string>
+    <string name="female">Perempuan</string>
+    <string name="patient_registration_form">Patient Registration Form</string>
+    <string name="identifier">Identifier</string>
+    <string name="patient_name">Nama</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="date_of_birth">Tanggal Lahir </string>
     <string name="location">Lokasi</string>
+    <string name="first_name">Nama Depan</string>
+    <string name="last_name">Nama Belakang</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>

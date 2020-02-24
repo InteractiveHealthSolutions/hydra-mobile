@@ -119,7 +119,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
-            updateResources(this, "in")
+            setLocale(this, languagesSpinner.selectedItem.toString())
 
             if (isInternetConnected()) {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
@@ -295,9 +295,20 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val configuration: Configuration = resources.getConfiguration()
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.LANGUAGE,language)
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
 
         return true
     }
 
+
+    private fun setLocale(context:Context,language: String) {
+        val resources: Resources = context.getResources()
+        val dm=resources.getDisplayMetrics()
+        val configuration: Configuration = resources.getConfiguration()
+
+        configuration.setLocale(Locale(language.toLowerCase()))
+
+        resources.updateConfiguration(configuration,dm)
+
+    }
 }
