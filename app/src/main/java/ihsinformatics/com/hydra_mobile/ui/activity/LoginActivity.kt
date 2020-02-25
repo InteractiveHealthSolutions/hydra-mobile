@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.databinding.DataBindingUtil
@@ -44,7 +45,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var passwordEditText: EditText
     private lateinit var checkboxOffline: CheckBox
     private var showPassword = 0
-    private lateinit var languagesSpinner: Spinner
+    //private lateinit var languagesSpinner: Spinner
 
     init {
 
@@ -58,6 +59,31 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 // openMetaDataFetcher()
             }
             R.id.img_setting -> openSettingDialog()
+
+            R.id.multilanguage -> {
+
+                var pm = PopupMenu(this, findViewById(R.id.multilanguage))
+                pm.getMenuInflater().inflate(R.menu.languages, pm.getMenu())
+
+                pm.setOnMenuItemClickListener(object :PopupMenu.OnMenuItemClickListener{
+
+                    override fun onMenuItemClick(item: MenuItem?): Boolean {
+
+                        when(item.toString())
+                        {
+                            "English"->updateResources(this@LoginActivity,"en")
+                            "Bhasa"->updateResources(this@LoginActivity,"in")
+
+                            else -> updateResources(this@LoginActivity,"en")
+                        }
+                        return true;
+                    }
+
+                })
+
+                pm.show();
+
+            }
             else -> print("")
         }
     }
@@ -71,19 +97,20 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         checkboxOffline = binding.checkOfflineMode
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
+        binding.multilanguage.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
-
-        languagesSpinner = binding.language
-
-        var listOfLanguages= arrayListOf<String>()
-        listOfLanguages.add("English")
-        listOfLanguages.add("Bhasa")
-
-
-        var adapter = ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1,listOfLanguages)
-
-        languagesSpinner.adapter=adapter
+//
+//        languagesSpinner = binding.language
+//
+//        var listOfLanguages= arrayListOf<String>()
+//        listOfLanguages.add("English")
+//        listOfLanguages.add("Bhasa")
+//
+//
+//        var adapter = ArrayAdapter<String>(this,
+//                    android.R.layout.simple_list_item_1,listOfLanguages)
+//
+//        languagesSpinner.adapter=adapter
 
         flipit(binding.ivLogo)
 
@@ -121,9 +148,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
-            //setLocale(this, languagesSpinner.selectedItem.toString())
-            val lang=languageConverter( languagesSpinner.selectedItem.toString())
-            updateResources(this,lang)
 
             if (isInternetConnected()) {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
@@ -174,10 +198,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                 val users = userViewModel.getUserByUsernameAndPass(usernameEditText.text.toString().toLowerCase(), passwordEditText.text.toString())
 
-                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider!=null) {
+                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider != null) {
 
 
-                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(),  users[0].provider)
+                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), users[0].provider)
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
 
@@ -188,7 +212,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
                 } else {
-                    ToastyWidget.getInstance().displayError(this,getString(R.string.no_offline_user),Toast.LENGTH_LONG)
+                    ToastyWidget.getInstance().displayError(this, getString(R.string.no_offline_user), Toast.LENGTH_LONG)
                 }
             }
         }
@@ -255,7 +279,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (isSuccess) {
                     networkProgressDialog.dismiss()
 
-                   //saveSessionStartTime()
+                    //saveSessionStartTime()
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 
@@ -265,7 +289,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
             override fun onFailure(t: Throwable) {
                 networkProgressDialog.dismiss()
-                ToastyWidget.getInstance().displayError(this@LoginActivity,getString(R.string.network_problem),Toast.LENGTH_LONG)
+                ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.network_problem), Toast.LENGTH_LONG)
             }
         })
 
@@ -273,8 +297,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun saveSessionStartTime()
-    {
+    fun saveSessionStartTime() {
 //        val simpleDateFormat = SimpleDateFormat("hh:mm a")
 //
 //        val currentTime = simpleDateFormat.parse(Calendar.getInstance().time.time.toString())
@@ -299,43 +322,30 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val configuration: Configuration = resources.getConfiguration()
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
-        Global.APP_LANGUAGE=language
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
+        Global.APP_LANGUAGE = language
 
         return true
     }
 
 
-    private fun setLocale(context:Context,language: String) {
+    private fun setLocale(context: Context, language: String) {
         val resources: Resources = context.getResources()
-        val dm=resources.getDisplayMetrics()
+        val dm = resources.getDisplayMetrics()
         val configuration: Configuration = resources.getConfiguration()
 
         configuration.setLocale(Locale(language.toLowerCase()))
 
         //resources.updateConfiguration(configuration,dm)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             context.createConfigurationContext(configuration);
         } else {
             resources.updateConfiguration(configuration, context.getResources().getDisplayMetrics());
         }
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
-        Global.APP_LANGUAGE=language
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
+        Global.APP_LANGUAGE = language
     }
 
 
-    private fun languageConverter(language:String):String
-    {
-        var lang="en"
-        when(language.toLowerCase())
-        {
-            "english" -> lang="en"
-            "bhasa" -> lang="in"
-
-            else -> lang="en"
-        }
-
-        return lang;
-    }
 }
