@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
@@ -14,6 +15,7 @@ import android.view.View
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
@@ -119,7 +121,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             networkProgressDialog.show()
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
-            setLocale(this, languagesSpinner.selectedItem.toString())
+            //setLocale(this, languagesSpinner.selectedItem.toString())
+            updateResources(this, languagesSpinner.selectedItem.toString())
 
             if (isInternetConnected()) {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
@@ -297,6 +300,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
 
+
         return true
     }
 
@@ -308,7 +312,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         configuration.setLocale(Locale(language.toLowerCase()))
 
-        resources.updateConfiguration(configuration,dm)
+        //resources.updateConfiguration(configuration,dm)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            context.createConfigurationContext(configuration);
+        } else {
+            resources.updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+        }
+        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
+        Global.APP_LANGUAGE=language
     }
 }

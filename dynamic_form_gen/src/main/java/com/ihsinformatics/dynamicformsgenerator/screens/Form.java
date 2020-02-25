@@ -1,8 +1,12 @@
 package com.ihsinformatics.dynamicformsgenerator.screens;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -23,6 +27,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
+import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
@@ -43,6 +48,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
@@ -59,7 +65,7 @@ public class Form extends BaseActivity {
 
         this.questions = new ArrayList<>();
         this.options = new ArrayList<>();
-
+        setLocale();
         initDates();
 
         Intent i = getIntent();
@@ -508,4 +514,26 @@ public class Form extends BaseActivity {
         oneYearAgo=cal.getTime();
     }
 
+
+    private void setLocale() {
+        Resources resources = getResources();
+        DisplayMetrics dm=resources.getDisplayMetrics();
+        android.content.res.Configuration configuration = resources.getConfiguration();
+
+        if(Global.APP_LANGUAGE==null)
+        {
+            Global.APP_LANGUAGE="en";
+        }
+
+        configuration.setLocale(new Locale(Global.APP_LANGUAGE.toLowerCase()));
+
+        //resources.updateConfiguration(configuration,dm)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            createConfigurationContext(configuration);
+        } else {
+            resources.updateConfiguration(configuration, getResources().getDisplayMetrics());
+        }
+
+    }
 }

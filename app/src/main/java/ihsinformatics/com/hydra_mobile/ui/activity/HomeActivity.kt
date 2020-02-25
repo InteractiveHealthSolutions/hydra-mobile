@@ -124,6 +124,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         initSystemSettings()
         fillPatientInfoBar()
+        setLanguage()
 
         /*user level initialization*/
 
@@ -687,4 +688,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //        }
     }
 
+
+    fun setLanguage()
+    {
+        var language = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.APP_LANGUAGE, "en")
+        Global.APP_LANGUAGE=language
+    }
 }

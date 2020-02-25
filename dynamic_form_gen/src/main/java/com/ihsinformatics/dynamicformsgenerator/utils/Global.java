@@ -16,6 +16,8 @@ public class Global {
 	public static String PASSWORD;
 	public static String PROVIDER;
 
+	public static String APP_LANGUAGE;
+
 	public static String identifierFormat;
 	public static String currentCountry;
 
