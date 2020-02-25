@@ -5,9 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -113,6 +116,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLocale();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_base);
@@ -1237,6 +1241,25 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             }
         }
         return -1;
+    }
+
+    private void setLocale() {
+        Resources resources = getResources();
+        android.content.res.Configuration configuration = resources.getConfiguration();
+
+        if(Global.APP_LANGUAGE==null)
+        {
+            Global.APP_LANGUAGE="en";
+        }
+
+        configuration.setLocale(new Locale(Global.APP_LANGUAGE.toLowerCase()));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            createConfigurationContext(configuration);
+        } else {
+            resources.updateConfiguration(configuration, getResources().getDisplayMetrics());
+        }
+
     }
 
 }

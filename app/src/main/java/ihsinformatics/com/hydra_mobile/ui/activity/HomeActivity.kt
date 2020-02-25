@@ -646,10 +646,15 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
 
-        Global.identifierFormat = identifierFormat.value
-        Global.setDateFormat(dateFormat.value)
-        Global.currentCountry = countryName.value
-
+        if(identifierFormat==null || identifierFormat.value.equals(null))
+        {
+            ToastyWidget.getInstance().displayError(this,getString(R.string.need_to_sync),Toast.LENGTH_LONG)
+            startActivity(Intent(this,LoginActivity::class.java))
+        }else {
+            Global.identifierFormat = identifierFormat.value
+            Global.setDateFormat(dateFormat.value)
+            Global.currentCountry = countryName.value
+        }
     }
 
 

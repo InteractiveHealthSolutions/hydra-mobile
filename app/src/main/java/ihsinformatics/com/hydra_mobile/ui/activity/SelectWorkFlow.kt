@@ -64,11 +64,7 @@ class SelectWorkFlow : AppCompatActivity() {
                      rg.addView(rb)
 
                      val viewDivider = View(this)
-                     viewDivider.layoutParams =
-                         RelativeLayout.LayoutParams(
-                             ViewGroup.LayoutParams.MATCH_PARENT,
-                             ViewGroup.LayoutParams.WRAP_CONTENT
-                         )
+                     viewDivider.layoutParams = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT) as ViewGroup.LayoutParams?
                      viewDivider.setBackgroundColor(resources.getColor(R.color.dividerColor));
                      val dividerHeight = (resources.displayMetrics.density * 1).toInt() // 1dp to pixels
                      viewDivider.setLayoutParams(

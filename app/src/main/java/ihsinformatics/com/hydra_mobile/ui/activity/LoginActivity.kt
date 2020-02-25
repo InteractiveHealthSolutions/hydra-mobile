@@ -76,12 +76,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         languagesSpinner = binding.language
 
         var listOfLanguages= arrayListOf<String>()
-        listOfLanguages.add("en")
-        listOfLanguages.add("in")
+        listOfLanguages.add("English")
+        listOfLanguages.add("Bhasa")
 
 
         var adapter = ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item,listOfLanguages)
+                    android.R.layout.simple_list_item_1,listOfLanguages)
 
         languagesSpinner.adapter=adapter
 
@@ -122,7 +122,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             KeyboardUtil.hideSoftKeyboard(this@LoginActivity)
 
             //setLocale(this, languagesSpinner.selectedItem.toString())
-            updateResources(this, languagesSpinner.selectedItem.toString())
+            val lang=languageConverter( languagesSpinner.selectedItem.toString())
+            updateResources(this,lang)
 
             if (isInternetConnected()) {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
@@ -299,7 +300,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
-
+        Global.APP_LANGUAGE=language
 
         return true
     }
@@ -321,5 +322,20 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE,language)
         Global.APP_LANGUAGE=language
+    }
+
+
+    private fun languageConverter(language:String):String
+    {
+        var lang="en"
+        when(language.toLowerCase())
+        {
+            "english" -> lang="en"
+            "bhasa" -> lang="in"
+
+            else -> lang="en"
+        }
+
+        return lang;
     }
 }
