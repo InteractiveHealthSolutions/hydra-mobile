@@ -170,8 +170,8 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-        if (gainFocus && inputWidgetsType != InputWidgetsType.WIDGET_TYPE_DATE)
-            onFocusGained();
+//        if (gainFocus && inputWidgetsType != InputWidgetsType.WIDGET_TYPE_DATE)
+//            onFocusGained();
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
     }
 

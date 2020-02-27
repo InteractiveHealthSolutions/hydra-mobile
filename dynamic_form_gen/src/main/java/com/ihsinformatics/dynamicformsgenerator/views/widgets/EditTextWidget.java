@@ -198,6 +198,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
         if (onValueChangeListener != null) {
             try {
                 onValueChangeListener.onValueChanged(s.toString());
+                onFocusGained();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
