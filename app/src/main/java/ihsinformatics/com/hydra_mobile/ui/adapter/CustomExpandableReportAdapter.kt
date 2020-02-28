@@ -1,19 +1,14 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.Reports.Ob
-import ihsinformatics.com.hydra_mobile.ui.activity.labModule.InstructionsAdder
-import kotlinx.android.synthetic.main.summary_viewer.view.*
-import org.json.JSONObject
+import ihsinformatics.com.hydra_mobile.data.remote.model.history.Ob
 import kotlin.collections.HashMap
 
 

@@ -22,14 +22,12 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.ui.adapter.OfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.SearchPatientAdapter
@@ -190,16 +188,10 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
                     var offlinePatient: OfflinePatient? = null
                     offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, edtIdentifier.getText().toString())
+                    if (null != offlinePatient) initOfflinePatientList(offlinePatient)
 
-                    if (null != offlinePatient) {
-                        networkProgressDialog.show()
-                        var serverResponse: JSONObject? = null
-                        serverResponse = Utils.converToServerResponse(offlinePatient)
-                        requestType = ParamNames.GET_PATIENT_INFO
-                        convertOfflinePatientToPatient(serverResponse, 0)
-                        setOfflinePatientSearchedList()
-
-                    }
+                    offlinePatient = DataAccess.getInstance().getPatientByName(this, edtIdentifier.getText().toString())
+                    if (null != offlinePatient) initOfflinePatientList(offlinePatient)
 
                 } else {
                     edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
@@ -208,6 +200,18 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
             }
         }
+
+    }
+
+    private fun initOfflinePatientList(offlinePatient: OfflinePatient) {
+
+            networkProgressDialog.show()
+            var serverResponse: JSONObject? = null
+            serverResponse = Utils.converToServerResponse(offlinePatient)
+            requestType = ParamNames.GET_PATIENT_INFO
+            convertOfflinePatientToPatient(serverResponse, 0)
+            setOfflinePatientSearchedList()
+
 
     }
 
@@ -233,7 +237,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun setPatientSearchedList() {
-        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this) }!!
+        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this,sessionManager.getUsername(),sessionManager.getPassword()) }!!
         searchPatientResultRecyclerView.adapter = patientSearchAdapter
         setVisibilities()
         networkProgressDialog.dismiss()

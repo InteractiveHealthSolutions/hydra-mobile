@@ -1,4 +1,4 @@
-package ihsinformatics.com.hydra_mobile.data.remote.model.Reports
+package ihsinformatics.com.hydra_mobile.data.remote.model.history
 
 data class EncounterType(
     val description: String,

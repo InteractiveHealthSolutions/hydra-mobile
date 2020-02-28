@@ -302,17 +302,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-//
 
             R.id.nav_createPatient -> {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
                 startActivityForResult(Intent(this, Form::class.java), 112)
 
             }
-//            R.id.nav_faq -> {
-//                startActivity(Intent(this, HelpActivity::class.java))
-//                finish()
-//            }
+
             R.id.nav_backup -> {
 
                 Create_Patient_Count = 0
@@ -366,12 +362,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
             }
-
-//            R.id.nav_offline_search -> {
-//
-//                PatientInfoFetcher.init(Constant.formName, PatientInfoFetcher.REQUEST_TYPE.FETCH_INFO)
-//                startActivityForResult(Intent(this, PatientInfoFetcher::class.java), 112)
-//            }
 
             R.id.nav_logout -> {
 

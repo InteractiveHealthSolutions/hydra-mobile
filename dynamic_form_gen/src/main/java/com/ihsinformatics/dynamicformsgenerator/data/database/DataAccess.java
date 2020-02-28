@@ -538,4 +538,12 @@ public class DataAccess {
         locationList = queryBuilder.list();
         return locationList;
     }
+
+//    public void insertServiceHistory(Context context, List<SystemSettings> systemSettings) {
+//        SystemSettingsDao systemSettingsDao = App.getDaoSession(context).getSystemSettingsDao();
+//
+//        for (int i = 0; i < systemSettings.size(); i++) {
+//            systemSettingsDao.insertOrReplace(systemSettings.get(i));
+//        }
+//    }
 }

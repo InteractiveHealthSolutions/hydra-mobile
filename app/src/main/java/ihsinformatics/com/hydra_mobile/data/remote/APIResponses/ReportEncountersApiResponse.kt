@@ -2,7 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.remote.APIResponses
 
 
 import com.google.gson.annotations.SerializedName
-import ihsinformatics.com.hydra_mobile.data.remote.model.Reports.Encounters
+import ihsinformatics.com.hydra_mobile.data.remote.model.history.Encounters
 
 data class ReportEncountersApiResponse(
 

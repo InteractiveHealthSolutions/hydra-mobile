@@ -12,8 +12,8 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.Reports.Encounters
-import ihsinformatics.com.hydra_mobile.data.remote.model.Reports.Ob
+import ihsinformatics.com.hydra_mobile.data.remote.model.history.Encounters
+import ihsinformatics.com.hydra_mobile.data.remote.model.history.Ob
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableReportAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
@@ -70,9 +70,6 @@ class ReportActivity : BaseActivity() {
         val width = metrics.widthPixels
 
         expandableListView!!.setIndicatorBounds(width - GetPixelFromDips(50f), width - GetPixelFromDips(10f));
-
-
-
 
 
         networkProgressDialog = NetworkProgressDialog(this)

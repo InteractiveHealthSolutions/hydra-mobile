@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -18,23 +19,39 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
+import ihsinformatics.com.hydra_mobile.data.remote.model.history.Encounters
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import org.json.JSONArray
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
-class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
+class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, username: String, password: String) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
 
-    private var resultFromAPI=patientSearched
-    private var searchPatientList=patientSearched.results
-    val context=c
+    private var resultFromAPI = patientSearched
+    private var searchPatientList = patientSearched.results
+    private val username = username
+    private val password = password
+    var encountersList = ArrayList<Encounters>()
+
+
+    private val networkProgressDialog = NetworkProgressDialog(c)
+
+    val context = c
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //this.context = parent.context
-        val v = LayoutInflater.from(context)
-            .inflate(R.layout.search_patient_item_view, parent, false)
+        val v = LayoutInflater.from(context).inflate(R.layout.search_patient_item_view, parent, false)
         return ViewHolder(v)
 
     }
@@ -65,7 +82,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : Re
 
         @RequiresApi(Build.VERSION_CODES.M) fun bindItems(patient: Patient) {
 
-            if(patient!=null && null != patient.identifiers && patient.identifiers.size>0) {
+            if (patient != null && null != patient.identifiers && patient.identifiers.size > 0) {
                 tvPatientName.text = patient.display
                 tvPatientAge.text = patient.person.getAge().toString()
                 if (null != patient.identifiers.get(0)) tvPatientIdentifier.text = patient.identifiers.get(0).display
@@ -81,49 +98,78 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context) : Re
 
                 searchLayout.setOnClickListener {
 
-                    var serverResponse: JSONObject? = null
+                    if (null != patient.identifiers.get(0)) {
+                        val testOrderSearch = RequestManager(context, username, password).getPatientRetrofit().create(CommonLabApiService::class.java)
 
-                    var dob= Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
+                        testOrderSearch.getEncountersOfPatient(patient.identifiers.get(0).identifier, Constant.REPRESENTATION).enqueue(object : Callback<ReportEncountersApiResponse> {
+                            override fun onResponse(
+                                call: Call<ReportEncountersApiResponse>, response: Response<ReportEncountersApiResponse>
+                                                   ) {
+                                Timber.e(response.message())
+                                if (response.isSuccessful) {
 
-                    //TODO need to integrate age here after changing to openmrs format ~Taha
-                    var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null)
+                                    encountersList = response.body()!!.encounters
 
+                                    initializePatient(patient)
+                                    networkProgressDialog.dismiss()
 
-                    //Initialization of summary fields
-                    var fieldJsonString = offlinePatient.fieldDataJson
-                    if (fieldJsonString == null) fieldJsonString = JSONObject().toString()
-                    val existingFieldsJson = JSONObject(fieldJsonString)
-                    for (i in ParamNames.SUMMARY_VARIBALES) {
-                        existingFieldsJson.put(i, "")
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ReportEncountersApiResponse>, t: Throwable) {
+                                Timber.e(t.localizedMessage)
+
+                                networkProgressDialog.dismiss()
+
+                                Toast.makeText(context, "Error fetching Encounters", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+
                     }
-                    for (i in ParamNames.SUMMARY_VARIABLES_OBJECTS) {
-                        existingFieldsJson.put(i, JSONObject())
-                    }
-                    for (i in ParamNames.SUMMARY_VARIABLES_ARRAYS) {
-                        existingFieldsJson.put(i, JSONArray())
-                    }
-                    offlinePatient.fieldDataJson = existingFieldsJson.toString()
-
-
-                    //Initialization of all filled encounters count via this device as 0
-                    val encounterCount = JSONObject()
-                    val encounters = Constants.getEncounterTypes().values
-                    for (i in encounters) {
-                        encounterCount.put(i, 0)
-                    }
-                    offlinePatient.encounterJson = encounterCount.toString()
-
-
-
-                    serverResponse = Utils.converToServerResponse(offlinePatient)
-                    var requestType = ParamNames.GET_PATIENT_INFO
-
-                    Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
-                    context.startActivity(Intent(context, HomeActivity::class.java))
                 }
             }
         }
 
     }
+
+
+    fun initializePatient(patient: Patient) {
+        var serverResponse: JSONObject? = null
+        var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
+
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null)
+
+
+        //Initialization of summary fields
+        var fieldJsonString = offlinePatient.fieldDataJson
+        if (fieldJsonString == null) fieldJsonString = JSONObject().toString()
+        val existingFieldsJson = JSONObject(fieldJsonString)
+        for (i in ParamNames.SUMMARY_VARIBALES) {
+            existingFieldsJson.put(i, "")
+        }
+        for (i in ParamNames.SUMMARY_VARIABLES_OBJECTS) {
+            existingFieldsJson.put(i, JSONObject())
+        }
+        for (i in ParamNames.SUMMARY_VARIABLES_ARRAYS) {
+            existingFieldsJson.put(i, JSONArray())
+        }
+        offlinePatient.fieldDataJson = existingFieldsJson.toString()
+
+
+        //Initialization of all filled encounters count via this device as 0
+        val encounterCount = JSONObject()
+        val encounters = Constants.getEncounterTypes().values
+        for (i in encounters) {
+            encounterCount.put(i, 0)
+        }
+        offlinePatient.encounterJson = encounterCount.toString()
+
+        serverResponse = Utils.converToServerResponse(offlinePatient)
+        var requestType = ParamNames.GET_PATIENT_INFO
+
+        Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
+        context.startActivity(Intent(context, HomeActivity::class.java))
+    }
+
 
 }
