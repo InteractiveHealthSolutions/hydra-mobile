@@ -83,7 +83,7 @@ public class Form extends BaseActivity {
             }
 
         } else if (DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
-            DataProvider dataProvider = DataProvider.getInstance(this);
+            DataProvider dataProvider = DataProvider.getRefreshedInstance(this);
             this.questions = dataProvider.getQuestions(dataProvider.getFormId(ENCOUNTER_NAME));
 
 

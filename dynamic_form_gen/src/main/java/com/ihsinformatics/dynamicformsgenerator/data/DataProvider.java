@@ -200,20 +200,62 @@ public class DataProvider {
     private void initPatientCreation() {
         Integer patientCreationId = 1;
 
+        String heading;
+        String male;
+        String female;
+        String identifier;
+        String patientName;
+        String gender;
+        String dateOfBirth;
+        String location;
+        String firstName;
+        String lastName;
 
-        questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, context.getResources().getString(R.string.patient_registration_form), null, null,Question.PAYLOAD_TYPE.HEADING));
-        this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO, context.getResources().getString(R.string.identifier), ParamNames.PROJECT_IDENTIFIER, alphanumeric13DigitWithHypen, Question.PAYLOAD_TYPE.IDENTIFIER));
-        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME, View.VISIBLE, Validation.CHECK_FOR_EMPTY, context.getResources().getString(R.string.patient_name), FIRST_NAME, alphaMax30Min3Digit, Question.PAYLOAD_TYPE.NAME));
-        this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, context.getResources().getString(R.string.gender), SEX, null,Question.PAYLOAD_TYPE.GENDER));
-        this.options.add(new Option(6003, 604, null, null, "", context.getResources().getString(R.string.male), -1));
-        this.options.add(new Option(6003, 605, null, null, "", context.getResources().getString(R.string.female), -1));
+        if(Global.APP_LANGUAGE!=null && Global.APP_LANGUAGE.equals("in"))
+        {
+            heading="Patient Registration Form";
+            male="Laki-Laki";
+            female="Perempuan";
+            identifier="Identifier";
+            patientName="Nama";
+            gender="Jenis Kelamin";
+            dateOfBirth="Tanggal Lahir";
+            location="Lokasi";
+            firstName=">Nama Depan";
+            lastName="Nama Belakang";
+        }
+        else
+        {
+            heading="Patient Registration Form";
+            male="male";
+            female="female";
+            identifier="Identifier";
+            patientName="Index Paient Name";
+            gender="Gender";
+            dateOfBirth="Date of Birth";
+            location="Location";
+            firstName=">First Name";
+            lastName="Last Name";
+        }
+
+
+
+        questions.add(new Question(false, patientCreationId, 6999, "-1", InputWidget.InputWidgetsType.WIDGET_TYPE_HEADING, View.VISIBLE, null, heading, null, null,Question.PAYLOAD_TYPE.HEADING));
+        this.questions.add(new Question(true, patientCreationId, 6000, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_IDENTIFIER, View.VISIBLE, Validation.CHECK_FOR_MRNO,identifier, ParamNames.PROJECT_IDENTIFIER, alphanumeric13DigitWithHypen, Question.PAYLOAD_TYPE.IDENTIFIER));
+        this.questions.add(new Question(true, patientCreationId, 6001, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME, View.VISIBLE, Validation.CHECK_FOR_EMPTY, patientName, FIRST_NAME, alphaMax30Min3Digit, Question.PAYLOAD_TYPE.NAME));
+        this.questions.add(new Question(true, patientCreationId, 6003, "", InputWidget.InputWidgetsType.WIDGET_TYPE_RADIO_BUTTON, View.VISIBLE, Validation.CHECK_FOR_EMPTY, gender, SEX, null,Question.PAYLOAD_TYPE.GENDER));
+        this.options.add(new Option(6003, 604, null, null, "", male, -1));
+        this.options.add(new Option(6003, 605, null, null, "", female, -1));
         //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, context.getResources().getString(R.string.date_of_birth), ParamNames.DOB, dob,Question.PAYLOAD_TYPE.DOB));
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, dateOfBirth, ParamNames.DOB, dob,Question.PAYLOAD_TYPE.DOB));
         //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
 
-        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, context.getResources().getString(R.string.location), ParamNames.LOCATION, null,Question.PAYLOAD_TYPE.LOCATION));
+        this.questions.add(new Question(true, patientCreationId, 6006, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, location, ParamNames.LOCATION, null,Question.PAYLOAD_TYPE.LOCATION));
         this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccessWithCountryName(context, 6006, null, null));
+
+
+//        this.questions.add(new Question(true, patientCreationId, 6008, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", generateUUID(), dateMinTodayMaxLastMonday,Question.PAYLOAD_TYPE.DATE_ENTERED));
 
 
 

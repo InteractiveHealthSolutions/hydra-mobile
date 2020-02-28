@@ -72,7 +72,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         when(item.toString())
                         {
                             "English"->updateResources(this@LoginActivity,"en")
-                            "Bhasa"->updateResources(this@LoginActivity,"in")
+                            "Bahasa"->updateResources(this@LoginActivity,"in")
 
                             else -> updateResources(this@LoginActivity,"en")
                         }
@@ -104,7 +104,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //
 //        var listOfLanguages= arrayListOf<String>()
 //        listOfLanguages.add("English")
-//        listOfLanguages.add("Bhasa")
+//        listOfLanguages.add("Bahasa")
 //
 //
 //        var adapter = ArrayAdapter<String>(this,
