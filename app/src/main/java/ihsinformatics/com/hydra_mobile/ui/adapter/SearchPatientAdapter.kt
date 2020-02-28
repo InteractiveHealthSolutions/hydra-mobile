@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
@@ -22,7 +23,6 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.history.Encounters
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
@@ -111,7 +111,6 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                     encountersList = response.body()!!.encounters
 
                                     initializePatient(patient)
-                                    networkProgressDialog.dismiss()
 
                                 }
                             }
@@ -168,6 +167,8 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         var requestType = ParamNames.GET_PATIENT_INFO
 
         Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
+
+        networkProgressDialog.dismiss()
         context.startActivity(Intent(context, HomeActivity::class.java))
     }
 

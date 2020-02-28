@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.database.history;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -9,8 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity(nameInDb = "history")
 public class ServiceHistory {
 
-    public final static String COLUMN_FORM_PATIENT_ID = "patient_id";
-    public final static String COLUMN_FORM_ID = "form_id";
+    public final static String COLUMN_FORM_PATIENT_ID = "patientIdentifier";
     public final static String ENCOUNTER = "encounter";
     public final static String COLUMN_FORM_OBS = "obs";
 
@@ -20,11 +19,8 @@ public class ServiceHistory {
 
     @NotNull
     @Property(nameInDb = COLUMN_FORM_PATIENT_ID)
-    private int patient_id;
+    private String patientIdentifier;
 
-    @NotNull
-    @Property(nameInDb = COLUMN_FORM_ID)
-    private String form_id;
 
     @NotNull
     @Property(nameInDb = ENCOUNTER)
@@ -35,12 +31,11 @@ public class ServiceHistory {
     private String obs;
 
 
-    @Generated(hash = 603241727)
-    public ServiceHistory(Long id, int patient_id, @NotNull String form_id,
+    @Generated(hash = 618936971)
+    public ServiceHistory(Long id, @NotNull String patientIdentifier,
             @NotNull String encounter, String obs) {
         this.id = id;
-        this.patient_id = patient_id;
-        this.form_id = form_id;
+        this.patientIdentifier = patientIdentifier;
         this.encounter = encounter;
         this.obs = obs;
     }
@@ -61,23 +56,13 @@ public class ServiceHistory {
     }
 
 
-    public int getPatient_id() {
-        return this.patient_id;
+    public String getPatientIdentifier() {
+        return this.patientIdentifier;
     }
 
 
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
-    }
-
-
-    public String getForm_id() {
-        return this.form_id;
-    }
-
-
-    public void setForm_id(String form_id) {
-        this.form_id = form_id;
+    public void setPatientIdentifier(String patientIdentifier) {
+        this.patientIdentifier = patientIdentifier;
     }
 
 
@@ -99,6 +84,7 @@ public class ServiceHistory {
     public void setObs(String obs) {
         this.obs = obs;
     }
+
 
 
 }

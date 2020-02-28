@@ -6,6 +6,9 @@ import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.ServiceHistory;
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.ServiceHistoryDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormTypeDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
@@ -539,11 +542,13 @@ public class DataAccess {
         return locationList;
     }
 
-//    public void insertServiceHistory(Context context, List<SystemSettings> systemSettings) {
-//        SystemSettingsDao systemSettingsDao = App.getDaoSession(context).getSystemSettingsDao();
-//
-//        for (int i = 0; i < systemSettings.size(); i++) {
-//            systemSettingsDao.insertOrReplace(systemSettings.get(i));
-//        }
-//    }
+    public void insertServiceHistory(Context context, String patientId ,List<Encounters> encounters) {
+        ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
+
+        for(int i=0;i<encounters.size();i++)
+        {
+            serviceHistoryDao.insertOrReplace(new ServiceHistory(patientId,));
+        }
+
+    }
 }

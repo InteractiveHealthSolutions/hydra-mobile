@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.history.Ob
 import kotlin.collections.HashMap
 
 
