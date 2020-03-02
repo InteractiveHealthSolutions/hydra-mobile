@@ -22,6 +22,9 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.PeriodType
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -61,7 +64,18 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
 
             if(patient!=null && null != patient.identifiers && patient.identifiers.size>0) {
                 tvPatientName.text = patient.patient.givenName +" "+patient.patient.familyName
-                tvPatientAge.text = patient.patient.age.toString()
+
+                if(null!=patient.patient.birthDate) {
+                    val birthTime = DateTime(patient.patient.birthDate)
+                    val nowTime = DateTime()
+                    val interval = Interval(birthTime, nowTime)
+                    val period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
+                    val years = period.getYears()
+                    val months = period.getMonths()
+                    val days = period.getDays()
+                    tvPatientAge.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
+                }
+
                 if (null != patient.patient.identifier) tvPatientIdentifier.text = patient.patient.identifier
 
                 if (patient.patient.getGender().toLowerCase().contains("f")) {

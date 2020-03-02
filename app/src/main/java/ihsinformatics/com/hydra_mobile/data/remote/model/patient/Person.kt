@@ -11,7 +11,7 @@ class Person{
     private var dead: Boolean =false
     private lateinit var display: String
     private lateinit var gender: String
-    private lateinit var birthdate: String
+    private var birthdate: String=" "
 
 
 
