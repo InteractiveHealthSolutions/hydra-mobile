@@ -69,6 +69,10 @@ public class NameWidget extends InputWidget implements TextWatcher {
         etFirstName.setInputType(configuration.getInputType());
         etFirstName.setFilters(filterArray);
 
+        etLastName.setInputType(configuration.getInputType());
+        etLastName.setFilters(filterArray);
+
+
         etFirstName.addTextChangedListener(this);
         widgetBakery = new InputWidgetBakery();
         if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
