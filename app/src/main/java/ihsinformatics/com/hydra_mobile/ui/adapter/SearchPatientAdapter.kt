@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
@@ -109,7 +110,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                 if (response.isSuccessful) {
 
                                     encountersList = response.body()!!.encounters
-
+                                    DataAccess.getInstance().insertServiceHistory(context,patient.identifiers.get(0).identifier,encountersList);
                                     initializePatient(patient)
 
                                 }

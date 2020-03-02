@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
@@ -496,8 +497,6 @@ public class DataAccess {
     }
 
 
-
-
     public void insertSystemSettings(Context context, List<SystemSettings> systemSettings) {
         SystemSettingsDao systemSettingsDao = App.getDaoSession(context).getSystemSettingsDao();
 
@@ -518,9 +517,7 @@ public class DataAccess {
     }
 
 
-
-
-    public List<Location> fetchLocationsByTagCountryAndParent(Context context, String tag,String country, String parentLocationName) throws IllegalStateException {
+    public List<Location> fetchLocationsByTagCountryAndParent(Context context, String tag, String country, String parentLocationName) throws IllegalStateException {
         Location parent = fetchLocationByName(context, parentLocationName);
         List<Location> locationList = new ArrayList<>();
         LocationTag locationTag = fetchLocationTagByName(context, tag);
@@ -542,13 +539,13 @@ public class DataAccess {
         return locationList;
     }
 
-    public void insertServiceHistory(Context context, String patientId ,List<Encounters> encounters) {
+    public void insertServiceHistory(Context context, String patientId, List<Encounters> encounters) {
         ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
 
-        for(int i=0;i<encounters.size();i++)
-        {
-            serviceHistoryDao.insertOrReplace(new ServiceHistory(patientId,));
-        }
+        Gson gson = new Gson();
+
+        String encountersJSON = gson.toJson(encounters);
+        serviceHistoryDao.insertOrReplace(new ServiceHistory(patientId, encountersJSON));
 
     }
 }
