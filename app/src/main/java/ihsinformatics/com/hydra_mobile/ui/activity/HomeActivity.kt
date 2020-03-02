@@ -219,23 +219,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             resources.getString(R.string.history) -> {
 
-                if (!sessionManager.isOfflineMode()) {
-                    if (isInternetConnected()) {
-
-                        if (Global.patientData == null) {
-                            ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
-                        } else {
-                            startActivity(Intent(applicationContext, ReportActivity::class.java))
-                            finish()
-                        }
-
-                    } else {
-                        ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-
-                    }
-
+                if (Global.patientData == null) {
+                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
                 } else {
-                    ToastyWidget.getInstance().displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
+                    startActivity(Intent(applicationContext, ReportActivity::class.java))
+                    finish()
                 }
             }
         }
@@ -636,11 +624,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
 
-        if(identifierFormat==null || identifierFormat.value.equals(null))
-        {
-            ToastyWidget.getInstance().displayError(this,getString(R.string.need_to_sync),Toast.LENGTH_LONG)
-            startActivity(Intent(this,LoginActivity::class.java))
-        }else {
+        if (identifierFormat == null || identifierFormat.value.equals(null)) {
+            ToastyWidget.getInstance().displayError(this, getString(R.string.need_to_sync), Toast.LENGTH_LONG)
+            startActivity(Intent(this, LoginActivity::class.java))
+        } else {
             Global.identifierFormat = identifierFormat.value
             Global.setDateFormat(dateFormat.value)
             Global.currentCountry = countryName.value
@@ -684,9 +671,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    fun setLanguage()
-    {
+    fun setLanguage() {
         var language = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.APP_LANGUAGE, "en")
-        Global.APP_LANGUAGE=language
+        Global.APP_LANGUAGE = language
     }
 }

@@ -548,4 +548,13 @@ public class DataAccess {
         serviceHistoryDao.insertOrReplace(new ServiceHistory(patientId, encountersJSON));
 
     }
+
+
+    public ServiceHistory fetchServiceHistoryByPatientIdentifier(Context context,String patientID)
+    {
+        ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
+        ServiceHistory serviceHistory = serviceHistoryDao.queryBuilder().where(ServiceHistoryDao.Properties.PatientIdentifier.eq(patientID)).unique();
+        return serviceHistory;
+    }
+
 }
