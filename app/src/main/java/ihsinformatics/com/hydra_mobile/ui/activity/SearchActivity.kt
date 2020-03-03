@@ -50,11 +50,11 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var patientViewModel: PatientViewModel
     private lateinit var searchPatientResultRecyclerView: RecyclerView
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
-    private lateinit var nothingToShow:TextView
+    private lateinit var nothingToShow: TextView
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
 
-    private var offlinePatientList= ArrayList<PatientData>()
+    private var offlinePatientList = ArrayList<PatientData>()
     private lateinit var offlinePatientAdapter: OfflinePatientAdapter
 
     private lateinit var qrReader: ImageView
@@ -103,7 +103,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         edtIdentifier = findViewById<EditText>(R.id.edt_search_by_identifier)
         btnSearch = findViewById<Button>(R.id.btn_patient_search)
 
-        nothingToShow=findViewById(R.id.nothingToShow)
+        nothingToShow = findViewById(R.id.nothingToShow)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -143,31 +143,23 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
     private fun setVisibilities() {
 
-        nothingToShow.visibility=View.GONE
+        nothingToShow.visibility = View.GONE
 
-        if (null!=patientSearchedList && patientSearchedList!!.results!=null && patientSearchedList!!.results.size>0)
-        {
-            searchPatientResultRecyclerView.visibility=View.VISIBLE
-        }
-        else
-        {
-            searchPatientResultRecyclerView.visibility=View.GONE
+        if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
+            searchPatientResultRecyclerView.visibility = View.VISIBLE
+        } else {
+            searchPatientResultRecyclerView.visibility = View.GONE
         }
 
-        if (null!=offlinePatientList && offlinePatientList.size>0)
-        {
-            offlinePatientResultRecyclerView.visibility=View.VISIBLE
-        }
-        else
-        {
-            offlinePatientResultRecyclerView.visibility=View.GONE
+        if (null != offlinePatientList && offlinePatientList.size > 0) {
+            offlinePatientResultRecyclerView.visibility = View.VISIBLE
+        } else {
+            offlinePatientResultRecyclerView.visibility = View.GONE
 
-            if(searchPatientResultRecyclerView.visibility==View.GONE)
-            {
-                nothingToShow.visibility=View.VISIBLE
+            if (searchPatientResultRecyclerView.visibility == View.GONE) {
+                nothingToShow.visibility = View.VISIBLE
             }
         }
-
 
 
     }
@@ -190,8 +182,13 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                     offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, edtIdentifier.getText().toString())
                     if (null != offlinePatient) initOfflinePatientList(offlinePatient)
 
-                    offlinePatient = DataAccess.getInstance().getPatientByName(this, edtIdentifier.getText().toString())
-                    if (null != offlinePatient) initOfflinePatientList(offlinePatient)
+                    var offlinePatientList: List<OfflinePatient>
+                    offlinePatientList = DataAccess.getInstance().getPatientMatchesByName(this, edtIdentifier.getText().toString())
+                    if (null != offlinePatientList && offlinePatientList.size != 0) {
+
+                        for(offPat in offlinePatientList)
+                        initOfflinePatientList(offPat)
+                    }
 
                 } else {
                     edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
@@ -205,12 +202,12 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
     private fun initOfflinePatientList(offlinePatient: OfflinePatient) {
 
-            networkProgressDialog.show()
-            var serverResponse: JSONObject? = null
-            serverResponse = Utils.converToServerResponse(offlinePatient)
-            requestType = ParamNames.GET_PATIENT_INFO
-            convertOfflinePatientToPatient(serverResponse, 0)
-            setOfflinePatientSearchedList()
+        networkProgressDialog.show()
+        var serverResponse: JSONObject? = null
+        serverResponse = Utils.converToServerResponse(offlinePatient)
+        requestType = ParamNames.GET_PATIENT_INFO
+        convertOfflinePatientToPatient(serverResponse, 0)
+        setOfflinePatientSearchedList()
 
 
     }
@@ -237,7 +234,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun setPatientSearchedList() {
-        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this,sessionManager.getUsername(),sessionManager.getPassword()) }!!
+        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this, sessionManager.getUsername(), sessionManager.getPassword()) }!!
         searchPatientResultRecyclerView.adapter = patientSearchAdapter
         setVisibilities()
         networkProgressDialog.dismiss()
@@ -308,7 +305,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                     }
                     val encounters = resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT) as JSONObject
 
-                    var years=0
+                    var years = 0
 
                     if (offlinePatient.mrNumber != null) {
                         offlinePatient.encounterJson = encounters.toString()
@@ -331,7 +328,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                         DataAccess.getInstance().insertOfflinePatient(this, offlinePatient)
                     }
                     if (patientData != null) {
-                        patientData.patient.age=years
+                        patientData.patient.age = years
                         offlinePatientList.add(patientData)
                     }
 
