@@ -103,6 +103,13 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
                     return false;
                 }
             }
+
+            if(configuration.getInputType()==(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED)){
+                if(Float.parseFloat(etAnswer.getText().toString()) > configuration.getMaxValue() || Float.parseFloat(etAnswer.getText().toString()) < configuration.getMinValue())
+                {
+                    return false;
+                }
+            }
         }
         if (Validation.CHECK_FOR_RANGE.equals(question.getValidationFunction())) {
             return validation.validateForRange(etAnswer.getText().toString(), rangeOptions, isMendatory);

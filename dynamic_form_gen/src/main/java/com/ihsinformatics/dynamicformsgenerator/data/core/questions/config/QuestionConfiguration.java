@@ -99,8 +99,8 @@ public class QuestionConfiguration extends Configuration {
                 return InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
             }
 
-            case "decimalNumeric": {
-                return InputType.TYPE_NUMBER_FLAG_DECIMAL;
+            case "decimalnumeric": {
+                return (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             }
 
             case "coded":{
