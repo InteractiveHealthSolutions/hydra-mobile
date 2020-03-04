@@ -230,7 +230,7 @@ public class DataProvider {
             male="male";
             female="female";
             identifier="Identifier";
-            patientName="Index Paient Name";
+            patientName="Patient Name";
             gender="Gender";
             dateOfBirth="Date of Birth";
             location="Location";

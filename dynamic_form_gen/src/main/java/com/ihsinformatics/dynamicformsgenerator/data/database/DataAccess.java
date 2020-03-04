@@ -8,8 +8,6 @@ import com.google.gson.Gson;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.ServiceHistory;
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.ServiceHistoryDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormTypeDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
@@ -36,7 +34,6 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
