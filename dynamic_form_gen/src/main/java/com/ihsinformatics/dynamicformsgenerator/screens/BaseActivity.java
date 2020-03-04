@@ -270,192 +270,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             existingFieldsJson.put(key, offlineValues.opt(key));
                         }
 
-
-//                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_PATIENT_INFO)) {
-//                            EditTextWidget nic = (EditTextWidget) inputWidgets.get(20008);
-//                            EditTextWidget contact = (EditTextWidget) inputWidgets.get(20014);
-//                            SpinnerWidget patientSource = (SpinnerWidget) inputWidgets.get(20004);
-//
-//                            existineOfflinePatient.setNic(nic.getValue());
-//                            existineOfflinePatient.setContact(contact.getValue());
-//                            if (null != patientSource.getValue()) {
-//                                if (patientSource.getValue().equals("Other")) {
-//                                    EditTextWidget patientSourceOther = (EditTextWidget) inputWidgets.get(20005);
-//                                    existingFieldsJson.put("patientSource", patientSourceOther.getValue());
-//                                } else {
-//                                    existingFieldsJson.put("patientSource", patientSource.getValue());
-//                                }
-//                            }
-//
-//                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
-                            SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(53019);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(53000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != patientType.getValue()) {
-                                existingFieldsJson.put("patientType", patientType.getValue());
-                            }
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
-                            SpinnerWidget patientType = (SpinnerWidget) inputWidgets.get(52014);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(52000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-                            if (null != patientType.getValue()) {
-                                existingFieldsJson.put("patientType", patientType.getValue());
-                            }
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
-                            SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(31037);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(31000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != presumptive.getValue()) {
-                                if (presumptive.getValue().equals("Yes"))
-                                    existingFieldsJson.put("patientRiskCategory", "Presumptive");
-                                else
-                                    existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
-                            }
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
-                            SpinnerWidget presumptive = (SpinnerWidget) inputWidgets.get(32037);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(32000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != presumptive.getValue()) {
-                                if (presumptive.getValue().equals("Yes"))
-                                    existingFieldsJson.put("patientRiskCategory", "Presumptive");
-                                else
-                                    existingFieldsJson.put("patientRiskCategory", "Non-Presumptive");
-                            }
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION)) {
-                            EditTextWidget weight = (EditTextWidget) inputWidgets.get(41007);
-                            EditTextWidget height = (EditTextWidget) inputWidgets.get(41008);
-                            EditTextWidget bmi = (EditTextWidget) inputWidgets.get(41009);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(41000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != weight.getValue())
-                                existingFieldsJson.put("weight", weight.getValue());
-                            if (null != height.getValue())
-                                existingFieldsJson.put("height", height.getValue());
-                            if (null != bmi.getValue())
-                                existingFieldsJson.put("bmi", bmi.getValue());
-
-
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION)) {
-                            EditTextWidget weight = (EditTextWidget) inputWidgets.get(42007);
-                            EditTextWidget height = (EditTextWidget) inputWidgets.get(42008);
-                            EditTextWidget bmi = (EditTextWidget) inputWidgets.get(42009);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(42000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-                            if (null != weight.getValue())
-                                existingFieldsJson.put("weight", weight.getValue());
-                            if (null != height.getValue())
-                                existingFieldsJson.put("height", height.getValue());
-                            if (null != bmi.getValue())
-                                existingFieldsJson.put("bmi", bmi.getValue());
-
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_EOF)) {
-                            SpinnerWidget endOfFollowUpFor = (SpinnerWidget) inputWidgets.get(21006);
-                            String eofFor = endOfFollowUpFor.getValue();
-                            existingFieldsJson.put("endOfFollowUpFor", eofFor);
-
-                            DateWidget formDate = (DateWidget) inputWidgets.get(21000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            SpinnerWidget relatedOutcome = (SpinnerWidget) inputWidgets.get(21006);
-                            if (eofFor.equals("TB Investigation")) {
-                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21008);
-                            } else if (eofFor.equals("TB Treatment")) {
-                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21018);
-                            } else if (eofFor.equals("PET Investigation")) {
-                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21039);
-                            } else if (eofFor.equals("PET Treatment")) {
-                                relatedOutcome = (SpinnerWidget) inputWidgets.get(21050);
-                            }
-
-                            if (null != relatedOutcome.getValue())
-                                existingFieldsJson.put("relatedOutcome", relatedOutcome.getValue());
-                        }
-
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
-                            DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(53040);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(53000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != nextAppointmentDate.getValue())
-                                existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
-
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
-                            DateWidget nextAppointmentDate = (DateWidget) inputWidgets.get(52028);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(52000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-                            if (null != nextAppointmentDate.getValue())
-                                existingFieldsJson.put("nextTBAppointment", nextAppointmentDate.getValue());
-                        }
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TB_DISEASE_CONFIRMATION)) {
-                            SpinnerWidget diseaseSite = (SpinnerWidget) inputWidgets.get(49007);
-                            SpinnerWidget confirmationType = (SpinnerWidget) inputWidgets.get(49010);
-                            SpinnerWidget tbType = (SpinnerWidget) inputWidgets.get(49015);
-                            DateWidget formDate = (DateWidget) inputWidgets.get(49000);
-
-                            if (null != formDate.getValue()) {
-                                recentVisits.put(Form.getENCOUNTER_NAME(), formDate.getValue());
-                            }
-
-
-                            if (null != diseaseSite.getValue())
-                                existingFieldsJson.put("diseaseSite", diseaseSite.getValue());
-                            if (null != confirmationType.getValue())
-                                existingFieldsJson.put("confirmationType", confirmationType.getValue());
-                            if (null != tbType.getValue())
-                                existingFieldsJson.put("tbType", tbType.getValue());
-
-
-                        }
-
-                        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
-                            final EditTextWidget contactNames = (EditTextWidget) inputWidgets.get(51015);
-
-
-                            if (contactNames != null) contactNames.getAnswer();
-
-                            relationships = contactNames.getAnswer().getJSONArray("conceptGroupMembers").getJSONArray(0);
-                        }
-
                         existingFieldsJson.put("relationships", relationships);
                         existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
@@ -498,8 +312,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     Toasty.error(BaseActivity.this, "Form is not saved successfully", Toast.LENGTH_LONG).show();
                 }
 
-                makePostFormDecision();
-                //   finish();
+                // makePostFormDecision();
+
             } else {
                 for (ValidationError e : errors) {
                     //TODO requestfocus
@@ -859,108 +673,108 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-    private void makePostFormDecision() throws JSONException {
-
-        // Intent i = getIntent();
-        //PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
-
-
-        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
-            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(31037);
-            String ans = tbPreemptive.getValue();
-
-            if (ans.equals("Yes") || ans.equals("yes")) {
-                // finish();
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION);
-                startForm(patientData, null);
-            } else {
-                finish();
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                startForm(patientData, null);
-
-            }
-        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))) {
-
-            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(41025);
-            String ans = tbPreemptive.getValue();
-
-            if (ans.equals("TB Presumptive confirmed")) {
-                //Popup
-                // finish();
-                ShowPopup("TB Diagnosed", "TB_diagnosed");
-                return;
-
-            } else {
-                finish();
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                startForm(patientData, null);
-
-            }
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
-            // finish();
-            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
-            return;
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
-            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
-            String ans = tbPreemptive.getValue();
-
-            if (ans.equals("Yes") || ans.equals("yes")) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.setMessage("Please Collect Sputum Sample");
-                alertDialogBuilder.setTitle("Sputum Collection");
-                alertDialogBuilder.setCancelable(false);
-                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
-                        try {
-                            startForm(patientData, null);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                alertDialogBuilder.show();
-                return;
-
-            } else {
-                finish();
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                startForm(patientData, null);
-
-            }
-        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION))) {
-
-            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(42025);
-            String ans = tbPreemptive.getValue();
-
-            if (ans.equals("TB Presumptive confirmed")) {
-                //Popup
-                //finish();
-                ShowPopup("TB Diagnosed", "TB_diagnosed_adult");
-                return;
-
-            } else {
-                finish();
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                startForm(patientData, null);
-
-            }
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
-            //finish();
-            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
-            return;
-        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
-            finish();
-            Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-            startForm(patientData, null);
-        }
-        finish();
-        finish();
-
-
-    }
+//    private void makePostFormDecision() throws JSONException {
+//
+//        // Intent i = getIntent();
+//        //PatientData patientData = (PatientData) i.getSerializableExtra(ParamNames.DATA);
+//
+//
+//        if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_SCREENING)) {
+//            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(31037);
+//            String ans = tbPreemptive.getValue();
+//
+//            if (ans.equals("Yes") || ans.equals("yes")) {
+//                // finish();
+//                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION);
+//                startForm(patientData, null);
+//            } else {
+//                finish();
+//                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+//                startForm(patientData, null);
+//
+//            }
+//        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_CLINICAL_EVALUATION))) {
+//
+//            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(41025);
+//            String ans = tbPreemptive.getValue();
+//
+//            if (ans.equals("TB Presumptive confirmed")) {
+//                //Popup
+//                // finish();
+//                ShowPopup("TB Diagnosed", "TB_diagnosed");
+//                return;
+//
+//            } else {
+//                finish();
+//                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+//                startForm(patientData, null);
+//
+//            }
+//        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION)) {
+//            // finish();
+//            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
+//            return;
+//        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_SCREENING)) {
+//            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(32037);
+//            String ans = tbPreemptive.getValue();
+//
+//            if (ans.equals("Yes") || ans.equals("yes")) {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//                alertDialogBuilder.setMessage("Please Collect Sputum Sample");
+//                alertDialogBuilder.setTitle("Sputum Collection");
+//                alertDialogBuilder.setCancelable(false);
+//                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+//                        Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION);
+//                        try {
+//                            startForm(patientData, null);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                alertDialogBuilder.show();
+//                return;
+//
+//            } else {
+//                finish();
+//                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+//                startForm(patientData, null);
+//
+//            }
+//        } else if ((Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_CLINICAL_EVALUATION))) {
+//
+//            final SpinnerWidget tbPreemptive = (SpinnerWidget) inputWidgets.get(42025);
+//            String ans = tbPreemptive.getValue();
+//
+//            if (ans.equals("TB Presumptive confirmed")) {
+//                //Popup
+//                //finish();
+//                ShowPopup("TB Diagnosed", "TB_diagnosed_adult");
+//                return;
+//
+//            } else {
+//                finish();
+//                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+//                startForm(patientData, null);
+//
+//            }
+//        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION)) {
+//            //finish();
+//            ShowPopup("Want to fill Contact Registry Form", "ContactRegistry");
+//            return;
+//        } else if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY)) {
+//            finish();
+//            Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
+//            startForm(patientData, null);
+//        }
+//        finish();
+//        finish();
+//
+//
+//    }
 
 
     private void startForm(PatientData patientData, Bundle bundle) throws JSONException {

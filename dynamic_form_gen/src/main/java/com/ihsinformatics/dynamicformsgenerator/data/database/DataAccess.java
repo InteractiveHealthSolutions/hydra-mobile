@@ -74,6 +74,10 @@ public class DataAccess {
                 .where(OfflinePatientDao.Properties.MrNumber.eq(mrNumber)).unique();
     }
 
+    public synchronized List<OfflinePatient> getPatientMatchesByMRNumber(Context context, String mrNumber) {
+        return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
+                .where(OfflinePatientDao.Properties.MrNumber.eq("%"+mrNumber+"%")).list();
+    }
 
     public synchronized OfflinePatient getPatientByName(Context context, String name) {
         System.out.println("");
