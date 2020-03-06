@@ -118,9 +118,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dimen_24dp"
+        android:layout_marginLeft="@dimen/dimen_5dp"
         android:layout_marginTop="@dimen/dimen_24dp"
-        android:layout_marginRight="@dimen/dimen_24dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
         app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout

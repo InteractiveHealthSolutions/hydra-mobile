@@ -73,7 +73,7 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
                     val years = period.getYears()
                     val months = period.getMonths()
                     val days = period.getDays()
-                    tvPatientAge.setText(years.toString() + " years, " + months.toString() + " months, " + days.toString() + " days")
+                    tvPatientAge.setText(years.toString() + " years, " + months.toString() + " months")
                 }
 
                 if (null != patient.patient.identifier) tvPatientIdentifier.text = patient.patient.identifier
