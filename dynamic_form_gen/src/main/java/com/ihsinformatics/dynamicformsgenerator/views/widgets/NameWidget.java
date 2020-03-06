@@ -124,14 +124,19 @@ public class NameWidget extends InputWidget implements TextWatcher {
             names.put(familyNameObj);
             dismissMessage();
         } else {
-            activity.addValidationError(getQuestionId(), question.getErrorMessage());
+            if (etFirstName.getText().toString().length() == 0 || etLastName.getText().toString().length() == 0) {
+                activity.addValidationError(getQuestionId(), "Required Field");
+
+            } else {
+                activity.addValidationError(getQuestionId(), question.getErrorMessage());
+            }
         }
 
         return param;
     }
 
     public String getValue() {
-        return etFirstName.getText().toString()+" "+etLastName.getText().toString() ;
+        return etFirstName.getText().toString() + " " + etLastName.getText().toString();
     }
 
     @Override

@@ -313,6 +313,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 // makePostFormDecision();
+                finish();
 
             } else {
                 for (ValidationError e : errors) {

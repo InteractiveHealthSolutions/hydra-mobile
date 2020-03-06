@@ -96,17 +96,14 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             }
 
             //Additon of this configuration by Taha for Hydra  ~Taha
-            if(configuration.getInputType()== InputType.TYPE_CLASS_NUMBER || configuration.getInputType()== InputType.TYPE_NUMBER_FLAG_DECIMAL)
-            {
-                if(Integer.parseInt(etAnswer.getText().toString()) > configuration.getMaxValue() || Integer.parseInt(etAnswer.getText().toString()) < configuration.getMinValue())
-                {
+            if (configuration.getInputType() == InputType.TYPE_CLASS_NUMBER || configuration.getInputType() == InputType.TYPE_NUMBER_FLAG_DECIMAL) {
+                if (Integer.parseInt(etAnswer.getText().toString()) > configuration.getMaxValue() || Integer.parseInt(etAnswer.getText().toString()) < configuration.getMinValue()) {
                     return false;
                 }
             }
 
-            if(configuration.getInputType()==(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED)){
-                if(Float.parseFloat(etAnswer.getText().toString()) > configuration.getMaxValue() || Float.parseFloat(etAnswer.getText().toString()) < configuration.getMinValue())
-                {
+            if (configuration.getInputType() == (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED)) {
+                if (Float.parseFloat(etAnswer.getText().toString()) > configuration.getMaxValue() || Float.parseFloat(etAnswer.getText().toString()) < configuration.getMinValue()) {
                     return false;
                 }
             }
@@ -128,7 +125,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
         param.put(ParamNames.PARAM_NAME, question.getParamName());
-        if(!question.getAttribute()) {
+        if (!question.getAttribute()) {
             param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
         } else {
             param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.PERSON_ATTRIBUTE.toString());
@@ -143,7 +140,11 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             dismissMessage();
             //  param.put(question.getParamName(), etAnswer.getText().toString());
         } else {
-            activity.addValidationError(getQuestionId(), question.getErrorMessage());
+            if (etAnswer.getText().toString().length() == 0) {
+                activity.addValidationError(getQuestionId(), "Required Field");
+            } else {
+                activity.addValidationError(getQuestionId(), question.getErrorMessage());
+            }
         }
 
         if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
