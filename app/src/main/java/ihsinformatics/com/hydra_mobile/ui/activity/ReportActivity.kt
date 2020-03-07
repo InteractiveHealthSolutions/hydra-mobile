@@ -17,8 +17,8 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Identifier
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableOfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableReportAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
@@ -34,12 +34,16 @@ class ReportActivity : BaseActivity() {
 
 
     internal var expandableListView: ExpandableListView? = null
+    internal var expandablePatientListView: ExpandableListView? = null
+
     var adapter: CustomExpandableReportAdapter? = null
+    var offlinePatientAdapter: CustomExpandableOfflinePatientAdapter? = null
 
     private lateinit var networkProgressDialog: NetworkProgressDialog
 
     var encountersList = ArrayList<Encounters>()
     var titleList: List<String>? = null
+    var titlesOfflineEncounters: List<String>? = null
 
     val data: HashMap<String, List<Ob>>
         get() {
@@ -54,6 +58,19 @@ class ReportActivity : BaseActivity() {
             return listData;
         }
 
+    val offlineData: HashMap<String, List<String>>
+        get() {
+
+            var listData = HashMap<String, List<String>>()
+
+            if (patientID != null)
+                listData =
+                    DataAccess.getInstance().fetchSaveableFormsByPatientIdentifer(this, patientID)
+
+            return listData;
+        }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = ""
@@ -67,13 +84,21 @@ class ReportActivity : BaseActivity() {
     private fun initView() {
 
         expandableListView = findViewById<ExpandableListView>(R.id.expandableListView)
+        expandablePatientListView = findViewById<ExpandableListView>(R.id.expandablePatientListView)
 
 
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
         val width = metrics.widthPixels
 
-        expandableListView!!.setIndicatorBounds(width - GetPixelFromDips(50f), width - GetPixelFromDips(10f));
+        expandableListView!!.setIndicatorBounds(
+            width - GetPixelFromDips(50f),
+            width - GetPixelFromDips(10f)
+        );
+        expandablePatientListView!!.setIndicatorBounds(
+            width - GetPixelFromDips(50f),
+            width - GetPixelFromDips(10f)
+        );
 
 
         networkProgressDialog = NetworkProgressDialog(this)
@@ -82,50 +107,62 @@ class ReportActivity : BaseActivity() {
         encountersList.clear()
 
         if (isInternetConnected() && !sessionManager.isOfflineMode()) {
-            val testOrderSearch = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getPatientRetrofit().create(CommonLabApiService::class.java)
+            val testOrderSearch = RequestManager(
+                applicationContext,
+                sessionManager.getUsername(),
+                sessionManager.getPassword()
+            ).getPatientRetrofit().create(CommonLabApiService::class.java)
 
-            testOrderSearch.getEncountersOfPatient(patientID, Constant.REPRESENTATION).enqueue(object : Callback<ReportEncountersApiResponse> {
-                override fun onResponse(
-                    call: Call<ReportEncountersApiResponse>, response: Response<ReportEncountersApiResponse>
-                                       ) {
-                    Timber.e(response.message())
-                    if (response.isSuccessful) {
+            testOrderSearch.getEncountersOfPatient(patientID, Constant.REPRESENTATION)
+                .enqueue(object : Callback<ReportEncountersApiResponse> {
+                    override fun onResponse(
+                        call: Call<ReportEncountersApiResponse>,
+                        response: Response<ReportEncountersApiResponse>
+                    ) {
+                        Timber.e(response.message())
+                        if (response.isSuccessful) {
 
-                        encountersList.addAll(response.body()!!.encounters)
-                        DataAccess.getInstance().insertServiceHistory(this@ReportActivity,patientID,response.body()!!.encounters)
+                            encountersList.addAll(response.body()!!.encounters)
+                            DataAccess.getInstance().insertServiceHistory(
+                                this@ReportActivity,
+                                patientID,
+                                response.body()!!.encounters
+                            )
 
-                        networkProgressDialog.dismiss()
-                        if (encountersList.size != 0) {
-                            setEncounterList()
-                        } else {
-                            ToastyWidget.getInstance().displayError(this@ReportActivity, getString(R.string.no_encounter_for_patient), Toast.LENGTH_LONG)
-                            startActivity(Intent(this@ReportActivity, HomeActivity::class.java))
+                            networkProgressDialog.dismiss()
+                            if (encountersList.size != 0) {
+                                setEncounterList()
+                            } else {
+                                ToastyWidget.getInstance().displayError(
+                                    this@ReportActivity,
+                                    getString(R.string.no_encounter_for_patient),
+                                    Toast.LENGTH_LONG
+                                )
 
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<ReportEncountersApiResponse>, t: Throwable) {
-                    Timber.e(t.localizedMessage)
+                    override fun onFailure(call: Call<ReportEncountersApiResponse>, t: Throwable) {
+                        Timber.e(t.localizedMessage)
 
-                    networkProgressDialog.dismiss()
-                    Toast.makeText(this@ReportActivity, "Error fetching Encounters", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@ReportActivity, HomeActivity::class.java))
-                }
-            })
+                        networkProgressDialog.dismiss()
+                        Toast.makeText(
+                            this@ReportActivity,
+                            "Error fetching Online Encounters",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        fetchOfflineEncounters()
+                    }
+                })
         } else {
-            //offline mode implementation here   ~Taha
 
-            val serviceHistory = DataAccess.getInstance().fetchServiceHistoryByPatientIdentifier(this, patientID)
-            val gson = Gson()
-            val type = object : TypeToken<List<Encounters?>?>() {}.type
-            if (serviceHistory != null && serviceHistory.encounter != null) {
-                encountersList.addAll(gson.fromJson<List<Encounters>>(serviceHistory.encounter, type))
-            }
-
+            fetchOfflineEncounters()
             networkProgressDialog.dismiss()
             setEncounterList()
         }
+        setEncounterListForOfflinePatient()
     }
 
 
@@ -148,22 +185,54 @@ class ReportActivity : BaseActivity() {
     }
 
 
+    fun fetchOfflineEncounters()
+    {
+        val serviceHistory =
+            DataAccess.getInstance().fetchServiceHistoryByPatientIdentifier(this, patientID)
+        val gson = Gson()
+        val type = object : TypeToken<List<Encounters?>?>() {}.type
+        if (serviceHistory != null && serviceHistory.encounter != null) {
+            encountersList.addAll(
+                gson.fromJson<List<Encounters>>(
+                    serviceHistory.encounter,
+                    type
+                )
+            )
+        }
+    }
+
     fun setEncounterList() {
-        if (expandableListView != null && encountersList != null && encountersList.size != 0)
-        {
+        if (expandableListView != null && encountersList != null && encountersList.size != 0) {
             val listData = data
             titleList = ArrayList(listData.keys)
             adapter = CustomExpandableReportAdapter(this, titleList as ArrayList<String>, listData)
             expandableListView!!.setAdapter(adapter)
 
-        }else
-        {
-            ToastyWidget.getInstance().displayError(this@ReportActivity, getString(R.string.no_encounter_for_patient), Toast.LENGTH_LONG)
-            startActivity(Intent(this@ReportActivity, HomeActivity::class.java))
         }
+//        else {
+//            ToastyWidget.getInstance().displayError(
+//                this@ReportActivity,
+//                getString(R.string.no_encounter_for_patient),
+//                Toast.LENGTH_LONG
+//            )
+//            startActivity(Intent(this@ReportActivity, HomeActivity::class.java))
+//        }
 
     }
 
+    fun setEncounterListForOfflinePatient() {
+        if (expandablePatientListView != null) {
+            val offlineForms = offlineData
+            titlesOfflineEncounters = ArrayList(offlineForms.keys)
+            offlinePatientAdapter = CustomExpandableOfflinePatientAdapter(
+                this,
+                titlesOfflineEncounters as ArrayList<String>, offlineForms
+            )
+            expandablePatientListView!!.setAdapter(offlinePatientAdapter)
+
+        }
+
+    }
 
     fun GetPixelFromDips(pixels: Float): Int {
         // Get the screen's density scale

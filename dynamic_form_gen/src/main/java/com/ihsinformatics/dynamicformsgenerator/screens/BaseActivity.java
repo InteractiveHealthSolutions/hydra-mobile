@@ -171,15 +171,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     if (i.isSendable() && i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         data.put(i.getAnswer());
 
-                        JSONObject temp = new JSONObject();
+                        //JSONObject temp = new JSONObject();
                         if (i.getValue()==null || (i.getValue().length() == 0)) {
-                            temp.put(i.getQuestion().getText(), "");
+                            form_values.put(i.getQuestion().getText()+":  "+"-");
                         } else {
                             // param.put(question.getParamName(), etAnswer.getText().toString());
-                            temp.put(i.getQuestion().getText(), i.getValue());
+                            form_values.put(i.getQuestion().getText()+": " +i.getValue());
                         }
-                        temp.put(i.getQuestion().getText(), i.getValue());
-                        form_values.put(temp);
+
 
                         if (i.getQuestion().getQuestionId() == 6003) {
                             offlinePatient.setGender(i.getValue());

@@ -34,8 +34,12 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -564,4 +568,23 @@ public class DataAccess {
         return serviceHistory;
     }
 
+
+    public HashMap<String, List<String>> fetchSaveableFormsByPatientIdentifer(Context context, String patientID) throws JSONException {
+        List<SaveableForm> listOfForms = App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.Identifier.eq(patientID)).list();
+        HashMap<String, List<String>> formsData= new HashMap<String, List<String>>();
+        for(int i=0;i<listOfForms.size();i++)
+        {
+            ArrayList<String> conceptsAndValues = new ArrayList<>();
+            String formValues = listOfForms.get(i).getFormValues();
+            JSONObject formValuesJSON = new JSONObject(formValues);
+            JSONArray values = formValuesJSON.optJSONArray("values");
+            for(int j=0;j<values.length();j++)
+            {
+                conceptsAndValues.add(values.get(j).toString());
+            }
+            formsData.put(listOfForms.get(i).getEncounterType(),conceptsAndValues);
+        }
+
+        return formsData;
+    }
 }

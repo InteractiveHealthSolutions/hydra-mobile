@@ -52,6 +52,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/dimen_16dp" />
 
+            <include
+                layout="@layout/content_expandable_offline_patient"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dimen_16dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
