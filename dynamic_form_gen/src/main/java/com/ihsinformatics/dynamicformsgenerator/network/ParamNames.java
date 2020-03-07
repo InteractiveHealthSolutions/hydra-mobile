@@ -55,6 +55,7 @@ public class ParamNames {
     public static final String PARENT_LOCATION = "parentLocation";
     public static final String PATIENT = "patient";
     public static final String FORM_DATA = "data";
+    public static final String SERVICE_HISTORY = "values";
     public static final String AUTHENTICATION = "authentication";
     public static final String JSON_DATA = "json_data";
     public static final String NAME_OF_PROCEDURE = "nameOfProcedure";

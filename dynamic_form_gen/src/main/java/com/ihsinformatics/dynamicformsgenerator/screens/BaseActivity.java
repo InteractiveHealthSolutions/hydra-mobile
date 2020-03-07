@@ -146,6 +146,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         Iterator<Integer> iterator = inputWidgets.keySet().iterator();
         String encPassword = null;
         JSONObject savableData = new JSONObject();
+        JSONObject serviceHistoryValues = new JSONObject();
+        JSONArray form_values = new JSONArray();
         JSONArray data = new JSONArray();
         List<Boolean> flags = new ArrayList<>(0);
         Map<String, JSONObject> mapOfImages = new HashMap<>(0);
@@ -166,7 +168,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
                     // Some fields are not needed to be sent to server
                     if (i.isSendable() && i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_HEADING && i.getInputWidgetsType() != InputWidgetsType.WIDGET_TYPE_IMAGE) {
-                            data.put(i.getAnswer());
+                        data.put(i.getAnswer());
+
+                        JSONObject temp = new JSONObject();
+                        if (i.getValue()==null || (i.getValue().length() == 0)) {
+                            temp.put(i.getQuestion().getText(), "");
+                        } else {
+                            // param.put(question.getParamName(), etAnswer.getText().toString());
+                            temp.put(i.getQuestion().getText(), i.getValue());
+                        }
+                        temp.put(i.getQuestion().getText(), i.getValue());
+                        form_values.put(temp);
 
                         if (i.getQuestion().getQuestionId() == 6003) {
                             offlinePatient.setGender(i.getValue());
@@ -185,6 +197,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             offlinePatient.setName(firstName);
             // TODO offlinePatient -> offlineValues
             savableData.put(ParamNames.FORM_DATA, data);
+            serviceHistoryValues.put(ParamNames.SERVICE_HISTORY,form_values);
 
             if (errors.size() < 1) {
                 // inserting user and patient related metadata
@@ -277,7 +290,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
 
                 }
-                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME() ,null);
+                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString());
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();
@@ -585,13 +598,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             data.put(ParamNames.PATIENT, patientDataJson);
 
             JSONObject formDetails = new JSONObject();
-            FormDetails form=Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME()));
-            formDetails.put(ParamNames.COMPONENT_FORM_ID,form.getComponentFormID());
-            formDetails.put(ParamNames.COMPONENT_FORM_UUID,form.getComponentFormUUID());
+            FormDetails form = Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME()));
+            formDetails.put(ParamNames.COMPONENT_FORM_ID, form.getComponentFormID());
+            formDetails.put(ParamNames.COMPONENT_FORM_UUID, form.getComponentFormUUID());
 
 
-
-            data.put(ParamNames.FORM_DETAILS,formDetails);
+            data.put(ParamNames.FORM_DETAILS, formDetails);
         }
     }
 
@@ -880,11 +892,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     for (SExpression sExp : showables) {
 
                         Boolean final_visibility = logicChecker(sExp);
-                        if(null == final_visibility)
-                        {
+                        if (null == final_visibility) {
                             changeable.setVisibility(changeableQuestion.getInitialVisibility());
-                        }
-                        else if (final_visibility == true) {
+                        } else if (final_visibility == true) {
                             changeable.setVisibility(View.VISIBLE);
                         } else {
                             changeable.setVisibility(View.GONE);
@@ -898,11 +908,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
 
                         Boolean final_visibility = logicChecker(sExp);
-                        if(null == final_visibility)
-                        {
+                        if (null == final_visibility) {
                             changeable.setVisibility(changeableQuestion.getInitialVisibility());
-                        }
-                        else if (final_visibility == true) {
+                        } else if (final_visibility == true) {
                             changeable.setVisibility(View.GONE);
                         } else {
                             changeable.setVisibility(View.VISIBLE);
@@ -919,7 +927,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected Boolean logicChecker(SExpression sExp) throws JSONException {
         if (sExp != null) {
             Boolean final_visibility = false;
-            Boolean loopFirstIteration=true;
+            Boolean loopFirstIteration = true;
             if (sExp.getOperator().equals("OR")) {
                 final_visibility = false;
 
@@ -928,28 +936,27 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         final_visibility = logicChecker(nestedSExp);
                     }
                 }
-                if (final_visibility!=null && final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
+                if (final_visibility != null && final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
                     return true;
 
                 for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                    if (null != changer && changer.getVisibility()== View.VISIBLE) {
+                    if (null != changer && changer.getVisibility() == View.VISIBLE) {
                         if (null != changer.getOptions()) {
 
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
-                                loopFirstIteration=false;
+                                loopFirstIteration = false;
                             }
-                            if (final_visibility!=null && !final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
+                            if (final_visibility != null && !final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = false;
-                                loopFirstIteration=false;
+                                loopFirstIteration = false;
                             } else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
-                                loopFirstIteration=false;
+                                loopFirstIteration = false;
                             }
                         }
-                    }else if(loopFirstIteration)
-                    {
+                    } else if (loopFirstIteration) {
                         final_visibility = null;
                     }
                 }
@@ -961,33 +968,32 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         final_visibility = logicChecker(nestedSExp);
                     }
                 }
-                if (final_visibility!=null && final_visibility) {
+                if (final_visibility != null && final_visibility) {
                     for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                         InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                        if (null != changer && changer.getVisibility()== View.VISIBLE) {
-                           if (null != changer.getOptions()) {
+                        if (null != changer && changer.getVisibility() == View.VISIBLE) {
+                            if (null != changer.getOptions()) {
 
                                 if (changerQuestion.getEqualsList().size() == 0 || changerQuestion.getEqualsList().contains(changer.getValue())) {
                                     final_visibility = true;
-                                    loopFirstIteration=false;
+                                    loopFirstIteration = false;
                                 } else {
                                     final_visibility = false;
-                                    loopFirstIteration=false;
+                                    loopFirstIteration = false;
                                     break;
 
                                 }
                                 if (changerQuestion.getNotEqualsList().contains(changer.getValue())) {
 
                                     final_visibility = false;
-                                    loopFirstIteration=false;
+                                    loopFirstIteration = false;
                                     break;
                                 } else {
                                     final_visibility = true;
-                                    loopFirstIteration=false;
+                                    loopFirstIteration = false;
                                 }
                             }
-                        }else
-                        {
+                        } else {
                             final_visibility = null;
                             break;
                         }
@@ -1062,14 +1068,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         Resources resources = getResources();
         android.content.res.Configuration configuration = resources.getConfiguration();
 
-        if(Global.APP_LANGUAGE==null)
-        {
-            Global.APP_LANGUAGE="en";
+        if (Global.APP_LANGUAGE == null) {
+            Global.APP_LANGUAGE = "en";
         }
 
         configuration.setLocale(new Locale(Global.APP_LANGUAGE.toLowerCase()));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             createConfigurationContext(configuration);
         } else {
             resources.updateConfiguration(configuration, getResources().getDisplayMetrics());

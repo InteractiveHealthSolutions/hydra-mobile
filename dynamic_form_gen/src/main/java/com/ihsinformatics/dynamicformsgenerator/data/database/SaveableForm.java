@@ -21,6 +21,8 @@ public class SaveableForm {
 	public final static String COLUMN_FORM_DATA = "data";
 	public final static String COLUMN_FORM_ERROR = "form_error";
 
+	public final static String COLUMN_FORM_SERVICE_HISTORY = "form_values";
+
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
     JSONObject formData;
@@ -37,7 +39,9 @@ public class SaveableForm {
 	private String encounterType;
     @Property(nameInDb = COLUMN_FORM_ERROR)
 	private String formError;
-	
+	@Property(nameInDb = COLUMN_FORM_SERVICE_HISTORY)
+	private String formValues;
+
 	public SaveableForm() {
 		
 	}
@@ -53,15 +57,20 @@ public class SaveableForm {
 
 
 
-	@Generated(hash = 1298829799)
+	@Generated(hash = 1245753622)
 	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
-			String encounterType, String formError) {
+			String encounterType, String formError, String formValues) {
 		this.formTypeId = formTypeId;
 		this.formId = formId;
 		this.stringFormData = stringFormData;
 		this.encounterType = encounterType;
 		this.formError = formError;
+		this.formValues = formValues;
 	}
+
+
+
+	
 	
 	/*public SaveableForm(int formTypeId, int formId, String formData, String formError) {
 		super();
@@ -133,5 +142,17 @@ public class SaveableForm {
 
 	public void setEncounterType(String encounterType) {
 		this.encounterType = encounterType;
+	}
+
+
+
+	public String getFormValues() {
+		return this.formValues;
+	}
+
+
+
+	public void setFormValues(String formValues) {
+		this.formValues = formValues;
 	}
 }
