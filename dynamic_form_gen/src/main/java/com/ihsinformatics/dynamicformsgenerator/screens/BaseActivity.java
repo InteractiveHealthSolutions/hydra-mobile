@@ -149,6 +149,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         JSONObject serviceHistoryValues = new JSONObject();
         JSONArray form_values = new JSONArray();
         JSONArray data = new JSONArray();
+        String patientIdentifier="";
         List<Boolean> flags = new ArrayList<>(0);
         Map<String, JSONObject> mapOfImages = new HashMap<>(0);
         OfflinePatient offlinePatient = new OfflinePatient();
@@ -250,6 +251,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         Utils.convertPatientToPatientData(this, serverResponse, 0, requestType);
 
+                        patientIdentifier = offlinePatient.getMrNumber();
                     } else
                         return;
                 } else {
@@ -287,10 +289,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
+
+                        patientIdentifier=existineOfflinePatient.getMrNumber();
                     }
 
                 }
-                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString());
+                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(),patientIdentifier);
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();

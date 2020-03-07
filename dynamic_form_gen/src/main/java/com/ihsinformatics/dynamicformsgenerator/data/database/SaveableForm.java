@@ -22,6 +22,8 @@ public class SaveableForm {
 	public final static String COLUMN_FORM_ERROR = "form_error";
 
 	public final static String COLUMN_FORM_SERVICE_HISTORY = "form_values";
+	public final static String COLUMN_FORM_PATIENT_IDENTITIER= "patient_identifier";
+
 
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
@@ -41,6 +43,8 @@ public class SaveableForm {
 	private String formError;
 	@Property(nameInDb = COLUMN_FORM_SERVICE_HISTORY)
 	private String formValues;
+	@Property(nameInDb = COLUMN_FORM_PATIENT_IDENTITIER)
+	private String identifier;
 
 	public SaveableForm() {
 		
@@ -57,16 +61,21 @@ public class SaveableForm {
 
 
 
-	@Generated(hash = 1245753622)
+	@Generated(hash = 106453358)
 	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
-			String encounterType, String formError, String formValues) {
+			String encounterType, String formError, String formValues, String identifier) {
 		this.formTypeId = formTypeId;
 		this.formId = formId;
 		this.stringFormData = stringFormData;
 		this.encounterType = encounterType;
 		this.formError = formError;
 		this.formValues = formValues;
+		this.identifier = identifier;
 	}
+
+
+
+	
 
 
 
@@ -154,5 +163,17 @@ public class SaveableForm {
 
 	public void setFormValues(String formValues) {
 		this.formValues = formValues;
+	}
+
+
+
+	public String getIdentifier() {
+		return this.identifier;
+	}
+
+
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 }
