@@ -50,6 +50,7 @@ import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
 import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
+import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
@@ -580,6 +581,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     // To put other necessary form data other than questions and answers
     private void putMetaData(JSONObject data) throws JSONException {
         data.put(ParamNames.REQUEST_TYPE, Form.getENCOUNTER_NAME());
+        data.put(ParamNames.WORKFLOW, Global.WORKFLOWUUID);
         if (llPatientInfoDisplayer != null && llPatientInfoDisplayer.getVisibility() == View.VISIBLE) {
 
             JSONObject patientDataJson = new JSONObject();

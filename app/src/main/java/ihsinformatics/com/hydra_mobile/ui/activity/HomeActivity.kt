@@ -136,7 +136,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         //previous workflow check (if set then continue and fetch phases for that workflow)
         var selectedWorkFlow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
-
+        Global.WORKFLOWUUID=GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
 
         if (selectedWorkFlow == null) {
@@ -544,7 +544,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, result)
                 if (result != null) {
                     val selectedWorkFlow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
-
+                    Global.WORKFLOWUUID=selectedWorkFlow
                     getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow)
                 }
                 Toast.makeText(this, "Workflow Changed to: " + result, Toast.LENGTH_SHORT).show()

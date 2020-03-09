@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import ihsinformatics.com.hydra_mobile.databinding.ActivitySelectWorkflowBinding
 import android.view.MotionEvent
 import android.view.WindowManager
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
@@ -101,6 +102,7 @@ class SelectWorkFlow : AppCompatActivity() {
                         if(selectedVal.equals(i.name))
                         {
                             GlobalPreferences.getinstance(this).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, i.uuid)
+                            Global.WORKFLOWUUID=i.uuid
                         }
                     }
 
