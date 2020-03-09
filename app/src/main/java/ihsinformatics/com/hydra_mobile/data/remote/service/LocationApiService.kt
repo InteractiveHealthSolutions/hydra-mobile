@@ -14,7 +14,7 @@ interface LocationApiService {
     @Headers("Accept: application/json")
 
     @GET("location")
-    fun getLocation( @Query("v") representation: String): Call<LocationApiResponse>
+    fun getLocation( @Query("v") representation: String,@Query("limit") limit: Int): Call<LocationApiResponse>
 
     @GET("systemsetting")
     fun getLocationAndCurrency( @Query("q") query: String,@Query("v") representation: String): Call<SystemSettingApiResponse>

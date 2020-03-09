@@ -331,9 +331,10 @@ class RequestManager {
     }
 
 
+    // Location limit is set to 1000. You can change it and make it more efficient ~Taha
     fun getLocation(representation: String, restCallback: RESTCallback) {
         val location = retrofit.create(LocationApiService::class.java)
-        location.getLocation(representation).enqueue(object : Callback<LocationApiResponse> {
+        location.getLocation(representation,1000).enqueue(object : Callback<LocationApiResponse> {
 
             override fun onResponse(
                 call: Call<LocationApiResponse>, response: Response<LocationApiResponse>
