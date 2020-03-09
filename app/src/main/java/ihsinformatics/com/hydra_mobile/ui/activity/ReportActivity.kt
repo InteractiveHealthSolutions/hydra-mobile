@@ -83,8 +83,8 @@ class ReportActivity : BaseActivity() {
 
     private fun initView() {
 
-        expandableListView = findViewById<ExpandableListView>(R.id.expandableListView)
-        expandablePatientListView = findViewById<ExpandableListView>(R.id.expandablePatientListView)
+        expandableListView = findViewById(R.id.expandableListView)
+        expandablePatientListView = findViewById(R.id.expandablePatientListView)
 
 
         val metrics = DisplayMetrics()
