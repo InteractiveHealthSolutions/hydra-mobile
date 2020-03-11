@@ -144,6 +144,7 @@ class SessionManager(context: Context) {
     {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true)
+        editor.commit()
     }
 
     fun isFirstTime(): Boolean {

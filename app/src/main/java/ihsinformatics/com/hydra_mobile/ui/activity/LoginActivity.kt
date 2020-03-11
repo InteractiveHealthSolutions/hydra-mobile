@@ -280,6 +280,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     networkProgressDialog.dismiss()
 
                     //saveSessionStartTime()
+                    SessionManager(applicationContext).setLoggedIn()
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
 

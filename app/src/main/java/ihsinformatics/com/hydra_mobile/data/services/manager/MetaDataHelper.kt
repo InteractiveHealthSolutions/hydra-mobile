@@ -65,7 +65,7 @@ class MetaDataHelper(context: Context) {
                 successCount++
                 if(successCount==totalCount)
                 {
-                    SessionManager(context).setLoggedIn()
+                    //SessionManager(context).setLoggedIn()
                     restCallback.onSuccess(true)
                 }
 
