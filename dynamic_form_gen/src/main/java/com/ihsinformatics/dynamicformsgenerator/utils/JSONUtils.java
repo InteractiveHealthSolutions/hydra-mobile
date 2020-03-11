@@ -26,4 +26,17 @@ public class JSONUtils {
 		
 		return null;
 	}
+
+
+	public String[] findStringInJSONArray(String havingKey, JSONArray array) throws JSONException {
+		for(int i=0; i<array.length(); i++) {
+			String temp = array.get(i).toString();
+			String[] separated = temp.split(":");
+			if(separated[0].equals(havingKey)) {
+				return separated;
+			}
+		}
+
+		return null;
+	}
 }

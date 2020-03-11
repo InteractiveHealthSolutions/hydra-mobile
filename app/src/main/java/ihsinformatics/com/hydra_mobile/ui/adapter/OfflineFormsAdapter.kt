@@ -6,28 +6,14 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.common.Constants
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
-import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
+import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
-import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
-import org.joda.time.DateTime
-import org.joda.time.Interval
-import org.joda.time.PeriodType
-import org.json.JSONArray
-import org.json.JSONObject
 
 class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) : RecyclerView.Adapter<OfflineFormsAdapter.ViewHolder>() {
 
@@ -56,6 +42,7 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
+        val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
 
         @RequiresApi(Build.VERSION_CODES.M) fun bindItems(form: SaveableForm) {
 
@@ -64,6 +51,17 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
 
                 formName.text = form.encounterType
 
+                singleLayout.setOnClickListener{
+
+                    var dataToLoad = "[\"Form Date: 11\\/03\\/2020\",\"Location: Beringharjo Market\",\"Geo Location: 24.8637077,67.0758411\",\"Disease site: PULMONARY TUBERCULOSIS\",\"Confirmation of MTB?: BACTERIOLOGICALLY CONFIRMED\",\"Method of Confirmation for Bacteriologically Positive Diagnosis: LPA TEST\",\"Type of TB According to Drug Sensitivity: CONFIRMED DRUG RESISTANT TB\",\"DR TB Registration Number: -\",\"Sub-classification for Confirmed Drug Resistant Cases: RIFAMPICIN RESISTANT TUBERCULOSIS INFECTION\",\"Patient Eligible to Start Treatment?: YES\",\"Is this an Index Patient?: YES\"]";
+
+                    var intent = Intent(context, Form::class.java)
+                    intent.putExtra(GlobalConstants.KEY_LOAD_DATA,true)
+                    intent.putExtra(GlobalConstants.KEY_JSON_DATA,dataToLoad)
+                    Form.setENCOUNTER_NAME(form.encounterType)
+                    context.startActivity(intent)
+
+                }
             }
         }
 
