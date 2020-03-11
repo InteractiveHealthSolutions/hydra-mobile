@@ -44,8 +44,6 @@ class SessionManager(context: Context) {
      * Create login session
      */
     fun createLoginSession(name: String, password: String,provider:String) {
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true)
 
         // Storing name in pref
         editor.putString(KEY_NAME, name)
@@ -140,6 +138,12 @@ class SessionManager(context: Context) {
     // Get Login State
     fun isLoggedIn(): Boolean {
         return pref.getBoolean(IS_LOGIN, false)
+    }
+
+    fun setLoggedIn()
+    {
+        // Storing login value as TRUE
+        editor.putBoolean(IS_LOGIN, true)
     }
 
     fun isFirstTime(): Boolean {

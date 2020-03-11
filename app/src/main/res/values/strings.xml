@@ -339,7 +339,6 @@
     <string name="provider_rights">Please check your rights</string>
 
 
-
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="patient_registration_form">Patient Registration Form</string>
@@ -350,6 +349,8 @@
     <string name="location">Location</string>
     <string name="first_name">Given Name</string>
     <string name="last_name">Family Name</string>
+    <string name="edit_forms">Edit Forms</string>
+    <string name="Edit">Edit</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>

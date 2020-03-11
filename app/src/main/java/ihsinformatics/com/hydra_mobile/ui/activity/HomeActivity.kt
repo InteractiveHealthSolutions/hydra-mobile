@@ -344,10 +344,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 }
             }
+
+            R.id.nav_form_edit -> {
+                startActivity(Intent(this, FormEdit::class.java))
+            }
+
             R.id.nav_search -> {
 
                 startActivityForResult(Intent(this, SearchActivity::class.java), 112)
-
 
             }
 

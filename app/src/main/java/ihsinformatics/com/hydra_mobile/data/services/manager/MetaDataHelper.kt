@@ -6,6 +6,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.*
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -64,6 +65,7 @@ class MetaDataHelper(context: Context) {
                 successCount++
                 if(successCount==totalCount)
                 {
+                    SessionManager(context).setLoggedIn()
                     restCallback.onSuccess(true)
                 }
 
