@@ -8,18 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.ihsinformatics.dynamicformsgenerator.Utils
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
+import org.json.JSONObject
 
-class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) : RecyclerView.Adapter<OfflineFormsAdapter.ViewHolder>() {
+class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
+    RecyclerView.Adapter<OfflineFormsAdapter.ViewHolder>() {
 
 
-    private var formsList=saveableFormsList
-    val context=c
+    private var formsList = saveableFormsList
+    val context = c
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //this.context = parent.context
@@ -44,22 +52,41 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
 
-        @RequiresApi(Build.VERSION_CODES.M) fun bindItems(form: SaveableForm) {
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun bindItems(form: SaveableForm) {
 
-            if(form!=null && null != form.identifier) {
+            if (form != null && null != form.identifier) {
                 tvPatientIdentifier.text = form.identifier
 
                 formName.text = form.encounterType
 
-                singleLayout.setOnClickListener{
+                singleLayout.setOnClickListener {
 
-                    var dataToLoad = "[\"Form Date: 11\\/03\\/2020\",\"Location: Beringharjo Market\",\"Geo Location: 24.8637077,67.0758411\",\"Disease site: PULMONARY TUBERCULOSIS\",\"Confirmation of MTB?: BACTERIOLOGICALLY CONFIRMED\",\"Method of Confirmation for Bacteriologically Positive Diagnosis: LPA TEST\",\"Type of TB According to Drug Sensitivity: CONFIRMED DRUG RESISTANT TB\",\"DR TB Registration Number: -\",\"Sub-classification for Confirmed Drug Resistant Cases: RIFAMPICIN RESISTANT TUBERCULOSIS INFECTION\",\"Patient Eligible to Start Treatment?: YES\",\"Is this an Index Patient?: YES\"]";
+                    val offlinePatient =
+                        DataAccess.getInstance().getPatientByMRNumber(context, form.identifier)
 
-                    var intent = Intent(context, Form::class.java)
-                    intent.putExtra(GlobalConstants.KEY_LOAD_DATA,true)
-                    intent.putExtra(GlobalConstants.KEY_JSON_DATA,dataToLoad)
-                    Form.setENCOUNTER_NAME(form.encounterType)
-                    context.startActivity(intent)
+                    val serverResponse = Utils.converToServerResponse(offlinePatient)
+
+                    val requestType = ParamNames.GET_PATIENT_INFO
+
+                    Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
+
+                    if (Global.patientData != null && Global.patientData.patient.identifier.equals(form.identifier))
+                    {
+
+//                        val dataInJson = JSONObject(form.formData)
+//                        val dataToLoad = dataInJson.optJSONArray("values").toString()
+
+                        var intent = Intent(context, Form::class.java)
+                        intent.putExtra(GlobalConstants.KEY_LOAD_DATA, true)
+                        intent.putExtra(GlobalConstants.KEY_JSON_DATA, form.formValues.toString())
+                        Form.setENCOUNTER_NAME(form.encounterType)
+                        context.startActivity(intent)
+                    }
+                    else
+                    {
+                        ToastyWidget.getInstance().displayError(context,"Other patient is loaded",Toast.LENGTH_SHORT)
+                    }
 
                 }
             }

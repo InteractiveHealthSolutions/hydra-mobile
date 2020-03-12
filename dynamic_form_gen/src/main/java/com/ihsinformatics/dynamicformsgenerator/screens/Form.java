@@ -102,8 +102,8 @@ public class Form extends BaseActivity {
         JSONArray jsonData = null;
         try {
             if (loadData) {
-                jsonData = new JSONArray(data);
-                btnSave.setVisibility(View.GONE);
+                JSONObject temp = new JSONObject(data);
+                jsonData = temp.optJSONArray("values");
             }
         } catch (JSONException je) {
             jsonData = null;
@@ -124,9 +124,9 @@ public class Form extends BaseActivity {
                 llMain.addView(w);
 
                 if (loadData && jsonData != null) {
-                    temp = jsonUtils.findJSONObjectInJSONArray(q.getParamName(), jsonData);
+                    temp = jsonUtils.findJSONObjectInHYDRAJSONArray(q.getParamName(), jsonData);
                     if (temp != null && w != null) {
-                        String answer = temp.get(q.getParamName()).toString();
+                        String answer = temp.get(ParamNames.VALUE).toString();
                         w.setAnswer(answer, "", LANGUAGE.URDU);
                     }
                 }

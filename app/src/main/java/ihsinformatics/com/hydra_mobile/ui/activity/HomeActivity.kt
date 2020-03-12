@@ -578,6 +578,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onResume() {
         super.onResume()
         loadFormDataInEncounterTypes()
+        fillPatientInfoBar()
     }
 
     private fun loadFormDataInEncounterTypes() {

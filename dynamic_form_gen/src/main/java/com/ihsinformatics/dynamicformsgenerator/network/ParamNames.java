@@ -1030,6 +1030,8 @@ public class ParamNames {
     public static final String COMPONENT_FORM_ID = "componentFormId";
     public static final String COMPONENT_FORM_UUID = "uuid";
     public static final String WORKFLOW = "workflow";
+    public static final String PARAM_VALUE = "value";
+    public static final String PARAM_QUESTION = "question";
 
 
     // TB Disease Confirmation Form
