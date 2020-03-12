@@ -41,11 +41,11 @@
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/backup"/>
 
-<!--            <item-->
-<!--                android:fontFamily="@font/cabin"-->
-<!--                android:id="@+id/nav_form_edit"-->
-<!--                android:icon="@drawable/form"-->
-<!--                android:title="@string/edit_forms"/>-->
+            <item
+                android:fontFamily="@font/cabin"
+                android:id="@+id/nav_form_edit"
+                android:icon="@drawable/form"
+                android:title="@string/edit_forms"/>
             <item
                 android:fontFamily="@font/cabin"
                     android:id="@+id/nav_search"
