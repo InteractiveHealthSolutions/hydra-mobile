@@ -948,7 +948,27 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                    if (null != changer && changer.getVisibility() == View.VISIBLE) {
+
+                    if(null != changer && changer.getVisibility() == View.VISIBLE && changer.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER)){
+
+                        if (null != changer.getOptions()) {
+
+                            if(listComparator(changerQuestion.getEqualsList(),changer.getValue()))
+                            {
+                                final_visibility = true;
+                                loopFirstIteration = false;
+                            }
+                            if (final_visibility != null && !final_visibility && listComparator(changerQuestion.getNotEqualsList(),changer.getValue())) {
+                                final_visibility = false;
+                                loopFirstIteration = false;
+                            } else if (changerQuestion.getNotEqualsList().size() != 0 && !listComparator(changerQuestion.getNotEqualsList(),changer.getValue())) {
+                                final_visibility = true;
+                                loopFirstIteration = false;
+                            }
+                        }
+
+                    }
+                    else if (null != changer && changer.getVisibility() == View.VISIBLE) {
                         if (null != changer.getOptions()) {
 
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
@@ -1012,6 +1032,29 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         return true;
     }
 
+
+    //Returns true if first list contains requiredValue from list2 where valuesList contains all checked members of multiselect
+    private boolean listComparator(List<String> comparingList, String valuesJSONObj) throws JSONException {
+        JSONObject multiChoicesObj =  new JSONObject(valuesJSONObj);
+        JSONArray selectedValues = multiChoicesObj.optJSONArray(ParamNames.VALUE);
+
+        if(null!= comparingList && null!=selectedValues)
+        {
+            for(int i=0;i<comparingList.size();i++)
+            {
+                for(int j=0;j<selectedValues.length();j++)
+                {
+                    if(comparingList.get(i).equals(selectedValues.opt(j)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        return false;
+    }
 
     public List<Question> getQuestions(int formId) {
         ArrayList localArrayList = new ArrayList();

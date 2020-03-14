@@ -11,6 +11,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
+import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.MultiSelectSpinner;
 
@@ -95,7 +96,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
     }
 
     @Override
-    public void applySkipLogic(int position) {
+    public void applySkipLogic(int position) throws JSONException {
         boolean isSelected = mspAnswer.isSelected(position);
         int[] showables = null;
         int[] hideables = null;
@@ -108,13 +109,16 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         // int[] hideables = options.get(position).getHidesQuestions();
 
         ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);
+        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME()));
+
     }
 
     @Override
-    public void revertSkipLogic(int position) {
+    public void revertSkipLogic(int position) throws JSONException {
         int[] showables = options.get(position).getOpensQuestions();
         int[] hideables = options.get(position).getHidesQuestions();
         ((BaseActivity) getContext()).onChildViewItemSelected(hideables, showables, question);
+        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME()));
     }
 
     @Override
@@ -122,25 +126,30 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void setVisibility(int visibility) {
-
-        if (mspAnswer != null) {
-            // int[] showables = findAlldependantShowAbles();
-            if (visibility == View.VISIBLE) {
-                List<Integer> selectedItemsIndexes = mspAnswer.getSelectedValuesPositions();
-                for (int i : selectedItemsIndexes)
-                    applySkipLogic(i);
-           /* int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
-            int[] hideables = options.get(spAnswer.getSelectedItemPosition()).getHidesQuestions();
-            ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);*/
-            } else {
-                int[] hideables = findAlldependantHideAbles();
-                ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
-            }
-        }
-        super.setVisibility(visibility);
-    }
+//    @Override
+//    public void setVisibility(int visibility) {
+//
+//        if (mspAnswer != null) {
+//            // int[] showables = findAlldependantShowAbles();
+//            if (visibility == View.VISIBLE) {
+//                List<Integer> selectedItemsIndexes = mspAnswer.getSelectedValuesPositions();
+//                for (int i : selectedItemsIndexes) {
+//                    try {
+//                        applySkipLogic(i);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//           /* int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
+//            int[] hideables = options.get(spAnswer.getSelectedItemPosition()).getHidesQuestions();
+//            ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);*/
+//            } else {
+//                int[] hideables = findAlldependantHideAbles();
+//                ((BaseActivity) getContext()).onChildViewItemSelected(null, hideables, question);
+//            }
+//        }
+//        super.setVisibility(visibility);
+//    }
 
     private int[] findAlldependantHideAbles() {
         int[] toReturn = new int[0];

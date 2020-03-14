@@ -16,14 +16,16 @@ import android.widget.TextView;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MultiSelectSpinner extends LinearLayout {
     public interface HandleSkipLogic {
-        void applySkipLogic(int position);
-        void revertSkipLogic(int position);
+        void applySkipLogic(int position) throws JSONException;
+        void revertSkipLogic(int position) throws JSONException;
     }
 
     private Context context;
@@ -236,10 +238,18 @@ public class MultiSelectSpinner extends LinearLayout {
                     setText(position1);
                     CheckBox checkBox = (CheckBox)v;
                     if(checkBox.isChecked()){
-                        handleSkipLogic.applySkipLogic(position1);
+                        try {
+                            handleSkipLogic.applySkipLogic(position1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else {
-                        handleSkipLogic.revertSkipLogic(position1);
+                        try {
+                            handleSkipLogic.revertSkipLogic(position1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
