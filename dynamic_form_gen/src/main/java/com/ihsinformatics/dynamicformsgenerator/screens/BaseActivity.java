@@ -150,7 +150,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         JSONObject serviceHistoryValues = new JSONObject();
         JSONArray form_values = new JSONArray();
         JSONArray data = new JSONArray();
-        String patientIdentifier="";
+        String patientIdentifier = "";
         List<Boolean> flags = new ArrayList<>(0);
         Map<String, JSONObject> mapOfImages = new HashMap<>(0);
         OfflinePatient offlinePatient = new OfflinePatient();
@@ -173,13 +173,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         data.put(i.getAnswer());
 
                         JSONObject formJSONObj = new JSONObject();
-                        if (i.getValue()==null || (i.getValue().length() == 0)) {
-                            formJSONObj.put(ParamNames.PARAM_QUESTION,i.getQuestion().getParamName());
-                            formJSONObj.put(ParamNames.PARAM_VALUE,"-");
+                        if (i.getValue() == null || (i.getValue().length() == 0)) {
+                            formJSONObj.put(ParamNames.PARAM_QUESTION, i.getQuestion().getParamName());
+                            formJSONObj.put(ParamNames.PARAM_VALUE, "-");
 
                         } else {
-                            formJSONObj.put(ParamNames.PARAM_QUESTION,i.getQuestion().getParamName());
-                            formJSONObj.put(ParamNames.VALUE,i.getValue().toString());
+                            formJSONObj.put(ParamNames.PARAM_QUESTION, i.getQuestion().getParamName());
+                            formJSONObj.put(ParamNames.VALUE, i.getValue().toString());
                         }
                         form_values.put(formJSONObj);
 
@@ -200,7 +200,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             offlinePatient.setName(firstName);
             // TODO offlinePatient -> offlineValues
             savableData.put(ParamNames.FORM_DATA, data);
-            serviceHistoryValues.put(ParamNames.SERVICE_HISTORY,form_values);
+            serviceHistoryValues.put(ParamNames.SERVICE_HISTORY, form_values);
 
             if (errors.size() < 1) {
                 // inserting user and patient related metadata
@@ -292,11 +292,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
                         access.insertOfflinePatient(this, existineOfflinePatient);
 
-                        patientIdentifier=existineOfflinePatient.getMrNumber();
+                        patientIdentifier = existineOfflinePatient.getMrNumber();
                     }
 
                 }
-                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(),patientIdentifier);
+                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();
@@ -949,26 +949,24 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
 
-                    if(null != changer && changer.getVisibility() == View.VISIBLE && changer.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER)){
+                    if (null != changer && changer.getVisibility() == View.VISIBLE && changer.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER)) {
 
                         if (null != changer.getOptions()) {
 
-                            if(listComparator(changerQuestion.getEqualsList(),changer.getValue()))
-                            {
+                            if (listComparator(changerQuestion.getEqualsList(), changer.getValue())) {
                                 final_visibility = true;
                                 loopFirstIteration = false;
                             }
-                            if (final_visibility != null && !final_visibility && listComparator(changerQuestion.getNotEqualsList(),changer.getValue())) {
+                            if (final_visibility != null && !final_visibility && listComparator(changerQuestion.getNotEqualsList(), changer.getValue())) {
                                 final_visibility = false;
                                 loopFirstIteration = false;
-                            } else if (changerQuestion.getNotEqualsList().size() != 0 && !listComparator(changerQuestion.getNotEqualsList(),changer.getValue())) {
+                            } else if (changerQuestion.getNotEqualsList().size() != 0 && !listComparator(changerQuestion.getNotEqualsList(), changer.getValue())) {
                                 final_visibility = true;
                                 loopFirstIteration = false;
                             }
                         }
 
-                    }
-                    else if (null != changer && changer.getVisibility() == View.VISIBLE) {
+                    } else if (null != changer && changer.getVisibility() == View.VISIBLE) {
                         if (null != changer.getOptions()) {
 
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
@@ -998,7 +996,35 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 if (final_visibility != null && final_visibility) {
                     for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                         InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
-                        if (null != changer && changer.getVisibility() == View.VISIBLE) {
+                        if (null != changer && changer.getVisibility() == View.VISIBLE && changer.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER)) {
+
+                            if (null != changer.getOptions()) {
+
+                                if (changerQuestion.getEqualsList().size() == 0 || listComparatorForANDCase(changerQuestion.getEqualsList(), changer.getValue())) {
+                                    final_visibility = true;
+                                    loopFirstIteration = false;
+                                } else {
+                                    final_visibility = false;
+                                    loopFirstIteration = false;
+                                    break;
+
+                                }
+
+
+                                if (changerQuestion.getNotEqualsList().size()!=0 && listComparatorForANDCase(changerQuestion.getNotEqualsList(), changer.getValue())) {
+
+                                    final_visibility = false;
+                                    loopFirstIteration = false;
+                                    break;
+                                } else {
+                                    final_visibility = true;
+                                    loopFirstIteration = false;
+                                }
+
+                            }
+
+
+                        } else if (null != changer && changer.getVisibility() == View.VISIBLE) {
                             if (null != changer.getOptions()) {
 
                                 if (changerQuestion.getEqualsList().size() == 0 || changerQuestion.getEqualsList().contains(changer.getValue())) {
@@ -1035,17 +1061,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     //Returns true if first list contains requiredValue from list2 where valuesList contains all checked members of multiselect
     private boolean listComparator(List<String> comparingList, String valuesJSONObj) throws JSONException {
-        JSONObject multiChoicesObj =  new JSONObject(valuesJSONObj);
+        JSONObject multiChoicesObj = new JSONObject(valuesJSONObj);
         JSONArray selectedValues = multiChoicesObj.optJSONArray(ParamNames.VALUE);
 
-        if(null!= comparingList && null!=selectedValues)
-        {
-            for(int i=0;i<comparingList.size();i++)
-            {
-                for(int j=0;j<selectedValues.length();j++)
-                {
-                    if(comparingList.get(i).equals(selectedValues.opt(j)))
-                    {
+        if (null != comparingList && null != selectedValues) {
+            for (int i = 0; i < comparingList.size(); i++) {
+                for (int j = 0; j < selectedValues.length(); j++) {
+                    if (comparingList.get(i).equals(selectedValues.opt(j))) {
                         return true;
                     }
                 }
@@ -1054,6 +1076,39 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
 
         return false;
+    }
+
+
+    // this method will return false as soon as it finds that equals or not equals list does not contain certain value
+    private boolean listComparatorForANDCase(List<String> comparingList, String valuesJSONObj) throws JSONException {
+        JSONObject multiChoicesObj = new JSONObject(valuesJSONObj);
+        JSONArray selectedValues = multiChoicesObj.optJSONArray(ParamNames.VALUE);
+
+        if ((null == comparingList || comparingList.size() == 0) && (null != selectedValues && selectedValues.length() > 0)) {
+            return true;
+        } else if ((null != comparingList && comparingList.size() > 0) && (null == selectedValues || selectedValues.length() == 0)) {
+            return false;
+        } else if (null != comparingList && null != selectedValues) {
+
+            ArrayList<String> selectedValuesData = new ArrayList<String>();
+
+            for (int i = 0; i < selectedValues.length(); i++) {
+                selectedValuesData.add(selectedValues.opt(i).toString());
+            }
+
+            // checks if every element of selected value must match every value of comparingList
+            //comparing kai ander selected kai saray hone chahiye
+
+            for (int j = 0; j < comparingList.size(); j++) {
+                if (!selectedValuesData.contains(comparingList.get(j))) {
+                    return false;
+                }
+
+            }
+
+        }
+
+        return true;
     }
 
     public List<Question> getQuestions(int formId) {
