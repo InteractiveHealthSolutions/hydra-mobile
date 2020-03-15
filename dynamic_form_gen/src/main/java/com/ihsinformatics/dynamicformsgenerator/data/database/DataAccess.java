@@ -167,8 +167,10 @@ public class DataAccess {
     }
 
     public synchronized long insertForm(Context context, SaveableForm form) {
-        return App.getDaoSession(context).getSaveableFormDao().insert(form);
+        return App.getDaoSession(context).getSaveableFormDao().insertOrReplace(form);
     }
+
+
 
     public synchronized int getNumberOfForms(Context context, String formTypeName) {
         int formtypeId = getFormTypeId(context, formTypeName);

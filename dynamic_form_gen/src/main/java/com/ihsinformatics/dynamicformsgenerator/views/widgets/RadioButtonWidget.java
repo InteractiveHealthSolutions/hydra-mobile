@@ -14,6 +14,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
@@ -127,9 +128,15 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
             if (rb != null) {
                 Option ans = mOptions.get(rb.getText().toString());
                 if (ans.getUuid().equals("") || ans.getUuid() == null) {
-                    param.put(question.getParamName(), ans.getText());
+
+                    param.put(ParamNames.PARAM_NAME, question.getParamName());
+                    param.put(ParamNames.VALUE, ans.getText());
+
                 } else {
-                    param.put(question.getParamName(), ans.getUuid());
+
+                    param.put(ParamNames.PARAM_NAME, question.getParamName());
+                    param.put(ParamNames.VALUE, ans.getUuid());
+
                 }
 
             } else {

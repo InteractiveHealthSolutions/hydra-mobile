@@ -79,6 +79,7 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
 
                         var intent = Intent(context, Form::class.java)
                         intent.putExtra(GlobalConstants.KEY_LOAD_DATA, true)
+                        intent.putExtra(GlobalConstants.KEY_FORM_ID, form.formId)
                         intent.putExtra(GlobalConstants.KEY_JSON_DATA, form.formValues.toString())
                         Form.setENCOUNTER_NAME(form.encounterType)
                         context.startActivity(intent)

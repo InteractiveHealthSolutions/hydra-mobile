@@ -64,6 +64,7 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.AgeWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -83,6 +84,7 @@ import es.dmoral.toasty.Toasty;
 
 public class BaseActivity extends AppCompatActivity implements Sendable, View.OnClickListener, MyDialogFragment.DialogListener {
 
+    protected long editFormId;
     private int scrollPosition;
     // List<InputWidget> inputWidgets;
     protected Map<Integer, InputWidget> inputWidgets;
@@ -296,7 +298,19 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     }
 
                 }
-                SaveableForm form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+
+                SaveableForm form;
+
+                if(editFormId > 0)
+                {
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+                }
+                else
+                {
+                    ToastyWidget.getInstance().displaySuccess(this,"form in edit mode",Toast.LENGTH_SHORT);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+                }
+
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();

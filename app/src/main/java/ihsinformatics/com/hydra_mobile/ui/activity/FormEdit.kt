@@ -25,8 +25,6 @@ class FormEdit : AppCompatActivity() {
         offlineFormsRecyclerView = findViewById<RecyclerView>(R.id. offline_forms)
         offlineFormsRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        setFormsList()
-
     }
 
 
@@ -36,5 +34,10 @@ class FormEdit : AppCompatActivity() {
         offlineFormsAdapter = OfflineFormsAdapter(saveableOfflineForms,this)
         offlineFormsRecyclerView.adapter = offlineFormsAdapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setFormsList()
     }
 }
