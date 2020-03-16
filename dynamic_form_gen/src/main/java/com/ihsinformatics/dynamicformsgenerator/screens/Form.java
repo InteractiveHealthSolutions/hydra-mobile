@@ -125,7 +125,7 @@ public class Form extends BaseActivity {
                 llMain.addView(w);
 
                 if (loadData && jsonData != null) {
-                    temp = jsonUtils.findJSONObjectInHYDRAJSONArray(q.getParamName(), jsonData);
+                    temp = jsonUtils.findJSONObjectInHYDRAJSONArray(q.getText(), jsonData);
                     if (temp != null && w != null) {
                         String answer = temp.get(ParamNames.VALUE).toString();
                         w.setAnswer(answer, "", LANGUAGE.URDU);

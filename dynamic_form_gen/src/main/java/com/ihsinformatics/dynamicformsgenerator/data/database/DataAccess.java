@@ -29,6 +29,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettings;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettingsDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
@@ -582,7 +583,9 @@ public class DataAccess {
             JSONArray values = formValuesJSON.optJSONArray("values");
             for(int j=0;j<values.length();j++)
             {
-                conceptsAndValues.add(values.get(j).toString());
+                JSONObject temp = (JSONObject) values.get(j);
+                String tempString = temp.optString(ParamNames.PARAM_QUESTION)+" : "+temp.optString(ParamNames.PARAM_VALUE);
+                conceptsAndValues.add(tempString);
             }
             formsData.put(listOfForms.get(i).getEncounterType(),conceptsAndValues);
         }
