@@ -6,6 +6,8 @@ import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AddressWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AutoCompleteTextViewWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.ContactRegistryWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.ContactTracingWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.GPSWidget;
@@ -69,6 +71,8 @@ public class InputWidgetBakery {
             inputWidget = new AddressWidget(context, q, R.layout.layout_widget_address);
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME) {
             inputWidget = new NameWidget(context, q, R.layout.layout_widget_name);
+        } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING) {
+            inputWidget = new ContactTracingWidget(context, q, R.layout.layout_widget_contact_tracing);
         }
         return inputWidget;
     }

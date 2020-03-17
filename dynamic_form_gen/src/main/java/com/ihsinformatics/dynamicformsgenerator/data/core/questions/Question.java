@@ -338,6 +338,10 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_ADDRESS;
                 break;
             }
+            case "Contact_Registry":{
+                this.questionType = InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING;
+                break;
+            }
         }
     }
 

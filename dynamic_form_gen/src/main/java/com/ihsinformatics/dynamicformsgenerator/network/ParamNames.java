@@ -1032,6 +1032,7 @@ public class ParamNames {
     public static final String WORKFLOW = "workflow";
     public static final String PARAM_VALUE = "value";
     public static final String PARAM_QUESTION = "question";
+    public static final String CONTACT_REGISTRY = "contactRegistry";
 
 
     // TB Disease Confirmation Form
