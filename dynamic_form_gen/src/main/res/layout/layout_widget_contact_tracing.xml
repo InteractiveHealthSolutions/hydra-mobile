@@ -12,7 +12,9 @@
         android:id="@+id/llQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        android:weightSum="9">
 
         <TextView
             android:id="@+id/tvNumber"
@@ -20,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -29,11 +32,39 @@
         <TextView
             android:id="@+id/tvQuestion"
             style="@style/question_answer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_weight="6"
             android:text="@string/Contact_Registry" />
+
+        <TextView
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Prev"
+            android:padding="2dp"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:background="@color/app_blue"></TextView>
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Next"
+            android:padding="2dp"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:background="@color/app_blue"
+            android:layout_marginLeft="10dp"></TextView>
     </LinearLayout>
 
     <TextView
@@ -43,13 +74,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/llQuestion"
         android:gravity="right"
-        android:visibility="gone"
-        android:text="@string/hello_world" />
+        android:text="@string/hello_world"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvMessage"/>
+        android:layout_below="@id/tvMessage" />
 
 </RelativeLayout>

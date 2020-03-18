@@ -1,7 +1,10 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +32,7 @@ public class ContactTracingWidget extends InputWidget{
     private RecyclerView contactRecyclerView;
     private ArrayList<String> relations = new ArrayList<String>();
     private ArrayList<ContactDetails> contactsText = new ArrayList<ContactDetails>();
+    private int currentPosition = 0;
 
 
     private List<RangeOption> rangeOptions;
@@ -38,11 +42,17 @@ public class ContactTracingWidget extends InputWidget{
     private List<Map<Integer, InputWidget>> repeatGroups;
     BaseActivity baseActivity;
 
+    LinearLayoutManager mLinearLayoutManager;
+    TextView next;
+    TextView previous;
+    TextView questionText;
+
     public ContactTracingWidget(Context context, Question question, int layoutId) {
         super(context, question, layoutId);
         if (super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
+
 
         relations.add("Mother");
         relations.add("Father");
@@ -59,8 +69,54 @@ public class ContactTracingWidget extends InputWidget{
         contactsText.add(new ContactDetails("Question Contact 4","4","Contact ID 4", "Contact Name 4", "Contact Age 4", "Contact Gender 4","Contact Relation 4"));
 
 
+        questionText = findViewById(R.id.tvQuestion);
+        questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
+        next = findViewById(R.id.next);
+        previous = findViewById(R.id.previous);
+        previous.setVisibility(View.INVISIBLE);  //initially the recycler view is on first form
+
+        next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(currentPosition==(contactsText.size()-2))
+                {
+                    next.setVisibility(View.INVISIBLE);
+                }
+                currentPosition++;
+                questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
+                previous.setVisibility(View.VISIBLE);
+                mLinearLayoutManager.scrollToPosition(currentPosition);
+
+            }
+        });
+
+        previous.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(currentPosition==1)
+                {
+                    previous.setVisibility(View.INVISIBLE);
+                }
+                currentPosition--;
+                questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
+                next.setVisibility(View.VISIBLE);
+                mLinearLayoutManager.scrollToPosition(currentPosition);
+            }
+        });
+
+
         contactRecyclerView = (RecyclerView) findViewById(R.id.contactDetails);
-        contactRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true));
+        mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true){
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
+
+
+        contactRecyclerView.setLayoutManager(mLinearLayoutManager);
         contactRecyclerView.setAdapter(new ContactDetailsAdapter(context,contactsText,relations));
 
 

@@ -87,6 +87,8 @@
     <string name="last_name">Family Name</string>
     <string name="Contact_Registry">Contacts</string>
     <string name="patientID">Patient ID</string>
+    <string name="age_of_contact">Age </string>
+
 
 
     <string-array name="countries_array">
