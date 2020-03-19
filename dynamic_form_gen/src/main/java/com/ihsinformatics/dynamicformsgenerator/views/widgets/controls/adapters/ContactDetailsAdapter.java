@@ -1,18 +1,26 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAdapter.ContactViewHolder> {
@@ -21,7 +29,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
     private List<ContactDetails> contactDetails;
     private List<String> relations;
 
-    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations ) {
+    private HashMap<Integer, ContactDetails> data = new HashMap<Integer, ContactDetails>();
+
+    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations, QuestionConfiguration dob) {
         this.context = context;
         this.contactDetails = contactDetails;
         this.relations=relations;
@@ -42,7 +52,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         holder.contactID.setText(contactDetails.get(position).getContactID());
         holder.contactName.setText(contactDetails.get(position).getContactName());
-        //holder.contactAge.setText(contactDetails.get(position).getContactAge());
+
         holder.contactGender.setText(contactDetails.get(position).getContactGender());
         holder.contactRelation.setText(contactDetails.get(position).getContactRelationships());
 
@@ -58,14 +68,32 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
     public class ContactViewHolder extends RecyclerView.ViewHolder{
 
         private TextView contactQuestionText;
-        public TextView contactTvNumber;
+        private TextView contactTvNumber;
 
-        public TextView contactID;
-        public TextView contactName;
-       // public TextView contactAge;
-        public TextView contactGender;
-        public TextView contactRelation;
-        public Spinner relationsList;
+        private TextView contactID;
+        private TextView contactName;
+        private TextView contactGender;
+        private TextView contactRelation;
+        private Spinner relationsList;
+
+        private EditText etPatientID ;
+        private EditText etPatientName;
+        private RadioGroup genderWidget;
+        private Spinner spRelations;
+
+        private DatePickerDialog picker;
+        private Calendar calendar;
+
+        private EditText etAgeYears;
+        private EditText etAgeMonths;
+        private EditText etAgeDays;
+        private TextView tvYears;
+        private TextView tvMonths;
+        private TextView tvDays;
+
+
+        private View.OnClickListener clickListener;
+
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -75,20 +103,71 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             contactID = (TextView) itemView.findViewById(R.id.patientID);
             contactName = (TextView) itemView.findViewById(R.id.patientName);
-            //contactAge = (TextView) itemView.findViewById(R.id.tvQuestion);
             contactGender = (TextView) itemView.findViewById(R.id.contactGender);
             contactRelation = (TextView) itemView.findViewById(R.id.contactRelation);
             relationsList = (Spinner) itemView.findViewById(R.id.spRelations);
+
+            etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
+            etPatientName = (EditText) itemView.findViewById(R.id.etPatientName);
+            genderWidget = (RadioGroup) itemView.findViewById(R.id.genderWidget);
+            spRelations = (Spinner) itemView.findViewById(R.id.spRelations);
+
+
+            calendar = Calendar.getInstance();
+
+
+            etAgeYears = itemView.findViewById(R.id.etAgeYears);
+            etAgeMonths = itemView.findViewById(R.id.etAgeMonths);
+            etAgeDays = itemView.findViewById(R.id.etAgeDays);
+
+
+            clickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Calendar cldr = Calendar.getInstance();
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    picker = new DatePickerDialog(context,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    Toast.makeText(context,dayOfMonth + "/" + (monthOfYear + 1) + "/" + year,Toast.LENGTH_SHORT).show();
+                                    etAgeYears.setText(String.valueOf(year));
+                                    etAgeMonths.setText(String.valueOf(monthOfYear));
+                                    etAgeDays.setText(String.valueOf(dayOfMonth));
+
+                                    etAgeYears.setError(null);
+                                    etAgeMonths.setError(null);
+                                    etAgeDays.setError(null);
+
+
+                                }
+                            }, year, month, day);
+                    picker.show();
+                }
+            };
+
+            tvYears = itemView.findViewById(R.id.tvYears);
+            tvYears.setOnClickListener(clickListener);
+
+            tvMonths = itemView.findViewById(R.id.tvMonths);
+            tvMonths.setOnClickListener(clickListener);
+
+            tvDays = itemView.findViewById(R.id.tvDays);
+            tvDays.setOnClickListener(clickListener);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                 }
             });
 
         }
+
     }
+
 
 }

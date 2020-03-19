@@ -3,13 +3,18 @@ package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
@@ -17,21 +22,29 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
+import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
+import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class ContactTracingWidget extends InputWidget{
+public class ContactTracingWidget extends InputWidget {
 
     private RecyclerView contactRecyclerView;
     private ArrayList<String> relations = new ArrayList<String>();
     private ArrayList<ContactDetails> contactsText = new ArrayList<ContactDetails>();
+    ContactDetailsAdapter adapter;
     private int currentPosition = 0;
 
 
@@ -47,11 +60,25 @@ public class ContactTracingWidget extends InputWidget{
     TextView previous;
     TextView questionText;
 
-    public ContactTracingWidget(Context context, Question question, int layoutId) {
+
+    private Calendar cal;
+    private Date lastMonday;
+    private Date lastYear;
+    private Date nextYear;
+    private java.util.Date projectStartDate;
+    private Date today;
+    private Date date110YearsAgo;
+    QuestionConfiguration dob;
+
+    public ContactTracingWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
         if (super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
+
+        initDates();
+
+        dob = new QuestionConfiguration(today, date110YearsAgo, DateSelector.WIDGET_TYPE.DATE, 9);
 
 
         relations.add("Mother");
@@ -63,52 +90,14 @@ public class ContactTracingWidget extends InputWidget{
         relations.add("Spouse");
 
 
-        contactsText.add(new ContactDetails("Question Contact 1","1","Contact ID 1", "Contact Name 1", "Contact Age 1", "Contact Gender 1","Contact Relation 1"));
-        contactsText.add(new ContactDetails("Question Contact 2","2","Contact ID 2", "Contact Name 2", "Contact Age 2", "Contact Gender 2","Contact Relation 2"));
-        contactsText.add(new ContactDetails("Question Contact 3","3","Contact ID 3", "Contact Name 3", "Contact Age 3", "Contact Gender 3","Contact Relation 3"));
-        contactsText.add(new ContactDetails("Question Contact 4","4","Contact ID 4", "Contact Name 4", "Contact Age 4", "Contact Gender 4","Contact Relation 4"));
-
-
-        questionText = findViewById(R.id.tvQuestion);
-        questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
-        next = findViewById(R.id.next);
-        previous = findViewById(R.id.previous);
-        previous.setVisibility(View.INVISIBLE);  //initially the recycler view is on first form
-
-        next.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(currentPosition==(contactsText.size()-2))
-                {
-                    next.setVisibility(View.INVISIBLE);
-                }
-                currentPosition++;
-                questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
-                previous.setVisibility(View.VISIBLE);
-                mLinearLayoutManager.scrollToPosition(currentPosition);
-
-            }
-        });
-
-        previous.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(currentPosition==1)
-                {
-                    previous.setVisibility(View.INVISIBLE);
-                }
-                currentPosition--;
-                questionText.setText("Form for Patient Contact "+(currentPosition+1)+" of "+contactsText.size());
-                next.setVisibility(View.VISIBLE);
-                mLinearLayoutManager.scrollToPosition(currentPosition);
-            }
-        });
+        contactsText.add(new ContactDetails("Question Contact 1", "1", "Contact ID 1", "Contact Name 1", "Contact Age 1", "Contact Gender 1", "Contact Relation 1"));
+        contactsText.add(new ContactDetails("Question Contact 2", "2", "Contact ID 2", "Contact Name 2", "Contact Age 2", "Contact Gender 2", "Contact Relation 2"));
+        contactsText.add(new ContactDetails("Question Contact 3", "3", "Contact ID 3", "Contact Name 3", "Contact Age 3", "Contact Gender 3", "Contact Relation 3"));
+        contactsText.add(new ContactDetails("Question Contact 4", "4", "Contact ID 4", "Contact Name 4", "Contact Age 4", "Contact Gender 4", "Contact Relation 4"));
 
 
         contactRecyclerView = (RecyclerView) findViewById(R.id.contactDetails);
-        mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true){
+        mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -117,7 +106,8 @@ public class ContactTracingWidget extends InputWidget{
 
 
         contactRecyclerView.setLayoutManager(mLinearLayoutManager);
-        contactRecyclerView.setAdapter(new ContactDetailsAdapter(context,contactsText,relations));
+        adapter = new ContactDetailsAdapter(context, contactsText, relations, dob);
+        contactRecyclerView.setAdapter(adapter);
 
 
         widgetBakery = new InputWidgetBakery();
@@ -125,6 +115,45 @@ public class ContactTracingWidget extends InputWidget{
             llRepeatSpace = findViewById(R.id.llRepeats);
             repeatGroups = new ArrayList<>();
         }
+
+
+        questionText = findViewById(R.id.tvQuestion);
+        questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+        next = findViewById(R.id.next);
+        previous = findViewById(R.id.previous);
+        previous.setVisibility(View.INVISIBLE);  //initially the recycler view is on first form
+
+        next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isValid(currentPosition)) {
+                    if (currentPosition == (contactsText.size() - 2)) {
+                        next.setVisibility(View.INVISIBLE);
+                    }
+                    currentPosition++;
+                    questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                    previous.setVisibility(View.VISIBLE);
+                    mLinearLayoutManager.scrollToPosition(currentPosition);
+                } else {
+                    ToastyWidget.getInstance().displayError(context,"Some missing fields",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+
+        previous.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (currentPosition == 1) {
+                    previous.setVisibility(View.INVISIBLE);
+                }
+                currentPosition--;
+                questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                next.setVisibility(View.VISIBLE);
+                mLinearLayoutManager.scrollToPosition(currentPosition);
+            }
+        });
 
         baseActivity = ((BaseActivity) getContext());
 
@@ -166,4 +195,132 @@ public class ContactTracingWidget extends InputWidget{
 
     }
 
+    private void initDates() {
+        try {
+            projectStartDate = new SimpleDateFormat("yyyyMMdd").parse("20160601");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar localCalendar = Calendar.getInstance();
+        localCalendar.set(Calendar.DAY_OF_WEEK, 2);
+        lastMonday = localCalendar.getTime();
+        cal = Calendar.getInstance();
+        today = cal.getTime();
+        cal.add(Calendar.YEAR, 1);
+        nextYear = cal.getTime();
+        cal.add(Calendar.YEAR, -2);
+        lastYear = cal.getTime();
+        cal.add(Calendar.YEAR, -109);
+        date110YearsAgo = cal.getTime();
+    }
+
+    private boolean isValid(int position) {
+        View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
+        EditText etAgeYears = row.findViewById(R.id.etAgeYears);
+        EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
+        EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+        EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
+        EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
+
+        ArrayList<View> myview=new ArrayList<>();
+        myview.add(etAgeYears);
+        myview.add(etAgeMonths);
+        myview.add(etAgeDays);
+        myview.add(etPatientID);
+        myview.add(etPatientName);
+
+        Boolean finalValidation=true;
+
+        for(int i=0;i<myview.size();i++)
+        {
+            Boolean validation = checkValidation(myview.get(i),myview.get(i).getId());
+            if(!validation)
+            {
+                finalValidation=false;
+            }
+        }
+
+        return finalValidation;
+
+    }
+
+    private boolean checkValidation(View view, int id)
+    {
+        if(id==R.id.etAgeYears)
+        {
+            EditText editText = (EditText) view;
+            String years = editText.getText().toString();
+            if(years!=null && years.length()==4)
+            {
+                return true;
+            }
+            else
+            {
+                editText.setError("Invalid field");
+                return false;
+            }
+        }
+        else if(id==R.id.etAgeMonths)
+        {
+
+            EditText editText = (EditText) view;
+            String months = editText.getText().toString();
+            if(months!=null && months.length()>0)
+            {
+                return true;
+            }
+            else
+            {
+                editText.setError("Invalid field");
+                return false;
+            }
+        }
+        else if(id==R.id.etAgeDays)
+        {
+
+            EditText editText = (EditText) view;
+            String days = editText.getText().toString();
+            if(days!=null && days.length()>0)
+            {
+                return true;
+            }
+            else
+            {
+                editText.setError("Invalid field");
+                return false;
+            }
+        }
+        else if(id==R.id.etPatientID)
+        {
+
+            EditText editText = (EditText) view;
+            String patId = editText.getText().toString();
+            if(patId!=null && patId.matches(Global.identifierFormat))
+            {
+                return true;
+            }
+            else
+            {
+                editText.setError("Invalid field");
+                return false;
+            }
+        }
+        else if(id==R.id.etPatientName)
+        {
+
+            EditText editText = (EditText) view;
+            String patName = editText.getText().toString();
+            if(patName!=null && patName.length()>3)
+            {
+                return true;
+            }
+            else
+            {
+                editText.setError("Invalid field");
+                return false;
+            }
+        }
+
+        return false;
+    }
 }
