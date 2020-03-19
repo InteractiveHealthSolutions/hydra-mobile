@@ -6,7 +6,6 @@ import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AddressWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AutoCompleteTextViewWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.ContactRegistryWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ContactTracingWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
