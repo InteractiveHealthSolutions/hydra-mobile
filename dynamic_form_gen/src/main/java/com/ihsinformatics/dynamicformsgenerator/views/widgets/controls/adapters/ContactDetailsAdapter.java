@@ -31,7 +31,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
     private HashMap<Integer, ContactDetails> data = new HashMap<Integer, ContactDetails>();
 
-    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations, QuestionConfiguration dob) {
+    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations) {
         this.context = context;
         this.contactDetails = contactDetails;
         this.relations=relations;

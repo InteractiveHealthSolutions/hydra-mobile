@@ -2,11 +2,8 @@ package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
-import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
@@ -22,7 +18,6 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
-import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
@@ -31,11 +26,7 @@ import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,24 +52,11 @@ public class ContactTracingWidget extends InputWidget {
     TextView questionText;
 
 
-    private Calendar cal;
-    private Date lastMonday;
-    private Date lastYear;
-    private Date nextYear;
-    private java.util.Date projectStartDate;
-    private Date today;
-    private Date date110YearsAgo;
-    QuestionConfiguration dob;
-
     public ContactTracingWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
         if (super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
-
-        initDates();
-
-        dob = new QuestionConfiguration(today, date110YearsAgo, DateSelector.WIDGET_TYPE.DATE, 9);
 
 
         relations.add("Mother");
@@ -106,7 +84,7 @@ public class ContactTracingWidget extends InputWidget {
 
 
         contactRecyclerView.setLayoutManager(mLinearLayoutManager);
-        adapter = new ContactDetailsAdapter(context, contactsText, relations, dob);
+        adapter = new ContactDetailsAdapter(context, contactsText, relations);
         contactRecyclerView.setAdapter(adapter);
 
 
@@ -135,8 +113,9 @@ public class ContactTracingWidget extends InputWidget {
                     questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
+                    dismissMessage();
                 } else {
-                    ToastyWidget.getInstance().displayError(context,"Some missing fields",Toast.LENGTH_SHORT);
+                    ToastyWidget.getInstance().displayError(context, "Some missing fields", Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -162,7 +141,15 @@ public class ContactTracingWidget extends InputWidget {
 
     @Override
     public boolean isValidInput(boolean isMendatory) {
-        return true;
+
+        boolean validation = true;
+        if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
+            validation = true;
+        } else {
+            isValid(currentPosition);
+            validation = false;
+        }
+        return validation;
     }
 
     @Override
@@ -172,6 +159,11 @@ public class ContactTracingWidget extends InputWidget {
 
     @Override
     public JSONObject getAnswer() throws JSONException {
+        if (isValidInput(question.isMandatory())) {
+
+        } else {
+            activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
+        }
         return new JSONObject();
     }
 
@@ -195,24 +187,6 @@ public class ContactTracingWidget extends InputWidget {
 
     }
 
-    private void initDates() {
-        try {
-            projectStartDate = new SimpleDateFormat("yyyyMMdd").parse("20160601");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar localCalendar = Calendar.getInstance();
-        localCalendar.set(Calendar.DAY_OF_WEEK, 2);
-        lastMonday = localCalendar.getTime();
-        cal = Calendar.getInstance();
-        today = cal.getTime();
-        cal.add(Calendar.YEAR, 1);
-        nextYear = cal.getTime();
-        cal.add(Calendar.YEAR, -2);
-        lastYear = cal.getTime();
-        cal.add(Calendar.YEAR, -109);
-        date110YearsAgo = cal.getTime();
-    }
 
     private boolean isValid(int position) {
         View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
@@ -222,21 +196,19 @@ public class ContactTracingWidget extends InputWidget {
         EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
         EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
 
-        ArrayList<View> myview=new ArrayList<>();
+        ArrayList<View> myview = new ArrayList<>();
         myview.add(etAgeYears);
         myview.add(etAgeMonths);
         myview.add(etAgeDays);
         myview.add(etPatientID);
         myview.add(etPatientName);
 
-        Boolean finalValidation=true;
+        Boolean finalValidation = true;
 
-        for(int i=0;i<myview.size();i++)
-        {
-            Boolean validation = checkValidation(myview.get(i),myview.get(i).getId());
-            if(!validation)
-            {
-                finalValidation=false;
+        for (int i = 0; i < myview.size(); i++) {
+            Boolean validation = checkValidation(myview.get(i), myview.get(i).getId());
+            if (!validation) {
+                finalValidation = false;
             }
         }
 
@@ -244,78 +216,53 @@ public class ContactTracingWidget extends InputWidget {
 
     }
 
-    private boolean checkValidation(View view, int id)
-    {
-        if(id==R.id.etAgeYears)
-        {
+    private boolean checkValidation(View view, int id) {
+        if (id == R.id.etAgeYears) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
-            if(years!=null && years.length()==4)
-            {
+            if (years != null && years.length() == 4) {
                 return true;
-            }
-            else
-            {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
-        }
-        else if(id==R.id.etAgeMonths)
-        {
+        } else if (id == R.id.etAgeMonths) {
 
             EditText editText = (EditText) view;
             String months = editText.getText().toString();
-            if(months!=null && months.length()>0)
-            {
+            if (months != null && months.length() > 0) {
                 return true;
-            }
-            else
-            {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
-        }
-        else if(id==R.id.etAgeDays)
-        {
+        } else if (id == R.id.etAgeDays) {
 
             EditText editText = (EditText) view;
             String days = editText.getText().toString();
-            if(days!=null && days.length()>0)
-            {
+            if (days != null && days.length() > 0) {
                 return true;
-            }
-            else
-            {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
-        }
-        else if(id==R.id.etPatientID)
-        {
+        } else if (id == R.id.etPatientID) {
 
             EditText editText = (EditText) view;
             String patId = editText.getText().toString();
-            if(patId!=null && patId.matches(Global.identifierFormat))
-            {
+            if (patId != null && patId.matches(Global.identifierFormat)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
-        }
-        else if(id==R.id.etPatientName)
-        {
+        } else if (id == R.id.etPatientName) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
-            if(patName!=null && patName.length()>3)
-            {
+            if (patName != null && patName.length() > 3) {
                 return true;
-            }
-            else
-            {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
