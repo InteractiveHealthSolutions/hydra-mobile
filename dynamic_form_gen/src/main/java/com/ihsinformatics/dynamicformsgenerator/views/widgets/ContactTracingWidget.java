@@ -66,12 +66,9 @@ public class ContactTracingWidget extends InputWidget {
 
         baseActivity = ((BaseActivity) getContext());
 
-        relations.add("Mother");
-        relations.add("Father");
-        relations.add("Daughter");
-        relations.add("Son");
-        relations.add("Brother");
-        relations.add("Sister");
+        relations.add("Parent");
+        relations.add("Child");
+        relations.add("Sibling");
         relations.add("Spouse");
 
 
@@ -139,8 +136,6 @@ public class ContactTracingWidget extends InputWidget {
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                     dismissMessage();
-                } else {
-                    ToastyWidget.getInstance().displayError(context, "Some missing fields", Toast.LENGTH_SHORT);
                 }
             }
         });
