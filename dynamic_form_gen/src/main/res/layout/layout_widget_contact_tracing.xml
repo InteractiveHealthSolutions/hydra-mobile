@@ -12,9 +12,8 @@
         android:id="@+id/llQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="15dp"
-        android:weightSum="9">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvNumber"
@@ -22,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -32,39 +30,13 @@
         <TextView
             android:id="@+id/tvQuestion"
             style="@style/question_answer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_weight="6"
             android:text="@string/Contact_Registry" />
 
-        <TextView
-            android:id="@+id/previous"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Prev"
-            android:padding="2dp"
-            android:textAlignment="center"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:background="@color/app_blue"></TextView>
 
-        <TextView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Next"
-            android:padding="2dp"
-            android:textAlignment="center"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:background="@color/app_blue"
-            android:layout_marginLeft="10dp"></TextView>
     </LinearLayout>
 
     <TextView
@@ -77,10 +49,92 @@
         android:text="@string/hello_world"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/etNumberLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <EditText
+            android:id="@+id/etNumberOfContacts"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="3"
+            android:inputType="number">
+        </EditText>
+
+        <Button
+            android:id="@+id/submitNumber"
+            style="@style/question_answer"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:text="@string/submit"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1">
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/optionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etNumberLayout"
+        android:layout_margin="10dp"
+        android:weightSum="5"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:text="Prev"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"></TextView>
+
+        <TextView
+            android:id="@+id/contactNumber"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/contactNumber">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:text="Next"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"></TextView>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvMessage" />
+        android:layout_below="@id/optionsLayout"
+        android:visibility="gone"/>
 
 </RelativeLayout>

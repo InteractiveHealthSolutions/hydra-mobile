@@ -2,6 +2,7 @@ package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,6 +57,11 @@ public class ContactTracingWidget extends InputWidget {
     TextView previous;
     TextView questionText;
 
+    LinearLayout optionsLayout;
+
+    Button submitNumber;
+    EditText etNumberOfContacts;
+
     private ArrayList<ContactDetailsSendable> currentData = new ArrayList<>();
 
     public ContactTracingWidget(final Context context, Question question, int layoutId) {
@@ -72,10 +78,41 @@ public class ContactTracingWidget extends InputWidget {
         relations.add("Spouse");
 
 
-        contactsText.add(new ContactDetails("Question Contact 1", "1", "Contact ID 1", "Contact First Name 1", "Contact Family Name 1", "Contact Age 1", "Contact Gender 1", "Contact Relation 1"));
-        contactsText.add(new ContactDetails("Question Contact 2", "2", "Contact ID 2", "Contact First Name 2", "Contact Family Name 2", "Contact Age 2", "Contact Gender 2", "Contact Relation 2"));
-        contactsText.add(new ContactDetails("Question Contact 3", "3", "Contact ID 3", "Contact First Name 3", "Contact Family Name 3", "Contact Age 3", "Contact Gender 3", "Contact Relation 3"));
+        submitNumber = findViewById(R.id.submitNumber);
 
+        etNumberOfContacts = findViewById(R.id.etNumberOfContacts);
+        optionsLayout = findViewById(R.id.optionsLayout);
+
+
+        submitNumber.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String contactCount = etNumberOfContacts.getText().toString();
+
+                if (null == contactCount || contactCount.equalsIgnoreCase("")) {
+                    etNumberOfContacts.setError("Required Field");
+                } else {
+                    int count = Integer.valueOf(contactCount);
+                    if (count == 0) {
+                        etNumberOfContacts.setError("Enter any number");
+                    } else if (count > 0 && count <= 10) {
+                        etNumberOfContacts.setError(null);
+                        for (int i = 0; i < count; i++) {
+                            contactsText.add(new ContactDetails("Contact Details", String.valueOf(i + 1), "Identifier", "First Name", "Family Name", "Age", "Gender", "Relation"));
+                        }
+                        adapter.notifyDataSetChanged();
+                        contactRecyclerView.setVisibility(View.VISIBLE);
+                        optionsLayout.setVisibility(View.VISIBLE);
+                        etNumberOfContacts.setEnabled(false);
+                        submitNumber.setEnabled(false);
+                        questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                    } else {
+                        etNumberOfContacts.setError("Enter any number between 1 to 10");
+                    }
+                }
+            }
+        });
 
         contactRecyclerView = (RecyclerView) findViewById(R.id.contactDetails);
         mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true) {
@@ -84,13 +121,6 @@ public class ContactTracingWidget extends InputWidget {
                 return false;
             }
         };
-
-
-//        layoutManager = new
-//                PreCachingLayoutManager(baseActivity);
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        layoutManager.setExtraLayoutSpace(DeviceUtils.getScreenHeight(baseActivity));
-//        contactRecyclerView.setLayoutManager(layoutManager);
 
 
         contactRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -108,8 +138,8 @@ public class ContactTracingWidget extends InputWidget {
         }
 
 
-        questionText = findViewById(R.id.tvQuestion);
-        questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+        questionText = findViewById(R.id.contactNumber);
+
         next = findViewById(R.id.next);
         previous = findViewById(R.id.previous);
 
@@ -132,10 +162,14 @@ public class ContactTracingWidget extends InputWidget {
                     saveCurrentPositionData(currentPosition);
 
                     currentPosition++;
-                    questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                    questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                     dismissMessage();
+                }
+                else
+                {
+                    mLinearLayoutManager.scrollToPosition(currentPosition);
                 }
             }
         });
@@ -149,7 +183,7 @@ public class ContactTracingWidget extends InputWidget {
                     previous.setVisibility(View.INVISIBLE);
                 }
                 currentPosition--;
-                questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                 next.setVisibility(View.VISIBLE);
                 mLinearLayoutManager.scrollToPosition(currentPosition);
             }
@@ -204,15 +238,18 @@ public class ContactTracingWidget extends InputWidget {
             params.put(ParamNames.PARAM_VALUE, arr);
         } else {
             mLinearLayoutManager.scrollToPosition(0);
-            currentPosition=0;
+            currentPosition = 0;
             previous.setVisibility(View.INVISIBLE);
 
-            if(currentPosition==(contactsText.size()-1))
-            {
+            if (currentPosition == (contactsText.size() - 1)) {
                 next.setVisibility(View.INVISIBLE);
             }
-            questionText.setText("Form for Patient Contact " + (currentPosition + 1) + " of " + contactsText.size());
-            activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
+            questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+
+            if (!(currentPosition == (contactsText.size() - 1)))
+                activity.addValidationError(question.getQuestionId(), "Press Submit from last form");
+            else
+                activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
         }
         return params;
 
@@ -220,7 +257,7 @@ public class ContactTracingWidget extends InputWidget {
 
     public String getValue() {
 
-        String toReturn="";
+        String toReturn = "";
         try {
             toReturn = getAnswer().toString();
         } catch (JSONException e) {
@@ -250,17 +287,7 @@ public class ContactTracingWidget extends InputWidget {
         View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
         Boolean finalValidation = true;
 
-        if(null==row){
-            currentPosition=0;
-            mLinearLayoutManager.scrollToPosition(currentPosition);
-            previous.setVisibility(View.INVISIBLE);
-
-            if(currentPosition==contactsText.size())
-            {
-                next.setVisibility(View.INVISIBLE);
-            }
-            finalValidation=false;
-        }else {
+        if(row!=null) {
             EditText etAgeYears = row.findViewById(R.id.etAgeYears);
             EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
             EditText etAgeDays = row.findViewById(R.id.etAgeDays);
@@ -278,13 +305,15 @@ public class ContactTracingWidget extends InputWidget {
             myview.add(etPatientFamilyName);
 
 
-
             for (int i = 0; i < myview.size(); i++) {
                 Boolean validation = checkValidation(myview.get(i), myview.get(i).getId());
                 if (!validation) {
                     finalValidation = false;
                 }
             }
+        }else
+        {
+            finalValidation=false;
         }
         return finalValidation;
 

@@ -89,7 +89,7 @@
     <string name="Contact_Registry">Contacts</string>
     <string name="patientID">Patient ID</string>
     <string name="age_of_contact">Age </string>
-
+    <string name="contactNumber">Contact 1</string>
 
 
     <string-array name="countries_array">
