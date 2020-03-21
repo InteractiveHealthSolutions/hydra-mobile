@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
-import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 
 import java.util.Calendar;
@@ -51,7 +50,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         holder.contactTvNumber.setText(contactDetails.get(position).getQuestionNumber());
 
         holder.contactID.setText(contactDetails.get(position).getContactID());
-        holder.contactName.setText(contactDetails.get(position).getContactName());
+        holder.contactFirstName.setText(contactDetails.get(position).getContactFirstName());
+        holder.contactFamilyName.setText(contactDetails.get(position).getContactFamilyName());
 
         holder.contactGender.setText(contactDetails.get(position).getContactGender());
         holder.contactRelation.setText(contactDetails.get(position).getContactRelationships());
@@ -71,7 +71,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private TextView contactTvNumber;
 
         private TextView contactID;
-        private TextView contactName;
+        private TextView contactFirstName;
+        private TextView contactFamilyName;
+
         private TextView contactGender;
         private TextView contactRelation;
         private Spinner relationsList;
@@ -102,7 +104,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             contactTvNumber = (TextView) itemView.findViewById(R.id.tvNumberContact);
 
             contactID = (TextView) itemView.findViewById(R.id.patientID);
-            contactName = (TextView) itemView.findViewById(R.id.patientName);
+            contactFirstName = (TextView) itemView.findViewById(R.id.patientName);
+            contactFamilyName = (TextView) itemView.findViewById(R.id.patientFamilyName);
             contactGender = (TextView) itemView.findViewById(R.id.contactGender);
             contactRelation = (TextView) itemView.findViewById(R.id.contactRelation);
             relationsList = (Spinner) itemView.findViewById(R.id.spRelations);

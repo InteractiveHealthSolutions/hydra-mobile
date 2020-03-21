@@ -8,28 +8,21 @@ public class ContactDetails {
     private String questionNumber;
 
     private String contactID;
-    private String contactName;
+    private String contactFirstName;
+    private String contactFamilyName;
     private String contactAge;
     private String contactGender;
     private String contactRelationships;
 
-    public ContactDetails(String questionText, String questionNumber, String contactID, String contactName, String contactAge, String contactGender, String contactRelationships) {
+    public ContactDetails(String questionText, String questionNumber, String contactID, String contactFirstName, String contactFamilyName, String contactAge, String contactGender, String contactRelationships) {
         this.questionText = questionText;
         this.questionNumber = questionNumber;
-
         this.contactID = contactID;
-        this.contactName = contactName;
+        this.contactFirstName = contactFirstName;
+        this.contactFamilyName = contactFamilyName;
         this.contactAge = contactAge;
         this.contactGender = contactGender;
         this.contactRelationships = contactRelationships;
-    }
-
-    public String getQuestionNumber() {
-        return questionNumber;
-    }
-
-    public void setQuestionNumber(String questionNumber) {
-        this.questionNumber = questionNumber;
     }
 
     public String getQuestionText() {
@@ -40,6 +33,14 @@ public class ContactDetails {
         this.questionText = questionText;
     }
 
+    public String getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public void setQuestionNumber(String questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
     public String getContactID() {
         return contactID;
     }
@@ -48,12 +49,20 @@ public class ContactDetails {
         this.contactID = contactID;
     }
 
-    public String getContactName() {
-        return contactName;
+    public String getContactFirstName() {
+        return contactFirstName;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
+    public void setContactFirstName(String contactFirstName) {
+        this.contactFirstName = contactFirstName;
+    }
+
+    public String getContactFamilyName() {
+        return contactFamilyName;
+    }
+
+    public void setContactFamilyName(String contactFamilyName) {
+        this.contactFamilyName = contactFamilyName;
     }
 
     public String getContactAge() {
