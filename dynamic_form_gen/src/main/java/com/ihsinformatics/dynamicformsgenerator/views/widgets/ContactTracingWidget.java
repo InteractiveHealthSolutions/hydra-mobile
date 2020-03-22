@@ -334,7 +334,7 @@ public class ContactTracingWidget extends InputWidget {
         if (id == R.id.etAgeYears && configuration.getAge().isMandatory()) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
-            if (years != null && years.length() == 4) {
+            if (years != null && years!="" && years!=" " && years.length() > 0) {
                 return true;
             } else {
                 editText.setError("Invalid field");

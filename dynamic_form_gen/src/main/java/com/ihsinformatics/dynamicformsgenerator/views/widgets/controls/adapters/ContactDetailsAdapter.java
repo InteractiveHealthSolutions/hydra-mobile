@@ -19,7 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
+import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,8 +44,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
     public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations, ContactTracingConfiguration configuration) {
         this.context = context;
         this.contactDetails = contactDetails;
-        this.relations=relations;
-        this.configuration=configuration;
+        this.relations = relations;
+        this.configuration = configuration;
     }
 
     @Override
@@ -61,7 +68,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         holder.contactGender.setText(contactDetails.get(position).getContactGender());
         holder.contactRelation.setText(contactDetails.get(position).getContactRelationships());
 
-        holder.relationsList.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, relations));
+        holder.relationsList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, relations));
 
     }
 
@@ -70,7 +77,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         return contactDetails.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder{
+    public class ContactViewHolder extends RecyclerView.ViewHolder {
 
         private TextView contactQuestionText;
         private TextView contactTvNumber;
@@ -83,7 +90,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private TextView contactRelation;
         private Spinner relationsList;
 
-        private EditText etPatientID ;
+        private EditText etPatientID;
         private EditText etPatientName;
         private RadioGroup genderWidget;
         private Spinner spRelations;
@@ -119,8 +126,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
 
-            if(!configuration.isCreatePatient())
-            {
+            if (!configuration.isCreatePatient()) {
                 contactID.setVisibility(View.GONE);
                 etPatientID.setVisibility(View.GONE);
                 etPatientID.setText("-");
@@ -142,38 +148,54 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays.setEnabled(false);
 
 
-
-
             clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Calendar cldr = Calendar.getInstance();
-                    int day = cldr.get(Calendar.DAY_OF_MONTH);
-                    int month = cldr.get(Calendar.MONTH);
-                    int year = cldr.get(Calendar.YEAR);
+                    final int dayToday = cldr.get(Calendar.DAY_OF_MONTH);
+                    final int monthToday = cldr.get(Calendar.MONTH);
+                    final int yearToday = cldr.get(Calendar.YEAR);
                     // date picker dialog
                     picker = new DatePickerDialog(context,
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                    Toast.makeText(context,dayOfMonth + "/" + (monthOfYear + 1) + "/" + year,Toast.LENGTH_SHORT).show();
-                                    etAgeYears.setText(String.valueOf(year));
-                                    etAgeMonths.setText(String.valueOf(monthOfYear));
-                                    etAgeDays.setText(String.valueOf(dayOfMonth));
 
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.set(year, monthOfYear, dayOfMonth);
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                    String dateString = dateFormat.format(calendar.getTime());
+
+                                    Period p = null;
+                                    try {
+                                        p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(dateString)), new LocalDate(), PeriodType.yearMonthDayTime());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(null!=p) {
+                                        etAgeYears.setText(p.getYears() + " ");
+                                        etAgeMonths.setText(p.getMonths() + " ");
+                                        etAgeDays.setText(p.getDays() + " ");
+                                    }else
+                                    {
+                                        etAgeYears.setText(year + " ");
+                                        etAgeMonths.setText(monthOfYear + " ");
+                                        etAgeDays.setText(dayOfMonth + " ");
+                                    }
                                     etAgeYears.setError(null);
                                     etAgeMonths.setError(null);
                                     etAgeDays.setError(null);
 
 
                                 }
-                            }, year, month, day);
+                            }, yearToday, monthToday, dayToday);
                     picker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 
                     Date today = new Date();
                     Calendar c = Calendar.getInstance();
                     c.setTime(today);
-                    c.add( Calendar.YEAR, -110 ); // Subtract 6 years
+                    c.add(Calendar.YEAR, -110); // Subtract 6 years
                     long minDate = c.getTime().getTime(); // Twice!
                     picker.getDatePicker().setMinDate(minDate);   // now min date is set to 110years ago max
                     picker.show();
@@ -189,7 +211,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             tvDays = itemView.findViewById(R.id.tvDays);
             tvDays.setOnClickListener(clickListener);
 
-            ageWidget=itemView.findViewById(R.id.ageWidgetRelativeLayout);
+            ageWidget = itemView.findViewById(R.id.ageWidgetRelativeLayout);
             ageWidget.setOnClickListener(clickListener);
 
         }
