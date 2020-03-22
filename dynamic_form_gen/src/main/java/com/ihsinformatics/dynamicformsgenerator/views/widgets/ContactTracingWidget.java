@@ -5,13 +5,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
@@ -22,11 +24,9 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetailsSendable;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
-import com.ihsinformatics.dynamicformsgenerator.utils.DeviceUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
-import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -159,16 +159,14 @@ public class ContactTracingWidget extends InputWidget {
                         next.setVisibility(View.INVISIBLE);
                     }
 
-                    saveCurrentPositionData(currentPosition);
+                    saveCurrentPositionData(currentPosition, "next");
 
                     currentPosition++;
                     questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                     dismissMessage();
-                }
-                else
-                {
+                } else {
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                 }
             }
@@ -183,6 +181,7 @@ public class ContactTracingWidget extends InputWidget {
                     previous.setVisibility(View.INVISIBLE);
                 }
                 currentPosition--;
+                saveCurrentPositionData(currentPosition, "prev");
                 questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                 next.setVisibility(View.VISIBLE);
                 mLinearLayoutManager.scrollToPosition(currentPosition);
@@ -196,13 +195,12 @@ public class ContactTracingWidget extends InputWidget {
     public boolean isValidInput(boolean isMendatory) {
 
         boolean validation = true;
-        if (currentPosition == (contactsText.size() - 1) && currentData.size() == contactsText.size() && isValid(currentPosition)) {
-            saveCurrentPositionData(currentPosition);
+        if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
+            saveCurrentPositionData(currentPosition,"next");
             validation = true;
         } else {
             validation = false;
         }
-        isValid(currentPosition);//just to add error on fields
         return validation;
     }
 
@@ -231,6 +229,11 @@ public class ContactTracingWidget extends InputWidget {
 
                 temp.put("PatientFamilyName", currentData.get(val).getContactFamilyName());
 
+                temp.put("gender", currentData.get(val).getGender());
+
+                temp.put("relation", currentData.get(val).getRelation());
+
+
                 arr.put(temp);
 
             }
@@ -239,6 +242,7 @@ public class ContactTracingWidget extends InputWidget {
         } else {
             mLinearLayoutManager.scrollToPosition(0);
             currentPosition = 0;
+            currentData.clear();
             previous.setVisibility(View.INVISIBLE);
 
             if (currentPosition == (contactsText.size() - 1)) {
@@ -287,7 +291,7 @@ public class ContactTracingWidget extends InputWidget {
         View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
         Boolean finalValidation = true;
 
-        if(row!=null) {
+        if (row != null) {
             EditText etAgeYears = row.findViewById(R.id.etAgeYears);
             EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
             EditText etAgeDays = row.findViewById(R.id.etAgeDays);
@@ -311,9 +315,8 @@ public class ContactTracingWidget extends InputWidget {
                     finalValidation = false;
                 }
             }
-        }else
-        {
-            finalValidation=false;
+        } else {
+            finalValidation = false;
         }
         return finalValidation;
 
@@ -385,19 +388,29 @@ public class ContactTracingWidget extends InputWidget {
     }
 
 
-    private void saveCurrentPositionData(int position) {
-        View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
-        EditText etAgeYears = row.findViewById(R.id.etAgeYears);
-        EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
-        EditText etAgeDays = row.findViewById(R.id.etAgeDays);
-        EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
-        EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
-        EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+    private void saveCurrentPositionData(int position, String buttonType) {
 
-        if (currentData.size() < contactsText.size()) {
-            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString()));
-        } else {
-            currentData.set(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString()));
+        if (buttonType.equalsIgnoreCase("next")) {
+            View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
+            EditText etAgeYears = row.findViewById(R.id.etAgeYears);
+            EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
+            EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+            EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
+            EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
+            EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+
+            RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
+            RadioButton rb = (RadioButton) gender.findViewById(gender.getCheckedRadioButtonId());
+
+            Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
+
+
+            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString()));
+
+
+        } else if(buttonType.equalsIgnoreCase("prev")) {
+            currentData.remove(position);
+
         }
     }
 }

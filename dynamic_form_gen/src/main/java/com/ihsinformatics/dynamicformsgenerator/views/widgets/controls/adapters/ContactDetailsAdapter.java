@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,6 +94,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private TextView tvMonths;
         private TextView tvDays;
 
+        private RelativeLayout ageWidget;
+
 
         private View.OnClickListener clickListener;
 
@@ -120,9 +123,18 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
 
             etAgeYears = itemView.findViewById(R.id.etAgeYears);
+            etAgeYears.setEnabled(false);
             etAgeMonths = itemView.findViewById(R.id.etAgeMonths);
+            etAgeMonths.setEnabled(false);
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
+            etAgeDays.setEnabled(false);
 
+//            etAgeYears.setOnClickListener(clickListener);
+//            etAgeMonths.setOnClickListener(clickListener);
+//            etAgeDays.setOnClickListener(clickListener);
+
+            ageWidget=itemView.findViewById(R.id.ageWidgetRelativeLayout);
+            ageWidget.setOnClickListener(clickListener);
 
             clickListener = new View.OnClickListener() {
                 @Override
@@ -161,12 +173,6 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             tvDays = itemView.findViewById(R.id.tvDays);
             tvDays.setOnClickListener(clickListener);
 
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
 
         }
 
