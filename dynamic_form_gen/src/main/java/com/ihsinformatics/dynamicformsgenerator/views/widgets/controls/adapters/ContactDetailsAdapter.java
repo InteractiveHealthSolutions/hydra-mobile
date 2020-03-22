@@ -20,6 +20,7 @@ import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -160,6 +161,14 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
                                 }
                             }, year, month, day);
+                    picker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+                    Date today = new Date();
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(today);
+                    c.add( Calendar.YEAR, -110 ); // Subtract 6 years
+                    long minDate = c.getTime().getTime(); // Twice!
+                    picker.getDatePicker().setMinDate(minDate);   // now min date is set to 110years ago max
                     picker.show();
                 }
             };
