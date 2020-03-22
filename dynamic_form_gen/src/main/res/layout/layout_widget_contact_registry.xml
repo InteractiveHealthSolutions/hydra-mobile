@@ -103,8 +103,7 @@
         android:layout_marginTop="5dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:padding="10dp"
-        android:clickable="true">
+        android:padding="10dp">
 
 
         <TextView
@@ -117,15 +116,18 @@
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/linearAgeWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvquestion_answer"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:clickable="true">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="false">
 
                 <TextView
                     style="@style/question_answer"
@@ -133,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
-                    android:text="Age" />
+                    android:text="Age"
+                    android:clickable="false" />
 
                 <EditText
                     android:id="@+id/etAgeYears"
@@ -144,8 +147,10 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Years"
+                    android:enabled="false"
                     android:inputType="number"
-                    android:maxLength="4" />
+                    android:maxLength="4"
+                    android:clickable="false" />
 
                 <EditText
                     android:id="@+id/etAgeMonths"
@@ -156,8 +161,10 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Months"
+                    android:enabled="false"
                     android:inputType="number"
-                    android:maxLength="3" />
+                    android:maxLength="3"
+                    android:clickable="false" />
 
                 <EditText
                     android:id="@+id/etAgeDays"
@@ -168,20 +175,24 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Days"
+                    android:enabled="false"
                     android:inputType="number"
-                    android:maxLength="3" />
+                    android:maxLength="3"
+                    android:clickable="false" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="false">
 
                 <TextView
                     style="@style/question_answer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="" />
+                    android:text=""
+                    android:clickable="false" />
 
                 <TextView
                     android:id="@+id/tvYears"
@@ -191,7 +202,8 @@
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text="Years"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:clickable="false" />
 
                 <TextView
                     android:id="@+id/tvMonths"
@@ -201,7 +213,8 @@
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text="Months"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:clickable="false" />
 
                 <TextView
                     android:id="@+id/tvDays"
@@ -211,7 +224,8 @@
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text="Days"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:clickable="false" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

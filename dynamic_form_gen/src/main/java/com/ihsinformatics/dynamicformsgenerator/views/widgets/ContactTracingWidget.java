@@ -194,12 +194,15 @@ public class ContactTracingWidget extends InputWidget {
     @Override
     public boolean isValidInput(boolean isMendatory) {
 
+
         boolean validation = true;
-        if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
-            saveCurrentPositionData(currentPosition, "next");
-            validation = true;
-        } else {
-            validation = false;
+        if (isMendatory) {
+            if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
+                saveCurrentPositionData(currentPosition, "next");
+                validation = true;
+            } else {
+                validation = false;
+            }
         }
         return validation;
     }
@@ -258,7 +261,7 @@ public class ContactTracingWidget extends InputWidget {
             }
             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
 
-            if (!(currentPosition == (contactsText.size() - 1)))
+            if (!(currentPosition == (contactsText.size() - 1)) &&  (null==etNumberOfContacts.getText().toString() ||  etNumberOfContacts.getText().toString()==""))
                 activity.addValidationError(question.getQuestionId(), "Press Submit from last form");
             else
                 activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
@@ -334,7 +337,7 @@ public class ContactTracingWidget extends InputWidget {
         if (id == R.id.etAgeYears && configuration.getAge().isMandatory()) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
-            if (years != null && years!="" && years!=" " && years.length() > 0) {
+            if (years != null && years != "" && years != " " && years.length() > 0) {
                 return true;
             } else {
                 editText.setError("Invalid field");
@@ -366,7 +369,14 @@ public class ContactTracingWidget extends InputWidget {
             String patId = editText.getText().toString();
             if (patId != null && patId.matches(Global.identifierFormat)) {
                 return true;
-            } else {
+            } else if(patId==null){
+                editText.setError("Required field");
+                return false;
+            }else if(!patId.matches(Global.identifierFormat)){
+                editText.setError("Invalid identifier format. Check your web configuration");
+                return false;
+            }
+            else{
                 editText.setError("Invalid field");
                 return false;
             }

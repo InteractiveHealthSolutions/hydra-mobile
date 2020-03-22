@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -101,11 +102,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private EditText etAgeYears;
         private EditText etAgeMonths;
         private EditText etAgeDays;
-        private TextView tvYears;
-        private TextView tvMonths;
-        private TextView tvDays;
 
-        private RelativeLayout ageWidget;
+        private LinearLayout ageWidget;
 
 
         private View.OnClickListener clickListener;
@@ -141,11 +139,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
 
             etAgeYears = itemView.findViewById(R.id.etAgeYears);
-            etAgeYears.setEnabled(false);
             etAgeMonths = itemView.findViewById(R.id.etAgeMonths);
-            etAgeMonths.setEnabled(false);
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
-            etAgeDays.setEnabled(false);
 
 
             clickListener = new View.OnClickListener() {
@@ -202,16 +197,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                 }
             };
 
-            tvYears = itemView.findViewById(R.id.tvYears);
-            tvYears.setOnClickListener(clickListener);
 
-            tvMonths = itemView.findViewById(R.id.tvMonths);
-            tvMonths.setOnClickListener(clickListener);
-
-            tvDays = itemView.findViewById(R.id.tvDays);
-            tvDays.setOnClickListener(clickListener);
-
-            ageWidget = itemView.findViewById(R.id.ageWidgetRelativeLayout);
+            ageWidget = itemView.findViewById(R.id.linearAgeWidgetLayout);
             ageWidget.setOnClickListener(clickListener);
 
         }
