@@ -261,8 +261,8 @@ public class ContactTracingWidget extends InputWidget {
             }
             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
 
-            if (!(currentPosition == (contactsText.size() - 1)) &&  (null==etNumberOfContacts.getText().toString() ||  etNumberOfContacts.getText().toString()==""))
-                activity.addValidationError(question.getQuestionId(), "Press Submit from last form");
+            if (!(currentPosition == (contactsText.size() - 1)))
+                activity.addValidationError(question.getQuestionId(), "Mandatory field. Press Submit from last form");
             else
                 activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
         }
