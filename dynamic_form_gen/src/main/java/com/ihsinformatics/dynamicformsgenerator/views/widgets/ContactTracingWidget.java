@@ -18,6 +18,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetailsSendable;
@@ -45,7 +46,7 @@ public class ContactTracingWidget extends InputWidget {
 
 
     private List<RangeOption> rangeOptions;
-    private QuestionConfiguration configuration;
+    private ContactTracingConfiguration configuration;
     private InputWidgetBakery widgetBakery;
     private LinearLayout llRepeatSpace;
     private List<Map<Integer, InputWidget>> repeatGroups;
@@ -65,8 +66,8 @@ public class ContactTracingWidget extends InputWidget {
 
     public ContactTracingWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
-        if (super.configuration instanceof QuestionConfiguration)
-            configuration = (QuestionConfiguration) super.configuration;
+        if (super.configuration instanceof ContactTracingConfiguration)
+            configuration = (ContactTracingConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
 
         baseActivity = ((BaseActivity) getContext());
@@ -98,7 +99,7 @@ public class ContactTracingWidget extends InputWidget {
                     } else if (count > 0 && count <= 10) {
                         etNumberOfContacts.setError(null);
                         for (int i = 0; i < count; i++) {
-                            contactsText.add(new ContactDetails("Contact Details", String.valueOf(i + 1), "Identifier", "First Name", "Family Name", "Age", "Gender", "Relation"));
+                            contactsText.add(new ContactDetails("Contact Details", String.valueOf(i + 1), configuration.getIdentifier().getDisplayText(), configuration.getFirstName().getDisplayText(), configuration.getFamilyName().getDisplayText(), configuration.getAge().getDisplayText(), configuration.getGender().getDisplayText(), configuration.getRelationship().getDisplayText()));
                         }
                         adapter.notifyDataSetChanged();
                         contactRecyclerView.setVisibility(View.VISIBLE);
@@ -214,6 +215,8 @@ public class ContactTracingWidget extends InputWidget {
         JSONObject params = new JSONObject();
         if (isValidInput(question.isMandatory())) {
             params.put(ParamNames.PARAM_NAME, "ContactRegistry");
+            params.put(ParamNames.PARAM_CREATE_PATIENT, configuration.isCreatePatient());
+
 
             JSONArray arr = new JSONArray();
 

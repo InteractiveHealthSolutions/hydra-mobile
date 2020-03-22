@@ -21,6 +21,8 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Configuration;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTraceChildFields;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
@@ -315,6 +317,37 @@ public class Form extends BaseActivity {
                 }
 
                 configuration = new QuestionConfiguration(endDate,startDate, DateSelector.WIDGET_TYPE.DATE, 8);
+
+
+
+            }else if (widgetType.equals("Contact Tracing")) {
+
+                boolean createPatient = formFields.optBoolean("createPatient");
+                JSONArray children = formFields.optJSONArray("children");
+
+
+                ArrayList<ContactTraceChildFields> arr = new ArrayList<>();
+
+                for(int j=0;j<children.length();j++){
+
+                    JSONObject childObject = children.optJSONObject(j);
+                    JSONObject fieldChildren = childObject.optJSONObject("field");
+
+                    String displayTextChildren = childObject.optString("displayText");
+
+                    boolean mandatoryChildren=childObject.optBoolean("mandatory");;
+
+                    if(displayTextChildren==null || displayTextChildren.equalsIgnoreCase("") || displayTextChildren.equalsIgnoreCase(" ") || displayTextChildren.equalsIgnoreCase("null")){
+                        displayTextChildren=fieldChildren.optString("name");
+                    }
+
+                    String childrenFieldId=fieldChildren.optString("uuid");
+
+                    arr.add(new ContactTraceChildFields(childrenFieldId,displayTextChildren,mandatoryChildren));
+
+                }
+
+                configuration = new ContactTracingConfiguration(createPatient,arr);
 
 
 

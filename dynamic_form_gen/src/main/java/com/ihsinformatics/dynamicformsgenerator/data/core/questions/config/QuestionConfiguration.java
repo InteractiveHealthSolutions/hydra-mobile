@@ -15,15 +15,17 @@ public class QuestionConfiguration extends Configuration {
     private String allowedCharacters;
     private int id;
 
+
+    //new HYDRA FIELDS
+    private int maxValue=Integer.MAX_VALUE;
+    private int minValue=Integer.MIN_VALUE;
+    private int maxLines;
+
     //For date widget
     private Date maxDate;
     private Date minDate;
     private DateSelector.WIDGET_TYPE widgetType;
 
-
-    private int maxValue=Integer.MAX_VALUE;
-    private int minValue=Integer.MIN_VALUE;
-    private int maxLines;
 
     public QuestionConfiguration() {
 

@@ -1033,6 +1033,7 @@ public class ParamNames {
     public static final String PARAM_VALUE = "value";
     public static final String PARAM_QUESTION = "question";
     public static final String CONTACT_REGISTRY = "contactRegistry";
+    public static final String PARAM_CREATE_PATIENT = "createPatient";
 
 
     // TB Disease Confirmation Form

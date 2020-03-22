@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 
 import java.util.Calendar;
@@ -130,9 +131,6 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
             etAgeDays.setEnabled(false);
 
-//            etAgeYears.setOnClickListener(clickListener);
-//            etAgeMonths.setOnClickListener(clickListener);
-//            etAgeDays.setOnClickListener(clickListener);
 
             ageWidget=itemView.findViewById(R.id.ageWidgetRelativeLayout);
             ageWidget.setOnClickListener(clickListener);
