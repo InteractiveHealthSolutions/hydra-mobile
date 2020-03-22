@@ -124,7 +124,7 @@ public class ContactTracingWidget extends InputWidget {
 
 
         contactRecyclerView.setLayoutManager(mLinearLayoutManager);
-        adapter = new ContactDetailsAdapter(context, contactsText, relations);
+        adapter = new ContactDetailsAdapter(context, contactsText, relations, configuration);
         contactRecyclerView.setAdapter(adapter);
         contactRecyclerView.setHasFixedSize(true);
         contactRecyclerView.setItemViewCacheSize(10);
@@ -196,7 +196,7 @@ public class ContactTracingWidget extends InputWidget {
 
         boolean validation = true;
         if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
-            saveCurrentPositionData(currentPosition,"next");
+            saveCurrentPositionData(currentPosition, "next");
             validation = true;
         } else {
             validation = false;
@@ -223,9 +223,13 @@ public class ContactTracingWidget extends InputWidget {
             for (int val = 0; val < currentData.size(); val++) {
 
                 JSONObject temp = new JSONObject();
+
+
                 temp.put("age", currentData.get(val).getContactAge());
 
-                temp.put("patientID", currentData.get(val).getContactID());
+                if (configuration.isCreatePatient())
+                    temp.put("patientID", currentData.get(val).getContactID());
+
 
                 temp.put("PatientFirstName", currentData.get(val).getContactFirstName());
 
@@ -249,6 +253,8 @@ public class ContactTracingWidget extends InputWidget {
 
             if (currentPosition == (contactsText.size() - 1)) {
                 next.setVisibility(View.INVISIBLE);
+            } else if (next.getVisibility() == View.INVISIBLE) {
+                next.setVisibility(View.VISIBLE);
             }
             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
 
@@ -325,7 +331,7 @@ public class ContactTracingWidget extends InputWidget {
     }
 
     private boolean checkValidation(View view, int id) {
-        if (id == R.id.etAgeYears) {
+        if (id == R.id.etAgeYears && configuration.getAge().isMandatory()) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
             if (years != null && years.length() == 4) {
@@ -334,7 +340,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etAgeMonths) {
+        } else if (id == R.id.etAgeMonths && configuration.getAge().isMandatory()) {
 
             EditText editText = (EditText) view;
             String months = editText.getText().toString();
@@ -344,7 +350,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etAgeDays) {
+        } else if (id == R.id.etAgeDays && configuration.getAge().isMandatory()) {
 
             EditText editText = (EditText) view;
             String days = editText.getText().toString();
@@ -354,7 +360,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientID) {
+        } else if (id == R.id.etPatientID && configuration.isCreatePatient() && configuration.getIdentifier().isMandatory()) {
 
             EditText editText = (EditText) view;
             String patId = editText.getText().toString();
@@ -364,7 +370,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientName) {
+        } else if (id == R.id.etPatientName && configuration.getFirstName().isMandatory()) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
@@ -374,7 +380,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientFamilyName) {
+        } else if (id == R.id.etPatientFamilyName && configuration.getFamilyName().isMandatory()) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
@@ -386,7 +392,7 @@ public class ContactTracingWidget extends InputWidget {
             }
         }
 
-        return false;
+        return true;
     }
 
 
@@ -410,7 +416,7 @@ public class ContactTracingWidget extends InputWidget {
             currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString()));
 
 
-        } else if(buttonType.equalsIgnoreCase("prev")) {
+        } else if (buttonType.equalsIgnoreCase("prev")) {
             currentData.remove(position);
 
         }

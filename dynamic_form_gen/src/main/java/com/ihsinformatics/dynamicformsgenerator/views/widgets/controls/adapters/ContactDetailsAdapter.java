@@ -30,13 +30,15 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
     private Context context;
     private List<ContactDetails> contactDetails;
     private List<String> relations;
+    private ContactTracingConfiguration configuration;
 
     private HashMap<Integer, ContactDetails> data = new HashMap<Integer, ContactDetails>();
 
-    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations) {
+    public ContactDetailsAdapter(Context context, List<ContactDetails> contactDetails, List<String> relations, ContactTracingConfiguration configuration) {
         this.context = context;
         this.contactDetails = contactDetails;
         this.relations=relations;
+        this.configuration=configuration;
     }
 
     @Override
@@ -116,6 +118,14 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             relationsList = (Spinner) itemView.findViewById(R.id.spRelations);
 
             etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
+
+            if(!configuration.isCreatePatient())
+            {
+                contactID.setVisibility(View.GONE);
+                etPatientID.setVisibility(View.GONE);
+                etPatientID.setText("-");
+            }
+
             etPatientName = (EditText) itemView.findViewById(R.id.etPatientName);
             genderWidget = (RadioGroup) itemView.findViewById(R.id.genderWidget);
             spRelations = (Spinner) itemView.findViewById(R.id.spRelations);
@@ -132,8 +142,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays.setEnabled(false);
 
 
-            ageWidget=itemView.findViewById(R.id.ageWidgetRelativeLayout);
-            ageWidget.setOnClickListener(clickListener);
+
 
             clickListener = new View.OnClickListener() {
                 @Override
@@ -180,6 +189,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             tvDays = itemView.findViewById(R.id.tvDays);
             tvDays.setOnClickListener(clickListener);
 
+            ageWidget=itemView.findViewById(R.id.ageWidgetRelativeLayout);
+            ageWidget.setOnClickListener(clickListener);
 
         }
 
