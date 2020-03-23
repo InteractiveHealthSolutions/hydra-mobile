@@ -102,6 +102,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private EditText etAgeYears;
         private EditText etAgeMonths;
         private EditText etAgeDays;
+        private EditText etDOB;
 
         private LinearLayout ageWidget;
 
@@ -141,6 +142,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeYears = itemView.findViewById(R.id.etAgeYears);
             etAgeMonths = itemView.findViewById(R.id.etAgeMonths);
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
+            etDOB = itemView.findViewById(R.id.etPatientDOB);
 
 
             clickListener = new View.OnClickListener() {
@@ -160,7 +162,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                                     calendar.set(year, monthOfYear, dayOfMonth);
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                                     String dateString = dateFormat.format(calendar.getTime());
-
+                                    etDOB.setText(dateString);
                                     Period p = null;
                                     try {
                                         p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(dateString)), new LocalDate(), PeriodType.yearMonthDayTime());
@@ -197,9 +199,12 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                 }
             };
 
-
             ageWidget = itemView.findViewById(R.id.linearAgeWidgetLayout);
             ageWidget.setOnClickListener(clickListener);
+            etAgeYears.setOnClickListener(clickListener);
+            etAgeMonths.setOnClickListener(clickListener);
+            etAgeDays.setOnClickListener(clickListener);
+            etDOB.setOnClickListener(clickListener);
 
         }
 

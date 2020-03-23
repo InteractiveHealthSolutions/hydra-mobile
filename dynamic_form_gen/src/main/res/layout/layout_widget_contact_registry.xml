@@ -119,10 +119,27 @@
             android:id="@+id/linearAgeWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:background="@drawable/boundary_shape"
             android:layout_below="@id/tvquestion_answer"
             android:orientation="vertical"
             android:clickable="true">
+            <TextView
+                android:id="@+id/patientDOB"
+                style="@style/question_answer"
+                android:layout_width="match_parent"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:layout_marginTop="7dp"
+                android:text="@string/date_of_birth" />
 
+            <EditText
+                android:id="@+id/etPatientDOB"
+                style="@style/question_answer"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,10 +164,9 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Years"
-                    android:enabled="false"
+                    android:focusable="false"
                     android:inputType="number"
-                    android:maxLength="4"
-                    android:clickable="false" />
+                    android:maxLength="4" />
 
                 <EditText
                     android:id="@+id/etAgeMonths"
@@ -161,10 +177,9 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Months"
-                    android:enabled="false"
+                    android:focusable="false"
                     android:inputType="number"
-                    android:maxLength="3"
-                    android:clickable="false" />
+                    android:maxLength="3" />
 
                 <EditText
                     android:id="@+id/etAgeDays"
@@ -175,10 +190,9 @@
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Days"
-                    android:enabled="false"
+                    android:focusable="false"
                     android:inputType="number"
-                    android:maxLength="3"
-                    android:clickable="false" />
+                    android:maxLength="3" />
             </LinearLayout>
 
             <LinearLayout

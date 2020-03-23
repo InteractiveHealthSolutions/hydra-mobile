@@ -1,6 +1,8 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,6 +85,22 @@ public class ContactTracingWidget extends InputWidget {
         etNumberOfContacts = findViewById(R.id.etNumberOfContacts);
         optionsLayout = findViewById(R.id.optionsLayout);
 
+        /*etNumberOfContacts.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });*/
 
         submitNumber.setOnClickListener(new OnClickListener() {
             @Override
@@ -122,7 +140,6 @@ public class ContactTracingWidget extends InputWidget {
             }
         };
 
-
         contactRecyclerView.setLayoutManager(mLinearLayoutManager);
         adapter = new ContactDetailsAdapter(context, contactsText, relations, configuration);
         contactRecyclerView.setAdapter(adapter);
@@ -130,13 +147,11 @@ public class ContactTracingWidget extends InputWidget {
         contactRecyclerView.setItemViewCacheSize(10);
         contactRecyclerView.setDrawingCacheEnabled(true);
 
-
         widgetBakery = new InputWidgetBakery();
         if (question.getRepeatables() != null && question.getRepeatables().size() > 0) {
             llRepeatSpace = findViewById(R.id.llRepeats);
             repeatGroups = new ArrayList<>();
         }
-
 
         questionText = findViewById(R.id.contactNumber);
 
@@ -148,7 +163,6 @@ public class ContactTracingWidget extends InputWidget {
         if (currentPosition == (contactsText.size() - 1)) {
             next.setVisibility(View.INVISIBLE);
         }
-
 
         next.setOnClickListener(new OnClickListener() {
             @Override
@@ -228,22 +242,15 @@ public class ContactTracingWidget extends InputWidget {
             for (int val = 0; val < currentData.size(); val++) {
 
                 JSONObject temp = new JSONObject();
-
-
                 temp.put("age", currentData.get(val).getContactAge());
 
                 if (configuration.isCreatePatient())
                     temp.put("patientID", currentData.get(val).getContactID());
 
-
-                temp.put("PatientFirstName", currentData.get(val).getContactFirstName());
-
-                temp.put("PatientFamilyName", currentData.get(val).getContactFamilyName());
-
+                temp.put("patientGivenName", currentData.get(val).getContactFirstName());
+                temp.put("patientFamilyName", currentData.get(val).getContactFamilyName());
                 temp.put("gender", currentData.get(val).getGender());
-
                 temp.put("relation", currentData.get(val).getRelation());
-
 
                 arr.put(temp);
 
@@ -386,7 +393,7 @@ public class ContactTracingWidget extends InputWidget {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
-            if (patName != null && patName.length() > 3) {
+            if (patName != null && patName.length() >= 2) {
                 return true;
             } else {
                 editText.setError("Invalid field");
@@ -396,7 +403,7 @@ public class ContactTracingWidget extends InputWidget {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
-            if (patName != null && patName.length() > 3) {
+            if (patName != null && patName.length() >= 2) {
                 return true;
             } else {
                 editText.setError("Invalid field");
