@@ -27,12 +27,12 @@ class MetaDataHelper(context: Context) {
 
     lateinit var componentFormJoinRepository: ComponentFormJoinRepository
 
-    lateinit var labTestTypeRepository: LabTestTypeRepository
+  //  lateinit var labTestTypeRepository: LabTestTypeRepository
 
     lateinit var relatedRepository:RelatedDataRepository
 
     var successCount=0
-    var totalCount=9
+    var totalCount=8
 
 
     var context: Context
@@ -54,7 +54,7 @@ class MetaDataHelper(context: Context) {
         formResultRepository = FormResultRepository(context)
 
         relatedRepository=RelatedDataRepository(context)
-        labTestTypeRepository = LabTestTypeRepository(context)
+      //  labTestTypeRepository = LabTestTypeRepository(context)
     }
 
     fun getAllMetaData(restCallback: RESTCallback) = try {
@@ -122,13 +122,13 @@ class MetaDataHelper(context: Context) {
 
     fun getAllLabTestTypesFromAPI(retrofitResponseListener:RetrofitResponseListener)
     {
-        labTestTypeRepository.getRemoteLabTestTypesData(retrofitResponseListener)
+       // labTestTypeRepository.getRemoteLabTestTypesData(retrofitResponseListener)
     }
 
     fun getAllRelatedData(retrofitResponseListener:RetrofitResponseListener)  //e.g Location, currency, AllLabTestTypes
     {
 
-        getAllLabTestTypesFromAPI(retrofitResponseListener)
+        //getAllLabTestTypesFromAPI(retrofitResponseListener)
         relatedRepository.getRemoteLocationsData(retrofitResponseListener)
         relatedRepository.getRemoteLocationsAndCurrencyData(retrofitResponseListener)
 
@@ -150,7 +150,7 @@ class MetaDataHelper(context: Context) {
         phaseComponentRepository.deleteAllPhaseComponents()
         componentFormJoinRepository.deleteAllComponentForms()
 
-        labTestTypeRepository.deleteAllLabTestType()
+       // labTestTypeRepository.deleteAllLabTestType()
 
         relatedRepository.deleteAllRelatedData()
 
