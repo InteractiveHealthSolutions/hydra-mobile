@@ -6,17 +6,19 @@ public class ContactDetailsSendable {
     private String contactFirstName;
     private String contactFamilyName;
     private String contactAge;
+    private String dob;
 
     private String gender;
     private String relation;
 
-    public ContactDetailsSendable(String contactID, String contactFirstName, String contactFamilyName, String contactAge, String gender, String relation) {
+    public ContactDetailsSendable(String contactID, String contactFirstName, String contactFamilyName, String contactAge, String gender, String relation, String dob) {
         this.contactID = contactID;
         this.contactFirstName = contactFirstName;
         this.contactFamilyName = contactFamilyName;
         this.contactAge = contactAge;
         this.gender = gender;
         this.relation = relation;
+        this.dob = dob;
     }
 
     public String getContactID() {
@@ -45,6 +47,14 @@ public class ContactDetailsSendable {
 
     public String getContactAge() {
         return contactAge;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     public void setContactAge(String contactAge) {

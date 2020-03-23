@@ -243,6 +243,7 @@ public class ContactTracingWidget extends InputWidget {
 
                 JSONObject temp = new JSONObject();
                 temp.put("age", currentData.get(val).getContactAge());
+                temp.put("dob", currentData.get(val).getDob());
 
                 if (configuration.isCreatePatient())
                     temp.put("patientID", currentData.get(val).getContactID());
@@ -422,6 +423,7 @@ public class ContactTracingWidget extends InputWidget {
             EditText etAgeYears = row.findViewById(R.id.etAgeYears);
             EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
             EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+            EditText etDOB = row.findViewById(R.id.etPatientDOB);
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
@@ -432,7 +434,7 @@ public class ContactTracingWidget extends InputWidget {
             Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
 
-            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString()));
+            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString()));
 
 
         } else if (buttonType.equalsIgnoreCase("prev")) {
