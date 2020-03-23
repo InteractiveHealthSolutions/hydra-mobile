@@ -218,6 +218,8 @@ public class ContactTracingWidget extends InputWidget {
         JSONObject params = new JSONObject();
         if (isValidInput(question.isMandatory())) {
             params.put(ParamNames.PARAM_NAME, "ContactRegistry");
+            params.put(ParamNames.PAYLOAD_TYPE, "CONTACT_TRACING");
+
             params.put(ParamNames.PARAM_CREATE_PATIENT, configuration.isCreatePatient());
 
 
