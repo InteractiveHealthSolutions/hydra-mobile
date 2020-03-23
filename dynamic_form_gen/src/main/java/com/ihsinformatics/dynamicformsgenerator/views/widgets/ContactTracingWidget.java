@@ -433,9 +433,7 @@ public class ContactTracingWidget extends InputWidget {
 
             Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
-
             currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString()));
-
 
         } else if (buttonType.equalsIgnoreCase("prev")) {
             currentData.remove(position);

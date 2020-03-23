@@ -97,7 +97,8 @@
             android:layout_weight="1"
             android:background="@color/app_blue"
             android:gravity="center"
-            android:text="Prev"
+            android:padding="7dp"
+            android:text="&lt; Prev"
             android:textAlignment="center"
             android:textColor="@color/White"
             android:textSize="12sp"></TextView>
@@ -123,7 +124,7 @@
             android:layout_weight="1"
             android:background="@color/app_blue"
             android:gravity="center"
-            android:text="Next"
+            android:text="Next &gt;"
             android:textAlignment="center"
             android:textColor="@color/White"
             android:textSize="12sp"></TextView>
