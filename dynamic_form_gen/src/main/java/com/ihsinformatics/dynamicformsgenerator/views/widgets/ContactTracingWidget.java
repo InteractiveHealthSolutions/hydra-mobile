@@ -256,6 +256,7 @@ public class ContactTracingWidget extends InputWidget {
                 arr.put(temp);
 
             }
+            params.put("numberOfPeople", currentData.size());
 
             params.put(ParamNames.PARAM_VALUE, arr);
         } else {
