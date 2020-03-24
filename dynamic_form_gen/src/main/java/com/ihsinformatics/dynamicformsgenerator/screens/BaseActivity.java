@@ -303,11 +303,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if(editFormId > 0)
                 {
+                    ToastyWidget.getInstance().displaySuccess(this,"form in edit mode",Toast.LENGTH_SHORT);
                     form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
                 }
                 else
                 {
-                    ToastyWidget.getInstance().displaySuccess(this,"form in edit mode",Toast.LENGTH_SHORT);
+
                     form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
                 }
 
