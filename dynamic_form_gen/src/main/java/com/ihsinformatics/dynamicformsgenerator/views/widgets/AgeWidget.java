@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.views.widgets.controls;
+package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +21,6 @@ import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
@@ -179,6 +178,11 @@ public class AgeWidget extends InputWidget implements TextWatcher {
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
     }
 
     @Override

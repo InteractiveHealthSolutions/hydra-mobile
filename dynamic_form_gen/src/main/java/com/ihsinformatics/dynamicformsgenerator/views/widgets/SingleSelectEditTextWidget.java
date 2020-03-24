@@ -293,4 +293,9 @@ public class SingleSelectEditTextWidget extends InputWidget implements PopupMenu
     public String getValue() {
         return etAnswer.getText().toString();
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

@@ -50,4 +50,9 @@ public class HeadingWidget extends InputWidget {
 	public String getValue() {
 		return null;
 	}
+
+	@Override
+	public String getServiceHistoryValue() {
+		return getValue();
+	}
 }

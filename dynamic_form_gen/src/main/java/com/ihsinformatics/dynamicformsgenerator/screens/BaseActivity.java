@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.util.DisplayMetrics;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -40,7 +39,6 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
-import com.ihsinformatics.dynamicformsgenerator.data.utils.SkipLogic;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -50,20 +48,17 @@ import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
 import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
-import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ImageWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.InputWidgetsType;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.MessageType;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.AgeWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.AgeWidget;
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.joda.time.DateTime;
@@ -181,7 +176,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         } else {
                             formJSONObj.put(ParamNames.PARAM_QUESTION, i.getQuestion().getText());
-                            formJSONObj.put(ParamNames.VALUE, i.getValue().toString());
+                            formJSONObj.put(ParamNames.VALUE, i.getServiceHistoryValue().toString());
                         }
                         form_values.put(formJSONObj);
 

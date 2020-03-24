@@ -317,4 +317,9 @@ public class ImageWidget extends InputWidget implements View.OnClickListener, Gr
     public String getValue() {
         return null;
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

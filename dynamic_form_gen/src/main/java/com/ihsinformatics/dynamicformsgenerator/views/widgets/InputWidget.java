@@ -210,6 +210,8 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
     public abstract JSONObject getAnswer() throws JSONException;
 
     public abstract String getValue() throws JSONException;
+
     public abstract void destroy();
 
+    public abstract String getServiceHistoryValue() throws JSONException;
 }

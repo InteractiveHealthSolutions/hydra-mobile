@@ -326,7 +326,14 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
+
     public String getUnValidatedValue() {
         return etAnswer.getText().toString();
     }
+
+
 }

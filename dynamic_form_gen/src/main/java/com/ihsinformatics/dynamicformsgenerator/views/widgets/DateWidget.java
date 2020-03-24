@@ -157,4 +157,8 @@ public class DateWidget extends InputWidget {
         return etAnswer.getText().toString();
     }
 
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

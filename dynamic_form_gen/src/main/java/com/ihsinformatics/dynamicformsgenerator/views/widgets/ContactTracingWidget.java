@@ -123,16 +123,16 @@ public class ContactTracingWidget extends InputWidget {
 
                     if (newSize < previousSize) {
 
-                        final int addedSize=previousSize-newSize;
+                        final int addedSize = previousSize - newSize;
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                        alertDialogBuilder.setMessage("Last "+addedSize+" forms will be deleted. You wish to proceed?");
+                        alertDialogBuilder.setMessage("Last " + addedSize + " forms will be deleted. You wish to proceed?");
                         alertDialogBuilder.setTitle("Warning");
                         alertDialogBuilder.setCancelable(true);
                         alertDialogBuilder.setPositiveButton(
                                 "Yes",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        for(int i=addedSize;i<contactsText.size();i++){
+                                        for (int i = addedSize; i < contactsText.size(); i++) {
                                             contactsText.remove(i);
                                         }
 
@@ -311,22 +311,12 @@ public class ContactTracingWidget extends InputWidget {
 
     public String getValue() {
 
-
         String toReturn = "";
-
-        toReturn+=currentData.size()+"\n";
-
-        for (int val = 0; val < currentData.size(); val++) {
-            toReturn+="\n\nIdentifier: "+currentData.get(val).getContactID();
-            toReturn+="\nName: "+currentData.get(val).getContactFirstName()+" "+currentData.get(val).getContactFamilyName();
-            toReturn+="\nAge: "+currentData.get(val).getContactAge();
-            toReturn+="\nGender: "+currentData.get(val).getGender();
-            toReturn+="\nRelation: "+currentData.get(val).getRelation();
-
+        try {
+            toReturn = getAnswer().toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-
-
         return toReturn;
 
     }
@@ -334,6 +324,25 @@ public class ContactTracingWidget extends InputWidget {
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public String getServiceHistoryValue() {
+
+        String toReturn = "";
+
+        toReturn += currentData.size() + "\n";
+
+        for (int val = 0; val < currentData.size(); val++) {
+            toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
+            toReturn += "\nName: " + currentData.get(val).getContactFirstName() + " " + currentData.get(val).getContactFamilyName();
+            toReturn += "\nAge: " + currentData.get(val).getContactAge();
+            toReturn += "\nGender: " + currentData.get(val).getGender();
+            toReturn += "\nRelation: " + currentData.get(val).getRelation();
+
+        }
+
+        return toReturn;
     }
 
 
