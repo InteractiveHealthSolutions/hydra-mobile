@@ -301,14 +301,15 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 SaveableForm form;
 
-                if(editFormId > 0)
-                {
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
-                }
-                else
+                if(editFormId < 0)
                 {
                     ToastyWidget.getInstance().displaySuccess(this,"form in edit mode",Toast.LENGTH_SHORT);
                     form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+
+                }
+                else
+                {
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
