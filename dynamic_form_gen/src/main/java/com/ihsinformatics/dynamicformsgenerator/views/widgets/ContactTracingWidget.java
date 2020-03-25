@@ -103,7 +103,7 @@ public class ContactTracingWidget extends InputWidget {
 
                     int count = Integer.valueOf(contactCount);
                     if (count == 0) {
-                        etNumberOfContacts.setError("Enter any number");
+                        etNumberOfContacts.setError("Enter any number between 1 to 10");
                     } else if (count > 0 && count <= 10) {
                         etNumberOfContacts.setError(null);
                         for (int i = 0; i < count; i++) {
@@ -118,8 +118,8 @@ public class ContactTracingWidget extends InputWidget {
                         etNumberOfContacts.setError("Enter any number between 1 to 10");
                     }
                 } else {
-                    int previousSize = contactsText.size();
-                    int newSize = Integer.valueOf(contactCount);
+                    final int previousSize = contactsText.size();
+                    final int newSize = Integer.valueOf(contactCount);
 
                     if (newSize < previousSize) {
 
@@ -132,9 +132,11 @@ public class ContactTracingWidget extends InputWidget {
                                 "Yes",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        for (int i = addedSize; i < contactsText.size(); i++) {
+                                        for (int i = previousSize-1; i >= newSize; i--) {
                                             contactsText.remove(i);
                                         }
+
+                                        resetToFirstViewHolder();
 
                                         dialog.cancel();
                                     }
@@ -150,10 +152,13 @@ public class ContactTracingWidget extends InputWidget {
                         alertDialogBuilder.show();
 
                     } else {
-                        for (int i = 0; i < newSize - previousSize; i++) {
+                        int difference = newSize - previousSize;
+                        for (int i = 0; i < difference; i++) {
                             contactsText.add(new ContactDetails("Contact Details", String.valueOf(previousSize + i + 1), configuration.getIdentifier().getDisplayText(), configuration.getFirstName().getDisplayText(), configuration.getFamilyName().getDisplayText(), configuration.getAge().getDisplayText(), configuration.getGender().getDisplayText(), configuration.getRelationship().getDisplayText()));
                         }
-                        next.setVisibility(View.VISIBLE);
+                        if (difference > 0)
+                            next.setVisibility(View.VISIBLE);
+
                         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     }
                 }
@@ -288,17 +293,8 @@ public class ContactTracingWidget extends InputWidget {
 
             params.put(ParamNames.PARAM_VALUE, arr);
         } else {
-            mLinearLayoutManager.scrollToPosition(0);
-            currentPosition = 0;
-            currentData.clear();
-            previous.setVisibility(View.INVISIBLE);
 
-            if (currentPosition == (contactsText.size() - 1)) {
-                next.setVisibility(View.INVISIBLE);
-            } else if (next.getVisibility() == View.INVISIBLE) {
-                next.setVisibility(View.VISIBLE);
-            }
-            questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+            resetToFirstViewHolder();
 
             if (!(currentPosition == (contactsText.size() - 1)))
                 activity.addValidationError(question.getQuestionId(), "Mandatory field. Press Submit from last form");
@@ -487,5 +483,20 @@ public class ContactTracingWidget extends InputWidget {
             currentData.remove(position);
 
         }
+    }
+
+    private void resetToFirstViewHolder() {
+        mLinearLayoutManager.scrollToPosition(0);
+        currentPosition = 0;
+        currentData.clear();
+        previous.setVisibility(View.INVISIBLE);
+
+        if (currentPosition == (contactsText.size() - 1)) {
+            next.setVisibility(View.INVISIBLE);
+        } else if (next.getVisibility() == View.INVISIBLE) {
+            next.setVisibility(View.VISIBLE);
+        }
+        questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+
     }
 }
