@@ -114,7 +114,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private InputFilter filter;
 
-        private String blockCharacterSet = "~#^|$%&*!`@&()_-+=\\|]}[{,<.>/?'\";:";
+        private String blockCharacterSet = "~#^|$%&*!`@&()_-+=\\|]}[{,<.>/?'\";:1234567890";
 
         public ContactViewHolder(View itemView) {
             super(itemView);
