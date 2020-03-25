@@ -174,4 +174,9 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
     @Override
     public void destroy() {
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

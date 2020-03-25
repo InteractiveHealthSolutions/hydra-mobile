@@ -133,4 +133,9 @@ public class HiddenFieldWidget extends InputWidget {
     public String getValue() {
         return answer;
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

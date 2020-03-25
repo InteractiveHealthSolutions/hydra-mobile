@@ -307,5 +307,8 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
         return spAnswer.getSelectedItem().toString();
     }
 
-
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

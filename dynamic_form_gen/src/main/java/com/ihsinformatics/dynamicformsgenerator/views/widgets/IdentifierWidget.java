@@ -143,4 +143,9 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
     public String getValue() {
         return etAnswer.getText().toString();
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

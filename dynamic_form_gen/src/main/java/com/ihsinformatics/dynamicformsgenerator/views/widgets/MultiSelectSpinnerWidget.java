@@ -174,4 +174,16 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
 
         return getAnswer().toString();
     }
+
+    @Override
+    public String getServiceHistoryValue() throws JSONException {
+        String toReturn = "";
+
+        List<String> selections = mspAnswer.getSelectedValues();
+        for (String s : selections) {
+            toReturn += s+"\n";
+        }
+
+        return toReturn;
+    }
 }

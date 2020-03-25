@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.views.widgets;
+package com.ihsinformatics.dynamicformsgenerator.views.widgets.utils;
 
 import android.content.Context;
 

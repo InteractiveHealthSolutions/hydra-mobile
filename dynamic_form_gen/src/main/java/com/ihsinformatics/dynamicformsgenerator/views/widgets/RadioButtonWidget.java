@@ -288,4 +288,10 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
 
     }
 
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
+
 }

@@ -23,7 +23,7 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.ScoreSpinner;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SingleSelectEditTextWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SingleSelectTextViewWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
-import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.AgeWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.AgeWidget;
 
 import org.json.JSONException;
 

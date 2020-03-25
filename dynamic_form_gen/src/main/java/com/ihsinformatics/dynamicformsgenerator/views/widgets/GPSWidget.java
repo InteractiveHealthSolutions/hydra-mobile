@@ -336,4 +336,9 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
             Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

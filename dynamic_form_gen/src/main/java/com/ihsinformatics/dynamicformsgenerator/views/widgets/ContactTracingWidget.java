@@ -1,6 +1,8 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetailsSendable;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
+import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
@@ -59,6 +62,8 @@ public class ContactTracingWidget extends InputWidget {
     TextView previous;
     TextView questionText;
 
+    boolean firstTime = true;
+
     LinearLayout optionsLayout;
 
     Button submitNumber;
@@ -87,22 +92,6 @@ public class ContactTracingWidget extends InputWidget {
         etNumberOfContacts = findViewById(R.id.etNumberOfContacts);
         optionsLayout = findViewById(R.id.optionsLayout);
 
-        /*etNumberOfContacts.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });*/
 
         submitNumber.setOnClickListener(new OnClickListener() {
             @Override
@@ -112,10 +101,11 @@ public class ContactTracingWidget extends InputWidget {
 
                 if (null == contactCount || contactCount.equalsIgnoreCase("")) {
                     etNumberOfContacts.setError("Required Field");
-                } else {
+                } else if (firstTime) {
+
                     int count = Integer.valueOf(contactCount);
                     if (count == 0) {
-                        etNumberOfContacts.setError("Enter any number");
+                        etNumberOfContacts.setError("Enter any number between 1 to 10");
                     } else if (count > 0 && count <= 10) {
                         etNumberOfContacts.setError(null);
                         for (int i = 0; i < count; i++) {
@@ -124,11 +114,54 @@ public class ContactTracingWidget extends InputWidget {
                         adapter.notifyDataSetChanged();
                         contactRecyclerView.setVisibility(View.VISIBLE);
                         optionsLayout.setVisibility(View.VISIBLE);
-                        etNumberOfContacts.setEnabled(false);
-                        submitNumber.setEnabled(false);
                         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                        firstTime = false;
                     } else {
                         etNumberOfContacts.setError("Enter any number between 1 to 10");
+                    }
+                } else {
+                    final int previousSize = contactsText.size();
+                    final int newSize = Integer.valueOf(contactCount);
+
+                    if (newSize < previousSize) {
+
+                        final int addedSize = previousSize - newSize;
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                        alertDialogBuilder.setMessage("Last " + addedSize + " forms will be deleted. You wish to proceed?");
+                        alertDialogBuilder.setTitle("Warning");
+                        alertDialogBuilder.setCancelable(true);
+                        alertDialogBuilder.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        for (int i = previousSize-1; i >= newSize; i--) {
+                                            contactsText.remove(i);
+                                        }
+
+                                        resetToFirstViewHolder();
+
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        alertDialogBuilder.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        alertDialogBuilder.show();
+
+                    } else {
+                        int difference = newSize - previousSize;
+                        for (int i = 0; i < difference; i++) {
+                            contactsText.add(new ContactDetails("Contact Details", String.valueOf(previousSize + i + 1), configuration.getIdentifier().getDisplayText(), configuration.getFirstName().getDisplayText(), configuration.getFamilyName().getDisplayText(), configuration.getAge().getDisplayText(), configuration.getGender().getDisplayText(), configuration.getRelationship().getDisplayText()));
+                        }
+                        if (difference > 0)
+                            next.setVisibility(View.VISIBLE);
+
+                        questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     }
                 }
             }
@@ -262,17 +295,8 @@ public class ContactTracingWidget extends InputWidget {
 
             params.put(ParamNames.PARAM_VALUE, arr);
         } else {
-            mLinearLayoutManager.scrollToPosition(0);
-            currentPosition = 0;
-            currentData.clear();
-            previous.setVisibility(View.INVISIBLE);
 
-            if (currentPosition == (contactsText.size() - 1)) {
-                next.setVisibility(View.INVISIBLE);
-            } else if (next.getVisibility() == View.INVISIBLE) {
-                next.setVisibility(View.VISIBLE);
-            }
-            questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+            resetToFirstViewHolder();
 
             if (!(currentPosition == (contactsText.size() - 1)))
                 activity.addValidationError(question.getQuestionId(), "Mandatory field. Press Submit from last form");
@@ -292,11 +316,31 @@ public class ContactTracingWidget extends InputWidget {
             e.printStackTrace();
         }
         return toReturn;
+
     }
 
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public String getServiceHistoryValue() {
+
+        String toReturn = "";
+
+        toReturn += currentData.size() + "\n";
+
+        for (int val = 0; val < currentData.size(); val++) {
+            toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
+            toReturn += "\nName: " + currentData.get(val).getContactFirstName() + " " + currentData.get(val).getContactFamilyName();
+            toReturn += "\nAge: " + currentData.get(val).getContactAge();
+            toReturn += "\nGender: " + currentData.get(val).getGender();
+            toReturn += "\nRelation: " + currentData.get(val).getRelation();
+
+        }
+
+        return toReturn;
     }
 
 
@@ -382,14 +426,13 @@ public class ContactTracingWidget extends InputWidget {
             String patId = editText.getText().toString();
             if (patId != null && patId.matches(Global.identifierFormat)) {
                 return true;
-            } else if(patId==null){
+            } else if (patId == null) {
                 editText.setError("Required field");
                 return false;
-            }else if(!patId.matches(Global.identifierFormat)){
+            } else if (!patId.matches(Global.identifierFormat)) {
                 editText.setError("Invalid identifier format. Check your web configuration");
                 return false;
-            }
-            else{
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
@@ -442,5 +485,20 @@ public class ContactTracingWidget extends InputWidget {
             currentData.remove(position);
 
         }
+    }
+
+    private void resetToFirstViewHolder() {
+        mLinearLayoutManager.scrollToPosition(0);
+        currentPosition = 0;
+        currentData.clear();
+        previous.setVisibility(View.INVISIBLE);
+
+        if (currentPosition == (contactsText.size() - 1)) {
+            next.setVisibility(View.INVISIBLE);
+        } else if (next.getVisibility() == View.INVISIBLE) {
+            next.setVisibility(View.VISIBLE);
+        }
+        questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+
     }
 }

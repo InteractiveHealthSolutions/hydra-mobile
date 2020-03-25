@@ -287,4 +287,9 @@ public class NameWidget extends InputWidget implements TextWatcher {
     public String getUnValidatedValue() {
         return etFirstName.getText().toString();
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }

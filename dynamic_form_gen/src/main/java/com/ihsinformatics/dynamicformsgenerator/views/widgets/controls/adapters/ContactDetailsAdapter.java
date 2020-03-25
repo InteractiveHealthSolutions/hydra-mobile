@@ -2,6 +2,8 @@ package com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +95,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private EditText etPatientID;
         private EditText etPatientName;
+
+        private EditText  etPatientFamilyName;
         private RadioGroup genderWidget;
         private Spinner spRelations;
 
@@ -106,9 +110,11 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private LinearLayout ageWidget;
 
-
         private View.OnClickListener clickListener;
 
+        private InputFilter filter;
+
+        private String blockCharacterSet = "~#^|$%&*!`@&()_-+=\\|]}[{,<.>/?'\";:";
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +131,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
 
+
             if (!configuration.isCreatePatient()) {
                 contactID.setVisibility(View.GONE);
                 etPatientID.setVisibility(View.GONE);
@@ -132,6 +139,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             }
 
             etPatientName = (EditText) itemView.findViewById(R.id.etPatientName);
+            etPatientFamilyName = (EditText) itemView.findViewById(R.id.etPatientFamilyName);
             genderWidget = (RadioGroup) itemView.findViewById(R.id.genderWidget);
             spRelations = (Spinner) itemView.findViewById(R.id.spRelations);
 
@@ -206,7 +214,25 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays.setOnClickListener(clickListener);
             etDOB.setOnClickListener(clickListener);
 
+
+            filter = new InputFilter() {
+
+                @Override
+                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+                    if (source != null && blockCharacterSet.contains(("" + source))) {
+                        return "";
+                    }
+                    return null;
+                }
+            };
+
+            etPatientName.setFilters(new InputFilter[] { filter });
+            etPatientFamilyName.setFilters(new InputFilter[] { filter });
+
         }
+
+
 
     }
 

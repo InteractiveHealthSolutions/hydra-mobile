@@ -141,6 +141,11 @@ public class AddressWidget extends InputWidget {
 
     }
 
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
+
     private RelativeLayout generateEditTextAddressItem(AddressConfiguration.OpenAddressField openAddressField) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         RelativeLayout llItem = (RelativeLayout) layoutInflater.inflate(R.layout.layout_widget_address_edit_text, this, false);

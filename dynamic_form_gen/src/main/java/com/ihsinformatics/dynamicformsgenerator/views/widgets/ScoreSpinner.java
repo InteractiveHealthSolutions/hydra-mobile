@@ -307,5 +307,9 @@ private void callOnItemSelectionChange() {
 	public String getValue() {
 		return spAnswer.getSelectedItem().toString();
 	}
-	
+
+	@Override
+	public String getServiceHistoryValue() {
+		return getValue();
+	}
 }

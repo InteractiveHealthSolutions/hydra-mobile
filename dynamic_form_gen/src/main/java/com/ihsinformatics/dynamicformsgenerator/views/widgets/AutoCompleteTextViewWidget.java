@@ -172,5 +172,10 @@ public class AutoCompleteTextViewWidget extends InputWidget {
     public String getValue() {
         return etAnswer.getText().toString();
     }
+
+    @Override
+    public String getServiceHistoryValue() {
+        return getValue();
+    }
 }
 
