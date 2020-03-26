@@ -140,7 +140,7 @@ public class ContactTracingWidget extends InputWidget {
 
                                         resetToFirstViewHolder();
 
-                                        dialog.cancel();
+                                        dialog.dismiss();
                                     }
                                 });
 
@@ -247,7 +247,7 @@ public class ContactTracingWidget extends InputWidget {
         boolean validation = true;
         if (isMendatory) {
             if (currentPosition == (contactsText.size() - 1) && isValid(currentPosition)) {
-                saveCurrentPositionData(currentPosition, "next");
+                saveCurrentPositionData(currentPosition, "validInput");
                 validation = true;
             } else {
                 validation = false;
@@ -484,6 +484,29 @@ public class ContactTracingWidget extends InputWidget {
         } else if (buttonType.equalsIgnoreCase("prev")) {
             currentData.remove(position);
 
+        }else if(buttonType.equalsIgnoreCase("validInput")){
+            if(currentData.size()==contactsText.size())
+            {
+
+            }else
+            {
+                View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
+                EditText etAgeYears = row.findViewById(R.id.etAgeYears);
+                EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
+                EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+                EditText etDOB = row.findViewById(R.id.etPatientDOB);
+                EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
+                EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
+                EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+
+                RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
+                RadioButton rb = (RadioButton) gender.findViewById(gender.getCheckedRadioButtonId());
+
+                Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
+
+                currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString()));
+
+            }
         }
     }
 
