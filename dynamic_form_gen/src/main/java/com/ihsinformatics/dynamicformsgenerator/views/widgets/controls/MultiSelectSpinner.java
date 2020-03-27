@@ -58,6 +58,16 @@ public class MultiSelectSpinner extends LinearLayout {
         return toReturn;
     }
 
+    public void setValuesForEdit(String[] values){
+
+        for (int i = 0; i < mItems.size(); i++) {
+            for(String s: values)
+            if (s.equals(mItems.get(i).getText())) {
+                checkSelected[i]=true;
+            }
+        }
+    }
+
     public List<Integer> getSelectedValuesPositions() {
         List<Integer> toReturn = new ArrayList<>();
         for (int i = 0; i < mItems.size(); i++) {

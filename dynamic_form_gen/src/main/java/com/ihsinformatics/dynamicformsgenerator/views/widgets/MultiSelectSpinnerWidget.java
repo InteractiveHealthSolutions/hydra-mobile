@@ -92,7 +92,16 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
 
     @Override
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
-        setVisibility(View.VISIBLE);
+
+        try {
+            JSONObject widgetDetails = new JSONObject(answer);
+            String[] allAnswers=widgetDetails.optString(ParamNames.VALUE).split("\n");
+            mspAnswer.setValuesForEdit(allAnswers);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
