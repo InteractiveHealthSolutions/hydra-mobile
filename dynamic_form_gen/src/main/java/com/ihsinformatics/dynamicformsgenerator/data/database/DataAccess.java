@@ -580,7 +580,7 @@ public class DataAccess {
             ArrayList<String> conceptsAndValues = new ArrayList<>();
             String formValues = listOfForms.get(i).getFormValues();
             JSONObject formValuesJSON = new JSONObject(formValues);
-            JSONArray values = formValuesJSON.optJSONArray("values");
+            JSONArray values = formValuesJSON.optJSONArray(ParamNames.SERVICE_HISTORY);
             for(int j=0;j<values.length();j++)
             {
                 JSONObject temp = (JSONObject) values.get(j);

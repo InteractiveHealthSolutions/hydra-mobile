@@ -171,10 +171,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         JSONObject formJSONObj = new JSONObject();
                         if (i.getValue() == null || (i.getValue().length() == 0)) {
+
+                            formJSONObj.put(ParamNames.WIDGET_TYPE, i.getInputWidgetsType().toString());
                             formJSONObj.put(ParamNames.PARAM_QUESTION, i.getQuestion().getText());
                             formJSONObj.put(ParamNames.PARAM_VALUE, "-");
 
                         } else {
+
+                            formJSONObj.put(ParamNames.WIDGET_TYPE, i.getInputWidgetsType().toString());
                             formJSONObj.put(ParamNames.PARAM_QUESTION, i.getQuestion().getText());
                             formJSONObj.put(ParamNames.VALUE, i.getServiceHistoryValue().toString());
                         }
