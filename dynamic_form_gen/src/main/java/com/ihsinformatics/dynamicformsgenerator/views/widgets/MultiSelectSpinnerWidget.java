@@ -51,9 +51,9 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
                 String optionText = option.getText();
                 String translatedText = Translator.getInstance().Translate(optionText, GlobalPreferences.getinstance(context).findLanguagePrferenceValue());
                 if (translatedText != null) {
-                  options[i].setText(translatedText);
+                    options[i].setText(translatedText);
                 } else {
-                   options[i].setText(optionText);
+                    options[i].setText(optionText);
                 }
             }
             mspAnswer = new MultiSelectSpinner(context, this, options);
@@ -79,9 +79,9 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         for (String s : selections) {
             subParams.put(s);
         }
-        param.put(ParamNames.PARAM_NAME,question.getParamName());
-        param.put(ParamNames.VALUE,subParams);
-        param.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
+        param.put(ParamNames.PARAM_NAME, question.getParamName());
+        param.put(ParamNames.VALUE, subParams);
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
 
     }
 
@@ -93,14 +93,8 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
     @Override
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
 
-        try {
-            JSONObject widgetDetails = new JSONObject(answer);
-            String[] allAnswers=widgetDetails.optString(ParamNames.VALUE).split("\n");
-            mspAnswer.setValuesForEdit(allAnswers);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String[] allAnswers = answer.split("\n");
+        mspAnswer.setValuesForEdit(allAnswers);
 
     }
 
@@ -109,7 +103,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         boolean isSelected = mspAnswer.isSelected(position);
         int[] showables = null;
         int[] hideables = null;
-        if(isSelected) {
+        if (isSelected) {
             showables = options.get(position).getOpensQuestions();
         } else {
             hideables = options.get(position).getOpensQuestions();
@@ -190,7 +184,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
 
         List<String> selections = mspAnswer.getSelectedValues();
         for (String s : selections) {
-            toReturn += s+"\n";
+            toReturn += s + "\n";
         }
 
         return toReturn;
