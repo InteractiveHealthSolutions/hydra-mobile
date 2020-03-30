@@ -629,11 +629,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
     private void putAuthenticationData(JSONObject data) throws Exception {
-        SecretKey secKey = AES256Endec.getInstance().generateKey();
-        String encPassword = AES256Endec.getInstance().encrypt(Global.PASSWORD != null ? Global.PASSWORD : "", secKey);
+        // SecretKey secKey = AES256Endec.getInstance().generateKey();
+        // String encPassword = AES256Endec.getInstance().encrypt(Global.PASSWORD != null ? Global.PASSWORD : "", secKey);
         JSONObject authenticationJson = new JSONObject();
         authenticationJson.put(ParamNames.USERNAME, Global.USERNAME);
-        authenticationJson.put(ParamNames.PASSWORD, encPassword);
+        authenticationJson.put(ParamNames.PASSWORD, Global.PASSWORD);
         authenticationJson.put(ParamNames.PROVIDER, Global.PROVIDER);
         data.put(ParamNames.AUTHENTICATION, authenticationJson);
     }
