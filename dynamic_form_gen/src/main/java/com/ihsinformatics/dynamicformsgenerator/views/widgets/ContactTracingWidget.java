@@ -70,6 +70,7 @@ public class ContactTracingWidget extends InputWidget {
     EditText etNumberOfContacts;
 
     private ArrayList<ContactDetailsSendable> currentData = new ArrayList<>();
+    private ArrayList<ContactDetailsSendable> editedData;
 
     public ContactTracingWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
@@ -134,7 +135,7 @@ public class ContactTracingWidget extends InputWidget {
                                 "Yes",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        for (int i = previousSize-1; i >= newSize; i--) {
+                                        for (int i = previousSize - 1; i >= newSize; i--) {
                                             contactsText.remove(i);
                                         }
 
@@ -352,6 +353,56 @@ public class ContactTracingWidget extends InputWidget {
     @Override
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
 
+        String[] numberAndEntries = answer.split("\n\n\n");
+
+        int contactsCount = Integer.valueOf(numberAndEntries[0]);
+        etNumberOfContacts.setText(numberAndEntries[0]);
+
+
+        if (contactsCount > 0) {
+
+            //Repeated code
+            for (int i = 0; i < contactsCount; i++) {
+                contactsText.add(new ContactDetails("Contact Details", String.valueOf(i + 1), configuration.getIdentifier().getDisplayText(), configuration.getFirstName().getDisplayText(), configuration.getFamilyName().getDisplayText(), configuration.getAge().getDisplayText(), configuration.getGender().getDisplayText(), configuration.getRelationship().getDisplayText()));
+            }
+            adapter.notifyDataSetChanged();
+            contactRecyclerView.setVisibility(View.VISIBLE);
+            optionsLayout.setVisibility(View.VISIBLE);
+            questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+            firstTime = false;
+            //till here (for refactoring)
+
+            String[] allAnswers = numberAndEntries[1].split("\n\n");
+            editedData=new ArrayList<>();
+
+            for (int i = 0; i < allAnswers.length; i++) {
+                String[] singleEntry = allAnswers[i].split("\n");
+                String identifier = singleEntry[0].split(": ")[1];
+                String fname = singleEntry[1].split(": ")[1];
+              //  String familyName = singleEntry[2].split(": ")[1];
+                String age = singleEntry[2].split(": ")[1];
+                String gender = singleEntry[3].split(": ")[1];
+                String relation = singleEntry[4].split(": ")[1];
+             //   String dob = singleEntry[6].split(": ")[1];
+
+                editedData.add(new ContactDetailsSendable(identifier,fname,fname,age,gender,relation,age));
+            }
+            currentPosition=0;
+            mLinearLayoutManager.scrollToPosition(currentPosition);
+
+            View row = contactRecyclerView.getLayoutManager().findViewByPosition(0);
+
+            EditText etDOB = row.findViewById(R.id.etPatientDOB);
+            EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
+            EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
+            EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+
+            etDOB.setText(editedData.get(0).getDob());
+            etPatientID.setText(editedData.get(0).getContactID());
+            etPatientName.setText(editedData.get(0).getContactFirstName());
+            etPatientFamilyName.setText(editedData.get(0).getContactFamilyName());
+
+        }
     }
 
 
@@ -484,12 +535,10 @@ public class ContactTracingWidget extends InputWidget {
         } else if (buttonType.equalsIgnoreCase("prev")) {
             currentData.remove(position);
 
-        }else if(buttonType.equalsIgnoreCase("validInput")){
-            if(currentData.size()==contactsText.size())
-            {
+        } else if (buttonType.equalsIgnoreCase("validInput")) {
+            if (currentData.size() == contactsText.size()) {
 
-            }else
-            {
+            } else {
                 View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
                 EditText etAgeYears = row.findViewById(R.id.etAgeYears);
                 EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
