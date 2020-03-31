@@ -31,6 +31,7 @@ import com.ihsinformatics.dynamicformsgenerator.common.FormDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AutoSelect;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
@@ -300,13 +301,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 SaveableForm form;
 
-                if(editFormId > 0)
-                {
-                    ToastyWidget.getInstance().displaySuccess(this,"form in edit mode",Toast.LENGTH_SHORT);
+                if (editFormId > 0) {
+                    ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
                     form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
-                }
-                else
-                {
+                } else {
 
                     form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
                 }
@@ -905,6 +903,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             List<SExpression> showables = changeableQuestion.getVisibleWhen();
             List<SExpression> hiddenable = changeableQuestion.getHiddenWhen();
 
+            List<AutoSelect> autoSelectables = changeableQuestion.getAutoSelect();
+
             if (changeable != null) {
                 changeable.setVisibility(changeableQuestion.getInitialVisibility());
 
@@ -938,6 +938,33 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         }
                     }
 
+                }
+
+                if (autoSelectables != null && autoSelectables.size() > 0) {
+
+
+                    for (AutoSelect as : autoSelectables) {
+
+
+                        for (SExpression sExp : as.getAutoSelectWhen()) {
+
+                            Boolean final_selection = logicChecker(sExp);
+                            if (null != changeable && null == final_selection && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
+
+                            } else if (null != changeable && final_selection == true && changeable.isEnabled() && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                changeable.setEnabled(false);
+                                changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                            } else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                if (changeable.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_EDITTEXT)) {
+                                    changeable.setEnabled(true);
+                                    changeable.setAnswer("", "", LANGUAGE.ENGLISH);
+                                }else
+                                {
+                                    changeable.setEnabled(true);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1025,7 +1052,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                 }
 
 
-                                if (changerQuestion.getNotEqualsList().size()!=0 && listComparatorForANDCase(changerQuestion.getNotEqualsList(), changer.getValue())) {
+                                if (changerQuestion.getNotEqualsList().size() != 0 && listComparatorForANDCase(changerQuestion.getNotEqualsList(), changer.getValue())) {
 
                                     final_visibility = false;
                                     loopFirstIteration = false;

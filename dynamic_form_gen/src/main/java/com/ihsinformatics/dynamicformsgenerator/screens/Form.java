@@ -16,6 +16,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.DynamicOptions;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AutoSelect;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
@@ -136,7 +137,7 @@ public class Form extends BaseActivity {
                             w.setAnswer(answer, "", LANGUAGE.URDU);
                         } else if (temp.optString(ParamNames.WIDGET_TYPE).equals(InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME.toString())) {
 
-                        }   else {
+                        } else {
                             String answer = temp.get(ParamNames.VALUE).toString();
                             w.setAnswer(answer, "", LANGUAGE.URDU);
                         }
@@ -383,6 +384,17 @@ public class Form extends BaseActivity {
                     initialVisibility = "GONE";
             }
 
+            List<AutoSelect> autoSelectWhen;
+            if (null != parsedRule && !parsedRule.equals("") && !parsedRule.equals("null")) {
+                JSONObject parsedRuleJSON = new JSONObject(parsedRule);
+                JSONArray autoSelectList = parsedRuleJSON.optJSONArray("autoSelectWhen");
+                autoSelectWhen = autoSelectParser(autoSelectList);
+
+            } else {
+                JSONArray autoSelectList = formFields.optJSONArray("autoSelectWhen");
+                autoSelectWhen = autoSelectParser(autoSelectList);
+            }
+
 
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
@@ -395,10 +407,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
             this.questions.add(completeQuestion);
@@ -406,6 +418,23 @@ public class Form extends BaseActivity {
         }
     }
 
+
+    private List<AutoSelect> autoSelectParser(JSONArray autoSelectJson) throws JSONException {
+
+        ArrayList<AutoSelect> autoSelectCompleteList = new ArrayList<AutoSelect>();
+
+        if (autoSelectJson != null) {
+            for (int n = 0; n < autoSelectJson.length(); n++) {
+                AutoSelect autoSelect = new AutoSelect();
+                JSONObject autoSelectObj = autoSelectJson.getJSONObject(n);
+                autoSelect.setTargetFieldAnswer(autoSelectObj.getString("targetFieldAnswer"));
+                autoSelect.setAutoSelectWhen(skipLogicParser(autoSelectObj.getJSONArray("when")));
+                autoSelectCompleteList.add(autoSelect);
+            }
+        }
+        return autoSelectCompleteList;
+
+    }
 
     private List<SExpression> skipLogicParser(JSONArray sExpressionList) throws JSONException {
         ArrayList<SExpression> SExpressionCompleteList = new ArrayList<SExpression>();

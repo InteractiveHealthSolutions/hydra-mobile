@@ -65,6 +65,17 @@ public class Question extends Displayable implements Cloneable {
     private List<SExpression> hiddenWhen;
     private List<SExpression> requiredWhen;
 
+    private List<AutoSelect> autoSelect;
+
+
+    public List<AutoSelect> getAutoSelect() {
+        return autoSelect;
+    }
+
+    public void setAutoSelect(List<AutoSelect> autoSelect) {
+        this.autoSelect = autoSelect;
+    }
+
     public List<SExpression> getVisibleWhen() {
         return visibleWhen;
     }
@@ -118,7 +129,7 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
@@ -138,6 +149,8 @@ public class Question extends Displayable implements Cloneable {
         this.visibleWhen = visibleWhen;
         this.hiddenWhen = hiddenWhen;
         this.requiredWhen = requiredWhen;
+
+        this.autoSelect=autoSelect;
 
         isAttribute=attribute;
         payload_type=filterPayloadType(questionType,inputType);
