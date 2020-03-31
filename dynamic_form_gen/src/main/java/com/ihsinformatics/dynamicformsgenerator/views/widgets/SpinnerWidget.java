@@ -265,6 +265,7 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
         for (View lol : spAnswer.getTouchables()) {
             lol.setEnabled(enabled);
         }
+        spAnswer.setEnabled(enabled);
         super.setEnabled(enabled);
     }
 

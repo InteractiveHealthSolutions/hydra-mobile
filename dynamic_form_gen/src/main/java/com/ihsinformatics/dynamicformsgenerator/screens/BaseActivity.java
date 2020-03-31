@@ -949,12 +949,15 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         for (SExpression sExp : as.getAutoSelectWhen()) {
 
                             Boolean final_selection = logicChecker(sExp);
-                            if (null != changeable && null == final_selection && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                            if (null != changeable && null == final_selection ) {
 
                             } else if (null != changeable && final_selection == true && changeable.isEnabled() && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
                                 changeable.setEnabled(false);
                                 changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
-                            } else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                            } else if (null != changeable && final_selection == true && changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                changeable.setEnabled(false);
+                            }
+                            else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
                                 if (changeable.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_EDITTEXT)) {
                                     changeable.setEnabled(true);
                                     changeable.setAnswer("", "", LANGUAGE.ENGLISH);
