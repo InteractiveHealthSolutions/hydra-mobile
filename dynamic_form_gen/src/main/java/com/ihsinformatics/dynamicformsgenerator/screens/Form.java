@@ -245,6 +245,9 @@ public class Form extends BaseActivity {
             JSONObject concept = field.optJSONObject("concept");
             String conceptUUID = field.optString("uuid");
             String inputType = field.optString("attributeName");//"text";
+            if(inputType == null){
+                inputType="text";
+            }
             if (concept != null) {
                 conceptUUID = concept.optString("uuid");
 
@@ -387,7 +390,7 @@ public class Form extends BaseActivity {
             List<AutoSelect> autoSelectWhen;
             if (null != parsedRule && !parsedRule.equals("") && !parsedRule.equals("null")) {
                 JSONObject parsedRuleJSON = new JSONObject(parsedRule);
-                JSONArray autoSelectList = parsedRuleJSON.optJSONArray("autoSelectWhen");
+                JSONArray autoSelectList = parsedRuleJSON.optJSONArray("autoselectWhen");
                 autoSelectWhen = autoSelectParser(autoSelectList);
 
             } else {
