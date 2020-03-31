@@ -951,10 +951,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             Boolean final_selection = logicChecker(sExp);
                             if (null != changeable && null == final_selection ) {
 
-                            } else if (null != changeable && final_selection == true && changeable.isEnabled() && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                            } else if (null != changeable && final_selection == true  && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
                                 changeable.setEnabled(false);
                                 changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
-                            } else if (null != changeable && final_selection == true && changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                            }
+                            else if (null != changeable && final_selection == true && changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
                                 changeable.setEnabled(false);
                             }
                             else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
