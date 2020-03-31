@@ -244,7 +244,7 @@ public class Form extends BaseActivity {
 
             JSONObject concept = field.optJSONObject("concept");
             String conceptUUID = field.optString("uuid");
-            String inputType = "text";
+            String inputType = field.optString("attributeName");//"text";
             if (concept != null) {
                 conceptUUID = concept.optString("uuid");
 
@@ -259,8 +259,8 @@ public class Form extends BaseActivity {
                     this.options.add(new Option(formID, j, null, null, optionUUID, optionDisplay, -1));
                 }
 
-                JSONObject datatype = concept.optJSONObject("datatype");
-                inputType = datatype.optString("display");
+                /*JSONObject datatype = concept.optJSONObject("datatype");
+                inputType = datatype.optString("display");*/
             }
 
             String widgetType = fieldType.optString("display");
