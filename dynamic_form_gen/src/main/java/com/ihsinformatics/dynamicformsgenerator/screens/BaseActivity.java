@@ -949,21 +949,45 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         for (SExpression sExp : as.getAutoSelectWhen()) {
 
                             Boolean final_selection = logicChecker(sExp);
-                            if (null != changeable && null == final_selection ) {
 
-                            } else if (null != changeable && final_selection == true  && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
-                                changeable.setEnabled(false);
-                                changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                            // We got 3 major cases and then sub-cases in those cases:
+
+                            // CASE 1:  This case shows either skipLogic is invalid or the question (say X) whose answer auto-selects other question (let say Z), is hidden (X is hidden where X is not a parent question of Z)
+                            if (null == final_selection) {
+
                             }
-                            else if (null != changeable && final_selection == true && changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
-                                changeable.setEnabled(false);
+
+                            //CASE 2:
+                            else if (final_selection == true) {
+
+                                // There exists a case when value is already autopopulated value in question Z but it is not disabled
+                                if (changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                    changeable.setEnabled(false);
+                                }
+
+                                //This case shows question X should autoSelect question Z because final selection is true.
+                                // Moreover, checking value of changeable(other condition) ensures that the skiplogic doesnot run again and again in loop
+                                // because everytime value is changed and it will get stuck in infinite loop because of value change.
+                                // So here we are ensuring that value is not already set then run this condition
+                                else if (!changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                    changeable.setEnabled(false);
+                                    changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                                }
+
+
                             }
-                            else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+
+
+                            //CASE 3:
+                            //Case for removing auto-selected text in case of false condition
+                            else if (final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                //For editText we need to fill answer by empty string.
                                 if (changeable.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_EDITTEXT)) {
                                     changeable.setEnabled(true);
                                     changeable.setAnswer("", "", LANGUAGE.ENGLISH);
-                                }else
-                                {
+                                }
+                                // For rest of the widgets answer remains same
+                                else {
                                     changeable.setEnabled(true);
                                 }
                             }
