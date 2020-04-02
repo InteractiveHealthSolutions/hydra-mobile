@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
+import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
@@ -44,6 +45,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var checkboxOffline: CheckBox
+    private lateinit var tvAppVersionNumber: TextView
     private var showPassword = 0
     //private lateinit var languagesSpinner: Spinner
 
@@ -95,10 +97,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         usernameEditText = binding.edtUsername;
         passwordEditText = binding.edtPassword
         checkboxOffline = binding.checkOfflineMode
+        tvAppVersionNumber = binding.tvVersionNumber
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
         binding.multilanguage.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
+
+        tvAppVersionNumber.setText("Version: "+BuildConfig.VERSION_NAME)
 //
 //        languagesSpinner = binding.language
 //

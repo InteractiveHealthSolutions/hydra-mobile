@@ -4,9 +4,11 @@
     <PreferenceCategory android:title="Connection Setting">
         <EditTextPreference
             android:key="serverIp"
+            android:inputType="text"
             android:summary="Enter Server IP Address"
             android:title="Server IP Address" />
         <EditTextPreference
+            android:inputType="number"
             android:key="serverPort"
             android:summary="Enter Port Number"
             android:title="Port Number" />
