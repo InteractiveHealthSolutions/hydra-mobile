@@ -954,7 +954,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             // CASE 1:  This case shows either skipLogic is invalid or the question (say X) whose answer auto-selects other question (let say Z), is hidden (X is hidden where X is not a parent question of Z)
                             if (null == final_selection) {
-
+                                changeable.setEnabled(true);
                             }
 
                             //CASE 2:
@@ -969,7 +969,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                 // Moreover, checking value of changeable(other condition) ensures that the skiplogic doesnot run again and again in loop
                                 // because everytime value is changed and it will get stuck in infinite loop because of value change.
                                 // So here we are ensuring that value is not already set then run this condition
-                                else if (!changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                                if (!changeable.getValue().equals(as.getTargetFieldAnswer())) {
                                     changeable.setEnabled(false);
                                     changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
                                 }
