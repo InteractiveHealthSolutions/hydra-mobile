@@ -111,6 +111,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private MyDialogFragment dialogFragment;
 
+    private static  AutoSelect globalSavedAutoSelect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -942,32 +944,66 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (autoSelectables != null && autoSelectables.size() > 0) {
 
+                    Boolean breaked=false;
+                    AutoSelect savedAutoSelect=null;
 
                     for (AutoSelect as : autoSelectables) {
 
+                        Boolean final_selection=null;
+                        savedAutoSelect=as;
 
                         for (SExpression sExp : as.getAutoSelectWhen()) {
 
-                            Boolean final_selection = logicChecker(sExp);
-                            if (null != changeable && null == final_selection ) {
+                            final_selection = logicChecker(sExp);
+                        }
+                        // We got 3 major cases and then sub-cases in those cases:
 
-                            } else if (null != changeable && final_selection == true  && !changeable.getValue().equals(as.getTargetFieldAnswer())) {
-                                changeable.setEnabled(false);
-                                changeable.setAnswer(as.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                        // CASE 1:  This case shows either skipLogic is invalid or the question (say X) whose answer auto-selects other question (let say Z), is hidden (X is hidden where X is not a parent question of Z)
+                        if (null == final_selection) {
+                            changeable.setEnabled(true);
+                        }
+
+                        //CASE 2:
+                        else if (final_selection) {
+
+
+
+                            breaked=true;
+                            break;
+
+                        }
+
+
+                        //CASE 3:
+                        //Case for removing auto-selected text in case of false condition
+                        else if (!final_selection && changeable.getValue().equals(as.getTargetFieldAnswer())) {
+                            //For editText we need to fill answer by empty string.
+                            if (changeable.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_EDITTEXT)) {
+                                changeable.setEnabled(true);
+                                changeable.setAnswer("", "", LANGUAGE.ENGLISH);
                             }
-                            else if (null != changeable && final_selection == true && changeable.isEnabled() && changeable.getValue().equals(as.getTargetFieldAnswer())) {
-                                changeable.setEnabled(false);
-                            }
-                            else if (null != changeable && final_selection == false && changeable.getValue().equals(as.getTargetFieldAnswer())) {
-                                if (changeable.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_EDITTEXT)) {
-                                    changeable.setEnabled(true);
-                                    changeable.setAnswer("", "", LANGUAGE.ENGLISH);
-                                }else
-                                {
-                                    changeable.setEnabled(true);
-                                }
+                            // For rest of the widgets answer remains same
+                            else {
+                                changeable.setEnabled(true);
                             }
                         }
+
+                    }
+                    if(breaked){
+                        // There exists a case when value is already autopopulated value in question Z but it is not disabled
+                            if (changeable.isEnabled() && changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
+                                changeable.setEnabled(false);
+                            }
+
+                            //This case shows question X should autoSelect question Z because final selection is true.
+                            // Moreover, checking value of changeable(other condition) ensures that the skiplogic doesnot run again and again in loop
+                            // because everytime value is changed and it will get stuck in infinite loop because of value change.
+                            // So here we are ensuring that value is not already set then run this condition
+                            if (!changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
+                                globalSavedAutoSelect=savedAutoSelect;
+                                changeable.setEnabled(false);
+                                changeable.setAnswer(savedAutoSelect.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                            }
                     }
                 }
             }
