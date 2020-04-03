@@ -373,21 +373,21 @@ public class ContactTracingWidget extends InputWidget {
             //till here (for refactoring)
 
             String[] allAnswers = numberAndEntries[1].split("\n\n");
-            editedData=new ArrayList<>();
+            editedData = new ArrayList<>();
 
             for (int i = 0; i < allAnswers.length; i++) {
                 String[] singleEntry = allAnswers[i].split("\n");
                 String identifier = singleEntry[0].split(": ")[1];
                 String fname = singleEntry[1].split(": ")[1];
-              //  String familyName = singleEntry[2].split(": ")[1];
+                //  String familyName = singleEntry[2].split(": ")[1];
                 String age = singleEntry[2].split(": ")[1];
                 String gender = singleEntry[3].split(": ")[1];
                 String relation = singleEntry[4].split(": ")[1];
-             //   String dob = singleEntry[6].split(": ")[1];
+                //   String dob = singleEntry[6].split(": ")[1];
 
-                editedData.add(new ContactDetailsSendable(identifier,fname,fname,age,gender,relation,age));
+                editedData.add(new ContactDetailsSendable(identifier, fname, fname, age, gender, relation, age));
             }
-            currentPosition=0;
+            currentPosition = 0;
             mLinearLayoutManager.scrollToPosition(currentPosition);
 
             View row = contactRecyclerView.getLayoutManager().findViewByPosition(0);
