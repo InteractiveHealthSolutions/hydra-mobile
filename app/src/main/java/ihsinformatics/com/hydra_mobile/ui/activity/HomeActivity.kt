@@ -36,6 +36,7 @@ import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
+import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
@@ -52,6 +53,7 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
@@ -107,6 +109,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+
         title = ""
         toolbar = binding.mainMenuLayout.toolbar
         setSupportActionBar(toolbar)
@@ -232,6 +235,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onStart() {
         super.onStart()
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+
+
     }
 
     private fun initToolbar() {
@@ -265,6 +270,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun initNavigationDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        navView.getHeaderView(0).tvVersionNumber.setText("Version: "+ BuildConfig.VERSION_NAME)
+        navView.getHeaderView(0).tvLoggedInAs.setText("Logged in as: "+ Global.USERNAME)
         var drawerArrow = DrawerArrowDrawable(this)
         drawerArrow.color = ContextCompat.getColor(this@HomeActivity, R.color.colorWhite)
         toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
