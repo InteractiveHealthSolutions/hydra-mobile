@@ -47,6 +47,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
         WIDGET_TYPE_HEADING,
         WIDGET_TYPE_GPS,
         WIDGET_TYPE_HIDDEN_INPUT,
+        WIDGET_TYPE_CALENDAR_AGE,
         WIDGET_TYPE_AGE,
         WIDGET_TYPE_IMAGE,
         WIDGETS_TYPE_SINGLE_SELECT_EDITTEXT,

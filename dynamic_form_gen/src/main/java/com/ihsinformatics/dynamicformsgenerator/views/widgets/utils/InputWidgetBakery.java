@@ -6,6 +6,7 @@ import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AddressWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AutoCompleteTextViewWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.CalenderAgeWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.ContactTracingWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.DateWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.EditTextWidget;
@@ -72,6 +73,8 @@ public class InputWidgetBakery {
             inputWidget = new NameWidget(context, q, R.layout.layout_widget_name);
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING) {
             inputWidget = new ContactTracingWidget(context, q, R.layout.layout_widget_contact_tracing);
+        }else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGET_TYPE_CALENDAR_AGE) {
+            inputWidget = new CalenderAgeWidget(context, q, R.layout.layout_widget_calender_age);
         }
         return inputWidget;
     }

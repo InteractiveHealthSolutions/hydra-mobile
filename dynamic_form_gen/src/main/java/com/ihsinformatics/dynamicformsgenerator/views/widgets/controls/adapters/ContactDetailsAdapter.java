@@ -114,7 +114,6 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private InputFilter filter;
 
-       // private String blockCharacterSet = "~#^|$%&*!`@&()_-+=\\|]}[{,<.>/?'\";:1234567890";
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -213,22 +212,6 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeMonths.setOnClickListener(clickListener);
             etAgeDays.setOnClickListener(clickListener);
             etDOB.setOnClickListener(clickListener);
-
-
-//            filter = new InputFilter() {
-//
-//                @Override
-//                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-//
-//                    if (source != null && blockCharacterSet.contains(("" + source))) {
-//                        return "";
-//                    }
-//                    return null;
-//                }
-//            };
-//
-//            etPatientName.setFilters(new InputFilter[] { filter });
-//            etPatientFamilyName.setFilters(new InputFilter[] { filter });
 
         }
 

@@ -117,7 +117,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //
 //        languagesSpinner.adapter=adapter
 
-        flipit(binding.ivLogo)
+        //flipit(binding.ivLogo)
 
         binding.loginEye.setOnClickListener { view ->
 
@@ -136,17 +136,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     }
 
-    private fun flipit(viewToFlip: View) {
-        val flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 360f)
-        flip.duration = 3500
-        flip.start()
-
-        val secondsDelayed = 1
-        Handler().postDelayed({
-            flipit(viewToFlip)
-        }, (secondsDelayed * 4500).toLong())
-
-    }
+//    private fun flipit(viewToFlip: View) {
+//        val flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 360f)
+//        flip.duration = 3500
+//        flip.start()
+//
+//        val secondsDelayed = 1
+//        Handler().postDelayed({
+//            flipit(viewToFlip)
+//        }, (secondsDelayed * 4500).toLong())
+//
+//    }
 
     private fun switchActivity() {
         if (validation()) {
