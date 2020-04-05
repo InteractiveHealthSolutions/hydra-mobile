@@ -28,6 +28,7 @@ class SessionManager(context: Context) {
     private val IS_LOGIN = "IsLoggedIn"
     private val IS_FIRST_TIME = "IsFirstTime"
     private val IS_OFFLINE_MODE = "IsOfflineMode"
+    private val DATA_DOWNLOADED = "completeDataDownload"
 
 
     val KEY_NAME = "productName"
@@ -153,6 +154,15 @@ class SessionManager(context: Context) {
 
     fun isOfflineMode(): Boolean {
         return pref.getBoolean(IS_OFFLINE_MODE, false)
+    }
+
+    fun isCompleteDataDownloaded(): Boolean {
+        return pref.getBoolean(DATA_DOWNLOADED, false)
+    }
+
+    fun dataDownloadedCompletely(status:Boolean) {
+        editor.putBoolean(DATA_DOWNLOADED, status)
+        editor.commit()
     }
 
     fun enableOfflineMode() {
