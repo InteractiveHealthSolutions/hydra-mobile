@@ -149,7 +149,10 @@ public class NameWidget extends InputWidget implements TextWatcher {
 
     @Override
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
-        etFirstName.setText(answer);
+
+        String[] allAnswers = answer.split("\n/<end>\n");
+        etFirstName.setText(allAnswers[0]);
+        etLastName.setText(allAnswers[1]);
     }
 
     @Override
@@ -290,6 +293,9 @@ public class NameWidget extends InputWidget implements TextWatcher {
 
     @Override
     public String getServiceHistoryValue() {
-        return getValue();
+
+        return etFirstName.getText().toString() + "\n/<end>\n" + etLastName.getText().toString();
+
+
     }
 }

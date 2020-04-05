@@ -132,15 +132,9 @@ public class Form extends BaseActivity {
                     temp = jsonUtils.findJSONObjectInHYDRAJSONArray(q.getText(), jsonData);
                     if (temp != null && w != null) {
 
-                        if (temp.optString(ParamNames.WIDGET_TYPE).equals(InputWidget.InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING.toString())) {
-                            String answer = temp.get(ParamNames.VALUE).toString();
-                            w.setAnswer(answer, "", LANGUAGE.URDU);
-                        } else if (temp.optString(ParamNames.WIDGET_TYPE).equals(InputWidget.InputWidgetsType.WIDGETS_TYPE_NAME.toString())) {
+                        String answer = temp.get(ParamNames.VALUE).toString();
+                        w.setAnswer(answer, "", LANGUAGE.URDU);
 
-                        } else {
-                            String answer = temp.get(ParamNames.VALUE).toString();
-                            w.setAnswer(answer, "", LANGUAGE.URDU);
-                        }
                     }
                 }
 
