@@ -14,6 +14,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
@@ -88,6 +89,16 @@ public class ScoreSpinner extends InputWidget implements OnItemSelectedListener 
 	@Override
 	public JSONObject getAnswer() throws JSONException {
 		JSONObject param = new JSONObject();
+
+		//Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+		param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+		if(question.getAttribute())
+			param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+		else
+			param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
+
 		if (isValidInput(question.isMandatory())) {
 			dismissMessage();
 			if(spAnswer.getSelectedItem().toString().equals("<Select an option>")) {

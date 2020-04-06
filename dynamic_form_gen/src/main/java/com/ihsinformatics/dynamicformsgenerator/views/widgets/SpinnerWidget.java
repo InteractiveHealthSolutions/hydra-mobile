@@ -102,7 +102,15 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
         } else {
             activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
-        param.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
         return param;
     }
 

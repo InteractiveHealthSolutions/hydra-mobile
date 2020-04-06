@@ -85,6 +85,10 @@ public class DateWidget extends InputWidget {
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+
+
+
+
         try {
             if (isValidInput(question.isMandatory())) {
                 dismissMessage();
@@ -94,6 +98,11 @@ public class DateWidget extends InputWidget {
                 param.put(ParamNames.PARAM_NAME,question.getParamName());
                 param.put(ParamNames.VALUE, value);
                 param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
+                //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+                if(question.getAttribute())
+                    param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+                else
+                    param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
 
 
             } else {

@@ -272,7 +272,15 @@ public class ContactTracingWidget extends InputWidget {
         JSONObject params = new JSONObject();
         if (isValidInput(question.isMandatory())) {
             params.put(ParamNames.PARAM_NAME, "ContactRegistry");
+
+            //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
             params.put(ParamNames.PAYLOAD_TYPE, "CONTACT_TRACING");
+
+            if(question.getAttribute())
+                params.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+            else
+                params.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
 
             params.put(ParamNames.PARAM_CREATE_PATIENT, configuration.isCreatePatient());
 
@@ -446,7 +454,7 @@ public class ContactTracingWidget extends InputWidget {
     }
 
     private boolean checkValidation(View view, int id) {
-        if (id == R.id.etAgeYears && configuration.getAge().isMandatory()) {
+        if (id == R.id.etAgeYears && (configuration.getAge().isMandatory() || configuration.isCreatePatient())) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
             if (years != null && !years.equals("") && !years.equals(" ") && years.length() > 0) {
@@ -458,7 +466,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etAgeMonths && configuration.getAge().isMandatory()) {
+        } else if (id == R.id.etAgeMonths && (configuration.getAge().isMandatory() || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String months = editText.getText().toString();
@@ -471,7 +479,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etAgeDays && configuration.getAge().isMandatory()) {
+        } else if (id == R.id.etAgeDays && (configuration.getAge().isMandatory() || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String days = editText.getText().toString();
@@ -484,7 +492,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientID && configuration.isCreatePatient() && configuration.getIdentifier().isMandatory()) {
+        } else if (id == R.id.etPatientID && (configuration.getIdentifier().isMandatory() || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String patId = editText.getText().toString();
@@ -500,7 +508,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientName && configuration.getFirstName().isMandatory()) {
+        } else if (id == R.id.etPatientName && (configuration.getFirstName().isMandatory()  || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
@@ -513,7 +521,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientFamilyName && configuration.getFamilyName().isMandatory()) {
+        } else if (id == R.id.etPatientFamilyName && (configuration.getFamilyName().isMandatory() || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();

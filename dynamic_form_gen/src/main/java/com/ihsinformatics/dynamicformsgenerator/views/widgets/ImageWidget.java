@@ -33,6 +33,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ImageListAdapter;
@@ -132,6 +133,14 @@ public class ImageWidget extends InputWidget implements View.OnClickListener, Gr
             subParams.put(s);
         }
         param.put(question.getParamName(), subParams);
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
     }
 
     @Override

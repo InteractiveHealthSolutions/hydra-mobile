@@ -122,6 +122,15 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
         if (isValidInput(question.isMandatory())) {
             dismissMessage();
             RadioButton rb = ((RadioButton) rgAnswer.findViewById(rgAnswer.getCheckedRadioButtonId()));

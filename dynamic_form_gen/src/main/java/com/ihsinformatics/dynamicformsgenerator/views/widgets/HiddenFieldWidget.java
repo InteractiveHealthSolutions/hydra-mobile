@@ -7,6 +7,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 
 import org.json.JSONException;
@@ -59,7 +60,14 @@ public class HiddenFieldWidget extends InputWidget {
 		} else {
 			activity.addValidationError(getQuestionId(), question.getErrorMessage());
 		}
-		
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
 		return param;
 	}
 	

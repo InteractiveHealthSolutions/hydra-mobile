@@ -125,7 +125,12 @@ public class AddressWidget extends InputWidget {
 
         answer.put(ParamNames.PARAM_NAME, question.getParamName());
         answer.put(ParamNames.VALUE, addressJson);
-        answer.put(ParamNames.PAYLOAD_TYPE,question.getPayload_type());
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        answer.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
+        if(question.getAttribute())
+            answer.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            answer.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
 
 
         return answer;

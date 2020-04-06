@@ -81,7 +81,15 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         }
         param.put(ParamNames.PARAM_NAME, question.getParamName());
         param.put(ParamNames.VALUE, subParams);
-        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
 
     }
 

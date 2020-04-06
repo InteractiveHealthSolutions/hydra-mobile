@@ -110,7 +110,13 @@ public class NameWidget extends InputWidget implements TextWatcher {
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+
         param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.NAME);
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
 
         if (isValidInput(question.isMandatory())) {
             JSONObject givenNameObj = new JSONObject();

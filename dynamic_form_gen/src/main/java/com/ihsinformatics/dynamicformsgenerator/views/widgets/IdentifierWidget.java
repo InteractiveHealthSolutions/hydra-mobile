@@ -80,6 +80,9 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+
+
+
         if (isValidInput(question.isMandatory()) && (!suspiciousIdentifier || !etAnswer.isEnabled())) {
             if(question.getParamName() == null) return null;
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
@@ -96,7 +99,15 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
         } else {
             activity.addValidationError(getQuestionId(), "Invalid input, or check internet connectivity");   //No need to show custom error message on identifier  ~Taha
         }
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE,Question.PAYLOAD_TYPE.IDENTIFIER);
+
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
         return param;
     }
 

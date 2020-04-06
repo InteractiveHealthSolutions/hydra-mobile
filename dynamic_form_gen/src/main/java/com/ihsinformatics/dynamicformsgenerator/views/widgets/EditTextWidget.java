@@ -124,21 +124,26 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
         param.put(ParamNames.PARAM_NAME, question.getParamName());
-        if (!question.getAttribute()) {
-            param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
-        } else {
-            param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.PERSON_ATTRIBUTE.toString());
-        }
+
         if (isValidInput(question.isMandatory())) {
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
                 param.put(ParamNames.VALUE, "");
             } else {
-                // param.put(question.getParamName(), etAnswer.getText().toString());
+
                 param.put(ParamNames.VALUE, etAnswer.getText().toString());
             }
             dismissMessage();
-            //  param.put(question.getParamName(), etAnswer.getText().toString());
+
         } else {
             if (etAnswer.getText().toString().length() == 0) {
                 activity.addValidationError(getQuestionId(), "Required Field");

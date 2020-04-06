@@ -485,10 +485,6 @@ public class Question extends Displayable implements Cloneable {
     public PAYLOAD_TYPE filterPayloadType(String questionType,String inputType){
         PAYLOAD_TYPE payload=PAYLOAD_TYPE.OBS;
 
-        if(isAttribute){
-            return PAYLOAD_TYPE.PERSON_ATTRIBUTE;
-        }
-
         switch (questionType) {
             case "Date/ Time Picker": {
                 return PAYLOAD_TYPE.OBS_DATE_TIME;
@@ -524,6 +520,9 @@ public class Question extends Displayable implements Cloneable {
 
             case "Address": {
                 return PAYLOAD_TYPE.ADDRESS;
+            }
+            case "Name": {
+                return PAYLOAD_TYPE.NAME;
             }
         }
 

@@ -121,7 +121,14 @@ public class AgeWidget extends InputWidget implements TextWatcher {
                 value = Global.OPENMRS_DATE_FORMAT.format(date);
                 param.put(ParamNames.PARAM_NAME, "age");
                 param.put(ParamNames.VALUE, value);
+
+                //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
                 param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
+                if(question.getAttribute())
+                    param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+                else
+                    param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
             } else {
                 activity.addValidationError(getQuestionId(), question.getErrorMessage());
             }

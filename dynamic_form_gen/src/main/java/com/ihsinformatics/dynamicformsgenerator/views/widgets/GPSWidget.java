@@ -107,7 +107,12 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
 
     @Override
     public JSONObject getAnswer() throws JSONException {
+
+
         JSONObject param = new JSONObject();
+
+
+
         if (isValidInput(question.isMandatory())) {
             dismissMessage();
             param.put(ParamNames.PARAM_NAME,question.getParamName());
@@ -116,7 +121,15 @@ public class GPSWidget extends InputWidget implements ActivityCompat.OnRequestPe
         } else {
             activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
-        param.put(ParamNames.PAYLOAD_TYPE,getQuestion().getPayload_type());
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+
+
         return param;
     }
 
