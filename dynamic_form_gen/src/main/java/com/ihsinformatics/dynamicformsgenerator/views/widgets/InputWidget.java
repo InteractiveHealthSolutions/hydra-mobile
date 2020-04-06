@@ -208,6 +208,7 @@ public abstract class InputWidget extends RelativeLayout implements Observer {
 
     public abstract void setAnswer(String answer, String uuid, LANGUAGE language) throws JSONException;
 
+    //Every widget need to send PERSON_ATTRIBUTE AND PAYLOAD_TYPE to server (HYDRA)
     public abstract JSONObject getAnswer() throws JSONException;
 
     public abstract String getValue() throws JSONException;
