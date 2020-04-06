@@ -24,9 +24,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun flipit(viewToFlip: View) {
-        val flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 360f)
-        flip.duration = 3500
-        flip.start()
+//        val flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 360f)
+//        flip.duration = 3500
+//        flip.start()
 
         val secondsDelayed = 1
         Handler().postDelayed({
