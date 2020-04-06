@@ -125,6 +125,9 @@ public class ContactTracingWidget extends InputWidget {
                             next.setVisibility(View.INVISIBLE);
                         }
                         firstTime = false;
+                        if(contactsText.size()==1){
+                            next.setVisibility(View.INVISIBLE);
+                        }
                     } else {
                         etNumberOfContacts.setError("Enter any number between 1 to 10");
                     }
