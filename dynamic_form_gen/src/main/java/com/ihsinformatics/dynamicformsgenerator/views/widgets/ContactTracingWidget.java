@@ -120,6 +120,10 @@ public class ContactTracingWidget extends InputWidget {
                         contactRecyclerView.setVisibility(View.VISIBLE);
                         optionsLayout.setVisibility(View.VISIBLE);
                         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
+                        if(contactsText.size()==1)
+                        {
+                            next.setVisibility(View.INVISIBLE);
+                        }
                         firstTime = false;
                     } else {
                         etNumberOfContacts.setError("Enter any number between 1 to 10");
