@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         // initAnimation();
         var imgLogo: ImageView = findViewById(R.id.ivLogo)
-        flipit(imgLogo)
+      //  flipit(imgLogo)
     }
 
     private fun flipit(viewToFlip: View) {
