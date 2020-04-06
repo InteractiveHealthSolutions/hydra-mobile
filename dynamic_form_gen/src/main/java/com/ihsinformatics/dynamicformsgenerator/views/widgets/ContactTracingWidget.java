@@ -120,10 +120,6 @@ public class ContactTracingWidget extends InputWidget {
                         contactRecyclerView.setVisibility(View.VISIBLE);
                         optionsLayout.setVisibility(View.VISIBLE);
                         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
-                        if(contactsText.size()==1)
-                        {
-                            next.setVisibility(View.INVISIBLE);
-                        }
                         firstTime = false;
                         if(contactsText.size()==1){
                             next.setVisibility(View.INVISIBLE);
