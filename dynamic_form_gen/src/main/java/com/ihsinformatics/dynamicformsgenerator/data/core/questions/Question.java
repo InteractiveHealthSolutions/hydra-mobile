@@ -25,6 +25,7 @@ public class Question extends Displayable implements Cloneable {
 
     public static enum PAYLOAD_TYPE {
         IDENTIFIER,
+        GPS,
         PERSON_ATTRIBUTE,
         ADDRESS,
         HEADING,
@@ -523,6 +524,10 @@ public class Question extends Displayable implements Cloneable {
             }
             case "Name": {
                 return PAYLOAD_TYPE.NAME;
+            }
+            case "GPS":
+            {
+                return PAYLOAD_TYPE.GPS;
             }
         }
 
