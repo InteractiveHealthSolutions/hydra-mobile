@@ -100,12 +100,12 @@ public class ContactTracingWidget extends InputWidget {
 
                 String contactCount = etNumberOfContacts.getText().toString();
 
-                if (null == contactCount || contactCount.equalsIgnoreCase("") || Integer.valueOf(contactCount) <= 0) {
-                    if (Integer.valueOf(contactCount) <= 0) {
-                        etNumberOfContacts.setError("Enter any number between 1 to 10");
-                    } else {
-                        etNumberOfContacts.setError("Required Field");
-                    }
+                if (null == contactCount || contactCount.equalsIgnoreCase("")) {
+                    etNumberOfContacts.setError("Required Field");
+                } else if (Integer.valueOf(contactCount) <= 0) {
+
+                    etNumberOfContacts.setError("Enter any number between 1 to 10");
+
                 } else if (firstTime) {
 
                     int count = Integer.valueOf(contactCount);
@@ -449,13 +449,12 @@ public class ContactTracingWidget extends InputWidget {
         if (id == R.id.etAgeYears && configuration.getAge().isMandatory()) {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
-            if (years != null && !years.equals("")  && !years.equals(" ") && years.length() > 0) {
+            if (years != null && !years.equals("") && !years.equals(" ") && years.length() > 0) {
                 return true;
-            }else if(years == null || years.equals("") || years.equals(" ")){
+            } else if (years == null || years.equals("") || years.equals(" ")) {
                 editText.setError("Required field");
                 return false;
-            }
-            else {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
@@ -465,7 +464,7 @@ public class ContactTracingWidget extends InputWidget {
             String months = editText.getText().toString();
             if (months != null && months.length() > 0) {
                 return true;
-            }else if(months == null || months.equals("") || months.equals(" ")){
+            } else if (months == null || months.equals("") || months.equals(" ")) {
                 editText.setError("Required field");
                 return false;
             } else {
@@ -478,10 +477,10 @@ public class ContactTracingWidget extends InputWidget {
             String days = editText.getText().toString();
             if (days != null && days.length() > 0) {
                 return true;
-            }else if(days == null || days.equals("") || days.equals(" ")){
+            } else if (days == null || days.equals("") || days.equals(" ")) {
                 editText.setError("Required field");
                 return false;
-            }  else {
+            } else {
                 editText.setError("Invalid field");
                 return false;
             }
@@ -507,7 +506,7 @@ public class ContactTracingWidget extends InputWidget {
             String patName = editText.getText().toString();
             if (patName != null && patName.length() >= 2) {
                 return true;
-            }else if(patName == null || patName.equals("") || patName.equals(" ")){
+            } else if (patName == null || patName.equals("") || patName.equals(" ")) {
                 editText.setError("Required field");
                 return false;
             } else {
@@ -520,7 +519,7 @@ public class ContactTracingWidget extends InputWidget {
             String patName = editText.getText().toString();
             if (patName != null && patName.length() >= 2) {
                 return true;
-            }else if(patName == null || patName.equals("") || patName.equals(" ")){
+            } else if (patName == null || patName.equals("") || patName.equals(" ")) {
                 editText.setError("Required field");
                 return false;
             } else {
