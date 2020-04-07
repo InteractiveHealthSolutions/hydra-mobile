@@ -1011,25 +1011,122 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     }
 
-    //TODO options ka name dekh raha hai rather uuid ~Taha
+    /**    Documentation of complex logicChecker **/
+    /**
+    In Skiplogics we have:
+    1. Parent: The question or widget whose value must be checked inorder to hide child widget (Also called CHANGER)
+    2. Child: The one who is deciding when I need to hide by looking at all possible values of its all parents   (ALSO CALLED CHANGEABLE)
+
+     A child question could have multiple parents. EVERY QUESTION DECIDES ITSELF WHEN I NEED TO HIDE BY LOOKING AT PARENT VALUES
+
+     This LogicChecker returns:-
+    1. True : when condition of given sExpression is satisfied
+    2. False: when condition of given sExpression is not satisfied.
+    3. Null: when parent is itself hidden (this approach needs a proper test becoz in some condition we donot  want )
+
+    Possible combinations we could make:
+
+    1. Showables: The widget can be shown upon returning true of logicChecker (else remain hidden on returning false)
+    2. Hideables: The widget can be hidden upon returning false of logicChecker (else remain shown on returning false)
+    3. Auto-selectable: The widget value can be auto-selected if logicChecker returns true. This got two variations again as describes below:
+            When a widget(or child) figured out that it should get auto-selected becoz parent widget says so then it got two options:
+            a. Enabled Auto-Selectable: The widget could remained enabled or editable even after it is auto-selected
+            b. Disabled Auto-Selected: The widget could be disabled for editing and will become non-editable after it got orders for auto-selection of its option
+    4. Auto-populate...(not impelemnted)
+     5. etc...
+
+     Parent Values Comparision Techniques: (Parent Value checking criteria)
+
+     1. Equals: Equals is a list of strings of widget values that checks if current selected value of widget is in this list or not
+     2. NotEquals: NotEquals is a list of strings of widget values that checks current selected value of widget must not be in this list
+
+     (Not implemented: These below fields will work with EditText Widget only majority times)
+
+     3. EqualsTo: This list contains numeric values that must satisfy
+     4. NotEqualsTo: This list may contains numeric values that must not be satisfied
+     5. lessThan: This list contains numeric values. Condition is satisfied if current parent value is less than values given in this list
+     6. greaterThan: This list contains numeric values. Condition is satisfied if current parent value is greater than values given in this list
+
+     **/
+
+
+    /**
+
+     Article 2.1: What does an s-Expression conatins
+
+     an s-Expression have:
+
+     1. Operator
+     2. One or Multiple objects of SkipLogics
+     3. Array of s-Expression (for One or more s-Expression)
+
+     Working:
+
+     We need to start evaluating our s-Expression from the last (depper nested) array of s-Expression and come up to the top level. Below
+     is the visual representation of 3 layer s-Expression
+
+     [
+        operator
+        {object skipLogic}
+        {object skipLogic}
+        [
+               operator
+             {object skipLogic}
+             {object skipLogic}
+             {object skipLogic}
+             {object skipLogic}
+                [                               ------
+                     operator                        |
+                     {object skipLogic}              |      We need to start evaluation from nested part and its visiblity must be operated with outer sExpression
+                     [null Array os s-expression]    |
+                ]                               ------
+        ]
+     ]
+
+     * **/
+
+    /**
+     OR CASES that may arise:
+
+     Case 1A:
+
+     Case 2A:
+
+     Case 2B:
+
+     Case 3A:
+            Parent may be hidden. so we dont need to do anything  Thats why case #A is not impelented because no need to implement seperately
+
+     Case 3B:
+            Parent may be hidden and it could be first iteration. In case of first iteration we need to keep final visibility = null
+     * **/
+
+
     protected Boolean logicChecker(SExpression sExp) throws JSONException {
         if (sExp != null) {
-            Boolean final_visibility = false;
-            Boolean loopFirstIteration = true;
-            if (sExp.getOperator().equals("OR")) {
+            Boolean final_visibility = false;   //Initializing with false in order to run OR cycles (a single true makes all cases of OR true)
+            Boolean loopFirstIteration = true;  //We need to keep track of first iteration because of case 3B
+            if (sExp.getOperator().equals("OR")) {   //Begins OR Cases
                 final_visibility = false;
 
+                //Checking all sExpression Arrays till last level so its a recursive loop till end of s-Expression array is not reached (check article 2.1 above)
                 if (null != sExp.getSkipLogicsArray()) {
                     for (SExpression nestedSExp : sExp.getSkipLogicsArray()) {
                         final_visibility = logicChecker(nestedSExp);
                     }
                 }
-                if (final_visibility != null && final_visibility)  // If any case true then return true in OR case... DOnot change final_visibility to true initially in first line
+
+                // A single true case in OR means true... DOnot change final_visibility to true initially in first line
+                if (final_visibility != null && final_visibility)
                     return true;
+
+                //Checking objects of Skiplogics (at this stage we are sure that either we have evaluated
+                // all objects in bottom array of sExpression or still we are at last bottom array)
 
                 for (SkipLogics changerQuestion : sExp.getSkipLogicsObjects()) {
                     InputWidget changer = inputWidgets.get(changerQuestion.getQuestionID());
 
+                    //Multi-Select Works differently from other widgets
                     if (null != changer && changer.getVisibility() == View.VISIBLE && changer.getInputWidgetsType().equals(InputWidgetsType.WIDGET_TYPE_MULTI_SELECT_SPINNER)) {
 
                         if (null != changer.getOptions()) {
@@ -1047,22 +1144,29 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             }
                         }
 
+                        //Rest of the widgets (other than multi-select and contact tracing widget which donot make use of skiplogics)
                     } else if (null != changer && changer.getVisibility() == View.VISIBLE) {
                         if (null != changer.getOptions()) {
 
+                            //Case 1A
                             if (changerQuestion.getEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
                                 loopFirstIteration = false;
                             }
+                            //Case 2A
                             if (final_visibility != null && !final_visibility && changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = false;
                                 loopFirstIteration = false;
-                            } else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
+                            }
+                            //Case 2B
+                            else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
                                 loopFirstIteration = false;
                             }
                         }
-                    } else if (loopFirstIteration) {
+                    }
+                    //Case 3B
+                    else if (loopFirstIteration) {
                         final_visibility = null;
                     }
                 }
@@ -1129,7 +1233,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             }
                         } else {
                             final_visibility = null;
-                            break;
+                            //  break;    // removed this break statement becoz if parent is hidden then logicChecker must not return null, due to fact that there could be multiple parents and not all are hidden
                         }
                     }
                 }
