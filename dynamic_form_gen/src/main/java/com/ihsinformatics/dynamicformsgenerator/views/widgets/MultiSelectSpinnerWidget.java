@@ -66,13 +66,15 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         JSONObject param = new JSONObject();
         if (isValidInput(question.isMandatory())) {
             dismissMessage();
-            addParams(param);
+            addParamsWithUUID(param);
         } else {
             activity.addValidationError(getQuestionId(), question.getErrorMessage());
         }
         return param;
     }
 
+    //This was sending params with selected options as option name to server
+    @Deprecated
     private void addParams(JSONObject param) throws JSONException {
         JSONArray subParams = new JSONArray();
         List<String> selections = mspAnswer.getSelectedValues();
@@ -88,10 +90,31 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
         else
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
+    }
 
 
+    //This adds the selected options UUID inorder to send server
+    private void addParamsWithUUID(JSONObject param) throws JSONException {
+        JSONArray subParams = new JSONArray();
+        List<String> selections = mspAnswer.getSelectedValues();
+        for (Option op : this.options) {
+            for (String s : selections){
+                if(s.equals(op.getText()))
+                    subParams.put(op.getUuid());
+            }
+        }
+        param.put(ParamNames.PARAM_NAME, question.getParamName());
+        param.put(ParamNames.VALUE, subParams);
+
+        //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
+        param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        if(question.getAttribute())
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
+        else
+            param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
 
     }
+
 
     @Override
     public void onFocusGained() {
