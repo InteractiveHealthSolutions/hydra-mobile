@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.RequiresApi;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.common.Constants;
@@ -48,6 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -61,6 +65,7 @@ public class Form extends BaseActivity {
     private Date date25YearsAgo, today, date25YearsAhead, lastMonday, startDate, endDate, oneYearAgo;
     private static Calendar cal;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +128,12 @@ public class Form extends BaseActivity {
             try {
                 if (DataProvider.directOpenableForms != null && !DataProvider.directOpenableForms.contains(ENCOUNTER_NAME)) {
                     List<Option> optionsList = getOptionsByQuestionsID(q.getQuestionId());
+                    Collections.sort(optionsList, new Comparator<Option>() {
+                        @Override
+                        public int compare(Option op1, Option op2) {
+                            return op2.getText().compareTo(op1.getText());
+                        }
+                    });
                     q.setOptions(optionsList);
                 }
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
