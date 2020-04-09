@@ -1006,6 +1006,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             }
                     }
                 }
+
+                if(changeableQuestion.isDisabled())
+                {
+                    changeable.setEnabled(false);
+                }else
+                {
+                    changeable.setEnabled(true);
+                }
             }
         }
 

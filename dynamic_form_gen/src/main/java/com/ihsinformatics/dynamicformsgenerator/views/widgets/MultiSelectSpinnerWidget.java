@@ -61,6 +61,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         }
     }
 
+    //attach UUID of selected answers inorder to send to server
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
@@ -73,8 +74,19 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         return param;
     }
 
+    //attach name of selected answers inorder to check skiplogics
+    public JSONObject getValuesForSkipLogic() throws JSONException {
+        JSONObject param = new JSONObject();
+        if (isValidInput(question.isMandatory())) {
+            dismissMessage();
+            addParams(param);
+        } else {
+            activity.addValidationError(getQuestionId(), question.getErrorMessage());
+        }
+        return param;
+    }
+
     //This was sending params with selected options as option name to server
-    @Deprecated
     private void addParams(JSONObject param) throws JSONException {
         JSONArray subParams = new JSONArray();
         List<String> selections = mspAnswer.getSelectedValues();
@@ -206,7 +218,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
     @Override
     public String getValue() throws JSONException {
 
-        return getAnswer().toString();
+        return getValuesForSkipLogic().toString();
     }
 
     @Override

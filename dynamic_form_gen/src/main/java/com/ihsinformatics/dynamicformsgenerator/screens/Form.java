@@ -201,6 +201,14 @@ public class Form extends BaseActivity {
         for (int i = 0; i < formFieldsList.length(); i++) {
             JSONObject formFields = formFieldsList.optJSONObject(i);
 
+            Boolean disabled=formFields.optBoolean("disabled");
+            if (disabled != null && disabled) {
+                disabled = true;
+            }else
+            {
+                disabled=false;
+            }
+
             int formFieldId = formFields.optInt("formFieldId");
             int displayOrder = formFields.optInt("displayOrder");  //Not mapped
             int minOccurrence = formFields.optInt("minOccurrence");  //Not mapped
@@ -415,10 +423,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
             this.questions.add(completeQuestion);

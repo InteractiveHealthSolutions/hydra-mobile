@@ -61,6 +61,8 @@ public class Question extends Displayable implements Cloneable {
     private String tag;
     private String errorMessage="Invalid input";
 
+    private Boolean disabled=false;
+
 
     private List<SExpression> visibleWhen;
     private List<SExpression> hiddenWhen;
@@ -130,11 +132,13 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
         this.questionId = questionId;
+
+        this.disabled=disable;
 
 
         setQuestionType(questionType);
@@ -533,4 +537,9 @@ public class Question extends Displayable implements Cloneable {
 
         return payload;
     }
+
+    public Boolean isDisabled() {
+        return disabled;
+    }
+
 }
