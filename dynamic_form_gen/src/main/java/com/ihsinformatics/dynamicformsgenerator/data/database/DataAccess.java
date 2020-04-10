@@ -592,4 +592,16 @@ public class DataAccess {
 
         return formsData;
     }
+
+    public void clearAllOfflineData(Context context) {
+
+        ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
+        serviceHistoryDao.deleteAll();
+
+        OfflinePatientDao offlinePatientDao = App.getDaoSession(context).getOfflinePatientDao();
+        offlinePatientDao.deleteAll();
+
+    }
+
+
 }

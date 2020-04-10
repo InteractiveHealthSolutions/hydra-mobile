@@ -15,4 +15,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun getUserByUsernameAndPass(name:String,pass:String): List<User> {
         return repository.getUserByUsernameAndPass(name,pass)
     }
+
+    fun deleteAllUsers()
+    {
+        repository.deleteAllUsers()
+    }
+
 }

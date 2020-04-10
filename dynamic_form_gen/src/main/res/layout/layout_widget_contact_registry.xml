@@ -50,16 +50,47 @@
             style="@style/question_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="7dp"
             android:text="@string/patientID" />
 
-        <EditText
-            android:id="@+id/etPatientID"
-            style="@style/question_answer"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/patientID" />
+            android:layout_below="@id/tvMessage"
+            android:weightSum="10">
+
+
+            <EditText
+                android:id="@+id/etPatientID"
+                style="@style/question_answer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8" />
+
+            <LinearLayout
+                android:id="@+id/qrCodeReader"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/photo_camera" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Scan" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/patientName"
@@ -76,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/patientName"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ " />
 
         <TextView
             android:id="@+id/patientFamilyName"
@@ -93,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/patientFamilyName"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ " />
 
     </LinearLayout>
 
@@ -121,27 +152,28 @@
             android:id="@+id/linearAgeWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="7dp"
-            android:background="@drawable/boundary_shape"
             android:layout_below="@id/tvquestion_answer"
+            android:background="@drawable/boundary_shape"
+            android:clickable="true"
             android:orientation="vertical"
-            android:clickable="true">
+            android:padding="7dp">
+
             <TextView
                 android:id="@+id/patientDOB"
                 style="@style/question_answer"
                 android:layout_width="match_parent"
-                android:clickable="false"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 android:layout_marginTop="7dp"
+                android:clickable="false"
+                android:enabled="false"
                 android:text="@string/date_of_birth" />
 
             <EditText
                 android:id="@+id/etPatientDOB"
                 style="@style/question_answer"
-                android:focusable="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:focusable="false" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,8 +186,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
-                    android:text="Age"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:text="Age" />
 
                 <EditText
                     android:id="@+id/etAgeYears"
@@ -164,9 +196,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:digits="1234567890"
+                    android:focusable="false"
                     android:gravity="center"
                     android:hint="Years"
-                    android:focusable="false"
                     android:inputType="number"
                     android:maxLength="4" />
 
@@ -177,9 +209,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:digits="1234567890"
+                    android:focusable="false"
                     android:gravity="center"
                     android:hint="Months"
-                    android:focusable="false"
                     android:inputType="number"
                     android:maxLength="3" />
 
@@ -190,9 +222,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:digits="1234567890"
+                    android:focusable="false"
                     android:gravity="center"
                     android:hint="Days"
-                    android:focusable="false"
                     android:inputType="number"
                     android:maxLength="3" />
             </LinearLayout>
@@ -207,8 +239,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text=""
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tvYears"
@@ -216,10 +248,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:clickable="false"
                     android:gravity="center"
                     android:text="Years"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:clickable="false" />
+                    android:textColor="@color/colorPrimaryDark" />
 
                 <TextView
                     android:id="@+id/tvMonths"
@@ -227,10 +259,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:clickable="false"
                     android:gravity="center"
                     android:text="Months"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:clickable="false" />
+                    android:textColor="@color/colorPrimaryDark" />
 
                 <TextView
                     android:id="@+id/tvDays"
@@ -238,10 +270,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:clickable="false"
                     android:gravity="center"
                     android:text="Days"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:clickable="false" />
+                    android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

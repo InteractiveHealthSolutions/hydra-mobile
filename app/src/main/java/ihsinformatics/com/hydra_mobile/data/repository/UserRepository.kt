@@ -115,4 +115,10 @@ class UserRepository(application: Application) {
         doAsync {}
     }
 
+    fun deleteAllUsers()
+    {
+        userDao.deleteAllUsers()
+
+    }
+
 }
