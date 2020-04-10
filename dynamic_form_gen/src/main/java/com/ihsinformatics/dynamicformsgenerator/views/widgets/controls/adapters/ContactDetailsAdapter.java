@@ -1,7 +1,14 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.graphics.PointF;
+import android.os.Build;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -17,12 +24,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
@@ -34,6 +46,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
 
 public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAdapter.ContactViewHolder> {
 
@@ -110,7 +124,12 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private LinearLayout ageWidget;
 
+        protected LinearLayout QRCodeReader;
+
+
         private View.OnClickListener clickListener;
+
+        private View.OnClickListener QRListener;
 
         private InputFilter filter;
 
@@ -150,6 +169,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeMonths = itemView.findViewById(R.id.etAgeMonths);
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
             etDOB = itemView.findViewById(R.id.etPatientDOB);
+
+            QRCodeReader = itemView.findViewById(R.id.qrCodeReader);
 
 
             clickListener = new View.OnClickListener() {
@@ -213,9 +234,74 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays.setOnClickListener(clickListener);
             etDOB.setOnClickListener(clickListener);
 
+
+            QRListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        checkCameraPermission();
+                    } else {
+                        showQRCodeReaderDialog();
+                    }
+                }
+            };
+
+
+            QRCodeReader.setOnClickListener(QRListener);
+
+
         }
 
 
+
+
+        protected void checkCameraPermission() {
+            int hasWriteContactsPermission = ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.CAMERA);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
+                        Manifest.permission.CAMERA)) {
+                    showMessageOKCancel(context, context.getResources().getString(R.string.qr_code_permission_request_message),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions((Activity) context,
+                                            new String[]{Manifest.permission.CAMERA},
+                                            100);
+                                }
+                            });
+                    return;
+                }
+                ActivityCompat.requestPermissions((Activity) context,
+                        new String[]{Manifest.permission.CAMERA},
+                        100);
+                return;
+            }
+            showQRCodeReaderDialog();
+        }
+
+        public void showQRCodeReaderDialog() {
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.dialog_qrcode);
+            dialog.show();
+            final QRCodeReaderView qrCodeReaderView;
+            qrCodeReaderView = (QRCodeReaderView) dialog.findViewById(R.id.qrdecoderview);
+            qrCodeReaderView.startCamera();
+            qrCodeReaderView.setQRDecodingEnabled(true);
+            qrCodeReaderView.setAutofocusInterval(2000L);
+            qrCodeReaderView.setTorchEnabled(true);
+            qrCodeReaderView.setFrontCamera();
+            qrCodeReaderView.setBackCamera();
+            qrCodeReaderView.setOnQRCodeReadListener(new QRCodeReaderView.OnQRCodeReadListener() {
+                @Override
+                public void onQRCodeRead(String text, PointF[] points) {
+                    etPatientID.setText(text);
+                    etPatientID.setEnabled(true);
+                    qrCodeReaderView.stopCamera();
+                    dialog.dismiss();
+                }
+            });
+        }
 
     }
 
