@@ -49,7 +49,9 @@ import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
 import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
+import ihsinformatics.com.hydra_mobile.ui.dialogs.DisplaySettingsDialogFragment
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
+import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
@@ -306,11 +308,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.action_logout) {
-
             logoutDialog()
-
         } else if (id == R.id.action_change_workflow) {
             startActivityForResult(Intent(this@HomeActivity, SelectWorkFlow::class.java), 0)
+        }
+        else if(id==R.id.settings)
+        {
+            openSettingDialog()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -811,5 +815,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var language = GlobalPreferences.getinstance(application)
             .findPrferenceValue(GlobalPreferences.KEY.APP_LANGUAGE, "en")
         Global.APP_LANGUAGE = language
+    }
+
+    private fun openSettingDialog() {
+
+        val fragmentManager = supportFragmentManager.beginTransaction()
+        val settingFragment = DisplaySettingsDialogFragment.newInstance()
+        settingFragment.show(fragmentManager, "settingDialog");
     }
 }
