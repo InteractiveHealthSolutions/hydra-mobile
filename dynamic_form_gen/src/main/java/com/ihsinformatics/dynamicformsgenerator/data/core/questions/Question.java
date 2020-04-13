@@ -60,6 +60,7 @@ public class Question extends Displayable implements Cloneable {
     private List<Option> options;
     private String tag;
     private String errorMessage="Invalid input";
+    private int displayOrder=0;
 
     private Boolean disabled=false;
 
@@ -132,14 +133,14 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
         this.questionId = questionId;
 
         this.disabled=disable;
-
+        this.displayOrder=displayOrder;
 
         setQuestionType(questionType);
         setInitialVisibility(initialVisibility);
@@ -279,6 +280,14 @@ public class Question extends Displayable implements Cloneable {
 
     public InputWidgetsType getQuestionType() {
         return questionType;
+    }
+
+    public int getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        this.displayOrder = displayOrder;
     }
 
     public void setQuestionType(String questionType) {

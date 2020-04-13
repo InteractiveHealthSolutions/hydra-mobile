@@ -101,6 +101,12 @@ public class Form extends BaseActivity {
 
         }
 
+        Collections.sort(this.questions, new Comparator<Question>() {
+            @Override
+            public int compare(Question op1, Question op2) {
+                return Integer.compare(op1.getDisplayOrder(), op2.getDisplayOrder());
+            }
+        });
 
         setTitle(ENCOUNTER_NAME);
         toolbar.setTitle(ENCOUNTER_NAME);
@@ -210,7 +216,7 @@ public class Form extends BaseActivity {
             }
 
             int formFieldId = formFields.optInt("formFieldId");
-            int displayOrder = formFields.optInt("displayOrder");  //Not mapped
+            int displayOrder = formFields.optInt("displayOrder");
             int minOccurrence = formFields.optInt("minOccurrence");  //Not mapped
             int maxOccurrence = formFields.optInt("maxOccurrence");  //Not mapped
             int minValue = formFields.optInt("minValue");
@@ -423,10 +429,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
             this.questions.add(completeQuestion);

@@ -1,19 +1,25 @@
 package ihsinformatics.com.hydra_mobile.ui.dialogs
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Patterns
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.repository.AppSettingRepository
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.AppSettingViewModel
+import ihsinformatics.com.hydra_mobile.ui.viewmodel.UserViewModel
+import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
+import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.app_setting.view.*
 import kotlinx.coroutines.runBlocking
 
@@ -28,7 +34,7 @@ class SettingDialogFragment : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-                             ): View? {
+    ): View? {
         val view = inflater.inflate(R.layout.app_setting, container, false)
         dialog!!.window.attributes.windowAnimations = R.style.FullScreenDialogStyle
 
@@ -89,8 +95,22 @@ class SettingDialogFragment : DialogFragment() {
                 }
 
                 if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {
-                    saveAppSetting(ipAddress, portNumber, ssl)
-                    dismiss()
+
+                    val dialog = AlertDialog.Builder(context).setMessage("By changing URL you will delete all saved data?")
+                        .setTitle("Are you sure?").setNegativeButton("No") {dialog, which ->dismiss()}
+                        .setPositiveButton("Yes") { dialog, which ->
+
+                            val userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+                            userViewModel.deleteAllUsers()
+                            DataAccess.getInstance().clearAllOfflineData(context)
+                            saveAppSetting(ipAddress, portNumber, ssl)
+                            dismiss()
+                        }
+                    dialog.show()
+
+
+
+
                 } else {
                     ToastyWidget.getInstance().displayError(context, "Invalid ip address or port", Toast.LENGTH_SHORT)
                 }
