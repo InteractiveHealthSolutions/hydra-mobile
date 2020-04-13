@@ -208,7 +208,7 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
 
         for (int i = 0; i < rgAnswer.getChildCount(); i++) {
 
-            rgAnswer.getChildAt(i).setClickable(enabled);
+            rgAnswer.getChildAt(i).setEnabled(enabled);
         }
     }
 
