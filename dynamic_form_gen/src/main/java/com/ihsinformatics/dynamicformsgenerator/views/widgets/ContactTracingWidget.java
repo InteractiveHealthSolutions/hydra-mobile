@@ -13,17 +13,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.common.Constants;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetailsSendable;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
@@ -32,12 +36,16 @@ import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -121,7 +129,7 @@ public class ContactTracingWidget extends InputWidget {
                         optionsLayout.setVisibility(View.VISIBLE);
                         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                         firstTime = false;
-                        if(contactsText.size()==1){
+                        if (contactsText.size() == 1) {
                             next.setVisibility(View.INVISIBLE);
                         }
                     } else {
@@ -279,7 +287,7 @@ public class ContactTracingWidget extends InputWidget {
             //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
             params.put(ParamNames.PAYLOAD_TYPE, "CONTACT_TRACING");
 
-            if(question.getAttribute())
+            if (question.getAttribute())
                 params.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
             else
                 params.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
@@ -291,6 +299,7 @@ public class ContactTracingWidget extends InputWidget {
             JSONArray arr = new JSONArray();
 
             for (int val = 0; val < currentData.size(); val++) {
+
 
                 JSONObject temp = new JSONObject();
                 temp.put("age", currentData.get(val).getContactAge());
@@ -305,6 +314,8 @@ public class ContactTracingWidget extends InputWidget {
                 temp.put("relation", currentData.get(val).getRelation());
 
                 arr.put(temp);
+
+                initOfflinePatient(currentData.get(val));
 
             }
             params.put("numberOfPeople", currentData.size());
@@ -511,7 +522,7 @@ public class ContactTracingWidget extends InputWidget {
                 editText.setError("Invalid field");
                 return false;
             }
-        } else if (id == R.id.etPatientName && (configuration.getFirstName().isMandatory()  || configuration.isCreatePatient())) {
+        } else if (id == R.id.etPatientName && (configuration.getFirstName().isMandatory() || configuration.isCreatePatient())) {
 
             EditText editText = (EditText) view;
             String patName = editText.getText().toString();
@@ -602,5 +613,53 @@ public class ContactTracingWidget extends InputWidget {
         }
         questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
 
+    }
+
+    private void initOfflinePatient(ContactDetailsSendable contactDetails) throws JSONException {
+        OfflinePatient offlinePatient = new OfflinePatient();
+        OfflinePatient exisitingOfflinePatient = DataAccess.getInstance().getPatientByMRNumber(context, contactDetails.getContactID());
+        if (exisitingOfflinePatient == null) {
+            offlinePatient.setMrNumber(contactDetails.getContactID());
+            offlinePatient.setName(contactDetails.getContactFirstName() + " " + contactDetails.getContactFamilyName());
+            offlinePatient.setGender(contactDetails.getGender());
+            try {
+
+                Date date = Global.DATE_TIME_FORMAT.parse(contactDetails.getDob());
+                String value = Global.OPENMRS_DATE_FORMAT.format(date);
+                offlinePatient.setDob(Global.OPENMRS_DATE_FORMAT.parse(value).getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            String fieldJsonString = new JSONObject().toString();
+            JSONObject existingFieldsJson = new JSONObject(fieldJsonString);
+
+            for (String i : ParamNames.SUMMARY_VARIBALES) {
+                existingFieldsJson.put(i, "");
+            }
+
+            for (String i : ParamNames.SUMMARY_VARIABLES_OBJECTS) {
+                existingFieldsJson.put(i, new JSONObject());
+            }
+
+            for (String i : ParamNames.SUMMARY_VARIABLES_ARRAYS) {
+                existingFieldsJson.put(i, new JSONArray());
+            }
+
+
+            offlinePatient.setFieldDataJson(existingFieldsJson.toString());
+
+            JSONObject encounterCount = new JSONObject();
+
+            //Initialization of all filled encounters count via this device as 0
+            Collection<String> encounters = Constants.getEncounterTypes().values();
+            for (String i : encounters) {
+                encounterCount.put(i, 0);
+            }
+            offlinePatient.setEncounterJson(encounterCount.toString());
+
+
+            DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
+        }
     }
 }
