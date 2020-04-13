@@ -267,11 +267,14 @@ public class Form extends BaseActivity {
             if(inputType == null){
                 inputType="text";
             }
+
+            JSONArray optionsList=null;
+
             if (concept != null) {
                 conceptUUID = concept.optString("uuid");
 
 
-                JSONArray optionsList = field.optJSONArray("answers");
+                optionsList = field.optJSONArray("answers");
 
                 for (int j = 0; j < optionsList.length(); j++) {
                     JSONObject option = optionsList.optJSONObject(j);
@@ -324,7 +327,13 @@ public class Form extends BaseActivity {
                         new AddressConfiguration.AddressTag(1, "Country"),
                         new AddressConfiguration.AddressTag(2, "Province/State"),
                         new AddressConfiguration.AddressTag(3, "City/Village"));
-            } else if (widgetType.equals("Date/ Time Picker")) {
+            }else if(widgetType.equals("Single Select Dropdown") && optionsList!=null && optionsList.length()<1){
+
+                initialVisibility = "GONE";
+
+            }
+
+            else if (widgetType.equals("Date/ Time Picker")) {
 
                 startDate = today;
                 endDate = today;
