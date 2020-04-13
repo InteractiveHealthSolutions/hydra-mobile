@@ -127,6 +127,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
+        param.put(ParamNames.CHARACTER, question.getNewConfig());
         if(question.getAttribute())
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
         else

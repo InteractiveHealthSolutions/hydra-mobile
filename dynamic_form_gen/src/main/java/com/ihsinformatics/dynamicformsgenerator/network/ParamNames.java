@@ -1038,7 +1038,7 @@ public class ParamNames {
     public static final String PERSON_ATTRIBUTE = "person_attribute";
     public static final boolean PERSON_ATTRIBUTE_TRUE = true;
     public static final boolean PERSON_ATTRIBUTE_FALSE = false;
-
+    public static final String CHARACTER = "characters";
 
 
     // TB Disease Confirmation Form

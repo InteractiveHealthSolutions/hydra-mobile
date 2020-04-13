@@ -70,10 +70,15 @@ public class DynamicOptions {
 
     public static List<Option> getLocationOptionsFromDataAccessWithCountryName(Context context, int questionId, int[] opens, int[] hides) {
         List<Option> procedureOptions=new ArrayList<>();
-        List<Location> procedureList = DataAccess.getInstance().fetchLocationsByTagCountryAndParent(context,"Form Location", Global.currentCountry,null);
-        for(Location procedure : procedureList) {
-            procedureOptions.add(new Option(questionId, 300, opens, hides, procedure.getUuid(), procedure.getName(), -1));
+        try {
+            List<Location> procedureList = DataAccess.getInstance().fetchLocationsByTagCountryAndParent(context,"Form Location", Global.currentCountry,null);
+            for(Location procedure : procedureList) {
+                procedureOptions.add(new Option(questionId, 300, opens, hides, procedure.getUuid(), procedure.getName(), -1));
+            }
+        }catch (IllegalStateException e){
+            return null;
         }
+
 
         return procedureOptions;
     }

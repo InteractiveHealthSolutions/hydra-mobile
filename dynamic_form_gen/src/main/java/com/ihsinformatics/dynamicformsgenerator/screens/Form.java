@@ -194,8 +194,11 @@ public class Form extends BaseActivity {
         this.questions.add(new Question(true, idOfForm, 10002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", ParamNames.DATE_ENTERED_PARAM, dateMaxTodayMinLastYear, Question.PAYLOAD_TYPE.DATE_ENTERED));
 
 
-        this.questions.add(new Question(true, idOfForm, 10000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null, Question.PAYLOAD_TYPE.LOCATION));
-        this.options.addAll(DynamicOptions.getLocationOptionsFromDataAccessWithCountryName(this, 10000, null, null));
+        List<Option>locationOptions= DynamicOptions.getLocationOptionsFromDataAccessWithCountryName(this, 10000, null, null);
+        if(locationOptions!=null && locationOptions.size()>0) {
+            this.questions.add(new Question(true, idOfForm, 10000, "", InputWidget.InputWidgetsType.WIDGET_TYPE_SPINNER, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Location", "location", null, Question.PAYLOAD_TYPE.LOCATION));
+            this.options.addAll(locationOptions);
+        }
 
         this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
@@ -239,9 +242,9 @@ public class Form extends BaseActivity {
 
             String defaultValue = formFields.optString("defaultValue");
             String regix = formFields.optString("regix");  // Need to check this field Onc done
-            String characters = formFields.optString("characters");
+            String charactersNewConfig = formFields.optString("characters");
 
-            characters = "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,";  //hardcoded
+            String characters = "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,";  //hardcoded
 
             JSONObject field = formFields.optJSONObject("field");
 
@@ -332,7 +335,6 @@ public class Form extends BaseActivity {
                 initialVisibility = "GONE";
 
             }
-
             else if (widgetType.equals("Date/ Time Picker")) {
 
                 startDate = today;
@@ -438,10 +440,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
             this.questions.add(completeQuestion);

@@ -61,6 +61,7 @@ public class Question extends Displayable implements Cloneable {
     private String tag;
     private String errorMessage="Invalid input";
     private int displayOrder=0;
+    private String newConfig;
 
     private Boolean disabled=false;
 
@@ -133,7 +134,7 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder,String newConfig ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
@@ -141,6 +142,8 @@ public class Question extends Displayable implements Cloneable {
 
         this.disabled=disable;
         this.displayOrder=displayOrder;
+
+        this.newConfig=newConfig;
 
         setQuestionType(questionType);
         setInitialVisibility(initialVisibility);
@@ -551,4 +554,12 @@ public class Question extends Displayable implements Cloneable {
         return disabled;
     }
 
+
+    public String getNewConfig() {
+        return newConfig;
+    }
+
+    public void setNewConfig(String newConfig) {
+        this.newConfig = newConfig;
+    }
 }
