@@ -330,7 +330,8 @@ public class Form extends BaseActivity {
                         new AddressConfiguration.AddressTag(1, "Country"),
                         new AddressConfiguration.AddressTag(2, "Province/State"),
                         new AddressConfiguration.AddressTag(3, "City/Village"));
-            }else if(widgetType.equals("Single Select Dropdown") && optionsList!=null && optionsList.length()<1){
+            }//If spinner widget is not having any option then hide it
+            else if(widgetType.equals("Single Select Dropdown") && optionsList!=null && optionsList.length()<1){
 
                 initialVisibility = "GONE";
 
