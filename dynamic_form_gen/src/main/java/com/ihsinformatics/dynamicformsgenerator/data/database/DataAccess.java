@@ -601,6 +601,9 @@ public class DataAccess {
         OfflinePatientDao offlinePatientDao = App.getDaoSession(context).getOfflinePatientDao();
         offlinePatientDao.deleteAll();
 
+        SaveableFormDao offlineFormsDao =  App.getDaoSession(context).getSaveableFormDao();
+        offlineFormsDao.deleteAll();
+
     }
 
 
