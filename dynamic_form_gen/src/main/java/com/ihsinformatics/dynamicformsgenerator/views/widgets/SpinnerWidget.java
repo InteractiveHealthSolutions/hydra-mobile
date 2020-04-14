@@ -55,8 +55,10 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
 
     @Override
     public void setOptionsOrHint(Option... data) {
+
+        dataList = new ArrayList<>();
+        dataList.add("<Select an option>");
         if (data.length > 0) {
-            dataList = new ArrayList<>();
             mOptions = new HashMap<>();
             for (int i = 0; i < data.length; i++) {
                 Option option = data[i];
@@ -289,7 +291,10 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
         answer = Translator.getInstance().Translate(answer, language);
         int i = dataList.indexOf(answer);
-        if (i == -1) {
+        if(i==-1 && answer.equals("-")){
+            spAnswer.setSelection(dataList.indexOf("<Select an option>"));
+        }
+        else if (i == -1) {
             addOption(new Option(question.getQuestionId(), -1, null, null, uuid, answer, -1));
             spAnswer.setSelection(dataList.indexOf(answer));
             return;
@@ -314,11 +319,15 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
 
     @Override
     public String getValue() {
+
+        if(spAnswer.getSelectedItem().toString().equals("<Select an option>"))
+            return null;
         return spAnswer.getSelectedItem().toString();
     }
 
     @Override
     public String getServiceHistoryValue() {
+
         return getValue();
     }
 }
