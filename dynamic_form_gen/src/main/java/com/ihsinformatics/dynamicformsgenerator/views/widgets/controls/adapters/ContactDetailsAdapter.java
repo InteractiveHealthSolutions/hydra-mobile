@@ -229,7 +229,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             ageWidget = itemView.findViewById(R.id.linearAgeWidgetLayout);
             ageWidget.setOnClickListener(clickListener);
-
+            etAgeYears.setOnClickListener(clickListener);
+            etAgeMonths.setOnClickListener(clickListener);
+            etAgeDays.setOnClickListener(clickListener);
             etDOB.setOnClickListener(clickListener);
 
 
