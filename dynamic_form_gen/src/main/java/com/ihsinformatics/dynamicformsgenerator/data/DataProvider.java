@@ -241,7 +241,7 @@ public class DataProvider {
         this.options.add(new Option(6003, 604, null, null, "", male, -1));
         this.options.add(new Option(6003, 605, null, null, "", female, -1));
         //   this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Umar (Age in years)", "age", numeric3DigitMin1));
-        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, dateOfBirth, ParamNames.DOB, dob, Question.PAYLOAD_TYPE.DOB));
+        this.questions.add(new Question(true, patientCreationId, 6004, "", InputWidget.InputWidgetsType.WIDGET_TYPE_CALENDAR_AGE, View.VISIBLE, Validation.CHECK_FOR_DATE, dateOfBirth, ParamNames.DOB, dob,Question.PAYLOAD_TYPE.DOB));
         //  this.questions.add(new Question(true, patientCreationId, 6005, "", InputWidget.InputWidgetsType.WIDGET_TYPE_EDITTEXT, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Ghar ka patta - Ghar/Street #", "address1", alpha150DigitSpace));
 
         List<Option> locationOptions = DynamicOptions.getLocationOptionsFromDataAccessWithCountryName(context, 6006, null, null);
