@@ -94,11 +94,11 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
             } else {
                 Option ans = mOptions.get(spAnswer.getSelectedItem().toString());
                 if (Objects.equals(ans.getUuid(), "") || ans.getUuid() == null) {
-                    param.put(ParamNames.PARAM_NAME,question.getParamName());
+                    param.put(ParamNames.PARAM_NAME, question.getParamName());
                     param.put(ParamNames.VALUE, ans.getText());
                 } else {
-                    param.put(ParamNames.PARAM_NAME,question.getParamName());
-                    param.put(ParamNames.VALUE,  ans.getUuid());
+                    param.put(ParamNames.PARAM_NAME, question.getParamName());
+                    param.put(ParamNames.VALUE, ans.getUuid());
                 }
             }
         } else {
@@ -107,7 +107,8 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
 
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
-        if(question.getAttribute())
+       // param.put(ParamNames.CHARACTER, question.getNewConfig());
+        if (question.getAttribute())
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
         else
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
@@ -119,7 +120,7 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // inform the user class about value change
-        if(onValueChangeListener != null) {
+        if (onValueChangeListener != null) {
             try {
                 onValueChangeListener.onValueChanged(spAnswer.getSelectedItem().toString());
             } catch (JSONException e) {
@@ -183,7 +184,8 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
                 System.out.println("");
             }
             if (spAnswer != null) {
-                if(options.size() < 1) throw new Exception("Options not provided for question number "+questionId+" , widget type: "+ SpinnerWidget.class.getName());
+                if (options.size() < 1)
+                    throw new Exception("Options not provided for question number " + questionId + " , widget type: " + SpinnerWidget.class.getName());
                 // int[] showables = findAlldependantShowAbles();
                 if (visibility == View.VISIBLE) {
                     int[] showables = options.get(spAnswer.getSelectedItemPosition()).getOpensQuestions();
@@ -290,10 +292,9 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
         answer = Translator.getInstance().Translate(answer, language);
         int i = dataList.indexOf(answer);
-        if(i==-1 && answer.equals("-")){
+        if (i == -1 && (answer.equals("-") || answer.equals("<Select an option>"))) {
             spAnswer.setSelection(dataList.indexOf("<Select an option>"));
-        }
-        else if (i == -1) {
+        } else if (i == -1) {
             addOption(new Option(question.getQuestionId(), -1, null, null, uuid, answer, -1));
             spAnswer.setSelection(dataList.indexOf(answer));
             return;
@@ -319,14 +320,16 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     @Override
     public String getValue() {
 
-        if(spAnswer.getSelectedItem().toString().equals("<Select an option>"))
-            return null;
         return spAnswer.getSelectedItem().toString();
     }
 
     @Override
     public String getServiceHistoryValue() {
 
-        return getValue();
+        String toSend=getValue();
+        if (toSend == null || toSend.equals("<Select an option>"))
+            return "-";
+        else
+            return getValue();
     }
 }

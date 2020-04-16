@@ -173,6 +173,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         data.put(i.getAnswer());
 
                         JSONObject formJSONObj = new JSONObject();
+                        //ToDO This part needs to be inside getServiceHistoryValue for each widget
                         if (i.getValue() == null || (i.getValue().length() == 0)) {
 
                             formJSONObj.put(ParamNames.WIDGET_TYPE, i.getInputWidgetsType().toString());
