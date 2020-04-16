@@ -1,11 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,15 +10,12 @@ import android.widget.LinearLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
-import com.ihsinformatics.dynamicformsgenerator.data.core.options.DateOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
-import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 
 import org.joda.time.LocalDate;
@@ -37,37 +30,29 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class CalenderAgeWidget extends InputWidget {
+public class CalenderDateWidget extends InputWidget {
     private EditText etAnswer;
-    private EditText etAgeYears;
-    private EditText etAgeMonths;
-    private EditText etAgeDays;
     private DatePickerDialog picker;
     private Calendar calendar;
-    private View.OnClickListener clickListener;
-    private LinearLayout ageWidget;
+    private OnClickListener clickListener;
 //    private DateOption dateOption;
 //    private Period period;
-//    private QuestionConfiguration configuration;
+    private QuestionConfiguration configuration;
     private String dateString;
     //days and month should not be more than three
     // 110 pe erorr jy zero hony pr b
     //111 pe b disable
 
 
-    public CalenderAgeWidget(final Context context, Question question, int layoutId) {
+    public CalenderDateWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
-        if (super.configuration instanceof QuestionConfiguration)
+        if(super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         etAnswer = findViewById(R.id.etAnswer);
-        etAgeYears = findViewById(R.id.etAgeYears);
-        etAgeMonths = findViewById(R.id.etAgeMonths);
-        etAgeDays = findViewById(R.id.etAgeDays);
-        ageWidget = findViewById(R.id.linearAgeWidgetLayout);
         options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
         calendar = Calendar.getInstance();
 
-        clickListener = new View.OnClickListener() {
+        clickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -85,61 +70,28 @@ public class CalenderAgeWidget extends InputWidget {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                                 String dateString = dateFormat.format(calendar.getTime());
                                 etAnswer.setText(dateString);
-                                Period p = null;
-                                try {
-                                    p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(dateString)), new LocalDate(), PeriodType.yearMonthDayTime());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if(null!=p) {
-                                    etAgeYears.setText(p.getYears() + "");
-                                    etAgeMonths.setText(p.getMonths() + "");
-                                    etAgeDays.setText(p.getDays() + "");
-                                }else
-                                {
-                                    etAgeYears.setText(year + " ");
-                                    etAgeMonths.setText(monthOfYear + " ");
-                                    etAgeDays.setText(dayOfMonth + " ");
-                                }
-                                etAgeYears.setError(null);
-                                etAgeMonths.setError(null);
-                                etAgeDays.setError(null);
-
 
                             }
                         }, yearToday, monthToday, dayToday);
-                picker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 
                 Date today = new Date();
                 Calendar c = Calendar.getInstance();
                 c.setTime(today);
-                c.add(Calendar.YEAR, -110);
-                long minDate = c.getTime().getTime();
-                picker.getDatePicker().setMinDate(minDate);   // now min date is set to 110years ago max
+                picker.getDatePicker().setMaxDate(configuration.getMaxDate().getTime());
+                picker.getDatePicker().setMinDate(configuration.getMinDate().getTime());
                 picker.show();
             }
         };
 
         etAnswer.setFocusable(false);
         etAnswer.setOnClickListener(clickListener);
-        ageWidget.setOnClickListener(clickListener);
-        etAgeYears.setOnClickListener(clickListener);
-        etAgeMonths.setOnClickListener(clickListener);
-        etAgeDays.setOnClickListener(clickListener);
+
 
     }
 
     @Override
     public boolean isValidInput(boolean isMendatory) {
         Validation validation = Validation.getInstance();
-
-        int ageYears = Integer.parseInt(etAgeYears.getText().toString());
-        int ageMonths = Integer.parseInt(etAgeMonths.getText().toString());
-        int ageDays = Integer.parseInt(etAgeDays.getText().toString());
-
-        if (ageYears > 110 || ageMonths > 11 || ageDays > 30)
-            return false;
 
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
     }
@@ -159,10 +111,9 @@ public class CalenderAgeWidget extends InputWidget {
                 dateString=etAnswer.getText().toString();
                 Date date = Global.DATE_TIME_FORMAT.parse(dateString);
                 value = Global.OPENMRS_DATE_FORMAT.format(date);
-                param.put(ParamNames.PARAM_NAME, "age");
+                param.put(ParamNames.PARAM_NAME, question.getParamName());
                 param.put(ParamNames.VALUE, value);
                 param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
-
                 //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
                 if(question.getAttribute())
                     param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
@@ -209,4 +160,5 @@ public class CalenderAgeWidget extends InputWidget {
         etAnswer.setEnabled(enabled);
         super.setEnabled(enabled);
     }
+
 }
