@@ -320,14 +320,16 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     @Override
     public String getValue() {
 
-        if(spAnswer.getSelectedItem().toString().equals("<Select an option>"))
-            return null;
         return spAnswer.getSelectedItem().toString();
     }
 
     @Override
     public String getServiceHistoryValue() {
 
-        return getValue();
+        String toSend=getValue();
+        if (toSend == null || toSend.equals("<Select an option>"))
+            return "-";
+        else
+            return getValue();
     }
 }
