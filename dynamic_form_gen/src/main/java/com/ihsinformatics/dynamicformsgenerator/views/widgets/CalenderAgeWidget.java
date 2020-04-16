@@ -67,6 +67,9 @@ public class CalenderAgeWidget extends InputWidget {
         options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
         calendar = Calendar.getInstance();
 
+        initAgeFields(); //Need to call this inorder to set years, months and days of age to zero else isValidInput will give number format exception
+                        //while parsing "" to int...
+
         clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,5 +211,11 @@ public class CalenderAgeWidget extends InputWidget {
     public void setEnabled(boolean enabled) {
         etAnswer.setEnabled(enabled);
         super.setEnabled(enabled);
+    }
+
+    private void initAgeFields(){
+        etAgeDays.setText("0");
+        etAgeMonths.setText("0");
+        etAgeYears.setText("0");
     }
 }
