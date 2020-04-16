@@ -200,9 +200,6 @@ public class Form extends BaseActivity {
         this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
 
-        // this.questions.add(new Question(true, idOfForm, 10003, "", InputWidget.InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Contacts Of Patient", ParamNames.CONTACT_REGISTRY, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
-
-
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
         for (int i = 0; i < formFieldsList.length(); i++) {
             JSONObject formFields = formFieldsList.optJSONObject(i);

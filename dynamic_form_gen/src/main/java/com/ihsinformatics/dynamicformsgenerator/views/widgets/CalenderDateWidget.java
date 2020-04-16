@@ -10,10 +10,12 @@ import android.widget.LinearLayout;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
+import com.ihsinformatics.dynamicformsgenerator.data.core.options.DateOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
+import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
@@ -35,21 +37,38 @@ public class CalenderDateWidget extends InputWidget {
     private DatePickerDialog picker;
     private Calendar calendar;
     private OnClickListener clickListener;
-//    private DateOption dateOption;
-//    private Period period;
+
     private QuestionConfiguration configuration;
     private String dateString;
+    DateOption dateOption;
+    private boolean isSetAnswerFromOnCreate = false;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     //days and month should not be more than three
     // 110 pe erorr jy zero hony pr b
     //111 pe b disable
 
 
-    public CalenderDateWidget(final Context context, Question question, int layoutId) {
+    public CalenderDateWidget(final Context context, Question question, int layoutId){
         super(context, question, layoutId);
         if(super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
         etAnswer = findViewById(R.id.etAnswer);
         options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
+
+        if (options.size() > 0) {
+            setOptionsOrHint(options.get(0));
+            if (options.get(0) instanceof DateOption) {
+                dateOption = (DateOption) options.get(0);
+            }
+        }
+
+
+
+        etAnswer.setFocusable(false);
+        setCurrentDate();
+
         calendar = Calendar.getInstance();
 
         clickListener = new OnClickListener() {
@@ -67,7 +86,6 @@ public class CalenderDateWidget extends InputWidget {
 
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(year, monthOfYear, dayOfMonth);
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                                 String dateString = dateFormat.format(calendar.getTime());
                                 etAnswer.setText(dateString);
 
@@ -83,9 +101,13 @@ public class CalenderDateWidget extends InputWidget {
             }
         };
 
-        etAnswer.setFocusable(false);
         etAnswer.setOnClickListener(clickListener);
-
+        isSetAnswerFromOnCreate = true;
+//        if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
+//            setAnswer(Global.TIME_FORMAT.format(new Date()), null, null);
+//        } else {
+//            setAnswer(Global.DATE_TIME_FORMAT.format(new Date()), null, null);
+//        }
 
     }
 
@@ -98,7 +120,9 @@ public class CalenderDateWidget extends InputWidget {
 
     @Override
     public void setOptionsOrHint(Option... data) {
-
+        if (data.length > 0) {
+            etAnswer.setHint(data[0].getText());
+        }
     }
 
     @Override
@@ -130,8 +154,35 @@ public class CalenderDateWidget extends InputWidget {
     }
 
     @Override
-    public void setAnswer(String answer, String uuid, LANGUAGE language) {
+    public void setAnswer(String answer, String uuid, LANGUAGE language) throws JSONException {
+        if(onValueChangeListener!=null) {
+            onValueChangeListener.onValueChanged(answer);
+        }
+        etAnswer.setText(answer);
 
+        if(isSetAnswerFromOnCreate) {
+            isSetAnswerFromOnCreate = false;
+            // setVisibility(View.VISIBLE);
+        } else {
+            setVisibility(View.VISIBLE);
+        }
+
+        try {
+            if (dateOption != null) {
+                if (dateOption.getSkipDateRange().validate(Global.DATE_TIME_FORMAT.parse(answer))) {
+                    int[] showables = dateOption.getOpensQuestions();
+                    int[] hideables = dateOption.getHidesQuestions();
+                    ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);
+                } else {
+                    int[] showables = dateOption.getOpensQuestions();
+                    int[] hideables = dateOption.getHidesQuestions();
+                    ((BaseActivity) getContext()).onChildViewItemSelected(hideables, showables, question);
+                }
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -161,4 +212,9 @@ public class CalenderDateWidget extends InputWidget {
         super.setEnabled(enabled);
     }
 
+    private void setCurrentDate()
+    {
+        String dateString = dateFormat.format(Calendar.getInstance().getTime());
+        etAnswer.setText(dateString);
+    }
 }
