@@ -97,7 +97,7 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             param.put(ParamNames.PARAM_NAME,question.getParamName());
             param.put(ParamNames.VALUE,etAnswer.getText().toString());
         } else {
-            activity.addValidationError(getQuestionId(), "Invalid input, or check internet connectivity");   //No need to show custom error message on identifier  ~Taha
+            activity.addValidationError(getQuestionId(), context.getString(R.string.identifier_error));   //No need to show custom error message on identifier  ~Taha
         }
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE,Question.PAYLOAD_TYPE.IDENTIFIER);
