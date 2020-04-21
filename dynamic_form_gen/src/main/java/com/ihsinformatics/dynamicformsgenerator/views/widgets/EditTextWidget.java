@@ -190,7 +190,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
     public void onFocusGained() {
         etAnswer.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etAnswer.getWindowToken(), 0);
+        //imm.hideSoftInputFromWindow(etAnswer.getWindowToken(), 0);
         imm.showSoftInput(etAnswer, InputMethodManager.SHOW_IMPLICIT);
     }
 
@@ -205,6 +205,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 
     @Override
@@ -212,7 +213,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
         if (onValueChangeListener != null) {
             try {
                 onValueChangeListener.onValueChanged(s.toString());
-                onFocusGained();
+                onFocusGained();   // Dont remove - Need to gain focus because if we dont then due to skiplogic the cursor moves towards very first edittext in form  ~Taha
             } catch (JSONException e) {
                 e.printStackTrace();
             }
