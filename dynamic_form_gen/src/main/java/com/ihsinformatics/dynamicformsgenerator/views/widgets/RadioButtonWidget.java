@@ -62,6 +62,9 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
 
     @Override
     public void setOptionsOrHint(Option... data) {
+
+        String defaultOptionText="";
+
         if (data.length > 0) {
             mOptions = new HashMap<String, Option>();
             // mData = new ArrayList<String>(Arrays.asList(data));
@@ -89,7 +92,13 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
                 temp.setLayoutParams(layoutParams);
                 rgAnswer.addView(temp);
                 //temp.setChecked(true);
+
+                if(data[i].isDefault()){      //extracting default Answer
+                    defaultOptionText=data[i].getText();
+                }
             }
+            if(defaultOptionText!="")
+                setAnswer(defaultOptionText,"",LANGUAGE.URDU);  //setting default Answer
         }
 
     }

@@ -281,7 +281,10 @@ public class Form extends BaseActivity {
                     JSONObject optionConcept = option.optJSONObject("concept");
                     String optionUUID = optionConcept.optString("uuid");
                     String optionDisplay = optionConcept.optString("display");
-                    this.options.add(new Option(formID, j, null, null, optionUUID, optionDisplay, -1));
+                    Boolean optionDefault = optionConcept.optBoolean("default");
+                    if(optionDefault==null)
+                        optionDefault=false;
+                    this.options.add(new Option(formID, j, null, null, optionUUID, optionDisplay, -1,optionDefault));
                 }
 
                 /*JSONObject datatype = concept.optJSONObject("datatype");

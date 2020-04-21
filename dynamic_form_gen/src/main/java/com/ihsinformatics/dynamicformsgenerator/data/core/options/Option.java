@@ -14,10 +14,11 @@ public class Option implements Cloneable {
 	protected String uuid;
 	protected String text;
 	protected int score;
+	protected boolean isDefault=false;
 
 
 	public Option(int questionId, int optionId, int[] opensQuestions, int[] hidesQuestions,
-			String uuid, String text, int score) {
+				  String uuid, String text, int score,Boolean isDefault) {
 		super();
 		this.questionId = questionId;
 		this.optionId = optionId;
@@ -26,6 +27,13 @@ public class Option implements Cloneable {
 		this.uuid = uuid;
 		this.text = text;
 		this.score = score;
+		this.isDefault=isDefault;
+
+	}
+
+	public Option(int questionId, int optionId, int[] opensQuestions, int[] hidesQuestions,
+			String uuid, String text, int score) {
+		this(questionId, optionId, opensQuestions, hidesQuestions, uuid, text, score,false);
 
 	}
 
@@ -101,6 +109,14 @@ public class Option implements Cloneable {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
 	}
 
 	@Override

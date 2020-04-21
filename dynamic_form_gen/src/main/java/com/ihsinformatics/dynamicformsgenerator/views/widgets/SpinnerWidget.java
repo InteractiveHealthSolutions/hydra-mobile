@@ -57,7 +57,8 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
     public void setOptionsOrHint(Option... data) {
 
         dataList = new ArrayList<>();
-        dataList.add("<Select an option>");
+        String defaultOptionText="<Select an option>";
+        dataList.add(defaultOptionText);  // need to add "<Select an option>" as an option in option List
         if (data.length > 0) {
             mOptions = new HashMap<>();
             for (int i = 0; i < data.length; i++) {
@@ -71,9 +72,14 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
                     mOptions.put(optionText, option);
                     dataList.add(optionText);
                 }
+
+                if(option.isDefault()){    //extracting default Answer
+                    defaultOptionText=optionText;
+                }
             }
             mAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, dataList);
             spAnswer.setAdapter(mAdapter);
+            setAnswer(defaultOptionText,"",LANGUAGE.URDU);  //setting default Answer
         }
     }
 
@@ -332,4 +338,5 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
         else
             return getValue();
     }
+
 }
