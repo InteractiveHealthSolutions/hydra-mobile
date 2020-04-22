@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.Build;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +33,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher;
 import com.ihsinformatics.dynamicformsgenerator.R;
+import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
+import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
+import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 
 import org.joda.time.LocalDate;
@@ -94,7 +99,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         return contactDetails.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder {
+    public class ContactViewHolder extends RecyclerView.ViewHolder  {
 
         private TextView contactQuestionText;
         private TextView contactTvNumber;
@@ -131,8 +136,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private View.OnClickListener QRListener;
 
-        private InputFilter filter;
+        private boolean deadLock = false;
 
+        private Period period;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -149,6 +155,15 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
 
+            calendar = Calendar.getInstance();
+
+            Date periodToday =  calendar.getTime();
+            calendar.add(Calendar.YEAR, -110);
+            Date minDate = calendar.getTime();
+
+            period = new Period(new LocalDate(minDate), new LocalDate(periodToday));
+
+            calendar = Calendar.getInstance();
 
             if (!configuration.isCreatePatient()) {
                 contactID.setVisibility(View.GONE);
@@ -162,7 +177,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             spRelations = (Spinner) itemView.findViewById(R.id.spRelations);
 
 
-            calendar = Calendar.getInstance();
+
 
 
             etAgeYears = itemView.findViewById(R.id.etAgeYears);
@@ -199,14 +214,14 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                                     }
 
                                     if(null!=p) {
-                                        etAgeYears.setText(p.getYears() + " ");
-                                        etAgeMonths.setText(p.getMonths() + " ");
-                                        etAgeDays.setText(p.getDays() + " ");
+                                        etAgeYears.setText(p.getYears() + "");
+                                        etAgeMonths.setText(p.getMonths() + "");
+                                        etAgeDays.setText(p.getDays() + "");
                                     }else
                                     {
-                                        etAgeYears.setText(year + " ");
-                                        etAgeMonths.setText(monthOfYear + " ");
-                                        etAgeDays.setText(dayOfMonth + " ");
+                                        etAgeYears.setText(year + "");
+                                        etAgeMonths.setText(monthOfYear + "");
+                                        etAgeDays.setText(dayOfMonth + "");
                                     }
                                     etAgeYears.setError(null);
                                     etAgeMonths.setError(null);
@@ -227,12 +242,107 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                 }
             };
 
+            TextWatcher textWatcher = new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if (!callTextChanged) {
+                        callTextChanged = true;
+                        return;
+                    }
+                    if (!deadLock && !s.toString().equals("")) {
+
+                        try {
+
+                            if(etAgeYears.getText().toString().equals(""))
+                            {
+                                etAgeYears.setText("0");
+                            }
+
+                            if(etAgeDays.getText().toString().equals(""))
+                            {
+                                etAgeDays.setText("0");
+                            }
+
+                            if(etAgeMonths.getText().toString().equals(""))
+                            {
+                                etAgeMonths.setText("0");
+                            }
+
+                            int ageYears = Integer.parseInt(etAgeYears.getText().toString());
+                            int ageMonths = Integer.parseInt(etAgeMonths.getText().toString());
+                            int ageDays = Integer.parseInt(etAgeDays.getText().toString());
+
+                            if (ageYears > 110) {
+                                etAgeYears.setError("Years should be <= 110");
+                            } else {
+                                if (ageYears >= 110) {
+
+                                    setText(etAgeMonths, "0", false);
+                                    setText(etAgeDays, "0", false);
+
+                                } else {
+                                    etAgeMonths.setEnabled(true);
+                                    etAgeDays.setEnabled(true);
+
+
+                                }
+                            }
+                            if (ageMonths > 11) {
+                                etAgeMonths.setError("Months should be <= 11");
+                            }
+                            if (ageDays > 30) {
+                                etAgeDays.setError("Days should be <= 30");
+                            }
+
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.add(Calendar.YEAR, ageYears - (ageYears + ageYears));
+                            calendar.add(Calendar.MONTH, ageMonths - (ageMonths + ageMonths));
+                            calendar.add(Calendar.DAY_OF_MONTH, ageDays - (ageDays + ageDays));
+
+                            if (ageYears <= period.getYears()) {
+
+                                deadLock = true;
+                                setAnswer(Global.DATE_TIME_FORMAT.format(calendar.getTime()), null, null);
+                            } else {
+//                    Toasty.info(context, "Age should be between 0 to " + period.getYears(), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (NumberFormatException e) {
+                            //Toasty.error(context, "Invalid Age", Toast.LENGTH_LONG).show();
+                            Logger.log(e);
+                        }
+
+
+                    } else if (deadLock) {
+                        deadLock = false;
+            /*
+            etAgeYears.setText(s.toString());
+            etAgeMonths.setText(s.toString());
+            etAgeDays.setText(s.toString());*/
+                    }
+                }
+            };
+
             ageWidget = itemView.findViewById(R.id.linearAgeWidgetLayout);
             ageWidget.setOnClickListener(clickListener);
-            etAgeYears.setOnClickListener(clickListener);
-            etAgeMonths.setOnClickListener(clickListener);
-            etAgeDays.setOnClickListener(clickListener);
+
             etDOB.setOnClickListener(clickListener);
+
+            etAgeYears.addTextChangedListener(textWatcher);
+            etAgeMonths.addTextChangedListener(textWatcher);
+            etAgeDays.addTextChangedListener(textWatcher);
 
 
             QRListener = new View.OnClickListener() {
@@ -301,6 +411,45 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                     dialog.dismiss();
                 }
             });
+        }
+
+
+
+
+
+
+
+        private boolean callTextChanged = true;
+
+        private void setText(EditText tv, String text, boolean callTextChanged) {
+            this.callTextChanged = callTextChanged;
+            tv.setText(text);
+            tv.setEnabled(false);
+
+        }
+
+
+        public void setAnswer(String answer, String uuid, Translator.LANGUAGE language) {
+            try {
+                if (!deadLock) {
+                    deadLock = true;
+                    Period p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(answer)), new LocalDate(), PeriodType.yearMonthDayTime());
+                    int years = p.getYears();
+                    int months = p.getMonths();
+                    int days = p.getDays();
+                    etAgeYears.setText(years + "");
+                    etAgeMonths.setText(months + "");
+                    etAgeDays.setText(days + "");
+                } else {
+                    deadLock = false;
+                }
+
+                etDOB.setText(answer.substring(0, 10));
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
     }
