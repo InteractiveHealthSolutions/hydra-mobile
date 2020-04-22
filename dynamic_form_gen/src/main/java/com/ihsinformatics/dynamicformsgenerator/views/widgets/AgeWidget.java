@@ -1,11 +1,13 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,6 +51,11 @@ public class AgeWidget extends InputWidget implements TextWatcher {
     //days and month should not be more than three
     // 110 pe erorr jy zero hony pr b
     //111 pe b disable
+
+    private View.OnClickListener clickListener;
+    private DatePickerDialog picker;;
+    private Calendar calendar;
+
     public AgeWidget(final Context context, Question question, int layoutId) {
         super(context, question, layoutId);
         if (super.configuration instanceof QuestionConfiguration)
@@ -69,18 +77,76 @@ public class AgeWidget extends InputWidget implements TextWatcher {
         etAgeMonths.addTextChangedListener(this);
         etAgeDays.addTextChangedListener(this);
 
+        calendar = Calendar.getInstance();
+        clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                final int dayToday = cldr.get(Calendar.DAY_OF_MONTH);
+                final int monthToday = cldr.get(Calendar.MONTH);
+                final int yearToday = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String dateString = dateFormat.format(calendar.getTime());
+                                etAnswer.setText(dateString);
+                                Period p = null;
+                                try {
+                                    p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(dateString)), new LocalDate(), PeriodType.yearMonthDayTime());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if(null!=p) {
+                                    etAgeYears.setText(p.getYears() + "");
+                                    etAgeMonths.setText(p.getMonths() + "");
+                                    etAgeDays.setText(p.getDays() + "");
+                                }else
+                                {
+                                    etAgeYears.setText(year + " ");
+                                    etAgeMonths.setText(monthOfYear + " ");
+                                    etAgeDays.setText(dayOfMonth + " ");
+                                }
+                                etAgeYears.setError(null);
+                                etAgeMonths.setError(null);
+                                etAgeDays.setError(null);
+
+
+                            }
+                        }, yearToday, monthToday, dayToday);
+                picker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+                Date today = new Date();
+                Calendar c = Calendar.getInstance();
+                c.setTime(today);
+                c.add(Calendar.YEAR, -110);
+                long minDate = c.getTime().getTime();
+                picker.getDatePicker().setMinDate(minDate);   // now min date is set to 110years ago max
+                picker.show();
+            }
+        };
 
         etAnswer.setFocusable(false);
-        etAnswer.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                DateSelector.MAX_DATE = configuration.getMaxDate();
-                DateSelector.MIN_DATE = configuration.getMinDate();
-                Intent intent = new Intent(AgeWidget.this.context, DateSelector.class);
-                intent.putExtra(DateSelector.DATE_TYPE, configuration.getWidgetType().toString());
-                ((Activity) AgeWidget.this.context).startActivityForResult(intent, getQuestionId());
-            }
-        });
+        //Old layout for selecting date
+//        etAnswer.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                DateSelector.MAX_DATE = configuration.getMaxDate();
+//                DateSelector.MIN_DATE = configuration.getMinDate();
+//                Intent intent = new Intent(AgeWidget.this.context, DateSelector.class);
+//                intent.putExtra(DateSelector.DATE_TYPE, configuration.getWidgetType().toString());
+//                ((Activity) AgeWidget.this.context).startActivityForResult(intent, getQuestionId());
+//            }
+//        });
+
+        //New calendar date selector
+        etAnswer.setOnClickListener(clickListener);
         isSetAnswerFromOnCreate = true;
         if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
             setAnswer(Global.TIME_FORMAT.format(new Date()), null, null);

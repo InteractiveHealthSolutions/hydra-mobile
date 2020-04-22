@@ -297,7 +297,7 @@ public class Question extends Displayable implements Cloneable {
 
         switch (questionType) {
             case "Date/ Time Picker": {
-                this.questionType = InputWidgetsType.WIDGET_TYPE_CALENDAR_DATE;
+                this.questionType = InputWidgetsType.WIDGET_TYPE_DATE;
                 break;
             }
             case "Textbox": {

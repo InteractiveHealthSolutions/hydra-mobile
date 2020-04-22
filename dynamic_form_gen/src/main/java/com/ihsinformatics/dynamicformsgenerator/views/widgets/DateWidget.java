@@ -1,9 +1,11 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
@@ -23,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateWidget extends InputWidget {
@@ -32,7 +36,11 @@ public class DateWidget extends InputWidget {
     private boolean isSetAnswerFromOnCreate = false;
     private QuestionConfiguration configuration;
 
-    public DateWidget(Context context, Question question, int layoutId) throws JSONException {
+    private DatePickerDialog picker;
+    private OnClickListener clickListener;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    public DateWidget(final Context context, Question question, int layoutId) throws JSONException {
         super(context, question,layoutId);
         if(super.configuration instanceof QuestionConfiguration)
             configuration = (QuestionConfiguration) super.configuration;
@@ -46,10 +54,43 @@ public class DateWidget extends InputWidget {
             }
         }
 
-
         etAnswer.setFocusable(false);
 
-        etAnswer.setOnClickListener(new View.OnClickListener() {
+
+        setCurrentDate();
+        clickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                final int dayToday = cldr.get(Calendar.DAY_OF_MONTH);
+                final int monthToday = cldr.get(Calendar.MONTH);
+                final int yearToday = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String dateString = dateFormat.format(calendar.getTime());
+                                etAnswer.setText(dateString);
+
+                            }
+                        }, yearToday, monthToday, dayToday);
+
+                Date today = new Date();
+                Calendar c = Calendar.getInstance();
+                c.setTime(today);
+                picker.getDatePicker().setMaxDate(configuration.getMaxDate().getTime());
+                picker.getDatePicker().setMinDate(configuration.getMinDate().getTime());
+                picker.show();
+            }
+        };
+
+
+        //Old layout for selecting date
+/*        etAnswer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -60,7 +101,10 @@ public class DateWidget extends InputWidget {
                 ((Activity) DateWidget.this.context).startActivityForResult(intent, getQuestionId());
 
             }
-        });
+        });*/
+
+        //New calendar date selector
+        etAnswer.setOnClickListener(clickListener);
         isSetAnswerFromOnCreate = true;
         if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
             setAnswer(Global.TIME_FORMAT.format(new Date()), null, null);
@@ -169,5 +213,11 @@ public class DateWidget extends InputWidget {
     @Override
     public String getServiceHistoryValue() {
         return getValue();
+    }
+
+    private void setCurrentDate()
+    {
+        String dateString = dateFormat.format(Calendar.getInstance().getTime());
+        etAnswer.setText(dateString);
     }
 }
