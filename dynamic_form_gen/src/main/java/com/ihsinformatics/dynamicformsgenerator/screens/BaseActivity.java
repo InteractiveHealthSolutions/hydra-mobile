@@ -307,10 +307,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier,Form.getCOMPONENT_FORM_UUID());
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier,Form.getCOMPONENT_FORM_UUID());
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
@@ -621,7 +621,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             data.put(ParamNames.PATIENT, patientDataJson);
 
             JSONObject formDetails = new JSONObject();
-            FormDetails form = Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME()));
+            FormDetails form = Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME(),Form.getCOMPONENT_FORM_UUID()));
             formDetails.put(ParamNames.COMPONENT_FORM_ID, form.getComponentFormID());
             formDetails.put(ParamNames.COMPONENT_FORM_UUID, form.getComponentFormUUID());
 
@@ -855,41 +855,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
         } else {
             if (type.equals("TB_diagnosed")) {
-                if (inputText.equals("Yes") || inputText.equals("yes")) {
-                    //finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CHILD_TX_INITIATION);
-                    startForm(patientData, null);
 
-                } else {
-                    // finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                    startForm(patientData, null);
-
-                }
             } else if (type.equals("TB_diagnosed_adult")) {
-                if (inputText.equals("Yes") || inputText.equals("yes")) {
-                    // finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_ADULT_TX_INITIATION);
-                    startForm(patientData, null);
 
-                } else {
-                    //finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                    startForm(patientData, null);
-
-                }
             } else if (type.equals("ContactRegistry")) {
-                if (inputText.equals("Yes") || inputText.equals("yes")) {
-                    // finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CONTACT_REGISTRY);
-                    startForm(patientData, null);
 
-                } else {
-                    // finish();
-                    Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_EOF);
-                    startForm(patientData, null);
-
-                }
             }
         }
         finish();
@@ -1340,28 +1310,19 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-    public String getOptionUUIDByQuestionsID(List<Option> option, String selectedValue, int questionId) {
-
-        for (int i = 0; i < option.size(); i++) {
-            if (option.get(i).getText().equals(selectedValue) && option.get(i).getQuestionId() == questionId) {
-                return option.get(i).getUuid();
-            }
-        }
-        return "";
-    }
 
 
-    public int getFormId(String paramString) {
-        int index;
-        FormType formType;
-        Iterator<Integer> it = Constants.getEncounterTypes().keySet().iterator();
-        while (it.hasNext()) {
-            index = it.next();
-            if (Constants.getEncounterTypes().get(index).equals(paramString)) {
-                return index;
-            }
-        }
-        return -1;
+    public int getFormId(String encounterName, String componentFormUUID) {
+//        int index;
+//        FormType formType;
+//        Iterator<Integer> it = Constants.getEncounterTypes().keySet().iterator();
+//        while (it.hasNext()) {
+//            index = it.next();
+//            if (Constants.getEncounterTypes().get(index).equals(paramString)) {
+//                return index;
+//            }
+//        }
+        return Constants.getFormIDByComponentFormUUID(componentFormUUID);
     }
 
     private void setLocale() {

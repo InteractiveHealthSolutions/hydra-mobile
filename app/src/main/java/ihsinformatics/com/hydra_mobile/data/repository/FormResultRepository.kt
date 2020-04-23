@@ -136,9 +136,9 @@ class FormResultRepository(context: Context) {
 
                     FormRepository(context).insertForm(Forms(k, formName, workflowUUID, phaseUUID, componentUUID, formUUID, componentID,componentFormId,componentFormUUID, formName, componentName, phaseName, workflowName, questionsList.toString()))
 
-                    Constants.setEncounterType(formId, formName)
+                    Constants.setEncounterType(k, formName)
                     Constants.setEncounterTypeData(formName, questionsList.toString())
-                    Constants.setFormDetails(formId, FormDetails(componentFormId,componentFormUUID))
+                    Constants.setFormDetails(k, FormDetails(componentFormId,componentFormUUID))
 
 
                     //  componentFormJoinRepository.insert(ComponentFormJoin(k,workflowUUID,phaseUUID,componentUUID,formUUID,componentID, formId))

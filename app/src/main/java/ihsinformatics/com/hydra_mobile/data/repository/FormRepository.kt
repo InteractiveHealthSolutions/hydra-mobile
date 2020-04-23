@@ -51,29 +51,4 @@ class FormRepository(context: Context) {
     }
 
 
-    fun getRemoteFormData() {
-        RequestManager(context, sessionManager.getUsername(), sessionManager.getPassword()).getForms(Constant.REPRESENTATION, object : RESTCallback {
-            override fun <T> onSuccess(o: T) {
-
-                try {
-                    val response = (o as FormApiResponse)
-                    for (i in response.forms.indices) {
-                        //insert into local database
-                        insertForm(response.forms[i])
-                        Constants.setEncounterType(response.forms[i].id, response.forms[i].name)
-                        Constants.setEncounterTypeData(response.forms[i].name, response.forms[i].questions)
-                        Constants.setFormDetails(response.forms[i].id, FormDetails(response.forms[i].componentFormId,response.forms[i].componentFormUUID) )
-
-                    }
-                    Log.e("FormLoading", "completed")
-                } catch (e: Exception) {
-
-                }
-            }
-
-            override fun onFailure(t: Throwable) {
-
-            }
-        })
-    }
 }
