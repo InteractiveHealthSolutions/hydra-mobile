@@ -197,7 +197,6 @@
                     android:layout_weight="3"
                     android:digits="1234567890"
                     android:gravity="center"
-                    android:focusable="false"
                     android:hint="Years"
                     android:inputType="number"
                     android:maxLength="4" />
@@ -208,7 +207,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:focusable="false"
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Months"
@@ -221,7 +219,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:focusable="false"
                     android:digits="1234567890"
                     android:gravity="center"
                     android:hint="Days"
