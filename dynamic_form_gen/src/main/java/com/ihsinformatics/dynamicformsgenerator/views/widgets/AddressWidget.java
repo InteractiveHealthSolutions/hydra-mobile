@@ -177,10 +177,10 @@ public class AddressWidget extends InputWidget {
         return llItem;
     }
 
-    private class SpinnerAddressItem implements OnItemSelectedListener {
+    private class SpinnerAddressItem implements AdapterView.OnItemSelectedListener {
 
         TextView tvTag;
-        SearchableSpinner spValues;
+        com.toptoche.searchablespinnerlibrary.SearchableSpinner spValues;
         EditText etOther;
         TextView tvOtherMessage;
 
@@ -188,7 +188,7 @@ public class AddressWidget extends InputWidget {
 
         public SpinnerAddressItem(LinearLayout linearLayout, AddressConfiguration.AddressTag addressTag, String tag) {
             tvTag = (TextView) linearLayout.findViewById(R.id.tvQuestion);
-            spValues = (SearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
+            spValues = (com.toptoche.searchablespinnerlibrary.SearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
             etOther = (EditText) linearLayout.findViewById(R.id.etAnswer);
             tvOtherMessage = (TextView) linearLayout.findViewById(R.id.tvMessage);
 
@@ -199,7 +199,7 @@ public class AddressWidget extends InputWidget {
         }
 
         @Override
-        public void onItemSelected(View view, int position, long id) {
+        public void onItemSelected(AdapterView a, View view, int position, long id) {
             int selected = addressTags.indexOf(addressTag/*new AddressConfiguration.AddressTag(0, tvTag.getText().toString())*/);
             if (selected + 1 < spinnerAddressItems.size()) {
                 String selectedText = spValues.getSelectedItem().toString();
@@ -232,7 +232,7 @@ public class AddressWidget extends InputWidget {
 
 
         @Override
-        public void onNothingSelected() {
+        public void onNothingSelected(AdapterView a) {
 
         }
     }

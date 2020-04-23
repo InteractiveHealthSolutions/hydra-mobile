@@ -17,15 +17,16 @@
         android:layout_marginStart="5dp"
         android:text="@string/hello_world" />
 
-    <Spinner
-        android:id="@+id/spAnswer1"
-        android:visibility="gone"
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+
+        android:id="@+id/spAnswer"
         style="@style/question_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvMessage" />
     <gr.escsoft.michaelprimez.searchablespinner.SearchableSpinner
-        android:id="@+id/spAnswer"
+        android:visibility="gone"
+        android:id="@+id/spAnswer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
