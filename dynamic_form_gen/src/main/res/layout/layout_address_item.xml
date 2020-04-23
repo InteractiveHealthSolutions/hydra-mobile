@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llQuestion"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,11 +18,25 @@
         android:text="@string/hello_world" />
 
     <Spinner
-        android:id="@+id/spAnswer"
+        android:id="@+id/spAnswer1"
+        android:visibility="gone"
         style="@style/question_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvMessage" />
+    <gr.escsoft.michaelprimez.searchablespinner.SearchableSpinner
+        android:id="@+id/spAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/tvMessage"
+        app:StartSearchTintColor="@android:color/white"
+        app:DoneSearchTintColor="@android:color/white"
+        app:RevealViewBackgroundColor="@android:color/white"
+        app:SearchViewBackgroundColor="@android:color/secondary_text_dark"
+        app:ShowBorders="true"
+        app:RevealEmptyText="Touch to select"
+        app:SpinnerExpandHeight="300dp"/>
 
     <TextView
         android:id="@+id/tvMessage"

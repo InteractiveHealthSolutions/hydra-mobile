@@ -28,6 +28,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.escsoft.michaelprimez.searchablespinner.SearchableSpinner;
+import gr.escsoft.michaelprimez.searchablespinner.interfaces.OnItemSelectedListener;
+
 /**
  * Created by Naveed Iqbal on 6/13/2018.
  */
@@ -174,10 +177,10 @@ public class AddressWidget extends InputWidget {
         return llItem;
     }
 
-    private class SpinnerAddressItem implements AdapterView.OnItemSelectedListener {
+    private class SpinnerAddressItem implements OnItemSelectedListener {
 
         TextView tvTag;
-        Spinner spValues;
+        SearchableSpinner spValues;
         EditText etOther;
         TextView tvOtherMessage;
 
@@ -185,7 +188,7 @@ public class AddressWidget extends InputWidget {
 
         public SpinnerAddressItem(LinearLayout linearLayout, AddressConfiguration.AddressTag addressTag, String tag) {
             tvTag = (TextView) linearLayout.findViewById(R.id.tvQuestion);
-            spValues = (Spinner) linearLayout.findViewById(R.id.spAnswer);
+            spValues = (SearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
             etOther = (EditText) linearLayout.findViewById(R.id.etAnswer);
             tvOtherMessage = (TextView) linearLayout.findViewById(R.id.tvMessage);
 
@@ -196,14 +199,14 @@ public class AddressWidget extends InputWidget {
         }
 
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemSelected(View view, int position, long id) {
             int selected = addressTags.indexOf(addressTag/*new AddressConfiguration.AddressTag(0, tvTag.getText().toString())*/);
             if (selected + 1 < spinnerAddressItems.size()) {
-                String selectedText = spValues.getItemAtPosition(position).toString();
+                String selectedText = spValues.getSelectedItem().toString();
                 spinnerAddressItems.get(selected + 1).resetAdapter(selectedText, addressTag.getTagName());
             }
 
-            if (spValues.getItemAtPosition(position).toString().equals(context.getString(R.string.other))) {
+            if (spValues.getSelectedItem().toString().equals(context.getString(R.string.other))) {
                 etOther.setVisibility(VISIBLE);
             } else {
                 etOther.setVisibility(GONE);
@@ -229,7 +232,7 @@ public class AddressWidget extends InputWidget {
 
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
+        public void onNothingSelected() {
 
         }
     }
