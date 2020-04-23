@@ -61,6 +61,7 @@ import java.util.Locale;
 public class Form extends BaseActivity {
     public static final String PARAM_FORM_ID = "formId";
     private static String ENCOUNTER_NAME;
+    private static String COMPONENT_FORM_UUID;
     private java.util.Date projectStartDate;
     private Date date25YearsAgo, today, date25YearsAhead, lastMonday, startDate, endDate, oneYearAgo;
     private static Calendar cal;
@@ -159,7 +160,7 @@ public class Form extends BaseActivity {
                     w.setOnValueChangeListener(new OnValueChangeListener() {
                         @Override
                         public void onValueChanged(String newValue) throws JSONException {
-                            checkSkipLogics(getFormId(ENCOUNTER_NAME));
+                            checkSkipLogics(getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()));
                         }
                     });
                 }
@@ -178,8 +179,13 @@ public class Form extends BaseActivity {
         return ENCOUNTER_NAME;
     }
 
-    public static void setENCOUNTER_NAME(String eNCOUNTER_NAME) {
+    public static void setENCOUNTER_NAME(String eNCOUNTER_NAME,String componentFormUUID) {
         ENCOUNTER_NAME = eNCOUNTER_NAME;
+        COMPONENT_FORM_UUID =componentFormUUID;
+    }
+
+    public static String getCOMPONENT_FORM_UUID() {
+        return COMPONENT_FORM_UUID;
     }
 
 
@@ -187,7 +193,7 @@ public class Form extends BaseActivity {
 
         int configurationID = 2;   // configurationID=1 is for address widget
 
-        int idOfForm = getFormId(ENCOUNTER_NAME);
+        int idOfForm = getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID());
         QuestionConfiguration alphaNumeric150DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 150, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         QuestionConfiguration dateMaxTodayMinLastYear = new QuestionConfiguration(today, oneYearAgo, DateSelector.WIDGET_TYPE.DATE, 8);
 
@@ -203,7 +209,7 @@ public class Form extends BaseActivity {
         this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
 
-        JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(ENCOUNTER_NAME));
+        JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(getENCOUNTER_NAME()));
         for (int i = 0; i < formFieldsList.length(); i++) {
             JSONObject formFields = formFieldsList.optJSONObject(i);
 
@@ -442,10 +448,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(ENCOUNTER_NAME), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+                completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
             this.questions.add(completeQuestion);

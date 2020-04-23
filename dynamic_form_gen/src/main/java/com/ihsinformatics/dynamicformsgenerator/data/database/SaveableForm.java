@@ -24,6 +24,8 @@ public class SaveableForm {
 	public final static String COLUMN_FORM_SERVICE_HISTORY = "form_values";
 	public final static String COLUMN_FORM_PATIENT_IDENTITIER= "patient_identifier";
 
+	public final static String COMPONENT_FORM_UUID = "component_form_uuid";
+
 
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
@@ -46,8 +48,31 @@ public class SaveableForm {
 	@Property(nameInDb = COLUMN_FORM_PATIENT_IDENTITIER)
 	private String identifier;
 
+	@Property(nameInDb = COMPONENT_FORM_UUID)
+	private String componentFormUUID;
+
+
+	@Generated(hash = 447036194)
+	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
+			String encounterType, String formError, String formValues, String identifier,
+			String componentFormUUID) {
+		this.formTypeId = formTypeId;
+		this.formId = formId;
+		this.stringFormData = stringFormData;
+		this.encounterType = encounterType;
+		this.formError = formError;
+		this.formValues = formValues;
+		this.identifier = identifier;
+		this.componentFormUUID = componentFormUUID;
+	}
+
+
+	//yeh gap
+
+
+
 	public SaveableForm() {
-		
+
 	}
 
 
@@ -60,32 +85,11 @@ public class SaveableForm {
 	}
 
 
-
-	@Generated(hash = 106453358)
-	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
-			String encounterType, String formError, String formValues, String identifier) {
-		this.formTypeId = formTypeId;
-		this.formId = formId;
-		this.stringFormData = stringFormData;
-		this.encounterType = encounterType;
-		this.formError = formError;
-		this.formValues = formValues;
-		this.identifier = identifier;
-	}
-
-
-
-	
-
-
-
-	
-	
 	/*public SaveableForm(int formTypeId, int formId, String formData, String formError) {
 		super();
 		this.formTypeId = formTypeId;
 		this.formId = formId;
-		
+
 		try {
 			this.formData = new JSONArray(formData);
 		} catch (JSONException e) {
@@ -109,7 +113,7 @@ public class SaveableForm {
 	public void setFormId(Long formId) {
 		this.formId = formId;
 	}
-	
+
 	public String[] getExportableData() {
 		return new String[]{formTypeId+"", formId+"", stringFormData};
 	}
@@ -119,11 +123,11 @@ public class SaveableForm {
 	public void setFormError(String formError) {this.formError = formError;}
 
 	public String getStringFormData() {
-					return this.stringFormData;
+		return this.stringFormData;
 	}
 
 	public void setStringFormData(String stringFormData) {
-					this.stringFormData = stringFormData;
+		this.stringFormData = stringFormData;
 	}
 
 	public JSONObject getFormData() {
@@ -175,5 +179,13 @@ public class SaveableForm {
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	public String getComponentFormUUID() {
+		return componentFormUUID;
+	}
+
+	public void setComponentFormUUID(String componentFormUUID) {
+		this.componentFormUUID = componentFormUUID;
 	}
 }

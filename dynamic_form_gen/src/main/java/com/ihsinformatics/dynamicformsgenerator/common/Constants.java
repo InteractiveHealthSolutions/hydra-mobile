@@ -1,6 +1,10 @@
 package com.ihsinformatics.dynamicformsgenerator.common;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Constants {
 
@@ -27,15 +31,17 @@ public class Constants {
         return formDetails;
     }
 
-    public static void setFormDetails(Integer formId, FormDetails formName) {
-
-        formDetails.put(formId, formName);
-
-    }
 
     public static LinkedHashMap<String, String> getEncounterTypesData() {
 
         return encounterTypesData;
+    }
+
+
+    public static void setFormDetails(Integer formId, FormDetails formName) {
+
+        formDetails.put(formId, formName);
+
     }
 
 
@@ -56,6 +62,22 @@ public class Constants {
         if (encounterTypes!=null) encounterTypes.clear();
         if (encounterTypesData!=null) encounterTypesData.clear();
 
+    }
+
+    public static int getFormIDByComponentFormUUID(String componentFormUUID)
+    {
+
+        for (Map.Entry<Integer, FormDetails> entry : formDetails.entrySet()) {
+            Integer key = entry.getKey();
+            FormDetails value = entry.getValue();
+
+            if(value.getComponentFormUUID().equals(componentFormUUID))
+            {
+                return key.intValue();
+            }
+
+        }
+        return -1;
     }
 
 
