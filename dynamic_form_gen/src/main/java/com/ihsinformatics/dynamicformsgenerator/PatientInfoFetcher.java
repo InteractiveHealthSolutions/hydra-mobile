@@ -193,7 +193,7 @@ public class PatientInfoFetcher extends AppCompatActivity implements Sendable, C
             @Override
             public void onClick(View view) {
 
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT);
+               // Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT);
                //ToDo Add encounter_name_data here ~Taha
                 // Form.setENCOUNTER_NAME_DATA(Constant.formData);
                 try {

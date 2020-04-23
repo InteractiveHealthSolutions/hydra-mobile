@@ -155,7 +155,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         // int[] hideables = options.get(position).getHidesQuestions();
 
         ((BaseActivity) getContext()).onChildViewItemSelected(showables, hideables, question);
-        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME()));
+        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME(),Form.getCOMPONENT_FORM_UUID()));
 
     }
 
@@ -164,7 +164,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
         int[] showables = options.get(position).getOpensQuestions();
         int[] hideables = options.get(position).getHidesQuestions();
         ((BaseActivity) getContext()).onChildViewItemSelected(hideables, showables, question);
-        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME()));
+        ((BaseActivity) getContext()).checkSkipLogics(((BaseActivity) getContext()).getFormId(Form.getENCOUNTER_NAME(),Form.getCOMPONENT_FORM_UUID()));
     }
 
     @Override
