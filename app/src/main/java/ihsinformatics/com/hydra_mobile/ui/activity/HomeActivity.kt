@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.JsonObject
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
@@ -60,6 +61,7 @@ import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -444,6 +446,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
+    val failedIdsList = arrayListOf<String>()
     private fun sendData(formData: JSONObject?, formId: Long) {
 
         val dataSender = RequestManager(
@@ -459,42 +462,60 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         dataSender.submitForm(requestBody).enqueue(object : Callback<formSubmission> {
             override fun onFailure(call: Call<formSubmission>, t: Throwable) {
-
-                ToastyWidget.getInstance()
-                    .displayError(this@HomeActivity, "Error", Toast.LENGTH_SHORT)
+                val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
+                if(metaData.has("mrNumber")) {
+                    val failedIdentifier: String = metaData.getString("mrNumber")
+                    failedIdsList.add(failedIdentifier)
+                }
+                Send_Create_Patient_Count++
+                sendEncounters() 
+                ToastyWidget.getInstance().displayError(this@HomeActivity, "Error", Toast.LENGTH_SHORT)
             }
 
             override fun onResponse(
                 call: Call<formSubmission>, response: Response<formSubmission>
             ) {
                 if (response.isSuccessful) {
-                    ToastyWidget.getInstance()
-                        .displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
+                    ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance().deleteFormByFormID(this@HomeActivity, formId)
-                    Send_Create_Patient_Count++
-                    if (Create_Patient_Count == Send_Create_Patient_Count) {
-                        val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
-
-                        for (i in saveableForms) {
-                            if (isInternetConnected()) {
-                                sendData(i.formData, i.formId)
-                            } else {
-                                ToastyWidget.getInstance().displayError(
-                                    this@HomeActivity,
-                                    getString(R.string.internet_issue),
-                                    Toast.LENGTH_SHORT
-                                )
-                            }
-                        }
-                    }
                 } else {
-                    ToastyWidget.getInstance()
-                        .displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
+                    val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
+                    if(metaData.has("mrNumber")) {
+                        val failedIdentifier: String = metaData.getString("mrNumber")
+                        failedIdsList.add(failedIdentifier)
+                    }
 
+                    ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
+                }
+
+                Send_Create_Patient_Count++
+                sendEncounters()
+            }
+        })
+
+    }
+
+    private fun sendEncounters() {
+        if (Create_Patient_Count == Send_Create_Patient_Count) {
+            val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+
+            for (i in saveableForms) {
+                if (isInternetConnected()) {
+                    val metaData: JSONObject  = i.formData.getJSONObject("metadata")
+                    if(metaData.has("mrNumber")) // this means it is a patient creation form
+                        continue
+                    val identifier: String = metaData.getJSONObject("patient").getJSONArray("identifiers").getJSONObject(0).getString("value")
+                    if(!failedIdsList.contains(identifier))
+                        sendData(i.formData, i.formId)
+                } else {
+                    ToastyWidget.getInstance().displayError(
+                        this@HomeActivity,
+                        getString(R.string.internet_issue),
+                        Toast.LENGTH_SHORT
+                    )
                 }
             }
-
-        })
+        }
     }
 
     private fun initPhase() {

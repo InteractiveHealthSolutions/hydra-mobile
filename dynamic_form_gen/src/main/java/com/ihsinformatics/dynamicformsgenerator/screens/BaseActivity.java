@@ -212,6 +212,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 JSONObject metaDataField = new JSONObject();
                 putAuthenticationData(metaDataField);
                 putMetaData(metaDataField);
+                metaDataField.put("mrNumber", offlinePatient.getMrNumber());
                 savableData.put(ParamNames.METADATA, metaDataField);
                 // inserting record into the database
                 DataAccess dataAccess = DataAccess.getInstance();
