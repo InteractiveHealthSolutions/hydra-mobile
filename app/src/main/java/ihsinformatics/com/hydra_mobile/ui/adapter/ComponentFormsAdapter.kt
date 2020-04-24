@@ -51,6 +51,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
         }
 
         holder.tvTitle.text = formModel.encounterType
+        holder.componetFormUUIDtv.text = formModel.componentFormUUID
         clickedFormID = formModel.id
         clickedFormData=formModel.questions
         clickedComponentFormUUID=formModel.componentFormUUID
@@ -66,6 +67,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
     inner class SingleItemRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var tvTitle: TextView = itemView.findViewById(R.id.tv_form_name)
+        var componetFormUUIDtv = itemView.findViewById<TextView>(R.id.componentFormUUID)
         var imgForm: ImageView = itemView.findViewById(R.id.img_form_image)
 
         init {
@@ -73,6 +75,7 @@ internal class FormsListDataAdapter(private val itemModels: List<Forms>, context
                 Constant.formName = tvTitle.text.toString()
                 Constant.formID = clickedFormID
                 Constant.formData=clickedFormData
+                clickedComponentFormUUID=componetFormUUIDtv.text.toString()
                 if (DataProvider.directOpenableForms.contains(Constant.formName)) {
                     Form.setENCOUNTER_NAME(Constant.formName,clickedComponentFormUUID)
                     //Form.setENCOUNTER_NAME_DATA(Constant.formData)
