@@ -164,10 +164,12 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             period = new Period(new LocalDate(minDate), new LocalDate(periodToday));
 
             calendar = Calendar.getInstance();
+            QRCodeReader = itemView.findViewById(R.id.qrCodeReader);
 
             if (!configuration.isCreatePatient()) {
                 contactID.setVisibility(View.GONE);
                 etPatientID.setVisibility(View.GONE);
+                QRCodeReader.setVisibility(View.GONE);
                 etPatientID.setText("-");
             }
 
@@ -185,7 +187,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             etAgeDays = itemView.findViewById(R.id.etAgeDays);
             etDOB = itemView.findViewById(R.id.etPatientDOB);
 
-            QRCodeReader = itemView.findViewById(R.id.qrCodeReader);
+
 
 
             clickListener = new View.OnClickListener() {
