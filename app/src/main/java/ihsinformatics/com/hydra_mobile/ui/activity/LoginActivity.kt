@@ -158,8 +158,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                     override fun onFailure(t: Throwable) {
                         networkProgressDialog.dismiss()
-                        if (t.localizedMessage.toString().equals(getString(R.string.authentication_error))) ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                        else ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_or_server_error), Toast.LENGTH_SHORT)
+                        if (t.localizedMessage.toString().equals(getString(R.string.authentication_error)))
+                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                        else if(!t.localizedMessage.equals("Cannot find provider"))
+                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_or_server_error), Toast.LENGTH_SHORT)
                     }
 
                     override fun <T> onSuccess(o: T) {
