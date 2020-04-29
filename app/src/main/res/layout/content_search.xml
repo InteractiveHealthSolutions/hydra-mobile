@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +10,7 @@
     tools:showIn="@layout/activity_search">
 
     <RelativeLayout
+        android:id="@+id/qrLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_24dp"
@@ -101,29 +102,22 @@
             android:padding="8dp"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_patient_search"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/edt_search_by_number"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_rounded_shap"
-            android:text="@string/btn_login_search"
-            android:textColor="@color/White"
-            android:textSize="16sp" />
-
-
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_below="@id/qrLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
         android:layout_marginLeft="@dimen/dimen_5dp"
         android:layout_marginTop="@dimen/dimen_24dp"
         android:layout_marginRight="@dimen/dimen_5dp"
         app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
+            android:id="@+id/recyclerLayout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/white_rounded_background"
@@ -135,13 +129,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/nothingToShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/nothing_to_show"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/offline_search"
@@ -151,6 +139,26 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <TextView
+        android:id="@+id/nothingToShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nothing_to_show"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/btn_patient_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/button_rounded_shap"
+        android:text="@string/btn_login_search"
+        android:textColor="@color/White"
+        android:textSize="16sp" />
 
     <!--
         <fragment
@@ -163,4 +171,4 @@
                 android:layout_height="0dp"
                 tools:ignore="MissingConstraints"/>-->
 
-</LinearLayout>
+</RelativeLayout>

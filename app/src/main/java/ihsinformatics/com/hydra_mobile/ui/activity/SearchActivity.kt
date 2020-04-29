@@ -51,6 +51,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private lateinit var searchPatientResultRecyclerView: RecyclerView
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
     private lateinit var nothingToShow: TextView
+    private lateinit var recyclerLayout: LinearLayout
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var btnSearch: Button
 
@@ -104,6 +105,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         btnSearch = findViewById<Button>(R.id.btn_patient_search)
 
         nothingToShow = findViewById(R.id.nothingToShow)
+        recyclerLayout = findViewById(R.id.recyclerLayout)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -144,6 +146,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private fun setVisibilities() {
 
         nothingToShow.visibility = View.GONE
+        recyclerLayout.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
             searchPatientResultRecyclerView.visibility = View.VISIBLE
@@ -158,6 +161,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
+
+                recyclerLayout.visibility=View.GONE
             }
         }
 
