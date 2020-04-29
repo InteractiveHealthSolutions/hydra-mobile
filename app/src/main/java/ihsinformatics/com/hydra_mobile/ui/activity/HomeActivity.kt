@@ -1,6 +1,8 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -9,10 +11,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.animation.TranslateAnimation
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
@@ -24,8 +24,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.JsonObject
-import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
@@ -39,7 +37,6 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
@@ -52,7 +49,6 @@ import ihsinformatics.com.hydra_mobile.ui.adapter.DynamicFragmentAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.DisplaySettingsDialogFragment
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
-import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
@@ -61,7 +57,6 @@ import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -96,9 +91,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var tvPatientIdentifier: TextView? = null
     private var ivGender: ImageView? = null
 
+    private lateinit var covidInfo:LinearLayout
+    private lateinit var covidAlert:LinearLayout
+
     private var Create_Patient_Count: Int = 0
     private var Send_Create_Patient_Count: Int = 0
-
+    private var isUp = true;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +134,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tvAgeLabel = findViewById<TextView>(R.id.tvAgeLabel)
         tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
         ivGender = findViewById<ImageView>(R.id.ivGender)
+
+        covidAlert=findViewById(R.id.covidAlert)
+        covidInfo = findViewById(R.id.covidInfo)
+
+
+        covidAlert.setOnClickListener{
+            if (isUp) {
+                covidInfo.animate().translationY(-covidInfo.height.toFloat()).alpha(0f);
+                //slideDown(covidInfo)
+            } else {
+               // slideUp(covidInfo);
+                covidInfo.animate().translationY(0f).alpha(1f)
+
+            }
+            isUp = !isUp;
+
+        }
 
         initSystemSettings()
         fillPatientInfoBar()
@@ -843,5 +858,32 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val fragmentManager = supportFragmentManager.beginTransaction()
         val settingFragment = DisplaySettingsDialogFragment.newInstance()
         settingFragment.show(fragmentManager, "settingDialog");
+    }
+
+    // slide the view from below itself to the current position
+    fun slideUp(view: View) {
+        view.visibility = View.VISIBLE
+        val animate = TranslateAnimation(
+            0f,  // fromXDelta
+            0f,  // toXDelta
+            0f,  // fromYDelta
+            view.height.toFloat()
+        ) // toYDelta
+        animate.setDuration(500)
+        animate.setFillAfter(true)
+        view.startAnimation(animate)
+    }
+
+    // slide the view from its current position to below itself
+    fun slideDown(view: View) {
+        val animate = TranslateAnimation(
+            0f,  // fromXDelta
+            0f,  // toXDelta
+            view.height.toFloat(),  // fromYDelta
+            0f
+        ) // toYDelta
+        animate.setDuration(500)
+        animate.setFillAfter(true)
+        view.startAnimation(animate)
     }
 }

@@ -1046,7 +1046,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
      is the visual representation of 3 layer s-Expression
 
      [
-        operator
+        operator        (OR/AND)
         {object skipLogic}
         {object skipLogic}
         [
