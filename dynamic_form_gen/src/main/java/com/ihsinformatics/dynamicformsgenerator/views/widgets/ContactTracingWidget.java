@@ -330,7 +330,7 @@ public class ContactTracingWidget extends InputWidget {
             resetToFirstViewHolder();
 
             if (!(currentPosition == (contactsText.size() - 1)))
-                activity.addValidationError(question.getQuestionId(), "Mandatory field. Press Submit from last form");
+                activity.addValidationError(question.getQuestionId(), "Mandatory field. Press Save from last form");
             else
                 activity.addValidationError(question.getQuestionId(), question.getErrorMessage());
         }
