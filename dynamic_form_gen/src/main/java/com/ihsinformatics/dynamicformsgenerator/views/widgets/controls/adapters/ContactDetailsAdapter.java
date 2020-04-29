@@ -270,16 +270,19 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                             if(etAgeYears.getText().toString().equals(""))
                             {
                                 etAgeYears.setText("0");
+                                etAgeYears.setError(null);
                             }
 
                             if(etAgeDays.getText().toString().equals(""))
                             {
                                 etAgeDays.setText("0");
+                                etAgeDays.setError(null);
                             }
 
                             if(etAgeMonths.getText().toString().equals(""))
                             {
                                 etAgeMonths.setText("0");
+                                etAgeMonths.setError(null);
                             }
 
                             int ageYears = Integer.parseInt(etAgeYears.getText().toString());
