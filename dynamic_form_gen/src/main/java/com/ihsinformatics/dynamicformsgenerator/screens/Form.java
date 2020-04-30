@@ -19,6 +19,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.DynamicOptions;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AlertAction;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AutoSelect;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
@@ -437,6 +438,19 @@ public class Form extends BaseActivity {
             }
 
 
+            List<AlertAction> alertWhen;
+            if (null != parsedRule && !parsedRule.equals("") && !parsedRule.equals("null")) {
+                JSONObject parsedRuleJSON = new JSONObject(parsedRule);
+                JSONArray alertList = parsedRuleJSON.optJSONArray("alertWhen");
+                alertWhen = alertActionParser(alertList);
+
+            } else {
+                JSONArray alertList = formFields.optJSONArray("alertWhen");
+                alertWhen = alertActionParser(alertList);
+            }
+
+
+
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
@@ -448,10 +462,10 @@ public class Form extends BaseActivity {
                 errorMessage = "Invalid input";
             }
 
-            Question completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+            Question completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig,visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen, alertWhen);
 
             if (regix != null && !regix.equalsIgnoreCase("null")) {
-                completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
+                completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(),getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder,charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen, alertWhen);
             }
 
             this.questions.add(completeQuestion);
@@ -474,6 +488,23 @@ public class Form extends BaseActivity {
             }
         }
         return autoSelectCompleteList;
+
+    }
+
+    private List<AlertAction> alertActionParser(JSONArray alertActionJson) throws JSONException {
+
+        ArrayList<AlertAction> alertActionCompleteList = new ArrayList<AlertAction>();
+
+        if (alertActionJson != null) {
+            for (int n = 0; n < alertActionJson.length(); n++) {
+                AlertAction alertAction = new AlertAction();
+                JSONObject alertActionObj = alertActionJson.getJSONObject(n);
+                alertAction.setAlertMessage(alertActionObj.getString("alertMessage"));
+                alertAction.setAlertWhen(skipLogicParser(alertActionObj.getJSONArray("when")));
+                alertActionCompleteList.add(alertAction);
+            }
+        }
+        return alertActionCompleteList;
 
     }
 

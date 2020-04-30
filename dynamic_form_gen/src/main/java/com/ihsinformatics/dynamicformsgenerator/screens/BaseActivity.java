@@ -31,6 +31,7 @@ import com.ihsinformatics.dynamicformsgenerator.common.FormDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator.LANGUAGE;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
+import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AlertAction;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AutoSelect;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
@@ -111,8 +112,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private MyDialogFragment dialogFragment;
 
-    private static  AutoSelect globalSavedAutoSelect;
-
+    protected ArrayList<AlertAction> alertsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +123,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         setContentView(R.layout.activity_base);
         score = 0;
         errors = new ArrayList<ValidationError>();
+        alertsList = new ArrayList<AlertAction>();
         networkProgressDialog = new NetworkProgressDialog(this);
         llPatientInfoDisplayer = findViewById(R.id.llPatientInfoDisplay);
         tvPatientName = findViewById(R.id.tvName);
@@ -347,7 +348,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     Toasty.error(BaseActivity.this, "Form is not saved successfully", Toast.LENGTH_LONG).show();
                 }
 
-                // makePostFormDecision();
+                makePostFormDecision();  // This function will help to show alerts and take other steps neccessary for handling Form Decisions once Form is saved
                 finish();
 
             } else {
@@ -366,6 +367,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             Logger.log(e);
         } catch (Exception e) {
             Logger.log(e);
+        }
+    }
+
+    private void makePostFormDecision() {
+
+        for(AlertAction alert : alertsList)
+        {
+            Alerter(alert.getAlertMessage());
         }
     }
 
@@ -824,7 +833,25 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         startActivity(intent);
     }
 
+    // This shows alertDialog with only Ok button in it
+    private void Alerter(String message)
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage(message);
+                alertDialogBuilder.setTitle("Alert");
+                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
 
+                    }
+                });
+                alertDialogBuilder.show();
+    }
+
+
+    // This shows alertDialog with only Yes/No button in it
     private void ShowPopup(String question, String type) {
 
         dialogFragment = new MyDialogFragment();
@@ -832,8 +859,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         Bundle bundle = new Bundle();
         bundle.putString("question", question);
 
-        bundle.putString("type", type);
-
+        bundle.putString("type", type);  // We could send type in order to handle special alert cases just like handleEncounterType function in BaseActivity
+                                            // onFinishEditDialog function is triggered which checks for condtitons for special alerts
         dialogFragment.setArguments(bundle);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -878,6 +905,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             List<SExpression> hiddenable = changeableQuestion.getHiddenWhen();
 
             List<AutoSelect> autoSelectables = changeableQuestion.getAutoSelect();
+            List<AlertAction> alertables = changeableQuestion.getAlertAction();
+
 
             if (changeable != null) {
                 changeable.setVisibility(changeableQuestion.getInitialVisibility());
@@ -914,6 +943,44 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 }
 
+                if(alertables != null && alertables.size()>0)
+                {
+                    for(AlertAction alert : alertables)
+                    {
+                        Boolean final_selection=null;
+
+                        for (SExpression sExp : alert.getAlertWhen()) {
+
+                            final_selection = logicChecker(sExp);
+                        }
+                        // We got 3 major cases and then sub-cases in those cases:
+
+                        // CASE 1:  This case shows either skipLogic is invalid or the question (say X) whose answer alerts is itself hidden
+                        if(null == final_selection)
+                        {
+                            //Here we need to remove any previously added alerts to alertList because that alert condition is not valid now
+                            if (alertsList.contains(alert))
+                                alertsList.remove(alert);
+                        }
+                        // CASE 2:  This case shows that condition for alerting a message is true
+                        else if(final_selection)
+                        {
+                            //Here we need to check if alerts are not adding repeatedly
+                            if(!alertsList.contains(alert))
+                                alertsList.add(alert);
+                        }
+                        // CASE 3:  This case shows that condition for alerting a message is false
+                        else if(!final_selection)
+                        {
+                            //Here we need to remove any previously added alerts to alertList because that alert condition is not valid now
+                            if (alertsList.contains(alert))
+                                alertsList.remove(alert);
+                        }
+
+                    }
+
+                }
+
                 if (autoSelectables != null && autoSelectables.size() > 0) {
 
                     Boolean breaked=false;
@@ -937,8 +1004,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                         //CASE 2:
                         else if (final_selection) {
-
-
 
                             breaked=true;
                             break;
@@ -972,7 +1037,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             // because everytime value is changed and it will get stuck in infinite loop because of value change.
                             // So here we are ensuring that value is not already set then run this condition
                             if (!changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
-                                globalSavedAutoSelect=savedAutoSelect;
                                 changeable.setEnabled(false);
                                 changeable.setAnswer(savedAutoSelect.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
                             }

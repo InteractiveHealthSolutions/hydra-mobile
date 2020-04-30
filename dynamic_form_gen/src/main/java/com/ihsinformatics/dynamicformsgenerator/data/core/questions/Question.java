@@ -71,6 +71,8 @@ public class Question extends Displayable implements Cloneable {
     private List<SExpression> requiredWhen;
 
     private List<AutoSelect> autoSelect;
+    private List<AlertAction> alertAction;
+
 
 
     public List<AutoSelect> getAutoSelect() {
@@ -134,7 +136,7 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder,String newConfig ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder,String newConfig ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect, List<AlertAction> alertAction) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
@@ -160,6 +162,7 @@ public class Question extends Displayable implements Cloneable {
         this.requiredWhen = requiredWhen;
 
         this.autoSelect=autoSelect;
+        this.alertAction=alertAction;
 
         isAttribute=attribute;
         payload_type=filterPayloadType(questionType,inputType);
@@ -561,5 +564,13 @@ public class Question extends Displayable implements Cloneable {
 
     public void setNewConfig(String newConfig) {
         this.newConfig = newConfig;
+    }
+
+    public List<AlertAction> getAlertAction() {
+        return alertAction;
+    }
+
+    public void setAlertAction(List<AlertAction> alertAction) {
+        this.alertAction = alertAction;
     }
 }
