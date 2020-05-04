@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -179,8 +180,7 @@ public class ContactTracingWidget extends InputWidget {
 
                             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                         }
-                    }
-                    else{
+                    } else {
                         etNumberOfContacts.setError("Enter any number between 1 to 10");
                     }
                 }
@@ -309,17 +309,23 @@ public class ContactTracingWidget extends InputWidget {
                 temp.put("age", currentData.get(val).getContactAge());
                 temp.put("dob", currentData.get(val).getDob());
 
-                if (configuration.isCreatePatient())
-                    temp.put("patientID", currentData.get(val).getContactID());
-
                 temp.put("patientGivenName", currentData.get(val).getContactFirstName());
                 temp.put("patientFamilyName", currentData.get(val).getContactFamilyName());
                 temp.put("gender", currentData.get(val).getGender());
                 temp.put("relation", currentData.get(val).getRelation());
 
+
+                if (configuration.isCreatePatient()) {
+                    temp.put("patientID", currentData.get(val).getContactID());
+                    temp.put("createPatientChecked", true);
+                    initOfflinePatient(currentData.get(val));
+                }else
+                {
+                    temp.put("createPatientChecked", currentData.get(val).isCreatePatient());
+                }
+
                 arr.put(temp);
 
-                initOfflinePatient(currentData.get(val));
 
             }
             params.put("numberOfPeople", currentData.size());
@@ -368,6 +374,8 @@ public class ContactTracingWidget extends InputWidget {
             toReturn += "\nAge: " + currentData.get(val).getContactAge();
             toReturn += "\nGender: " + currentData.get(val).getGender();
             toReturn += "\nRelation: " + currentData.get(val).getRelation();
+            toReturn += "\nPatient Created: " + currentData.get(val).isCreatePatient();
+
 
         }
 
@@ -405,6 +413,8 @@ public class ContactTracingWidget extends InputWidget {
             String[] allAnswers = numberAndEntries[1].split("\n\n");
             editedData = new ArrayList<>();
 
+            Boolean createPatientCheckbox = false; //Todo fix CreatePatient and remove default false in editFeature ~Taha
+
             for (int i = 0; i < allAnswers.length; i++) {
                 String[] singleEntry = allAnswers[i].split("\n");
                 String identifier = singleEntry[0].split(": ")[1];
@@ -415,7 +425,8 @@ public class ContactTracingWidget extends InputWidget {
                 String relation = singleEntry[4].split(": ")[1];
                 //   String dob = singleEntry[6].split(": ")[1];
 
-                editedData.add(new ContactDetailsSendable(identifier, fname, fname, age, gender, relation, age));
+
+                editedData.add(new ContactDetailsSendable(identifier, fname, fname, age, gender, relation, age, createPatientCheckbox));
             }
             currentPosition = 0;
             mLinearLayoutManager.scrollToPosition(currentPosition);
@@ -426,11 +437,13 @@ public class ContactTracingWidget extends InputWidget {
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+            CheckBox cbCreatePatient = (CheckBox) row.findViewById(R.id.cbCreatePatient);
 
             etDOB.setText(editedData.get(0).getDob());
             etPatientID.setText(editedData.get(0).getContactID());
             etPatientName.setText(editedData.get(0).getContactFirstName());
             etPatientFamilyName.setText(editedData.get(0).getContactFamilyName());
+            cbCreatePatient.setChecked(createPatientCheckbox);
 
         }
     }
@@ -447,6 +460,7 @@ public class ContactTracingWidget extends InputWidget {
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+            CheckBox cbCreatePatient = (CheckBox) row.findViewById(R.id.cbCreatePatient); // no need for validation on create patient checkbox because adapter handles it by making it unclickable it create patient is true from web
 
 
             ArrayList<View> myview = new ArrayList<>();
@@ -569,13 +583,14 @@ public class ContactTracingWidget extends InputWidget {
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+            CheckBox cbCreatePatient = (CheckBox) row.findViewById(R.id.cbCreatePatient);
 
             RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
             RadioButton rb = (RadioButton) gender.findViewById(gender.getCheckedRadioButtonId());
 
             Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
-            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString()));
+            currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString(), cbCreatePatient.isChecked()));
 
         } else if (buttonType.equalsIgnoreCase("prev")) {
             currentData.remove(position);
@@ -592,13 +607,14 @@ public class ContactTracingWidget extends InputWidget {
                 EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
                 EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
                 EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+                CheckBox cbCreatePatient = (CheckBox) row.findViewById(R.id.cbCreatePatient);
 
                 RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
                 RadioButton rb = (RadioButton) gender.findViewById(gender.getCheckedRadioButtonId());
 
                 Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
-                currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString()));
+                currentData.add(position, new ContactDetailsSendable(etPatientID.getText().toString(), etPatientName.getText().toString(), etPatientFamilyName.getText().toString(), etAgeYears.getText().toString() + "-" + etAgeMonths.getText().toString() + "-" + etAgeDays.getText().toString(), rb.getText().toString(), spRelation.getSelectedItem().toString(), etDOB.getText().toString(), cbCreatePatient.isChecked()));
 
             }
         }

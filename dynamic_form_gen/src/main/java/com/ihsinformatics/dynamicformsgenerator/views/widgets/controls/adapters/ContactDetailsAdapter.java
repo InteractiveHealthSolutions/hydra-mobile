@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -112,6 +113,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private TextView contactRelation;
         private Spinner relationsList;
 
+        private TextView tvCreatePatient;
+        private CheckBox cbCreatePatient;
+
         private EditText etPatientID;
         private EditText etPatientName;
 
@@ -153,6 +157,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             contactRelation = (TextView) itemView.findViewById(R.id.contactRelation);
             relationsList = (Spinner) itemView.findViewById(R.id.spRelations);
 
+            tvCreatePatient = (TextView) itemView.findViewById(R.id.tvCreatePatient);
+            cbCreatePatient = (CheckBox) itemView.findViewById(R.id.cbCreatePatient);
+
             etPatientID = (EditText) itemView.findViewById(R.id.etPatientID);
 
             calendar = Calendar.getInstance();
@@ -171,6 +178,11 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                 etPatientID.setVisibility(View.GONE);
                 QRCodeReader.setVisibility(View.GONE);
                 etPatientID.setText("-");
+            }
+            else
+            {
+                cbCreatePatient.setEnabled(false);
+                cbCreatePatient.setChecked(true);
             }
 
             etPatientName = (EditText) itemView.findViewById(R.id.etPatientName);

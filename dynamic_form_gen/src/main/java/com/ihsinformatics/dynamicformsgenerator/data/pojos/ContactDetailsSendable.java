@@ -11,7 +11,9 @@ public class ContactDetailsSendable {
     private String gender;
     private String relation;
 
-    public ContactDetailsSendable(String contactID, String contactFirstName, String contactFamilyName, String contactAge, String gender, String relation, String dob) {
+    private boolean createPatient;
+
+    public ContactDetailsSendable(String contactID, String contactFirstName, String contactFamilyName, String contactAge, String gender, String relation, String dob, Boolean createPatient) {
         this.contactID = contactID;
         this.contactFirstName = contactFirstName;
         this.contactFamilyName = contactFamilyName;
@@ -19,6 +21,7 @@ public class ContactDetailsSendable {
         this.gender = gender;
         this.relation = relation;
         this.dob = dob;
+        this.createPatient=createPatient;
     }
 
     public String getContactID() {
@@ -75,5 +78,13 @@ public class ContactDetailsSendable {
 
     public void setRelation(String relation) {
         this.relation = relation;
+    }
+
+    public boolean isCreatePatient() {
+        return createPatient;
+    }
+
+    public void setCreatePatient(boolean createPatient) {
+        this.createPatient = createPatient;
     }
 }

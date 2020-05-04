@@ -91,6 +91,7 @@
     <string name="age_of_contact">Age </string>
     <string name="contactNumber">Contact 1</string>
     <string name="identifier_error">Required Field</string>
+    <string name="create_patient_checkbox">Do you wish to create patient?</string>
 
 
     <string-array name="countries_array">

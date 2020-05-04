@@ -348,5 +348,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/spinnerLayout" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:layout_below="@id/spRelations">
+
+    <TextView
+        android:id="@+id/tvCreatePatient"
+        style="@style/question_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/create_patient_checkbox"/>
+    <CheckBox
+        android:id="@+id/cbCreatePatient"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@id/tvCreatePatient"/>
+    </RelativeLayout>
 
 </RelativeLayout>
