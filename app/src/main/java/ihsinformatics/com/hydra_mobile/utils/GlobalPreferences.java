@@ -9,6 +9,7 @@ import java.util.Locale;
 public class GlobalPreferences {
 	// TODO make this this class generic
 	public static enum KEY {
+		USERUUID,
 		USERNAME,
 		PASSWORD,
 		PROVIDER,

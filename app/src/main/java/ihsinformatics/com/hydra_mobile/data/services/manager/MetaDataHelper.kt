@@ -97,7 +97,8 @@ class MetaDataHelper(context: Context) {
 
     fun getWorkFlowFromAPI(retrofitResponseListener:RetrofitResponseListener) {
         workflowPhasesRepository.getRemoteWorkflowData(retrofitResponseListener)
-        workflowRepository.getRemoteWorkFlowData(retrofitResponseListener)
+       // workflowRepository.getRemoteAllWorkFlowData(retrofitResponseListener)
+        workflowRepository.getRemoteWorkFlowDataByUserMapping(retrofitResponseListener)
     }
 
     fun getPhasesFromAPI(retrofitResponseListener:RetrofitResponseListener) {

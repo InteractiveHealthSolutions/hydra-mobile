@@ -70,10 +70,12 @@ class UserRepository(application: Application) {
 
                             GlobalPreferences.getinstance(application).addOrUpdatePreference(GlobalPreferences.KEY.PROVIDER, response.body()!!.providerResult[0].uuid)
 
+
                             if (userResponse != null) {
                                 for (item in userResponse.userList) {
                                     //TODO before insertion of user fetch provider uuid
-                                    insertUser(User(item.username, password, response.body()!!.providerResult[0].uuid))
+                                    insertUser(User(item.uuid,item.username, password, response.body()!!.providerResult[0].uuid))
+                                    GlobalPreferences.getinstance(application).addOrUpdatePreference(GlobalPreferences.KEY.USERUUID, item.uuid)   // setting uuid only for last user. Technically only one user should come up on response. Therefore, technically this loop must run only once
                                 }
                             }
                             restCallback.onSuccess(o)

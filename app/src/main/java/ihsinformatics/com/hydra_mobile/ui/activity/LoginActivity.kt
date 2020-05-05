@@ -174,10 +174,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             SessionManager(applicationContext).disableOfflineMode()
                         }
                         var provider = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
+                        var useruuid = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.USERUUID, null)
 
-                        SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), provider)
+
+                        SessionManager(applicationContext).createLoginSession(useruuid.toString(), usernameEditText.text.toString(), passwordEditText.text.toString(), provider)
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+                        // userUUID already saved in global preference
 
                         networkProgressDialog.dismiss()
 
@@ -208,14 +211,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider != null) {
 
 
-                    SessionManager(applicationContext).createLoginSession(usernameEditText.text.toString(), passwordEditText.text.toString(), users[0].provider)
+                    SessionManager(applicationContext).createLoginSession(users[0].userUUID,usernameEditText.text.toString(), passwordEditText.text.toString(), users[0].provider)
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERUUID, users[0].userUUID)
+
 
 
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
                     GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
+                    SessionManager(applicationContext).dataDownloadedCompletely(true)
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
                 } else {
@@ -226,7 +232,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    //checks if workflows exist in offline db and return boolean accordingly
+    //checks if workflow size is not zero i.e. workflow must exist in offline db and return boolean accordingly
     private fun doesWorkflowExsist(): Boolean {
 
         val workflowViewModel = ViewModelProviders.of(this).get(WorkFlowViewModel::class.java)

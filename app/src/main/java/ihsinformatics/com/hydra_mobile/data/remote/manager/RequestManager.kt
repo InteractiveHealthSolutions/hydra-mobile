@@ -175,9 +175,9 @@ class RequestManager {
     }
 
 
-    fun getWorkflow(representation: String, restCallback: RESTCallback) {
+    fun getAllWorkFlow(representation: String, restCallback: RESTCallback) {
         val workflowService = retrofit.create(WorkFlowApiService::class.java)
-        workflowService.getWorkFlow(representation).enqueue(object : Callback<WorkFlowApiResponse> {
+        workflowService.getAllWorkFlow(representation).enqueue(object : Callback<WorkFlowApiResponse> {
 
             override fun onResponse(
                 call: Call<WorkFlowApiResponse>, response: Response<WorkFlowApiResponse>
@@ -200,6 +200,32 @@ class RequestManager {
         })
     }
 
+
+    fun getWorkFlowByUserMapping(representation: String, userUUID:String, restCallback: RESTCallback) {
+        val workflowService = retrofit.create(WorkFlowApiService::class.java)
+
+        workflowService.getWorkFlowByUserMapping(representation,userUUID).enqueue(object : Callback<WorkFlowUserMappingApiResponse> {
+
+            override fun onResponse(
+                call: Call<WorkFlowUserMappingApiResponse>, response: Response<WorkFlowUserMappingApiResponse>
+            ) {
+                Timber.e(response.message())
+
+                if (response.isSuccessful) {
+                    restCallback.onSuccess(response.body())
+                } else {
+                    restCallback.onFailure(Throwable("Not responding"))
+                }
+            }
+
+            override fun onFailure(call: Call<WorkFlowUserMappingApiResponse>, t: Throwable) {
+
+                Timber.e(t.localizedMessage)
+                restCallback.onFailure(t)
+            }
+
+        })
+    }
 
     fun getPhases(representation: String, restCallback: RESTCallback) {
         val phaseService = retrofit.create(PhaseApiService::class.java)

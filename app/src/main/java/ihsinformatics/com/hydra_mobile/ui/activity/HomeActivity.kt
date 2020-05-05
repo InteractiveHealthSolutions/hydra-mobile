@@ -107,6 +107,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //        checkSessionTimeOut()
 
 
+
+        Global.USERUUID = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.USERUUID, null)
         Global.USERNAME = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
         Global.PASSWORD = GlobalPreferences.getinstance(this)

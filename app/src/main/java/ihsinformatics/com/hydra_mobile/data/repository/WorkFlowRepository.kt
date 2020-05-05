@@ -13,6 +13,7 @@ import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.WorkFlow
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowUserMappingApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
@@ -83,12 +84,12 @@ class WorkFlowRepository(context: Context) {
     }
 
 
-    fun getRemoteWorkFlowData(retrofitResponseListener: RetrofitResponseListener) {
+    fun getRemoteAllWorkFlowData(retrofitResponseListener: RetrofitResponseListener) {
 
         RequestManager(
             context, sessionManager.getUsername(),
             sessionManager.getPassword()
-        ).getWorkflow(
+        ).getAllWorkFlow(
             Constant.REPRESENTATION,
             object :
                 RESTCallback {
@@ -113,4 +114,40 @@ class WorkFlowRepository(context: Context) {
             })
     }
 
+
+    fun getRemoteWorkFlowDataByUserMapping(retrofitResponseListener: RetrofitResponseListener) {
+
+        RequestManager(
+            context, sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).getWorkFlowByUserMapping(
+            Constant.REPRESENTATION,
+            sessionManager.getUserUUID(),
+            object :
+                RESTCallback {
+                override fun <T> onSuccess(o: T) {
+
+                    try {
+                        val response = (o as WorkFlowUserMappingApiResponse)
+                        if (response.workflowMapping.size > 0) {
+                            for (i in response.workflowMapping.indices) {
+                                //insert into local database
+                                insertWorkFlow(response.workflowMapping[i].workflow)
+                            }
+                        }else
+                        {
+                            getRemoteAllWorkFlowData(retrofitResponseListener)
+                        }
+                        retrofitResponseListener.onSuccess()
+                        Log.e("WorkflowLoading", "completed")
+                    } catch (e: Exception) {
+                        retrofitResponseListener.onFailure()
+                    }
+                }
+
+                override fun onFailure(t: Throwable) {
+                    retrofitResponseListener.onFailure()
+                }
+            })
+    }
 }

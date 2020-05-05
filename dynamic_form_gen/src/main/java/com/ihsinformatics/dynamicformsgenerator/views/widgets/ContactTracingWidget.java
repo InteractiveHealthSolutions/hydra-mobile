@@ -94,6 +94,9 @@ public class ContactTracingWidget extends InputWidget {
         relations.add("Spouse");
         relations.add("Aunt/Uncle");
         relations.add("Contact");
+        relations.add("Other Relative");
+        relations.add("Other incl live-in Domestic stuff");
+
 
 
         submitNumber = findViewById(R.id.submitNumber);
