@@ -231,4 +231,7 @@ dependencies {
 
     // Add the Firebase Crashlytics dependency.
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
 }

@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.google.zxing.Result;
 import com.ihsinformatics.dynamicformsgenerator.PatientInfoFetcher;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator;
@@ -51,6 +52,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
 
@@ -99,7 +102,7 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         return contactDetails.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder  {
+    public class ContactViewHolder extends RecyclerView.ViewHolder implements ZXingScannerView.ResultHandler  {
 
         private TextView contactQuestionText;
         private TextView contactTvNumber;
@@ -139,6 +142,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
         private boolean deadLock = false;
 
         private Period period;
+
+        private ZXingScannerView mScannerView;
+        protected Dialog dialogBarCodeAndQRCode;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -356,7 +362,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                     if (Build.VERSION.SDK_INT >= 23) {
                         checkCameraPermission();
                     } else {
-                        showQRCodeReaderDialog();
+                        //showQRCodeReaderDialog();
+                        showQRAndBarCodeReaderDialog();
                     }
                 }
             };
@@ -364,6 +371,9 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
             QRCodeReader.setOnClickListener(QRListener);
 
+            mScannerView = new ZXingScannerView(context);   // Programmatically initialize the scanner view
+            dialogBarCodeAndQRCode = new Dialog(context);
+            dialogBarCodeAndQRCode.setContentView(mScannerView);
 
         }
 
@@ -392,7 +402,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
                         100);
                 return;
             }
-            showQRCodeReaderDialog();
+            //showQRCodeReaderDialog();
+            showQRAndBarCodeReaderDialog();
         }
 
         public void showQRCodeReaderDialog() {
@@ -418,7 +429,13 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             });
         }
 
+        private void showQRAndBarCodeReaderDialog()
+        {
 
+            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.startCamera();          // Start camera on resume
+            dialogBarCodeAndQRCode.show();
+        }
 
 
 
@@ -457,6 +474,13 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
             }
         }
 
+        @Override
+        public void handleResult(Result result) {
+            etPatientID.setText(result.getText());
+            etPatientID.setEnabled(true);
+            mScannerView.stopCamera();
+            dialogBarCodeAndQRCode.dismiss();
+        }
     }
 
 
