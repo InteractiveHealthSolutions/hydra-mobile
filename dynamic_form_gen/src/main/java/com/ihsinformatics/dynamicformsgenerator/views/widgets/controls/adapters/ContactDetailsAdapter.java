@@ -431,8 +431,8 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
         private void showQRAndBarCodeReaderDialog()
         {
-
             mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.stopCamera();
             mScannerView.startCamera();          // Start camera on resume
             dialogBarCodeAndQRCode.show();
         }

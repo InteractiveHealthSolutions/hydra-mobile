@@ -302,11 +302,11 @@ public class Form extends BaseActivity {
 
 
             if (minLength <= 0) {
-                minLength = 1;
+                minLength = 0;
             }
 
             if (maxLength <= 0) {
-                maxLength = 10;
+                maxLength = Integer.MAX_VALUE;
             }
 
 

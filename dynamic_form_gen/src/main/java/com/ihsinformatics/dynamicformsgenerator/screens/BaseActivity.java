@@ -655,7 +655,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             } else if (w instanceof QRReaderWidget) {
                 QRReaderWidget q = (QRReaderWidget) w;
                 if (permissions[0].equals(Manifest.permission.CAMERA)) {
-                    q.showQRCodeReaderDialog();
+                    //q.showQRCodeReaderDialog();
+                     q.showQRAndBarCodeReaderDialog();
                 }
             }
         } else {
