@@ -532,22 +532,40 @@ public class Form extends BaseActivity {
                             s.getNotEqualsToList().add(o, optionWithNumbers);
                         }
 
+//                    JSONArray skiplogicLessThan = JSONObj.optJSONArray("lessThan");
+//                    if (null != skiplogicLessThan && !skiplogicLessThan.equals("null"))
+//                        for (int o = 0; o < skiplogicLessThan.length(); o++) {
+//                            int optionWithNumbers = skiplogicLessThan.optInt(o);
+//
+//                            s.getLessThanList().add(o, optionWithNumbers);
+//                        }
+
                     JSONArray skiplogicLessThan = JSONObj.optJSONArray("lessThan");
                     if (null != skiplogicLessThan && !skiplogicLessThan.equals("null"))
                         for (int o = 0; o < skiplogicLessThan.length(); o++) {
-                            int optionWithNumbers = skiplogicLessThan.optInt(o);
+                            JSONObject lessThanSingleObject=skiplogicLessThan.optJSONObject(o);
+                            int optionWithNumbers = Integer.parseInt(lessThanSingleObject.optString("uuid"));
 
                             s.getLessThanList().add(o, optionWithNumbers);
                         }
 
+//                    JSONArray skiplogicGreaterThan = JSONObj.optJSONArray("greaterThan");
+//                    if (null != skiplogicGreaterThan && !skiplogicGreaterThan.equals("null"))
+//                        for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
+//                            int optionWithNumbers = skiplogicGreaterThan.optInt(o);
+//
+//                            s.getGreaterThanList().add(o, optionWithNumbers);
+//                        }
+
                     JSONArray skiplogicGreaterThan = JSONObj.optJSONArray("greaterThan");
                     if (null != skiplogicGreaterThan && !skiplogicGreaterThan.equals("null"))
                         for (int o = 0; o < skiplogicGreaterThan.length(); o++) {
-                            int optionWithNumbers = skiplogicGreaterThan.optInt(o);
+                            JSONObject greaterThanSingleObject=skiplogicGreaterThan.optJSONObject(o);
+                            int optionWithNumbers = Integer.parseInt(greaterThanSingleObject.optString("uuid"));
+
 
                             s.getGreaterThanList().add(o, optionWithNumbers);
                         }
-
                     sExpression.getSkipLogicsObjects().add(s);
                 } else if (obj instanceof JSONArray || obj.getClass().equals(JSONArray.class)) {
                     sExpression.setSkipLogicsArray(skipLogicParser((JSONArray) obj));
