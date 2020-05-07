@@ -139,14 +139,22 @@ class WorkFlowRepository(context: Context) {
                             getRemoteAllWorkFlowData(retrofitResponseListener)
                         }
                         retrofitResponseListener.onSuccess()
-                        Log.e("WorkflowLoading", "completed")
+                        Log.e("WorkflowUserMapping", "completed")
                     } catch (e: Exception) {
                         retrofitResponseListener.onFailure()
+
                     }
                 }
 
                 override fun onFailure(t: Throwable) {
-                    retrofitResponseListener.onFailure()
+                    //handle here
+                    try {
+                        getRemoteAllWorkFlowData(retrofitResponseListener)
+                        retrofitResponseListener.onSuccess()
+                    }
+                    catch (e: Exception){
+                        retrofitResponseListener.onFailure()
+                    }
                 }
             })
     }
