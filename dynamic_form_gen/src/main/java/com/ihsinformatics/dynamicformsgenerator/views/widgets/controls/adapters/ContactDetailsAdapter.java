@@ -211,9 +211,12 @@ public class ContactDetailsAdapter extends RecyclerView.Adapter<ContactDetailsAd
 
                                     Calendar calendar = Calendar.getInstance();
                                     calendar.set(year, monthOfYear, dayOfMonth);
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                    SimpleDateFormat dateFormat = Global.DATE_TIME_FORMAT;
                                     String dateString = dateFormat.format(calendar.getTime());
                                     etDOB.setText(dateString);
+
+
+
                                     Period p = null;
                                     try {
                                         p = new Period(new LocalDate(Global.DATE_TIME_FORMAT.parse(dateString)), new LocalDate(), PeriodType.yearMonthDayTime());
