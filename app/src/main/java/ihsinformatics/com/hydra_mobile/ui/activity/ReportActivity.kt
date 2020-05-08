@@ -18,6 +18,7 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableOfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableReportAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
@@ -107,13 +108,13 @@ class ReportActivity : BaseActivity() {
         encountersList.clear()
 
         if (isInternetConnected() && !sessionManager.isOfflineMode()) {
-            val testOrderSearch = RequestManager(
+            val encounterSearch = RequestManager(
                 applicationContext,
                 sessionManager.getUsername(),
                 sessionManager.getPassword()
-            ).getPatientRetrofit().create(CommonLabApiService::class.java)
+            ).getPatientRetrofit().create(PatientApiService::class.java)
 
-            testOrderSearch.getEncountersOfPatient(patientID, Constant.REPRESENTATION)
+            encounterSearch.getEncountersOfPatient(patientID, Constant.REPRESENTATION)
                 .enqueue(object : Callback<ReportEncountersApiResponse> {
                     override fun onResponse(
                         call: Call<ReportEncountersApiResponse>,

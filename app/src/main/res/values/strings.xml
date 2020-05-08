@@ -353,7 +353,7 @@
     <string name="Edit">Edit</string>
     <string name="settings">URL</string>
     <string name="ssl_enabled">SSL enabled</string>
-    <string name="tested_positive">Alert! This patient has been tested positive for COVID-19</string>
+    <string name="tested_positive">Alert! The COVID-19 X-Ray test result is available for this patient</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>

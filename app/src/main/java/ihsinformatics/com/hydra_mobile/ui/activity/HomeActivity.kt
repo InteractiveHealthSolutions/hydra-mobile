@@ -53,6 +53,7 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import kotlinx.android.synthetic.main.app_bar_main_menu.*
 import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -93,6 +94,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private lateinit var covidInfo:LinearLayout
     private lateinit var covidAlert:LinearLayout
+    private lateinit var damage:TextView
+
+    private lateinit var covidInfoImage:ImageView
+    private lateinit var covidInfoLayout:LinearLayout
 
     private var Create_Patient_Count: Int = 0
     private var Send_Create_Patient_Count: Int = 0
@@ -140,6 +145,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         covidAlert=findViewById(R.id.covidAlert)
         covidInfo = findViewById(R.id.covidInfo)
+        damage = findViewById(R.id.damage)
+        covidInfoLayout = findViewById(R.id.lungLayout)
+        covidInfoImage = findViewById(R.id.lungs)
 
 
         covidAlert.setOnClickListener{
@@ -154,6 +162,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             isUp = !isUp;
 
         }
+
+
 
         initSystemSettings()
         fillPatientInfoBar()
@@ -587,7 +597,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun fillPatientInfoBar() {
 
         if (Global.patientData != null) {
-            Global.temp = Global.patientData
+
+            setCovidResults()
+
+
+
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE
@@ -626,6 +640,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
             }
         } else {
+            covidInfo.visibility=View.GONE
+            covidAlert.visibility=View.GONE
             tvPatientName?.visibility = View.GONE
             tvPatientLastName?.visibility = View.GONE
             tvAge?.visibility = View.GONE
@@ -633,6 +649,33 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             tvPatientIdentifier?.setText("Patient Not Loaded")
             ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
 
+        }
+    }
+
+    private fun setCovidResults() {
+        damage.text=Global.patientData.covidResult
+        covidAlert.visibility=View.VISIBLE
+        covidInfo.visibility=View.VISIBLE
+
+        when(damage.text.toString().toUpperCase()){
+            "LOW"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert_low))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_low)
+            }
+            "HIGH"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_high)
+            }
+            "MEDIUM"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert_med))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_medium)
+            }
+            else ->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_high)
+//                covidInfo.visibility=View.GONE
+//                covidAlert.visibility=View.GONE
+            }
         }
     }
 

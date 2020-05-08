@@ -391,7 +391,14 @@ public class Form extends BaseActivity {
                 configuration = new ContactTracingConfiguration(createPatient, arr);
 
 
-            } else {
+            }else if(widgetType.equals("Barcode Reader"))
+            {
+                characters = "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-";
+
+                configuration = new QuestionConfiguration(
+                        inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
+            }
+            else {
                 if (allowDecimal != null && allowDecimal && inputType.equalsIgnoreCase("numeric")) {
                     characters = "1234567890.-+";
                     inputType = "decimalNumeric";

@@ -11,7 +11,8 @@ import java.util.HashMap;
 public class PatientData implements Serializable {
 
     private HashMap<String, String> identifiers;
-    Patient patient;
+    private Patient patient;
+    private String covidResult;
 
 
 
@@ -40,5 +41,13 @@ public class PatientData implements Serializable {
 
     public void setIdentifiers(HashMap<String, String> identifiers) {
         this.identifiers = identifiers;
+    }
+
+    public String getCovidResult() {
+        return covidResult;
+    }
+
+    public void setCovidResult(String covidResult) {
+        this.covidResult = covidResult;
     }
 }

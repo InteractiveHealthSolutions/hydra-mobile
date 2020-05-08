@@ -20,13 +20,16 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
+import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.EncounterMapperApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
+import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import org.joda.time.DateTime
@@ -115,9 +118,9 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                     searchLayout.setOnClickListener {
 
                         if (null != patient.identifiers.get(0)) {
-                            val testOrderSearch = RequestManager(context, username, password).getPatientRetrofit().create(CommonLabApiService::class.java)
+                            val encounterSearch = RequestManager(context, username, password).getPatientRetrofit().create(PatientApiService::class.java)
 
-                            testOrderSearch.getEncountersOfPatient(patient.identifiers.get(0).identifier, Constant.REPRESENTATION).enqueue(object : Callback<ReportEncountersApiResponse> {
+                            encounterSearch.getEncountersOfPatient(patient.identifiers.get(0).identifier, Constant.REPRESENTATION).enqueue(object : Callback<ReportEncountersApiResponse> {
                                 override fun onResponse(
                                     call: Call<ReportEncountersApiResponse>, response: Response<ReportEncountersApiResponse>
                                                        ) {
@@ -126,8 +129,32 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                                         encountersList = response.body()!!.encounters
                                         DataAccess.getInstance().insertServiceHistory(context, patient.identifiers.get(0).identifier, encountersList);
-                                        initializePatient(patient)
 
+                                        encounterSearch.getXRayOrderFormByPatientIdentifier(patient.identifiers.get(0).identifier, Constant.REPRESENTATION).enqueue(object : Callback<EncounterMapperApiResponse> {
+                                            override fun onResponse(
+                                                call: Call<EncounterMapperApiResponse>, response: Response<EncounterMapperApiResponse>
+                                            ) {
+                                                var covidResult="NONE"
+                                                if (response.isSuccessful) {
+
+                                                    val result= response.body()!!.encounterMapper
+                                                    try {
+                                                        covidResult = result.get(0).resultEncounterId.obs[0].display.split(":").get(1)
+                                                        ToastyWidget.getInstance().displayError(context,"Covid Result Found",Toast.LENGTH_SHORT)
+
+                                                    }catch (e:Exception){
+                                                        ToastyWidget.getInstance().displaySuccess(context,"No Covid Result",Toast.LENGTH_SHORT)
+                                                    }
+
+                                                }
+                                                initializePatient(patient,covidResult)
+                                            }
+                                            override fun onFailure(call: Call<EncounterMapperApiResponse>, t: Throwable) {
+                                                Timber.e(t.localizedMessage)
+
+                                                Toast.makeText(context, "Error fetching X-Ray Order Form", Toast.LENGTH_SHORT).show()
+                                            }
+                                        })
                                     }
                                 }
 
@@ -148,7 +175,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         }
 
 
-        fun initializePatient(patient: Patient) {
+        fun initializePatient(patient: Patient,covidResult:String) {
             var serverResponse: JSONObject? = null
             var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
 
@@ -183,7 +210,10 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
             var requestType = ParamNames.GET_PATIENT_INFO
 
             Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
-
+            if(Global.patientData!=null)
+            {
+                Global.patientData.covidResult=covidResult
+            }
             networkProgressDialog.dismiss()
             context.startActivity(Intent(context, HomeActivity::class.java))
         }
