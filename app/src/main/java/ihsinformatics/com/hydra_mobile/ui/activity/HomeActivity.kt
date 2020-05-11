@@ -671,10 +671,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_medium)
             }
             else ->{
-                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert))
-                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_high)
-//                covidInfo.visibility=View.GONE
-//                covidAlert.visibility=View.GONE
+                covidInfo.visibility=View.GONE
+                covidAlert.visibility=View.GONE
             }
         }
     }
