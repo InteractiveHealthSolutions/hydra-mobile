@@ -27,9 +27,20 @@ class SettingDialogFragment : DialogFragment() {
 
     private lateinit var appSettingViewModel: AppSettingViewModel
     private lateinit var repository: AppSettingRepository
+    private lateinit var previousURL:String
+
+    private lateinit var openMRSEndpoint:String
+    private lateinit var test_server_ip:String
+    private lateinit var test_server_port:String
+    private lateinit var withoutSSL:String
+    private lateinit var withSSL:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
     }
 
     override fun onCreateView(
@@ -39,6 +50,12 @@ class SettingDialogFragment : DialogFragment() {
         dialog!!.window.attributes.windowAnimations = R.style.FullScreenDialogStyle
 
         var repository = context?.let { AppSettingRepository(it) }
+        openMRSEndpoint = context!!.getString(R.string.openmrs_endpoint)
+        test_server_ip = context!!.getString(R.string.live_ip_address)
+        test_server_port = context!!.getString(R.string.live_port_number)
+        withoutSSL = context!!.getString(R.string.without_ssl)
+        withSSL = context!!.getString(R.string.with_ssl)
+
         runBlocking {
             var list = repository!!.getSettingList()
             if (list.isNotEmpty()) {
@@ -61,6 +78,13 @@ class SettingDialogFragment : DialogFragment() {
                 view.edt_port_number.setText(getString(R.string.live_port_number))
                 view.cb_ssl_enable.isChecked = true
             }
+
+            if (view.cb_ssl_enable.isChecked) {
+                previousURL = withSSL + view.edt_ip_address.text.toString() + ":" + view.edt_port_number.text.toString() + openMRSEndpoint
+            } else {
+                previousURL = withoutSSL + view.edt_ip_address.text.toString() + ":" + view.edt_port_number.text.toString() + openMRSEndpoint
+            }
+
         }
 
 
@@ -80,11 +104,11 @@ class SettingDialogFragment : DialogFragment() {
                 var baseUrl = ""
                 var ssl = false
 
-                var openMRSEndpoint = context!!.getString(R.string.openmrs_endpoint)
-                var test_server_ip = context!!.getString(R.string.live_ip_address)
-                var test_server_port = context!!.getString(R.string.live_port_number)
-                var withoutSSL = context!!.getString(R.string.without_ssl)
-                var withSSL = context!!.getString(R.string.with_ssl)
+//                var openMRSEndpoint = context!!.getString(R.string.openmrs_endpoint)
+//                var test_server_ip = context!!.getString(R.string.live_ip_address)
+//                var test_server_port = context!!.getString(R.string.live_port_number)
+//                var withoutSSL = context!!.getString(R.string.without_ssl)
+//                var withSSL = context!!.getString(R.string.with_ssl)
 
 
                 if (view.cb_ssl_enable.isChecked) {
@@ -94,20 +118,29 @@ class SettingDialogFragment : DialogFragment() {
                     baseUrl = withoutSSL + ipAddress + ":" + portNumber + openMRSEndpoint
                 }
 
+
                 if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {
 
-                    val dialog = AlertDialog.Builder(context).setMessage("By changing URL you will delete all saved data?")
-                        .setTitle("Are you sure?").setNegativeButton("No") {dialog, which ->dismiss()}
-                        .setPositiveButton("Yes") { dialog, which ->
+                    if(previousURL!=null && !previousURL.equals(baseUrl)) {
+                        val dialog = AlertDialog.Builder(context)
+                            .setMessage("By changing URL you will delete all saved data?")
+                            .setTitle("Are you sure?")
+                            .setNegativeButton("No") { dialog, which -> dismiss() }
+                            .setPositiveButton("Yes") { dialog, which ->
 
-                            val userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-                            userViewModel.deleteAllUsers()
-                            DataAccess.getInstance().clearAllOfflineData(context)
-                            saveAppSetting(ipAddress, portNumber, ssl)
-                            dismiss()
-                        }
-                    dialog.show()
-
+                                val userViewModel = ViewModelProviders.of(this)
+                                    .get(UserViewModel::class.java)
+                                userViewModel.deleteAllUsers()
+                                DataAccess.getInstance().clearAllOfflineData(context)
+                                saveAppSetting(ipAddress, portNumber, ssl)
+                                dismiss()
+                            }
+                        dialog.show()
+                    }
+                    else
+                    {
+                        dismiss()
+                    }
 
 
 

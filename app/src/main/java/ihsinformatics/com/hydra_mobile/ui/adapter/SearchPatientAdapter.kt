@@ -43,12 +43,7 @@ import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SearchPatientAdapter(
-    patientSearched: PatientApiResponse,
-    c: Context,
-    username: String,
-    password: String
-) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
+class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, username: String, password: String) : RecyclerView.Adapter<SearchPatientAdapter.ViewHolder>() {
 
 
     private var resultFromAPI = patientSearched
@@ -64,8 +59,8 @@ class SearchPatientAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //this.context = parent.context
-        val v =
-            LayoutInflater.from(context).inflate(R.layout.search_patient_item_view, parent, false)
+        val v = LayoutInflater.from(context)
+            .inflate(R.layout.search_patient_item_view, parent, false)
         return ViewHolder(v)
 
     }
@@ -94,8 +89,7 @@ class SearchPatientAdapter(
         val mode = itemView.findViewById<TextView>(R.id.mode)
 
 
-        @RequiresApi(Build.VERSION_CODES.M)
-        fun bindItems(patient: Patient) {
+        @RequiresApi(Build.VERSION_CODES.M) fun bindItems(patient: Patient) {
 
             if (patient != null && null != patient.identifiers && patient.identifiers.size > 0) {
                 tvPatientName.text = patient.identifiers.get(0).identifier
@@ -111,8 +105,7 @@ class SearchPatientAdapter(
                     tvPatientAge.setText(years.toString() + " years, " + months.toString() + " months")
                 }
 
-                if (null != patient.identifiers.get(0)) tvPatientIdentifier.text =
-                    patient.person.getDisplay()
+                if (null != patient.identifiers.get(0)) tvPatientIdentifier.text = patient.person.getDisplay()
 
                 if (patient.person.getGender().toLowerCase().contains("f")) {
                     genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
@@ -126,88 +119,58 @@ class SearchPatientAdapter(
                 searchLayout.setOnClickListener {
 
                     if (null != patient.identifiers.get(0)) {
-                        val encounterSearch =
-                            RequestManager(context, username, password).getPatientRetrofit()
-                                .create(PatientApiService::class.java)
+                        val encounterSearch = RequestManager(context, username, password).getPatientRetrofit()
+                            .create(PatientApiService::class.java)
 
-                        encounterSearch.getEncountersOfPatient(
-                            patient.identifiers.get(0).identifier,
-                            Constant.REPRESENTATION
-                        ).enqueue(object : Callback<ReportEncountersApiResponse> {
-                            override fun onResponse(
-                                call: Call<ReportEncountersApiResponse>,
-                                response: Response<ReportEncountersApiResponse>
-                            ) {
-                                Timber.e(response.message())
-                                if (response.isSuccessful) {
+                        encounterSearch.getEncountersOfPatient(patient.identifiers.get(0).identifier, Constant.REPRESENTATION)
+                            .enqueue(object : Callback<ReportEncountersApiResponse> {
+                                override fun onResponse(call: Call<ReportEncountersApiResponse>, response: Response<ReportEncountersApiResponse>) {
+                                    Timber.e(response.message())
+                                    if (response.isSuccessful) {
 
-                                    encountersList = response.body()!!.encounters
-                                    DataAccess.getInstance().insertServiceHistory(
-                                        context,
-                                        patient.identifiers.get(0).identifier,
-                                        encountersList
-                                    );
+                                        encountersList = response.body()!!.encounters
+                                        DataAccess.getInstance()
+                                            .insertServiceHistory(context, patient.identifiers.get(0).identifier, encountersList);
 
-                                    encounterSearch.getXRayOrderFormByPatientIdentifier(
-                                        patient.identifiers.get(
-                                            0
-                                        ).identifier, Constant.REPRESENTATION
-                                    ).enqueue(object : Callback<EncounterMapperApiResponse> {
-                                        override fun onResponse(
-                                            call: Call<EncounterMapperApiResponse>,
-                                            response: Response<EncounterMapperApiResponse>
-                                        ) {
-                                            var covidResult = "NONE"
-                                            if (response.isSuccessful) {
+                                        encounterSearch.getXRayOrderFormByPatientIdentifier(patient.identifiers.get(0).identifier, Constant.REPRESENTATION)
+                                            .enqueue(object : Callback<EncounterMapperApiResponse> {
+                                                override fun onResponse(call: Call<EncounterMapperApiResponse>, response: Response<EncounterMapperApiResponse>) {
+                                                    var covidResult = "NONE"
+                                                    if (response.isSuccessful) {
 
-                                                val result = response.body()!!.encounterMapper
-                                                try {
-                                                    covidResult =
-                                                        result.get(0).resultEncounterId.obs[0].display.split(
-                                                            ":"
-                                                        ).get(1)
+                                                        val result = response.body()!!.encounterMapper
+                                                        try {
+                                                            covidResult = result.get(0).resultEncounterId.obs[0].display.split(":")
+                                                                .get(1)
 
-                                                } catch (e: Exception) {
+                                                        } catch (e: Exception) {
 
-                                                    covidResult =
-                                                        extractFromEncountersList(encountersList)
+                                                            covidResult = extractFromEncountersList(encountersList)
+                                                        }
+
+                                                    }
+                                                    initializePatient(patient, covidResult.trim())
                                                 }
 
-                                            }
-                                            initializePatient(patient, covidResult.trim())
-                                        }
+                                                override fun onFailure(call: Call<EncounterMapperApiResponse>, t: Throwable) {
+                                                    Timber.e(t.localizedMessage)
 
-                                        override fun onFailure(
-                                            call: Call<EncounterMapperApiResponse>,
-                                            t: Throwable
-                                        ) {
-                                            Timber.e(t.localizedMessage)
-
-                                            Toast.makeText(
-                                                context,
-                                                "Error fetching X-Ray Order Form",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    })
+                                                    Toast.makeText(context, "Error fetching X-Ray Order Form", Toast.LENGTH_SHORT)
+                                                        .show()
+                                                }
+                                            })
+                                    }
                                 }
-                            }
 
-                            override fun onFailure(
-                                call: Call<ReportEncountersApiResponse>,
-                                t: Throwable
-                            ) {
-                                Timber.e(t.localizedMessage)
+                                override fun onFailure(call: Call<ReportEncountersApiResponse>, t: Throwable) {
+                                    Timber.e(t.localizedMessage)
 
-                                networkProgressDialog.dismiss()
+                                    networkProgressDialog.dismiss()
 
-                                Toast.makeText(
-                                    context,
-                                    "Error fetching Encounters",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
+                                    Toast.makeText(context, "Error fetching Encounters", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            })
 
                     }
                 }
@@ -232,8 +195,8 @@ class SearchPatientAdapter(
             }
         }
 
-        if (covidAllResults.size > 0)
-            return covidAllResults.get(covidAllResults.firstKey()).toString();
+        if (covidAllResults.size > 0) return covidAllResults.get(covidAllResults.firstKey())
+            .toString();
         return "NONE"
     }
 
@@ -242,19 +205,7 @@ class SearchPatientAdapter(
         var serverResponse: JSONObject? = null
         var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
 
-        var offlinePatient = OfflinePatient(
-            patient.identifiers.get(0).identifier,
-            "",
-            "",
-            "",
-            "",
-            0,
-            patient.person.getDisplay(),
-            patient.person.getGender(),
-            dob,
-            null,
-            null
-        )
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null)
 
 
         //Initialization of summary fields
