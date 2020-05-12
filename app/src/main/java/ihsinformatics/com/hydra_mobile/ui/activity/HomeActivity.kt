@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -20,13 +19,13 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
@@ -54,7 +53,6 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
-import org.jetbrains.anko.backgroundColor
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
@@ -66,6 +64,7 @@ import retrofit2.Response
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -102,8 +101,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var topLayout:LinearLayout
 
 
-    private var Create_Patient_Count: Int = 0
-    private var Send_Create_Patient_Count: Int = 0
+    private var sentCreatePatientsCount: Int = 0
+    private var sentEncountersCount: Int = 0
     private var isUp = true;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -392,58 +391,38 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    private var createPatientForm:List<SaveableForm> = arrayListOf<SaveableForm>();
+    private var encounterForms:List<SaveableForm> = arrayListOf<SaveableForm>();
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
             R.id.nav_createPatient -> {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
                 startActivityForResult(Intent(this, Form::class.java), 112)
 
             }
-
             R.id.nav_backup -> {
+                sentCreatePatientsCount = 0
 
-                Create_Patient_Count = 0
-                Send_Create_Patient_Count = 0
+                // get all non uploaded form from database
                 val saveableForms = DataAccess.getInstance().getAllForms(this)
 
-                // find out how many create patients forms are in local db
+                // separate createPatientForms and encounterForms
+                createPatientForm = arrayListOf<SaveableForm>()
+                encounterForms = arrayListOf<SaveableForm>()
                 for (i in saveableForms) {
                     if (isInternetConnected()) {
                         if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-                            Create_Patient_Count++
+                            (createPatientForm as ArrayList<SaveableForm>).add(i)
+                        } else {
+                            (encounterForms as ArrayList<SaveableForm>).add(i)
                         }
                     }
                 }
-                //sends create patient form first form
-                if (Create_Patient_Count != 0) {
-                    for (i in saveableForms) {
-                        if (isInternetConnected()) {
-                            if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-                                sendData(i.formData, i.formId)
-                            }
-                        } else {
-                            ToastyWidget.getInstance().displayError(
-                                this,
-                                getString(R.string.internet_issue),
-                                Toast.LENGTH_SHORT
-                            )
-                        }
-                    }
-                } else {
-                    for (i in saveableForms) {
-                        if (isInternetConnected()) {
-                            sendData(i.formData, i.formId)
 
-                        } else {
-                            ToastyWidget.getInstance().displayError(
-                                this,
-                                getString(R.string.internet_issue),
-                                Toast.LENGTH_SHORT
-                            )
-                        }
-                    }
-                }
+                // start uploading forms
+                initDataUpload()
+
             }
 
 
@@ -483,6 +462,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
+    private fun initDataUpload() {
+        if (isInternetConnected()) {
+            if (createPatientForm.size > 0)
+                sendData(createPatientForm.get(0).formData, createPatientForm.get(0).formId)
+            else if(encounterForms.size>0)
+                sendData(encounterForms.get(0).formData, encounterForms.get(0).formId)
+        } else {
+            ToastyWidget.getInstance().displayError(
+                this,
+                getString(R.string.internet_issue),
+                Toast.LENGTH_SHORT
+            )
+        }
+    }
+
     val failedIdsList = arrayListOf<String>()
     private fun sendData(formData: JSONObject?, formId: Long) {
 
@@ -504,19 +498,19 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val failedIdentifier: String = metaData.getString("mrNumber")
                     failedIdsList.add(failedIdentifier)
                 }
-                Send_Create_Patient_Count++
-                sendEncounters() 
                 ToastyWidget.getInstance().displayError(this@HomeActivity, "Error", Toast.LENGTH_SHORT)
+
+                doPostResponse(metaData)
             }
 
             override fun onResponse(
                 call: Call<formSubmission>, response: Response<formSubmission>
             ) {
+                val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
                 if (response.isSuccessful) {
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance().deleteFormByFormID(this@HomeActivity, formId)
                 } else {
-                    val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
                     if(metaData.has("mrNumber")) {
                         val failedIdentifier: String = metaData.getString("mrNumber")
                         failedIdsList.add(failedIdentifier)
@@ -525,34 +519,60 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
                 }
 
-                Send_Create_Patient_Count++
-                sendEncounters()
+                doPostResponse(metaData)
             }
         })
-
     }
 
-    private fun sendEncounters() {
-        if (Create_Patient_Count == Send_Create_Patient_Count) {
-            val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+    private fun doPostResponse(metadata: JSONObject) {
+        if(metadata.has("mrNumber")) { // means its a createPatientForm
+            sentCreatePatientsCount++
+        } else { // means its an encounterForm
+            sentEncountersCount++
+        }
+        if (isInternetConnected()) {
+            if (createPatientForm.size == sentCreatePatientsCount) { // All create patient forms are uploaded, send encounter form
+                if(sentEncountersCount<encounterForms.size)
+                    sendData(
+                        encounterForms.get(sentEncountersCount).formData,
+                        encounterForms.get(sentEncountersCount).formId)
+            } else { // All create patient forms are not uploaded, upload the remaining ones
+                sendData(
+                    createPatientForm.get(sentCreatePatientsCount).formData,
+                    createPatientForm.get(sentCreatePatientsCount).formId
+                )
+            }
+        }  else {
+            ToastyWidget.getInstance().displayError(
+                this@HomeActivity,
+                getString(R.string.internet_issue),
+                Toast.LENGTH_SHORT
+            )
+        }
+    }
 
-            for (i in saveableForms) {
-                if (isInternetConnected()) {
-                    val metaData: JSONObject  = i.formData.getJSONObject("metadata")
-                    if(metaData.has("mrNumber")) // this means it is a patient creation form
-                        continue
-                    val identifier: String = metaData.getJSONObject("patient").getJSONArray("identifiers").getJSONObject(0).getString("value")
-                    if(!failedIdsList.contains(identifier))
-                        sendData(i.formData, i.formId)
-                } else {
-                    ToastyWidget.getInstance().displayError(
-                        this@HomeActivity,
-                        getString(R.string.internet_issue),
-                        Toast.LENGTH_SHORT
-                    )
-                }
+    @Deprecated("Changed the flow for the form uploading, this functions is useless now")
+    private fun initSendEncounters() {
+
+        val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+
+        for (i in saveableForms) {
+            if (isInternetConnected()) {
+                val metaData: JSONObject  = i.formData.getJSONObject("metadata")
+                if(metaData.has("mrNumber")) // this means it is a patient creation form
+                    continue
+                val identifier: String = metaData.getJSONObject("patient").getJSONArray("identifiers").getJSONObject(0).getString("value")
+                if(!failedIdsList.contains(identifier))
+                    sendData(i.formData, i.formId)
+            } else {
+                ToastyWidget.getInstance().displayError(
+                    this@HomeActivity,
+                    getString(R.string.internet_issue),
+                    Toast.LENGTH_SHORT
+                )
             }
         }
+
     }
 
     private fun initPhase() {
@@ -608,8 +628,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (Global.patientData != null) {
 
             setCovidResults()
-
-
 
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE

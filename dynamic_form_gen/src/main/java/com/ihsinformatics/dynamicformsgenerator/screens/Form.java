@@ -113,6 +113,8 @@ public class Form extends BaseActivity {
         toolbar.setTitle(ENCOUNTER_NAME);
 
 
+
+        //Edit Form Mode
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);
         editFormId = i.getLongExtra(GlobalConstants.KEY_FORM_ID, -1);
@@ -146,6 +148,7 @@ public class Form extends BaseActivity {
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
                 llMain.addView(w);
 
+                //Setting values if form is in edit mode
                 if (loadData && jsonData != null) {
                     temp = jsonUtils.findJSONObjectInHYDRAJSONArray(q.getText(), jsonData);
                     if (temp != null && w != null) {

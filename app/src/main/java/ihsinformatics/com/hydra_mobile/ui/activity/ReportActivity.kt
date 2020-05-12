@@ -210,15 +210,6 @@ class ReportActivity : BaseActivity() {
             expandableListView!!.setAdapter(adapter)
 
         }
-//        else {
-//            ToastyWidget.getInstance().displayError(
-//                this@ReportActivity,
-//                getString(R.string.no_encounter_for_patient),
-//                Toast.LENGTH_LONG
-//            )
-//            startActivity(Intent(this@ReportActivity, HomeActivity::class.java))
-//        }
-
     }
 
     fun setEncounterListForOfflinePatient() {
