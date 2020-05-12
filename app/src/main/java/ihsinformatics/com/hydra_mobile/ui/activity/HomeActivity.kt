@@ -1,8 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -11,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -21,6 +20,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -53,8 +53,8 @@ import ihsinformatics.com.hydra_mobile.ui.viewmodel.FormViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkflowPhasesMapViewModel
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import kotlinx.android.synthetic.main.app_bar_main_menu.*
 import kotlinx.android.synthetic.main.nav_header_main_menu.view.*
+import org.jetbrains.anko.backgroundColor
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
@@ -95,9 +95,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var covidInfo:LinearLayout
     private lateinit var covidAlert:LinearLayout
     private lateinit var damage:TextView
+    private lateinit var dropDownIcon:ImageView
 
     private lateinit var covidInfoImage:ImageView
     private lateinit var covidInfoLayout:LinearLayout
+    private lateinit var topLayout:LinearLayout
+
 
     private var Create_Patient_Count: Int = 0
     private var Send_Create_Patient_Count: Int = 0
@@ -145,19 +148,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         covidAlert=findViewById(R.id.covidAlert)
         covidInfo = findViewById(R.id.covidInfo)
+        dropDownIcon = findViewById(R.id.dropDownIcon)
+
         damage = findViewById(R.id.damage)
         covidInfoLayout = findViewById(R.id.lungLayout)
         covidInfoImage = findViewById(R.id.lungs)
+
+        topLayout = findViewById(R.id.topLayout)
+
 
 
         covidAlert.setOnClickListener{
             if (isUp) {
                 covidInfo.animate().translationY(-covidInfo.height.toFloat()).alpha(0f);
-                //slideDown(covidInfo)
+                dropDownIcon.setImageDrawable(getDrawable(R.drawable.ic_alertmenu))
+                //topLayout.visibility=View.GONE
             } else {
-               // slideUp(covidInfo);
                 covidInfo.animate().translationY(0f).alpha(1f)
-
+                dropDownIcon.setImageDrawable(getDrawable(R.drawable.ic_arrows))
+                //topLayout.visibility=View.VISIBLE
             }
             isUp = !isUp;
 
@@ -642,6 +651,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         } else {
             covidInfo.visibility=View.GONE
             covidAlert.visibility=View.GONE
+            topLayout.visibility=View.GONE
             tvPatientName?.visibility = View.GONE
             tvPatientLastName?.visibility = View.GONE
             tvAge?.visibility = View.GONE
@@ -655,6 +665,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun setCovidResults() {
         damage.text=Global.patientData.covidResult
         covidAlert.visibility=View.VISIBLE
+        topLayout.visibility=View.VISIBLE
         covidInfo.visibility=View.VISIBLE
 
         when(damage.text.toString().toUpperCase()){
@@ -673,6 +684,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             else ->{
                 covidInfo.visibility=View.GONE
                 covidAlert.visibility=View.GONE
+                topLayout.visibility=View.GONE
             }
         }
     }

@@ -195,8 +195,8 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
             }
         }
 
-        if (covidAllResults.size > 0) return covidAllResults.get(covidAllResults.firstKey())
-            .toString();
+        if (covidAllResults.size > 0)
+            return covidAllResults.get(covidAllResults.lastKey()).toString();
         return "NONE"
     }
 
