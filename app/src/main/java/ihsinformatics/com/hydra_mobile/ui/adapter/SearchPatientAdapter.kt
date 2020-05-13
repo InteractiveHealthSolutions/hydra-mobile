@@ -92,7 +92,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         @RequiresApi(Build.VERSION_CODES.M) fun bindItems(patient: Patient) {
 
             if (patient != null && null != patient.identifiers && patient.identifiers.size > 0) {
-                tvPatientName.text = patient.identifiers.get(0).identifier
+                tvPatientIdentifier.text = patient.identifiers.get(0).identifier
 
                 if (!patient.person.getBirthDate().isNullOrBlank()) {
                     val birthTime = DateTime(patient.person.getBirthDate())
@@ -105,7 +105,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                     tvPatientAge.setText(years.toString() + " years, " + months.toString() + " months")
                 }
 
-                if (null != patient.identifiers.get(0)) tvPatientIdentifier.text = patient.person.getDisplay()
+                if (null != patient.identifiers.get(0)) tvPatientName.text = patient.person.getDisplay()
 
                 if (patient.person.getGender().toLowerCase().contains("f")) {
                     genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
