@@ -36,6 +36,7 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.content_search.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -56,9 +57,10 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     private lateinit var searchPatientResultRecyclerView: RecyclerView
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
     private lateinit var nothingToShow: TextView
+    private lateinit var noResultIV: ImageView
     private lateinit var recyclerLayout: LinearLayout
     private lateinit var patientSearchAdapter: SearchPatientAdapter
-    private lateinit var btnSearch: Button
+    private lateinit var search: LinearLayout
 
     private var offlinePatientList = ArrayList<PatientData>()
     private lateinit var offlinePatientAdapter: OfflinePatientAdapter
@@ -113,9 +115,10 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         networkProgressDialog = NetworkProgressDialog(this)
         edtIdentifier = findViewById<EditText>(R.id.edt_search_by_identifier)
-        btnSearch = findViewById<Button>(R.id.btn_patient_search)
+        search = findViewById<LinearLayout>(R.id.btn_patient_search)
 
         nothingToShow = findViewById(R.id.nothingToShow)
+        noResultIV = findViewById(R.id.no_result)
         recyclerLayout = findViewById(R.id.recyclerLayout)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
@@ -127,7 +130,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
-        btnSearch.setOnClickListener(this)
+        search.setOnClickListener(this)
 
 
         qrReader = findViewById<View>(R.id.qrReader) as ImageView
@@ -159,6 +162,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     private fun setVisibilities() {
 
         nothingToShow.visibility = View.GONE
+        no_result.visibility = View.GONE
         recyclerLayout.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
@@ -174,7 +178,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
-
+                no_result.visibility = View.VISIBLE
                 recyclerLayout.visibility=View.GONE
             }
         }
