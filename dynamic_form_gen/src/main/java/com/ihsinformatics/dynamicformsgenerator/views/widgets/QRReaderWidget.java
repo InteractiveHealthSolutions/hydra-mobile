@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.google.zxing.Result;
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator;
@@ -29,16 +30,21 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
 import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
 
 /**
  * Created by Owais on 11/2/2017.
  */
-public class QRReaderWidget extends InputWidget implements View.OnClickListener {
+public class QRReaderWidget extends InputWidget implements View.OnClickListener ,ZXingScannerView.ResultHandler  {
     protected EditText etAnswer;
     protected LinearLayout QRCodeReader;
     protected Dialog dialog;
     protected QuestionConfiguration configuration;
+
+    private ZXingScannerView mScannerView;
+    protected Dialog dialogBarCodeAndQRCode;
 
     public QRReaderWidget(Context context, Question question, int layoutId) {
         super(context, question,layoutId);
@@ -47,6 +53,11 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
         etAnswer = (EditText) findViewById(R.id.etAnswer);
         QRCodeReader = (LinearLayout) findViewById(R.id.qrCodeReader);
         QRCodeReader.setOnClickListener(this);
+
+        mScannerView = new ZXingScannerView(context);   // Programmatically initialize the scanner view
+        dialogBarCodeAndQRCode = new Dialog(getContext());
+        dialogBarCodeAndQRCode.setContentView(mScannerView);
+
         // if(options == null) options = DataProvider.getInstance(context).getOptions(question.getQuestionId());
         if (options.size() > 0) {
             setOptionsOrHint(options.get(0));
@@ -126,7 +137,8 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
             if (Build.VERSION.SDK_INT >= 23) {
                 checkCameraPermission();
             } else {
-                showQRCodeReaderDialog();
+                //showQRCodeReaderDialog();
+                showQRAndBarCodeReaderDialog();
             }
         }
     }
@@ -153,7 +165,8 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
                     getQuestionId());
             return;
         }
-        showQRCodeReaderDialog();
+        //showQRCodeReaderDialog();
+        showQRAndBarCodeReaderDialog();
     }
 
     public void showQRCodeReaderDialog() {
@@ -179,6 +192,14 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
         });
     }
 
+    public void showQRAndBarCodeReaderDialog()
+    {
+        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+        mScannerView.stopCamera();
+        mScannerView.startCamera();          // Start camera on resume
+        dialogBarCodeAndQRCode.show();
+    }
+
     public String getValue() {
         return etAnswer.getText().toString();
     }
@@ -190,5 +211,13 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
     @Override
     public String getServiceHistoryValue() {
         return getValue();
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        etAnswer.setText(result.getText());
+        etAnswer.setEnabled(true);
+        mScannerView.stopCamera();
+        dialogBarCodeAndQRCode.dismiss();
     }
 }

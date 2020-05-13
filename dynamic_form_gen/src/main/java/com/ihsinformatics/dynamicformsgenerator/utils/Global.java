@@ -11,10 +11,10 @@ import java.util.Locale;
 
 public class Global {
 	public static PatientData patientData;
-	public static PatientData temp;
 
 	public static String WORKFLOWUUID;
 
+	public static String USERUUID;
 	public static String USERNAME;
 	public static String PASSWORD;
 	public static String PROVIDER;

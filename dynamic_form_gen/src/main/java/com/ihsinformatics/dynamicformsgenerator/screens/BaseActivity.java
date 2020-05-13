@@ -664,7 +664,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             } else if (w instanceof QRReaderWidget) {
                 QRReaderWidget q = (QRReaderWidget) w;
                 if (permissions[0].equals(Manifest.permission.CAMERA)) {
-                    q.showQRCodeReaderDialog();
+                    //q.showQRCodeReaderDialog();
+                     q.showQRAndBarCodeReaderDialog();
                 }
             }
         } else {
@@ -1083,13 +1084,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
      1. Equals: Equals is a list of strings of widget values that checks if current selected value of widget is in this list or not
      2. NotEquals: NotEquals is a list of strings of widget values that checks current selected value of widget must not be in this list
+     3. lessThan: This list contains numeric values. Condition is satisfied if current parent value is less than values given in this list
+     4. greaterThan: This list contains numeric values. Condition is satisfied if current parent value is greater than values given in this list
 
-     (Not implemented: These below fields will work with EditText Widget only majority times)
+     (Not implemented: These below fields will work with EditText Widget only majority times But it does not mean that it wont work with other widgets except multiselect)
 
-     3. EqualsTo: This list contains numeric values that must satisfy
-     4. NotEqualsTo: This list may contains numeric values that must not be satisfied
-     5. lessThan: This list contains numeric values. Condition is satisfied if current parent value is less than values given in this list
-     6. greaterThan: This list contains numeric values. Condition is satisfied if current parent value is greater than values given in this list
+     5. EqualsTo: This list contains numeric values that must satisfy
+     6. NotEqualsTo: This list may contains numeric values that must not be satisfied
 
      **/
 
@@ -1139,10 +1140,12 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
      Case 2B:
 
      Case 3A:
-            Parent may be hidden. so we dont need to do anything  Thats why case #A is not impelented because no need to implement seperately
+            Parent may be hidden. so we dont need to do anything  Thats why case 3A is not implemented because no need to implement seperately
 
      Case 3B:
             Parent may be hidden and it could be first iteration. In case of first iteration we need to keep final visibility = null
+
+        Important point: We dont check final_visibility==null in true cases else final visibility will never be true
      * **/
 
 
@@ -1206,6 +1209,20 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             else if (changerQuestion.getNotEqualsList().size() != 0 && !changerQuestion.getNotEqualsList().contains(changer.getValue())) {
                                 final_visibility = true;
                                 loopFirstIteration = false;
+                            }
+
+                            if(final_visibility!=null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())){
+
+                                Integer number=Integer.parseInt(changer.getValue());
+                                if(changerQuestion.getLessThanList().size()>0 && Collections.max(changerQuestion.getLessThanList()) > number){
+                                    final_visibility=true;
+                                    loopFirstIteration=false;
+                                }
+
+                                if(changerQuestion.getGreaterThanList().size()>0 && Collections.min(changerQuestion.getGreaterThanList()) < number){
+                                    final_visibility=true;
+                                    loopFirstIteration=false;
+                                }
                             }
                         }
                     }
@@ -1273,6 +1290,35 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                 } else {
                                     final_visibility = true;
                                     loopFirstIteration = false;
+                                }
+
+                                if(final_visibility!=null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())){
+
+                                    Integer number=Integer.parseInt(changer.getValue());
+                                    if(changerQuestion.getLessThanList().size()>0 && Collections.max(changerQuestion.getLessThanList()) > number){
+                                        final_visibility=true;
+                                        loopFirstIteration=false;
+                                    }
+                                    else if(changerQuestion.getLessThanList().size()>0){
+                                        final_visibility=false;
+                                        loopFirstIteration=false;
+                                        break;
+                                    }
+
+                                    if(changerQuestion.getGreaterThanList().size()>0 && Collections.min(changerQuestion.getGreaterThanList()) < number){
+                                        final_visibility=true;
+                                        loopFirstIteration=false;
+                                    }
+                                    else if(changerQuestion.getGreaterThanList().size()>0){
+                                        final_visibility=false;
+                                        loopFirstIteration=false;
+                                        break;
+                                    }
+                                }else if(changer.getValue().equals("") && (changerQuestion.getLessThanList().size()>0 || changerQuestion.getGreaterThanList().size()>0))
+                                {
+                                    final_visibility=false;
+                                    loopFirstIteration=false;
+                                    break;
                                 }
                             }
                         } else {

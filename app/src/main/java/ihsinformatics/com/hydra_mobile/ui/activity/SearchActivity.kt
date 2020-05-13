@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
+import com.google.zxing.Result
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
@@ -35,6 +36,8 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.content_search.*
+import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
@@ -43,17 +46,21 @@ import org.json.JSONObject
 import timber.log.Timber
 
 
-class SearchActivity : BaseActivity(), View.OnClickListener {
+class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.ResultHandler {
 
+
+    private var mScannerView: ZXingScannerView? = null
+    protected var dialogBarCodeAndQRCode: Dialog? = null
 
     private lateinit var edtIdentifier: EditText
     private lateinit var patientViewModel: PatientViewModel
     private lateinit var searchPatientResultRecyclerView: RecyclerView
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
     private lateinit var nothingToShow: TextView
+    private lateinit var noResultIV: ImageView
     private lateinit var recyclerLayout: LinearLayout
     private lateinit var patientSearchAdapter: SearchPatientAdapter
-    private lateinit var btnSearch: Button
+    private lateinit var search: LinearLayout
 
     private var offlinePatientList = ArrayList<PatientData>()
     private lateinit var offlinePatientAdapter: OfflinePatientAdapter
@@ -69,6 +76,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private val MY_CAMERA_REQUEST_CODE = 100
 
     var requestType: String? = null
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,11 +109,16 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
     private fun initView() {
 
+        mScannerView = ZXingScannerView(this)
+        dialogBarCodeAndQRCode = Dialog(this)
+        dialogBarCodeAndQRCode!!.setContentView(mScannerView)
+
         networkProgressDialog = NetworkProgressDialog(this)
         edtIdentifier = findViewById<EditText>(R.id.edt_search_by_identifier)
-        btnSearch = findViewById<Button>(R.id.btn_patient_search)
+        search = findViewById<LinearLayout>(R.id.btn_patient_search)
 
         nothingToShow = findViewById(R.id.nothingToShow)
+        noResultIV = findViewById(R.id.no_result)
         recyclerLayout = findViewById(R.id.recyclerLayout)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
@@ -116,7 +130,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
-        btnSearch.setOnClickListener(this)
+        search.setOnClickListener(this)
 
 
         qrReader = findViewById<View>(R.id.qrReader) as ImageView
@@ -129,7 +143,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             if (Build.VERSION.SDK_INT >= 23) {
                 checkCameraPermission()
             } else {
-                showQRCodeReaderDialog()
+                // showQRCodeReaderDialog()
+                showQRAndBarCodeReaderDialog()
             }
         }
 
@@ -137,7 +152,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             if (Build.VERSION.SDK_INT >= 23) {
                 checkCameraPermission()
             } else {
-                showQRCodeReaderDialog()
+               // showQRCodeReaderDialog()
+                showQRAndBarCodeReaderDialog()
             }
         }
 
@@ -146,6 +162,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     private fun setVisibilities() {
 
         nothingToShow.visibility = View.GONE
+        no_result.visibility = View.GONE
         recyclerLayout.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
@@ -161,7 +178,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
-
+                no_result.visibility = View.VISIBLE
                 recyclerLayout.visibility=View.GONE
             }
         }
@@ -262,7 +279,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             ActivityCompat.requestPermissions((this as Activity?)!!, arrayOf(Manifest.permission.CAMERA), this.MY_CAMERA_REQUEST_CODE)
             return
         }
-        showQRCodeReaderDialog()
+        //showQRCodeReaderDialog()
+        showQRAndBarCodeReaderDialog()
     }
 
     fun showQRCodeReaderDialog() {
@@ -354,6 +372,23 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
         resp.remove(ParamNames.ENCOUNTERS_COUNT)
         resp.remove(ParamNames.PATIENT)
         return resp
+    }
+
+
+    fun showQRAndBarCodeReaderDialog() {
+        mScannerView!!.setResultHandler(this) // Register ourselves as a handler for scan results.
+        mScannerView!!.stopCamera()
+        mScannerView!!.startCamera() // Start camera on resume
+        dialogBarCodeAndQRCode!!.show()
+    }
+
+
+    override fun handleResult(p0: Result?) {
+        edtIdentifier.setText(p0!!.getText())
+        edtIdentifier.setEnabled(true)
+        mScannerView!!.stopCamera()
+        dialogBarCodeAndQRCode!!.dismiss()
+
     }
 
 }

@@ -95,6 +95,9 @@ public class ContactTracingWidget extends InputWidget {
         relations.add("Spouse");
         relations.add("Aunt/Uncle");
         relations.add("Contact");
+        relations.add("Other Relative");
+        relations.add("Other incl live-in Domestic stuff");
+
 
 
         submitNumber = findViewById(R.id.submitNumber);
@@ -113,14 +116,14 @@ public class ContactTracingWidget extends InputWidget {
                     etNumberOfContacts.setError("Required Field");
                 } else if (Integer.valueOf(contactCount) <= 0) {
 
-                    etNumberOfContacts.setError("Enter any number between 1 to 10");
+                    etNumberOfContacts.setError("Enter any number between 1 to 15");
 
                 } else if (firstTime) {
 
                     int count = Integer.valueOf(contactCount);
                     if (count == 0) {
-                        etNumberOfContacts.setError("Enter any number between 1 to 10");
-                    } else if (count > 0 && count <= 10) {
+                        etNumberOfContacts.setError("Enter any number between 1 to 15");
+                    } else if (count > 0 && count <= 15) {
                         etNumberOfContacts.setError(null);
                         for (int i = 0; i < count; i++) {
                             contactsText.add(new ContactDetails("Contact Details", String.valueOf(i + 1), configuration.getIdentifier().getDisplayText(), configuration.getFirstName().getDisplayText(), configuration.getFamilyName().getDisplayText(), configuration.getAge().getDisplayText(), configuration.getGender().getDisplayText(), configuration.getRelationship().getDisplayText()));
@@ -134,12 +137,12 @@ public class ContactTracingWidget extends InputWidget {
                             next.setVisibility(View.INVISIBLE);
                         }
                     } else {
-                        etNumberOfContacts.setError("Enter any number between 1 to 10");
+                        etNumberOfContacts.setError("Enter any number between 1 to 15");
                     }
                 } else {
                     final int previousSize = contactsText.size();
                     final int newSize = Integer.valueOf(contactCount);
-                    if (newSize > 0 && newSize <= 10) {
+                    if (newSize > 0 && newSize <= 15) {
                         if (newSize < previousSize) {
 
                             final int addedSize = previousSize - newSize;
@@ -181,7 +184,7 @@ public class ContactTracingWidget extends InputWidget {
                             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                         }
                     } else {
-                        etNumberOfContacts.setError("Enter any number between 1 to 10");
+                        etNumberOfContacts.setError("Enter any number between 1 to 15");
                     }
                 }
             }
@@ -199,7 +202,7 @@ public class ContactTracingWidget extends InputWidget {
         adapter = new ContactDetailsAdapter(context, contactsText, relations, configuration);
         contactRecyclerView.setAdapter(adapter);
         contactRecyclerView.setHasFixedSize(true);
-        contactRecyclerView.setItemViewCacheSize(10);
+        contactRecyclerView.setItemViewCacheSize(15);
         contactRecyclerView.setDrawingCacheEnabled(true);
 
         widgetBakery = new InputWidgetBakery();

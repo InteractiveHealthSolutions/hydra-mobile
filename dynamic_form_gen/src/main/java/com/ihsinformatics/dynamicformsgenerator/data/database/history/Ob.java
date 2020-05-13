@@ -5,6 +5,8 @@ public class Ob {
     private String display;
     private String obsDatetime;
 
+    private Concept concept;
+
     private String resourceVersion;
     private String status;
     private String uuid;
@@ -102,5 +104,13 @@ public class Ob {
 
     public void setValueModifier(Object valueModifier) {
         this.valueModifier = valueModifier;
+    }
+
+    public Concept getConcept() {
+        return concept;
+    }
+
+    public void setConcept(Concept concept) {
+        this.concept = concept;
     }
 }

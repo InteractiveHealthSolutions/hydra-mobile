@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.data.remote.service
 
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
+import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowUserMappingApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import io.reactivex.Observable
 import retrofit2.Call
@@ -13,8 +14,12 @@ interface WorkFlowApiService {
 
     @Headers("Accept: application/json")
     @GET("hydra/workflow")
-    fun getWorkFlow(@Query("v") representation: String): Call<WorkFlowApiResponse>
+    fun getAllWorkFlow(@Query("v") representation: String): Call<WorkFlowApiResponse>
 
     @GET("hydra/workflow")
     fun fetchWorkFlow(@Query("v") representation: String): Observable<WorkFlowApiResponse>
+
+    @GET("hydra/userworkflow")
+    fun getWorkFlowByUserMapping(@Query("v") representation: String, @Query("q") userUUID: String): Call<WorkFlowUserMappingApiResponse>
+
 }

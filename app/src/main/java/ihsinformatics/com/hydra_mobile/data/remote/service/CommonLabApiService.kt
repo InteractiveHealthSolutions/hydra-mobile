@@ -17,17 +17,6 @@ interface CommonLabApiService {
     ): Call<CommonLabApiResponse>
 
 
-    @GET("encounter")
-    fun getEncountersByPatientUUID(
-        @Query("patient") patient: String, @Query("v") representation: String
-    ): Call<EncountersApiResponse>
-
-    @GET("encounter")
-    fun getEncountersOfPatient(
-        @Query("q") queryString: String, @Query("v") representation: String
-                                  ): Call<ReportEncountersApiResponse>
-
-
     @GET("commonlab/labtestattributetype")
     fun getLabTestAttributeType(
         @Query("testTypeUuid") testTypeUuid: String, @Query("v") representation: String

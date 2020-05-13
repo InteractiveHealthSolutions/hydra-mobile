@@ -26,6 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 
 
@@ -99,7 +100,9 @@ class CommonLabActivity : AppCompatActivity() {
             addTest.isClickable = false
             networkProgressDialog.show();
             //Fetching Encounters
-            testOrderSearch.getEncountersByPatientUUID(patientID, Constant.REPRESENTATION).enqueue(object : Callback<EncountersApiResponse> {
+            val encounterSearch = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getPatientRetrofit().create(PatientApiService::class.java)
+
+            encounterSearch.getEncountersByPatientUUID(patientID, Constant.REPRESENTATION).enqueue(object : Callback<EncountersApiResponse> {
                 override fun onResponse(
                     call: Call<EncountersApiResponse>, response: Response<EncountersApiResponse>
                                        ) {

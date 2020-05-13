@@ -25,6 +25,8 @@ public class OfflinePatient {
     public final static String COLUMN_ENCOUNTERS_JSON = "encounters_json";
     public final static String COLUMN_FIELDS_DATA_JSON = "fields_data_json";
 
+    public final static String COLUMN_COVID_RESULT = "covidResult";
+
 
 
 
@@ -72,9 +74,14 @@ public class OfflinePatient {
     @Property(nameInDb = COLUMN_FIELDS_DATA_JSON)
     private String fieldDataJson;
 
-    @Generated(hash = 2093261816)
-    public OfflinePatient(@NotNull String mrNumber, String pqId, String scId, String contact, String nic, Long id,
-                          String name, @NotNull String gender, Long dob, @NotNull String encounterJson, String fieldDataJson) {
+    @Property(nameInDb = COLUMN_COVID_RESULT)
+    private String covidResult;
+
+    @Generated(hash = 896017962)
+    public OfflinePatient(@NotNull String mrNumber, String pqId, String scId,
+            String contact, String nic, Long id, String name,
+            @NotNull String gender, Long dob, @NotNull String encounterJson,
+            String fieldDataJson, String covidResult) {
         this.mrNumber = mrNumber;
         this.pqId = pqId;
         this.scId = scId;
@@ -86,6 +93,7 @@ public class OfflinePatient {
         this.dob = dob;
         this.encounterJson = encounterJson;
         this.fieldDataJson = fieldDataJson;
+        this.covidResult = covidResult;
     }
 
     @Generated(hash = 495313978)
@@ -180,5 +188,13 @@ public class OfflinePatient {
         this.fieldDataJson = fieldDataJson;
     }
 
+    public String getCovidResult() {
+        return this.covidResult;
+    }
 
+    public void setCovidResult(String covidResult) {
+        this.covidResult = covidResult;
+    }
+
+    
 }

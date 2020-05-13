@@ -1,8 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -27,6 +25,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.common.FormDetails
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
 import com.ihsinformatics.dynamicformsgenerator.screens.Form
@@ -65,6 +64,7 @@ import retrofit2.Response
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -93,9 +93,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private lateinit var covidInfo:LinearLayout
     private lateinit var covidAlert:LinearLayout
+    private lateinit var damage:TextView
+    private lateinit var dropDownIcon:ImageView
 
-    private var Create_Patient_Count: Int = 0
-    private var Send_Create_Patient_Count: Int = 0
+    private lateinit var covidInfoImage:ImageView
+    private lateinit var covidInfoLayout:LinearLayout
+    private lateinit var topLayout:LinearLayout
+
+
+    private var sentCreatePatientsCount: Int = 0
+    private var sentEncountersCount: Int = 0
     private var isUp = true;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +114,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //        checkSessionTimeOut()
 
 
+
+        Global.USERUUID = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.USERUUID, null)
         Global.USERNAME = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.USERNAME, null)
         Global.PASSWORD = GlobalPreferences.getinstance(this)
@@ -137,20 +147,31 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         covidAlert=findViewById(R.id.covidAlert)
         covidInfo = findViewById(R.id.covidInfo)
+        dropDownIcon = findViewById(R.id.dropDownIcon)
+
+        damage = findViewById(R.id.damage)
+        covidInfoLayout = findViewById(R.id.lungLayout)
+        covidInfoImage = findViewById(R.id.lungs)
+
+        topLayout = findViewById(R.id.topLayout)
+
 
 
         covidAlert.setOnClickListener{
             if (isUp) {
                 covidInfo.animate().translationY(-covidInfo.height.toFloat()).alpha(0f);
-                //slideDown(covidInfo)
+                dropDownIcon.setImageDrawable(getDrawable(R.drawable.ic_alertmenu))
+                //topLayout.visibility=View.GONE
             } else {
-               // slideUp(covidInfo);
                 covidInfo.animate().translationY(0f).alpha(1f)
-
+                dropDownIcon.setImageDrawable(getDrawable(R.drawable.ic_arrows))
+                //topLayout.visibility=View.VISIBLE
             }
             isUp = !isUp;
 
         }
+
+
 
         initSystemSettings()
         fillPatientInfoBar()
@@ -370,58 +391,38 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    private var createPatientForm:List<SaveableForm> = arrayListOf<SaveableForm>();
+    private var encounterForms:List<SaveableForm> = arrayListOf<SaveableForm>();
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
             R.id.nav_createPatient -> {
                 Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
                 startActivityForResult(Intent(this, Form::class.java), 112)
 
             }
-
             R.id.nav_backup -> {
+                sentCreatePatientsCount = 0
 
-                Create_Patient_Count = 0
-                Send_Create_Patient_Count = 0
+                // get all non uploaded form from database
                 val saveableForms = DataAccess.getInstance().getAllForms(this)
 
-                // find out how many create patients forms are in local db
+                // separate createPatientForms and encounterForms
+                createPatientForm = arrayListOf<SaveableForm>()
+                encounterForms = arrayListOf<SaveableForm>()
                 for (i in saveableForms) {
                     if (isInternetConnected()) {
                         if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-                            Create_Patient_Count++
+                            (createPatientForm as ArrayList<SaveableForm>).add(i)
+                        } else {
+                            (encounterForms as ArrayList<SaveableForm>).add(i)
                         }
                     }
                 }
-                //sends create patient form first form
-                if (Create_Patient_Count != 0) {
-                    for (i in saveableForms) {
-                        if (isInternetConnected()) {
-                            if (i.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
-                                sendData(i.formData, i.formId)
-                            }
-                        } else {
-                            ToastyWidget.getInstance().displayError(
-                                this,
-                                getString(R.string.internet_issue),
-                                Toast.LENGTH_SHORT
-                            )
-                        }
-                    }
-                } else {
-                    for (i in saveableForms) {
-                        if (isInternetConnected()) {
-                            sendData(i.formData, i.formId)
 
-                        } else {
-                            ToastyWidget.getInstance().displayError(
-                                this,
-                                getString(R.string.internet_issue),
-                                Toast.LENGTH_SHORT
-                            )
-                        }
-                    }
-                }
+                // start uploading forms
+                initDataUpload()
+
             }
 
 
@@ -461,6 +462,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
+    private fun initDataUpload() {
+        if (isInternetConnected()) {
+            if (createPatientForm.size > 0)
+                sendData(createPatientForm.get(0).formData, createPatientForm.get(0).formId)
+            else if(encounterForms.size>0)
+                sendData(encounterForms.get(0).formData, encounterForms.get(0).formId)
+        } else {
+            ToastyWidget.getInstance().displayError(
+                this,
+                getString(R.string.internet_issue),
+                Toast.LENGTH_SHORT
+            )
+        }
+    }
+
     val failedIdsList = arrayListOf<String>()
     private fun sendData(formData: JSONObject?, formId: Long) {
 
@@ -482,19 +498,19 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val failedIdentifier: String = metaData.getString("mrNumber")
                     failedIdsList.add(failedIdentifier)
                 }
-                Send_Create_Patient_Count++
-                sendEncounters() 
                 ToastyWidget.getInstance().displayError(this@HomeActivity, "Error", Toast.LENGTH_SHORT)
+
+                doPostResponse(metaData)
             }
 
             override fun onResponse(
                 call: Call<formSubmission>, response: Response<formSubmission>
             ) {
+                val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
                 if (response.isSuccessful) {
                     ToastyWidget.getInstance().displaySuccess(this@HomeActivity, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance().deleteFormByFormID(this@HomeActivity, formId)
                 } else {
-                    val metaData: JSONObject = formData!!.getJSONObject(ParamNames.METADATA)
                     if(metaData.has("mrNumber")) {
                         val failedIdentifier: String = metaData.getString("mrNumber")
                         failedIdsList.add(failedIdentifier)
@@ -503,34 +519,60 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     ToastyWidget.getInstance().displayError(this@HomeActivity, "Server error", Toast.LENGTH_SHORT)
                 }
 
-                Send_Create_Patient_Count++
-                sendEncounters()
+                doPostResponse(metaData)
             }
         })
-
     }
 
-    private fun sendEncounters() {
-        if (Create_Patient_Count == Send_Create_Patient_Count) {
-            val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+    private fun doPostResponse(metadata: JSONObject) {
+        if(metadata.has("mrNumber")) { // means its a createPatientForm
+            sentCreatePatientsCount++
+        } else { // means its an encounterForm
+            sentEncountersCount++
+        }
+        if (isInternetConnected()) {
+            if (createPatientForm.size == sentCreatePatientsCount) { // All create patient forms are uploaded, send encounter form
+                if(sentEncountersCount<encounterForms.size)
+                    sendData(
+                        encounterForms.get(sentEncountersCount).formData,
+                        encounterForms.get(sentEncountersCount).formId)
+            } else { // All create patient forms are not uploaded, upload the remaining ones
+                sendData(
+                    createPatientForm.get(sentCreatePatientsCount).formData,
+                    createPatientForm.get(sentCreatePatientsCount).formId
+                )
+            }
+        }  else {
+            ToastyWidget.getInstance().displayError(
+                this@HomeActivity,
+                getString(R.string.internet_issue),
+                Toast.LENGTH_SHORT
+            )
+        }
+    }
 
-            for (i in saveableForms) {
-                if (isInternetConnected()) {
-                    val metaData: JSONObject  = i.formData.getJSONObject("metadata")
-                    if(metaData.has("mrNumber")) // this means it is a patient creation form
-                        continue
-                    val identifier: String = metaData.getJSONObject("patient").getJSONArray("identifiers").getJSONObject(0).getString("value")
-                    if(!failedIdsList.contains(identifier))
-                        sendData(i.formData, i.formId)
-                } else {
-                    ToastyWidget.getInstance().displayError(
-                        this@HomeActivity,
-                        getString(R.string.internet_issue),
-                        Toast.LENGTH_SHORT
-                    )
-                }
+    @Deprecated("Changed the flow for the form uploading, this functions is useless now")
+    private fun initSendEncounters() {
+
+        val saveableForms = DataAccess.getInstance().getAllForms(this@HomeActivity)
+
+        for (i in saveableForms) {
+            if (isInternetConnected()) {
+                val metaData: JSONObject  = i.formData.getJSONObject("metadata")
+                if(metaData.has("mrNumber")) // this means it is a patient creation form
+                    continue
+                val identifier: String = metaData.getJSONObject("patient").getJSONArray("identifiers").getJSONObject(0).getString("value")
+                if(!failedIdsList.contains(identifier))
+                    sendData(i.formData, i.formId)
+            } else {
+                ToastyWidget.getInstance().displayError(
+                    this@HomeActivity,
+                    getString(R.string.internet_issue),
+                    Toast.LENGTH_SHORT
+                )
             }
         }
+
     }
 
     private fun initPhase() {
@@ -584,7 +626,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun fillPatientInfoBar() {
 
         if (Global.patientData != null) {
-            Global.temp = Global.patientData
+
+            setCovidResults()
+
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE
@@ -623,6 +667,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
             }
         } else {
+            covidInfo.visibility=View.GONE
+            covidAlert.visibility=View.GONE
+            topLayout.visibility=View.GONE
             tvPatientName?.visibility = View.GONE
             tvPatientLastName?.visibility = View.GONE
             tvAge?.visibility = View.GONE
@@ -630,6 +677,33 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             tvPatientIdentifier?.setText("Patient Not Loaded")
             ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_profile))
 
+        }
+    }
+
+    private fun setCovidResults() {
+        damage.text=Global.patientData.covidResult
+        covidAlert.visibility=View.VISIBLE
+        topLayout.visibility=View.VISIBLE
+        covidInfo.visibility=View.VISIBLE
+
+        when(damage.text.toString().toUpperCase()){
+            "LOW"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert_low))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_low)
+            }
+            "HIGH"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_high)
+            }
+            "MEDIUM"->{
+                covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert_med))
+                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_medium)
+            }
+            else ->{
+                covidInfo.visibility=View.GONE
+                covidAlert.visibility=View.GONE
+                topLayout.visibility=View.GONE
+            }
         }
     }
 

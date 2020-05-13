@@ -54,7 +54,7 @@ class WorkflowPhasesRepository(context: Context) {
 //        return workflowPhasesMap
 //    }
 
-    fun getRemoteWorkflowData(retrofitResponseListener: RetrofitResponseListener) {
+    fun getRemoteWorkflowPhaseData(retrofitResponseListener: RetrofitResponseListener) {
 //        try {
 //            val response = localFileReadForWorkFlow()
 //            for (i in response.workflowPhasesMap.indices) {
@@ -82,7 +82,7 @@ class WorkflowPhasesRepository(context: Context) {
                             insertWorkflowPhases(response.workflowPhasesMap[i])
                         }
                         retrofitResponseListener.onSuccess()
-                        Log.e("WorkflowLoading", "completed")
+                        Log.e("WorkflowPhaseLoading", "completed")
                     } catch (e: Exception) {
                         retrofitResponseListener.onFailure()
                     }

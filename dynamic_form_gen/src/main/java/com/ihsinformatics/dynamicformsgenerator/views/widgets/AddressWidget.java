@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator;
@@ -21,6 +23,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.AppUtility;
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +47,7 @@ public class AddressWidget extends InputWidget {
     private List<SpinnerAddressItem> spinnerAddressItems;
     private List<EditTextAddressItem> editTextAddressItems;
 
+
     public AddressWidget(Context context, Question question, int layoutId) {
         super(context, question, layoutId);
         if (super.configuration instanceof AddressConfiguration)
@@ -56,6 +60,7 @@ public class AddressWidget extends InputWidget {
         llMain = (LinearLayout) findViewById(R.id.llMain);
         setOptionsOrHint();
     }
+
 
     @Override
     public boolean isValidInput(boolean isNullable) {
@@ -87,7 +92,51 @@ public class AddressWidget extends InputWidget {
 
     @Override
     public void setAnswer(String answer, String uuid, Translator.LANGUAGE language) {
+        String[] allAnswers = answer.split("\n");
+        int i = 0;
+        for (i = 0; i < spinnerAddressItems.size(); i++) {
+            SpinnerAdapter adapter = spinnerAddressItems.get(i).spValues.getAdapter();
+            ArrayList<String> allAdapterItem = new ArrayList<>();
+            for (int j = 0; j < adapter.getCount(); j++) {
+                allAdapterItem.add(adapter.getItem(j).toString());
+            }
+            String currentValue = allAnswers[i].split(":")[1].trim();
 
+            int indexOfValue = allAdapterItem.indexOf(currentValue);
+            if (indexOfValue > -1) {
+                spinnerAddressItems.get(i).spValues.setSelection(allAdapterItem.indexOf(currentValue));
+                spinnerAddressItems.get(i).setDefaultValue(allAdapterItem.indexOf(currentValue));
+                explicitOnItemChange(spinnerAddressItems.get(i));
+            }
+            else
+            {
+                spinnerAddressItems.get(i).spValues.setSelection(allAdapterItem.indexOf(context.getText(R.string.other).toString()));
+                spinnerAddressItems.get(i).setDefaultValue(allAdapterItem.indexOf(context.getText(R.string.other).toString()));
+                spinnerAddressItems.get(i).etOther.setText(currentValue);
+                explicitOnItemChange(spinnerAddressItems.get(i));
+            }
+        }
+
+        for (int editTextCount = 0; editTextCount < editTextAddressItems.size(); editTextCount++) {
+
+            String currentValue = allAnswers[i].split(":")[1].trim();
+            editTextAddressItems.get(editTextCount).setValue(currentValue);
+            i++;
+        }
+    }
+
+    private void explicitOnItemChange(SpinnerAddressItem spinnerAddressItem) {
+        int selected = addressTags.indexOf(spinnerAddressItem.addressTag/*new AddressConfiguration.AddressTag(0, tvTag.getText().toString())*/);
+        if (selected + 1 < spinnerAddressItems.size()) {
+            String selectedText = spinnerAddressItem.spValues.getSelectedItem().toString();
+            spinnerAddressItems.get(selected + 1).resetAdapter(selectedText, spinnerAddressItem.addressTag.getTagName());
+        }
+
+        if (spinnerAddressItem.spValues.getSelectedItem().toString().equals(context.getString(R.string.other))) {
+            spinnerAddressItem.etOther.setVisibility(VISIBLE);
+        } else {
+            spinnerAddressItem.etOther.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -130,7 +179,7 @@ public class AddressWidget extends InputWidget {
         answer.put(ParamNames.VALUE, addressJson);
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         answer.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type());
-        if(question.getAttribute())
+        if (question.getAttribute())
             answer.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
         else
             answer.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_FALSE);
@@ -140,8 +189,30 @@ public class AddressWidget extends InputWidget {
     }
 
     @Override
-    public String getValue() {
-        return null;
+    public String getValue() throws JSONException {
+
+        String addressJson = "";
+
+        for (SpinnerAddressItem addressItem : spinnerAddressItems) {
+
+            String response;
+            if (addressItem.etOther.getVisibility() != View.VISIBLE)
+                response = addressItem.spValues.getSelectedItem().toString();
+            else {
+                response = addressItem.etOther.getText().toString();
+            }
+            addressJson += addressItem.tvTag.getText().toString() + ": " + response;
+            addressJson += "\n";
+
+        }
+
+        for (EditTextAddressItem addressItem : editTextAddressItems) {
+            addressJson += addressItem.paramName + ": " + addressItem.etValues.getText().toString();
+            addressJson += "\n";
+        }
+
+        return addressJson;
+
     }
 
     @Override
@@ -150,7 +221,7 @@ public class AddressWidget extends InputWidget {
     }
 
     @Override
-    public String getServiceHistoryValue() {
+    public String getServiceHistoryValue() throws JSONException {
         return getValue();
     }
 
@@ -186,6 +257,8 @@ public class AddressWidget extends InputWidget {
 
         AddressConfiguration.AddressTag addressTag;
 
+        private int defaultValue;
+
         public SpinnerAddressItem(LinearLayout linearLayout, AddressConfiguration.AddressTag addressTag, String tag) {
             tvTag = (TextView) linearLayout.findViewById(R.id.tvQuestion);
             spValues = (com.toptoche.searchablespinnerlibrary.SearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
@@ -198,8 +271,13 @@ public class AddressWidget extends InputWidget {
             spValues.setOnItemSelectedListener(this);
         }
 
+        public void setDefaultValue(int defaultValue) {
+            this.defaultValue = defaultValue;
+        }
+
         @Override
         public void onItemSelected(AdapterView a, View view, int position, long id) {
+
             int selected = addressTags.indexOf(addressTag/*new AddressConfiguration.AddressTag(0, tvTag.getText().toString())*/);
             if (selected + 1 < spinnerAddressItems.size()) {
                 String selectedText = spValues.getSelectedItem().toString();
@@ -211,6 +289,7 @@ public class AddressWidget extends InputWidget {
             } else {
                 etOther.setVisibility(GONE);
             }
+
         }
 
         private void resetAdapter(String parentValue, String parentTag) {
@@ -228,6 +307,10 @@ public class AddressWidget extends InputWidget {
             locations.add(otherLocation);
             ArrayAdapter<Location> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, locations);
             spValues.setAdapter(adapter);
+
+            if (defaultValue != -1) {
+                spValues.setSelection(adapter.getPosition(locations.get(defaultValue)));
+            }
         }
 
 
@@ -249,6 +332,10 @@ public class AddressWidget extends InputWidget {
 
             tvTag.setText(openAddressField.getFieldName());
             paramName = openAddressField.getParamName();
+        }
+
+        public void setValue(String ans) {
+            etValues.setText(ans);
         }
     }
 }

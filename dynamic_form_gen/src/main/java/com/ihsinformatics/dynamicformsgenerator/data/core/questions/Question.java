@@ -355,7 +355,7 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGETS_TYPE_SINGLE_SELECT_TEXTVIEW;
                 break;
             }
-            case "qr_reader": {
+            case "Barcode Reader": {
                 this.questionType = InputWidgetsType.WIDGETS_TYPE_QR_READER;
                 break;
             }

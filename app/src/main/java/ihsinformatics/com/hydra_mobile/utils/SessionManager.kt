@@ -34,6 +34,7 @@ class SessionManager(context: Context) {
     val KEY_NAME = "productName"
     val KEY_PASS = "password"
     val KEY_PROVIDER = "provider"
+    val KEY_USERUUID = "userUUID"
 
     init {
         this._context = context
@@ -44,10 +45,12 @@ class SessionManager(context: Context) {
     /**
      * Create login session
      */
-    fun createLoginSession(name: String, password: String,provider:String) {
+    fun createLoginSession(uuid: String, name: String, password: String,provider:String) {
 
         // Storing name in pref
         editor.putString(KEY_NAME, name)
+        editor.putString(KEY_USERUUID, uuid)
+
 
         // Storing email in pref
         editor.putString(KEY_PASS, password)
@@ -89,6 +92,11 @@ class SessionManager(context: Context) {
         return pref.getString(KEY_NAME, "")
     }
 
+    fun getUserUUID(): String {
+        return pref.getString(KEY_USERUUID, "")
+    }
+
+
     fun getPassword(): String {
         return pref.getString(KEY_PASS, "")
     }
@@ -98,20 +106,6 @@ class SessionManager(context: Context) {
     }
 
 
-    /**
-     * Get stored session data
-     */
-    fun getUserDetails(): HashMap<String, String> {
-        val user = HashMap<String, String>()
-        // user name
-        user[KEY_NAME] = pref.getString(KEY_NAME, null)
-
-        // user email id
-        user[KEY_PASS] = pref.getString(KEY_PASS, null)
-
-        // return user
-        return user
-    }
 
     /**
      * Clear session details
