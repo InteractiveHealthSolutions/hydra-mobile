@@ -145,7 +145,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                                                         } catch (e: Exception) {
 
-                                                            covidResult = extractFromEncountersList(encountersList)
+                                                            covidResult = extractCovidFromXRayResultEncounters(encountersList)
                                                         }
 
                                                     }
@@ -180,7 +180,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
     }
 
 
-    private fun extractFromEncountersList(encountersList: ArrayList<Encounters>): String {
+    private fun extractCovidFromXRayResultEncounters(encountersList: ArrayList<Encounters>): String {
         var covidAllResults = TreeMap<String, String>()
         // var covidResult="NONE"
 
@@ -205,7 +205,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         var serverResponse: JSONObject? = null
         var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
 
-        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null)
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
 
 
         //Initialization of summary fields
