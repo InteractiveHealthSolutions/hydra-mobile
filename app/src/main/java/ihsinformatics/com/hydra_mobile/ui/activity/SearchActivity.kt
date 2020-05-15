@@ -325,6 +325,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                                 offlinePatient.mrNumber = identifier
                             }
                         }
+                        patientData.covidResult=patient.covidResult
                     }
                     val encounters = resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT) as JSONObject
 
@@ -336,6 +337,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                         offlinePatient.name = patient!!.givenName + " " + patient.familyName
                         offlinePatient.gender = patient.gender
                         offlinePatient.dob = patient.birthDate.time
+                        offlinePatient.covidResult = patient.covidResult
 
 
                         val birthDate = patient.birthDate
@@ -352,6 +354,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                     }
                     if (patientData != null) {
                         patientData.patient.age = years
+                        patientData.covidResult=patientData.covidResult
                         offlinePatientList.add(patientData)
                     }
 

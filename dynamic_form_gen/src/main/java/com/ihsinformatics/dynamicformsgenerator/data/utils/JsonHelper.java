@@ -111,6 +111,10 @@ public class JsonHelper {
                 String familyName = preferredName.getString(ParamNames.FAMILY_NAME);
                 String uuid = result.optString(ParamNames.UUID);
                 int age = Integer.parseInt(person.getString(ParamNames.PERSON_AGE));
+
+                JSONObject otherDetails = result.getJSONObject(ParamNames.OTHER_DETAILS);
+                String covidResult=otherDetails.optString(ParamNames.COVID_RESULT);
+
                 Date birthDate = null;
                 birthDate = Global.OPENMRS_TIMESTAMP_FORMAT.parse(person.getString(ParamNames.BIRTH_DATE));
                 String gender = person.getString(ParamNames.PERSON_GENDER);
@@ -123,7 +127,8 @@ public class JsonHelper {
                         age,
                         birthDate,
                         gender,
-                        locationId
+                        locationId,
+                        covidResult
                 );
             }
         } catch (ParseException e) {

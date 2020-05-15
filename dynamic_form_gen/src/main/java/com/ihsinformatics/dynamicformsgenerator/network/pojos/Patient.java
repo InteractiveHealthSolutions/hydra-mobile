@@ -19,7 +19,9 @@ public class Patient implements Serializable {
     private String gender;
     private int locationId;
 
-    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId) {
+    private String covidResult;
+
+    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId,String covidResult) {
         this.identifier = identifier;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -28,6 +30,7 @@ public class Patient implements Serializable {
         this.birthDate = birthDate;
         this.gender = gender;
         this.locationId = locationId;
+        this.covidResult=covidResult;
     }
 
     public String getIdentifier() {
@@ -92,6 +95,14 @@ public class Patient implements Serializable {
 
     public void setLocationId(int locationId) {
         this.locationId = locationId;
+    }
+
+    public String getCovidResult() {
+        return covidResult;
+    }
+
+    public void setCovidResult(String covidResult) {
+        this.covidResult = covidResult;
     }
 
     @Override

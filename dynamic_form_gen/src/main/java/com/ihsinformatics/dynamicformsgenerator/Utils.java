@@ -54,6 +54,9 @@ public class Utils {
         person.put("age", 0);
         person.put("preferredName", preferredName);
 
+        JSONObject otherDetails = new JSONObject();
+        otherDetails.put("covidResult",offlinePatient.getCovidResult());
+
         JSONObject identifierType = new JSONObject();
         identifierType.put("display", ParamNames.INDUS_PROJECT_IDENTIFIER);
 
@@ -83,6 +86,9 @@ public class Utils {
         JSONObject patient = new JSONObject();
         patient.put("identifiers", identifiers);
         patient.put("person", person);
+        patient.put(ParamNames.OTHER_DETAILS,otherDetails);
+
+
 
         String encounterJsonString = offlinePatient.getEncounterJson();
         if(encounterJsonString == null) encounterJsonString = new JSONArray().toString();
@@ -147,6 +153,8 @@ public class Utils {
                         offlinePatient.setName(patient.getGivenName() + " " + patient.getFamilyName());
                         offlinePatient.setGender(patient.getGender());
                         offlinePatient.setDob(patient.getBirthDate().getTime());
+                        offlinePatient.setCovidResult(patient.getCovidResult());
+
                         DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
                     }
                     Global.patientData = patientData;
