@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -98,7 +99,6 @@ public class ContactTracingWidget extends InputWidget {
         relations.add("Other incl live-in Domestic stuff");
 
 
-
         submitNumber = findViewById(R.id.submitNumber);
 
         etNumberOfContacts = findViewById(R.id.etNumberOfContacts);
@@ -182,8 +182,7 @@ public class ContactTracingWidget extends InputWidget {
 
                             questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                         }
-                    }
-                    else{
+                    } else {
                         etNumberOfContacts.setError("Enter any number between 1 to 15");
                     }
                 }
@@ -479,7 +478,12 @@ public class ContactTracingWidget extends InputWidget {
             EditText editText = (EditText) view;
             String years = editText.getText().toString();
             if (years != null && !years.equals("") && !years.equals(" ") && years.length() > 0) {
-                return true;
+                if (TextUtils.isDigitsOnly(years) && Integer.parseInt(years) >= 0)
+                    return true;
+                else {
+                    editText.setError("Age can't be negative");
+                    return false;
+                }
             } else if (years == null || years.equals("") || years.equals(" ")) {
                 editText.setError("Required field");
                 return false;
@@ -492,7 +496,12 @@ public class ContactTracingWidget extends InputWidget {
             EditText editText = (EditText) view;
             String months = editText.getText().toString();
             if (months != null && months.length() > 0) {
-                return true;
+                if (TextUtils.isDigitsOnly(months) && Integer.parseInt(months) >= 0)
+                    return true;
+                else {
+                    editText.setError("Age can't be negative");
+                    return false;
+                }
             } else if (months == null || months.equals("") || months.equals(" ")) {
                 editText.setError("Required field");
                 return false;
@@ -505,7 +514,12 @@ public class ContactTracingWidget extends InputWidget {
             EditText editText = (EditText) view;
             String days = editText.getText().toString();
             if (days != null && days.length() > 0) {
-                return true;
+                if (TextUtils.isDigitsOnly(days) && Integer.parseInt(days) >= 0)
+                    return true;
+                else {
+                    editText.setError("Age can't be negative");
+                    return false;
+                }
             } else if (days == null || days.equals("") || days.equals(" ")) {
                 editText.setError("Required field");
                 return false;

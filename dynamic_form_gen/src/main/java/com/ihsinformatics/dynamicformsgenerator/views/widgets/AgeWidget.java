@@ -164,7 +164,7 @@ public class AgeWidget extends InputWidget implements TextWatcher {
         int ageMonths = Integer.parseInt(etAgeMonths.getText().toString());
         int ageDays = Integer.parseInt(etAgeDays.getText().toString());
 
-        if (ageYears > 110 || ageMonths > 11 || ageDays > 30)
+        if ((ageYears > 110 || ageMonths > 11 || ageDays > 30) || (ageYears < 0 || ageMonths < 0 || ageDays < 0))
             return false;
 
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
