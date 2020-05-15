@@ -3,15 +3,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="180dp"
     android:layout_margin="@dimen/dimen_5dp"
     android:elevation="@dimen/dimen_24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_borders">
 
     <LinearLayout
         android:id="@+id/singleLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/blue_borders"
+        android:layout_height="wrap_content"
         android:weightSum="2">
         <!--image-->
         <LinearLayout
@@ -155,5 +159,27 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/deleteLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/singleLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:padding="10dp"
+        android:background="@drawable/circular_button"
+        android:backgroundTint="@color/Red"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:text="Delete">
+        </TextView>
+    </LinearLayout>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

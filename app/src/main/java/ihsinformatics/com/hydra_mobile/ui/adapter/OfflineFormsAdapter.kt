@@ -1,5 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -51,6 +52,7 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
+        val deleteLayout = itemView.findViewById<LinearLayout>(R.id.deleteLayout)
 
         @RequiresApi(Build.VERSION_CODES.M)
         fun bindItems(form: SaveableForm) {
@@ -88,6 +90,24 @@ class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context
                     {
                         ToastyWidget.getInstance().displayError(context,"Other patient is loaded",Toast.LENGTH_SHORT)
                     }
+
+                }
+
+                deleteLayout.setOnClickListener{
+
+                    val dialog = AlertDialog.Builder(context)
+                        .setMessage(context.getString(R.string.are_you_sure_exit_application))
+                        .setTitle(context.getString(R.string.are_you_sure))
+                        .setNegativeButton(context.getString(R.string.no), null)
+                        .setPositiveButton(
+                            context.getString(R.string.yes)
+                        ) { _, _ ->
+
+                            DataAccess.getInstance().deleteForm(context,form.formId.toInt())
+                            formsList.remove(form);
+                            notifyDataSetChanged()
+                        }
+                    dialog.show()
 
                 }
             }

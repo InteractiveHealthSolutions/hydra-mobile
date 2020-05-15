@@ -38,7 +38,7 @@ public class DateWidget extends InputWidget {
 
     private DatePickerDialog picker;
     private OnClickListener clickListener;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat dateFormat = Global.DATE_TIME_FORMAT;
 
     public DateWidget(final Context context, Question question, int layoutId) throws JSONException {
         super(context, question,layoutId);
@@ -116,6 +116,25 @@ public class DateWidget extends InputWidget {
     @Override
     public boolean isValidInput(boolean isMendatory) {
         Validation validation = Validation.getInstance();
+
+        // Checking that selected date must not be greater than today's date
+        if(isMendatory && etAnswer.getText().toString().trim().length() > 1) {
+            SimpleDateFormat dateFormat = Global.DATE_TIME_FORMAT;
+
+            if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
+                dateFormat = Global.TIME_FORMAT;
+            }
+
+            Date strDate = null;
+            try {
+                strDate = dateFormat.parse(etAnswer.getText().toString());
+                if (!configuration.getMaxDate().after(strDate)) {
+                    return false;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
     }
 
