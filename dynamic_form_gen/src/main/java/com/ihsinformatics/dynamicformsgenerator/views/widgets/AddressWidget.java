@@ -156,7 +156,7 @@ public class AddressWidget extends InputWidget {
             if (response.trim().length() < 1) {
                 addressItem.tvOtherMessage.setVisibility(VISIBLE);
                 addressItem.tvOtherMessage.setText(R.string.invalid_input);
-                // TODO uncheck this to make other mandatory isValidOther = false;
+                isValidOther = false;
             } else {
                 addressItem.tvOtherMessage.setVisibility(GONE);
                 addressItem.tvOtherMessage.setText("");
@@ -251,7 +251,8 @@ public class AddressWidget extends InputWidget {
     private class SpinnerAddressItem implements AdapterView.OnItemSelectedListener {
 
         TextView tvTag;
-        com.toptoche.searchablespinnerlibrary.SearchableSpinner spValues;
+
+        CustomSearchableSpinner spValues;
         EditText etOther;
         TextView tvOtherMessage;
 
@@ -261,7 +262,7 @@ public class AddressWidget extends InputWidget {
 
         public SpinnerAddressItem(LinearLayout linearLayout, AddressConfiguration.AddressTag addressTag, String tag) {
             tvTag = (TextView) linearLayout.findViewById(R.id.tvQuestion);
-            spValues = (com.toptoche.searchablespinnerlibrary.SearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
+            spValues = (CustomSearchableSpinner) linearLayout.findViewById(R.id.spAnswer);
             etOther = (EditText) linearLayout.findViewById(R.id.etAnswer);
             tvOtherMessage = (TextView) linearLayout.findViewById(R.id.tvMessage);
 
@@ -281,8 +282,11 @@ public class AddressWidget extends InputWidget {
             int selected = addressTags.indexOf(addressTag/*new AddressConfiguration.AddressTag(0, tvTag.getText().toString())*/);
             if (selected + 1 < spinnerAddressItems.size()) {
                 String selectedText = spValues.getSelectedItem().toString();
+                defaultValue=-1;
                 spinnerAddressItems.get(selected + 1).resetAdapter(selectedText, addressTag.getTagName());
             }
+
+            tvOtherMessage.setText("");
 
             if (spValues.getSelectedItem().toString().equals(context.getString(R.string.other))) {
                 etOther.setVisibility(VISIBLE);
@@ -308,7 +312,7 @@ public class AddressWidget extends InputWidget {
             ArrayAdapter<Location> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, locations);
             spValues.setAdapter(adapter);
 
-            if (defaultValue != -1) {
+            if (defaultValue != -1 && defaultValue < (locations.size()-1)) {
                 spValues.setSelection(adapter.getPosition(locations.get(defaultValue)));
             }
         }

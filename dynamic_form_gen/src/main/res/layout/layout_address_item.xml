@@ -17,7 +17,7 @@
         android:layout_marginStart="5dp"
         android:text="@string/hello_world" />
 
-    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+    <com.ihsinformatics.dynamicformsgenerator.views.widgets.CustomSearchableSpinner
 
         android:id="@+id/spAnswer"
         style="@style/question_answer"
