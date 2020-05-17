@@ -30,7 +30,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:name">
-        <activity android:name=".ui.activity.FormEdit"></activity>
+        <activity android:name=".ui.activity.DbOperation"></activity>
+        <activity android:name=".ui.activity.FormUpload" />
+        <activity android:name=".ui.activity.FormEdit" />
         <activity android:name=".ui.activity.labModule.TestSampleAdder" />
         <activity android:name=".ui.activity.labModule.TestSampleResult" />
         <activity android:name=".ui.activity.labModule.ManageTestSample" />

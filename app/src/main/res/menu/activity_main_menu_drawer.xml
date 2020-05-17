@@ -42,6 +42,11 @@
                 android:fontFamily="@font/cabin"
                 android:icon="@drawable/form"
                 android:title="@string/edit_forms" />
+            <item
+                android:id="@+id/dbOperations"
+                android:fontFamily="@font/cabin"
+                android:icon="@drawable/form"
+                android:title="Import Or Export DB" />
         </menu>
     </item>
     <item

@@ -21,10 +21,9 @@ import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
-import org.json.JSONObject
 
-class OfflineFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
-    RecyclerView.Adapter<OfflineFormsAdapter.ViewHolder>() {
+class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
+    RecyclerView.Adapter<UploadFormsAdapter.ViewHolder>() {
 
 
     private var formsList = saveableFormsList

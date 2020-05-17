@@ -444,6 +444,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity(Intent(this, FormEdit::class.java))
             }
 
+            R.id.dbOperations -> {
+                startActivity(Intent(this, DbOperation::class.java))
+            }
+
+
             R.id.nav_search -> {
 
                 startActivityForResult(Intent(this, SearchActivity::class.java), 112)

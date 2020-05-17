@@ -167,6 +167,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:padding="10dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/Red"
         android:orientation="horizontal">
