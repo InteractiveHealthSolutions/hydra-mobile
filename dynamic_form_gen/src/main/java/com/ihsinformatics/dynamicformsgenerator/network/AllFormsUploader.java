@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
+import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.json.JSONException;
@@ -29,7 +30,7 @@ public class AllFormsUploader implements Sendable {
     public void startUploadingForms() {
         uploaded_forms = 0;
         dataAccess = DataAccess.getInstance();
-        saveableForms = dataAccess.getAllForms(context);
+        saveableForms = dataAccess.getAllFormsByHydraUrl(context, Global.HYRDA_CURRENT_URL);
         if (saveableForms.size() > 0) {
             send(saveableForms.get(0).getFormData(), saveableForms.get(0).getFormId().intValue());
         } else {

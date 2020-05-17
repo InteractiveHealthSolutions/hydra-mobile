@@ -118,6 +118,8 @@ public class Form extends BaseActivity {
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);
         editFormId = i.getLongExtra(GlobalConstants.KEY_FORM_ID, -1);
+        lastUploadError = i.getStringExtra(GlobalConstants.LAST_UPLOAD_ERROR);
+
         JSONArray jsonData = null;
         try {
             if (loadData) {

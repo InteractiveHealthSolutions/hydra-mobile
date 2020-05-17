@@ -82,6 +82,7 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
                         intent.putExtra(GlobalConstants.KEY_LOAD_DATA, true)
                         intent.putExtra(GlobalConstants.KEY_FORM_ID, form.formId)
                         intent.putExtra(GlobalConstants.KEY_JSON_DATA, form.formValues.toString())
+                        intent.putExtra(GlobalConstants.LAST_UPLOAD_ERROR, form.lastUploadError)
                         Form.setENCOUNTER_NAME(form.encounterType,form.componentFormUUID)
                         context.startActivity(intent)
                     }
@@ -102,7 +103,7 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
                             context.getString(R.string.yes)
                         ) { _, _ ->
 
-                            DataAccess.getInstance().deleteForm(context,form.formId.toInt())
+                            DataAccess.getInstance().deleteFormByFormID(context,form.formId)
                             formsList.remove(form);
                             notifyDataSetChanged()
                         }

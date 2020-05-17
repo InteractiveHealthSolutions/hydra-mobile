@@ -30,6 +30,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettingsDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
+import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
@@ -178,12 +179,12 @@ public class DataAccess {
         return App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormTypeId.eq(formtypeId)).list().size();
     }
 
-    public synchronized List<SaveableForm> getAllForms(Context context, String formTypeName) {
+    public synchronized List<SaveableForm> getAllFormsByFormTypeName(Context context, String formTypeName) {
         int formtypeId = getFormTypeId(context, formTypeName);
         return App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormTypeId.eq(formtypeId)).list();
     }
 
-    public synchronized List<SaveableForm> getAllForms(Context context) {
+    public synchronized List<SaveableForm> getAllFormsByHydraUrl(Context context,String hydraURL) {
         List<SaveableForm> toReturn =
                 App.getDaoSession(context)
                         .getSaveableFormDao()
@@ -601,10 +602,19 @@ public class DataAccess {
         OfflinePatientDao offlinePatientDao = App.getDaoSession(context).getOfflinePatientDao();
         offlinePatientDao.deleteAll();
 
+//
+//        SaveableFormDao offlineFormsDao =  App.getDaoSession(context).getSaveableFormDao();
+//        List<SaveableForm> offlineSavableForm = offlineFormsDao.queryBuilder().where(SaveableFormDao.Properties.HydraURL.eq(hydraUrl)).list();
+//
+//        for (SaveableForm offlineForm : offlineSavableForm){
+//            offlineFormsDao.delete(offlineForm);
+//
+//        }
+
         SaveableFormDao offlineFormsDao =  App.getDaoSession(context).getSaveableFormDao();
         offlineFormsDao.deleteAll();
-
     }
+
 
 
 }

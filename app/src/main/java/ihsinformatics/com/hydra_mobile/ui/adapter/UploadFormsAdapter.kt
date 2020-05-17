@@ -32,7 +32,7 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //this.context = parent.context
         val v = LayoutInflater.from(context)
-            .inflate(R.layout.saveable_forms_item_view, parent, false)
+            .inflate(R.layout.uploadable_forms_item_view, parent, false)
         return ViewHolder(v)
 
     }
@@ -50,8 +50,9 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
-        val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
-        val deleteLayout = itemView.findViewById<LinearLayout>(R.id.deleteLayout)
+        val uploadErrorLayout = itemView.findViewById<LinearLayout>(R.id.uploadErrorLayout)
+        val lastUploadError = itemView.findViewById<TextView>(R.id.lastUploadError)
+
 
         @RequiresApi(Build.VERSION_CODES.M)
         fun bindItems(form: SaveableForm) {
@@ -61,54 +62,17 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
 
                 formName.text = form.encounterType
 
-                singleLayout.setOnClickListener {
-
-                    val offlinePatient =
-                        DataAccess.getInstance().getPatientByMRNumber(context, form.identifier)
-
-                    val serverResponse = Utils.converToServerResponse(offlinePatient)
-
-                    val requestType = ParamNames.GET_PATIENT_INFO
-
-                    Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
-
-                    if (Global.patientData != null && Global.patientData.patient.identifier.equals(form.identifier))
-                    {
-
-//                        val dataInJson = JSONObject(form.formData)
-//                        val dataToLoad = dataInJson.optJSONArray("values").toString()
-
-                        var intent = Intent(context, Form::class.java)
-                        intent.putExtra(GlobalConstants.KEY_LOAD_DATA, true)
-                        intent.putExtra(GlobalConstants.KEY_FORM_ID, form.formId)
-                        intent.putExtra(GlobalConstants.KEY_JSON_DATA, form.formValues.toString())
-                        Form.setENCOUNTER_NAME(form.encounterType,form.componentFormUUID)
-                        context.startActivity(intent)
-                    }
-                    else
-                    {
-                        ToastyWidget.getInstance().displayError(context,"Other patient is loaded",Toast.LENGTH_SHORT)
-                    }
-
+                if(null!=form.lastUploadError && !form.lastUploadError.trim().equals(""))
+                {
+                    lastUploadError.setText(form.lastUploadError)
+                    uploadErrorLayout.visibility=View.VISIBLE
+                }
+                else
+                {
+                    uploadErrorLayout.visibility=View.GONE
                 }
 
-                deleteLayout.setOnClickListener{
 
-                    val dialog = AlertDialog.Builder(context)
-                        .setMessage(context.getString(R.string.are_you_sure_exit_application))
-                        .setTitle(context.getString(R.string.are_you_sure))
-                        .setNegativeButton(context.getString(R.string.no), null)
-                        .setPositiveButton(
-                            context.getString(R.string.yes)
-                        ) { _, _ ->
-
-                            DataAccess.getInstance().deleteForm(context,form.formId.toInt())
-                            formsList.remove(form);
-                            notifyDataSetChanged()
-                        }
-                    dialog.show()
-
-                }
             }
         }
 

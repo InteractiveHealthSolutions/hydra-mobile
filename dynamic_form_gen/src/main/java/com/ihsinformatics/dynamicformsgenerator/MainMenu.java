@@ -160,7 +160,7 @@ public class MainMenu extends ToolbarActivity implements OnClickListener {
                 String formName = formNames[i];
                 MenuItem item = notificationMenu.getMenu().add(0, i, i, formName);
                 item.setOnMenuItemClickListener(notificationItemClickListener);
-                sum += dataAccess.getAllForms(this, formName).size();
+                sum += dataAccess.getAllFormsByFormTypeName(this, formName).size();
             }
             if (sum > 0) {
                 tvNotification.setVisibility(View.VISIBLE);

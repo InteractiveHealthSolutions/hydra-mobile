@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
+import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.ui.adapter.EditFormsAdapter
 
@@ -29,7 +30,7 @@ class FormEdit : AppCompatActivity() {
 
     fun setFormsList() {
 
-        saveableOfflineForms= DataAccess.getInstance().getAllForms(this) as ArrayList<SaveableForm>
+        saveableOfflineForms= DataAccess.getInstance().getAllFormsByHydraUrl(this, Global.HYRDA_CURRENT_URL) as ArrayList<SaveableForm>
         editFormsAdapter = EditFormsAdapter(saveableOfflineForms,this)
         offlineFormsRecyclerView.adapter = editFormsAdapter
 

@@ -81,6 +81,8 @@ import es.dmoral.toasty.Toasty;
 public class BaseActivity extends AppCompatActivity implements Sendable, View.OnClickListener, MyDialogFragment.DialogListener {
 
     protected long editFormId;
+    protected String lastUploadError;
+
     private int scrollPosition;
     // List<InputWidget> inputWidgets;
     protected Map<Integer, InputWidget> inputWidgets;
@@ -151,6 +153,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         JSONArray form_values = new JSONArray();
         JSONArray data = new JSONArray();
         String patientIdentifier = "";
+        String patientName = "";
+
         List<Boolean> flags = new ArrayList<>(0);
         Map<String, JSONObject> mapOfImages = new HashMap<>(0);
         OfflinePatient offlinePatient = new OfflinePatient();
@@ -260,6 +264,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         Utils.convertPatientToPatientData(this, serverResponse, 0, requestType);
 
                         patientIdentifier = offlinePatient.getMrNumber();
+                        patientName=offlinePatient.getName();
                     } else
                         return;
                 } else {
@@ -299,6 +304,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         access.insertOfflinePatient(this, existineOfflinePatient);
 
                         patientIdentifier = existineOfflinePatient.getMrNumber();
+                        patientName=existineOfflinePatient.getName();
                     }
 
                 }
@@ -307,10 +313,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier,Form.getCOMPONENT_FORM_UUID());
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Form.getCOMPONENT_FORM_UUID(),lastUploadError,Global.HYRDA_CURRENT_URL);
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier,Form.getCOMPONENT_FORM_UUID());
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Form.getCOMPONENT_FORM_UUID(),null,Global.HYRDA_CURRENT_URL);
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);

@@ -11,6 +11,7 @@ public class GlobalConstants {
     public static final String KEY_LOAD_DATA = "load_data";
     public static final String KEY_JSON_DATA = "json_data";
     public static final String KEY_FORM_ID = "formId";
+    public static final String LAST_UPLOAD_ERROR = "lastUploadError";
     public static final String RESPONSE_NUMBER = "responseNumber";
 
 }

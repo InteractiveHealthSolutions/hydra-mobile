@@ -26,7 +26,6 @@ import kotlinx.coroutines.runBlocking
 class SettingDialogFragment : DialogFragment() {
 
     private lateinit var appSettingViewModel: AppSettingViewModel
-    private lateinit var repository: AppSettingRepository
     private lateinit var previousURL:String
 
     private lateinit var openMRSEndpoint:String

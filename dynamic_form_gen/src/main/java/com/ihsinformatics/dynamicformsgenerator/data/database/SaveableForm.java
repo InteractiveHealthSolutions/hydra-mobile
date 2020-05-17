@@ -23,9 +23,13 @@ public class SaveableForm {
 
 	public final static String COLUMN_FORM_SERVICE_HISTORY = "form_values";
 	public final static String COLUMN_FORM_PATIENT_IDENTITIER= "patient_identifier";
+	public final static String COLUMN_FORM_PATIENT_NAME= "patient_name";
+
 
 	public final static String COMPONENT_FORM_UUID = "component_form_uuid";
 
+	public final static String COLUMN_UPLOAD_ERROR = "last_upload_error";
+	public final static String COLUMN_HYDRA_URL = "hydraURL";
 
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
@@ -45,17 +49,29 @@ public class SaveableForm {
 	private String formError;
 	@Property(nameInDb = COLUMN_FORM_SERVICE_HISTORY)
 	private String formValues;
+
 	@Property(nameInDb = COLUMN_FORM_PATIENT_IDENTITIER)
 	private String identifier;
+	@Property(nameInDb = COLUMN_FORM_PATIENT_NAME)
+	private String patient_name;
+
 
 	@Property(nameInDb = COMPONENT_FORM_UUID)
 	private String componentFormUUID;
 
+	@Property(nameInDb = COLUMN_UPLOAD_ERROR)
+	private String lastUploadError;
 
-	@Generated(hash = 447036194)
+	@Property(nameInDb = COLUMN_HYDRA_URL)
+	private String hydraURL;
+
+
+
+	@Generated(hash = 560301855)
 	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
 			String encounterType, String formError, String formValues, String identifier,
-			String componentFormUUID) {
+			String patient_name, String componentFormUUID, String lastUploadError,
+			String hydraURL) {
 		this.formTypeId = formTypeId;
 		this.formId = formId;
 		this.stringFormData = stringFormData;
@@ -63,18 +79,16 @@ public class SaveableForm {
 		this.formError = formError;
 		this.formValues = formValues;
 		this.identifier = identifier;
+		this.patient_name = patient_name;
 		this.componentFormUUID = componentFormUUID;
+		this.lastUploadError = lastUploadError;
+		this.hydraURL = hydraURL;
 	}
 
 
-	//yeh gap
-
-
-
+	@Generated(hash = 1724246510)
 	public SaveableForm() {
-
 	}
-
 
 
 	public SaveableForm(int formTypeId, String stringFormData, String formError) {
@@ -187,5 +201,31 @@ public class SaveableForm {
 
 	public void setComponentFormUUID(String componentFormUUID) {
 		this.componentFormUUID = componentFormUUID;
+	}
+
+	public String getLastUploadError() {
+		return lastUploadError;
+	}
+
+	public void setLastUploadError(String lastUploadError) {
+		this.lastUploadError = lastUploadError;
+	}
+
+	public String getPatient_name() {
+		return patient_name;
+	}
+
+	public void setPatient_name(String patient_name) {
+		this.patient_name = patient_name;
+	}
+
+
+	public String getHydraURL() {
+		return this.hydraURL;
+	}
+
+
+	public void setHydraURL(String hydraURL) {
+		this.hydraURL = hydraURL;
 	}
 }

@@ -29,6 +29,7 @@ import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.UserViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
+import ihsinformatics.com.hydra_mobile.utils.AppConfiguration
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 import ihsinformatics.com.hydra_mobile.utils.KeyboardUtil
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -196,7 +197,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
                         GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
-
+                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.HYDRA_URL, AppConfiguration().getBaseUrl(this@LoginActivity))
 
                     }
                 })

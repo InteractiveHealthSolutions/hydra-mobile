@@ -2,6 +2,8 @@ package com.ihsinformatics.dynamicformsgenerator;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +19,7 @@ import com.ihsinformatics.dynamicformsgenerator.network.pojos.Patient;
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -218,5 +221,20 @@ public class Utils {
             locations.add(singleLocation);
         }
         return locations;
+    }
+
+    public static Boolean isInternetConnected(Context context) {
+        Boolean isInternetConnected = false;
+        try {
+
+            ConnectivityManager connectivityManager =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            isInternetConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        } catch (Exception e) {
+            ToastyWidget.getInstance().displayError(context,context.getString(R.string.error_no_internet),Toast.LENGTH_SHORT);
+        }
+
+        return isInternetConnected;
     }
 }

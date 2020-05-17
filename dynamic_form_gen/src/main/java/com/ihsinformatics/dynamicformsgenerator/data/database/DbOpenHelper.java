@@ -24,6 +24,11 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                 //db.execSQL("ALTER TABLE " + UserDao.TABLENAME + " ADD COLUMN " + UserDao.Properties.Name.columnName + " TEXT DEFAULT 'DEFAULT_VAL'");
             case 15:
                 db.execSQL("ALTER TABLE " + OfflinePatientDao.TABLENAME + " ADD COLUMN " + OfflinePatientDao.Properties.CovidResult.columnName + " TEXT DEFAULT 'NONE'");
+                db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.LastUploadError.columnName);
+                db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.Patient_name.columnName);
+                db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.HydraURL.columnName);
+
+
         }
     }
 }

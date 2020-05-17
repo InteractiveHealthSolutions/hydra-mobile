@@ -17,6 +17,7 @@ public class GlobalPreferences {
 		LOCATION,
 		FIRST_RUN,
 		WORKFLOW,
+		HYDRA_URL,
 		WORKFLOWUUID,
 		CURRENT_PHASE_UUID,
 		ACTIVE_TIME,

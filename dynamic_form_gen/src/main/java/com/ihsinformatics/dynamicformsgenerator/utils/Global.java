@@ -11,6 +11,7 @@ import java.util.Locale;
 
 public class Global {
 	public static PatientData patientData;
+	public static String HYRDA_CURRENT_URL;
 
 	public static String WORKFLOWUUID;
 
