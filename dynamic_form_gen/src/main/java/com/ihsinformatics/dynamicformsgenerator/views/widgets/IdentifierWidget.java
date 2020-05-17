@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -135,6 +137,7 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             setMessage("Valid format", MessageType.MESSAGE_TYPE_CORRECT);
             try {
                // checkID();
+                checkOfflineID();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -142,6 +145,23 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             suspiciousIdentifier = true;
             setMessage("Invalid input", MessageType.MESSAGE_TYPE_ERROR);
         }
+    }
+
+    private void checkOfflineID(){
+
+        OfflinePatient offlinePatient=DataAccess.getInstance().getPatientByMRNumber(context,getValue());
+
+        if(offlinePatient==null)
+        {
+            suspiciousIdentifier = false;
+        }
+        else
+        {
+            suspiciousIdentifier = true;
+            Toasty.error(context, context.getResources().getString(R.string.error_duplicate_identifier), Toast.LENGTH_LONG).show();
+            setMessage(context.getResources().getString(R.string.error_duplicate_identifier), MessageType.MESSAGE_TYPE_ERROR);
+        }
+
     }
 
     @Override

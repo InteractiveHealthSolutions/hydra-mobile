@@ -4,7 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.RoomMasterTable.TABLE_NAME
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.data.local.dao.*
 import ihsinformatics.com.hydra_mobile.data.local.dao.commonLab.LabTestTypeDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
@@ -24,13 +28,8 @@ import ihsinformatics.com.hydra_mobile.utils.Converters
  * It represents the DB, it holds a connection to the actual SQLite DB.
  */
 
-@Database(
-    entities = [AppSetting::class, Patient::class, Person::class, User::class, Location::class, WorkFlow::class, FormResultApiResponse::class,
-        Phases::class, Component::class, Forms::class, /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class,
-        WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class],
-    version = 15,
-    exportSchema = false
-)
+@Database(entities = [AppSetting::class, Patient::class, Person::class, User::class, Location::class, WorkFlow::class, FormResultApiResponse::class, Phases::class, Component::class, Forms::class,
+    /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class, WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class], version = 17, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -45,6 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getForm(): FormDao
     abstract fun getComponentForm(): ComponentFormDao
     abstract fun getFormsResult(): FormsResultDao
+
     //abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
     //abstract fun getWorkFlowPhaseJoin(): WorkFlowPhaseJoinDao
     abstract fun getLabTestTypeDao(): LabTestTypeDao
@@ -53,16 +53,20 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getPhaseComponentMap(): PhaseComponentMapDao
 
     companion object {
-        private var instance: AppDatabase? = null
 
+        private var instance: AppDatabase? = null
+        val MIGRATION_15_17: Migration=object : Migration(15, 17) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+
+        }
         fun getInstance(context: Context): AppDatabase? {
             if (instance == null) {
                 synchronized(AppDatabase::class) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java, "hydra_database"
-                    ).allowMainThreadQueries()
-                        .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
+                    instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "hydra_database")
+                        .allowMainThreadQueries()
+                        .addMigrations(MIGRATION_15_17)
+                        //.fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
                         .build()
                 }
             }
@@ -72,6 +76,10 @@ abstract class AppDatabase : RoomDatabase() {
         fun destroyInstance() {
             instance = null
         }
+
+
+
     }
+
 
 }
