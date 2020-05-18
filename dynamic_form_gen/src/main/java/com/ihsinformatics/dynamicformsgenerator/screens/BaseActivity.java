@@ -1,7 +1,9 @@
 package com.ihsinformatics.dynamicformsgenerator.screens;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +12,12 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.telephony.TelephonyManager;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -320,6 +324,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
+                Logger.logEvent("FORM_CREATED", form.getFormData().toString());
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();
                     for (String key : mapOfImages.keySet()) {
@@ -604,6 +609,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     // To put other necessary form data other than questions and answers
     private void putMetaData(JSONObject data) throws JSONException {
+        String deviceId = getDeviceIMEI(this);
+        data.put(ParamNames.IMEI, deviceId);
+
         data.put(ParamNames.REQUEST_TYPE, Form.getENCOUNTER_NAME());
         data.put(ParamNames.WORKFLOW, Global.WORKFLOWUUID);
         if (llPatientInfoDisplayer != null && llPatientInfoDisplayer.getVisibility() == View.VISIBLE) {
@@ -1393,6 +1401,21 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             resources.updateConfiguration(configuration, getResources().getDisplayMetrics());
         }
 
+    }
+
+    public static String getDeviceIMEI(Activity activity) {
+
+        String deviceUniqueIdentifier = null;
+        TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        if (null != tm) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+            else
+                deviceUniqueIdentifier = tm.getDeviceId();
+            if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length())
+                deviceUniqueIdentifier = "0";
+        }
+        return deviceUniqueIdentifier;
     }
 
 }

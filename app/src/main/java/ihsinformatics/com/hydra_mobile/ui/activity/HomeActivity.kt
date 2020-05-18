@@ -1,6 +1,7 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -58,6 +59,8 @@ import org.joda.time.Interval
 import org.joda.time.PeriodType
 import org.json.JSONException
 import org.json.JSONObject
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -623,6 +626,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         loadFormDataInEncounterTypes()
         fillPatientInfoBar()
+        requestPermissions()
 
     }
 
@@ -766,5 +770,24 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         animate.setDuration(500)
         animate.setFillAfter(true)
         view.startAnimation(animate)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(0)
+    fun requestPermissions() {
+         var perms = arrayOf(
+             Manifest.permission.MODIFY_PHONE_STATE,
+             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+             Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (EasyPermissions.hasPermissions(this, *perms)) {
+
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.needs_access_phne_state_and_storage), 0, *perms);
+        }
     }
 }

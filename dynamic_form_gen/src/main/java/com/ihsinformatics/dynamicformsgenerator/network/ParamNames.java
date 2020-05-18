@@ -99,6 +99,7 @@ public class ParamNames {
     public static final String PREFERRED_NAME = "preferredName";
 
     public static final String REQUEST_TYPE = "ENCONTER_TYPE";
+    public static final String IMEI = "imei";
     public static final String TYPE = "type";
     public static final String VALUE = "value";
     public static final String DATE_ENTERED = "cur_date";

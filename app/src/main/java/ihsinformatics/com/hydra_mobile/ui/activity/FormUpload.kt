@@ -12,6 +12,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.utils.Logger
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
@@ -98,6 +99,7 @@ class FormUpload : AppCompatActivity() {
     val failedIdsList = arrayListOf<String>()
     private fun sendData(saveableForm: SaveableForm) {
 
+        Logger.logEvent("FORM_UPLOAD_ATTEMPTED", saveableForm.getFormData().toString())
         val dataSender = RequestManager(applicationContext, sessionManager.getUsername(), sessionManager.getPassword()).getFormRetrofit()
             .create(FormSubmissionApiService::class.java)
         val dataArray = saveableForm.formData!!.getJSONArray(ParamNames.DATA).toString()
@@ -129,6 +131,8 @@ class FormUpload : AppCompatActivity() {
                         .displaySuccess(this@FormUpload, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance()
                         .deleteFormByFormID(this@FormUpload, saveableForm.formId)
+                    Logger.logEvent("FORM_UPLOAD_SUCCESS", saveableForm.getFormData().toString())
+
                 } else {
                     if (metaData.has("mrNumber")) {
                         val failedIdentifier: String = metaData.getString("mrNumber")
@@ -139,6 +143,7 @@ class FormUpload : AppCompatActivity() {
                         .displayError(this@FormUpload, "Server error", Toast.LENGTH_SHORT)
                     saveableForm.lastUploadError= filterErrorMessage(response.errorBody()!!.string())
                     DataAccess.getInstance().insertForm(this@FormUpload,saveableForm)
+                    Logger.logEvent("FORM_UPLOAD_FAILED", saveableForm.getFormData().toString())
                 }
 
                 doPostResponse(metaData)
