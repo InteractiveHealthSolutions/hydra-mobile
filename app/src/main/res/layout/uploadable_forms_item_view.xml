@@ -135,18 +135,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/patient_age"
+                        android:text="@string/name"
                         android:textColor="@color/bootstrap_gray_light"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_patient_age"
+                        android:id="@+id/tv_patient_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
                         android:maxLines="2"
-                        android:text="Age of patient"
+                        android:text="Name of patient"
                         android:textColor="@color/bootstrap_gray_light"
                         android:textSize="15sp" />
 

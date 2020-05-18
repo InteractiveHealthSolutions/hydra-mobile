@@ -50,8 +50,10 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
+        val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
         val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
         val deleteLayout = itemView.findViewById<LinearLayout>(R.id.deleteLayout)
+
 
         @RequiresApi(Build.VERSION_CODES.M)
         fun bindItems(form: SaveableForm) {
@@ -60,6 +62,8 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
                 tvPatientIdentifier.text = form.identifier
 
                 formName.text = form.encounterType
+
+                tvPatientName.text=form.patient_name
 
                 singleLayout.setOnClickListener {
 
