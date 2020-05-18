@@ -638,7 +638,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         loadFormDataInEncounterTypes()
         fillPatientInfoBar()
-        requestPermissions()
+       // requestPermissions()
     }
 
     private fun loadFormDataInEncounterTypes() {

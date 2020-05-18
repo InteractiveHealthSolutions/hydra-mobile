@@ -312,7 +312,7 @@
     <string name="collection_data">Collection Data</string>
     <string name="save_test_sample">Save Test Sample</string>
     <string name="internet_issue">Error. Check your internet connection</string>
-    <string name="patient_identitier">Patient Identitier: </string>
+    <string name="patient_identitier">Identitier: </string>
     <string name="patient_not_loaded">Patient Not Loaded</string>
     <string name="no_encounter_for_patient">No online encounters for patient</string>
     <string name="feature_of_offlineMode">This feature is not supported in offline mode</string>

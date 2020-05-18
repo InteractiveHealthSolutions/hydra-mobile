@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -52,7 +53,7 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
         val singleLayout = itemView.findViewById<LinearLayout>(R.id.singleLayout)
-        val deleteLayout = itemView.findViewById<LinearLayout>(R.id.deleteLayout)
+        val deleteLayout = itemView.findViewById<ImageView>(R.id.deleteTrash)
 
 
         @RequiresApi(Build.VERSION_CODES.M)

@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="150dp"
     android:layout_margin="@dimen/dimen_5dp"
     android:elevation="@dimen/dimen_24dp">
 
@@ -16,7 +16,7 @@
         android:id="@+id/singleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:weightSum="3">
         <!--image-->
         <LinearLayout
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"
+            android:layout_weight=".6"
             android:gravity="center"
             android:padding="10dp">
 
@@ -58,7 +58,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="2"
             android:orientation="vertical"
             android:weightSum="5">
 
@@ -105,7 +105,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:text="@string/patient_identitier"
                         android:textColor="@color/bootstrap_gray_light"
                         android:textSize="15sp"
@@ -115,7 +115,7 @@
                         android:id="@+id/tv_patient_identifier"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="3.5"
                         android:maxLines="2"
                         android:textColor="@color/bootstrap_gray_light"
                         android:textSize="15sp" />
@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:text="@string/name"
                         android:textColor="@color/bootstrap_gray_light"
                         android:textSize="15sp"
@@ -143,7 +143,7 @@
                         android:id="@+id/tv_patient_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:layout_weight="3.5"
                         android:maxLines="2"
                         android:text="Name of patient"
                         android:textColor="@color/bootstrap_gray_light"
@@ -155,32 +155,26 @@
             </LinearLayout>
         </LinearLayout>
         <!--other details-->
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/deleteLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/singleLayout"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:padding="10dp"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:background="@drawable/circular_button"
-        android:backgroundTint="@color/Red"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/deleteLayout"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/White"
-            android:text="Delete">
-        </TextView>
+            android:layout_weight=".4"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/deleteTrash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/trash_bin">
+
+            </ImageView>
+        </LinearLayout>
+
     </LinearLayout>
+
 
     </RelativeLayout>
 
