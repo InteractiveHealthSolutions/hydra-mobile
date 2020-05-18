@@ -13,6 +13,8 @@ public class Global {
 	public static PatientData patientData;
 	public static String HYRDA_CURRENT_URL;
 
+	public static final long INACTIVITY_LIMIT_MILISECOND=18000000;
+
 	public static String WORKFLOWUUID;
 
 	public static String USERUUID;

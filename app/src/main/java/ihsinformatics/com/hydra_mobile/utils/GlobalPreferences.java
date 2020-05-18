@@ -46,7 +46,15 @@ public class GlobalPreferences {
 	public void addOrUpdatePreference(KEY key, boolean value) {
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key.toString(), value).apply();
 	}
-	
+
+	public void addOrUpdatePreference(KEY key, long value) {
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(key.toString(), value).apply();
+	}
+
+	public long findPrferenceValue(KEY key, long defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context).getLong(key.toString(), defaultValue);
+	}
+
 	public String findPrferenceValue(KEY key, String defaultValue) {
 		return PreferenceManager.getDefaultSharedPreferences(context).getString(key.toString(), defaultValue);
 	}

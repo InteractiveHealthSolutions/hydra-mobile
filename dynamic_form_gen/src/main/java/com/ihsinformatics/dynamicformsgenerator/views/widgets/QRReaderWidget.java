@@ -1,47 +1,50 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.PointF;
-import android.os.Build;
-import android.text.InputFilter;
-import android.text.method.DigitsKeyListener;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+        import android.Manifest;
+        import android.app.Activity;
+        import android.app.Dialog;
+        import android.content.Context;
+        import android.content.DialogInterface;
+        import android.content.pm.PackageManager;
+        import android.graphics.PointF;
+        import android.os.Build;
+        import android.text.InputFilter;
+        import android.text.method.DigitsKeyListener;
+        import android.view.View;
+        import android.widget.EditText;
+        import android.widget.LinearLayout;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
-import com.google.zxing.Result;
-import com.ihsinformatics.dynamicformsgenerator.R;
-import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
-import com.ihsinformatics.dynamicformsgenerator.data.Translator;
-import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
-import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
-import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
+        import androidx.core.app.ActivityCompat;
+        import androidx.core.content.ContextCompat;
+        import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+        import com.google.zxing.Result;
+        import com.ihsinformatics.dynamicformsgenerator.R;
+        import com.ihsinformatics.dynamicformsgenerator.data.Translator;
+        import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
+        import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
+        import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
+        import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
+        import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
+        import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnPauseListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
+        import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
+        import static com.ihsinformatics.dynamicformsgenerator.Utils.showMessageOKCancel;
 
 /**
  * Created by Owais on 11/2/2017.
  */
-public class QRReaderWidget extends InputWidget implements View.OnClickListener ,ZXingScannerView.ResultHandler  {
+public class QRReaderWidget extends InputWidget implements OnPauseListener, View.OnClickListener ,ZXingScannerView.ResultHandler  {
     protected EditText etAnswer;
     protected LinearLayout QRCodeReader;
     protected Dialog dialog;
     protected QuestionConfiguration configuration;
+
+    protected boolean isEditMode=false;
+    protected String beforeEditIdentifer;
 
     private ZXingScannerView mScannerView;
     protected Dialog dialogBarCodeAndQRCode;
@@ -99,6 +102,9 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
 
     @Override
     public void setAnswer(String answer, String uuid, Translator.LANGUAGE language) {
+
+        isEditMode=true;
+        beforeEditIdentifer=answer;
         etAnswer.setText(answer);
     }
 
@@ -220,4 +226,16 @@ public class QRReaderWidget extends InputWidget implements View.OnClickListener 
         mScannerView.stopCamera();
         dialogBarCodeAndQRCode.dismiss();
     }
+
+    @Override
+    public void onPause() {
+        mScannerView.stopCamera();
+        dialogBarCodeAndQRCode.dismiss();
+    }
+
+    public OnPauseListener getOnPauseListener()
+    {
+        return this;
+    }
+
 }

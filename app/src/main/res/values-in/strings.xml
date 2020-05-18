@@ -212,6 +212,7 @@
     <string name="report_title_name">Service History</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
+    <string name="are_you_sure_to_delete_form">Are you sure you want to delete form?</string>
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
     <string name="are_you_sure_logout_application">Are you sure to logout?</string>
     <string name="menu_logout">Logout</string>

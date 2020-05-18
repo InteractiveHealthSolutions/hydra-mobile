@@ -293,7 +293,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (isSuccess) {
                     networkProgressDialog.dismiss()
 
-                    //saveSessionStartTime()
+                    updateActivityTime()
                     SessionManager(applicationContext).setLoggedIn()
 
                     SessionManager(applicationContext).dataDownloadedCompletely(true)
@@ -314,22 +314,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun saveSessionStartTime() {
-//        val simpleDateFormat = SimpleDateFormat("hh:mm a")
-//
-//        val currentTime = simpleDateFormat.parse(Calendar.getInstance().time.time.toString())
-//        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime.toString())
+    private fun updateActivityTime() {
+        var currentTime = Date().time
 
-        val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"))
-        val currentLocalTime = cal.time
-        val date: DateFormat = SimpleDateFormat("HH:mm")
-
-        date.setTimeZone(TimeZone.getTimeZone("GMT+1:00"))
-
-        val localTime: String = date.format(currentLocalTime)
-
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, localTime)
+        GlobalPreferences.getinstance(this)
+            .addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime)
     }
+
 
 
     private fun updateResources(context: Context, language: String): Boolean {

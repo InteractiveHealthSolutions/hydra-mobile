@@ -100,7 +100,7 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
                 deleteLayout.setOnClickListener{
 
                     val dialog = AlertDialog.Builder(context)
-                        .setMessage(context.getString(R.string.are_you_sure_exit_application))
+                        .setMessage(context.getString(R.string.are_you_sure_to_delete_form))
                         .setTitle(context.getString(R.string.are_you_sure))
                         .setNegativeButton(context.getString(R.string.no), null)
                         .setPositiveButton(

@@ -54,13 +54,27 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
+        private val dbVersion=17;
+
         private var instance: AppDatabase? = null
-        val MIGRATION_15_16: Migration=object : Migration(15, 16) {
+
+        val MIGRATION_13_17: Migration=object : Migration(13, dbVersion) {
             override fun migrate(database: SupportSQLiteDatabase) {
             }
 
         }
-        val MIGRATION_16_17: Migration=object : Migration(16, 17) {
+
+        val MIGRATION_14_17: Migration=object : Migration(14, dbVersion) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+
+        }
+        val MIGRATION_15_17: Migration=object : Migration(15, dbVersion) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+
+        }
+        val MIGRATION_16_17: Migration=object : Migration(16, dbVersion) {
             override fun migrate(database: SupportSQLiteDatabase) {
             }
 
@@ -70,7 +84,7 @@ abstract class AppDatabase : RoomDatabase() {
                 synchronized(AppDatabase::class) {
                     instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "hydra_database")
                         .allowMainThreadQueries()
-                        .addMigrations(MIGRATION_15_16,MIGRATION_16_17)
+                        .addMigrations(MIGRATION_13_17,MIGRATION_14_17,MIGRATION_15_17,MIGRATION_16_17)
                         //.fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
                         .build()
                 }

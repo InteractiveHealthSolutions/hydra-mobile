@@ -114,7 +114,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         /*screen level initialization*/
-//        checkSessionTimeOut()
 
 
         Global.USERUUID = GlobalPreferences.getinstance(this)
@@ -622,12 +621,24 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
     override fun onResume() {
+
         super.onResume()
+
+
+        var shouldLogout=checkInActivity()
+
+        if(!shouldLogout) {
+            updateActivityTime()
+        }
+        else
+        {
+            startActivity(Intent(this,LoginActivity::class.java))
+            finish()
+        }
 
         loadFormDataInEncounterTypes()
         fillPatientInfoBar()
         requestPermissions()
-
     }
 
     private fun loadFormDataInEncounterTypes() {
@@ -687,7 +698,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .fetchSystemSettingsByUUID(this, "3h98a10f-3edz-43f6-b020-d0823e28ebd1")  //UUID for hydra.contry
 
 
-        if (!sessionManager.isCompleteDataDownloaded() || null==identifierFormat  || identifierFormat.value.equals(null)) {
+        if (!sessionManager.isCompleteDataDownloaded() || null == identifierFormat || identifierFormat.value.equals(null)) {
             ToastyWidget.getInstance()
                 .displayError(this, getString(R.string.need_to_sync), Toast.LENGTH_LONG)
             startActivity(Intent(this, LoginActivity::class.java))
@@ -736,6 +747,29 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
+    private fun updateActivityTime() {
+        var currentTime = Date().time
+
+        GlobalPreferences.getinstance(this)
+            .addOrUpdatePreference(GlobalPreferences.KEY.ACTIVE_TIME, currentTime)
+    }
+
+
+    fun checkInActivity(): Boolean {
+
+        var currentTime = Date().time
+        var toReturn = false
+
+        val storedTime = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.ACTIVE_TIME, currentTime)
+
+        if (currentTime - storedTime > Global.INACTIVITY_LIMIT_MILISECOND) {
+            toReturn = true
+        }
+        return toReturn
+
+    }
+
     fun setLanguage() {
         var language = GlobalPreferences.getinstance(application)
             .findPrferenceValue(GlobalPreferences.KEY.APP_LANGUAGE, "en")
@@ -777,12 +811,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @AfterPermissionGranted(0)
-    fun requestPermissions() {
-         var perms = arrayOf(
-             Manifest.permission.MODIFY_PHONE_STATE,
-             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-             Manifest.permission.READ_EXTERNAL_STORAGE);
+    @AfterPermissionGranted(0) fun requestPermissions() {
+        var perms = arrayOf(Manifest.permission.MODIFY_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (EasyPermissions.hasPermissions(this, *perms)) {
 

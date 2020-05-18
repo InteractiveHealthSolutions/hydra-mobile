@@ -38,6 +38,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.JSONUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Validation;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidgetProvider;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnValueChangeListener;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
 
@@ -149,6 +150,11 @@ public class Form extends BaseActivity {
                 }
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
                 llMain.addView(w);
+
+                if(w instanceof QRReaderWidget)
+                {
+                    onPauselistener=((QRReaderWidget) w).getOnPauseListener();
+                }
 
                 //Setting values if form is in edit mode
                 if (loadData && jsonData != null) {
@@ -399,6 +405,8 @@ public class Form extends BaseActivity {
 
                 configuration = new QuestionConfiguration(
                         inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
+
+
             } else {
                 if (allowDecimal != null && allowDecimal && inputType.equalsIgnoreCase("numeric")) {
                     characters = "1234567890.-+";

@@ -49,7 +49,7 @@ public class Logger {
 	public static void log(String s) {
 		try {
 			File externalStorageDir = Environment.getExternalStorageDirectory();
-			File myFile = new File(externalStorageDir, "hydra.txt");
+			File myFile = new File(externalStorageDir, "DCIM/hydra.txt");
 
 			if (!myFile.exists()) {
 				myFile.createNewFile();

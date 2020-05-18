@@ -64,6 +64,7 @@ import com.ihsinformatics.dynamicformsgenerator.views.widgets.InputWidget.Messag
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.QRReaderWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.SpinnerWidget;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.AgeWidget;
+import com.ihsinformatics.dynamicformsgenerator.views.widgets.listeners.OnPauseListener;
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.joda.time.DateTime;
@@ -118,6 +119,8 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     private MyDialogFragment dialogFragment;
 
     private static  AutoSelect globalSavedAutoSelect;
+
+    protected OnPauseListener onPauselistener;
 
 
     @Override
@@ -420,7 +423,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     @Override
     protected void onPause() {
         scrollPosition = svQuestions.getScrollY();
+
+        if(onPauselistener!=null)
+        {
+            onPauselistener.onPause();
+        }
+
         super.onPause();
+
     }
 
     @Override
@@ -1417,5 +1427,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
         return deviceUniqueIdentifier;
     }
+
+
 
 }
