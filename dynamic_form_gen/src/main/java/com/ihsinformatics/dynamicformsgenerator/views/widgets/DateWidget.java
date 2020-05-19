@@ -119,23 +119,45 @@ public class DateWidget extends InputWidget {
 
         // Checking that selected date must not be greater than today's date
         if(isMendatory && etAnswer.getText().toString().trim().length() > 1) {
-            SimpleDateFormat dateFormat = Global.DATE_TIME_FORMAT;
-
-            if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
-                dateFormat = Global.TIME_FORMAT;
-            }
-
-            Date strDate = null;
-            try {
-                strDate = dateFormat.parse(etAnswer.getText().toString());
-                if (!configuration.getMaxDate().after(strDate)) {
-                    return false;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Boolean isDateValid=checkDateValidations();
+            if(!isDateValid)
+                return false;
         }
         return validation.validate(etAnswer, question.getValidationFunction(), isMendatory);
+    }
+
+    private Boolean checkDateValidations() {
+        SimpleDateFormat dateFormat = Global.DATE_TIME_FORMAT;
+        SimpleDateFormat onlyDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        Boolean toReturn=true;
+
+        if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
+            dateFormat = Global.TIME_FORMAT;
+        }
+
+        Date strDate = null;
+        try {
+            strDate = dateFormat.parse(etAnswer.getText().toString());
+            if (!configuration.getMaxDate().after(strDate) && !(onlyDateFormat.format(new Date()).equals(onlyDateFormat.format(strDate)))) {
+                toReturn=false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            toReturn=false;
+        }
+
+        try {
+            strDate = dateFormat.parse(etAnswer.getText().toString());
+            if (!configuration.getMinDate().before(strDate) && !(onlyDateFormat.format(new Date()).equals(onlyDateFormat.format(strDate)))) {
+                toReturn=false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            toReturn=false;
+        }
+
+        return toReturn;
     }
 
     @Override
