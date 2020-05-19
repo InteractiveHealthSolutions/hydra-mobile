@@ -58,7 +58,7 @@ class FormUpload : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         networkProgressDialog = NetworkProgressDialog(this)
-        //networkProgressDialog.setCancelable(true)
+        networkProgressDialog.setCancelable(true)
 
         uploadFormsRecyclerView = findViewById<RecyclerView>(R.id.offline_forms)
         uploadForms = findViewById<LinearLayout>(R.id.upload)
@@ -131,7 +131,7 @@ class FormUpload : AppCompatActivity() {
                 ToastyWidget.getInstance()
                     .displayError(this@FormUpload, "Error", Toast.LENGTH_SHORT)
 
-                formSubmissionsAttempt++
+
                 doPostResponse(metaData)
             }
 
@@ -157,7 +157,6 @@ class FormUpload : AppCompatActivity() {
                     DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
                     Logger.logEvent("FORM_UPLOAD_FAILED", saveableForm.getFormData().toString())
                 }
-                formSubmissionsAttempt++
                 doPostResponse(metaData)
                 setFormsList()
             }
@@ -180,6 +179,8 @@ class FormUpload : AppCompatActivity() {
 
     private fun doPostResponse(metadata: JSONObject) {
 
+        formSubmissionsAttempt++
+
         if (saveableForms.size == formSubmissionsAttempt) {
             networkProgressDialog.dismiss()
             uploadForms.isEnabled = true
@@ -196,8 +197,19 @@ class FormUpload : AppCompatActivity() {
         if (isInternetConnected(this)) {
             if (createPatientForm.size == sentCreatePatientsCount) { // All create patient forms are uploaded, send encounter form
                 if (sentEncountersCount < encounterForms.size) {
-                    sendData(encounterForms.get(sentEncountersCount))
-                } else {
+                    var f: SaveableForm = encounterForms.get(sentEncountersCount)
+                    var metaData = f.formData.getJSONObject("metadata")
+                    val identifier: String = metaData.getJSONObject("patient")
+                        .getJSONArray("identifiers").getJSONObject(0).getString("value")
+                    if (!failedIdsList.contains(identifier)) {
+                        sendData(f)
+                    }
+                    else{
+                        doPostResponse(metaData)
+                        f.lastUploadError="Duplicate Identifer"
+                    }
+                }else
+                {
                     networkProgressDialog.dismiss()
                     uploadForms.isEnabled = true
                 }
