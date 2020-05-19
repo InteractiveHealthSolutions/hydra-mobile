@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -64,6 +65,10 @@ import pub.devrel.easypermissions.EasyPermissions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.channels.FileChannel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -389,8 +394,54 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity(Intent(this, FormEdit::class.java))
             }
 
-            R.id.dbOperations -> {
-                startActivity(Intent(this, DbOperation::class.java))
+            R.id.import_data -> {
+                val dialog = AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.are_you_sure_to_import))
+                    .setTitle(getString(R.string.are_you_sure))
+                    .setNegativeButton(getString(R.string.no), null)
+                    .setPositiveButton(
+                        getString(R.string.yes)
+                    ) { _, _ ->
+                        val dialog2 = AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.are_you_sure_old_data_delete))
+                            .setTitle(getString(R.string.are_you_sure))
+                            .setNegativeButton(getString(R.string.no), null)
+                            .setPositiveButton(
+                                getString(R.string.yes)
+                            ) { _, _ ->
+                                makeFolder()
+                                importDB()
+                            }
+                        dialog2.show()
+
+                    }
+                dialog.show()
+
+
+            }
+
+            R.id.export_data -> {
+                val dialog = AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.are_you_sure_to_export))
+                    .setTitle(getString(R.string.are_you_sure))
+                    .setNegativeButton(getString(R.string.no), null)
+                    .setPositiveButton(
+                        getString(R.string.yes)
+                    ) { _, _ ->
+                        val dialog2 = AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.are_you_sure_old_data_delete))
+                            .setTitle(getString(R.string.are_you_sure))
+                            .setNegativeButton(getString(R.string.no), null)
+                            .setPositiveButton(
+                                getString(R.string.yes)
+                            ) { _, _ ->
+                                makeFolder()
+                                exportDB()
+                            }
+                        dialog2.show()
+
+                    }
+                dialog.show()
             }
 
 
@@ -431,6 +482,64 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
 
+    }
+
+
+    private fun makeFolder()
+    {
+        val direct = File(Environment.getExternalStorageDirectory().toString() + "/BackupFolder")
+
+        if (!direct.exists()) {
+            if (direct.mkdir()) {
+                //directory is created;
+            }
+        }
+    }
+
+
+    private fun importDB() {
+        // TODO Auto-generated method stub
+        try {
+            val sd = Environment.getExternalStorageDirectory()
+            val data = Environment.getDataDirectory()
+            if (sd.canWrite()) {
+                val currentDBPath = "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
+                val backupDBPath = "/BackupFolder/greendao_demo.db"
+                val backupDB = File(data, currentDBPath)
+                val currentDB = File(sd, backupDBPath)
+                val src: FileChannel = FileInputStream(currentDB).getChannel()
+                val dst: FileChannel = FileOutputStream(backupDB).getChannel()
+                dst.transferFrom(src, 0, src.size())
+                src.close()
+                dst.close()
+                Toast.makeText(baseContext, backupDB.toString(), Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(baseContext, e.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    //exporting database
+    private fun exportDB() {
+        // TODO Auto-generated method stub
+        try {
+            val sd = Environment.getExternalStorageDirectory()
+            val data = Environment.getDataDirectory()
+            if (sd.canWrite()) {
+                val currentDBPath = "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
+                val backupDBPath = "/BackupFolder/greendao_demo.db"
+                val currentDB = File(data, currentDBPath)
+                val backupDB = File(sd, backupDBPath)
+                val src = FileInputStream(currentDB).channel
+                val dst = FileOutputStream(backupDB).channel
+                dst.transferFrom(src, 0, src.size())
+                src.close()
+                dst.close()
+                Toast.makeText(baseContext, backupDB.toString(), Toast.LENGTH_LONG).show()
+            }
+        } catch (e: java.lang.Exception) {
+            Toast.makeText(baseContext, e.toString(), Toast.LENGTH_LONG).show()
+        }
     }
 
 

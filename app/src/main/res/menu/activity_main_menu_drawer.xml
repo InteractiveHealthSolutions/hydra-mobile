@@ -42,11 +42,6 @@
                 android:fontFamily="@font/cabin"
                 android:icon="@drawable/form"
                 android:title="@string/edit_forms" />
-            <item
-                android:id="@+id/dbOperations"
-                android:fontFamily="@font/cabin"
-                android:icon="@drawable/form"
-                android:title="Import Or Export DB" />
         </menu>
     </item>
     <item
@@ -66,6 +61,26 @@
                 android:title="@string/backup" />
         </menu>
     </item>
+
+    <item
+        android:fontFamily="@font/cabin"
+        android:title="System">
+        <menu>
+            <item
+                android:id="@+id/import_data"
+                android:fontFamily="@font/cabin"
+                android:icon="@drawable/ic_import"
+                android:title="@string/menu_import" />
+            <item
+                android:id="@+id/export_data"
+                android:fontFamily="@font/cabin"
+                android:icon="@drawable/ic_export"
+                android:title="@string/menu_export" />
+        </menu>
+    </item>
+
+
+
     <item
         android:fontFamily="@font/cabin"
         android:title="System">

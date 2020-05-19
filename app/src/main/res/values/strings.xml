@@ -212,6 +212,9 @@
     <string name="report_title_name">Service History</string>
     <string name="btn_save">Submit</string>
     <string name="help_title_name">Help</string>
+    <string name="are_you_sure_old_data_delete">Are you sure you want to do this action? Your old data will be deleted</string>
+    <string name="are_you_sure_to_import">Are you sure you want to import?</string>
+    <string name="are_you_sure_to_export">Are you sure you want to export?</string>
     <string name="are_you_sure_to_delete_form">Are you sure you want to delete form?</string>
     <string name="are_you_sure_exit_application">Are you sure to exit the application?</string>
     <string name="are_you_sure_logout_application">Are you sure to logout?</string>
@@ -358,6 +361,8 @@
     <string name="Upload">Upload</string>
     <string name="UploadAll">Upload All</string>
     <string name="needs_access_phne_state_and_storage">This app needs access to your phone state and storage</string>
+    <string name="menu_import">Import Database</string>
+    <string name="menu_export">Export Database</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>
