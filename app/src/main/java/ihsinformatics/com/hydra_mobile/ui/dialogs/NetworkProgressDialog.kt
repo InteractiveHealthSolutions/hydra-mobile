@@ -18,4 +18,8 @@ class NetworkProgressDialog : ProgressDialog {
         setMessage(message)
         super.show()
     }
+
+    fun setDialogCancelable(cancelable:Boolean){
+        setCancelable(cancelable)
+    }
 }

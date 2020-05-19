@@ -21,7 +21,9 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
 import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
 import ihsinformatics.com.hydra_mobile.ui.adapter.EditFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.UploadFormsAdapter
+import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
+import kotlinx.android.synthetic.main.content_forms_upload.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,12 +46,19 @@ class FormUpload : AppCompatActivity() {
     private var createPatientForm: List<SaveableForm> = arrayListOf<SaveableForm>();
     private var encounterForms: List<SaveableForm> = arrayListOf<SaveableForm>();
 
+    private lateinit var saveableForms: List<SaveableForm>
+    private var formSubmissionsAttempt = 0
+
+    private lateinit var networkProgressDialog: NetworkProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_upload)
 
         sessionManager = SessionManager(this)
+
+        networkProgressDialog = NetworkProgressDialog(this)
+        //networkProgressDialog.setCancelable(true)
 
         uploadFormsRecyclerView = findViewById<RecyclerView>(R.id.offline_forms)
         uploadForms = findViewById<LinearLayout>(R.id.upload)
@@ -58,10 +67,11 @@ class FormUpload : AppCompatActivity() {
 
         uploadForms.setOnClickListener {
 
+            uploadForms.isEnabled = false
             sentCreatePatientsCount = 0
 
             // get all non uploaded form from database
-            val saveableForms = DataAccess.getInstance()
+            saveableForms = DataAccess.getInstance()
                 .getAllFormsByHydraUrl(this, Global.HYRDA_CURRENT_URL)
 
             // separate createPatientForms and encounterForms
@@ -86,6 +96,7 @@ class FormUpload : AppCompatActivity() {
     }
 
     private fun initDataUpload() {
+        formSubmissionsAttempt = 0;
         if (isInternetConnected(this)) {
             if (createPatientForm.size > 0) sendData(createPatientForm.get(0))
             else if (encounterForms.size > 0) sendData(encounterForms.get(0))
@@ -115,12 +126,12 @@ class FormUpload : AppCompatActivity() {
                     val failedIdentifier: String = metaData.getString("mrNumber")
                     failedIdsList.add(failedIdentifier)
                 }
-                saveableForm.lastUploadError= "Some Error occured"
-                DataAccess.getInstance().insertForm(this@FormUpload,saveableForm)
+                saveableForm.lastUploadError = "Some Error occured"
+                DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
                 ToastyWidget.getInstance()
                     .displayError(this@FormUpload, "Error", Toast.LENGTH_SHORT)
 
-
+                formSubmissionsAttempt++
                 doPostResponse(metaData)
             }
 
@@ -141,11 +152,12 @@ class FormUpload : AppCompatActivity() {
 
                     ToastyWidget.getInstance()
                         .displayError(this@FormUpload, "Server error", Toast.LENGTH_SHORT)
-                    saveableForm.lastUploadError= filterErrorMessage(response.errorBody()!!.string())
-                    DataAccess.getInstance().insertForm(this@FormUpload,saveableForm)
+                    saveableForm.lastUploadError = filterErrorMessage(response.errorBody()!!
+                        .string())
+                    DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
                     Logger.logEvent("FORM_UPLOAD_FAILED", saveableForm.getFormData().toString())
                 }
-
+                formSubmissionsAttempt++
                 doPostResponse(metaData)
                 setFormsList()
             }
@@ -153,26 +165,29 @@ class FormUpload : AppCompatActivity() {
     }
 
 
-    private fun filterErrorMessage(errorMsg:String):String
-    {
-        if(errorMsg.contains("failed to validate with reason: Identifier")){
+    private fun filterErrorMessage(errorMsg: String): String {
+        if (errorMsg.contains("failed to validate with reason: Identifier")) {
             return "Duplicate Identifer"
-        }
-        else if(errorMsg.contains("failed to validate with reason: birthdate"))
-        {
+        } else if (errorMsg.contains("failed to validate with reason: birthdate")) {
             return "Future Date Selected"
-        }
-        else if(errorMsg.contains("failed to validate with reason: encounterDatetime"))
-        {
+        } else if (errorMsg.contains("failed to validate with reason: encounterDatetime")) {
             return "OpenMRS Date and Time Issue"
-        }
-        else{
+        } else {
             return "Some Error Occured"
         }
     }
 
 
     private fun doPostResponse(metadata: JSONObject) {
+
+        if (saveableForms.size == formSubmissionsAttempt) {
+            networkProgressDialog.dismiss()
+            uploadForms.isEnabled = true
+        } else {
+            networkProgressDialog.show("Uploaded " + formSubmissionsAttempt + " of " + saveableForms.size + ". Please wait...")
+
+        }
+
         if (metadata.has("mrNumber")) { // means its a createPatientForm
             sentCreatePatientsCount++
         } else { // means its an encounterForm
@@ -180,8 +195,12 @@ class FormUpload : AppCompatActivity() {
         }
         if (isInternetConnected(this)) {
             if (createPatientForm.size == sentCreatePatientsCount) { // All create patient forms are uploaded, send encounter form
-                if (sentEncountersCount < encounterForms.size)
+                if (sentEncountersCount < encounterForms.size) {
                     sendData(encounterForms.get(sentEncountersCount))
+                } else {
+                    networkProgressDialog.dismiss()
+                    uploadForms.isEnabled = true
+                }
             } else { // All create patient forms are not uploaded, upload the remaining ones
                 sendData(createPatientForm.get(sentCreatePatientsCount))
             }
@@ -228,4 +247,5 @@ class FormUpload : AppCompatActivity() {
         super.onResume()
         setFormsList()
     }
+
 }
