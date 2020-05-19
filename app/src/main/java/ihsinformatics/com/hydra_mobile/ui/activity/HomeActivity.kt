@@ -399,20 +399,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     .setMessage(getString(R.string.are_you_sure_to_import))
                     .setTitle(getString(R.string.are_you_sure))
                     .setNegativeButton(getString(R.string.no), null)
-                    .setPositiveButton(
-                        getString(R.string.yes)
-                    ) { _, _ ->
-                        val dialog2 = AlertDialog.Builder(this)
-                            .setMessage(getString(R.string.are_you_sure_old_data_delete))
-                            .setTitle(getString(R.string.are_you_sure))
-                            .setNegativeButton(getString(R.string.no), null)
-                            .setPositiveButton(
-                                getString(R.string.yes)
-                            ) { _, _ ->
-                                makeFolder()
-                                importDB()
-                            }
-                        dialog2.show()
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
+
+                        startActivityForResult(Intent(this, TermsAndConditions::class.java), 113)
 
                     }
                 dialog.show()
@@ -425,20 +414,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     .setMessage(getString(R.string.are_you_sure_to_export))
                     .setTitle(getString(R.string.are_you_sure))
                     .setNegativeButton(getString(R.string.no), null)
-                    .setPositiveButton(
-                        getString(R.string.yes)
-                    ) { _, _ ->
-                        val dialog2 = AlertDialog.Builder(this)
-                            .setMessage(getString(R.string.are_you_sure_old_data_delete))
-                            .setTitle(getString(R.string.are_you_sure))
-                            .setNegativeButton(getString(R.string.no), null)
-                            .setPositiveButton(
-                                getString(R.string.yes)
-                            ) { _, _ ->
-                                makeFolder()
-                                exportDB()
-                            }
-                        dialog2.show()
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
+
+
+                        startActivityForResult(Intent(this, TermsAndConditions::class.java), 114)
 
                     }
                 dialog.show()
@@ -485,8 +464,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    private fun makeFolder()
-    {
+    private fun makeFolder() {
         val direct = File(Environment.getExternalStorageDirectory().toString() + "/BackupFolder")
 
         if (!direct.exists()) {
@@ -709,6 +687,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         } else if (requestCode === 112) {
             fillPatientInfoBar()
+        } else if (requestCode === 113) {
+            if (resultCode === Activity.RESULT_OK) {
+                val result = data?.getBooleanExtra("result", false)
+                if (result!!) {
+                    makeFolder()
+                    importDB()
+                }
+
+            }
+        } else if (requestCode === 114) {
+            val result = data?.getBooleanExtra("result", false)
+            if (result!!) {
+                makeFolder()
+                exportDB()
+            }
         }
     }
 
@@ -734,20 +727,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onResume()
 
 
-        var shouldLogout=checkInActivity()
+        var shouldLogout = checkInActivity()
 
-        if(!shouldLogout) {
+        if (!shouldLogout) {
             updateActivityTime()
-        }
-        else
-        {
-            startActivity(Intent(this,LoginActivity::class.java))
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
 
         loadFormDataInEncounterTypes()
         fillPatientInfoBar()
-       // requestPermissions()
+        // requestPermissions()
     }
 
     private fun loadFormDataInEncounterTypes() {

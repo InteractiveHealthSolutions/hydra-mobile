@@ -47,6 +47,9 @@
             android:name=".ui.activity.SelectWorkFlow"
             android:theme="@style/PrefDialogTheme" />
         <activity
+            android:name=".ui.activity.TermsAndConditions"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
             android:name=".ui.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

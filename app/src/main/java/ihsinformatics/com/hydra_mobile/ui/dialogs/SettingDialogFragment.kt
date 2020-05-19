@@ -26,25 +26,22 @@ import kotlinx.coroutines.runBlocking
 class SettingDialogFragment : DialogFragment() {
 
     private lateinit var appSettingViewModel: AppSettingViewModel
-    private lateinit var previousURL:String
+    private lateinit var previousURL: String
 
-    private lateinit var openMRSEndpoint:String
-    private lateinit var test_server_ip:String
-    private lateinit var test_server_port:String
-    private lateinit var withoutSSL:String
-    private lateinit var withSSL:String
+    private lateinit var openMRSEndpoint: String
+    private lateinit var test_server_ip: String
+    private lateinit var test_server_port: String
+    private lateinit var withoutSSL: String
+    private lateinit var withSSL: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.app_setting, container, false)
         dialog!!.window.attributes.windowAnimations = R.style.FullScreenDialogStyle
 
@@ -71,8 +68,7 @@ class SettingDialogFragment : DialogFragment() {
                         view.cb_ssl_enable.isChecked = false
                     }
                 }
-            }else
-            {
+            } else {
                 view.edt_ip_address.setText(getString(R.string.live_ip_address))
                 view.edt_port_number.setText(getString(R.string.live_port_number))
                 view.cb_ssl_enable.isChecked = true
@@ -120,7 +116,7 @@ class SettingDialogFragment : DialogFragment() {
 
                 if (URLUtil.isValidUrl(baseUrl) && Patterns.WEB_URL.matcher(baseUrl).matches()) {
 
-                    if(previousURL!=null && !previousURL.equals(baseUrl)) {
+                    if (previousURL != null && !previousURL.equals(baseUrl)) {
                         val dialog = AlertDialog.Builder(context)
                             .setMessage("By changing URL you will delete all saved data?")
                             .setTitle("Are you sure?")
@@ -135,28 +131,35 @@ class SettingDialogFragment : DialogFragment() {
                                 dismiss()
                             }
                         dialog.show()
-                    }
-                    else
-                    {
+                    } else {
                         dismiss()
                     }
 
 
-
                 } else {
-                    ToastyWidget.getInstance().displayError(context, "Invalid ip address or port", Toast.LENGTH_SHORT)
+                    ToastyWidget.getInstance()
+                        .displayError(context, "Invalid ip address or port", Toast.LENGTH_SHORT)
                 }
             } else {
-                ToastyWidget.getInstance().displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
+                ToastyWidget.getInstance()
+                    .displayError(context, "Please enter required fields", Toast.LENGTH_SHORT)
             }
         })
 
         view.btn_reset.setOnClickListener(View.OnClickListener {
 
-            //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
-            view.edt_ip_address.setText(getString(R.string.live_ip_address))
-            view.edt_port_number.setText(getString(R.string.live_port_number))
-            view.cb_ssl_enable.isChecked = true
+            val dialog = AlertDialog.Builder(context)
+                .setMessage("By reseting URL you might delete all saved data?")
+                .setTitle("Are you sure?").setNegativeButton("No") { dialog, which -> dismiss() }
+                .setPositiveButton("Yes") { dialog, which ->
+                    //Todo Need to change here before release or update of app on playstore by changing it to live server ip address and port  ~Taha
+                    view.edt_ip_address.setText(getString(R.string.live_ip_address))
+                    view.edt_port_number.setText(getString(R.string.live_port_number))
+                    view.cb_ssl_enable.isChecked = true
+                    //dismiss()
+                }
+            dialog.show()
+
 
         })
         return view
