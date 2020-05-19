@@ -54,37 +54,42 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-        private val dbVersion=17;
+        private val dbVersion = 17;
 
         private var instance: AppDatabase? = null
 
-        val MIGRATION_13_17: Migration=object : Migration(13, dbVersion) {
+        val MIGRATION_13_17: Migration = object : Migration(13, dbVersion) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+
+                database.execSQL("ALTER TABLE 'User' ADD COLUMN 'userUUID' TEXT NOT NULL DEFAULT 'NONE'");
+            }
+
+        }
+
+        val MIGRATION_14_17: Migration = object : Migration(14, dbVersion) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+
+                database.execSQL("ALTER TABLE 'User' ADD COLUMN 'userUUID' TEXT NOT NULL DEFAULT 'NONE'");
+            }
+
+        }
+        val MIGRATION_15_17: Migration = object : Migration(15, dbVersion) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+
+        }
+        val MIGRATION_16_17: Migration = object : Migration(16, dbVersion) {
             override fun migrate(database: SupportSQLiteDatabase) {
             }
 
         }
 
-        val MIGRATION_14_17: Migration=object : Migration(14, dbVersion) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-            }
-
-        }
-        val MIGRATION_15_17: Migration=object : Migration(15, dbVersion) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-            }
-
-        }
-        val MIGRATION_16_17: Migration=object : Migration(16, dbVersion) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-            }
-
-        }
         fun getInstance(context: Context): AppDatabase? {
             if (instance == null) {
                 synchronized(AppDatabase::class) {
                     instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "hydra_database")
                         .allowMainThreadQueries()
-                        .addMigrations(MIGRATION_13_17,MIGRATION_14_17,MIGRATION_15_17,MIGRATION_16_17)
+                        .addMigrations(MIGRATION_13_17, MIGRATION_14_17, MIGRATION_15_17, MIGRATION_16_17)
                         //.fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
                         .build()
                 }
@@ -95,7 +100,6 @@ abstract class AppDatabase : RoomDatabase() {
         fun destroyInstance() {
             instance = null
         }
-
 
 
     }
