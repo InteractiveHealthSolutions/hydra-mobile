@@ -15,7 +15,6 @@ import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.*
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.local.entities.Location
 import ihsinformatics.com.hydra_mobile.data.local.entities.Person
-import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.model.commonLab.LabTestAllType
 import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
@@ -28,8 +27,8 @@ import ihsinformatics.com.hydra_mobile.utils.Converters
  * It represents the DB, it holds a connection to the actual SQLite DB.
  */
 
-@Database(entities = [AppSetting::class, Patient::class, Person::class, User::class, Location::class, WorkFlow::class, FormResultApiResponse::class, Phases::class, Component::class, Forms::class,
-    /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class, WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class], version = 17, exportSchema = false)
+@Database(entities = [AppSetting::class, Patient::class, Person::class, Location::class, WorkFlow::class, FormResultApiResponse::class, Phases::class, Component::class, Forms::class,
+    /*WorkFlowPhasesJoin::class ,*/ /*PhasesComponentJoin::class,*/ ComponentFormJoin::class, WorkflowPhasesMap::class, PhaseComponentMap::class, LabTestAllType::class], version = 18, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -37,7 +36,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getPatientDao(): PatientDao
     abstract fun getPersonDao(): PersonDao
     abstract fun getLocationDao(): LocationDao
-    abstract fun getUserDao(): UserDao
     abstract fun getPhaseDao(): PhasesDao
     abstract fun getWorkFlowDao(): WorkFlowDao
     abstract fun getComponent(): ComponentDao
@@ -45,8 +43,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getComponentForm(): ComponentFormDao
     abstract fun getFormsResult(): FormsResultDao
 
-    //abstract fun getPhaseComponentJoin(): PhaseComponentJoinDao
-    //abstract fun getWorkFlowPhaseJoin(): WorkFlowPhaseJoinDao
     abstract fun getLabTestTypeDao(): LabTestTypeDao
     abstract fun getComponentFormJoin(): ComponentFormJoinDao
     abstract fun getWorkflowPhases(): WorkflowPhasesMapDao
@@ -57,6 +53,13 @@ abstract class AppDatabase : RoomDatabase() {
         private val dbVersion = 17;
 
         private var instance: AppDatabase? = null
+
+        val MIGRATION_17_18: Migration = object : Migration(17, 18) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+
+                database.execSQL("DROP  TABLE 'User'");
+            }
+        }
 
         val MIGRATION_13_17: Migration = object : Migration(13, dbVersion) {
             override fun migrate(database: SupportSQLiteDatabase) {
@@ -89,7 +92,7 @@ abstract class AppDatabase : RoomDatabase() {
                 synchronized(AppDatabase::class) {
                     instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "hydra_database")
                         .allowMainThreadQueries()
-                        .addMigrations(MIGRATION_13_17, MIGRATION_14_17, MIGRATION_15_17, MIGRATION_16_17)
+                        .addMigrations(MIGRATION_13_17, MIGRATION_14_17, MIGRATION_15_17, MIGRATION_16_17,MIGRATION_17_18)
                         //.fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
                         .build()
                 }

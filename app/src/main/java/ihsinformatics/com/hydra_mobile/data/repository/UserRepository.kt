@@ -1,23 +1,19 @@
 package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.app.Application
-import android.content.Intent
 import android.widget.Toast
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.User
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.common.Constant
-import ihsinformatics.com.hydra_mobile.data.local.dao.UserDao
-import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
-import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.ProviderApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.user.UserResponse
 import ihsinformatics.com.hydra_mobile.data.remote.service.ProviderApiService
-import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
-import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.doAsync
@@ -28,17 +24,10 @@ import retrofit2.Response
 class UserRepository(application: Application) {
 
     private var application: Application
-    private var userDao: UserDao
-
-    //TODO :
-//        constructor(application: Application,userDao: UserDao,userApiService: UserApiService):this(application){
-//                this.userDao =userDao
-//        }
 
     init {
         val database: AppDatabase = AppDatabase.getInstance(application.applicationContext)!!
         this.application = application
-        userDao = database.getUserDao()
     }
 
     fun userAuthentication(username: String, password: String, restCallback: RESTCallback) {
@@ -74,7 +63,7 @@ class UserRepository(application: Application) {
                             if (userResponse != null) {
                                 for (item in userResponse.userList) {
                                     //TODO before insertion of user fetch provider uuid
-                                    insertUser(User(item.uuid,item.username, password, response.body()!!.providerResult[0].uuid))
+                                    insertUser(User(item.uuid,item.username, password, response.body()!!.providerResult[0].uuid,null))
                                     GlobalPreferences.getinstance(application).addOrUpdatePreference(GlobalPreferences.KEY.USERUUID, item.uuid)   // setting uuid only for last user. Technically only one user should come up on response. Therefore, technically this loop must run only once
                                 }
                             }
@@ -97,29 +86,25 @@ class UserRepository(application: Application) {
 
     suspend fun getUserList(): List<User> {
         var appSettingList = GlobalScope.async {
-            userDao.getAllUser()
+            DataAccess.getInstance().getAllUser(application)
         }
         return appSettingList.await()
     }
 
     fun getUserByUsernameAndPass(username:String ,password:String):List<User>
     {
-        return userDao.getUserByUsernameAndPass(username,password)
+        return DataAccess.getInstance().getUserByUsernameAndPass(application,username,password)
     }
 
     fun insertUser(user: User) {
         doAsync {
-            userDao.insertUser(user)
+            DataAccess.getInstance().insertUser(application,user)
         }
-    }
-
-    fun updateUser(appSetting: AppSetting) {
-        doAsync {}
     }
 
     fun deleteAllUsers()
     {
-        userDao.deleteAllUsers()
+        DataAccess.getInstance().deleteAllUsers(application)
 
     }
 

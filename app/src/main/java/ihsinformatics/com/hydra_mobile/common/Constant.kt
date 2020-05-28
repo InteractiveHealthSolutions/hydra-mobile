@@ -1,6 +1,5 @@
 package ihsinformatics.com.hydra_mobile.common
 
-import ihsinformatics.com.hydra_mobile.data.local.entities.User
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.ComponentForm
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.Forms
 import java.text.SimpleDateFormat

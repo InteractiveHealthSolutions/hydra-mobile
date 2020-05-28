@@ -27,8 +27,10 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.OptionDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Procedure;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettings;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettingsDao;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
@@ -616,5 +618,35 @@ public class DataAccess {
     }
 
 
+    public synchronized void insertUser(Context context, User user) {
+        try {
+            App.getDaoSession(context).getUserDao().insert(user);
+        } catch (Exception e) {
+            Logger.log(e);
+        }
+    }
+
+    public synchronized void deleteAllUsers(Context context)
+    {
+        App.getDaoSession(context).getUserDao().deleteAll();
+    }
+
+    public synchronized List<User> getAllUser(Context context)
+    {
+        List<User> toReturn =
+                App.getDaoSession(context)
+                        .getUserDao()
+                        .queryBuilder()
+                        .orderAsc(UserDao.Properties.Id)
+                        .list();
+        return toReturn;
+    }
+
+    public List<User> getUserByUsernameAndPass(Context context,String username, String password)
+    {
+        UserDao userDao = App.getDaoSession(context).getUserDao();
+        List<User> userList = userDao.queryBuilder().where(UserDao.Properties.Username.eq(username),UserDao.Properties.Password.eq(password)).list();
+        return userList;
+    }
 
 }
