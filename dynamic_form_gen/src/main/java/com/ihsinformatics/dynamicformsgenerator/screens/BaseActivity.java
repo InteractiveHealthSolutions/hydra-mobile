@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.widget.*;
 
@@ -44,6 +45,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
+import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -53,6 +55,7 @@ import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
 import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
+import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
@@ -355,6 +358,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             Toasty.success(BaseActivity.this, "Form is not saved successfully", Toast.LENGTH_LONG).show();
                         }
                     } else {
+                        doPostFormSavingWork(form);
                         Toasty.success(BaseActivity.this, "Form saved successfully", Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -381,6 +385,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } catch (Exception e) {
             Logger.log(e);
         }
+    }
+
+    private void doPostFormSavingWork(SaveableForm form) {
+        DataAccess.getInstance().insertFormDetailsInUserReport(BaseActivity.this,Global.USERNAME,form.getEncounterType(),form.getFormId(),Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),Global.HYRDA_CURRENT_URL);
     }
 
 

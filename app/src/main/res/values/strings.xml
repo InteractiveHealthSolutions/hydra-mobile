@@ -366,6 +366,9 @@
     <string name="database_backup_alert">By proceeding this action all saved formed will be deleted and changes will be overwritten. Do you wish to proceed?</string>
     <string name="understand_terms_and_conditions">I understand and accept terms and contions</string>
     <string name="accept">Accept</string>
+    <string name="userReports">User Reports</string>
+    <string name="Date">Date</string>
+    <string name="username">"Username"</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>

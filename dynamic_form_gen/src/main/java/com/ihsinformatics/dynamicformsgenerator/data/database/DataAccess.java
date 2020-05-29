@@ -31,6 +31,8 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReportsDao;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
@@ -43,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,7 +87,7 @@ public class DataAccess {
 
     public synchronized List<OfflinePatient> getPatientMatchesByMRNumber(Context context, String mrNumber) {
         return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
-                .where(OfflinePatientDao.Properties.MrNumber.eq("%"+mrNumber+"%")).list();
+                .where(OfflinePatientDao.Properties.MrNumber.eq("%" + mrNumber + "%")).list();
     }
 
     public synchronized OfflinePatient getPatientByName(Context context, String name) {
@@ -96,7 +99,7 @@ public class DataAccess {
     public synchronized List<OfflinePatient> getPatientMatchesByName(Context context, String name) {
         System.out.println("");
         return App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
-                .where(OfflinePatientDao.Properties.Name.like("%"+name+"%")).list();
+                .where(OfflinePatientDao.Properties.Name.like("%" + name + "%")).list();
     }
 
     public synchronized OfflinePatient getPatientByAllFields(Context context, String id, String name, String dob, String gender) {
@@ -175,7 +178,6 @@ public class DataAccess {
     }
 
 
-
     public synchronized int getNumberOfForms(Context context, String formTypeName) {
         int formtypeId = getFormTypeId(context, formTypeName);
         return App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormTypeId.eq(formtypeId)).list().size();
@@ -186,7 +188,7 @@ public class DataAccess {
         return App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormTypeId.eq(formtypeId)).list();
     }
 
-    public synchronized List<SaveableForm> getAllFormsByHydraUrl(Context context,String hydraURL) {
+    public synchronized List<SaveableForm> getAllFormsByHydraUrl(Context context, String hydraURL) {
         List<SaveableForm> toReturn =
                 App.getDaoSession(context)
                         .getSaveableFormDao()
@@ -567,8 +569,7 @@ public class DataAccess {
     }
 
 
-    public ServiceHistory fetchServiceHistoryByPatientIdentifier(Context context,String patientID)
-    {
+    public ServiceHistory fetchServiceHistoryByPatientIdentifier(Context context, String patientID) {
         ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
         ServiceHistory serviceHistory = serviceHistoryDao.queryBuilder().where(ServiceHistoryDao.Properties.PatientIdentifier.eq(patientID)).unique();
         return serviceHistory;
@@ -577,20 +578,18 @@ public class DataAccess {
 
     public HashMap<String, List<String>> fetchSaveableFormsByPatientIdentifer(Context context, String patientID) throws JSONException {
         List<SaveableForm> listOfForms = App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.Identifier.eq(patientID)).list();
-        HashMap<String, List<String>> formsData= new HashMap<String, List<String>>();
-        for(int i=0;i<listOfForms.size();i++)
-        {
+        HashMap<String, List<String>> formsData = new HashMap<String, List<String>>();
+        for (int i = 0; i < listOfForms.size(); i++) {
             ArrayList<String> conceptsAndValues = new ArrayList<>();
             String formValues = listOfForms.get(i).getFormValues();
             JSONObject formValuesJSON = new JSONObject(formValues);
             JSONArray values = formValuesJSON.optJSONArray(ParamNames.SERVICE_HISTORY);
-            for(int j=0;j<values.length();j++)
-            {
+            for (int j = 0; j < values.length(); j++) {
                 JSONObject temp = (JSONObject) values.get(j);
-                String tempString = temp.optString(ParamNames.PARAM_QUESTION)+" : "+temp.optString(ParamNames.PARAM_VALUE);
+                String tempString = temp.optString(ParamNames.PARAM_QUESTION) + " : " + temp.optString(ParamNames.PARAM_VALUE);
                 conceptsAndValues.add(tempString);
             }
-            formsData.put(listOfForms.get(i).getEncounterType(),conceptsAndValues);
+            formsData.put(listOfForms.get(i).getEncounterType(), conceptsAndValues);
         }
 
         return formsData;
@@ -613,26 +612,24 @@ public class DataAccess {
 //
 //        }
 
-        SaveableFormDao offlineFormsDao =  App.getDaoSession(context).getSaveableFormDao();
+        SaveableFormDao offlineFormsDao = App.getDaoSession(context).getSaveableFormDao();
         offlineFormsDao.deleteAll();
     }
 
 
     public synchronized void insertUser(Context context, User user) {
         try {
-            App.getDaoSession(context).getUserDao().insert(user);
+            App.getDaoSession(context).getUserDao().insertOrReplace(user);
         } catch (Exception e) {
             Logger.log(e);
         }
     }
 
-    public synchronized void deleteAllUsers(Context context)
-    {
+    public synchronized void deleteAllUsers(Context context) {
         App.getDaoSession(context).getUserDao().deleteAll();
     }
 
-    public synchronized List<User> getAllUser(Context context)
-    {
+    public synchronized List<User> getAllUser(Context context) {
         List<User> toReturn =
                 App.getDaoSession(context)
                         .getUserDao()
@@ -642,11 +639,39 @@ public class DataAccess {
         return toReturn;
     }
 
-    public List<User> getUserByUsernameAndPass(Context context,String username, String password)
-    {
+    public List<User> getUserByUsernameAndPass(Context context, String username, String password) {
         UserDao userDao = App.getDaoSession(context).getUserDao();
-        List<User> userList = userDao.queryBuilder().where(UserDao.Properties.Username.eq(username),UserDao.Properties.Password.eq(password)).list();
+        List<User> userList = userDao.queryBuilder().where(UserDao.Properties.Username.eq(username), UserDao.Properties.Password.eq(password)).list();
         return userList;
+    }
+
+//    public synchronized void  insertFormDetailsInUserReport(Context context, String username, String encounter, String encounterDate, int encounterFilled, String workflowUUID, String componentFormUUID, String url)
+//    {
+//        UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
+//        List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+//                UserReportsDao.Properties.Encounter.eq(encounter),
+//                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
+//                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
+//                UserReportsDao.Properties.Url.eq(url)).list();
+//
+//        if(userReportsList!=null && userReportsList.size()>0)
+//        {
+//            UserReports obj=userReportsList.get(0);
+//            userReportsDao.insertOrReplace(new UserReports(obj.getUsername(),obj.getEncounter(),obj.getEncounter_filled()+1,obj.getEncounter_uploaded(),obj.getDate(),obj.getWorkflowUUID(),obj.getComponentFormUUID(),obj.getUrl(),obj.getId()));
+//        }
+//    }
+
+    public synchronized void insertFormDetailsInUserReport(Context context, String username, String encounter,long offlineFormID, String workflowUUID, String componentFormUUID, String url) {
+        UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
+        userReportsDao.insert(new UserReports(username, encounter,offlineFormID, 0, new Date().toString(), workflowUUID, componentFormUUID, url, null));
+    }
+
+    public List<UserReports> getAllUserReportsByUserName(Context context,String username)
+    {
+        UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
+        List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username)).list();
+
+       return userReportsList;
     }
 
 }

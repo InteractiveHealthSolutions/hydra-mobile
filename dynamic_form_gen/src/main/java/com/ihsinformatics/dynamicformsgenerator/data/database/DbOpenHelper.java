@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReportsDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -52,6 +54,16 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                         +User.COLUMN_USERNAME + " TEXT, "
                         +User.COLUMN_PASSWORD + " TEXT, "
                         +User.COLUMN_PROVIDER + " TEXT, "
+                        +"ID INTEGER PRIMARY KEY AUTOINCREMENT"+" )");
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + UserReportsDao.TABLENAME + " (" + UserReports.COLUMN_USERNAME + " TEXT, "
+                        +UserReports.ENCOUNTER + " TEXT, "
+                        +UserReports.ENCOUNTER_UPLOADED + " INTEGER, "
+                        +UserReports.OFFLINE_FORM_ID + " INTEGER, "
+                        +UserReports.ENCOUNTER_DATE + " TEXT, "
+                        +UserReports.ENCOUNTER_WORKFLOWUUID + " TEXT, "
+                        +UserReports.ENCOUNTER_COMPONENT_FORM_UUID + " TEXT, "
+                        +UserReports.COLUMN_URL + " TEXT, "
                         +"ID INTEGER PRIMARY KEY AUTOINCREMENT"+" )");
         }
     }

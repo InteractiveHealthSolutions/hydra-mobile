@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/app_gradient"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/ivGender"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/usernameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:text="@string/username"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:text="@string/username"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:text="@string/Date"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:text="30-Sept-2020"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:background="@drawable/white_circular_background">
+
+                <Spinner
+                    android:id="@+id/workflowsSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </Spinner>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

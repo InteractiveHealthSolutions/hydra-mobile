@@ -221,7 +221,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.common_lab), R.drawable.ic_testtubes))
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.userReports), R.drawable.ic_testtubes))
         spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.history), R.drawable.ic_report_filled))
 
 
@@ -260,32 +260,38 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun bottomBarListener(itemName: String) {
         when (itemName) {
 
-            resources.getString(R.string.common_lab) -> {
+//            resources.getString(R.string.common_lab) -> {
+//
+//                if (true) {
+//                    ToastyWidget.getInstance()
+//                        .displaySuccess(this, "Coming Soon", Toast.LENGTH_LONG)
+//                } else {
+//                    if (!sessionManager.isOfflineMode()) {
+//
+//                        if (isInternetConnected()) {
+//                            if (Global.patientData == null) {
+//                                ToastyWidget.getInstance()
+//                                    .displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+//                            } else {
+//                                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+//                                finish()
+//                            }
+//                        } else {
+//                            ToastyWidget.getInstance()
+//                                .displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+//                        }
+//                    } else {
+//                        ToastyWidget.getInstance()
+//                            .displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
+//
+//                    }
+//                }
+//            }
 
-                if (true) {
-                    ToastyWidget.getInstance()
-                        .displaySuccess(this, "Coming Soon", Toast.LENGTH_LONG)
-                } else {
-                    if (!sessionManager.isOfflineMode()) {
+            resources.getString(R.string.userReports) -> {
 
-                        if (isInternetConnected()) {
-                            if (Global.patientData == null) {
-                                ToastyWidget.getInstance()
-                                    .displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
-                            } else {
-                                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
-                                finish()
-                            }
-                        } else {
-                            ToastyWidget.getInstance()
-                                .displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
-                        }
-                    } else {
-                        ToastyWidget.getInstance()
-                            .displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
-
-                    }
-                }
+                startActivity(Intent(applicationContext, UserReports::class.java))
+                finish()
             }
 
             resources.getString(R.string.history) -> {
