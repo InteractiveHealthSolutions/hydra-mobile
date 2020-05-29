@@ -1,7 +1,6 @@
 package ihsinformatics.com.hydra_mobile.data.repository
 
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,12 +8,12 @@ import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.WorkFlowDao
 import ihsinformatics.com.hydra_mobile.data.local.dao.workflow.WorkflowPhasesMapDao
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.NameAndUUID
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.WorkFlow
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkFlowUserMappingApiResponse
-import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.WorkflowPhasesMap
 import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -54,8 +53,12 @@ class WorkFlowRepository(context: Context) {
 
     fun getAllWorkFlows(): List<WorkFlow> {
         return workFlowDao.getAllWorkFlows()
-
     }
+
+    fun getAllWorkflowsAlongWithUUID(): List<NameAndUUID> {
+        return workFlowDao.getAllWorkflowsAlongWithUUID()
+    }
+
 
     fun getAllWorkFlowsFromLiveData(): LiveData<List<WorkFlow>> {
         return workFlowDao.getAllWorkFlowsLiveData()

@@ -666,10 +666,11 @@ public class DataAccess {
         userReportsDao.insert(new UserReports(username, encounter,offlineFormID, 0, new Date().toString(), workflowUUID, componentFormUUID, url, null));
     }
 
-    public List<UserReports> getAllUserReportsByUserName(Context context,String username)
+    public List<UserReports> getAllUserReportsByUserNameAndWorkflow(Context context,String username,String workflowUUID)
     {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
-        List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username)).list();
+        List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID)).list();
 
        return userReportsList;
     }

@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.NameAndUUID
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.WorkFlow
 import ihsinformatics.com.hydra_mobile.data.repository.WorkFlowRepository
 
@@ -23,6 +24,8 @@ class WorkFlowViewModel(application: Application) : AndroidViewModel(application
         return repository.getAllWorkFlows()
     }
 
-
+    fun getAllWorkflowsAlongWithUUID(): List<NameAndUUID> {
+        return repository.getAllWorkflowsAlongWithUUID()
+    }
 
 }

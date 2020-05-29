@@ -2,6 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.local.dao.workflow
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.NameAndUUID
 import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.WorkFlow
 
 @Dao
@@ -28,6 +29,7 @@ interface WorkFlowDao {
     @Query("SELECT * FROM WorkFlow")
     fun getAllWorkFlows(): List<WorkFlow>
 
-
+    @Query("SELECT * FROM WorkFlow")
+    fun getAllWorkflowsAlongWithUUID():List<NameAndUUID>
 
 }
