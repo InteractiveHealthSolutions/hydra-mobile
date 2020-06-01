@@ -58,6 +58,7 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
 
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + UserReportsDao.TABLENAME + " (" + UserReports.COLUMN_USERNAME + " TEXT, "
                         +UserReports.ENCOUNTER + " TEXT, "
+                        +UserReports.ENCOUNTER_FILLED + " INTEGER, "
                         +UserReports.ENCOUNTER_UPLOADED + " INTEGER, "
                         +UserReports.OFFLINE_FORM_ID + " INTEGER, "
                         +UserReports.ENCOUNTER_DATE + " TEXT, "

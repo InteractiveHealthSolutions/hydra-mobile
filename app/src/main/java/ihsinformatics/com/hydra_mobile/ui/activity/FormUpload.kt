@@ -1,5 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -141,6 +142,8 @@ class FormUpload : AppCompatActivity() {
                     ToastyWidget.getInstance()
                         .displaySuccess(this@FormUpload, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance()
+                        .updateEncounterUploadCount(this@FormUpload, Global.USERNAME, saveableForm.getEncounterType(), saveableForm.getFormId(),Global.WORKFLOWUUID ,saveableForm.componentFormUUID, Global.HYRDA_CURRENT_URL);
+                    DataAccess.getInstance()
                         .deleteFormByFormID(this@FormUpload, saveableForm.formId)
                     Logger.logEvent("FORM_UPLOAD_SUCCESS", saveableForm.getFormData().toString())
 
@@ -203,13 +206,11 @@ class FormUpload : AppCompatActivity() {
                         .getJSONArray("identifiers").getJSONObject(0).getString("value")
                     if (!failedIdsList.contains(identifier)) {
                         sendData(f)
-                    }
-                    else{
+                    } else {
                         doPostResponse(metaData)
-                        f.lastUploadError="Duplicate Identifer"
+                        f.lastUploadError = "Duplicate Identifer"
                     }
-                }else
-                {
+                } else {
                     networkProgressDialog.dismiss()
                     uploadForms.isEnabled = true
                 }

@@ -221,7 +221,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.userReports), R.drawable.ic_testtubes))
+        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.userReports), R.drawable.dashboard))
         spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.history), R.drawable.ic_report_filled))
 
 

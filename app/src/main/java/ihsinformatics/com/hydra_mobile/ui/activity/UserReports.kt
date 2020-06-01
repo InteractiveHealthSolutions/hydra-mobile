@@ -1,6 +1,6 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -62,8 +62,10 @@ class UserReports : AppCompatActivity() {
 
                 val selectedWorkFlow = workflowsUUIDMapping.get(workflowsList.get(position))
 
+                val dateValue = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date())
+
                 val userReports = DataAccess.getInstance()
-                    .getAllUserReportsByUserNameAndWorkflow(this@UserReports, Global.USERNAME, selectedWorkFlow)
+                    .getAllUserReportsByUserNameAndWorkflow(this@UserReports, Global.USERNAME, selectedWorkFlow,SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date()))
 
 
                 displayDataInTable(userReports)
@@ -95,7 +97,7 @@ class UserReports : AppCompatActivity() {
         val workFlows = workflowViewModel.getAllWorkflowsAlongWithUUID()
         convertNameValuePairToHashMap(workFlows)
         workflowsList = workflowsUUIDMapping.keys.toList()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, workflowsList)
+        val adapter = ArrayAdapter(this, R.layout.workflow_spinner_item, workflowsList)
         spWorkflow.adapter = adapter
     }
 
@@ -114,9 +116,9 @@ class UserReports : AppCompatActivity() {
 
         for (report in userReports) {
             if (isEven) {
-                setDataInTableRow(report.encounter, "1", report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.AliceBlue),ContextCompat.getColor(this, R.color.colorGrey))
+                setDataInTableRow(report.encounter, report.encounter_filled.toString(), report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.AliceBlue),ContextCompat.getColor(this, R.color.colorGrey))
             } else {
-                setDataInTableRow(report.encounter, "1", report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.colorLighterGrey),ContextCompat.getColor(this, R.color.colorGrey))
+                setDataInTableRow(report.encounter, report.encounter_filled.toString(), report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.colorLighterGrey),ContextCompat.getColor(this, R.color.colorGrey))
             }
             isEven = !isEven
         }
@@ -154,4 +156,11 @@ class UserReports : AppCompatActivity() {
         tableLayout.addView(tableRow)
     }
 
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
+        super.onBackPressed()
+
+    }
 }

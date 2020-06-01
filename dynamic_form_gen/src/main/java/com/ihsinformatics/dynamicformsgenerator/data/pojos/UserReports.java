@@ -11,6 +11,7 @@ public class UserReports {
     public final static String COLUMN_USERNAME = "username";
     public final static String ENCOUNTER = "encounter";
     public final static String ENCOUNTER_DATE = "date";
+    public final static String ENCOUNTER_FILLED = "encounter_filled";
     public final static String ENCOUNTER_UPLOADED = "encounter_uploaded";
     public final static String OFFLINE_FORM_ID = "offline_form_id";
 
@@ -29,8 +30,11 @@ public class UserReports {
     @Property(nameInDb = OFFLINE_FORM_ID)
     private long offline_form_id;
 
+    @Property(nameInDb = ENCOUNTER_FILLED)
+    private long encounter_filled;
+
     @Property(nameInDb = ENCOUNTER_UPLOADED)
-    private int encounter_uploaded;
+    private long encounter_uploaded;
 
     @Property(nameInDb = ENCOUNTER_DATE)
     private String date;
@@ -47,13 +51,14 @@ public class UserReports {
     @Id(autoincrement = true)
     private Long id;
 
-    @Generated(hash = 1477670716)
+    @Generated(hash = 438058562)
     public UserReports(String username, String encounter, long offline_form_id,
-            int encounter_uploaded, String date, String workflowUUID,
-            String componentFormUUID, String url, Long id) {
+            long encounter_filled, long encounter_uploaded, String date,
+            String workflowUUID, String componentFormUUID, String url, Long id) {
         this.username = username;
         this.encounter = encounter;
         this.offline_form_id = offline_form_id;
+        this.encounter_filled = encounter_filled;
         this.encounter_uploaded = encounter_uploaded;
         this.date = date;
         this.workflowUUID = workflowUUID;
@@ -90,11 +95,19 @@ public class UserReports {
         this.offline_form_id = offline_form_id;
     }
 
-    public int getEncounter_uploaded() {
+    public long getEncounter_filled() {
+        return this.encounter_filled;
+    }
+
+    public void setEncounter_filled(long encounter_filled) {
+        this.encounter_filled = encounter_filled;
+    }
+
+    public long getEncounter_uploaded() {
         return this.encounter_uploaded;
     }
 
-    public void setEncounter_uploaded(int encounter_uploaded) {
+    public void setEncounter_uploaded(long encounter_uploaded) {
         this.encounter_uploaded = encounter_uploaded;
     }
 
