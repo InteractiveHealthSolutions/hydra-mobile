@@ -26,6 +26,7 @@ public class SaveableForm {
 	public final static String COLUMN_FORM_PATIENT_NAME= "patient_name";
 
 
+	public final static String WORKFLOW_UUID = "workflow_uuid";
 	public final static String COMPONENT_FORM_UUID = "component_form_uuid";
 
 	public final static String COLUMN_UPLOAD_ERROR = "last_upload_error";
@@ -55,6 +56,8 @@ public class SaveableForm {
 	@Property(nameInDb = COLUMN_FORM_PATIENT_NAME)
 	private String patient_name;
 
+	@Property(nameInDb = WORKFLOW_UUID)
+	private String workflowUUID;
 
 	@Property(nameInDb = COMPONENT_FORM_UUID)
 	private String componentFormUUID;
@@ -65,13 +68,11 @@ public class SaveableForm {
 	@Property(nameInDb = COLUMN_HYDRA_URL)
 	private String hydraURL;
 
-
-
-	@Generated(hash = 560301855)
+	@Generated(hash = 1593853872)
 	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
 			String encounterType, String formError, String formValues, String identifier,
-			String patient_name, String componentFormUUID, String lastUploadError,
-			String hydraURL) {
+			String patient_name, String workflowUUID, String componentFormUUID,
+			String lastUploadError, String hydraURL) {
 		this.formTypeId = formTypeId;
 		this.formId = formId;
 		this.stringFormData = stringFormData;
@@ -80,11 +81,11 @@ public class SaveableForm {
 		this.formValues = formValues;
 		this.identifier = identifier;
 		this.patient_name = patient_name;
+		this.workflowUUID = workflowUUID;
 		this.componentFormUUID = componentFormUUID;
 		this.lastUploadError = lastUploadError;
 		this.hydraURL = hydraURL;
 	}
-
 
 	@Generated(hash = 1724246510)
 	public SaveableForm() {
@@ -113,7 +114,7 @@ public class SaveableForm {
 	}*/
 
 	public int getFormTypeId() {
-		return formTypeId;
+		return this.formTypeId;
 	}
 
 	public void setFormTypeId(int formTypeId) {
@@ -121,7 +122,7 @@ public class SaveableForm {
 	}
 
 	public Long getFormId() {
-		return formId;
+		return this.formId;
 	}
 
 	public void setFormId(Long formId) {
@@ -131,10 +132,6 @@ public class SaveableForm {
 	public String[] getExportableData() {
 		return new String[]{formTypeId+"", formId+"", stringFormData};
 	}
-
-	public String getFormError(){return formError;}
-
-	public void setFormError(String formError) {this.formError = formError;}
 
 	public String getStringFormData() {
 		return this.stringFormData;
@@ -165,38 +162,52 @@ public class SaveableForm {
 		return this.encounterType;
 	}
 
-
-
 	public void setEncounterType(String encounterType) {
 		this.encounterType = encounterType;
 	}
 
+	public String getFormError() {
+		return this.formError;
+	}
 
+	public void setFormError(String formError) {
+		this.formError = formError;
+	}
 
 	public String getFormValues() {
 		return this.formValues;
 	}
 
-
-
 	public void setFormValues(String formValues) {
 		this.formValues = formValues;
 	}
-
-
 
 	public String getIdentifier() {
 		return this.identifier;
 	}
 
-
-
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
 
+	public String getPatient_name() {
+		return this.patient_name;
+	}
+
+	public void setPatient_name(String patient_name) {
+		this.patient_name = patient_name;
+	}
+
+	public String getWorkflowUUID() {
+		return this.workflowUUID;
+	}
+
+	public void setWorkflowUUID(String workflowUUID) {
+		this.workflowUUID = workflowUUID;
+	}
+
 	public String getComponentFormUUID() {
-		return componentFormUUID;
+		return this.componentFormUUID;
 	}
 
 	public void setComponentFormUUID(String componentFormUUID) {
@@ -204,28 +215,20 @@ public class SaveableForm {
 	}
 
 	public String getLastUploadError() {
-		return lastUploadError;
+		return this.lastUploadError;
 	}
 
 	public void setLastUploadError(String lastUploadError) {
 		this.lastUploadError = lastUploadError;
 	}
 
-	public String getPatient_name() {
-		return patient_name;
-	}
-
-	public void setPatient_name(String patient_name) {
-		this.patient_name = patient_name;
-	}
-
-
 	public String getHydraURL() {
 		return this.hydraURL;
 	}
 
-
 	public void setHydraURL(String hydraURL) {
 		this.hydraURL = hydraURL;
 	}
+
+
 }

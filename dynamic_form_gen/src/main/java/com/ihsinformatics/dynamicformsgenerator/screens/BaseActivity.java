@@ -323,10 +323,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Form.getCOMPONENT_FORM_UUID(),lastUploadError,Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),lastUploadError,Global.HYRDA_CURRENT_URL);
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Form.getCOMPONENT_FORM_UUID(),null,Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),null,Global.HYRDA_CURRENT_URL);
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);

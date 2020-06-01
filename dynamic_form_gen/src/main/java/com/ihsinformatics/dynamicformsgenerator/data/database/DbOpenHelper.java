@@ -66,6 +66,9 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                         +UserReports.ENCOUNTER_COMPONENT_FORM_UUID + " TEXT, "
                         +UserReports.COLUMN_URL + " TEXT, "
                         +"ID INTEGER PRIMARY KEY AUTOINCREMENT"+" )");
+
+                db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.WorkflowUUID.columnName);
+
         }
     }
 }

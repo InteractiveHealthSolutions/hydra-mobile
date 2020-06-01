@@ -674,7 +674,7 @@ public class DataAccess {
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy",Locale.getDefault()).format(new Date());
 
         if (userReport != null) {
-            userReportsDao.update(new UserReports(username, encounter, offlineFormID, userReport.getEncounter_filled()+1,userReport.getEncounter_uploaded(), dateValue, workflowUUID, componentFormUUID, url, userReport.getId()));
+            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled()+1,userReport.getEncounter_uploaded(), dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
 
         } else {
             userReportsDao.insert(new UserReports(username, encounter, offlineFormID,1, 0, dateValue, workflowUUID, componentFormUUID, url, null));
@@ -696,13 +696,14 @@ public class DataAccess {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
 
         UserReports userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
                 UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                 UserReportsDao.Properties.Encounter.eq(encounter)).unique();
 
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy",Locale.getDefault()).format(new Date());
 
         if (userReport != null) {
-            userReportsDao.update(new UserReports(username, encounter, offlineFormID, userReport.getEncounter_filled(),userReport.getEncounter_uploaded()+1, dateValue, workflowUUID, componentFormUUID, url, userReport.getId()));
+            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(),userReport.getEncounter_uploaded()+1, dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
 
         } else {
             userReportsDao.insert(new UserReports(username, encounter, offlineFormID,1, 1, dateValue, workflowUUID, componentFormUUID, url, null));

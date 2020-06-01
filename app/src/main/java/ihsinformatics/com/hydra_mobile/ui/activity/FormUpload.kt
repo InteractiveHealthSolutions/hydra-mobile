@@ -142,7 +142,7 @@ class FormUpload : AppCompatActivity() {
                     ToastyWidget.getInstance()
                         .displaySuccess(this@FormUpload, "Success", Toast.LENGTH_SHORT)
                     DataAccess.getInstance()
-                        .updateEncounterUploadCount(this@FormUpload, Global.USERNAME, saveableForm.getEncounterType(), saveableForm.getFormId(),Global.WORKFLOWUUID ,saveableForm.componentFormUUID, Global.HYRDA_CURRENT_URL);
+                        .updateEncounterUploadCount(this@FormUpload, Global.USERNAME, saveableForm.getEncounterType(), saveableForm.getFormId(),saveableForm.workflowUUID ,saveableForm.componentFormUUID, Global.HYRDA_CURRENT_URL);
                     DataAccess.getInstance()
                         .deleteFormByFormID(this@FormUpload, saveableForm.formId)
                     Logger.logEvent("FORM_UPLOAD_SUCCESS", saveableForm.getFormData().toString())

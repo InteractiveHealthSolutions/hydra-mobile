@@ -57,12 +57,11 @@ class UserReports : AppCompatActivity() {
 
         spWorkflow.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
+                isEven = false
                 tableLayout.removeAllViews()
 
                 val selectedWorkFlow = workflowsUUIDMapping.get(workflowsList.get(position))
 
-                val dateValue = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date())
 
                 val userReports = DataAccess.getInstance()
                     .getAllUserReportsByUserNameAndWorkflow(this@UserReports, Global.USERNAME, selectedWorkFlow,SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date()))
@@ -115,7 +114,7 @@ class UserReports : AppCompatActivity() {
         setDataInTableRow("Form Name", "Filled","Uploaded", ContextCompat.getColor(this, R.color.colorGrey),ContextCompat.getColor(this, R.color.colorWhite))
 
         for (report in userReports) {
-            if (isEven) {
+            if (!isEven) {
                 setDataInTableRow(report.encounter, report.encounter_filled.toString(), report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.AliceBlue),ContextCompat.getColor(this, R.color.colorGrey))
             } else {
                 setDataInTableRow(report.encounter, report.encounter_filled.toString(), report.encounter_uploaded.toString(), ContextCompat.getColor(this, R.color.colorLighterGrey),ContextCompat.getColor(this, R.color.colorGrey))
