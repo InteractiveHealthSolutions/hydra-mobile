@@ -59,6 +59,12 @@
                 android:fontFamily="@font/cabin"
                 android:icon="@drawable/ic_cloud_upload"
                 android:title="@string/backup" />
+
+            <item
+                android:id="@+id/userReports"
+                android:fontFamily="@font/cabin"
+                android:icon="@drawable/dashboard"
+                android:title="@string/userReports" />
         </menu>
     </item>
 

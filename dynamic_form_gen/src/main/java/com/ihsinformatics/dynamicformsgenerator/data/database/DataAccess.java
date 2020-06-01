@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
+
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
@@ -647,21 +649,6 @@ public class DataAccess {
         return userList;
     }
 
-//    public synchronized void  insertFormDetailsInUserReport(Context context, String username, String encounter, String encounterDate, int encounterFilled, String workflowUUID, String componentFormUUID, String url)
-//    {
-//        UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
-//        List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
-//                UserReportsDao.Properties.Encounter.eq(encounter),
-//                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
-//                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
-//                UserReportsDao.Properties.Url.eq(url)).list();
-//
-//        if(userReportsList!=null && userReportsList.size()>0)
-//        {
-//            UserReports obj=userReportsList.get(0);
-//            userReportsDao.insertOrReplace(new UserReports(obj.getUsername(),obj.getEncounter(),obj.getEncounter_filled()+1,obj.getEncounter_uploaded(),obj.getDate(),obj.getWorkflowUUID(),obj.getComponentFormUUID(),obj.getUrl(),obj.getId()));
-//        }
-//    }
 
     public synchronized void insertFormDetailsInUserReport(Context context, String username, String encounter, long offlineFormID, String workflowUUID, String componentFormUUID, String url) {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
@@ -671,22 +658,22 @@ public class DataAccess {
                 UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                 UserReportsDao.Properties.Encounter.eq(encounter)).unique();
 
-        String dateValue = new SimpleDateFormat("dd-MMM-yyyy",Locale.getDefault()).format(new Date());
+        String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
         if (userReport != null) {
-            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled()+1,userReport.getEncounter_uploaded(), dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
+            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled() + 1, userReport.getEncounter_uploaded(), dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
 
         } else {
-            userReportsDao.insert(new UserReports(username, encounter, offlineFormID,1, 0, dateValue, workflowUUID, componentFormUUID, url, null));
+            userReportsDao.insert(new UserReports(username, encounter, offlineFormID, 1, 0, dateValue, workflowUUID, componentFormUUID, url, null));
         }
     }
 
-    public List<UserReports> getAllUserReportsByUserNameAndWorkflow(Context context, String username, String workflowUUID,String date) {
+    public List<UserReports> getAllUserReportsByUserNameAndWorkflow(Context context, String username, String workflowUUID, String date) {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
         List<UserReports> userReportsList = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
                 UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
                 UserReportsDao.Properties.Date.eq(date)
-                ).list();
+        ).list();
 
         return userReportsList;
     }
@@ -700,13 +687,32 @@ public class DataAccess {
                 UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                 UserReportsDao.Properties.Encounter.eq(encounter)).unique();
 
-        String dateValue = new SimpleDateFormat("dd-MMM-yyyy",Locale.getDefault()).format(new Date());
+        String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
         if (userReport != null) {
-            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(),userReport.getEncounter_uploaded()+1, dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
+            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(), userReport.getEncounter_uploaded() + 1, dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
 
         } else {
-            userReportsDao.insert(new UserReports(username, encounter, offlineFormID,1, 1, dateValue, workflowUUID, componentFormUUID, url, null));
+            userReportsDao.insert(new UserReports(username, encounter, offlineFormID, 1, 1, dateValue, workflowUUID, componentFormUUID, url, null));
+        }
+    }
+
+    public synchronized void decreaseEncounterFilledCount(Context context, String username, String encounter, long offlineFormID, String workflowUUID, String componentFormUUID, String url) {
+        UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
+
+        UserReports userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
+                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
+                UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+
+        String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+
+        if (userReport != null) {
+            if (userReport.getEncounter_filled() <= 1) {
+                userReportsDao.delete(userReport);
+            } else {
+                userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled() - 1, userReport.getEncounter_uploaded(), dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
+            }
         }
     }
 }
