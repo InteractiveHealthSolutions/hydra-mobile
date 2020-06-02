@@ -127,7 +127,7 @@ class FormUpload : AppCompatActivity() {
                     val failedIdentifier: String = metaData.getString("mrNumber")
                     failedIdsList.add(failedIdentifier)
                 }
-                saveableForm.lastUploadError = "Some Error occured"
+                saveableForm.lastUploadError = "Error occured. Check Internet Connection"
                 DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
                 ToastyWidget.getInstance()
                     .displayError(this@FormUpload, "Error", Toast.LENGTH_SHORT)
