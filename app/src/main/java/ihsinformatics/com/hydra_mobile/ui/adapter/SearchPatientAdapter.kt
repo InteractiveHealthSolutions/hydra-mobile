@@ -52,7 +52,6 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
     private val password = password
     var encountersList = ArrayList<Encounters>()
 
-
     private val networkProgressDialog = NetworkProgressDialog(c)
 
     val context = c
@@ -119,6 +118,9 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                 searchLayout.setOnClickListener {
 
                     if (null != patient.identifiers.get(0)) {
+
+                        networkProgressDialog.show("Please Wait...")
+
                         val encounterSearch = RequestManager(context, username, password).getPatientRetrofit()
                             .create(PatientApiService::class.java)
 
@@ -149,12 +151,13 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                                         }
 
                                                     }
+
                                                     initializePatient(patient, covidResult.trim())
                                                 }
 
                                                 override fun onFailure(call: Call<EncounterMapperApiResponse>, t: Throwable) {
                                                     Timber.e(t.localizedMessage)
-
+                                                    networkProgressDialog.dismiss()
                                                     Toast.makeText(context, "Error fetching X-Ray Order Form", Toast.LENGTH_SHORT)
                                                         .show()
                                                 }
@@ -241,6 +244,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         }
         networkProgressDialog.dismiss()
         context.startActivity(Intent(context, HomeActivity::class.java))
+
     }
 
 
