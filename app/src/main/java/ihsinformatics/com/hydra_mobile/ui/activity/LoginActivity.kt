@@ -286,6 +286,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun openMetaDataFetcher() {
         networkProgressDialog.show("Downloading Data. Please Wait...")
+        sessionManager.dataDownloadedCompletely(false)
         val metaDataHelper = MetaDataHelper(this)
         metaDataHelper.getAllMetaData(object : RESTCallback {
             override fun <T> onSuccess(o: T) {

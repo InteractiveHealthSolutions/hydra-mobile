@@ -19,7 +19,7 @@ public class UserReports {
     public final static String ENCOUNTER_COMPONENT_FORM_UUID = "componentFormUUID";
     public final static String COLUMN_URL = "url";
 
-
+    public final static String COLUMN_ID = "id";
 
     @Property(nameInDb = COLUMN_USERNAME)
     private String username;
@@ -49,6 +49,7 @@ public class UserReports {
     private String url;
 
     @Id(autoincrement = true)
+    @Property(nameInDb = COLUMN_ID)
     private Long id;
 
     @Generated(hash = 438058562)

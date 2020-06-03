@@ -786,10 +786,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             override fun onFailure(t: Throwable) {
 
-                sessionManager.dataDownloadedCompletely(false)
                 ToastyWidget.getInstance()
                     .displayError(this@HomeActivity, getString(R.string.sync_error), Toast.LENGTH_LONG)
                 networkProgressDialog.dismiss()
+                startActivity(Intent(this@HomeActivity,LoginActivity::class.java))
+                finish()
             }
         })
 
