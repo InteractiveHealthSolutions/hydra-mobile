@@ -9,6 +9,8 @@ public class Encounters {
     EncounterType encounterType;
     List<Ob> obs;
     String uuid;
+    AuditInfo auditInfo;
+
 
     public String getDisplay() {
         return display;
@@ -48,5 +50,13 @@ public class Encounters {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public AuditInfo getAuditInfo() {
+        return auditInfo;
+    }
+
+    public void setAuditInfo(AuditInfo auditInfo) {
+        this.auditInfo = auditInfo;
     }
 }

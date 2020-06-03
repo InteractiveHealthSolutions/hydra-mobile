@@ -188,7 +188,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
             if (i.encounterType.uuid.equals("bf22958e-4c9a-43af-8243-d8f83ff449fe")) {
                 for (obs in i.obs) {
                     if (obs.concept.uuid.equals("3ec4ebf7-db4a-45fa-b0c1-f859d41df2c9")) {
-                        covidAllResults.put(i.encounterDatetime, obs.display.split(":").get(1))
+                        covidAllResults.put(i.auditInfo.dateCreated, obs.display.split(":").get(1))
                         //  covidResult=obs.display.split(":").get(1)
                     }
                 }
