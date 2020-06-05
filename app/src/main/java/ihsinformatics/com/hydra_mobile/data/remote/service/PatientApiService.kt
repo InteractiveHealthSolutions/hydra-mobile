@@ -36,7 +36,7 @@ interface PatientApiService {
     ): Call<ReportEncountersApiResponse>
 
 
-    @GET("hydra/encounterMapper")
+    @GET("qxr/encounterMapper")
     fun getXRayOrderFormByPatientIdentifier(
         @Query("q") identifier: String, @Query("v") representation: String
     ): Call<EncounterMapperApiResponse>
