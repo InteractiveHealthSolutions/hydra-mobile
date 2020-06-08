@@ -608,9 +608,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setCovidResults() {
         damage.text = Global.patientData.covidResult
-        covidAlert.visibility = View.VISIBLE
-        topLayout.visibility = View.VISIBLE
-        covidInfo.visibility = View.VISIBLE
+//        covidAlert.visibility = View.VISIBLE
+//        topLayout.visibility = View.VISIBLE
+//        covidInfo.visibility = View.VISIBLE
 
         when (damage.text.toString().toUpperCase()) {
             "LOW" -> {
@@ -827,32 +827,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startActivity(intent)
     }
 
-
-    fun checkSessionTimeOut() {
-
-        val storedTime = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.ACTIVE_TIME, null)
-
-        if (null != storedTime) {
-            val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"))
-            val currentLocalTime = cal.time
-            val date: DateFormat = SimpleDateFormat("HH:mm")
-
-            date.setTimeZone(TimeZone.getTimeZone("GMT+1:00"))
-
-            val localTime = date.format(currentLocalTime)
-        }
-        //     val difference =
-
-//            if (difference > 8) {
-//                ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
-//                startActivity(Intent(this, LoginActivity::class.java))
-//            }
-//        } else {
-//            ToastyWidget.getInstance().displayError(this, "Session Timeout", Toast.LENGTH_LONG)
-//            startActivity(Intent(this, LoginActivity::class.java))
-//        }
-    }
 
 
     private fun updateActivityTime() {
