@@ -99,7 +99,11 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             dismissMessage();
             param.put(ParamNames.PARAM_NAME, question.getParamName());
             param.put(ParamNames.VALUE, etAnswer.getText().toString());
-        } else {
+        }else if(suspiciousIdentifier)
+        {
+            activity.addValidationError(getQuestionId(), context.getString(R.string.error_duplicate_identifier));   //No need to show custom error message on identifier  ~Taha
+        }
+        else {
             activity.addValidationError(getQuestionId(), context.getString(R.string.identifier_error));   //No need to show custom error message on identifier  ~Taha
         }
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE

@@ -12,168 +12,158 @@
         android:layout_height="match_parent"
         android:background="@drawable/blue_borders">
 
-    <LinearLayout
-        android:id="@+id/singleLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3">
-        <!--image-->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:maxWidth="80dp"
-                android:maxHeight="80dp"
-                android:src="@drawable/form"
-                android:tint="@color/black_overlay"
-                app:civ_border_color="@color/black_overlay"
-                app:civ_border_width="5dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".6"
-            android:gravity="center"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/genderImage"
-                android:layout_width="match_parent"
+            android:id="@+id/singleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3">
+            <!--image-->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_form">
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:visibility="gone">
 
-            </ImageView>
-        </LinearLayout>
-        <!--Content-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:weightSum="5">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxWidth="80dp"
+                    android:maxHeight="80dp"
+                    android:src="@drawable/form"
+                    android:tint="@color/black_overlay"
+                    app:civ_border_color="@color/black_overlay"
+                    app:civ_border_width="5dp" />
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:padding="8dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".6"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_weight="1.5"
-                android:weightSum="4">
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/genderImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_form">
+
+                </ImageView>
+            </LinearLayout>
+            <!--Content-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:weightSum="5">
 
                 <TextView
                     android:id="@+id/formName"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:maxLines="1"
-                    android:paddingLeft="15dp"
-                    android:layout_weight="3"
-                    android:text="@string/app_title_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
                     android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:text="@string/app_title_name"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-            </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    android:weightSum="3">
+
+                    <!--location-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/patient_identitier"
+                            android:textColor="@color/bootstrap_gray_light"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_patient_identifier"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:maxLines="2"
+                            android:textColor="@color/bootstrap_gray_light"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <!--age-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/name"
+                            android:textColor="@color/bootstrap_gray_light"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_patient_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:maxLines="2"
+                            android:text="Name of patient"
+                            android:textColor="@color/bootstrap_gray_light"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--other details-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                android:weightSum="3">
-
-                <!--location-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="5">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/patient_identitier"
-                        android:textColor="@color/bootstrap_gray_light"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_patient_identifier"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:maxLines="2"
-                        android:textColor="@color/bootstrap_gray_light"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <!--age-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="5">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/name"
-                        android:textColor="@color/bootstrap_gray_light"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_patient_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:maxLines="2"
-                        android:text="Name of patient"
-                        android:textColor="@color/bootstrap_gray_light"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-        </LinearLayout>
-        <!--other details-->
-        <LinearLayout
-            android:id="@+id/deleteLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".4"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/deleteTrash"
-                android:layout_width="match_parent"
+                android:id="@+id/deleteLayout"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/trash_bin">
+                android:layout_gravity="center"
+                android:layout_weight=".4"
+                android:gravity="center"
+                android:padding="10dp">
 
-            </ImageView>
+                <ImageView
+                    android:id="@+id/deleteTrash"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/trash_bin">
+
+                </ImageView>
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
 
 
     </RelativeLayout>

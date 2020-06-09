@@ -608,9 +608,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setCovidResults() {
         damage.text = Global.patientData.covidResult
-//        covidAlert.visibility = View.VISIBLE
-//        topLayout.visibility = View.VISIBLE
-//        covidInfo.visibility = View.VISIBLE
+        covidAlert.visibility = View.VISIBLE
+        topLayout.visibility = View.VISIBLE
+        covidInfo.visibility = View.VISIBLE
 
         when (damage.text.toString().toUpperCase()) {
             "LOW" -> {
