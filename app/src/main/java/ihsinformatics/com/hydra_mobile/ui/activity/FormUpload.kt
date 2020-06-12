@@ -173,7 +173,7 @@ class FormUpload : AppCompatActivity() {
         } else if (errorMsg.contains("failed to validate with reason: birthdate")) {
             return "Future Date Selected"
         } else if (errorMsg.contains("failed to validate with reason: encounterDatetime")) {
-            return "OpenMRS Date and Time Issue"
+            return "Future Date Selected"
         } else {
             return "Some Error Occured"
         }
