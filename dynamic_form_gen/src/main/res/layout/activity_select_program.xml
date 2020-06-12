@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ihsinformatics.dynamicformsgenerator.screens.SelectProgram">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_gradient"
+        android:gravity="center"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp"
+        android:text="@string/title_activity_select_program"
+        android:textColor="@color/White"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <RadioGroup
+        android:id="@+id/rgOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/cbSSI"
+
+            android:textSize="16sp"
+            android:textColor="@color/DarkSlateGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+
+            android:drawableEnd="@drawable/radio_button_style"
+            android:padding="10dp"
+            android:text="SSI" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryTint" />
+
+        <RadioButton
+            android:id="@+id/cbPQ"
+            android:textSize="16sp"
+            android:textColor="@color/DarkSlateGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+
+            android:drawableEnd="@drawable/radio_button_style"
+            android:padding="10dp"
+            android:text="Pehla Qadam" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryTint" />
+
+        <RadioButton
+            android:id="@+id/cbSafeCircumcision"
+            android:textSize="16sp"
+            android:textColor="@color/DarkSlateGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="@drawable/radio_button_style"
+            android:padding="10dp"
+            android:text="Safe Circumcision" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/rgOptions"
+        android:background="@color/colorPrimaryTint" />
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_below="@+id/view"
+        android:background="?android:selectableItemBackground"
+        android:text="@string/continue_"
+        android:textColor="@color/colorPrimaryDark" />
+</RelativeLayout>

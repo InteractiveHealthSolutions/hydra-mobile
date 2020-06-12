@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".ui.fragments.SearchFragment">
+
+
+           <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            android:layout_marginLeft="@dimen/dimen_24dp"
+            android:layout_marginRight="@dimen/dimen_24dp"
+    >
+
+        <EditText
+                android:id="@+id/edt_search_by_name"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:drawableTint="@color/bootstrap_alert_cross_default"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:hint="@string/search_by_name"
+                android:background="@drawable/edittext_rounded_shap"
+                android:inputType="textPersonName"/>
+
+
+        <EditText
+                android:layout_marginTop="@dimen/dimen_24dp"
+                android:layout_below="@+id/edt_search_by_name"
+                android:id="@+id/edt_search_by_id"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:drawableTint="@color/bootstrap_alert_cross_default"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:hint="@string/search_by_id"
+                android:background="@drawable/edittext_rounded_shap"
+                android:inputType="textPersonName"/>
+
+        <EditText
+                android:layout_marginTop="@dimen/dimen_24dp"
+                android:layout_below="@+id/edt_search_by_id"
+                android:id="@+id/edt_search_by_number"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:drawableTint="@color/bootstrap_alert_cross_default"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:hint="@string/search_by_number"
+                android:background="@drawable/edittext_rounded_shap"
+                android:inputType="number"/>
+
+        <Button
+                android:layout_below="@+id/edt_search_by_number"
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dimen_33dp"
+                android:text="@string/btn_login_search"
+                android:textSize="16sp"
+                android:textColor="@color/White"
+                android:background="@drawable/button_rounded_shap"
+        />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

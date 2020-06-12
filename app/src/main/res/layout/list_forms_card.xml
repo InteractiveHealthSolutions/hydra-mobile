@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dimen_8dp"
+        card_view:cardElevation="5dp"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="10dp"
+
+            >
+
+            <ImageView
+                android:id="@+id/img_form_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:maxWidth="160dp"
+                android:maxHeight="100dp"
+                android:minWidth="80dp"
+                android:minHeight="80dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_form"
+                android:tint="@color/app_icon_color" />
+
+            <TextView
+                android:id="@+id/tv_form_name"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/muli"
+                android:padding="15dip"
+                android:text="@string/reatment_initiation_tv"
+                android:textAlignment="center"
+                android:textColor="@color/openChatText"
+                android:textSize="15sp"
+                android:typeface="normal" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/componentFormUUID"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/muli"
+                android:padding="15dip"
+                android:text="@string/reatment_initiation_tv"
+                android:textAlignment="center"
+                android:textColor="@color/openChatText"
+                android:textSize="15sp"
+                android:typeface="normal" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="0dp"-->
+
+    <!--android:orientation="vertical">-->
+
+    <!--<ImageView-->
+
+    <!--android:visibility="gone"-->
+    <!--android:id="@+id/img_form_image"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:scaleType="fitCenter"-->
+    <!--android:src="@drawable/app_gradient"-->
+    <!--/>-->
+
+    <!--<TextView-->
+    <!--android:visibility="gone"-->
+    <!--android:id="@+id/tv_form_name"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="5dp"-->
+    <!--android:text="Sample Title"-->
+    <!--android:textColor="@color/openChatText"-->
+    <!--android:textSize="12sp"/>-->
+
+</LinearLayout>

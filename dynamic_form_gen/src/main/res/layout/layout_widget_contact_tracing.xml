@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/drop_shadow"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/llQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvNumber"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:layout_gravity="top"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="1"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/hello_world" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llQuestion"
+        android:gravity="right"
+        android:text="@string/hello_world"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/etNumberLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <EditText
+            android:id="@+id/etNumberOfContacts"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="3"
+            android:maxLength="2"
+            android:inputType="number">
+        </EditText>
+
+        <Button
+            android:id="@+id/submitNumber"
+            style="@style/question_answer"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:text="@string/submit"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1">
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/optionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etNumberLayout"
+        android:layout_margin="10dp"
+        android:weightSum="5"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:padding="7dp"
+            android:text="&lt; Prev"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"></TextView>
+
+        <TextView
+            android:id="@+id/contactNumber"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/contactNumber">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:text="Next &gt;"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="12sp"></TextView>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contactDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optionsLayout"
+        android:visibility="gone"/>
+
+</RelativeLayout>

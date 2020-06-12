@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/drop_shadow_orange"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shadowColor="@color/DarkGray"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:gravity="center"
+        android:text="@string/hello_world"
+        android:textColor="@color/app_blue" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvQuestion"
+        android:gravity="right"
+        android:text="@string/hello_world"
+        android:visibility="gone" />
+
+</RelativeLayout>

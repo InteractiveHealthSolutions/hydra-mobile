@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_margin="@dimen/dimen_16dp"
+                  android:layout_marginTop="@dimen/dimen_12dp"
+    >
+
+        <LinearLayout
+                android:id="@+id/patientSource"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_diagonosis"/>
+            <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Patient Source"/>
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/diagnosis"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_diagonosis"/>
+            <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/diagnosis_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/White"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/respiratory_tuberculosis_text"/>
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/diabates_text"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+                android:id="@+id/vitals"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/vitals"/>
+            <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/vitals_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/White"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/height"/>
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/weight"/>
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/bmi"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+                android:id="@+id/weightGraph"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_weight_graph"/>
+            <TextView
+                    android:textStyle="bold"
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/weight_graph_text"/>
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/relationship"
+                android:background="@drawable/drop_shadow_orange"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_relation"/>
+            <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/relationship_text"/>
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/allergies"
+                android:background="@drawable/drop_shadow_orange"
+                android:padding="16dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_allergy"/>
+            <TextView
+                    android:textStyle="bold"
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/allergies_text"/>
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/recentVisits"
+                android:background="@drawable/drop_shadow_orange"
+                android:padding="16dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_recent_visit"/>
+            <TextView
+                    android:textStyle="bold"
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/recent_visits_text"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/White"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/date_15_sep_2019"/>
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/date_02_sep_2019"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/LabReports"
+                android:background="@drawable/drop_shadow_orange"
+                android:padding="16dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_lab_reports"/>
+            <TextView
+                    android:textStyle="bold"
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/lab_reports"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

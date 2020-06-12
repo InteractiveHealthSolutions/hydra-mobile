@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/drop_shadow"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvNumber"
+            style="@style/question_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:layout_gravity="top"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="1"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            style="@style/question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/hello_world" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llQuestion"
+        android:gravity="right"
+        android:text="@string/hello_world"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/llQuestion"
+        android:weightSum="3">
+        <AutoCompleteTextView
+            android:id="@+id/etAnswer"
+            style="@style/question_answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMessage"
+            android:layout_toLeftOf="@+id/imageButton"
+            android:layout_toStartOf="@+id/imageButton"
+            android:layout_weight="2.5"/>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_drop_down_circle_white_24dp"
+            app:srcCompat="@drawable/ic_arrow_drop_down_circle_white_24dp"
+            android:layout_below="@+id/llQuestion"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/imageButton"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/drop_shadow"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/llQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="12">
+
+        <TextView
+            android:id="@+id/tvNumber"
+            style="@style/question_answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="1"
+            android:textColor="@color/White"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            style="@style/question_answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="10"
+            android:text="@string/hello_world"/>
+
+        <ImageView
+            android:id="@+id/photo_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:paddingTop="5dp"
+            android:src="@drawable/camera"/>
+        <!--  <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="2"
+              android:orientation="horizontal"
+              android:weightSum="2">
+
+              <ImageView
+                  android:id="@+id/photo_camera"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:src="@drawable/photo_camera"/>
+
+              <ImageView
+                  android:id="@+id/photo_gallery"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:src="@drawable/photo_gallery"/>
+          </LinearLayout>-->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llQuestion"
+        android:gravity="right"
+        android:text="@string/hello_world"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/RelativeGridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvMessage">
+
+        <GridView
+            android:id="@+id/gridviewimg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:nestedScrollingEnabled="true"
+            android:numColumns="3"
+            android:scrollbarStyle="outsideInset"
+            android:smoothScrollbar="true"
+            android:verticalSpacing="10dp"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

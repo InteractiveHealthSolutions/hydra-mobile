@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fdfdfd">
+
+
+  <!--  <LinearLayout
+        android:id="@+id/llRatingBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/drop_shadow_bottom"
+        android:gravity="center">
+
+
+    </LinearLayout>-->
+    <TextView
+        android:id="@+id/tvRatings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:shadowColor="@color/DarkGray"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="3.0"
+        android:textColor="@color/dark_blue_203c61"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+    <ScrollView
+        android:id="@+id/svQuestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRatings">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/patient_info_display"/>
+
+            <LinearLayout
+                android:id="@+id/llMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                tools:context="com.ihsinformatics.dynamicformsgenerator.screens.Form"
+                tools:ignore="MergeRootFrame">
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:text="@string/save"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

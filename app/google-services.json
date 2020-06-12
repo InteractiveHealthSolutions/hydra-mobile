@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "216996425060",
+    "firebase_url": "https://hydra-fe955.firebaseio.com",
+    "project_id": "hydra-fe955",
+    "storage_bucket": "hydra-fe955.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216996425060:android:043df7c353e070a50bde71",
+        "android_client_info": {
+          "package_name": "ihsinformatics.com.hydra_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216996425060-bemf12q8c2rgo1e0i4v6128rqphijqbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcRjGKDErJN0OXGFwqeWakOb7wSdRXHBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216996425060-bemf12q8c2rgo1e0i4v6128rqphijqbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
