@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llQuestion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/boundary_shape"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/hello_world" />
+
+    <com.ihsinformatics.dynamicformsgenerator.views.widgets.CustomSearchableSpinner
+
+        android:id="@+id/spAnswer"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage" />
+    <gr.escsoft.michaelprimez.searchablespinner.SearchableSpinner
+        android:visibility="gone"
+        android:id="@+id/spAnswer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/tvMessage"
+        app:StartSearchTintColor="@android:color/white"
+        app:DoneSearchTintColor="@android:color/white"
+        app:RevealViewBackgroundColor="@android:color/white"
+        app:SearchViewBackgroundColor="@android:color/secondary_text_dark"
+        app:ShowBorders="true"
+        app:RevealEmptyText="Touch to select"
+        app:SpinnerExpandHeight="300dp"/>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llQuestion"
+        android:gravity="right"
+        android:padding="5dp"
+        android:textColor="@color/Red"
+        android:text="@string/hello_world"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/etAnswer"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:inputType="textCapWords"
+        android:maxLength="100"
+        android:maxLines="1"
+        android:digits=" abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,/-_#"
+        android:visibility="gone" />
+
+</LinearLayout>
+
+
+
+

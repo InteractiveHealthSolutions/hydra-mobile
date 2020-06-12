@@ -1,0 +1,179 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/app_gradient"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:background="@drawable/app_gradient"
+                android:layout_height="match_parent"
+                app:expandedTitleGravity    ="bottom|center"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:contentScrim="?attr/colorPrimary"
+                app:title="">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/app_gradient"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp">
+                    <LinearLayout
+                            android:background="@drawable/app_gradient"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                        <ImageView
+                                android:id="@+id/gender_image"
+                                android:layout_marginTop="20dp"
+                                android:layout_gravity="center"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:tint="@color/White"
+                                app:srcCompat="@drawable/ic_user_profile"/>
+                        <TextView
+                            android:fontFamily="@font/cabin"
+                                android:id="@+id/tvName"
+                                android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:textAlignment="center"
+                                android:layout_height="wrap_content"
+                                android:text="@string/person_name"
+                                android:textColor="@color/White"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+                    </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="170dp"
+                            android:layout_centerHorizontal="true"
+                            app:cardBackgroundColor="@color/White"
+                            app:cardElevation="@dimen/dimen_24dp"
+                            app:cardCornerRadius="@dimen/dimen_8dp"
+                            android:layout_marginTop="165dp">
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+                            <LinearLayout
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:textAlignment="center"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/identifier_title"
+                                    android:fontFamily="@font/cabin"
+                                        android:textColor="@color/app_blue"
+                                        android:textSize="14sp"
+                                />
+                                <TextView
+                                        android:id="@+id/tvId"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/_20100000001"
+                                        android:textAlignment="center"
+                                    android:fontFamily="@font/cabin"
+                                        android:textSize="12sp"
+                                        android:paddingTop="10dp"
+                                        android:textColor="@color/app_blue"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/age_title"
+                                    android:fontFamily="@font/cabin"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/app_blue"
+                                        android:textSize="14sp"
+                                />
+                                <TextView
+                                        android:id="@+id/tvAge"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/_24"
+                                        android:textAlignment="center"
+                                    android:fontFamily="@font/cabin"
+                                        android:textSize="12sp"
+                                        android:paddingTop="10dp"
+                                        android:textColor="@color/app_blue"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/app_gradient"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_overlapTop="12dp"
+            android:background="@color/bootstrap_gray_lightest"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!--<androidx.cardview.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--app:cardCornerRadius="@dimen/dimen_33dp"-->
+                <!--android:elevation="@dimen/dimen_24dp"-->
+                <!--app:contentPadding="12dp"-->
+
+                <!--android:layout_height="match_parent"-->
+                <!--app:behavior_overlapTop="12dp"-->
+                <!--android:background="@color/bootstrap_gray_lightest"-->
+                <!--android:layout_marginTop="@dimen/dimen_16dp"-->
+                <!--app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
+
+        <!--&gt;-->
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen_16dp"
+                    layout="@layout/content_expandable_profile"/>
+        <!--</androidx.cardview.widget.CardView>-->
+
+   </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_margin="@dimen/dimen_5dp"
+    android:elevation="@dimen/dimen_24dp">
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_borders"
+        android:weightSum="2">
+        <!--image-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="80dp"
+                android:maxHeight="80dp"
+                android:src="@drawable/ic_userprofile"
+                android:tint="@color/black_overlay"
+                app:civ_border_color="@color/black_overlay"
+                app:civ_border_width="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/genderImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_male">
+
+            </ImageView>
+        </LinearLayout>
+        <!--Content-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1.5"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tv_patient_identifier"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:paddingLeft="15dp"
+                    android:layout_weight="3"
+                    android:text="@string/app_title_name"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/mode"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/offline"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/Red"
+                    android:gravity="end"
+                    android:layout_weight="1"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <!--location-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/patient_identitier"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp"
+                        android:visibility="gone"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:maxLines="2"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <!--age-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/patient_age"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp"
+                        android:visibility="gone"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_age"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:maxLines="2"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <!--other details-->
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

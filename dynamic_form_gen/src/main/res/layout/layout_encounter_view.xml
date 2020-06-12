@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/drop_shadow"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tvEncounterName"
+        style="@style/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/CornflowerBlue"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:shadowColor="@color/DarkGray"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:text="@string/hello_world"
+        android:textColor="@color/White" />
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        style="@style/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvEncounterName"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</RelativeLayout>

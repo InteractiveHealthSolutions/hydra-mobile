@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ProgressDialogPostKitKat" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorPrimary">@color/colorPurple</item>
+        <item name="android:textColorPrimary">@color/colorPurple</item>
+        <item name="android:colorAccent">@color/colorPurple</item>
+        <item name="colorPrimaryDark">@color/colorPurple</item>
+    </style>
+
+    <style name="AlertDialogKitkat" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorPrimary">@color/colorPurple</item>
+        <item name="android:textColorPrimary">@color/colorPurple</item>
+        <item name="android:colorAccent">@color/colorPurple</item>
+        <item name="colorPrimaryDark">@color/colorPurple</item>
+    </style>
+
+    <style name="LoadingScreeningThem" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="android:statusBarColor">@color/White</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+    </style>
+</resources>

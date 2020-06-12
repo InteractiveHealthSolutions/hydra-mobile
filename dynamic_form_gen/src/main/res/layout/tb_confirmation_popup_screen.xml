@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_gradient"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="TB Diagnosed"
+        android:textColor="@color/White"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:padding="10dp"
+        android:id="@+id/tb_diagnosed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/yes_diagnosed_tb"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:text="Yes"/>
+        <RadioButton
+            android:id="@+id/no_diagnosed_tb"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No"/>
+
+    </RadioGroup>
+
+    <Button
+            android:layout_marginTop="30dp"
+        android:id="@+id/btnDone"
+        android:background="@color/app_blue"
+        android:textColor="@color/White"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:layout_height="wrap_content"
+        android:text="Done" />
+
+</LinearLayout>
