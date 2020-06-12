@@ -16,8 +16,8 @@ android {
         applicationId "ihsinformatics.com.hydra_mobile"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 74
-        versionName "1.1.33"
+        versionCode 76
+        versionName "1.1.34"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

@@ -30,19 +30,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:name">
         <activity
             android:name=".ui.activity.UserReports"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.activity.DbOperation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.activity.FormUpload"
-            android:screenOrientation="portrait"></activity>>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.activity.FormEdit"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".ui.activity.labModule.TestSampleAdder" />
         <activity android:name=".ui.activity.labModule.TestSampleResult" />
         <activity android:name=".ui.activity.labModule.ManageTestSample" />
@@ -56,6 +61,10 @@
             android:theme="@style/PrefDialogTheme" />
         <activity
             android:name=".ui.activity.TermsAndConditions"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrefDialogTheme" />
+        <activity
+            android:name=".ui.activity.PatientContact"
             android:screenOrientation="portrait"
             android:theme="@style/PrefDialogTheme" />
         <activity

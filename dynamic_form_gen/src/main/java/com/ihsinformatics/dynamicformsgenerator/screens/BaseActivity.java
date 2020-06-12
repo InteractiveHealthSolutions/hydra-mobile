@@ -121,7 +121,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private MyDialogFragment dialogFragment;
 
-    private static  AutoSelect globalSavedAutoSelect;
+    private static AutoSelect globalSavedAutoSelect;
 
     protected OnPauseListener onPauselistener;
 
@@ -274,7 +274,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         Utils.convertPatientToPatientData(this, serverResponse, 0, requestType);
 
                         patientIdentifier = offlinePatient.getMrNumber();
-                        patientName=offlinePatient.getName();
+                        patientName = offlinePatient.getName();
                     } else
                         return;
                 } else {
@@ -314,7 +314,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         access.insertOfflinePatient(this, existineOfflinePatient);
 
                         patientIdentifier = existineOfflinePatient.getMrNumber();
-                        patientName=existineOfflinePatient.getName();
+                        patientName = existineOfflinePatient.getName();
                     }
 
                 }
@@ -323,10 +323,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),lastUploadError,Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL);
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName,Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),null,Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL);
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
@@ -358,7 +358,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                             Toasty.success(BaseActivity.this, "Form is not saved successfully", Toast.LENGTH_LONG).show();
                         }
                     } else {
+
                         doPostFormSavingWork(form);
+
                         Toasty.success(BaseActivity.this, "Form saved successfully", Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -388,7 +390,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
     private void doPostFormSavingWork(SaveableForm form) {
-        DataAccess.getInstance().insertFormDetailsInUserReport(BaseActivity.this,Global.USERNAME,form.getEncounterType(),form.getFormId(),Global.WORKFLOWUUID,Form.getCOMPONENT_FORM_UUID(),Global.HYRDA_CURRENT_URL);
+        if (!(editFormId > 0)) { // we dont want to increase form filled count in edit mode
+            DataAccess.getInstance().insertFormDetailsInUserReport(BaseActivity.this, Global.USERNAME, form.getEncounterType(), form.getFormId(), Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), Global.HYRDA_CURRENT_URL);
+        }
     }
 
 
@@ -432,8 +436,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     protected void onPause() {
         scrollPosition = svQuestions.getScrollY();
 
-        if(onPauselistener!=null)
-        {
+        if (onPauselistener != null) {
             onPauselistener.onPause();
         }
 
@@ -653,7 +656,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
             data.put(ParamNames.PATIENT, patientDataJson);
 
             JSONObject formDetails = new JSONObject();
-            FormDetails form = Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME(),Form.getCOMPONENT_FORM_UUID()));
+            FormDetails form = Constants.getFormDetails().get(getFormId(Form.getENCOUNTER_NAME(), Form.getCOMPONENT_FORM_UUID()));
             formDetails.put(ParamNames.COMPONENT_FORM_ID, form.getComponentFormID());
             formDetails.put(ParamNames.COMPONENT_FORM_UUID, form.getComponentFormUUID());
 
@@ -688,7 +691,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 QRReaderWidget q = (QRReaderWidget) w;
                 if (permissions[0].equals(Manifest.permission.CAMERA)) {
                     //q.showQRCodeReaderDialog();
-                     q.showQRAndBarCodeReaderDialog();
+                    q.showQRAndBarCodeReaderDialog();
                 }
             }
         } else {
@@ -949,13 +952,13 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (autoSelectables != null && autoSelectables.size() > 0) {
 
-                    Boolean breaked=false;
-                    AutoSelect savedAutoSelect=null;
+                    Boolean breaked = false;
+                    AutoSelect savedAutoSelect = null;
 
                     for (AutoSelect as : autoSelectables) {
 
-                        Boolean final_selection=null;
-                        savedAutoSelect=as;
+                        Boolean final_selection = null;
+                        savedAutoSelect = as;
 
                         for (SExpression sExp : as.getAutoSelectWhen()) {
 
@@ -972,8 +975,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         else if (final_selection) {
 
 
-
-                            breaked=true;
+                            breaked = true;
                             break;
 
                         }
@@ -994,29 +996,27 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         }
 
                     }
-                    if(breaked){
+                    if (breaked) {
                         // There exists a case when value is already autopopulated value in question Z but it is not disabled
-                            if (changeable.isEnabled() && changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
-                                changeable.setEnabled(false);
-                            }
+                        if (changeable.isEnabled() && changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
+                            changeable.setEnabled(false);
+                        }
 
-                            //This case shows question X should autoSelect question Z because final selection is true.
-                            // Moreover, checking value of changeable(other condition) ensures that the skiplogic doesnot run again and again in loop
-                            // because everytime value is changed and it will get stuck in infinite loop because of value change.
-                            // So here we are ensuring that value is not already set then run this condition
-                            if (!changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
-                                globalSavedAutoSelect=savedAutoSelect;
-                                changeable.setEnabled(false);
-                                changeable.setAnswer(savedAutoSelect.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
-                            }
+                        //This case shows question X should autoSelect question Z because final selection is true.
+                        // Moreover, checking value of changeable(other condition) ensures that the skiplogic doesnot run again and again in loop
+                        // because everytime value is changed and it will get stuck in infinite loop because of value change.
+                        // So here we are ensuring that value is not already set then run this condition
+                        if (!changeable.getValue().equals(savedAutoSelect.getTargetFieldAnswer())) {
+                            globalSavedAutoSelect = savedAutoSelect;
+                            changeable.setEnabled(false);
+                            changeable.setAnswer(savedAutoSelect.getTargetFieldAnswer(), "", LANGUAGE.ENGLISH);
+                        }
                     }
                 }
 
-                if(changeableQuestion.isDisabled())
-                {
+                if (changeableQuestion.isDisabled()) {
                     changeable.setEnabled(false);
-                }else
-                {
+                } else {
                     changeable.setEnabled(true);
                 }
             }
@@ -1026,26 +1026,26 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     /**    Documentation of complex logicChecker **/
     /**
-    In Skiplogics we have:
-    1. Parent: The question or widget whose value must be checked inorder to hide child widget (Also called CHANGER)
-    2. Child: The one who is deciding when I need to hide by looking at all possible values of its all parents   (ALSO CALLED CHANGEABLE)
+     In Skiplogics we have:
+     1. Parent: The question or widget whose value must be checked inorder to hide child widget (Also called CHANGER)
+     2. Child: The one who is deciding when I need to hide by looking at all possible values of its all parents   (ALSO CALLED CHANGEABLE)
 
      A child question could have multiple parents. EVERY QUESTION DECIDES ITSELF WHEN I NEED TO HIDE BY LOOKING AT PARENT VALUES
 
      This LogicChecker returns:-
-    1. True : when condition of given sExpression is satisfied
-    2. False: when condition of given sExpression is not satisfied.
-    3. Null: when parent is itself hidden (this approach needs a proper test becoz in some condition we donot  want )
+     1. True : when condition of given sExpression is satisfied
+     2. False: when condition of given sExpression is not satisfied.
+     3. Null: when parent is itself hidden (this approach needs a proper test becoz in some condition we donot  want )
 
-    Possible combinations we could make:
+     Possible combinations we could make:
 
-    1. Showables: The widget can be shown upon returning true of logicChecker (else remain hidden on returning false)
-    2. Hideables: The widget can be hidden upon returning false of logicChecker (else remain shown on returning false)
-    3. Auto-selectable: The widget value can be auto-selected if logicChecker returns true. This got two variations again as describes below:
-            When a widget(or child) figured out that it should get auto-selected becoz parent widget says so then it got two options:
-            a. Enabled Auto-Selectable: The widget could remained enabled or editable even after it is auto-selected
-            b. Disabled Auto-Selected: The widget could be disabled for editing and will become non-editable after it got orders for auto-selection of its option
-    4. Auto-populate...(not impelemnted)
+     1. Showables: The widget can be shown upon returning true of logicChecker (else remain hidden on returning false)
+     2. Hideables: The widget can be hidden upon returning false of logicChecker (else remain shown on returning false)
+     3. Auto-selectable: The widget value can be auto-selected if logicChecker returns true. This got two variations again as describes below:
+     When a widget(or child) figured out that it should get auto-selected becoz parent widget says so then it got two options:
+     a. Enabled Auto-Selectable: The widget could remained enabled or editable even after it is auto-selected
+     b. Disabled Auto-Selected: The widget could be disabled for editing and will become non-editable after it got orders for auto-selection of its option
+     4. Auto-populate...(not impelemnted)
      5. etc...
 
      Parent Values Comparision Techniques: (Parent Value checking criteria)
@@ -1059,7 +1059,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
      5. EqualsTo: This list contains numeric values that must satisfy
      6. NotEqualsTo: This list may contains numeric values that must not be satisfied
-
      **/
 
 
@@ -1079,42 +1078,41 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
      is the visual representation of 3 layer s-Expression
 
      [
-        operator        (OR/AND)
-        {object skipLogic}
-        {object skipLogic}
-        [
-               operator
-             {object skipLogic}
-             {object skipLogic}
-             {object skipLogic}
-             {object skipLogic}
-                [                               ------
-                     operator                        |
-                     {object skipLogic}              |      We need to start evaluation from nested part and its visiblity must be operated with outer sExpression
-                     [null Array os s-expression]    |
-                ]                               ------
-        ]
+     operator        (OR/AND)
+     {object skipLogic}
+     {object skipLogic}
+     [
+     operator
+     {object skipLogic}
+     {object skipLogic}
+     {object skipLogic}
+     {object skipLogic}
+     [                               ------
+     operator                        |
+     {object skipLogic}              |      We need to start evaluation from nested part and its visiblity must be operated with outer sExpression
+     [null Array os s-expression]    |
+     ]                               ------
      ]
-
+     ]
      * **/
 
     /**
-     OR CASES that may arise:
-
-     Case 1A:
-
-     Case 2A:
-
-     Case 2B:
-
-     Case 3A:
-            Parent may be hidden. so we dont need to do anything  Thats why case 3A is not implemented because no need to implement seperately
-
-     Case 3B:
-            Parent may be hidden and it could be first iteration. In case of first iteration we need to keep final visibility = null
-
-        Important point: We dont check final_visibility==null in true cases else final visibility will never be true
-     * **/
+     * OR CASES that may arise:
+     * <p>
+     * Case 1A:
+     * <p>
+     * Case 2A:
+     * <p>
+     * Case 2B:
+     * <p>
+     * Case 3A:
+     * Parent may be hidden. so we dont need to do anything  Thats why case 3A is not implemented because no need to implement seperately
+     * <p>
+     * Case 3B:
+     * Parent may be hidden and it could be first iteration. In case of first iteration we need to keep final visibility = null
+     * <p>
+     * Important point: We dont check final_visibility==null in true cases else final visibility will never be true
+     **/
 
 
     protected Boolean logicChecker(SExpression sExp) throws JSONException {
@@ -1179,17 +1177,17 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                 loopFirstIteration = false;
                             }
 
-                            if(final_visibility!=null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())){
+                            if (final_visibility != null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())) {
 
-                                Integer number=Integer.parseInt(changer.getValue());
-                                if(changerQuestion.getLessThanList().size()>0 && Collections.max(changerQuestion.getLessThanList()) > number){
-                                    final_visibility=true;
-                                    loopFirstIteration=false;
+                                Integer number = Integer.parseInt(changer.getValue());
+                                if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
+                                    final_visibility = true;
+                                    loopFirstIteration = false;
                                 }
 
-                                if(changerQuestion.getGreaterThanList().size()>0 && Collections.min(changerQuestion.getGreaterThanList()) < number){
-                                    final_visibility=true;
-                                    loopFirstIteration=false;
+                                if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
+                                    final_visibility = true;
+                                    loopFirstIteration = false;
                                 }
                             }
                         }
@@ -1260,32 +1258,29 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                     loopFirstIteration = false;
                                 }
 
-                                if(final_visibility!=null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())){
+                                if (final_visibility != null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())) {
 
-                                    Integer number=Integer.parseInt(changer.getValue());
-                                    if(changerQuestion.getLessThanList().size()>0 && Collections.max(changerQuestion.getLessThanList()) > number){
-                                        final_visibility=true;
-                                        loopFirstIteration=false;
-                                    }
-                                    else if(changerQuestion.getLessThanList().size()>0){
-                                        final_visibility=false;
-                                        loopFirstIteration=false;
+                                    Integer number = Integer.parseInt(changer.getValue());
+                                    if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    } else if (changerQuestion.getLessThanList().size() > 0) {
+                                        final_visibility = false;
+                                        loopFirstIteration = false;
                                         break;
                                     }
 
-                                    if(changerQuestion.getGreaterThanList().size()>0 && Collections.min(changerQuestion.getGreaterThanList()) < number){
-                                        final_visibility=true;
-                                        loopFirstIteration=false;
-                                    }
-                                    else if(changerQuestion.getGreaterThanList().size()>0){
-                                        final_visibility=false;
-                                        loopFirstIteration=false;
+                                    if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    } else if (changerQuestion.getGreaterThanList().size() > 0) {
+                                        final_visibility = false;
+                                        loopFirstIteration = false;
                                         break;
                                     }
-                                }else if(changer.getValue().equals("") && (changerQuestion.getLessThanList().size()>0 || changerQuestion.getGreaterThanList().size()>0))
-                                {
-                                    final_visibility=false;
-                                    loopFirstIteration=false;
+                                } else if (changer.getValue().equals("") && (changerQuestion.getLessThanList().size() > 0 || changerQuestion.getGreaterThanList().size() > 0)) {
+                                    final_visibility = false;
+                                    loopFirstIteration = false;
                                     break;
                                 }
                             }
@@ -1388,8 +1383,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
     }
 
 
-
-
     public int getFormId(String encounterName, String componentFormUUID) {
 //        int index;
 //        FormType formType;
@@ -1435,7 +1428,6 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         }
         return deviceUniqueIdentifier;
     }
-
 
 
 }

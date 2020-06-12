@@ -162,7 +162,7 @@
     <color name="app_icon_color">@color/app_blue</color>
     <color name="app_gradient_end_color">@color/app_blue</color>
     <color name="app_gradient_start_color">@color/app_blue</color>
-
+    <color name="whatsapp_green">#25D366</color>
 
 
 </resources>
