@@ -99,12 +99,16 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             dismissMessage();
             param.put(ParamNames.PARAM_NAME, question.getParamName());
             param.put(ParamNames.VALUE, etAnswer.getText().toString());
-        }else if(suspiciousIdentifier)
+        }else if(checkDuplicateOfflineID())
         {
             activity.addValidationError(getQuestionId(), context.getString(R.string.error_duplicate_identifier));   //No need to show custom error message on identifier  ~Taha
         }
+        else if(etAnswer.getText().toString().trim().length() == 0)
+        {
+            activity.addValidationError(getQuestionId(), context.getString(R.string.identifier_error));
+        }
         else {
-            activity.addValidationError(getQuestionId(), context.getString(R.string.identifier_error));   //No need to show custom error message on identifier  ~Taha
+            activity.addValidationError(getQuestionId(), "Invalid input");   //No need to show custom error message on identifier  ~Taha
         }
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE, Question.PAYLOAD_TYPE.IDENTIFIER);
@@ -143,7 +147,7 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
             try {
                 // checkID();
                 if (!(isEditMode && beforeEditIdentifer.equals(getValue()))) {
-                    checkOfflineID();
+                    checkDuplicateOfflineID();
                 }
 
             } catch (Exception e) {
@@ -155,18 +159,20 @@ public class IdentifierWidget extends QRReaderWidget implements View.OnFocusChan
         }
     }
 
-    private void checkOfflineID() {
+    private Boolean checkDuplicateOfflineID() {
 
+        Boolean toReturn=false;
         OfflinePatient offlinePatient = DataAccess.getInstance().getPatientByMRNumber(context, getValue());
 
         if (offlinePatient == null) {
             suspiciousIdentifier = false;
         } else {
             suspiciousIdentifier = true;
+            toReturn=true;
             Toasty.error(context, context.getResources().getString(R.string.error_duplicate_identifier), Toast.LENGTH_LONG).show();
             setMessage(context.getResources().getString(R.string.error_duplicate_identifier), MessageType.MESSAGE_TYPE_ERROR);
         }
-
+        return toReturn;
     }
 
     @Override

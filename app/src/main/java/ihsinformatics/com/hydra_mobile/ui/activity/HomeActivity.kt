@@ -5,7 +5,11 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
@@ -38,11 +42,7 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
-import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
-import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
 import ihsinformatics.com.hydra_mobile.ui.activity.labModule.CommonLabActivity
@@ -59,20 +59,13 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
 import org.json.JSONException
-import org.json.JSONObject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.nio.channels.FileChannel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -93,6 +86,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private var llPatientInfoDisplayer: RelativeLayout? = null
     private var tvPatientName: TextView? = null
+    private var llContact: LinearLayout? = null
     private var tvAge: TextView? = null
     private var tvPatientLastName: TextView? = null
     private var tvAgeLabel: TextView? = null
@@ -146,6 +140,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         llPatientInfoDisplayer = findViewById<RelativeLayout>(R.id.llPatientInfoDisplay)
         tvPatientName = findViewById<TextView>(R.id.tvName)
         tvPatientLastName = findViewById<TextView>(R.id.tvLastName)
+        llContact =findViewById<LinearLayout>(R.id.contact)
         tvAge = findViewById<TextView>(R.id.tvAge)
         tvAgeLabel = findViewById<TextView>(R.id.tvAgeLabel)
         tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
@@ -556,6 +551,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             setCovidResults()
 
+            llContact?.setOnClickListener{
+                startActivityForResult(Intent(this, PatientContact::class.java), 0)
+            }
+
+
+            //llContact?.visibility = View.VISIBLE
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE
@@ -593,6 +594,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ivGender?.setImageDrawable(getDrawable(com.ihsinformatics.dynamicformsgenerator.R.drawable.ic_user_female))
             }
         } else {
+            llContact?.visibility = View.GONE
             covidInfo.visibility = View.GONE
             covidAlert.visibility = View.GONE
             topLayout.visibility = View.GONE
@@ -710,6 +712,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 exportDB()
             }
         }
+
     }
 
 

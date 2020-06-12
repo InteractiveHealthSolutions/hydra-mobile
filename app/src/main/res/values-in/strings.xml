@@ -365,6 +365,7 @@
     <string name="menu_export">Export Database</string>
     <string name="database_backup_alert">By proceeding this action all saved formed will be deleted and changes will be overwritten. Do you wish to proceed?</string>
     <string name="understand_terms_and_conditions">I understand and accept terms and contions</string>
+    <string name="option_for_number">What do you want to do with this number?</string>
     <string name="accept">Accept</string>
     <string name="userReports">User Reports</string>
     <string name="Date">Date</string>
