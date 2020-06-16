@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/White"
         tools:context=".ui.activity.SelectWorkFlow">
 
@@ -41,8 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/questionLayout"
             android:layout_centerInParent="true"
+            android:text="+923001234567"
             android:layout_marginBottom="25dp"
-            android:text="+923352155194"
             android:textColor="@color/app_blue"
             android:textSize="25sp"></TextView>
 
@@ -75,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:text="Call Now"
                 android:textColor="@color/app_blue"
-                android:textSize="25sp">
+                android:textSize="20sp">
             </TextView>
         </LinearLayout>
 
@@ -108,7 +108,7 @@
                 android:layout_height="match_parent"
                 android:text="WhatsApp Call"
                 android:textColor="@color/whatsapp_green"
-                android:textSize="25sp">
+                android:textSize="20sp">
             </TextView>
         </LinearLayout>
 
@@ -143,7 +143,7 @@
                 android:layout_height="match_parent"
                 android:text="Copy Number"
                 android:textColor="@color/Gray"
-                android:textSize="25sp">
+                android:textSize="20sp">
             </TextView>
         </LinearLayout>
     </RelativeLayout>

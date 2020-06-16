@@ -552,11 +552,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setCovidResults()
 
             llContact?.setOnClickListener{
-                startActivityForResult(Intent(this, PatientContact::class.java), 0)
+                val intent = Intent(this, PatientContact::class.java)
+                intent.putExtra(ParamNames.CONTACT,Global.patientData.patient.contactNumber)
+                startActivityForResult(intent , 0)
             }
 
 
-            //llContact?.visibility = View.VISIBLE
+            llContact?.visibility = View.VISIBLE
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE

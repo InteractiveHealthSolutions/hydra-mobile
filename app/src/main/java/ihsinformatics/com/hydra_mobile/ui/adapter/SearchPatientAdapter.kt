@@ -208,7 +208,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         var serverResponse: JSONObject? = null
         var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
 
-        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", patient.person.getAttributes().get(0).value, "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
 
 
         //Initialization of summary fields
