@@ -170,8 +170,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                                     networkProgressDialog.dismiss()
 
-                                    Toast.makeText(context, "Error fetching Encounters", Toast.LENGTH_SHORT)
-                                        .show()
+                                    ToastyWidget.getInstance().displayError(context,"Error Loading Patient",Toast.LENGTH_SHORT)
                                 }
                             })
 
