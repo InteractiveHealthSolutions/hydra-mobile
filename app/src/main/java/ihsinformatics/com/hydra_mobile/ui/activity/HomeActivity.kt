@@ -42,6 +42,7 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
+import ihsinformatics.com.hydra_mobile.WorkflowSelect
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
@@ -551,17 +552,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setCovidResults()
 
             llContact?.setOnClickListener {
-                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
-                        .equals("")) {
-                    val intent = Intent(this, PatientContact::class.java)
-                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
-                    startActivityForResult(intent, 0)
-                }
-                else
-                {
-                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
-                }
+//                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
+//                        .equals("")) {
+//                    val intent = Intent(this, PatientContact::class.java)
+//                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
+//                    startActivityForResult(intent, 0)
+//                }
+//                else
+//                {
+//                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
+//                }
 
+                startActivity(Intent(this, WorkflowSelect::class.java))
             }
 
 
