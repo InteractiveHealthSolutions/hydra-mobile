@@ -5,11 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
@@ -42,7 +38,6 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import ihsinformatics.com.hydra_mobile.BuildConfig
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.WorkflowSelect
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.databinding.ActivityHomeBinding
@@ -326,7 +321,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (id == R.id.action_logout) {
             logoutDialog()
         } else if (id == R.id.action_change_workflow) {
-            startActivityForResult(Intent(this@HomeActivity, WorkflowSelect::class.java), 0)
+            startActivityForResult(Intent(this@HomeActivity, SelectWorkFlow::class.java), 0)
         } else if (id == R.id.settings) {
             openSettingDialog()
         }
