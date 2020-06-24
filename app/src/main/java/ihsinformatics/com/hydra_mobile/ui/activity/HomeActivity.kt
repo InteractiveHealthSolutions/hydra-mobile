@@ -326,7 +326,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (id == R.id.action_logout) {
             logoutDialog()
         } else if (id == R.id.action_change_workflow) {
-            startActivityForResult(Intent(this@HomeActivity, SelectWorkFlow::class.java), 0)
+            startActivityForResult(Intent(this@HomeActivity, WorkflowSelect::class.java), 0)
         } else if (id == R.id.settings) {
             openSettingDialog()
         }
@@ -552,18 +552,16 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setCovidResults()
 
             llContact?.setOnClickListener {
-//                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
-//                        .equals("")) {
-//                    val intent = Intent(this, PatientContact::class.java)
-//                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
-//                    startActivityForResult(intent, 0)
-//                }
-//                else
-//                {
-//                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
-//                }
-
-                startActivity(Intent(this, WorkflowSelect::class.java))
+                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
+                        .equals("")) {
+                    val intent = Intent(this, PatientContact::class.java)
+                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
+                    startActivityForResult(intent, 0)
+                }
+                else
+                {
+                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
+                }
             }
 
 
