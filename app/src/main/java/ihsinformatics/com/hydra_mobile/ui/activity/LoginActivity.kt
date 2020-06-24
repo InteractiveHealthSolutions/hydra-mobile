@@ -111,20 +111,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         //flipit(binding.ivLogo)
 
-        binding.loginEye.setOnClickListener { view ->
-
-            if (showPassword == 0) {
-                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_show_eye))
-                showPassword = 1
-                binding.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-
-            } else {
-                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_cross_eye))
-                showPassword = 0
-                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-
-            }
-        }
 
     }
 
