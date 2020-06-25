@@ -91,7 +91,7 @@ class SelectWorkFlow : AppCompatActivity() {
         {
             var textView = workflowLayout.getChildAt(workflows.size-1) as TextView
             params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            params.setMargins(40, 30, 40, 150)
+            params.setMargins(40, 30, 40, 200)
             textView.setLayoutParams(params)
 
         }

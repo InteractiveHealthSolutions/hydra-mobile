@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/endScreenGuideline"
@@ -49,8 +49,7 @@
             android:text="@string/selectWorkflow"
             android:textColor="@color/Black"
             android:textSize="40sp"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"></TextView>
     </LinearLayout>
 
     <View
@@ -67,11 +66,11 @@
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:gravity="center_vertical"
         android:text="@string/workflow_selection_instruction"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/instructionGuideline"
-        app:layout_constraintTop_toBottomOf="@id/lineGuideline">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@id/lineGuideline"></TextView>
 
     <FrameLayout
         android:id="@+id/frame"
@@ -81,22 +80,26 @@
         app:layout_constraintBottom_toTopOf="@id/endScreenGuideline"
         app:layout_constraintTop_toBottomOf="@id/instructionGuideline">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_workflow_selection"
-            android:scrollbarThumbVertical="@color/White">
+            android:background="@drawable/bg_workflow_selection">
 
-            <LinearLayout
-                android:id="@+id/workflowLayout"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:scrollingCache="false"
+                android:scrollbarThumbVertical="@color/White">
 
-            </LinearLayout>
-        </ScrollView>
+                <LinearLayout
+                    android:id="@+id/workflowLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/next"
