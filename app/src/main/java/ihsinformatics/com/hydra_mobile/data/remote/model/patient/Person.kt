@@ -12,16 +12,18 @@ class Person{
     private lateinit var display: String
     private lateinit var gender: String
     private var birthdate: String=" "
+    private lateinit var attributes:List<PersonAttribute>
 
 
 
-    constructor(a:Int, d:Boolean,dis:String,g:String,birth:String)
+    constructor(a:Int, d:Boolean,dis:String,g:String,birth:String, attributes:List<PersonAttribute>)
     {
         this.age=a
         this.dead=d
         this.display=dis
         this.gender=g
         this.birthdate=birth
+        this.attributes=attributes
     }
 
 
@@ -71,5 +73,12 @@ class Person{
     {
         return display
     }
+
+    fun getAttributes():List<PersonAttribute>
+    {
+        return attributes
+    }
+
+
 
 }

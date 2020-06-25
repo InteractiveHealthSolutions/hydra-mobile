@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.databinding.ActivityPatientContactBinding
@@ -18,12 +19,17 @@ import ihsinformatics.com.hydra_mobile.databinding.ActivityPatientContactBinding
 
 class PatientContact : AppCompatActivity() {
 
-    lateinit var binding: ActivityPatientContactBinding
+    private lateinit var binding: ActivityPatientContactBinding
+    private lateinit var contactNumber:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_patient_contact)
+
+        contactNumber = intent.getStringExtra(ParamNames.CONTACT)
+
+        binding.number.setText(contactNumber)
 
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
@@ -31,7 +37,7 @@ class PatientContact : AppCompatActivity() {
         var width = dm.widthPixels
         var height = dm.heightPixels
 
-        window.setLayout((width * 0.8).toInt(), (height * 0.4).toInt())
+        window.setLayout((width * 0.8).toInt(), (height * 0.5).toInt())
 
         // window.setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         //this.setFinishOnTouchOutside(false);
@@ -43,7 +49,7 @@ class PatientContact : AppCompatActivity() {
         binding.callLayout.setOnClickListener {
 
             try {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+923352155194"))
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+contactNumber))
                 startActivity(intent)
                 finish()
             } catch (e: Exception) {
@@ -55,7 +61,7 @@ class PatientContact : AppCompatActivity() {
         binding.whatappLayout.setOnClickListener {
 
             try {
-                val uri = Uri.parse("https://wa.me/923352155194");
+                val uri = Uri.parse("https://wa.me/92"+contactNumber.substring(1));
                 val intent = Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
                 finish()
@@ -69,7 +75,7 @@ class PatientContact : AppCompatActivity() {
 
             try {
                 val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip: ClipData = ClipData.newPlainText("number", "+923352155194")
+                val clip: ClipData = ClipData.newPlainText("number", contactNumber)
                 clipboard.setPrimaryClip(clip)
                 Toast.makeText(this,"Number copied to clipboard",Toast.LENGTH_SHORT).show()
                 finish()

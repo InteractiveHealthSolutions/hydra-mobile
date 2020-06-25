@@ -24,6 +24,7 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.repository.UserRepository
 import ihsinformatics.com.hydra_mobile.data.services.manager.MetaDataHelper
 import ihsinformatics.com.hydra_mobile.databinding.ActivityLoginBinding
+import ihsinformatics.com.hydra_mobile.ui.adapter.LanguageSelectorAdapter
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.dialogs.SettingDialogFragment
@@ -48,7 +49,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var checkboxOffline: CheckBox
     private lateinit var tvAppVersionNumber: TextView
     private var showPassword = 0
-    //private lateinit var languagesSpinner: Spinner
+    private lateinit var languagesSpinner: Spinner
 
     init {
 
@@ -63,30 +64,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.img_setting -> openSettingDialog()
 
-            R.id.multilanguage -> {
-
-                var pm = PopupMenu(this, findViewById(R.id.multilanguage))
-                pm.getMenuInflater().inflate(R.menu.languages, pm.getMenu())
-
-                pm.setOnMenuItemClickListener(object :PopupMenu.OnMenuItemClickListener{
-
-                    override fun onMenuItemClick(item: MenuItem?): Boolean {
-
-                        when(item.toString())
-                        {
-                            "English"->updateResources(this@LoginActivity,"en")
-                            "Bahasa"->updateResources(this@LoginActivity,"in")
-
-                            else -> updateResources(this@LoginActivity,"en")
-                        }
-                        return true;
-                    }
-
-                })
-
-                pm.show();
-
-            }
             else -> print("")
         }
     }
@@ -101,39 +78,39 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         tvAppVersionNumber = binding.tvVersionNumber
         binding.btnLogin.setOnClickListener(this)
         binding.imgSetting.setOnClickListener(this)
-        binding.multilanguage.setOnClickListener(this)
         networkProgressDialog = NetworkProgressDialog(this)
 
-        tvAppVersionNumber.setText("Version: "+BuildConfig.VERSION_NAME)
-//
-//        languagesSpinner = binding.language
-//
-//        var listOfLanguages= arrayListOf<String>()
-//        listOfLanguages.add("English")
-//        listOfLanguages.add("Bahasa")
-//
-//
-//        var adapter = ArrayAdapter<String>(this,
-//                    android.R.layout.simple_list_item_1,listOfLanguages)
-//
-//        languagesSpinner.adapter=adapter
+        tvAppVersionNumber.setText("Version: " + BuildConfig.VERSION_NAME)
+
+        languagesSpinner = binding.languageSelector
+        val listOfLanguages = arrayOf("English-UK", "Bahasa")
+        val listOflags = arrayOf(R.drawable.uk_flag, R.drawable.indonesia_flag)
+
+
+        val languageAdapter = LanguageSelectorAdapter(this, listOfLanguages, listOflags)
+        languagesSpinner.adapter = languageAdapter
+
+        languagesSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                when (listOfLanguages.get(position)) {
+                    "English-UK" -> updateResources(this@LoginActivity, "en")
+                    "Bahasa" -> updateResources(this@LoginActivity, "in")
+
+                    else -> updateResources(this@LoginActivity, "en")
+                }
+            }
+
+        })
+
 
         //flipit(binding.ivLogo)
 
-        binding.loginEye.setOnClickListener { view ->
-
-            if (showPassword == 0) {
-                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_show_eye))
-                showPassword = 1
-                binding.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-
-            } else {
-                binding.loginEye.setImageDrawable(resources.getDrawable(R.drawable.login_cross_eye))
-                showPassword = 0
-                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-
-            }
-        }
 
     }
 
@@ -159,10 +136,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 UserRepository(application).userAuthentication(usernameEditText.text.toString(), passwordEditText.text.toString(), object : RESTCallback {    //TODO Apply proper error message for e.g if server is down then show that
                     override fun onFailure(t: Throwable) {
                         networkProgressDialog.dismiss()
-                        if (t.localizedMessage.toString().equals(getString(R.string.authentication_error)))
-                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
-                        else if(!t.localizedMessage.equals("Cannot find provider"))
-                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_or_server_error), Toast.LENGTH_SHORT)
+                        if (t.localizedMessage.toString()
+                                .equals(getString(R.string.authentication_error))) ToastyWidget.getInstance()
+                            .displayError(this@LoginActivity, getString(R.string.authentication_error), Toast.LENGTH_SHORT)
+                        else if (!t.localizedMessage.equals("Cannot find provider")) ToastyWidget.getInstance()
+                            .displayError(this@LoginActivity, getString(R.string.internet_or_server_error), Toast.LENGTH_SHORT)
                     }
 
                     override fun <T> onSuccess(o: T) {
@@ -174,13 +152,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         } else {
                             SessionManager(applicationContext).disableOfflineMode()
                         }
-                        var provider = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
-                        var useruuid = GlobalPreferences.getinstance(application).findPrferenceValue(GlobalPreferences.KEY.USERUUID, null)
+                        var provider = GlobalPreferences.getinstance(application)
+                            .findPrferenceValue(GlobalPreferences.KEY.PROVIDER, null)
+                        var useruuid = GlobalPreferences.getinstance(application)
+                            .findPrferenceValue(GlobalPreferences.KEY.USERUUID, null)
 
 
                         SessionManager(applicationContext).createLoginSession(useruuid.toString(), usernameEditText.text.toString(), passwordEditText.text.toString(), provider)
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+                        GlobalPreferences.getinstance(this@LoginActivity)
+                            .addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
+                        GlobalPreferences.getinstance(this@LoginActivity)
+                            .addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
                         // userUUID already saved in global preference
 
                         networkProgressDialog.dismiss()
@@ -189,15 +171,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         if (isInternetConnected()) {
                             openMetaDataFetcher()
                         } else if (SessionManager(applicationContext).isFirstTime()) {
-                            ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
+                            ToastyWidget.getInstance()
+                                .displayError(this@LoginActivity, getString(R.string.internet_issue), Toast.LENGTH_LONG)
                         } else {
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                             finish()
                         }
 
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
-                        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.HYDRA_URL, AppConfiguration().getBaseUrl(this@LoginActivity))
+                        GlobalPreferences.getinstance(this@LoginActivity)
+                            .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                        GlobalPreferences.getinstance(this@LoginActivity)
+                            .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
+                        GlobalPreferences.getinstance(this@LoginActivity)
+                            .addOrUpdatePreference(GlobalPreferences.KEY.HYDRA_URL, AppConfiguration().getBaseUrl(this@LoginActivity))
 
                     }
                 })
@@ -207,26 +193,35 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                 val userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-                val users = userViewModel.getUserByUsernameAndPass(usernameEditText.text.toString().toLowerCase(), passwordEditText.text.toString())
+                val users = userViewModel.getUserByUsernameAndPass(usernameEditText.text.toString()
+                    .toLowerCase(), passwordEditText.text.toString())
 
-                if (users != null && users.size > 0 && users[0].username.toLowerCase().equals(usernameEditText.text.toString().toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider != null) {
-
-
-                    SessionManager(applicationContext).createLoginSession(users[0].userUUID,usernameEditText.text.toString(), passwordEditText.text.toString(), users[0].provider)
-                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
-                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
-                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.USERUUID, users[0].userUUID)
+                if (users != null && users.size > 0 && users[0].username.toLowerCase()
+                        .equals(usernameEditText.text.toString()
+                            .toLowerCase()) && users[0].password.equals(passwordEditText.text.toString()) && users[0].provider != null) {
 
 
+                    SessionManager(applicationContext).createLoginSession(users[0].userUUID, usernameEditText.text.toString(), passwordEditText.text.toString(), users[0].provider)
+                    GlobalPreferences.getinstance(this@LoginActivity)
+                        .addOrUpdatePreference(GlobalPreferences.KEY.USERNAME, usernameEditText.text.toString())
+                    GlobalPreferences.getinstance(this@LoginActivity)
+                        .addOrUpdatePreference(GlobalPreferences.KEY.PASSWORD, passwordEditText.text.toString())
+                    GlobalPreferences.getinstance(this@LoginActivity)
+                        .addOrUpdatePreference(GlobalPreferences.KEY.USERUUID, users[0].userUUID)
 
-                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
-                    GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
+
+
+                    GlobalPreferences.getinstance(this@LoginActivity)
+                        .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOW, null)
+                    GlobalPreferences.getinstance(this@LoginActivity)
+                        .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, null)
 
                     SessionManager(applicationContext).dataDownloadedCompletely(true)
                     startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                     finish()
                 } else {
-                    ToastyWidget.getInstance().displayError(this, getString(R.string.no_offline_user), Toast.LENGTH_LONG)
+                    ToastyWidget.getInstance()
+                        .displayError(this, getString(R.string.no_offline_user), Toast.LENGTH_LONG)
                 }
             }
         }
@@ -307,7 +302,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
             override fun onFailure(t: Throwable) {
                 networkProgressDialog.dismiss()
-                ToastyWidget.getInstance().displayError(this@LoginActivity, getString(R.string.network_problem), Toast.LENGTH_LONG)
+                ToastyWidget.getInstance()
+                    .displayError(this@LoginActivity, getString(R.string.network_problem), Toast.LENGTH_LONG)
             }
         })
 
@@ -323,7 +319,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-
     private fun updateResources(context: Context, language: String): Boolean {
         val locale = Locale(language)
         Locale.setDefault(locale)
@@ -331,7 +326,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val configuration: Configuration = resources.getConfiguration()
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.getDisplayMetrics())
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
+        GlobalPreferences.getinstance(this@LoginActivity)
+            .addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
         Global.APP_LANGUAGE = language
 
         return true
@@ -350,9 +346,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             context.createConfigurationContext(configuration);
         } else {
-            resources.updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+            resources.updateConfiguration(configuration, context.getResources()
+                .getDisplayMetrics());
         }
-        GlobalPreferences.getinstance(this@LoginActivity).addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
+        GlobalPreferences.getinstance(this@LoginActivity)
+            .addOrUpdatePreference(GlobalPreferences.KEY.APP_LANGUAGE, language)
         Global.APP_LANGUAGE = language
     }
 
