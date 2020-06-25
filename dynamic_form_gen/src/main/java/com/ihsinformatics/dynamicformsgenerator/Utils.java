@@ -56,6 +56,8 @@ public class Utils {
         person.put("birthdate", Global.OPENMRS_TIMESTAMP_FORMAT.format(new Date(offlinePatient.getDob())));
         person.put("age", 0);
         person.put("preferredName", preferredName);
+        person.put(ParamNames.CONTACT, offlinePatient.getContact());
+
 
         JSONObject otherDetails = new JSONObject();
         otherDetails.put("covidResult",offlinePatient.getCovidResult());
@@ -157,6 +159,7 @@ public class Utils {
                         offlinePatient.setGender(patient.getGender());
                         offlinePatient.setDob(patient.getBirthDate().getTime());
                         offlinePatient.setCovidResult(patient.getCovidResult());
+                        offlinePatient.setContact(patient.getContactNumber());
 
                         DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
                     }

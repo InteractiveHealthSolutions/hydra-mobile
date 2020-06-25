@@ -5,11 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
@@ -140,7 +136,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         llPatientInfoDisplayer = findViewById<RelativeLayout>(R.id.llPatientInfoDisplay)
         tvPatientName = findViewById<TextView>(R.id.tvName)
         tvPatientLastName = findViewById<TextView>(R.id.tvLastName)
-        llContact =findViewById<LinearLayout>(R.id.contact)
+        llContact = findViewById<LinearLayout>(R.id.contact)
         tvAge = findViewById<TextView>(R.id.tvAge)
         tvAgeLabel = findViewById<TextView>(R.id.tvAgeLabel)
         tvPatientIdentifier = findViewById<TextView>(R.id.tvId)
@@ -425,7 +421,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
 
 
-
             R.id.nav_search -> {
 
                 startActivityForResult(Intent(this, SearchActivity::class.java), 112)
@@ -551,12 +546,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             setCovidResults()
 
-            llContact?.setOnClickListener{
-                startActivityForResult(Intent(this, PatientContact::class.java), 0)
+            llContact?.setOnClickListener {
+                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
+                        .equals("")) {
+                    val intent = Intent(this, PatientContact::class.java)
+                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
+                    startActivityForResult(intent, 0)
+                }
+                else
+                {
+                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
+                }
             }
 
 
-            //llContact?.visibility = View.VISIBLE
+            llContact?.visibility = View.VISIBLE
             tvPatientName?.visibility = View.VISIBLE
             tvPatientLastName?.visibility = View.VISIBLE
             tvAge?.visibility = View.VISIBLE
@@ -792,7 +796,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ToastyWidget.getInstance()
                     .displayError(this@HomeActivity, getString(R.string.sync_error), Toast.LENGTH_LONG)
                 networkProgressDialog.dismiss()
-                startActivity(Intent(this@HomeActivity,LoginActivity::class.java))
+                startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
                 finish()
             }
         })
@@ -829,7 +833,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         intent.putExtras(bundle)
         startActivity(intent)
     }
-
 
 
     private fun updateActivityTime() {

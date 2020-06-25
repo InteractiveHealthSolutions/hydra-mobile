@@ -181,7 +181,7 @@
 
 
     <color name="app_orange">#f6701d</color>
-    <color name="app_blue">#1177ba</color>
+    <color name="app_blue">#226bdf</color>
     <color name="old_app_blue_before_logo">#4158d0</color>
     <color name="app_main_theme">@color/app_blue</color>
 

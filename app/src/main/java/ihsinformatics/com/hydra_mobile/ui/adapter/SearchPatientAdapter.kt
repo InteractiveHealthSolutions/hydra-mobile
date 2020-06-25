@@ -170,8 +170,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                                     networkProgressDialog.dismiss()
 
-                                    Toast.makeText(context, "Error fetching Encounters", Toast.LENGTH_SHORT)
-                                        .show()
+                                    ToastyWidget.getInstance().displayError(context,"Error Loading Patient",Toast.LENGTH_SHORT)
                                 }
                             })
 
@@ -208,7 +207,11 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         var serverResponse: JSONObject? = null
         var dob = Global.OPENMRS_TIMESTAMP_FORMAT.parse(patient.person.getBirthDate()).time
 
-        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", "", "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
+        var contactNumber="";
+        if(patient.person.getAttributes().size>0) {
+            contactNumber = patient.person.getAttributes().get(0).value
+        }
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", contactNumber, "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
 
 
         //Initialization of summary fields

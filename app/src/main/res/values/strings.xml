@@ -6,8 +6,8 @@
     <string name="appbar_scrolling_view_behavior" tools:keep="@string/appbar_scrolling_view_behavior">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
     </string>
-    <string name="edt_username_hint">Enter Username</string>
-    <string name="edt_password_hint">Enter Password</string>
+    <string name="edt_username_hint">Username</string>
+    <string name="edt_password_hint">Password</string>
     <string name="main_title">HYDRA</string>
     <string name="edt_hint_ip_address_port">port</string>
     <string name="default_ip_address">hydrademo.ihsinformatics.com</string>
@@ -233,7 +233,7 @@
     <string name="default_username">taha</string>
     <string name="default_pass">Taha1234</string>
     <string name="check_remember">Remember me</string>
-    <string name="check_offline_mode">Offline Mode</string>
+    <string name="check_offline_mode">Start Offline</string>
     <string name="tpowered_by">Powered by</string>
     <string name="hydra_text">HYDRA</string>
     <string name="person_name">Shujaat Ali</string>
@@ -370,6 +370,10 @@
     <string name="userReports">User Reports</string>
     <string name="Date">Date</string>
     <string name="username">"Username"</string>
+    <string name="selectWorkflow">Select\nWorkflow</string>
+    <string name="workflow_selection_instruction">Please select a workflow from the options below</string>
+    <string name="app_name_lowercase">hydra</string>
+    <string name="nextButtonTextForWorkflow"><![CDATA[Next   ->]]></string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>
