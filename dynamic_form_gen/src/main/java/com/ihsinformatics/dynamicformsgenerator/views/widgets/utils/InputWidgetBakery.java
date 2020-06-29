@@ -73,6 +73,7 @@ public class InputWidgetBakery {
         } else if (q.getQuestionType() == InputWidget.InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING) {
             inputWidget = new ContactTracingWidget(context, q, R.layout.layout_widget_contact_tracing);
         }
+
         return inputWidget;
     }
 }

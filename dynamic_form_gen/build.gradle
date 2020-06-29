@@ -34,6 +34,7 @@ android {
 }
 greendao {
     schemaVersion 18
+    targetGenDir "src/main/java/"
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
