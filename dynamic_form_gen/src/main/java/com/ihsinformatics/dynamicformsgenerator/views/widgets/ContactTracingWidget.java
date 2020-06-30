@@ -231,7 +231,7 @@ public class ContactTracingWidget extends InputWidget {
                     }
 
                     saveCurrentPositionData(currentPosition, "next");
-
+                    onWindowFocusChanged(true);
                     currentPosition++;
                     questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
@@ -274,13 +274,11 @@ public class ContactTracingWidget extends InputWidget {
             } else {
                 validation = false;
             }
-        }
-        else
-        {
+        } else {
             if (isValid(currentPosition) && currentPosition == (contactsText.size() - 1)) {
                 saveCurrentPositionData(currentPosition, "validInput");
                 validation = true;
-            } else if(!etNumberOfContacts.getText().toString().trim().equals("")) {
+            } else if (!etNumberOfContacts.getText().toString().trim().equals("")) {
                 validation = false;
             }
         }
@@ -431,7 +429,14 @@ public class ContactTracingWidget extends InputWidget {
             currentPosition = 0;
             mLinearLayoutManager.scrollToPosition(currentPosition);
 
-            View row = contactRecyclerView.getLayoutManager().findViewByPosition(0);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+
+        if (null != editedData) {
+            View row = contactRecyclerView.getLayoutManager().findViewByPosition(currentPosition);
 
             EditText etDOB = row.findViewById(R.id.etPatientDOB);
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
@@ -442,10 +447,8 @@ public class ContactTracingWidget extends InputWidget {
             etPatientID.setText(editedData.get(0).getContactID());
             etPatientName.setText(editedData.get(0).getContactFirstName());
             etPatientFamilyName.setText(editedData.get(0).getContactFamilyName());
-
         }
     }
-
 
     private boolean isValid(int position) {
         View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
