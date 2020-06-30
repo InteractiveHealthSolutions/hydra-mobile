@@ -20,8 +20,10 @@ public class Patient implements Serializable {
     private int locationId;
 
     private String covidResult;
+    private String contactNumber;
 
-    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId,String covidResult) {
+
+    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId,String covidResult, String contactNumber) {
         this.identifier = identifier;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -31,6 +33,7 @@ public class Patient implements Serializable {
         this.gender = gender;
         this.locationId = locationId;
         this.covidResult=covidResult;
+        this.contactNumber=contactNumber;
     }
 
     public String getIdentifier() {
@@ -99,6 +102,10 @@ public class Patient implements Serializable {
 
     public String getCovidResult() {
         return covidResult;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
     }
 
     public void setCovidResult(String covidResult) {

@@ -407,7 +407,15 @@ public class Form extends BaseActivity {
                         inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
 
 
-            } else {
+            } else if(("Phone Number").equals(widgetType)){
+
+                inputType="phone_number";
+                characters="0123456789";
+                configuration = new QuestionConfiguration(inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
+
+            }
+
+            else {
                 if (allowDecimal != null && allowDecimal && inputType.equalsIgnoreCase("numeric")) {
                     characters = "1234567890.-+";
                     inputType = "decimalNumeric";

@@ -275,6 +275,15 @@ public class ContactTracingWidget extends InputWidget {
                 validation = false;
             }
         }
+        else
+        {
+            if (isValid(currentPosition) && currentPosition == (contactsText.size() - 1)) {
+                saveCurrentPositionData(currentPosition, "validInput");
+                validation = true;
+            } else if(!etNumberOfContacts.getText().toString().trim().equals("")) {
+                validation = false;
+            }
+        }
         return validation;
     }
 

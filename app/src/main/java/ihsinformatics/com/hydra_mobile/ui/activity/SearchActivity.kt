@@ -338,6 +338,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                         offlinePatient.gender = patient.gender
                         offlinePatient.dob = patient.birthDate.time
                         offlinePatient.covidResult = patient.covidResult
+                        offlinePatient.contact = patient.contactNumber
+
 
 
                         val birthDate = patient.birthDate

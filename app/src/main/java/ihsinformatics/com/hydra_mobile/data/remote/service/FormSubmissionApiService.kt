@@ -13,7 +13,7 @@ interface FormSubmissionApiService {
 
 
     @Headers("Accept: application/json")
-    @POST("hydra/formSubmission")
+    @POST("hydra/form-submission")
     fun submitForm(@Body body: FormSubmissionReqBody):Call<formSubmission>
 }
 
