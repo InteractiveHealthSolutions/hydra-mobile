@@ -57,8 +57,7 @@
         <activity android:name=".ui.activity.labModule.TestAdder" />
         <activity android:name=".ui.activity.labModule.TestSummary" />
         <activity
-            android:name=".ui.activity.SelectWorkFlow"
-            android:theme="@style/PrefDialogTheme" />
+            android:name=".ui.activity.SelectWorkFlow" />
         <activity
             android:name=".ui.activity.TermsAndConditions"
             android:screenOrientation="portrait"

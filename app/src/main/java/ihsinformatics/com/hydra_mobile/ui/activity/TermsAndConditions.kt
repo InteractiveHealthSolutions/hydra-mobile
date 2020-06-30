@@ -5,23 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-
-import ihsinformatics.com.hydra_mobile.data.local.entities.workflow.WorkFlow
-import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
-import android.view.ViewGroup
-import android.widget.*
 import ihsinformatics.com.hydra_mobile.R
 import androidx.databinding.DataBindingUtil
-import ihsinformatics.com.hydra_mobile.databinding.ActivitySelectWorkflowBinding
 import android.view.MotionEvent
-import android.view.WindowManager
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
-import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.databinding.ActivityTermsAndConditionsBinding
-import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
 
 
 class TermsAndConditions : AppCompatActivity() {

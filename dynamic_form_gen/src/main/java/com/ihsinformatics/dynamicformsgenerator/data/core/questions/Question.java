@@ -59,11 +59,11 @@ public class Question extends Displayable implements Cloneable {
     private Configuration questionConfiguration;
     private List<Option> options;
     private String tag;
-    private String errorMessage="Invalid input";
-    private int displayOrder=0;
+    private String errorMessage = "Invalid input";
+    private int displayOrder = 0;
     private String newConfig;
 
-    private Boolean disabled=false;
+    private Boolean disabled = false;
 
 
     private List<SExpression> visibleWhen;
@@ -134,16 +134,16 @@ public class Question extends Displayable implements Cloneable {
 
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder,String newConfig ,List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, String questionType, String initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, Boolean attribute, String inputType, String errorMessage, Boolean disable, int displayOrder, String newConfig, List<SExpression> visibleWhen, List<SExpression> hiddenWhen, List<SExpression> requiredWhen, List<AutoSelect> autoSelect) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
         this.questionId = questionId;
 
-        this.disabled=disable;
-        this.displayOrder=displayOrder;
+        this.disabled = disable;
+        this.displayOrder = displayOrder;
 
-        this.newConfig=newConfig;
+        this.newConfig = newConfig;
 
         setQuestionType(questionType);
         setInitialVisibility(initialVisibility);
@@ -159,11 +159,11 @@ public class Question extends Displayable implements Cloneable {
         this.hiddenWhen = hiddenWhen;
         this.requiredWhen = requiredWhen;
 
-        this.autoSelect=autoSelect;
+        this.autoSelect = autoSelect;
 
-        isAttribute=attribute;
-        payload_type=filterPayloadType(questionType,inputType);
-        this.errorMessage=errorMessage;
+        isAttribute = attribute;
+        payload_type = filterPayloadType(questionType, inputType);
+        this.errorMessage = errorMessage;
     }
 
 
@@ -191,6 +191,7 @@ public class Question extends Displayable implements Cloneable {
         this.questionNumber = questionNumber;
         this.tag = tag.toString();
     }
+
     public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration) {
         super();
         this.isMandatory = isMandatory;
@@ -206,10 +207,10 @@ public class Question extends Displayable implements Cloneable {
         this.questionConfiguration = questionConfiguration;
         this.questionNumber = questionNumber;
         this.tag = QUESTION_TAG.TAG_OBS.toString();
-        this.payload_type=PAYLOAD_TYPE.NONE;
+        this.payload_type = PAYLOAD_TYPE.NONE;
     }
 
-    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration,PAYLOAD_TYPE payload) {
+    public Question(boolean isMandatory, int formTypeId, int questionId, String questionNumber, InputWidgetsType questionType, int initialVisibility, String validationFunction, String text, String paramName, Configuration questionConfiguration, PAYLOAD_TYPE payload) {
         super();
         this.isMandatory = isMandatory;
         this.formTypeId = formTypeId;
@@ -224,7 +225,7 @@ public class Question extends Displayable implements Cloneable {
         this.questionConfiguration = questionConfiguration;
         this.questionNumber = questionNumber;
         this.tag = QUESTION_TAG.TAG_OBS.toString();
-        this.payload_type=payload;
+        this.payload_type = payload;
     }
 
     public void addOption(Option option) {
@@ -300,7 +301,8 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_DATE;
                 break;
             }
-            case "Textbox": {
+            case "Textbox":
+            case "Phone Number": {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_EDITTEXT;
                 break;
             }
@@ -368,10 +370,11 @@ public class Question extends Displayable implements Cloneable {
                 this.questionType = InputWidgetsType.WIDGET_TYPE_ADDRESS;
                 break;
             }
-            case "Contact Tracing":{
+            case "Contact Tracing": {
                 this.questionType = InputWidgetsType.WIDGETS_TYPE_CONTACT_TRACING;
                 break;
             }
+
         }
     }
 
@@ -499,8 +502,8 @@ public class Question extends Displayable implements Cloneable {
     }
 
 
-    public PAYLOAD_TYPE filterPayloadType(String questionType,String inputType){
-        PAYLOAD_TYPE payload=PAYLOAD_TYPE.OBS;
+    public PAYLOAD_TYPE filterPayloadType(String questionType, String inputType) {
+        PAYLOAD_TYPE payload = PAYLOAD_TYPE.OBS;
 
         switch (questionType) {
             case "Date/ Time Picker": {
@@ -509,11 +512,11 @@ public class Question extends Displayable implements Cloneable {
             }
             case "Textbox": {
 
-                if(inputType.equalsIgnoreCase("text"))
+                if (inputType.equalsIgnoreCase("text"))
                     return PAYLOAD_TYPE.OBS;
-                else if(inputType.equalsIgnoreCase("numeric"))
+                else if (inputType.equalsIgnoreCase("numeric"))
                     return PAYLOAD_TYPE.OBS_NUMERIC;
-                else if(inputType.equalsIgnoreCase("decimalNumeric"))
+                else if (inputType.equalsIgnoreCase("decimalNumeric"))
                     return PAYLOAD_TYPE.OBS_NUMERIC;
 
             }
@@ -522,13 +525,13 @@ public class Question extends Displayable implements Cloneable {
             }
 
             case "Multiple Choice": {
-               return PAYLOAD_TYPE.OBS_CODED_MULTI;
+                return PAYLOAD_TYPE.OBS_CODED_MULTI;
             }
             case "Single Select Radiobuttons": {
-               return PAYLOAD_TYPE.OBS_CODED;
+                return PAYLOAD_TYPE.OBS_CODED;
             }
             case "Age": {
-             return PAYLOAD_TYPE.AGE;
+                return PAYLOAD_TYPE.AGE;
             }
 
             case "identifier": {
@@ -541,8 +544,7 @@ public class Question extends Displayable implements Cloneable {
             case "Name": {
                 return PAYLOAD_TYPE.NAME;
             }
-            case "GPS":
-            {
+            case "GPS": {
                 return PAYLOAD_TYPE.GPS;
             }
         }

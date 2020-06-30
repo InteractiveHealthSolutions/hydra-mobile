@@ -114,6 +114,9 @@ public class QuestionConfiguration extends Configuration {
             case "boolean":{
                 return  InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;    //TODO need to fix this  ~taha    we need to make decision in FOrms.java while parsing that if inputType is boolean then make allowCharacters to be 1 and 0 only
             }
+            case "phone_number":{
+                return  InputType.TYPE_CLASS_PHONE;
+            }
 
             default:{
                 return  InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
