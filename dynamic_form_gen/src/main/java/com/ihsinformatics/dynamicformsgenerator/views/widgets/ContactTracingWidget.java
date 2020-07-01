@@ -231,12 +231,12 @@ public class ContactTracingWidget extends InputWidget {
                     }
 
                     saveCurrentPositionData(currentPosition, "next");
-                    onWindowFocusChanged(true);
                     currentPosition++;
                     questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                     dismissMessage();
+
                 } else {
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                 }
@@ -256,6 +256,23 @@ public class ContactTracingWidget extends InputWidget {
                 questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                 next.setVisibility(View.VISIBLE);
                 mLinearLayoutManager.scrollToPosition(currentPosition);
+
+            }
+        });
+
+
+        contactRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                super.onScrolled(recyclerView, dx, dy);
+                fillDataForEditing();
             }
         });
 
@@ -373,7 +390,8 @@ public class ContactTracingWidget extends InputWidget {
 
         for (int val = 0; val < currentData.size(); val++) {
             toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
-            toReturn += "\nName: " + currentData.get(val).getContactFirstName() + " " + currentData.get(val).getContactFamilyName();
+            toReturn += "\nFirst Name: " + currentData.get(val).getContactFirstName();
+            toReturn += "\nFamily Name: " + currentData.get(val).getContactFamilyName();
             toReturn += "\nAge: " + currentData.get(val).getContactAge();
             toReturn += "\nGender: " + currentData.get(val).getGender();
             toReturn += "\nRelation: " + currentData.get(val).getRelation();
@@ -415,38 +433,64 @@ public class ContactTracingWidget extends InputWidget {
             editedData = new ArrayList<>();
 
             for (int i = 0; i < allAnswers.length; i++) {
+
                 String[] singleEntry = allAnswers[i].split("\n");
                 String identifier = singleEntry[0].split(": ")[1];
                 String fname = singleEntry[1].split(": ")[1];
-                //  String familyName = singleEntry[2].split(": ")[1];
-                String age = singleEntry[2].split(": ")[1];
-                String gender = singleEntry[3].split(": ")[1];
-                String relation = singleEntry[4].split(": ")[1];
-                //   String dob = singleEntry[6].split(": ")[1];
+                String familyName = singleEntry[2].split(": ")[1];
+                String age = singleEntry[3].split(": ")[1];
+                String gender = singleEntry[4].split(": ")[1];
+                String relation = singleEntry[5].split(": ")[1];
 
-                editedData.add(new ContactDetailsSendable(identifier, fname, fname, age, gender, relation, age));
+                editedData.add(new ContactDetailsSendable(identifier, fname, familyName, age, gender, relation, ""));  // no need to date of birth here since its automatically calculated using age
+
             }
+
             currentPosition = 0;
             mLinearLayoutManager.scrollToPosition(currentPosition);
 
         }
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
 
-        if (null != editedData) {
+
+    private void fillDataForEditing() {
+
+        if (null != editedData && editedData.size() > currentPosition) {
             View row = contactRecyclerView.getLayoutManager().findViewByPosition(currentPosition);
 
             EditText etDOB = row.findViewById(R.id.etPatientDOB);
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+            RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
+            EditText etAgeYears = row.findViewById(R.id.etAgeYears);
+            EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
+            EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+            Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
-            etDOB.setText(editedData.get(0).getDob());
-            etPatientID.setText(editedData.get(0).getContactID());
-            etPatientName.setText(editedData.get(0).getContactFirstName());
-            etPatientFamilyName.setText(editedData.get(0).getContactFamilyName());
+            //etDOB.setText(editedData.get(currentPosition).getDob());
+            etPatientID.setText(editedData.get(currentPosition).getContactID());
+            etPatientName.setText(editedData.get(currentPosition).getContactFirstName());
+            etPatientFamilyName.setText(editedData.get(currentPosition).getContactFamilyName());
+
+            String[] ageFields = editedData.get(currentPosition).getContactAge().split("-");
+            etAgeYears.setText(ageFields[0]);
+            etAgeMonths.setText(ageFields[1]);
+            etAgeDays.setText(ageFields[2]);
+
+            spRelation.setSelection(relations.indexOf(editedData.get(currentPosition).getRelation()));
+
+            if(editedData.get(currentPosition).getGender().equalsIgnoreCase("female"))
+            {
+                RadioButton rb = (RadioButton) gender.findViewById(R.id.female);
+                rb.setChecked(true);
+            }
+            else
+            {
+                RadioButton rb = (RadioButton) gender.findViewById(R.id.male);
+                rb.setChecked(true);
+            }
         }
     }
 
@@ -693,6 +737,7 @@ public class ContactTracingWidget extends InputWidget {
 
 
             DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
+
         }
     }
 }
