@@ -20,6 +20,7 @@ public class OfflinePatient {
     public final static String COLUMN_PATIENT_NAME = "patient_name";
     public final static String COLUMN_GENDER = "gender";
     public final static String COLUMN_CONTACT = "contact";
+    public final static String COLUMN_OFFLINE_CONTACT = "offline_contact";
     public final static String COLUMN_NIC = "nic";
     public final static String COLUMN_DOB = "date_ofBirth";
     public final static String COLUMN_ENCOUNTERS_JSON = "encounters_json";
@@ -51,6 +52,9 @@ public class OfflinePatient {
     @Property(nameInDb = COLUMN_CONTACT)
     private String contact;
 
+    @Property(nameInDb = COLUMN_OFFLINE_CONTACT)
+    private String offlineContact;
+
     @Property(nameInDb = COLUMN_NIC)
     private String nic;
 
@@ -77,15 +81,16 @@ public class OfflinePatient {
     @Property(nameInDb = COLUMN_COVID_RESULT)
     private String covidResult;
 
-    @Generated(hash = 896017962)
+    @Generated(hash = 1750173272)
     public OfflinePatient(@NotNull String mrNumber, String pqId, String scId,
-            String contact, String nic, Long id, String name,
+            String contact, String offlineContact, String nic, Long id, String name,
             @NotNull String gender, Long dob, @NotNull String encounterJson,
             String fieldDataJson, String covidResult) {
         this.mrNumber = mrNumber;
         this.pqId = pqId;
         this.scId = scId;
         this.contact = contact;
+        this.offlineContact = offlineContact;
         this.nic = nic;
         this.id = id;
         this.name = name;
@@ -130,6 +135,14 @@ public class OfflinePatient {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getOfflineContact() {
+        return this.offlineContact;
+    }
+
+    public void setOfflineContact(String offlineContact) {
+        this.offlineContact = offlineContact;
     }
 
     public String getNic() {
@@ -196,5 +209,4 @@ public class OfflinePatient {
         this.covidResult = covidResult;
     }
 
-    
 }

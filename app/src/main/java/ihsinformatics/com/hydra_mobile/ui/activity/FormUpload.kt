@@ -104,6 +104,7 @@ class FormUpload : AppCompatActivity() {
         } else {
             ToastyWidget.getInstance()
                 .displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+            uploadForms.isEnabled = true
         }
     }
 

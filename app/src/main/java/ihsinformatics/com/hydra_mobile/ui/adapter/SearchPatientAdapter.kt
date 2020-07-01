@@ -211,7 +211,10 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         if(patient.person.getAttributes().size>0) {
             contactNumber = patient.person.getAttributes().get(0).value
         }
-        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", contactNumber, "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
+
+        val offlineNumber = DataAccess.getInstance().getPatientOfflineNumber(context,patient.identifiers.get(0).identifier)
+
+        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", contactNumber,offlineNumber, "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
 
 
         //Initialization of summary fields

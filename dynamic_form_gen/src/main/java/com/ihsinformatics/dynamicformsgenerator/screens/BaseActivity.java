@@ -212,6 +212,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
                     }
+
+                    offlinePatient = handleSpecialFields(i,offlinePatient);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -311,6 +314,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existingFieldsJson.put("relationships", relationships);
                         existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
+
+                        existineOfflinePatient.setOfflineContact(offlinePatient.getOfflineContact());
+                        Global.patientData.getPatient().setContactNumber(offlinePatient.getOfflineContact());
+
                         access.insertOfflinePatient(this, existineOfflinePatient);
 
                         patientIdentifier = existineOfflinePatient.getMrNumber();
@@ -387,6 +394,16 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } catch (Exception e) {
             Logger.log(e);
         }
+    }
+
+    private OfflinePatient handleSpecialFields(InputWidget i, OfflinePatient offlinePatient) throws JSONException {
+
+        if(i.getQuestion().getParamName().equals("a7a9e56d-cb7c-43al-7549-ccb0e4a9a9c1"))   // Phone number question
+        {
+            offlinePatient.setOfflineContact(i.getValue());
+        }
+
+        return offlinePatient;
     }
 
     private void doPostFormSavingWork(SaveableForm form) {

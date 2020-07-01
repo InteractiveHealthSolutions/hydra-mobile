@@ -57,6 +57,8 @@ public class Utils {
         person.put("age", 0);
         person.put("preferredName", preferredName);
         person.put(ParamNames.CONTACT, offlinePatient.getContact());
+        person.put(ParamNames.OFFLINE_CONTACT, offlinePatient.getOfflineContact());
+
 
 
         JSONObject otherDetails = new JSONObject();
@@ -160,6 +162,8 @@ public class Utils {
                         offlinePatient.setDob(patient.getBirthDate().getTime());
                         offlinePatient.setCovidResult(patient.getCovidResult());
                         offlinePatient.setContact(patient.getContactNumber());
+                        offlinePatient.setOfflineContact(patient.getOfflineContactNumber());
+
 
                         DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
                     }

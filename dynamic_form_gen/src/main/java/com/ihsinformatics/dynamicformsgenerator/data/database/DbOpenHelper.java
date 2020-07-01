@@ -70,6 +70,9 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
 
                 db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.WorkflowUUID.columnName);
 
+            case 18:
+                db.execSQL("ALTER TABLE " + OfflinePatientDao.TABLENAME + " ADD COLUMN " + OfflinePatientDao.Properties.OfflineContact.columnName + " TEXT DEFAULT ''");
+
         }
     }
 }

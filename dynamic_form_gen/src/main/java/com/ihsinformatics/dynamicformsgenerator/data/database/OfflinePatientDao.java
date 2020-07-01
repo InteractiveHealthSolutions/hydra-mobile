@@ -26,14 +26,15 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
         public final static Property PqId = new Property(1, String.class, "pqId", false, "pq_id");
         public final static Property ScId = new Property(2, String.class, "scId", false, "sc_id");
         public final static Property Contact = new Property(3, String.class, "contact", false, "contact");
-        public final static Property Nic = new Property(4, String.class, "nic", false, "nic");
-        public final static Property Id = new Property(5, Long.class, "id", true, "_id");
-        public final static Property Name = new Property(6, String.class, "name", false, "patient_name");
-        public final static Property Gender = new Property(7, String.class, "gender", false, "gender");
-        public final static Property Dob = new Property(8, Long.class, "dob", false, "date_ofBirth");
-        public final static Property EncounterJson = new Property(9, String.class, "encounterJson", false, "encounters_json");
-        public final static Property FieldDataJson = new Property(10, String.class, "fieldDataJson", false, "fields_data_json");
-        public final static Property CovidResult = new Property(11, String.class, "covidResult", false, "covidResult");
+        public final static Property OfflineContact = new Property(4, String.class, "offlineContact", false, "offline_contact");
+        public final static Property Nic = new Property(5, String.class, "nic", false, "nic");
+        public final static Property Id = new Property(6, Long.class, "id", true, "_id");
+        public final static Property Name = new Property(7, String.class, "name", false, "patient_name");
+        public final static Property Gender = new Property(8, String.class, "gender", false, "gender");
+        public final static Property Dob = new Property(9, Long.class, "dob", false, "date_ofBirth");
+        public final static Property EncounterJson = new Property(10, String.class, "encounterJson", false, "encounters_json");
+        public final static Property FieldDataJson = new Property(11, String.class, "fieldDataJson", false, "fields_data_json");
+        public final static Property CovidResult = new Property(12, String.class, "covidResult", false, "covidResult");
     }
 
 
@@ -53,14 +54,15 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
                 "\"pq_id\" TEXT UNIQUE ," + // 1: pqId
                 "\"sc_id\" TEXT UNIQUE ," + // 2: scId
                 "\"contact\" TEXT," + // 3: contact
-                "\"nic\" TEXT," + // 4: nic
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 5: id
-                "\"patient_name\" TEXT," + // 6: name
-                "\"gender\" TEXT NOT NULL ," + // 7: gender
-                "\"date_ofBirth\" INTEGER," + // 8: dob
-                "\"encounters_json\" TEXT NOT NULL ," + // 9: encounterJson
-                "\"fields_data_json\" TEXT," + // 10: fieldDataJson
-                "\"covidResult\" TEXT);"); // 11: covidResult
+                "\"offline_contact\" TEXT," + // 4: offlineContact
+                "\"nic\" TEXT," + // 5: nic
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 6: id
+                "\"patient_name\" TEXT," + // 7: name
+                "\"gender\" TEXT NOT NULL ," + // 8: gender
+                "\"date_ofBirth\" INTEGER," + // 9: dob
+                "\"encounters_json\" TEXT NOT NULL ," + // 10: encounterJson
+                "\"fields_data_json\" TEXT," + // 11: fieldDataJson
+                "\"covidResult\" TEXT);"); // 12: covidResult
     }
 
     /** Drops the underlying database table. */
@@ -89,36 +91,41 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
             stmt.bindString(4, contact);
         }
  
+        String offlineContact = entity.getOfflineContact();
+        if (offlineContact != null) {
+            stmt.bindString(5, offlineContact);
+        }
+ 
         String nic = entity.getNic();
         if (nic != null) {
-            stmt.bindString(5, nic);
+            stmt.bindString(6, nic);
         }
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(6, id);
+            stmt.bindLong(7, id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(7, name);
+            stmt.bindString(8, name);
         }
-        stmt.bindString(8, entity.getGender());
+        stmt.bindString(9, entity.getGender());
  
         Long dob = entity.getDob();
         if (dob != null) {
-            stmt.bindLong(9, dob);
+            stmt.bindLong(10, dob);
         }
-        stmt.bindString(10, entity.getEncounterJson());
+        stmt.bindString(11, entity.getEncounterJson());
  
         String fieldDataJson = entity.getFieldDataJson();
         if (fieldDataJson != null) {
-            stmt.bindString(11, fieldDataJson);
+            stmt.bindString(12, fieldDataJson);
         }
  
         String covidResult = entity.getCovidResult();
         if (covidResult != null) {
-            stmt.bindString(12, covidResult);
+            stmt.bindString(13, covidResult);
         }
     }
 
@@ -142,42 +149,47 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
             stmt.bindString(4, contact);
         }
  
+        String offlineContact = entity.getOfflineContact();
+        if (offlineContact != null) {
+            stmt.bindString(5, offlineContact);
+        }
+ 
         String nic = entity.getNic();
         if (nic != null) {
-            stmt.bindString(5, nic);
+            stmt.bindString(6, nic);
         }
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(6, id);
+            stmt.bindLong(7, id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(7, name);
+            stmt.bindString(8, name);
         }
-        stmt.bindString(8, entity.getGender());
+        stmt.bindString(9, entity.getGender());
  
         Long dob = entity.getDob();
         if (dob != null) {
-            stmt.bindLong(9, dob);
+            stmt.bindLong(10, dob);
         }
-        stmt.bindString(10, entity.getEncounterJson());
+        stmt.bindString(11, entity.getEncounterJson());
  
         String fieldDataJson = entity.getFieldDataJson();
         if (fieldDataJson != null) {
-            stmt.bindString(11, fieldDataJson);
+            stmt.bindString(12, fieldDataJson);
         }
  
         String covidResult = entity.getCovidResult();
         if (covidResult != null) {
-            stmt.bindString(12, covidResult);
+            stmt.bindString(13, covidResult);
         }
     }
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5);
+        return cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6);
     }    
 
     @Override
@@ -187,14 +199,15 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // pqId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // scId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // contact
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // nic
-            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // id
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // name
-            cursor.getString(offset + 7), // gender
-            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // dob
-            cursor.getString(offset + 9), // encounterJson
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // fieldDataJson
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // covidResult
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // offlineContact
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // nic
+            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // id
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // name
+            cursor.getString(offset + 8), // gender
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // dob
+            cursor.getString(offset + 10), // encounterJson
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // fieldDataJson
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // covidResult
         );
         return entity;
     }
@@ -205,14 +218,15 @@ public class OfflinePatientDao extends AbstractDao<OfflinePatient, Long> {
         entity.setPqId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setScId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setContact(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setNic(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setId(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
-        entity.setName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setGender(cursor.getString(offset + 7));
-        entity.setDob(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
-        entity.setEncounterJson(cursor.getString(offset + 9));
-        entity.setFieldDataJson(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setCovidResult(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setOfflineContact(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setNic(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setId(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
+        entity.setName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setGender(cursor.getString(offset + 8));
+        entity.setDob(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setEncounterJson(cursor.getString(offset + 10));
+        entity.setFieldDataJson(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setCovidResult(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

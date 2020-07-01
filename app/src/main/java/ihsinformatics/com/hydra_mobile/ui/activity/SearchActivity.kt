@@ -339,6 +339,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                         offlinePatient.dob = patient.birthDate.time
                         offlinePatient.covidResult = patient.covidResult
                         offlinePatient.contact = patient.contactNumber
+                        offlinePatient.offlineContact = patient.offlineContactNumber
+
 
 
 

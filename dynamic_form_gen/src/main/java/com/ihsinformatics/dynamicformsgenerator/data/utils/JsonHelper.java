@@ -111,6 +111,7 @@ public class JsonHelper {
                 String familyName = preferredName.getString(ParamNames.FAMILY_NAME);
                 String uuid = result.optString(ParamNames.UUID);
                 String contactNumber=person.optString(ParamNames.CONTACT);
+                String offlineContactNumber=person.optString(ParamNames.OFFLINE_CONTACT);
                 int age = Integer.parseInt(person.getString(ParamNames.PERSON_AGE));
 
                 JSONObject otherDetails = result.getJSONObject(ParamNames.OTHER_DETAILS);
@@ -132,7 +133,8 @@ public class JsonHelper {
                         gender,
                         locationId,
                         covidResult,
-                        contactNumber
+                        contactNumber,
+                        offlineContactNumber
                 );
             }
         } catch (ParseException e) {
