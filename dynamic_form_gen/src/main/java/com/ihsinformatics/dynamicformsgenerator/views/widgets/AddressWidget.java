@@ -270,6 +270,7 @@ public class AddressWidget extends InputWidget {
 
             tvTag.setText(tag);
             spValues.setOnItemSelectedListener(this);
+            etOther.setMaxLines(3);
         }
 
         public void setDefaultValue(int defaultValue) {

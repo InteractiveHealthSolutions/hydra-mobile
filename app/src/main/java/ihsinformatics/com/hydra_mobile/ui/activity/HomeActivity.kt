@@ -212,8 +212,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         spaceNavigationView = findViewById<SpaceNavigationView>(R.id.space)
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.common_lab), R.drawable.ic_testtubes))
-        spaceNavigationView.addSpaceItem(SpaceItem(resources.getString(R.string.history), R.drawable.ic_report_filled))
+        spaceNavigationView.addSpaceItem(
+            SpaceItem(
+                resources.getString(R.string.common_lab),
+                R.drawable.ic_testtubes
+            )
+        )
+        spaceNavigationView.addSpaceItem(
+            SpaceItem(
+                resources.getString(R.string.history),
+                R.drawable.ic_report_filled
+            )
+        )
 
 
 
@@ -224,7 +234,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 if (Global.patientData == null) {
                     ToastyWidget.getInstance()
-                        .displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        .displayWarning(
+                            this@HomeActivity,
+                            getString(R.string.patient_not_loaded),
+                            Toast.LENGTH_SHORT
+                        )
                 } else {
                     startActivity(Intent(applicationContext, ProfileActivity::class.java))
                     finish()
@@ -262,18 +276,35 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         if (isInternetConnected()) {
                             if (Global.patientData == null) {
                                 ToastyWidget.getInstance()
-                                    .displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                                    .displayWarning(
+                                        this@HomeActivity,
+                                        getString(R.string.patient_not_loaded),
+                                        Toast.LENGTH_SHORT
+                                    )
                             } else {
-                                startActivity(Intent(applicationContext, CommonLabActivity::class.java))
+                                startActivity(
+                                    Intent(
+                                        applicationContext,
+                                        CommonLabActivity::class.java
+                                    )
+                                )
                                 finish()
                             }
                         } else {
                             ToastyWidget.getInstance()
-                                .displayWarning(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                                .displayWarning(
+                                    this@HomeActivity,
+                                    getString(R.string.internet_issue),
+                                    Toast.LENGTH_SHORT
+                                )
                         }
                     } else {
                         ToastyWidget.getInstance()
-                            .displayWarning(this@HomeActivity, getString(R.string.feature_of_offlineMode), Toast.LENGTH_LONG)
+                            .displayWarning(
+                                this@HomeActivity,
+                                getString(R.string.feature_of_offlineMode),
+                                Toast.LENGTH_LONG
+                            )
 
                     }
                 }
@@ -284,7 +315,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 if (Global.patientData == null) {
                     ToastyWidget.getInstance()
-                        .displayWarning(this@HomeActivity, getString(R.string.patient_not_loaded), Toast.LENGTH_SHORT)
+                        .displayWarning(
+                            this@HomeActivity,
+                            getString(R.string.patient_not_loaded),
+                            Toast.LENGTH_SHORT
+                        )
                 } else {
                     startActivity(Intent(applicationContext, ReportActivity::class.java))
                     finish()
@@ -335,7 +370,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         navView.getHeaderView(0).tvLoggedInAs.setText("Logged in as: " + Global.USERNAME)
         var drawerArrow = DrawerArrowDrawable(this)
         drawerArrow.color = ContextCompat.getColor(this@HomeActivity, R.color.colorWhite)
-        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         toggle.isDrawerIndicatorEnabled = true
         toggle.drawerArrowDrawable = drawerArrow!!
         drawerLayout.addDrawerListener(toggle)
@@ -362,7 +403,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_createPatient -> {
-                Form.setENCOUNTER_NAME(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT, ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)
+                Form.setENCOUNTER_NAME(
+                    ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,
+                    ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT
+                )
                 startActivityForResult(Intent(this, Form::class.java), 112)
 
             }
@@ -377,7 +421,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     openMetaDataFetcher()
                 } else {
                     ToastyWidget.getInstance()
-                        .displayError(this@HomeActivity, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+                        .displayError(
+                            this@HomeActivity,
+                            getString(R.string.internet_issue),
+                            Toast.LENGTH_SHORT
+                        )
 
                 }
             }
@@ -442,8 +490,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initPhase() {
         binding.mainMenuLayout.vpPhases.offscreenPageLimit = 2
-        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.mainMenuLayout.tbPhase))
-        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.mainMenuLayout.vpPhases.addOnPageChangeListener(
+            TabLayout.TabLayoutOnPageChangeListener(
+                binding.mainMenuLayout.tbPhase
+            )
+        )
+        binding.mainMenuLayout.tbPhase.setOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainMenuLayout.vpPhases.setCurrentItem(tab.position)
@@ -478,7 +531,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val sd = Environment.getExternalStorageDirectory()
             val data = Environment.getDataDirectory()
             if (sd.canWrite()) {
-                val currentDBPath = "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
+                val currentDBPath =
+                    "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
                 val backupDBPath = "/BackupFolder/greendao_demo.db"
                 val backupDB = File(data, currentDBPath)
                 val currentDB = File(sd, backupDBPath)
@@ -501,7 +555,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val sd = Environment.getExternalStorageDirectory()
             val data = Environment.getDataDirectory()
             if (sd.canWrite()) {
-                val currentDBPath = "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
+                val currentDBPath =
+                    "//data//" + "ihsinformatics.com.hydra_mobile" + "//databases//" + "greendao_demo.db"
                 val backupDBPath = "/BackupFolder/greendao_demo.db"
                 val currentDB = File(data, currentDBPath)
                 val backupDB = File(sd, backupDBPath)
@@ -547,15 +602,20 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setCovidResults()
 
             llContact?.setOnClickListener {
-                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
-                        .equals("")) {
+                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim().equals("")) {
                     val intent = Intent(this, PatientContact::class.java)
                     intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
                     startActivityForResult(intent, 0)
-                }
-                else
-                {
-                    ToastyWidget.getInstance().displayError(this,"Contact not available for this patient",Toast.LENGTH_SHORT)
+                } else if (null != Global.patientData.patient.offlineContactNumber && !Global.patientData.patient.offlineContactNumber.trim().equals("")) {
+                    val intent = Intent(this, PatientContact::class.java)
+                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.offlineContactNumber)
+                    startActivityForResult(intent, 0)
+                } else {
+                    ToastyWidget.getInstance().displayError(
+                        this,
+                        "Contact not available for this patient",
+                        Toast.LENGTH_SHORT
+                    )
                 }
             }
 
@@ -576,8 +636,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             tvPatientName?.setText(Global.patientData.getPatient().getGivenName().toUpperCase())
-            tvPatientLastName?.setText(Global.patientData.getPatient().getFamilyName()
-                .toUpperCase())
+            tvPatientLastName?.setText(
+                Global.patientData.getPatient().getFamilyName()
+                    .toUpperCase()
+            )
             // tvAge.setText(patientData.getPatient().getAge() + ""); //TODO get dob and display full age till days
             val birthDate = Global.patientData.getPatient().getBirthDate()
             val birthTime = DateTime(birthDate)
@@ -629,7 +691,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             "MEDIUM" -> {
                 covidInfoImage.setImageDrawable(getDrawable(R.drawable.ic_alert_med))
-                covidInfoLayout.background = getDrawable(R.drawable.circular_background_alert_medium)
+                covidInfoLayout.background =
+                    getDrawable(R.drawable.circular_background_alert_medium)
             }
             else -> {
                 covidInfo.visibility = View.GONE
@@ -658,12 +721,18 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (work.isNotEmpty()) {
 
                 for (element in work) {
-                    binding.mainMenuLayout.tbPhase.addTab(binding.mainMenuLayout.tbPhase.newTab()
-                        .setText("" + element.phaseName))
+                    binding.mainMenuLayout.tbPhase.addTab(
+                        binding.mainMenuLayout.tbPhase.newTab()
+                            .setText("" + element.phaseName)
+                    )
                 }
 
 
-                mDynamicFragmentAdapter = DynamicFragmentAdapter(supportFragmentManager, binding.mainMenuLayout.tbPhase.tabCount, work)
+                mDynamicFragmentAdapter = DynamicFragmentAdapter(
+                    supportFragmentManager,
+                    binding.mainMenuLayout.tbPhase.tabCount,
+                    work
+                )
                 binding.mainMenuLayout.vpPhases.adapter = mDynamicFragmentAdapter
                 binding.mainMenuLayout.vpPhases.currentItem = 0
 
@@ -781,7 +850,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                     mDynamicFragmentAdapter.notifyDataSetChanged()
                     ToastyWidget.getInstance()
-                        .displaySuccess(this@HomeActivity, getString(R.string.sync_success), Toast.LENGTH_LONG)
+                        .displaySuccess(
+                            this@HomeActivity,
+                            getString(R.string.sync_success),
+                            Toast.LENGTH_LONG
+                        )
                     networkProgressDialog.dismiss()
                     sessionManager.dataDownloadedCompletely(true)
                     finish();
@@ -794,7 +867,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             override fun onFailure(t: Throwable) {
 
                 ToastyWidget.getInstance()
-                    .displayError(this@HomeActivity, getString(R.string.sync_error), Toast.LENGTH_LONG)
+                    .displayError(
+                        this@HomeActivity,
+                        getString(R.string.sync_error),
+                        Toast.LENGTH_LONG
+                    )
                 networkProgressDialog.dismiss()
                 startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
                 finish()
@@ -806,14 +883,26 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun initSystemSettings() {
         val identifierFormat = DataAccess.getInstance()
-            .fetchSystemSettingsByUUID(this, "9b68a10b-3ede-43f6-b019-d0823e28ebd1")  //UUID for hydra.IdentifierFormat
+            .fetchSystemSettingsByUUID(
+                this,
+                "9b68a10b-3ede-43f6-b019-d0823e28ebd1"
+            )  //UUID for hydra.IdentifierFormat
         val dateFormat = DataAccess.getInstance()
-            .fetchSystemSettingsByUUID(this, "6a78a10b-3eae-43f6-b019-d0823e28ebd1")  //UUID for hydra.dateFormat
+            .fetchSystemSettingsByUUID(
+                this,
+                "6a78a10b-3eae-43f6-b019-d0823e28ebd1"
+            )  //UUID for hydra.dateFormat
         val countryName = DataAccess.getInstance()
-            .fetchSystemSettingsByUUID(this, "3h98a10f-3edz-43f6-b020-d0823e28ebd1")  //UUID for hydra.contry
+            .fetchSystemSettingsByUUID(
+                this,
+                "3h98a10f-3edz-43f6-b020-d0823e28ebd1"
+            )  //UUID for hydra.contry
 
 
-        if (!sessionManager.isCompleteDataDownloaded() || null == identifierFormat || identifierFormat.value.equals(null)) {
+        if (!sessionManager.isCompleteDataDownloaded() || null == identifierFormat || identifierFormat.value.equals(
+                null
+            )
+        ) {
             ToastyWidget.getInstance()
                 .displayError(this, getString(R.string.need_to_sync), Toast.LENGTH_LONG)
             startActivity(Intent(this, LoginActivity::class.java))
@@ -825,7 +914,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    @Throws(JSONException::class) private fun startForm(patientData: PatientData, bundle: Bundle) {
+    @Throws(JSONException::class)
+    private fun startForm(patientData: PatientData, bundle: Bundle) {
         var bundle: Bundle? = bundle
         if (bundle == null) bundle = Bundle()
         bundle.putSerializable(ParamNames.DATA, patientData)
@@ -874,10 +964,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     // slide the view from below itself to the current position
     fun slideUp(view: View) {
         view.visibility = View.VISIBLE
-        val animate = TranslateAnimation(0f,  // fromXDelta
+        val animate = TranslateAnimation(
+            0f,  // fromXDelta
             0f,  // toXDelta
             0f,  // fromYDelta
-            view.height.toFloat()) // toYDelta
+            view.height.toFloat()
+        ) // toYDelta
         animate.setDuration(500)
         animate.setFillAfter(true)
         view.startAnimation(animate)
@@ -885,27 +977,43 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     // slide the view from its current position to below itself
     fun slideDown(view: View) {
-        val animate = TranslateAnimation(0f,  // fromXDelta
+        val animate = TranslateAnimation(
+            0f,  // fromXDelta
             0f,  // toXDelta
             view.height.toFloat(),  // fromYDelta
-            0f) // toYDelta
+            0f
+        ) // toYDelta
         animate.setDuration(500)
         animate.setFillAfter(true)
         view.startAnimation(animate)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @AfterPermissionGranted(0) fun requestPermissions() {
-        var perms = arrayOf(Manifest.permission.MODIFY_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+    @AfterPermissionGranted(0)
+    fun requestPermissions() {
+        var perms = arrayOf(
+            Manifest.permission.MODIFY_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        );
 
         if (EasyPermissions.hasPermissions(this, *perms)) {
 
         } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.needs_access_phne_state_and_storage), 0, *perms);
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.needs_access_phne_state_and_storage),
+                0,
+                *perms
+            );
         }
     }
 }
