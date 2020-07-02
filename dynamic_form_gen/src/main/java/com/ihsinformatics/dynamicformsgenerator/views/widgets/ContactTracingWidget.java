@@ -269,8 +269,7 @@ public class ContactTracingWidget extends InputWidget {
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 fillDataForEditing();
             }
@@ -390,14 +389,65 @@ public class ContactTracingWidget extends InputWidget {
 
         for (int val = 0; val < currentData.size(); val++) {
 
+
+            String identifier = currentData.get(val).getContactID();
+            if ("".equals(identifier.trim())) {
+                toReturn += "\n\nIdentifier: " + "-";
+            }
+            else
+            {
+                toReturn += "\n\nIdentifier: " + identifier;
+            }
+
+
+            String firstName = currentData.get(val).getContactFirstName();
+            if ("".equals(firstName.trim())) {
+                toReturn += "\nFirst Name: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nFirst Name: " + firstName;
+            }
+
+
+            String familyName = currentData.get(val).getContactFamilyName();
+            if ("".equals(familyName.trim())) {
+                toReturn += "\nFamily Name: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nFamily Name: " + familyName;
+            }
+
+
             String[] ageFields = currentData.get(val).getContactAge().split("-");
 
-            toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
-            toReturn += "\nFirst Name: " + currentData.get(val).getContactFirstName();
-            toReturn += "\nFamily Name: " + currentData.get(val).getContactFamilyName();
-            toReturn += "\nAge: " + ageFields[0] +" Years "+ ageFields[1] +" Months " + ageFields[2] +" Days";
-            toReturn += "\nGender: " + currentData.get(val).getGender();
-            toReturn += "\nRelation: " + currentData.get(val).getRelation();
+            if (ageFields.length > 0) {
+                toReturn += "\nAge: " + ageFields[0] + " Years " + ageFields[1] + " Months " + ageFields[2] + " Days";
+            } else {
+                toReturn += "\nAge: " + "0" + " Years " + "0" + " Months " + "0" + " Days";
+            }
+
+
+            String gender = currentData.get(val).getGender();
+            if ("".equals(gender.trim())) {
+                toReturn += "\nGender: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nGender: " + gender;
+            }
+
+
+            String relation = currentData.get(val).getRelation();
+            if ("".equals(relation.trim())) {
+                toReturn += "\nRelation: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nRelation: " + currentData.get(val).getRelation();
+            }
+
 
         }
 
@@ -445,6 +495,13 @@ public class ContactTracingWidget extends InputWidget {
                 String gender = singleEntry[4].split(": ")[1];
                 String relation = singleEntry[5].split(": ")[1];
 
+                if("-".equals(identifier))
+                    identifier="";
+                if("-".equals(fname))
+                    fname="";
+                if("-".equals(familyName))
+                    familyName="";
+
                 editedData.add(new ContactDetailsSendable(identifier, fname, familyName, age, gender, relation, ""));  // no need to date of birth here since its automatically calculated using age
 
             }
@@ -454,7 +511,6 @@ public class ContactTracingWidget extends InputWidget {
 
         }
     }
-
 
 
     private void fillDataForEditing() {
@@ -488,13 +544,10 @@ public class ContactTracingWidget extends InputWidget {
 
             spRelation.setSelection(relations.indexOf(editedData.get(currentPosition).getRelation()));
 
-            if(editedData.get(currentPosition).getGender().equalsIgnoreCase("female"))
-            {
+            if (editedData.get(currentPosition).getGender().equalsIgnoreCase("female")) {
                 RadioButton rb = (RadioButton) gender.findViewById(R.id.female);
                 rb.setChecked(true);
-            }
-            else
-            {
+            } else {
                 RadioButton rb = (RadioButton) gender.findViewById(R.id.male);
                 rb.setChecked(true);
             }
