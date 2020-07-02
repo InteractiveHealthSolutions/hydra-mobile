@@ -1196,15 +1196,20 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             if (final_visibility != null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())) {
 
-                                long number = Long.parseLong(changer.getValue());
-                                if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
-                                    final_visibility = true;
-                                    loopFirstIteration = false;
-                                }
+                                try {
+                                    long number = Long.parseLong(changer.getValue());  // Too much higher value cant be parse through skip logic because of number format exception  ~Taha
+                                    if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    }
 
-                                if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
-                                    final_visibility = true;
-                                    loopFirstIteration = false;
+                                    if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    }
+                                }catch (Exception e)
+                                {
+
                                 }
                             }
                         }
