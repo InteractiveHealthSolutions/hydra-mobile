@@ -191,10 +191,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .findPrferenceValue(GlobalPreferences.KEY.HYDRA_URL, null)
 
 
+        var rememberWorkflow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
 
         if (!sessionManager.isCompleteDataDownloaded()) {
             startActivity(Intent(this, LoginActivity::class.java))
-        } else if (selectedWorkFlow == null) {
+        } else if (selectedWorkFlow == null || !rememberWorkflow) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else if (Global.HYRDA_CURRENT_URL == null || Global.HYRDA_CURRENT_URL.trim().equals("")) {
             startActivity(Intent(this, LoginActivity::class.java))

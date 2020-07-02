@@ -389,10 +389,13 @@ public class ContactTracingWidget extends InputWidget {
         toReturn += currentData.size() + "\n";
 
         for (int val = 0; val < currentData.size(); val++) {
+
+            String[] ageFields = currentData.get(val).getContactAge().split("-");
+
             toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
             toReturn += "\nFirst Name: " + currentData.get(val).getContactFirstName();
             toReturn += "\nFamily Name: " + currentData.get(val).getContactFamilyName();
-            toReturn += "\nAge: " + currentData.get(val).getContactAge();
+            toReturn += "\nAge: " + ageFields[0] +" Years "+ ageFields[1] +" Months " + ageFields[2] +" Days";
             toReturn += "\nGender: " + currentData.get(val).getGender();
             toReturn += "\nRelation: " + currentData.get(val).getRelation();
 
@@ -474,10 +477,14 @@ public class ContactTracingWidget extends InputWidget {
             etPatientName.setText(editedData.get(currentPosition).getContactFirstName());
             etPatientFamilyName.setText(editedData.get(currentPosition).getContactFamilyName());
 
-            String[] ageFields = editedData.get(currentPosition).getContactAge().split("-");
-            etAgeYears.setText(ageFields[0]);
-            etAgeMonths.setText(ageFields[1]);
-            etAgeDays.setText(ageFields[2]);
+            String[] extractingYears = editedData.get(currentPosition).getContactAge().split(" Years ");
+            etAgeYears.setText(extractingYears[0]);
+
+            String[] extractingMonths = extractingYears[1].split(" Months ");
+            etAgeMonths.setText(extractingMonths[0]);
+
+            String[] extractingDays = extractingMonths[1].split(" Days");
+            etAgeDays.setText(extractingDays[0]);
 
             spRelation.setSelection(relations.indexOf(editedData.get(currentPosition).getRelation()));
 
