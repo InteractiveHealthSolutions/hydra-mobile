@@ -760,7 +760,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val selectedWorkFlow = GlobalPreferences.getinstance(this)
                         .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
                     Global.WORKFLOWUUID = selectedWorkFlow
-                    getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow)
+                    getWorkFlowsAndBindAlongWithPhases(Global.WORKFLOWUUID )
                 }
                 Toast.makeText(this, "Workflow Changed to: " + result, Toast.LENGTH_SHORT).show()
             }

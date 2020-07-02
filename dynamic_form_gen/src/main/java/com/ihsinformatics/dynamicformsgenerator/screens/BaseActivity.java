@@ -1196,7 +1196,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             if (final_visibility != null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())) {
 
-                                Integer number = Integer.parseInt(changer.getValue());
+                                long number = Long.parseLong(changer.getValue());
                                 if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
                                     final_visibility = true;
                                     loopFirstIteration = false;

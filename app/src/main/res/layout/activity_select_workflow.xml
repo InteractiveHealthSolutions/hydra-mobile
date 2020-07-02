@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/AliceBlue">
+    android:background="@color/White">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,18 +38,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/titleGuideline">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/selectWorkflow"
             android:textColor="@color/Black"
-            android:textSize="40sp"
-            android:textStyle="bold"></TextView>
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_weight="0.5">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_workflow"
+                android:textColor="@color/Black"
+                android:textSize="15sp"
+                android:maxLines="2">
+            </TextView>
+
+            <CheckBox
+                android:id="@+id/rememberWorkflow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/app_icon_color"
+                android:checked="true"/>
+        </LinearLayout>
     </LinearLayout>
 
     <View
@@ -92,9 +120,9 @@
 
                 <LinearLayout
                     android:id="@+id/workflowLayout"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                 </LinearLayout>

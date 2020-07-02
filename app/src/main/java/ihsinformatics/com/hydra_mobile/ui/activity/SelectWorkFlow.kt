@@ -26,6 +26,8 @@ class SelectWorkFlow : AppCompatActivity() {
     lateinit var tvNext: TextView
     lateinit var workflowLayout: LinearLayout
 
+    lateinit var rememberWorkflow: CheckBox
+
     var scale: Float = 0f
     var dpAsPixels: Int = 0
     lateinit var params: LinearLayout.LayoutParams
@@ -66,6 +68,7 @@ class SelectWorkFlow : AppCompatActivity() {
 
                 val returnIntent = Intent()
                 returnIntent.putExtra("result", selectedWorkflow!!.name)
+                returnIntent.putExtra("rememberWorkflow",rememberWorkflow.isChecked)
 
                 GlobalPreferences.getinstance(this)
                     .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, selectedWorkflow!!.uuid)
@@ -80,6 +83,7 @@ class SelectWorkFlow : AppCompatActivity() {
             }
 
         })
+
 
     }
 
@@ -132,7 +136,7 @@ class SelectWorkFlow : AppCompatActivity() {
     private fun initViews() {
         tvNext = findViewById(R.id.next)
         workflowLayout = findViewById(R.id.workflowLayout)
-
+        rememberWorkflow = findViewById(R.id.rememberWorkflow)
         // doing this inorder to set textView for workflows programatically
         scale = resources.displayMetrics.density
         dpAsPixels = (15 * scale + 0.5f).toInt()
