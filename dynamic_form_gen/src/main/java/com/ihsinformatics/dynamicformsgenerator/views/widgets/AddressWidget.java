@@ -1,6 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -270,7 +271,13 @@ public class AddressWidget extends InputWidget {
 
             tvTag.setText(tag);
             spValues.setOnItemSelectedListener(this);
-            etOther.setMaxLines(3);
+            etOther.setMaxLines(5);
+
+            int maxLength = 100;
+            InputFilter[] filters = new InputFilter[1];
+            filters[0] = new InputFilter.LengthFilter(maxLength);
+            etOther.setFilters(filters);
+
         }
 
         public void setDefaultValue(int defaultValue) {
