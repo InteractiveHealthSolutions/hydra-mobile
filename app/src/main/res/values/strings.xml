@@ -375,6 +375,7 @@
     <string name="app_name_lowercase">hydra</string>
     <string name="nextButtonTextForWorkflow"><![CDATA[Next   ->]]></string>
     <string name="remember_workflow">Remember Workflow</string>
+    <string name="workflow">Workflow</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>
