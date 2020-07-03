@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;

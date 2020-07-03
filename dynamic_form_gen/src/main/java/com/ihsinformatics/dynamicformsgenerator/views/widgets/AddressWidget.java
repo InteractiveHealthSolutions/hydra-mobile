@@ -1,6 +1,7 @@
 package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 
 import android.content.Context;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,30 +10,24 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.Translator;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.AddressConfiguration;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.utils.AppUtility;
-import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import gr.escsoft.michaelprimez.searchablespinner.SearchableSpinner;
-import gr.escsoft.michaelprimez.searchablespinner.interfaces.OnItemSelectedListener;
 
 /**
  * Created by Naveed Iqbal on 6/13/2018.
@@ -270,6 +265,13 @@ public class AddressWidget extends InputWidget {
 
             tvTag.setText(tag);
             spValues.setOnItemSelectedListener(this);
+            etOther.setMaxLines(5);
+
+            int maxLength = 100;
+            InputFilter[] filters = new InputFilter[1];
+            filters[0] = new InputFilter.LengthFilter(maxLength);
+            etOther.setFilters(filters);
+
         }
 
         public void setDefaultValue(int defaultValue) {

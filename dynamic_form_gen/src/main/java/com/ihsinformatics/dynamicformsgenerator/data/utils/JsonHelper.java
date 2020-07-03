@@ -1,10 +1,8 @@
 package com.ihsinformatics.dynamicformsgenerator.data.utils;
 
 import android.content.Context;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttribute;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttributeType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTag;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Procedure;
@@ -111,6 +109,7 @@ public class JsonHelper {
                 String familyName = preferredName.getString(ParamNames.FAMILY_NAME);
                 String uuid = result.optString(ParamNames.UUID);
                 String contactNumber=person.optString(ParamNames.CONTACT);
+                String offlineContactNumber=person.optString(ParamNames.OFFLINE_CONTACT);
                 int age = Integer.parseInt(person.getString(ParamNames.PERSON_AGE));
 
                 JSONObject otherDetails = result.getJSONObject(ParamNames.OTHER_DETAILS);
@@ -132,7 +131,8 @@ public class JsonHelper {
                         gender,
                         locationId,
                         covidResult,
-                        contactNumber
+                        contactNumber,
+                        offlineContactNumber
                 );
             }
         } catch (ParseException e) {

@@ -1,12 +1,7 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReportsDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -69,6 +64,9 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
 
 
                 db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.WorkflowUUID.columnName);
+
+            case 18:
+                db.execSQL("ALTER TABLE " + OfflinePatientDao.TABLENAME + " ADD COLUMN " + OfflinePatientDao.Properties.OfflineContact.columnName + " TEXT DEFAULT ''");
 
         }
     }

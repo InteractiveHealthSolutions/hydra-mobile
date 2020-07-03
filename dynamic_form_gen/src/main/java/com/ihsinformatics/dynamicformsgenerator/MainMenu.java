@@ -15,11 +15,9 @@ import android.widget.TextView;
 
 import androidx.core.view.MenuItemCompat;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.screens.LoginActivity;
 import com.ihsinformatics.dynamicformsgenerator.screens.SelectProgram;
 import com.ihsinformatics.dynamicformsgenerator.screens.ToolbarActivity;

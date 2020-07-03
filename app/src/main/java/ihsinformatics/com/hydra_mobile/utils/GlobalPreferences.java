@@ -21,7 +21,8 @@ public class GlobalPreferences {
 		WORKFLOWUUID,
 		CURRENT_PHASE_UUID,
 		ACTIVE_TIME,
-		APP_LANGUAGE
+		APP_LANGUAGE,
+		REMEMBER_WORKFLOW
 	}
 	
 	private static GlobalPreferences instance;

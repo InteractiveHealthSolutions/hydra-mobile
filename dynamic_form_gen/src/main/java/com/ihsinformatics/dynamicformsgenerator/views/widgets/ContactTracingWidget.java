@@ -3,9 +3,7 @@ package com.ihsinformatics.dynamicformsgenerator.views.widgets;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +12,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,18 +23,15 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.options.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.core.options.RangeOption;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
-import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetails;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ContactDetailsSendable;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.screens.BaseActivity;
-import com.ihsinformatics.dynamicformsgenerator.screens.Form;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.controls.adapters.ContactDetailsAdapter;
 import com.ihsinformatics.dynamicformsgenerator.views.widgets.utils.InputWidgetBakery;
-import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -231,12 +225,12 @@ public class ContactTracingWidget extends InputWidget {
                     }
 
                     saveCurrentPositionData(currentPosition, "next");
-
                     currentPosition++;
                     questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                     previous.setVisibility(View.VISIBLE);
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                     dismissMessage();
+
                 } else {
                     mLinearLayoutManager.scrollToPosition(currentPosition);
                 }
@@ -256,6 +250,22 @@ public class ContactTracingWidget extends InputWidget {
                 questionText.setText("Contact " + (currentPosition + 1) + " of " + contactsText.size());
                 next.setVisibility(View.VISIBLE);
                 mLinearLayoutManager.scrollToPosition(currentPosition);
+
+            }
+        });
+
+
+        contactRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                fillDataForEditing();
             }
         });
 
@@ -272,6 +282,13 @@ public class ContactTracingWidget extends InputWidget {
                 saveCurrentPositionData(currentPosition, "validInput");
                 validation = true;
             } else {
+                validation = false;
+            }
+        } else {
+            if (isValid(currentPosition) && currentPosition == (contactsText.size() - 1)) {
+                saveCurrentPositionData(currentPosition, "validInput");
+                validation = true;
+            } else if (!etNumberOfContacts.getText().toString().trim().equals("")) {
                 validation = false;
             }
         }
@@ -374,11 +391,66 @@ public class ContactTracingWidget extends InputWidget {
         toReturn += currentData.size() + "\n";
 
         for (int val = 0; val < currentData.size(); val++) {
-            toReturn += "\n\nIdentifier: " + currentData.get(val).getContactID();
-            toReturn += "\nName: " + currentData.get(val).getContactFirstName() + " " + currentData.get(val).getContactFamilyName();
-            toReturn += "\nAge: " + currentData.get(val).getContactAge();
-            toReturn += "\nGender: " + currentData.get(val).getGender();
-            toReturn += "\nRelation: " + currentData.get(val).getRelation();
+
+
+            String identifier = currentData.get(val).getContactID();
+            if ("".equals(identifier.trim())) {
+                toReturn += "\n\nIdentifier: " + "-";
+            }
+            else
+            {
+                toReturn += "\n\nIdentifier: " + identifier;
+            }
+
+
+            String firstName = currentData.get(val).getContactFirstName();
+            if ("".equals(firstName.trim())) {
+                toReturn += "\nFirst Name: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nFirst Name: " + firstName;
+            }
+
+
+            String familyName = currentData.get(val).getContactFamilyName();
+            if ("".equals(familyName.trim())) {
+                toReturn += "\nFamily Name: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nFamily Name: " + familyName;
+            }
+
+
+            String[] ageFields = currentData.get(val).getContactAge().split("-");
+
+            if (ageFields.length > 0) {
+                toReturn += "\nAge: " + ageFields[0] + " Years " + ageFields[1] + " Months " + ageFields[2] + " Days";
+            } else {
+                toReturn += "\nAge: " + "0" + " Years " + "0" + " Months " + "0" + " Days";
+            }
+
+
+            String gender = currentData.get(val).getGender();
+            if ("".equals(gender.trim())) {
+                toReturn += "\nGender: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nGender: " + gender;
+            }
+
+
+            String relation = currentData.get(val).getRelation();
+            if ("".equals(relation.trim())) {
+                toReturn += "\nRelation: " +  "-";
+            }
+            else
+            {
+                toReturn += "\nRelation: " + currentData.get(val).getRelation();
+            }
+
 
         }
 
@@ -417,35 +489,73 @@ public class ContactTracingWidget extends InputWidget {
             editedData = new ArrayList<>();
 
             for (int i = 0; i < allAnswers.length; i++) {
+
                 String[] singleEntry = allAnswers[i].split("\n");
                 String identifier = singleEntry[0].split(": ")[1];
                 String fname = singleEntry[1].split(": ")[1];
-                //  String familyName = singleEntry[2].split(": ")[1];
-                String age = singleEntry[2].split(": ")[1];
-                String gender = singleEntry[3].split(": ")[1];
-                String relation = singleEntry[4].split(": ")[1];
-                //   String dob = singleEntry[6].split(": ")[1];
+                String familyName = singleEntry[2].split(": ")[1];
+                String age = singleEntry[3].split(": ")[1];
+                String gender = singleEntry[4].split(": ")[1];
+                String relation = singleEntry[5].split(": ")[1];
 
-                editedData.add(new ContactDetailsSendable(identifier, fname, fname, age, gender, relation, age));
+                if("-".equals(identifier))
+                    identifier="";
+                if("-".equals(fname))
+                    fname="";
+                if("-".equals(familyName))
+                    familyName="";
+
+                editedData.add(new ContactDetailsSendable(identifier, fname, familyName, age, gender, relation, ""));  // no need to date of birth here since its automatically calculated using age
+
             }
+
             currentPosition = 0;
             mLinearLayoutManager.scrollToPosition(currentPosition);
 
-            View row = contactRecyclerView.getLayoutManager().findViewByPosition(0);
+        }
+    }
+
+
+    private void fillDataForEditing() {
+
+        if (null != editedData && editedData.size() > currentPosition) {
+            View row = contactRecyclerView.getLayoutManager().findViewByPosition(currentPosition);
 
             EditText etDOB = row.findViewById(R.id.etPatientDOB);
             EditText etPatientID = (EditText) row.findViewById(R.id.etPatientID);
             EditText etPatientName = (EditText) row.findViewById(R.id.etPatientName);
             EditText etPatientFamilyName = (EditText) row.findViewById(R.id.etPatientFamilyName);
+            RadioGroup gender = (RadioGroup) row.findViewById(R.id.genderWidget);
+            EditText etAgeYears = row.findViewById(R.id.etAgeYears);
+            EditText etAgeMonths = row.findViewById(R.id.etAgeMonths);
+            EditText etAgeDays = row.findViewById(R.id.etAgeDays);
+            Spinner spRelation = (Spinner) row.findViewById(R.id.spRelations);
 
-            etDOB.setText(editedData.get(0).getDob());
-            etPatientID.setText(editedData.get(0).getContactID());
-            etPatientName.setText(editedData.get(0).getContactFirstName());
-            etPatientFamilyName.setText(editedData.get(0).getContactFamilyName());
+            //etDOB.setText(editedData.get(currentPosition).getDob());
+            etPatientID.setText(editedData.get(currentPosition).getContactID());
+            etPatientName.setText(editedData.get(currentPosition).getContactFirstName());
+            etPatientFamilyName.setText(editedData.get(currentPosition).getContactFamilyName());
 
+            String[] extractingYears = editedData.get(currentPosition).getContactAge().split(" Years ");
+            etAgeYears.setText(extractingYears[0]);
+
+            String[] extractingMonths = extractingYears[1].split(" Months ");
+            etAgeMonths.setText(extractingMonths[0]);
+
+            String[] extractingDays = extractingMonths[1].split(" Days");
+            etAgeDays.setText(extractingDays[0]);
+
+            spRelation.setSelection(relations.indexOf(editedData.get(currentPosition).getRelation()));
+
+            if (editedData.get(currentPosition).getGender().equalsIgnoreCase("female")) {
+                RadioButton rb = (RadioButton) gender.findViewById(R.id.female);
+                rb.setChecked(true);
+            } else {
+                RadioButton rb = (RadioButton) gender.findViewById(R.id.male);
+                rb.setChecked(true);
+            }
         }
     }
-
 
     private boolean isValid(int position) {
         View row = contactRecyclerView.getLayoutManager().findViewByPosition(position);
@@ -690,6 +800,7 @@ public class ContactTracingWidget extends InputWidget {
 
 
             DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
+
         }
     }
 }

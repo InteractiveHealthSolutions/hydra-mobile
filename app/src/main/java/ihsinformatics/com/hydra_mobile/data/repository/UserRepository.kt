@@ -2,7 +2,7 @@ package ihsinformatics.com.hydra_mobile.data.repository
 
 import android.app.Application
 import android.widget.Toast
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.User
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R

@@ -8,7 +8,7 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import com.ihsinformatics.dynamicformsgenerator.R;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Option;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Procedure;

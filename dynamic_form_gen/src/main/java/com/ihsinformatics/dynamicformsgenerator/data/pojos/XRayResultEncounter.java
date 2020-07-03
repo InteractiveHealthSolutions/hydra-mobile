@@ -1,6 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
-
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import java.util.List;
 

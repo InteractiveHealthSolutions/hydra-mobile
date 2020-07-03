@@ -3,16 +3,9 @@ package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.ToOne;
-import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import org.greenrobot.greendao.DaoException;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DaoSession;
 
 /**
  * Created by Naveed Iqbal on 11/8/2017.

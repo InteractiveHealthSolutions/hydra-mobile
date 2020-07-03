@@ -5,7 +5,6 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DaoSession;
 
 /**
  * Created by Nabil shafi on 2/25/2019.

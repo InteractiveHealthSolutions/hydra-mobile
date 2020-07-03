@@ -7,10 +7,9 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
+
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationDTO;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper;
@@ -57,6 +56,8 @@ public class Utils {
         person.put("age", 0);
         person.put("preferredName", preferredName);
         person.put(ParamNames.CONTACT, offlinePatient.getContact());
+        person.put(ParamNames.OFFLINE_CONTACT, offlinePatient.getOfflineContact());
+
 
 
         JSONObject otherDetails = new JSONObject();
@@ -160,6 +161,8 @@ public class Utils {
                         offlinePatient.setDob(patient.getBirthDate().getTime());
                         offlinePatient.setCovidResult(patient.getCovidResult());
                         offlinePatient.setContact(patient.getContactNumber());
+                        offlinePatient.setOfflineContact(patient.getOfflineContactNumber());
+
 
                         DataAccess.getInstance().insertOfflinePatient(context, offlinePatient);
                     }

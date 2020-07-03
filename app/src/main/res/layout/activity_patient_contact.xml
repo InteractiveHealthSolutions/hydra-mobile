@@ -1,150 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/White"
         tools:context=".ui.activity.SelectWorkFlow">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
         <RelativeLayout
-            android:id="@+id/questionLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/White"
+            app:layout_constraintTop_toBottomOf="@id/topGuideline"
+            app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+            app:layout_constraintStart_toEndOf="@id/leftGuideline"
+            app:layout_constraintBottom_toBottomOf="@id/bottomGuideline">
+
+
+            <LinearLayout
+                android:id="@+id/questionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/question_for_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/option_for_number"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.93">
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/ic_close_cross"
+                    android:layout_weight="0.07">
+                </ImageView>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/question_for_number"
+                android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/option_for_number"
-                android:textSize="20sp"
-                android:textStyle="bold"></TextView>
-
-            <ImageView
-                android:id="@+id/close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="4dp"
-                android:layout_toEndOf="@id/question_for_number"
-                android:src="@drawable/ic_close_cross"></ImageView>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/questionLayout"
-            android:layout_centerInParent="true"
-            android:text="+923001234567"
-            android:layout_marginBottom="25dp"
-            android:textColor="@color/app_blue"
-            android:textSize="25sp"></TextView>
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/number"
-            android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:id="@+id/callLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/view1"
-            android:layout_margin="20dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_phone"
-                android:layout_marginEnd="20dp">
-            </ImageView>
-            <TextView
-                android:id="@+id/callNow"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Call Now"
+                android:layout_below="@id/questionLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:text="+923001234567"
                 android:textColor="@color/app_blue"
-                android:textSize="20sp">
+                android:textSize="25sp">
             </TextView>
-        </LinearLayout>
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/callLayout"
-            android:background="@android:color/darker_gray" />
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/number"
+                android:background="@android:color/darker_gray" />
 
-        <LinearLayout
-            android:id="@+id/whatappLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/view2"
-            android:layout_margin="20dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
+            <LinearLayout
+                android:id="@+id/callLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view1"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_whatsapp"
-                android:layout_marginEnd="20dp">
-            </ImageView>
-            <TextView
-                android:id="@+id/whatsapp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="WhatsApp Call"
-                android:textColor="@color/whatsapp_green"
-                android:textSize="20sp">
-            </TextView>
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_phone">
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/callNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Call Now"
+                    android:textColor="@color/app_blue"
+                    android:textSize="20sp">
+                </TextView>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/callLayout"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/whatappLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view2"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_whatsapp"></ImageView>
+
+                <TextView
+                    android:id="@+id/whatsapp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="WhatsApp Call"
+                    android:textColor="@color/whatsapp_green"
+                    android:textSize="20sp"></TextView>
+            </LinearLayout>
 
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/whatappLayout"
-            android:background="@android:color/darker_gray" />
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/whatappLayout"
+                android:background="@android:color/darker_gray" />
 
-        <LinearLayout
-            android:id="@+id/clipboardLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/view3"
-            android:layout_margin="20dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:weightSum="2">
+            <LinearLayout
+                android:id="@+id/clipboardLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_copy">
-            </ImageView>
-            <TextView
-                android:id="@+id/copyNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Copy Number"
-                android:textColor="@color/Gray"
-                android:textSize="20sp">
-            </TextView>
-        </LinearLayout>
-    </RelativeLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_copy"></ImageView>
+
+                <TextView
+                    android:id="@+id/copyNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Copy Number"
+                    android:textColor="@color/Gray"
+                    android:textSize="20sp"></TextView>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

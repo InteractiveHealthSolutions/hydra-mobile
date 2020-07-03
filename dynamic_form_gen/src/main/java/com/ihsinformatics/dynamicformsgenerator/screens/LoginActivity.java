@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;

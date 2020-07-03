@@ -32,7 +32,7 @@ class MetaDataHelper(context: Context) {
     lateinit var relatedRepository:RelatedDataRepository
 
     var successCount=0
-    var totalCount=8
+    var totalCount=9
 
 
     var context: Context

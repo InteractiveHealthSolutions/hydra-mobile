@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,33 +11,7 @@ import java.text.SimpleDateFormat;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormTypeDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.ImageDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttribute;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttributeDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttributeType;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationAttributeTypeDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTag;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTagDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTagMap;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationTagMapDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Option;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.OptionDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Procedure;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettings;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.SystemSettingsDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentialsDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReportsDao;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
@@ -694,7 +668,7 @@ public class DataAccess {
 
 
         if (userReport != null) {
-            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(), userReport.getEncounter_uploaded() + 1,dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
+            userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(), userReport.getEncounter_uploaded() + 1, dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
 
         } else {
             userReportsDao.insert(new UserReports(username, encounter, offlineFormID, 0, 1, dateValue, workflowUUID, componentFormUUID, url, null));
@@ -712,7 +686,7 @@ public class DataAccess {
                 UserReportsDao.Properties.Encounter.eq(encounter)).unique();
 
 
-       // in this case if userReport is null then it means form was filled previously and was deleted today
+        // in this case if userReport is null then it means form was filled previously and was deleted today
         if (userReport != null) {
             if (userReport.getEncounter_filled() <= 1) {
                 userReportsDao.delete(userReport);
@@ -720,5 +694,20 @@ public class DataAccess {
                 userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled() - 1, userReport.getEncounter_uploaded(), userReport.getDate(), userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
             }
         }
+    }
+
+
+    public synchronized String getPatientOfflineNumber(Context context, String mrNumber) {
+        OfflinePatient offlinePatient= App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
+                .where(OfflinePatientDao.Properties.MrNumber.eq(mrNumber)).unique();
+
+        String toReturn="";
+
+        if(null!=offlinePatient)
+        {
+            toReturn = offlinePatient.getOfflineContact();
+        }
+
+        return toReturn;
     }
 }

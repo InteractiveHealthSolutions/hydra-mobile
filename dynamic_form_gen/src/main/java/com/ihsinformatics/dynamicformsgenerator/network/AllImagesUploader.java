@@ -2,7 +2,7 @@ package com.ihsinformatics.dynamicformsgenerator.network;
 
 import android.content.Context;
 
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
 import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;

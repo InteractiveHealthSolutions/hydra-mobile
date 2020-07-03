@@ -1,9 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
-
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.EncounterType;
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob;
-
-import java.util.List;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 public class EncounterMapper {
 

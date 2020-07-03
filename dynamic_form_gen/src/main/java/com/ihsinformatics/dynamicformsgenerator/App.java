@@ -3,9 +3,9 @@ package com.ihsinformatics.dynamicformsgenerator;
 import android.app.Application;
 
 import android.content.Context;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DaoMaster;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DaoSession;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DbOpenHelper;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DaoMaster;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DaoSession;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DbOpenHelper;
 
 
 /**

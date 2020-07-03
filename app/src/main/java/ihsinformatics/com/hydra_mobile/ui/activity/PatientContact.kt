@@ -37,7 +37,7 @@ class PatientContact : AppCompatActivity() {
         var width = dm.widthPixels
         var height = dm.heightPixels
 
-        window.setLayout((width * 0.8).toInt(), (height * 0.5).toInt())
+        window.setLayout((width * 0.8).toInt(), (height * 0.53).toInt())
 
         // window.setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         //this.setFinishOnTouchOutside(false);
