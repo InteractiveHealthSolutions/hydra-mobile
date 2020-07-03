@@ -191,11 +191,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .findPrferenceValue(GlobalPreferences.KEY.HYDRA_URL, null)
 
 
-        var rememberWorkflow = GlobalPreferences.getinstance(this).findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
 
         if (!sessionManager.isCompleteDataDownloaded()) {
             startActivity(Intent(this, LoginActivity::class.java))
-        } else if (selectedWorkFlow == null || !rememberWorkflow) {
+        } else if (selectedWorkFlow == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else if (Global.HYRDA_CURRENT_URL == null || Global.HYRDA_CURRENT_URL.trim().equals("")) {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -603,13 +602,20 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setCovidResults()
 
             llContact?.setOnClickListener {
-                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim().equals("")) {
+                if (null != Global.patientData.patient.contactNumber && !Global.patientData.patient.contactNumber.trim()
+                        .equals("")
+                ) {
                     val intent = Intent(this, PatientContact::class.java)
                     intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.contactNumber)
                     startActivityForResult(intent, 0)
-                } else if (null != Global.patientData.patient.offlineContactNumber && !Global.patientData.patient.offlineContactNumber.trim().equals("")) {
+                } else if (null != Global.patientData.patient.offlineContactNumber && !Global.patientData.patient.offlineContactNumber.trim()
+                        .equals("")
+                ) {
                     val intent = Intent(this, PatientContact::class.java)
-                    intent.putExtra(ParamNames.CONTACT, Global.patientData.patient.offlineContactNumber)
+                    intent.putExtra(
+                        ParamNames.CONTACT,
+                        Global.patientData.patient.offlineContactNumber
+                    )
                     startActivityForResult(intent, 0)
                 } else {
                     ToastyWidget.getInstance().displayError(
@@ -761,7 +767,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val selectedWorkFlow = GlobalPreferences.getinstance(this)
                         .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
                     Global.WORKFLOWUUID = selectedWorkFlow
-                    getWorkFlowsAndBindAlongWithPhases(Global.WORKFLOWUUID )
+                    getWorkFlowsAndBindAlongWithPhases(Global.WORKFLOWUUID)
                 }
                 Toast.makeText(this, "Workflow Changed to: " + result, Toast.LENGTH_SHORT).show()
             }
@@ -818,6 +824,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         } else {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
+        }
+
+        var rememberWorkflow = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
+
+        if (!rememberWorkflow) {
+            startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         }
 
         loadFormDataInEncounterTypes()
