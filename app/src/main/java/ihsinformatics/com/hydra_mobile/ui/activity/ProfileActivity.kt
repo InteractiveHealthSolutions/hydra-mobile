@@ -3,7 +3,7 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.utils.Global.patientData
 import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity

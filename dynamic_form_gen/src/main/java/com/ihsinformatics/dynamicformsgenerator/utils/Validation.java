@@ -24,6 +24,7 @@ public class Validation {
     public static final String CHECK_FOR_DECIMAL_ONE_DIGIT = "decimal_one_digit";
     public static final String CHECK_FOR_MR_NUMBER = "empty";
     public static final String CHECK_FOR_EMPTY = "empty";
+    public static final String CHECK_FOR_REGEX = "regex";
     public static final String CHECK_FOR_CSC_ID = "CSC_identifier";
     public static final String CHECK_FOR_CELL_NUMBER = "check_cell_no";
     public static final String CHECK_FOR_MOBILE_NUMBER = "check_mobile_no";
@@ -89,6 +90,10 @@ public class Validation {
         }
         if (!isMandatory && areAllSpacesOrNull(value)) {
             return true;
+        }
+        if('^' == (functionToCall.charAt(0)))  //shows its a regex match
+        {
+            return  value.matches(functionToCall);
         }
         if (functionToCall.equals(CHECK_FOR_EMPTY)) {
             return checkForEmpty(value, isMandatory);

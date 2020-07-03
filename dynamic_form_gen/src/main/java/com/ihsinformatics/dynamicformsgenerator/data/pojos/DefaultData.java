@@ -1,10 +1,9 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 
 import java.util.List;
 

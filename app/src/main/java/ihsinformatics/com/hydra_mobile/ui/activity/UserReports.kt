@@ -8,7 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R

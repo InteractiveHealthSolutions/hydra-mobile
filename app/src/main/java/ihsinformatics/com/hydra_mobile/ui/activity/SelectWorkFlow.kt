@@ -26,6 +26,8 @@ class SelectWorkFlow : AppCompatActivity() {
     lateinit var tvNext: TextView
     lateinit var workflowLayout: LinearLayout
 
+    lateinit var rememberWorkflow: CheckBox
+
     var scale: Float = 0f
     var dpAsPixels: Int = 0
     lateinit var params: LinearLayout.LayoutParams
@@ -62,13 +64,30 @@ class SelectWorkFlow : AppCompatActivity() {
 
         tvNext.setOnClickListener(View.OnClickListener {
 
-            if (null!=selectedWorkflow) {
+            if (null != selectedWorkflow) {
 
                 val returnIntent = Intent()
                 returnIntent.putExtra("result", selectedWorkflow!!.name)
 
+                if (rememberWorkflow.isChecked) {
+                    GlobalPreferences.getinstance(this)
+                        .addOrUpdatePreference(
+                            GlobalPreferences.KEY.REMEMBER_WORKFLOW,
+                            true
+                        )
+                } else {
+                    GlobalPreferences.getinstance(this)
+                        .addOrUpdatePreference(
+                            GlobalPreferences.KEY.REMEMBER_WORKFLOW,
+                            false
+                        )
+                }
+
                 GlobalPreferences.getinstance(this)
-                    .addOrUpdatePreference(GlobalPreferences.KEY.WORKFLOWUUID, selectedWorkflow!!.uuid)
+                    .addOrUpdatePreference(
+                        GlobalPreferences.KEY.WORKFLOWUUID,
+                        selectedWorkflow!!.uuid
+                    )
                 Global.WORKFLOWUUID = selectedWorkflow!!.uuid
 
                 setResult(Activity.RESULT_OK, returnIntent)
@@ -81,16 +100,19 @@ class SelectWorkFlow : AppCompatActivity() {
 
         })
 
+
     }
 
     // We need to give margin bottom programatically to last textView of workflow because we used frame layout for
     // overlapping of next button over scrollview
     private fun setMarginBottomForLastTextView() {
 
-        if(workflows.size>0)
-        {
-            var textView = workflowLayout.getChildAt(workflows.size-1) as TextView
-            params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        if (workflows.size > 0) {
+            var textView = workflowLayout.getChildAt(workflows.size - 1) as TextView
+            params = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             params.setMargins(40, 30, 40, 210)
             textView.setLayoutParams(params)
 
@@ -113,8 +135,9 @@ class SelectWorkFlow : AppCompatActivity() {
 
         textView.setOnClickListener {
 
-            if(null!=selectedWorkflow) {
-                val previousSelection = workflowLayout.findViewById(selectedWorkflow!!.workflowId) as TextView
+            if (null != selectedWorkflow) {
+                val previousSelection =
+                    workflowLayout.findViewById(selectedWorkflow!!.workflowId) as TextView
                 previousSelection!!.setTextColor(resources.getColor(R.color.Black))
                 previousSelection!!.setBackground(getDrawable(R.drawable.white_circular_background))
             }
@@ -132,11 +155,14 @@ class SelectWorkFlow : AppCompatActivity() {
     private fun initViews() {
         tvNext = findViewById(R.id.next)
         workflowLayout = findViewById(R.id.workflowLayout)
-
+        rememberWorkflow = findViewById(R.id.rememberWorkflow)
         // doing this inorder to set textView for workflows programatically
         scale = resources.displayMetrics.density
         dpAsPixels = (15 * scale + 0.5f).toInt()
-        params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         params.setMargins(40, 30, 40, 0)
 
     }

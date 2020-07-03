@@ -1,4 +1,4 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 

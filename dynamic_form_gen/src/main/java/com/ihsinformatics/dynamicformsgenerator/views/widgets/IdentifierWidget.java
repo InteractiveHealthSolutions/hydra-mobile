@@ -4,13 +4,12 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ihsinformatics.dynamicformsgenerator.R;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;

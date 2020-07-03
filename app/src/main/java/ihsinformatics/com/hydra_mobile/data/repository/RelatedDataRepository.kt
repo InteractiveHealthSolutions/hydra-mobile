@@ -3,10 +3,8 @@ package ihsinformatics.com.hydra_mobile.data.repository
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.google.gson.Gson
 import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.local.AppDatabase
@@ -18,8 +16,6 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.RESTCallback
 import ihsinformatics.com.hydra_mobile.data.services.manager.RetrofitResponseListener
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import org.jetbrains.anko.doAsync
-import org.json.JSONArray
 
 class RelatedDataRepository(context: Context) {
 

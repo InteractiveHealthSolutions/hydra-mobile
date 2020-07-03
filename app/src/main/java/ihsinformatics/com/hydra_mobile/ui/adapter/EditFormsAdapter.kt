@@ -14,8 +14,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.screens.Form

@@ -765,4 +765,5 @@ public class ParamNames {
     public static final String COVID_RESULT = "covidResult";
     public static final String OTHER_DETAILS = "otherDetails";
 
+    public static final String OFFLINE_CONTACT = "offlineContact";
 }

@@ -12,21 +12,13 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.common.Constants
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import ihsinformatics.com.hydra_mobile.R
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.Patient
-import ihsinformatics.com.hydra_mobile.data.remote.model.patient.PatientApiResponse
 import ihsinformatics.com.hydra_mobile.ui.activity.HomeActivity
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.PeriodType
-import org.json.JSONArray
-import org.json.JSONObject
 
 class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Context) : RecyclerView.Adapter<OfflinePatientAdapter.ViewHolder>() {
 

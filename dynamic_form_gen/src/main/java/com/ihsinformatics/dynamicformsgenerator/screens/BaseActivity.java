@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.widget.*;
 
@@ -40,12 +39,10 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.AutoSelect;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.Question;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SExpression;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
-import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SaveableForm;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
-import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -53,9 +50,7 @@ import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
-import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
-import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
@@ -81,8 +76,6 @@ import org.json.JSONObject;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.*;
-
-import javax.crypto.SecretKey;
 
 import es.dmoral.toasty.Toasty;
 
@@ -212,6 +205,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                     } else if (i.getVisibility() == View.VISIBLE && i.getInputWidgetsType() == InputWidgetsType.WIDGET_TYPE_IMAGE) {
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
                     }
+
+                    offlinePatient = handleSpecialFields(i,offlinePatient);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -311,6 +307,10 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         existingFieldsJson.put("relationships", relationships);
                         existingFieldsJson.put("recentVisits", recentVisits);
                         existineOfflinePatient.setFieldDataJson(existingFieldsJson.toString());
+
+                        existineOfflinePatient.setOfflineContact(offlinePatient.getOfflineContact());
+                        Global.patientData.getPatient().setContactNumber(offlinePatient.getOfflineContact());
+
                         access.insertOfflinePatient(this, existineOfflinePatient);
 
                         patientIdentifier = existineOfflinePatient.getMrNumber();
@@ -387,6 +387,16 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
         } catch (Exception e) {
             Logger.log(e);
         }
+    }
+
+    private OfflinePatient handleSpecialFields(InputWidget i, OfflinePatient offlinePatient) throws JSONException {
+
+        if(i.getQuestion().getParamName().equals("a7a9e56d-cb7c-43al-7549-ccb0e4a9a9c1"))   // Phone number question
+        {
+            offlinePatient.setOfflineContact(i.getValue());
+        }
+
+        return offlinePatient;
     }
 
     private void doPostFormSavingWork(SaveableForm form) {
@@ -1179,15 +1189,20 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                             if (final_visibility != null && !changer.getValue().equals("") && TextUtils.isDigitsOnly(changer.getValue())) {
 
-                                Integer number = Integer.parseInt(changer.getValue());
-                                if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
-                                    final_visibility = true;
-                                    loopFirstIteration = false;
-                                }
+                                try {
+                                    long number = Long.parseLong(changer.getValue());  // Too much higher value cant be parse through skip logic because of number format exception  ~Taha
+                                    if (changerQuestion.getLessThanList().size() > 0 && Collections.max(changerQuestion.getLessThanList()) > number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    }
 
-                                if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
-                                    final_visibility = true;
-                                    loopFirstIteration = false;
+                                    if (changerQuestion.getGreaterThanList().size() > 0 && Collections.min(changerQuestion.getGreaterThanList()) < number) {
+                                        final_visibility = true;
+                                        loopFirstIteration = false;
+                                    }
+                                }catch (Exception e)
+                                {
+
                                 }
                             }
                         }

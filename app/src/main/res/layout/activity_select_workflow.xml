@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/AliceBlue">
+    android:background="@color/White">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -13,6 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/selectAndWorkflowGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.075" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineGuideline"
@@ -35,22 +42,75 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="1.0" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/titleGuideline">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/selectHeadingGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/selectWorkflow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/select"
             android:textColor="@color/Black"
             android:textSize="40sp"
-            android:textStyle="bold"></TextView>
-    </LinearLayout>
+            android:textStyle="bold"
+            android:layout_weight="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/selectHeadingGuideline"
+            app:layout_constraintBottom_toTopOf="@id/selectAndWorkflowGuideline"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/workflow"
+            android:textColor="@color/Black"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_weight="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectAndWorkflowGuideline"
+            app:layout_constraintBottom_toTopOf="@id/titleGuideline"
+            android:layout_marginStart="15dp">
+        </TextView>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_weight="0.5"
+            app:layout_constraintStart_toEndOf="@id/selectHeadingGuideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/selectAndWorkflowGuideline"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_workflow"
+                android:textColor="@color/Black"
+                android:textSize="15sp"
+                android:maxLines="2">
+            </TextView>
+
+            <CheckBox
+                android:id="@+id/rememberWorkflow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/app_icon_color"
+                android:checked="true"/>
+        </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -92,9 +152,9 @@
 
                 <LinearLayout
                     android:id="@+id/workflowLayout"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                 </LinearLayout>

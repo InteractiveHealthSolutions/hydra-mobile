@@ -21,9 +21,11 @@ public class Patient implements Serializable {
 
     private String covidResult;
     private String contactNumber;
+    private String offlineContactNumber;
 
 
-    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId,String covidResult, String contactNumber) {
+
+    public Patient(String identifier, String givenName, String familyName, String uuid, int age, Date birthDate, String gender, int locationId,String covidResult, String contactNumber,String offlineContactNumber) {
         this.identifier = identifier;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -34,6 +36,7 @@ public class Patient implements Serializable {
         this.locationId = locationId;
         this.covidResult=covidResult;
         this.contactNumber=contactNumber;
+        this.offlineContactNumber=offlineContactNumber;
     }
 
     public String getIdentifier() {
@@ -108,8 +111,20 @@ public class Patient implements Serializable {
         return contactNumber;
     }
 
+    public void setContactNumber(String c) {
+        contactNumber = c;
+    }
+
     public void setCovidResult(String covidResult) {
         this.covidResult = covidResult;
+    }
+
+    public String getOfflineContactNumber() {
+        return offlineContactNumber;
+    }
+
+    public void setOfflineContactNumber(String offlineContactNumber) {
+        this.offlineContactNumber = offlineContactNumber;
     }
 
     @Override

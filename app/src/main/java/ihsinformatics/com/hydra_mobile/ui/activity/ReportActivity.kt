@@ -8,7 +8,7 @@ import android.widget.ExpandableListView
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
@@ -17,7 +17,6 @@ import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableOfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableReportAdapter

@@ -1,16 +1,14 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils.isInternetConnected
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SaveableForm
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger
@@ -20,11 +18,9 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
 import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
 import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
-import ihsinformatics.com.hydra_mobile.ui.adapter.EditFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.UploadFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import kotlinx.android.synthetic.main.content_forms_upload.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -104,6 +100,7 @@ class FormUpload : AppCompatActivity() {
         } else {
             ToastyWidget.getInstance()
                 .displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
+            uploadForms.isEnabled = true
         }
     }
 

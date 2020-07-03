@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.google.zxing.Result
 import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
@@ -311,7 +311,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                 if (requestType == ParamNames.GET_PATIENT_INFO) {
                     var patientData: PatientData? = null
                     val patient = JsonHelper.getInstance(this).ParsePatientFromUser(resp)
-                    val offlinePatient = OfflinePatient()
+                    val offlinePatient =
+                        OfflinePatient()
                     if (patient != null) {
                         patientData = PatientData(patient)
                         val identifiers = resp.optJSONArray(ParamNames.PATIENT).getJSONObject(0).optJSONArray(ParamNames.IDENTIFIERS)
@@ -339,6 +340,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                         offlinePatient.dob = patient.birthDate.time
                         offlinePatient.covidResult = patient.covidResult
                         offlinePatient.contact = patient.contactNumber
+                        offlinePatient.offlineContact = patient.offlineContactNumber
+
 
 
 

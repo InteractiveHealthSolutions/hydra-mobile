@@ -1,25 +1,15 @@
 package ihsinformatics.com.hydra_mobile.ui.adapter
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.ihsinformatics.dynamicformsgenerator.Utils
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm
-import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants
-import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
-import com.ihsinformatics.dynamicformsgenerator.screens.Form
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
-import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.SaveableForm
 import ihsinformatics.com.hydra_mobile.R
 
 class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :

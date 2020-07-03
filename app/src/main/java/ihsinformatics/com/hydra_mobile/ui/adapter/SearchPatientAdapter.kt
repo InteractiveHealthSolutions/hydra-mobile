@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
-import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
@@ -211,7 +211,25 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         if(patient.person.getAttributes().size>0) {
             contactNumber = patient.person.getAttributes().get(0).value
         }
-        var offlinePatient = OfflinePatient(patient.identifiers.get(0).identifier, "", "", contactNumber, "", 0, patient.person.getDisplay(), patient.person.getGender(), dob, null, null,covidResult)
+
+        val offlineNumber = DataAccess.getInstance().getPatientOfflineNumber(context,patient.identifiers.get(0).identifier)
+
+        var offlinePatient =
+            OfflinePatient(
+                patient.identifiers.get(0).identifier,
+                "",
+                "",
+                contactNumber,
+                offlineNumber,
+                "",
+                0,
+                patient.person.getDisplay(),
+                patient.person.getGender(),
+                dob,
+                null,
+                null,
+                covidResult
+            )
 
 
         //Initialization of summary fields

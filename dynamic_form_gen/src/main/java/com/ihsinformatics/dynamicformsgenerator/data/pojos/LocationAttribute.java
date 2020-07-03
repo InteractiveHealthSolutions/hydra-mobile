@@ -8,7 +8,6 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.io.Serializable;
-import com.ihsinformatics.dynamicformsgenerator.data.database.DaoSession;
 
 /**
  * Created by Naveed Iqbal on 11/9/2017.

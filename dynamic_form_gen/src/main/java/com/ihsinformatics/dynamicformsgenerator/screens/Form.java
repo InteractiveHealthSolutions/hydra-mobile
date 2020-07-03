@@ -254,8 +254,8 @@ public class Form extends BaseActivity {
             String initialVisibility = "Visible";
 
             String defaultValue = formFields.optString("defaultValue");
-            String regix = formFields.optString("regix");  // Need to check this field Onc done
-            String charactersNewConfig = formFields.optString("characters");
+            String regix = formFields.optString("regix");
+            String charactersNewConfig = formFields.optString("characters");   // characters are mapped to something of location (Naveed bhai can better explain) ~Taha
 
             String characters = "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,";  //hardcoded
 

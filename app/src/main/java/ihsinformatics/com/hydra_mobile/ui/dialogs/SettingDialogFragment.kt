@@ -10,16 +10,13 @@ import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.utils.Global
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.data.local.entities.AppSetting
 import ihsinformatics.com.hydra_mobile.data.repository.AppSettingRepository
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.AppSettingViewModel
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.UserViewModel
-import ihsinformatics.com.hydra_mobile.utils.GlobalPreferences
-import ihsinformatics.com.hydra_mobile.utils.SessionManager
 import kotlinx.android.synthetic.main.app_setting.view.*
 import kotlinx.coroutines.runBlocking
 

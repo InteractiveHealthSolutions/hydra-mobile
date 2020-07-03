@@ -1,12 +1,8 @@
-package com.ihsinformatics.dynamicformsgenerator.data.database;
+package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserCredentials;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
