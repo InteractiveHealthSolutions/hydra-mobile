@@ -826,12 +826,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             finish()
         }
 
-        var rememberWorkflow = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
-
-        if (!rememberWorkflow) {
-            startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
-        }
 
         loadFormDataInEncounterTypes()
         fillPatientInfoBar()

@@ -32,10 +32,21 @@ class SelectWorkFlow : AppCompatActivity() {
     var dpAsPixels: Int = 0
     lateinit var params: LinearLayout.LayoutParams
 
+    var wasRememberCheckedEnable: Boolean = false
+    lateinit var rememberedWorkflowUUID: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_workflow)
+
+        rememberedWorkflowUUID = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
+
+        wasRememberCheckedEnable = GlobalPreferences.getinstance(this)
+            .findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
+
+
 
         initViews()
 
@@ -130,8 +141,15 @@ class SelectWorkFlow : AppCompatActivity() {
         textView.id = element.workflowId
         textView.tag = element.workflowId
         textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
-        textView.setTextColor(resources.getColor(R.color.Black))
-        textView.setBackground(getDrawable(R.drawable.white_circular_background))
+
+        if (rememberedWorkflowUUID.equals(element.uuid) && wasRememberCheckedEnable) {
+            textView.setTextColor(resources.getColor(R.color.White))
+            textView.setBackground(getDrawable(R.drawable.circular_background_next_button))
+            selectedWorkflow = element
+        } else {
+            textView.setTextColor(resources.getColor(R.color.Black))
+            textView.setBackground(getDrawable(R.drawable.white_circular_background))
+        }
 
         textView.setOnClickListener {
 
