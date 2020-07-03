@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White">
+    android:background="@color/app_background_white">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -56,14 +56,14 @@
             android:text="@string/select"
             android:textColor="@color/Black"
             android:textSize="40sp"
+            android:gravity="center_vertical"
             android:textStyle="bold"
             android:layout_weight="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/selectHeadingGuideline"
             app:layout_constraintBottom_toTopOf="@id/selectAndWorkflowGuideline"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginStart="15dp">
         </TextView>
 
         <TextView
@@ -74,6 +74,7 @@
             android:textSize="40sp"
             android:textStyle="bold"
             android:layout_weight="0.5"
+            android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectAndWorkflowGuideline"
             app:layout_constraintBottom_toTopOf="@id/titleGuideline"
@@ -130,7 +131,8 @@
         android:text="@string/workflow_selection_instruction"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/instructionGuideline"
-        app:layout_constraintTop_toBottomOf="@id/lineGuideline"></TextView>
+        app:layout_constraintTop_toBottomOf="@id/lineGuideline">
+    </TextView>
 
     <FrameLayout
         android:id="@+id/frame"

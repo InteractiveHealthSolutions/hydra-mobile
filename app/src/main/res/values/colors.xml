@@ -164,7 +164,8 @@
     <color name="app_gradient_end_color">@color/app_blue</color>
     <color name="app_gradient_start_color">@color/app_blue</color>
     <color name="whatsapp_green">#25D366</color>
-    <color name="app_background_white">#f9f8f8</color>
+    <color name="old_app_background_white">#f9f8f8</color>
+    <color name="app_background_white">#ffffff</color>
     <color name="twilight_blue">#0944a4</color>
 
 
