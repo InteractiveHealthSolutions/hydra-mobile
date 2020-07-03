@@ -136,7 +136,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
     @Override
     public void setAnswer(String answer, String uuid, LANGUAGE language) {
 
-        String[] allAnswers = answer.split("\n/<end>\n");
+        String[] allAnswers = answer.split("\n\n");
         mspAnswer.setValuesForEdit(allAnswers);
 
     }
@@ -227,7 +227,7 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
 
         List<String> selections = mspAnswer.getSelectedValues();
         for (String s : selections) {
-            toReturn += s + "\n/<end>\n";
+            toReturn += s + "\n\n";
         }
 
         return toReturn;
