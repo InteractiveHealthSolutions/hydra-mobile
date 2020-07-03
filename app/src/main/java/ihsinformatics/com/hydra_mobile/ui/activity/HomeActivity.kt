@@ -183,8 +183,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         //previous workflow check (if set then continue and fetch phases for that workflow)
-        var selectedWorkFlow = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
+
         Global.WORKFLOWUUID = GlobalPreferences.getinstance(this)
             .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, null)
         Global.HYRDA_CURRENT_URL = GlobalPreferences.getinstance(this)
@@ -194,12 +193,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         if (!sessionManager.isCompleteDataDownloaded()) {
             startActivity(Intent(this, LoginActivity::class.java))
-        } else if (selectedWorkFlow == null) {
+        } else if (Global.WORKFLOWUUID == null) {
             startActivityForResult(Intent(this, SelectWorkFlow::class.java), 0)
         } else if (Global.HYRDA_CURRENT_URL == null || Global.HYRDA_CURRENT_URL.trim().equals("")) {
             startActivity(Intent(this, LoginActivity::class.java))
         } else {
-            getWorkFlowsAndBindAlongWithPhases(selectedWorkFlow)
+            getWorkFlowsAndBindAlongWithPhases(Global.WORKFLOWUUID)
         }
 
 

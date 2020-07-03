@@ -32,7 +32,6 @@ class SelectWorkFlow : AppCompatActivity() {
     var dpAsPixels: Int = 0
     lateinit var params: LinearLayout.LayoutParams
 
-    var wasRememberCheckedEnable: Boolean = false
     lateinit var rememberedWorkflowUUID: String
 
 
@@ -41,11 +40,7 @@ class SelectWorkFlow : AppCompatActivity() {
         setContentView(R.layout.activity_select_workflow)
 
         rememberedWorkflowUUID = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.WORKFLOWUUID, "")
-
-        wasRememberCheckedEnable = GlobalPreferences.getinstance(this)
-            .findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, false)
-
+            .findPrferenceValue(GlobalPreferences.KEY.REMEMBER_WORKFLOW, "")
 
 
         initViews()
@@ -84,13 +79,13 @@ class SelectWorkFlow : AppCompatActivity() {
                     GlobalPreferences.getinstance(this)
                         .addOrUpdatePreference(
                             GlobalPreferences.KEY.REMEMBER_WORKFLOW,
-                            true
+                            selectedWorkflow!!.uuid
                         )
                 } else {
                     GlobalPreferences.getinstance(this)
                         .addOrUpdatePreference(
                             GlobalPreferences.KEY.REMEMBER_WORKFLOW,
-                            false
+                            ""
                         )
                 }
 
@@ -99,6 +94,7 @@ class SelectWorkFlow : AppCompatActivity() {
                         GlobalPreferences.KEY.WORKFLOWUUID,
                         selectedWorkflow!!.uuid
                     )
+
                 Global.WORKFLOWUUID = selectedWorkflow!!.uuid
 
                 setResult(Activity.RESULT_OK, returnIntent)
@@ -142,7 +138,7 @@ class SelectWorkFlow : AppCompatActivity() {
         textView.tag = element.workflowId
         textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
 
-        if (rememberedWorkflowUUID.equals(element.uuid) && wasRememberCheckedEnable) {
+        if (rememberedWorkflowUUID.equals(element.uuid)) {
             textView.setTextColor(resources.getColor(R.color.White))
             textView.setBackground(getDrawable(R.drawable.circular_background_next_button))
             selectedWorkflow = element
