@@ -217,7 +217,7 @@ public class Form extends BaseActivity {
             this.options.addAll(locationOptions);
         }
 
-        this.questions.add(new Question(true, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
+        this.questions.add(new Question(false, idOfForm, 10001, "", InputWidget.InputWidgetsType.WIDGET_TYPE_GPS, View.VISIBLE, Validation.CHECK_FOR_EMPTY, "Geo Location", ParamNames.GPS_PARAM, alphaNumeric150DigitSpace, Question.PAYLOAD_TYPE.OBS));
 
 
         JSONArray formFieldsList = new JSONArray(getFormDataByEncounterType(getENCOUNTER_NAME()));
