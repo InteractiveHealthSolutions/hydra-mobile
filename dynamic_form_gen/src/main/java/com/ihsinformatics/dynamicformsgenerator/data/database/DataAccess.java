@@ -655,12 +655,18 @@ public class DataAccess {
 
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
-        UserReports userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
-                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
-                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
-                UserReportsDao.Properties.Date.eq(dateValue),
-                UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+        UserReports userReport = null;
 
+        try {
+             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                    UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
+                    UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
+                    UserReportsDao.Properties.Date.eq(dateValue),
+                    UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+        }catch (Exception e)
+        {
+
+        }
 
         if (userReport != null) {
             userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled() + 1, userReport.getEncounter_uploaded(), dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
@@ -685,13 +691,16 @@ public class DataAccess {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
+        UserReports userReport=null;
+        try {
+             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                    UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
+                    UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
+                    UserReportsDao.Properties.Date.eq(dateValue),
+                    UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+        }catch (Exception e){
 
-        UserReports userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
-                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
-                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
-                UserReportsDao.Properties.Date.eq(dateValue),
-                UserReportsDao.Properties.Encounter.eq(encounter)).unique();
-
+        }
 
         if (userReport != null) {
             userReportsDao.update(new UserReports(userReport.getUsername(), userReport.getEncounter(), userReport.getOffline_form_id(), userReport.getEncounter_filled(), userReport.getEncounter_uploaded() + 1, dateValue, userReport.getWorkflowUUID(), userReport.getComponentFormUUID(), userReport.getUrl(), userReport.getId()));
@@ -705,12 +714,19 @@ public class DataAccess {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
-        UserReports userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
-                UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
-                UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
-                UserReportsDao.Properties.Date.eq(dateValue),
-                UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+        UserReports userReport = null;
 
+        try {
+             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+                    UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
+                    UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
+                    UserReportsDao.Properties.Date.eq(dateValue),
+                    UserReportsDao.Properties.Encounter.eq(encounter)).unique();
+        }
+        catch (Exception e)
+        {
+
+        }
 
         // in this case if userReport is null then it means form was filled previously and was deleted today
         if (userReport != null) {
