@@ -1,38 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.SearchActivity">
+        android:background="@color/app_background_white">
 
-    <com.google.android.material.appbar.AppBarLayout
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/titleStartGuideline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02" />
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/titleBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.065" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/titleGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/searchBarTopGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.11" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/searchBarBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.19" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/searchBarStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/searchBarEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/backButtonStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/app_blue"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/titleGuideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </View>
+
+
+        <LinearLayout
+            android:id="@+id/backButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_circular_background"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintStart_toEndOf="@id/searchBarStartGuideline"
+            app:layout_constraintStart_toStartOf="@id/backButtonStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/titleStartGuideline">
+
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                android:tint="@color/app_blue">
+            </ImageView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/Find_Patient"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toBottomOf="@id/titleStartGuideline">
+        </TextView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_circular_background"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:text="Create New"
+            android:textColor="@color/app_blue"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintEnd_toEndOf="@id/searchBarEndGuideline"
+            app:layout_constraintTop_toBottomOf="@id/titleStartGuideline">
+        </TextView>
+
+
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:weightSum="14"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/searchBarBottomGuideline"
+            app:layout_constraintEnd_toStartOf="@id/searchBarEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/searchBarStartGuideline"
+            app:layout_constraintTop_toTopOf="@id/searchBarTopGuideline">
+
+
+            <EditText
+                android:id="@+id/edt_search_by_identifier"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center_vertical"
+                android:hint="@string/keyword_to_search"
+                android:background="@drawable/black_outine_white_circular"
+                android:maxLength="11"
+                android:textColor="@color/Black"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
+
+            <LinearLayout
+                android:id="@+id/btn_patient_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_weight="2"
+                android:background="@drawable/black_outine_white_circular"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_search"
+                    android:tint="@color/app_blue" />
+
+            </LinearLayout>
 
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="or"
+                android:textColor="@color/White"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/qr_reader"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/black_outine_white_circular"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/qrReader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/photo_camera"
+                    android:tint="@color/app_blue" />
+
+                <TextView
+                    android:id="@+id/qrtextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scan"
+                    android:visibility="gone"
+                    android:textColor="@color/app_blue" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchBarBottomGuideline">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScroll"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:background="@drawable/blue_top_rounded_background"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/search_title"
-                    android:typeface="normal"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:id="@+id/toolbar_title"/>
-        </androidx.appcompat.widget.Toolbar>
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_search_patient"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
 
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/offline_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/content_search"/>
+            <ImageView
+                android:id="@+id/no_result"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_below="@id/nestedScroll"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/no_result">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </ImageView>
+
+            <TextView
+                android:id="@+id/nothingToShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_result"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/nothing_to_show"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_rounded_shap"
+                android:text="@string/btn_login_search"
+                android:textColor="@color/White"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

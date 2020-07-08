@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,6 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.content_search.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -58,7 +58,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
     private lateinit var nothingToShow: TextView
     private lateinit var noResultIV: ImageView
-    private lateinit var recyclerLayout: LinearLayout
+    private lateinit var nestedScroll: NestedScrollView
+
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var search: LinearLayout
 
@@ -83,9 +84,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         initView()
     }
 
@@ -119,7 +117,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         nothingToShow = findViewById(R.id.nothingToShow)
         noResultIV = findViewById(R.id.no_result)
-        recyclerLayout = findViewById(R.id.recyclerLayout)
+        nestedScroll = findViewById(R.id.nestedScroll)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -163,7 +161,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         nothingToShow.visibility = View.GONE
         no_result.visibility = View.GONE
-        recyclerLayout.visibility=View.VISIBLE
+        nestedScroll.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
             searchPatientResultRecyclerView.visibility = View.VISIBLE
@@ -179,7 +177,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
                 no_result.visibility = View.VISIBLE
-                recyclerLayout.visibility=View.GONE
+                nestedScroll.visibility=View.GONE
             }
         }
 

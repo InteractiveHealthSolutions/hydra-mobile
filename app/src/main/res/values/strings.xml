@@ -377,6 +377,7 @@
     <string name="remember_workflow">Remember Workflow</string>
     <string name="workflow">Workflow</string>
     <string name="Find_Patient">Find Patient</string>
+    <string name="keyword_to_search">Search...</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>
