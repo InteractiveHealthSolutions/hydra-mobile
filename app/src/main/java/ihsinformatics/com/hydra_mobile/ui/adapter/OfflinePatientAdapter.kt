@@ -56,7 +56,7 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
         val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val tvPatientAge = itemView.findViewById<TextView>(R.id.tv_patient_age)
-        val genderImage = itemView.findViewById<ImageView>(R.id.genderImage)
+        //val genderImage = itemView.findViewById<ImageView>(R.id.genderImage)
         val searchLayout = itemView.findViewById<LinearLayout>(R.id.searchLayout)
         val mode = itemView.findViewById<TextView>(R.id.mode)
 
@@ -77,15 +77,15 @@ class OfflinePatientAdapter(offlinePatientList: ArrayList<PatientData>, c: Conte
                 }
 
                 if (null != patient.patient.identifier) tvPatientIdentifier.text = patient.patient.identifier
-
-                if (patient.patient.getGender().toLowerCase().contains("f")) {
-                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
-                } else {
-                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
-                }
+//
+//                if (patient.patient.getGender().toLowerCase().contains("f")) {
+//                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
+//                } else {
+//                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
+//                }
 
                 mode.setText(context.getString(R.string.offline))
-                mode.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                mode.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.Red))
 
                 searchLayout.setOnClickListener {
                     Global.patientData=patient
