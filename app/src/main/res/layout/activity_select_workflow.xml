@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/app_background_white">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/startGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.020" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/selectAndWorkflowGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.080" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/titleGuideline"
@@ -15,32 +28,18 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/selectAndWorkflowGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.075" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.17" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/instructionGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/endScreenGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1.0" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/selectHeadingGuideline"
@@ -49,18 +48,24 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/instructionEndGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/select"
             android:textColor="@color/Black"
-            android:textSize="40sp"
+            android:textSize="34sp"
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:layout_weight="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/startGuideline"
             app:layout_constraintEnd_toStartOf="@id/selectHeadingGuideline"
             app:layout_constraintBottom_toTopOf="@id/selectAndWorkflowGuideline"
             android:layout_marginStart="15dp">
@@ -71,9 +76,8 @@
             android:layout_height="0dp"
             android:text="@string/workflow"
             android:textColor="@color/Black"
-            android:textSize="40sp"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_weight="0.5"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectAndWorkflowGuideline"
@@ -92,7 +96,7 @@
             android:orientation="horizontal"
             android:layout_weight="0.5"
             app:layout_constraintStart_toEndOf="@id/selectHeadingGuideline"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/startGuideline"
             app:layout_constraintBottom_toTopOf="@id/selectAndWorkflowGuideline"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -109,8 +113,7 @@
                 android:id="@+id/rememberWorkflow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/app_icon_color"
-                android:checked="true"/>
+                android:buttonTint="@color/app_icon_color"/>
         </LinearLayout>
 
     <View
@@ -123,13 +126,15 @@
         app:layout_constraintTop_toBottomOf="@id/titleGuideline" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:gravity="center_vertical"
         android:text="@string/workflow_selection_instruction"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:maxLines="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/instructionEndGuideline"
         app:layout_constraintBottom_toTopOf="@id/instructionGuideline"
         app:layout_constraintTop_toBottomOf="@id/lineGuideline">
     </TextView>
@@ -139,7 +144,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        app:layout_constraintBottom_toTopOf="@id/endScreenGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/instructionGuideline">
 
         <LinearLayout
@@ -172,9 +177,9 @@
             android:background="@drawable/circular_background_next_button"
             android:elevation="20dp"
             android:gravity="center"
-            android:padding="20dp"
-            android:paddingStart="100dp"
-            android:paddingEnd="100dp"
+            android:padding="12dp"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
             android:text="@string/nextButtonTextForWorkflow"
             android:textColor="@color/White"
             android:textSize="20sp"

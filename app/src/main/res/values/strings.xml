@@ -371,7 +371,7 @@
     <string name="Date">Date</string>
     <string name="username">"Username"</string>
     <string name="selectWorkflow">Select\nWorkflow</string>
-    <string name="workflow_selection_instruction">Please select a workflow from the options below</string>
+    <string name="workflow_selection_instruction">Please select a workflow from the options below...</string>
     <string name="app_name_lowercase">hydra</string>
     <string name="nextButtonTextForWorkflow"><![CDATA[Next   ->]]></string>
     <string name="remember_workflow">Remember Workflow</string>

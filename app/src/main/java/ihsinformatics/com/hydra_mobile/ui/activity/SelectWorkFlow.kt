@@ -133,7 +133,7 @@ class SelectWorkFlow : AppCompatActivity() {
         textView.setLayoutParams(params)
 
         textView.text = element.name
-        textView.textSize = 20f
+        textView.textSize = 18f
         textView.id = element.workflowId
         textView.tag = element.workflowId
         textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)

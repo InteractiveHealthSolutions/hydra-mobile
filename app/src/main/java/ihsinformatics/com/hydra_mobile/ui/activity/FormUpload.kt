@@ -85,6 +85,9 @@ class FormUpload : AppCompatActivity() {
                     } else {
                         (encounterForms as ArrayList<SaveableForm>).add(i)
                     }
+                } else {
+                    ToastyWidget.getInstance()
+                        .displayError(this, getString(R.string.internet_issue), Toast.LENGTH_SHORT)
                 }
             }
 
