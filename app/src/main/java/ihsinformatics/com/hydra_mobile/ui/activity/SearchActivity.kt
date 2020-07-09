@@ -24,6 +24,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
+import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
@@ -59,6 +60,11 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     private lateinit var nothingToShow: TextView
     private lateinit var noResultIV: ImageView
     private lateinit var nestedScroll: NestedScrollView
+
+
+    private lateinit var llBackButton: LinearLayout
+    private lateinit var tvCreatePatient: TextView
+    private lateinit var tvNumberOfRecords: TextView
 
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var search: LinearLayout
@@ -117,7 +123,11 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         nothingToShow = findViewById(R.id.nothingToShow)
         noResultIV = findViewById(R.id.no_result)
+        tvNumberOfRecords = findViewById(R.id.numberOfRecords)
         nestedScroll = findViewById(R.id.nestedScroll)
+
+        llBackButton = findViewById(R.id.backButton)
+        tvCreatePatient = findViewById(R.id.createPatient)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -155,15 +165,29 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
             }
         }
 
+        llBackButton.setOnClickListener{
+            finish()
+        }
+        tvCreatePatient.setOnClickListener{
+            Form.setENCOUNTER_NAME(
+                ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,
+                ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT
+            )
+            startActivity(Intent(this, Form::class.java))
+            finish()
+        }
+
     }
 
     private fun setVisibilities() {
 
         nothingToShow.visibility = View.GONE
+        tvNumberOfRecords.visibility = View.VISIBLE
         no_result.visibility = View.GONE
         nestedScroll.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
+            tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString())
             searchPatientResultRecyclerView.visibility = View.VISIBLE
         } else {
             searchPatientResultRecyclerView.visibility = View.GONE
@@ -171,11 +195,18 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         if (null != offlinePatientList && offlinePatientList.size > 0) {
             offlinePatientResultRecyclerView.visibility = View.VISIBLE
+            val number = tvNumberOfRecords.getText().toString().split(" Records")[0]
+            if(!number.trim().equals(""))
+            {
+                tvNumberOfRecords.setText((Integer.valueOf(number) + offlinePatientList.size).toString() + " Records")
+            }
+
         } else {
             offlinePatientResultRecyclerView.visibility = View.GONE
 
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
+                tvNumberOfRecords.visibility = View.GONE
                 no_result.visibility = View.VISIBLE
                 nestedScroll.visibility=View.GONE
             }

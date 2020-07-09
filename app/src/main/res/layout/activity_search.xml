@@ -46,6 +46,13 @@
             app:layout_constraintGuide_percent="0.19" />
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/numberOfRecordsGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/searchBarStartGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,6 +121,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/createPatient"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/white_circular_background"
@@ -217,13 +225,37 @@
         </LinearLayout>
 
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/numberOfRecords"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/Black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/numberOfRecordsGuideline"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toBottomOf="@id/searchBarBottomGuideline">
+        </TextView>
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@color/app_blue"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/numberOfRecords"
+            app:layout_constraintEnd_toEndOf="@id/numberOfRecords"
+             app:layout_constraintTop_toBottomOf="@id/numberOfRecords" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
             app:layout_behavior="com.google.android.material.appbars.AppBarLayout$ScrollingViewBehavior"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchBarBottomGuideline">
+            app:layout_constraintTop_toBottomOf="@id/numberOfRecordsGuideline">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nestedScroll"
@@ -259,7 +291,8 @@
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_below="@id/nestedScroll"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginTop="50dp"
                 android:src="@drawable/no_result">
 
