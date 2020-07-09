@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData
+import com.ihsinformatics.dynamicformsgenerator.screens.Form
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
@@ -36,7 +38,6 @@ import ihsinformatics.com.hydra_mobile.ui.base.BaseActivity
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.PatientViewModel
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.content_search.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -58,7 +59,13 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     private lateinit var offlinePatientResultRecyclerView: RecyclerView
     private lateinit var nothingToShow: TextView
     private lateinit var noResultIV: ImageView
-    private lateinit var recyclerLayout: LinearLayout
+    private lateinit var nestedScroll: NestedScrollView
+
+
+    private lateinit var llBackButton: LinearLayout
+    private lateinit var tvCreatePatient: TextView
+    private lateinit var tvNumberOfRecords: TextView
+
     private lateinit var patientSearchAdapter: SearchPatientAdapter
     private lateinit var search: LinearLayout
 
@@ -83,9 +90,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         initView()
     }
 
@@ -119,7 +123,11 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         nothingToShow = findViewById(R.id.nothingToShow)
         noResultIV = findViewById(R.id.no_result)
-        recyclerLayout = findViewById(R.id.recyclerLayout)
+        tvNumberOfRecords = findViewById(R.id.numberOfRecords)
+        nestedScroll = findViewById(R.id.nestedScroll)
+
+        llBackButton = findViewById(R.id.backButton)
+        tvCreatePatient = findViewById(R.id.createPatient)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
         searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -157,15 +165,29 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
             }
         }
 
+        llBackButton.setOnClickListener{
+            finish()
+        }
+        tvCreatePatient.setOnClickListener{
+            Form.setENCOUNTER_NAME(
+                ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,
+                ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT
+            )
+            startActivity(Intent(this, Form::class.java))
+            finish()
+        }
+
     }
 
     private fun setVisibilities() {
 
         nothingToShow.visibility = View.GONE
+        tvNumberOfRecords.visibility = View.VISIBLE
         no_result.visibility = View.GONE
-        recyclerLayout.visibility=View.VISIBLE
+        nestedScroll.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
+            tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString())
             searchPatientResultRecyclerView.visibility = View.VISIBLE
         } else {
             searchPatientResultRecyclerView.visibility = View.GONE
@@ -173,13 +195,20 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
         if (null != offlinePatientList && offlinePatientList.size > 0) {
             offlinePatientResultRecyclerView.visibility = View.VISIBLE
+            val number = tvNumberOfRecords.getText().toString().split(" Records")[0]
+            if(!number.trim().equals(""))
+            {
+                tvNumberOfRecords.setText((Integer.valueOf(number) + offlinePatientList.size).toString() + " Records")
+            }
+
         } else {
             offlinePatientResultRecyclerView.visibility = View.GONE
 
             if (searchPatientResultRecyclerView.visibility == View.GONE) {
                 nothingToShow.visibility = View.VISIBLE
+                tvNumberOfRecords.visibility = View.GONE
                 no_result.visibility = View.VISIBLE
-                recyclerLayout.visibility=View.GONE
+                nestedScroll.visibility=View.GONE
             }
         }
 

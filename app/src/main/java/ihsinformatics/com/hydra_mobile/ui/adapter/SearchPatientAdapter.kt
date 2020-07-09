@@ -83,7 +83,6 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
         val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val tvPatientAge = itemView.findViewById<TextView>(R.id.tv_patient_age)
-        val genderImage = itemView.findViewById<ImageView>(R.id.genderImage)
         val searchLayout = itemView.findViewById<LinearLayout>(R.id.searchLayout)
         val mode = itemView.findViewById<TextView>(R.id.mode)
 
@@ -106,14 +105,8 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                 if (null != patient.identifiers.get(0)) tvPatientName.text = patient.person.getDisplay()
 
-                if (patient.person.getGender().toLowerCase().contains("f")) {
-                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_female))
-                } else {
-                    genderImage.setImageDrawable(context.getDrawable(R.drawable.ic_male))
-                }
-
                 mode.setText(context.getString(R.string.online))
-                mode.setTextColor(ContextCompat.getColor(context, R.color.Lime))
+                mode.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.LawnGreen))
 
                 searchLayout.setOnClickListener {
 
