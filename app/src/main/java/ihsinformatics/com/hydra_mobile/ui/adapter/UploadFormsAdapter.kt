@@ -51,7 +51,6 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
-        val uploadErrorLayout = itemView.findViewById<LinearLayout>(R.id.uploadErrorLayout)
         val lastUploadError = itemView.findViewById<TextView>(R.id.lastUploadError)
 
 
@@ -68,11 +67,11 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
                 if(null!=form.lastUploadError && !form.lastUploadError.trim().equals(""))
                 {
                     lastUploadError.setText(form.lastUploadError)
-                    uploadErrorLayout.visibility=View.VISIBLE
+                    lastUploadError.visibility=View.VISIBLE
                 }
                 else
                 {
-                    uploadErrorLayout.visibility=View.GONE
+                    lastUploadError.visibility=View.GONE
                 }
 
 
