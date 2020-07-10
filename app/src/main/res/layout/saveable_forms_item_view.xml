@@ -69,7 +69,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/hydra_text"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -78,66 +78,29 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="0.7"
-                    android:orientation="vertical"
-                    android:weightSum="3">
+                    android:orientation="vertical">
 
-                    <!--location-->
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_patient_identifier"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:weightSum="5">
+                        android:layout_weight="0.3"
+                        android:maxLines="2"
+                        android:text="@string/patient_identitier"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
-                            android:text="@string/patient_identitier"
-                            android:textColor="@color/bootstrap_gray_light"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tv_patient_identifier"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3.5"
-                            android:maxLines="2"
-                            android:textColor="@color/bootstrap_gray_light"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <!--age-->
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_patient_name"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:weightSum="5">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
-                            android:text="@string/name"
-                            android:textColor="@color/bootstrap_gray_light"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_patient_name"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3.5"
-                            android:maxLines="2"
-                            android:text="Name of patient"
-                            android:textColor="@color/bootstrap_gray_light"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
+                        android:layout_weight="0.7"
+                        android:maxLines="2"
+                        android:text="Name of patient"
+                        android:textColor="@color/bootstrap_gray_light"
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
