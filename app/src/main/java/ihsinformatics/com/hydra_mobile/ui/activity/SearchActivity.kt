@@ -187,7 +187,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
         nestedScroll.visibility=View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
-            tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString())
+            tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString() + " Records")
             searchPatientResultRecyclerView.visibility = View.VISIBLE
         } else {
             searchPatientResultRecyclerView.visibility = View.GONE
