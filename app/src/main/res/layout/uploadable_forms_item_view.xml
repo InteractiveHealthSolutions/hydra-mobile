@@ -3,8 +3,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:layout_margin="@dimen/dimen_5dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_10dp"
     android:layout_marginStart="8dp"
     android:elevation="@dimen/dimen_24dp"
     app:cardCornerRadius="30dp">
@@ -12,13 +12,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/dimen_10dp"
+        android:paddingBottom="@dimen/dimen_10dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:weightSum="2"
-            android:layout_weight="0.7">
+            android:layout_weight="0.75">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -48,7 +50,7 @@
                     android:maxLines="1"
                     android:text="@string/form_name_sample"
                     android:textColor="@color/Black"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
 
@@ -64,11 +66,11 @@
                         android:id="@+id/tv_patient_identifier"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
                         android:maxLines="1"
                         android:text="@string/identifier"
                         android:textColor="@color/Black"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -77,10 +79,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_10dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -97,10 +99,10 @@
                         android:text="@string/sampleDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -109,10 +111,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_10dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -127,7 +129,7 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.25"
             android:background="@drawable/circular_button"
             android:backgroundTint="@color/alertRed"
             android:padding="5dp"

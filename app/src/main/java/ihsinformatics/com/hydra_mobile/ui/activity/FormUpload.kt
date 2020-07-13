@@ -3,6 +3,7 @@ package ihsinformatics.com.hydra_mobile.ui.activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -39,6 +40,7 @@ class FormUpload : AppCompatActivity() {
     private var saveableOfflineForms = ArrayList<SaveableForm>()
 
     private lateinit var uploadForms: TextView
+    private lateinit var ivBackButton: ImageView
 
     private var sentCreatePatientsCount: Int = 0
     private var sentEncountersCount: Int = 0
@@ -62,8 +64,13 @@ class FormUpload : AppCompatActivity() {
 
         uploadFormsRecyclerView = findViewById(R.id.offline_forms)
         uploadForms = findViewById(R.id.upload)
+        ivBackButton = findViewById<ImageView>(R.id.backButton)
 
         uploadFormsRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        ivBackButton.setOnClickListener {
+            finish()
+        }
 
         uploadForms.setOnClickListener {
 
