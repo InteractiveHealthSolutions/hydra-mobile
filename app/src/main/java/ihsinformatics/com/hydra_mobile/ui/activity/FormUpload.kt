@@ -24,7 +24,6 @@ import ihsinformatics.com.hydra_mobile.ui.adapter.EditFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.UploadFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
-import kotlinx.android.synthetic.main.content_forms_upload.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +38,7 @@ class FormUpload : AppCompatActivity() {
 
     private var saveableOfflineForms = ArrayList<SaveableForm>()
 
-    private lateinit var uploadForms: LinearLayout
+    private lateinit var uploadForms: TextView
 
     private var sentCreatePatientsCount: Int = 0
     private var sentEncountersCount: Int = 0
@@ -61,8 +60,8 @@ class FormUpload : AppCompatActivity() {
         networkProgressDialog = NetworkProgressDialog(this)
         networkProgressDialog.setCancelable(true)
 
-        uploadFormsRecyclerView = findViewById<RecyclerView>(R.id.offline_forms)
-        uploadForms = findViewById<LinearLayout>(R.id.upload)
+        uploadFormsRecyclerView = findViewById(R.id.offline_forms)
+        uploadForms = findViewById(R.id.upload)
 
         uploadFormsRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 

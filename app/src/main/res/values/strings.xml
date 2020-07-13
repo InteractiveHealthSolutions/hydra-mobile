@@ -358,7 +358,7 @@
     <string name="settings">URL</string>
     <string name="ssl_enabled">SSL enabled</string>
     <string name="tested_positive">Alert! The COVID-19 X-Ray test result is available for this patient</string>
-    <string name="Upload">Upload</string>
+    <string name="Upload">Upload Data</string>
     <string name="UploadAll">Upload All</string>
     <string name="needs_access_phne_state_and_storage">This app needs access to your phone state and storage</string>
     <string name="menu_import">Import Database</string>
@@ -380,6 +380,10 @@
     <string name="keyword_to_search">Search...</string>
     <string name="name_sample">Name of Patient</string>
     <string name="age_sample">10 years and 1 month</string>
+    <string name="last_upload_error">Error! And error Description follows here...</string>
+    <string name="form_name_sample">Sample Form Name</string>
+    <string name="sampleUserID">User_ID</string>
+    <string name="sampleDate">5 Dec 2020</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>

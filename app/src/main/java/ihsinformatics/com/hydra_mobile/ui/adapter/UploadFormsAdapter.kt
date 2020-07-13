@@ -51,6 +51,8 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
         val formName = itemView.findViewById<TextView>(R.id.formName)
         val tvPatientIdentifier = itemView.findViewById<TextView>(R.id.tv_patient_identifier)
         val tvPatientName = itemView.findViewById<TextView>(R.id.tv_patient_name)
+        val tvFormDate = itemView.findViewById<TextView>(R.id.dateFilled)
+        val tvFormFiller = itemView.findViewById<TextView>(R.id.userFilled)
         val lastUploadError = itemView.findViewById<TextView>(R.id.lastUploadError)
 
 
@@ -61,7 +63,8 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
                 tvPatientIdentifier.text = form.identifier
 
                 formName.text = form.encounterType
-
+                tvFormDate.text = "13 July 20202"
+                tvFormFiller.text = "taha"
                 tvPatientName.text=form.patient_name
 
                 if(null!=form.lastUploadError && !form.lastUploadError.trim().equals(""))

@@ -1,38 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activity.FormUpload">
-    <com.google.android.material.appbar.AppBarLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:background="@color/app_background_white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/titleTopGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/titleBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/uploadButtonBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/uploadButtonStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/uploadButtonEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/backButtonStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:layout_height="0dp"
+            android:background="@color/app_blue"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintTop_toTopOf="parent"></View>
 
-            <TextView
-                android:id="@+id/toolbar_title"
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_circular_background"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/app_blue"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintStart_toStartOf="@id/backButtonStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/titleTopGuideline"></ImageView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/Upload"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomGuideline"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toBottomOf="@id/titleTopGuideline"></TextView>
+
+        <TextView
+            android:id="@+id/upload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/circular_background"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/UploadAll"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/uploadButtonBottomGuideline"
+            app:layout_constraintEnd_toStartOf="@id/uploadButtonEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/uploadButtonStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/titleBottomGuideline"></TextView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/blue_top_rounded_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uploadButtonBottomGuideline">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offline_forms"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/dimen_24dp"
-                android:gravity="center"
-                android:text="@string/Upload"
-                android:textSize="24sp"
-                android:typeface="normal" />
-        </androidx.appcompat.widget.Toolbar>
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <include
-        layout="@layout/content_forms_upload" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+               android:paddingTop="@dimen/dimen_24dp" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
