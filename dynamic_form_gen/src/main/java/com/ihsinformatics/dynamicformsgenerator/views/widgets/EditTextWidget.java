@@ -129,7 +129,7 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
         //Necessary for every widget to have PAYLOAD_TYPE AND PERSON_ATTRIBUTE
         param.put(ParamNames.PAYLOAD_TYPE, question.getPayload_type().toString());
-        param.put(ParamNames.CHARACTER, question.getNewConfig());
+        param.put(ParamNames.CHARACTER, question.getNewConfig());  // Did just for Indus Server (getting any field for location from "characters" key value pair json and submitting here)
         if (question.getAttribute())
             param.put(ParamNames.PERSON_ATTRIBUTE, ParamNames.PERSON_ATTRIBUTE_TRUE);
         else
@@ -142,7 +142,6 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
                 param.put(ParamNames.VALUE, "");
             } else {
-
                 param.put(ParamNames.VALUE, etAnswer.getText().toString());
             }
             dismissMessage();

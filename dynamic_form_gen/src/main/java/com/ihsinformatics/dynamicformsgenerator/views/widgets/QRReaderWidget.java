@@ -112,16 +112,16 @@ public class QRReaderWidget extends InputWidget implements OnPauseListener, View
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
 
-
+        param.put(ParamNames.PARAM_NAME, question.getParamName());
 
         if (isValidInput(question.isMandatory())) {
             if (etAnswer.getText().toString().length() == 0 && !question.isMandatory()) {
-                param.put(question.getParamName(), null);
+                param.put(ParamNames.VALUE, "");
             } else {
-                param.put(question.getParamName(), etAnswer.getText().toString());
+                param.put(ParamNames.VALUE, etAnswer.getText().toString());
             }
             dismissMessage();
-            param.put(question.getParamName(), etAnswer.getText().toString());
+
         } else {
             activity.addValidationError(getQuestionId(), "Invalid input");   //No need to show custom error message on QRWidget  ~Taha
         }
