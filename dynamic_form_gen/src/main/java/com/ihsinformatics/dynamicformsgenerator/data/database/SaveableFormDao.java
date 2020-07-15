@@ -34,6 +34,8 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
         public final static Property ComponentFormUUID = new Property(9, String.class, "componentFormUUID", false, "component_form_uuid");
         public final static Property LastUploadError = new Property(10, String.class, "lastUploadError", false, "last_upload_error");
         public final static Property HydraURL = new Property(11, String.class, "hydraURL", false, "hydraURL");
+        public final static Property Filled_date = new Property(12, String.class, "filled_date", false, "filled_date");
+        public final static Property Filler_username = new Property(13, String.class, "filler_username", false, "filler_username");
     }
 
 
@@ -60,7 +62,9 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
                 "\"workflow_uuid\" TEXT," + // 8: workflowUUID
                 "\"component_form_uuid\" TEXT," + // 9: componentFormUUID
                 "\"last_upload_error\" TEXT," + // 10: lastUploadError
-                "\"hydraURL\" TEXT);"); // 11: hydraURL
+                "\"hydraURL\" TEXT," + // 11: hydraURL
+                "\"filled_date\" TEXT," + // 12: filled_date
+                "\"filler_username\" TEXT);"); // 13: filler_username
     }
 
     /** Drops the underlying database table. */
@@ -124,6 +128,16 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
         if (hydraURL != null) {
             stmt.bindString(12, hydraURL);
         }
+ 
+        String filled_date = entity.getFilled_date();
+        if (filled_date != null) {
+            stmt.bindString(13, filled_date);
+        }
+ 
+        String filler_username = entity.getFiller_username();
+        if (filler_username != null) {
+            stmt.bindString(14, filler_username);
+        }
     }
 
     @Override
@@ -181,6 +195,16 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
         if (hydraURL != null) {
             stmt.bindString(12, hydraURL);
         }
+ 
+        String filled_date = entity.getFilled_date();
+        if (filled_date != null) {
+            stmt.bindString(13, filled_date);
+        }
+ 
+        String filler_username = entity.getFiller_username();
+        if (filler_username != null) {
+            stmt.bindString(14, filler_username);
+        }
     }
 
     @Override
@@ -202,7 +226,9 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // workflowUUID
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // componentFormUUID
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // lastUploadError
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // hydraURL
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // hydraURL
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // filled_date
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // filler_username
         );
         return entity;
     }
@@ -221,6 +247,8 @@ public class SaveableFormDao extends AbstractDao<SaveableForm, Long> {
         entity.setComponentFormUUID(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setLastUploadError(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setHydraURL(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setFilled_date(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setFiller_username(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     @Override

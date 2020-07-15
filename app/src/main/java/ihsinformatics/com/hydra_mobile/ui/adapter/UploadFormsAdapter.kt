@@ -63,8 +63,8 @@ class UploadFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context)
                 tvPatientIdentifier.text = form.identifier
 
                 formName.text = form.encounterType
-                tvFormDate.text = "13 July 2020"
-                tvFormFiller.text = "taha"
+                tvFormDate.text = form.filled_date
+                tvFormFiller.text = form.filler_username
                 tvPatientName.text=form.patient_name
 
                 if(null!=form.lastUploadError && !form.lastUploadError.trim().equals(""))

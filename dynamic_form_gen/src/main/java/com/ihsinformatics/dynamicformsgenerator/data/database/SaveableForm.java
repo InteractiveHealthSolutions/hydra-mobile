@@ -32,6 +32,10 @@ public class SaveableForm {
 	public final static String COLUMN_UPLOAD_ERROR = "last_upload_error";
 	public final static String COLUMN_HYDRA_URL = "hydraURL";
 
+	public final static String COLUMN_FILLED_DATE = "filled_date";
+	public final static String COLUMN_USERNAME = "filler_username";
+
+
 	// Added for backward compatibility only, newer calls should use stringFormData
 	@Transient
     JSONObject formData;
@@ -68,11 +72,18 @@ public class SaveableForm {
 	@Property(nameInDb = COLUMN_HYDRA_URL)
 	private String hydraURL;
 
-	@Generated(hash = 1593853872)
+	@Property(nameInDb = COLUMN_FILLED_DATE)
+	private String filled_date;
+
+	@Property(nameInDb = COLUMN_USERNAME)
+	private String filler_username;
+
+	@Generated(hash = 1035108496)
 	public SaveableForm(int formTypeId, Long formId, @NotNull String stringFormData,
 			String encounterType, String formError, String formValues, String identifier,
 			String patient_name, String workflowUUID, String componentFormUUID,
-			String lastUploadError, String hydraURL) {
+			String lastUploadError, String hydraURL, String filled_date,
+			String filler_username) {
 		this.formTypeId = formTypeId;
 		this.formId = formId;
 		this.stringFormData = stringFormData;
@@ -85,6 +96,8 @@ public class SaveableForm {
 		this.componentFormUUID = componentFormUUID;
 		this.lastUploadError = lastUploadError;
 		this.hydraURL = hydraURL;
+		this.filled_date = filled_date;
+		this.filler_username = filler_username;
 	}
 
 	@Generated(hash = 1724246510)
@@ -229,6 +242,23 @@ public class SaveableForm {
 	public void setHydraURL(String hydraURL) {
 		this.hydraURL = hydraURL;
 	}
+
+	public String getFilled_date() {
+		return this.filled_date;
+	}
+
+	public void setFilled_date(String filled_date) {
+		this.filled_date = filled_date;
+	}
+
+	public String getFiller_username() {
+		return this.filler_username;
+	}
+
+	public void setFiller_username(String filler_username) {
+		this.filler_username = filler_username;
+	}
+
 
 
 }

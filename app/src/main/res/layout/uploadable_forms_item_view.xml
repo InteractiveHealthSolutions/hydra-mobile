@@ -40,17 +40,18 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dimen_10dp"
                 android:layout_weight="1.5">
 
                 <TextView
                     android:id="@+id/formName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:maxLines="1"
                     android:text="@string/form_name_sample"
                     android:textColor="@color/Black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
 
@@ -66,11 +67,11 @@
                         android:id="@+id/tv_patient_identifier"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.35"
+                        android:layout_weight="0.4"
                         android:maxLines="1"
                         android:text="@string/identifier"
                         android:textColor="@color/Black"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
 
                     <TextView
@@ -79,10 +80,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_10dp"
-                        android:layout_weight="0.65"
+                        android:layout_weight="0.6"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -92,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/patientDetailsLayout"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="@dimen/dimen_5dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -99,10 +101,10 @@
                         android:text="@string/sampleDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.35"
+                        android:layout_weight="0.4"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
 
                     <TextView
@@ -111,10 +113,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_10dp"
-                        android:layout_weight="0.65"
+                        android:layout_weight="0.6"
                         android:maxLines="2"
                         android:textColor="@color/Black"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 

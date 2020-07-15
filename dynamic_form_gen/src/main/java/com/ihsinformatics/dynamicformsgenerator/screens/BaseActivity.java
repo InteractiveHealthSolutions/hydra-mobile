@@ -80,6 +80,7 @@ import org.json.JSONObject;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.crypto.SecretKey;
@@ -327,13 +328,14 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 }
 
                 SaveableForm form;
+                String dateValue = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(new Date());
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
                 }
 
                 long formId = dataAccess.insertForm(BaseActivity.this, form);
