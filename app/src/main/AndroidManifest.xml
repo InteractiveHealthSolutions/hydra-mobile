@@ -94,6 +94,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.SearchActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:label="@string/title_activity_search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

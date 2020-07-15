@@ -160,6 +160,9 @@
                 android:hint="@string/keyword_to_search"
                 android:background="@drawable/black_outine_white_circular"
                 android:maxLength="11"
+                android:maxLines="1"
+                android:lines="1"
+                android:singleLine="true"
                 android:textColor="@color/Black"
                 android:textSize="18sp"
                 android:padding="10dp"
@@ -263,6 +266,8 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/blue_top_rounded_background"
                 android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@color/White"
                 android:layout_marginTop="@dimen/dimen_15dp">
 
                 <LinearLayout
