@@ -1,10 +1,8 @@
 package ihsinformatics.com.hydra_mobile.ui.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +19,6 @@ import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
 import ihsinformatics.com.hydra_mobile.data.remote.model.FormSubmissionReqBody
 import ihsinformatics.com.hydra_mobile.data.remote.model.formSubmission
 import ihsinformatics.com.hydra_mobile.data.remote.service.FormSubmissionApiService
-import ihsinformatics.com.hydra_mobile.ui.adapter.EditFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.UploadFormsAdapter
 import ihsinformatics.com.hydra_mobile.ui.dialogs.NetworkProgressDialog
 import ihsinformatics.com.hydra_mobile.utils.SessionManager
@@ -138,7 +135,7 @@ class FormUpload : AppCompatActivity() {
                     failedIdsList.add(failedIdentifier)
                 }
                 saveableForm.lastUploadError = "Error occured. Check Internet Connection"
-                DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
+                DataAccess.getInstance().insertOrReplaceForm(this@FormUpload, saveableForm)
                 ToastyWidget.getInstance()
                     .displayError(this@FormUpload, "Error", Toast.LENGTH_SHORT)
 
@@ -167,7 +164,7 @@ class FormUpload : AppCompatActivity() {
                         .displayError(this@FormUpload, "Server error", Toast.LENGTH_SHORT)
                     saveableForm.lastUploadError = filterErrorMessage(response.errorBody()!!
                         .string())
-                    DataAccess.getInstance().insertForm(this@FormUpload, saveableForm)
+                    DataAccess.getInstance().insertOrReplaceForm(this@FormUpload, saveableForm)
                     Logger.logEvent("FORM_UPLOAD_FAILED", saveableForm.getFormData().toString())
                 }
                 doPostResponse(metaData)

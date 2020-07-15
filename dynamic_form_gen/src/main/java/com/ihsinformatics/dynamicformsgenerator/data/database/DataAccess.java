@@ -177,7 +177,7 @@ public class DataAccess {
         return id;
     }
 
-    public synchronized long insertForm(Context context, SaveableForm form) {
+    public synchronized long insertOrReplaceForm(Context context, SaveableForm form) {
         return App.getDaoSession(context).getSaveableFormDao().insertOrReplace(form);
     }
 
@@ -200,7 +200,26 @@ public class DataAccess {
                         .orderAsc(SaveableFormDao.Properties.FormId)
                         .list();
         return toReturn;
-        // return App.getDaoSession(context).getSaveableFormDao().loadAll();
+    }
+
+    public synchronized List<SaveableForm> getAllFormsByPatientIdentifier(Context context, String patientIdentifier) {
+        List<SaveableForm> toReturn =
+                App.getDaoSession(context)
+                        .getSaveableFormDao()
+                        .queryBuilder().where(SaveableFormDao.Properties.Identifier.eq(patientIdentifier)).list();
+        return toReturn;
+    }
+
+    public synchronized String getOldIdentifierBySaveableFormID(Context context, Long editedFormId) {
+
+        String toReturn="";
+         SaveableForm form = App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormId.eq(editedFormId)).unique();
+         if(form!=null)
+         {
+             toReturn = form.getIdentifier();
+         }
+
+         return toReturn;
     }
 
     public synchronized void deleteForm(Context context, int formid) {
@@ -658,13 +677,12 @@ public class DataAccess {
         UserReports userReport = null;
 
         try {
-             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+            userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
                     UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
                     UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                     UserReportsDao.Properties.Date.eq(dateValue),
                     UserReportsDao.Properties.Encounter.eq(encounter)).unique();
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
@@ -691,14 +709,14 @@ public class DataAccess {
         UserReportsDao userReportsDao = App.getDaoSession(context).getUserReportsDao();
         String dateValue = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
-        UserReports userReport=null;
+        UserReports userReport = null;
         try {
-             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+            userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
                     UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
                     UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                     UserReportsDao.Properties.Date.eq(dateValue),
                     UserReportsDao.Properties.Encounter.eq(encounter)).unique();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -717,14 +735,12 @@ public class DataAccess {
         UserReports userReport = null;
 
         try {
-             userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
+            userReport = userReportsDao.queryBuilder().where(UserReportsDao.Properties.Username.eq(username),
                     UserReportsDao.Properties.WorkflowUUID.eq(workflowUUID),
                     UserReportsDao.Properties.ComponentFormUUID.eq(componentFormUUID),
                     UserReportsDao.Properties.Date.eq(dateValue),
                     UserReportsDao.Properties.Encounter.eq(encounter)).unique();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
@@ -740,13 +756,12 @@ public class DataAccess {
 
 
     public synchronized String getPatientOfflineNumber(Context context, String mrNumber) {
-        OfflinePatient offlinePatient= App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
+        OfflinePatient offlinePatient = App.getDaoSession(context).getOfflinePatientDao().queryBuilder()
                 .where(OfflinePatientDao.Properties.MrNumber.eq(mrNumber)).unique();
 
-        String toReturn="";
+        String toReturn = "";
 
-        if(null!=offlinePatient)
-        {
+        if (null != offlinePatient) {
             toReturn = offlinePatient.getOfflineContact();
         }
 

@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.widget.*;
 
@@ -43,9 +42,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
-import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
-import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
 import com.ihsinformatics.dynamicformsgenerator.network.Sendable;
@@ -53,9 +50,7 @@ import com.ihsinformatics.dynamicformsgenerator.network.pojos.PatientData;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.DateSelector;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.ManualInput;
 import com.ihsinformatics.dynamicformsgenerator.screens.dialogs.NetworkProgressDialog;
-import com.ihsinformatics.dynamicformsgenerator.utils.AES256Endec;
 import com.ihsinformatics.dynamicformsgenerator.utils.Global;
-import com.ihsinformatics.dynamicformsgenerator.utils.GlobalPreferences;
 import com.ihsinformatics.dynamicformsgenerator.utils.ImageUtils;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 import com.ihsinformatics.dynamicformsgenerator.utils.MyDialogFragment;
@@ -82,8 +77,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import javax.crypto.SecretKey;
 
 import es.dmoral.toasty.Toasty;
 
@@ -332,13 +325,26 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
+
+                    String oldPatientIdentifer = DataAccess.getInstance().getOldIdentifierBySaveableFormID(BaseActivity.this,editFormId);
+
                     form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
+
+                    // this indicates that create patient form was edited by user. So we need to change identifiers in all offline saved forms (there could be a case that user have filled a lot of forms with some identifier that was duplicate, so we need to replace that old odentfier with new identifier)
+                    if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT))
+                    {
+                        if(oldPatientIdentifer!="" && !oldPatientIdentifer.equals(patientIdentifier))
+                        {
+                            Utils.changeRecursiveIdentifier(BaseActivity.this, oldPatientIdentifer, patientIdentifier);
+                        }
+                    }
+
                 } else {
 
                     form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
                 }
 
-                long formId = dataAccess.insertForm(BaseActivity.this, form);
+                long formId = dataAccess.insertOrReplaceForm(BaseActivity.this, form);
                 Logger.logEvent("FORM_CREATED", form.getFormData().toString());
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();

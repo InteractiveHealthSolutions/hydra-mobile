@@ -7,10 +7,12 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
+import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.LocationDTO;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.JsonHelper;
@@ -48,7 +50,7 @@ public class Utils {
     public static JSONObject converToServerResponse(OfflinePatient offlinePatient) throws JSONException {
 
         JSONObject preferredName = new JSONObject();
-        preferredName.put("givenName", offlinePatient.getName()==null?"":offlinePatient.getName());
+        preferredName.put("givenName", offlinePatient.getName() == null ? "" : offlinePatient.getName());
         preferredName.put("familyName", "");
 
         JSONObject person = new JSONObject();
@@ -60,9 +62,8 @@ public class Utils {
         person.put(ParamNames.OFFLINE_CONTACT, offlinePatient.getOfflineContact());
 
 
-
         JSONObject otherDetails = new JSONObject();
-        otherDetails.put("covidResult",offlinePatient.getCovidResult());
+        otherDetails.put("covidResult", offlinePatient.getCovidResult());
 
         JSONObject identifierType = new JSONObject();
         identifierType.put("display", ParamNames.INDUS_PROJECT_IDENTIFIER);
@@ -93,14 +94,12 @@ public class Utils {
         JSONObject patient = new JSONObject();
         patient.put("identifiers", identifiers);
         patient.put("person", person);
-        patient.put(ParamNames.OTHER_DETAILS,otherDetails);
-
+        patient.put(ParamNames.OTHER_DETAILS, otherDetails);
 
 
         String encounterJsonString = offlinePatient.getEncounterJson();
-        if(encounterJsonString == null) encounterJsonString = new JSONArray().toString();
+        if (encounterJsonString == null) encounterJsonString = new JSONArray().toString();
         JSONObject encounters = new JSONObject(encounterJsonString);
-
 
 
         JSONArray patientsArray = new JSONArray();
@@ -110,9 +109,8 @@ public class Utils {
         toReturn.put("encountersCount", encounters);
 
 
-
         String fieldJsonString = offlinePatient.getFieldDataJson();
-        if(fieldJsonString == null) fieldJsonString = new JSONObject().toString();
+        if (fieldJsonString == null) fieldJsonString = new JSONObject().toString();
         JSONObject fieldJson = new JSONObject(fieldJsonString);
         Iterator<String> fieldsKeys = fieldJson.keys();
         while (fieldsKeys.hasNext()) {
@@ -123,8 +121,7 @@ public class Utils {
         return toReturn;
     }
 
-    public static void convertPatientToPatientData(Context context,JSONObject resp, int respId,String requestType)
-    {
+    public static void convertPatientToPatientData(Context context, JSONObject resp, int respId, String requestType) {
         try {
             if (!resp.has(ParamNames.SERVER_ERROR)) {
                 if (requestType.equals(ParamNames.GET_PATIENT_INFO)) {
@@ -201,11 +198,9 @@ public class Utils {
     }
 
 
-    public static List<Location> convertLocationDTOToLocation(List<LocationDTO> locationsDTO)
-    {
-        ArrayList<Location> locations=new ArrayList<>();
-        for(int i=0;i<locationsDTO.size();i++)
-        {
+    public static List<Location> convertLocationDTOToLocation(List<LocationDTO> locationsDTO) {
+        ArrayList<Location> locations = new ArrayList<>();
+        for (int i = 0; i < locationsDTO.size(); i++) {
             Location singleLocation = new Location();
 
             singleLocation.setId(locationsDTO.get(i).getId());
@@ -222,9 +217,9 @@ public class Utils {
             singleLocation.setAddress5(locationsDTO.get(i).getAddress5());
             singleLocation.setAddress6(locationsDTO.get(i).getAddress6());
             singleLocation.setLocationTags(locationsDTO.get(i).getLocationTags());
-           // singleLocation.setDateCreated(locationsDTO.get(i).getDateCreated());
-            if(null!=locationsDTO.get(i).getParentLocation())
-            singleLocation.setParentLocationUUID(locationsDTO.get(i).getParentLocation().getUuid());
+            // singleLocation.setDateCreated(locationsDTO.get(i).getDateCreated());
+            if (null != locationsDTO.get(i).getParentLocation())
+                singleLocation.setParentLocationUUID(locationsDTO.get(i).getParentLocation().getUuid());
             locations.add(singleLocation);
         }
         return locations;
@@ -234,14 +229,55 @@ public class Utils {
         Boolean isInternetConnected = false;
         try {
 
-            ConnectivityManager connectivityManager =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             isInternetConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
         } catch (Exception e) {
-            ToastyWidget.getInstance().displayError(context,context.getString(R.string.error_no_internet),Toast.LENGTH_SHORT);
+            ToastyWidget.getInstance().displayError(context, context.getString(R.string.error_no_internet), Toast.LENGTH_SHORT);
         }
 
         return isInternetConnected;
     }
+
+
+    // Function that can recursively change identifier in all forms that are related to that identifier. This is used only when identifier field in create patient form is changed.
+    public static void changeRecursiveIdentifier(Context context, String oldIdentifier, String newIdentifer) throws JSONException {
+
+        List<SaveableForm> forms = DataAccess.getInstance().getAllFormsByPatientIdentifier(context, oldIdentifier);
+
+        for (SaveableForm f : forms) {
+
+            //Changing identifier in SaveableForm Identifer column
+            f.setIdentifier(newIdentifer);
+
+
+            //Need to change identifier inside form data (json field) which is used to send to server.
+            //This step needs not to be done in CREATE PATIENT FORM because new identifier is already in metaData of CREATE PATIENT FORM
+            if (!f.getEncounterType().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+                JSONObject formData = f.getFormData();
+                JSONObject metaData = formData.getJSONObject(ParamNames.METADATA);
+                JSONObject patientData = metaData.getJSONObject(ParamNames.PATIENT);
+
+                // This is LIST of identifiers because in old projects we used to have multiple identifer formats (fore.g one format for indus, and other for any other hospital)
+                JSONArray identifiersList = patientData.getJSONArray(ParamNames.IDENTIFIERS);
+
+                for (int i = 0; i < identifiersList.length(); i++) {
+                    JSONObject identifier = identifiersList.getJSONObject(i);
+                    if (identifier.optString(ParamNames.TYPE).equals(ParamNames.MR_NUMBER)) {
+                        identifier.put(ParamNames.VALUE, newIdentifer);
+
+                        identifiersList.remove(i);
+                        identifiersList.put(identifier);
+                    }
+                }
+                patientData.put(ParamNames.IDENTIFIERS,identifiersList);
+                metaData.put(ParamNames.PATIENT,patientData);
+                formData.put(ParamNames.METADATA,metaData);
+                f.setFormData(formData);
+                DataAccess.getInstance().insertOrReplaceForm(context, f);
+            }
+        }
+    }
+
 }
