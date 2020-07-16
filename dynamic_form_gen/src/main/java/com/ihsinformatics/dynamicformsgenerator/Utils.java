@@ -242,14 +242,23 @@ public class Utils {
 
 
     // Function that can recursively change identifier in all forms that are related to that identifier. This is used only when identifier field in create patient form is changed.
-    public static void changeRecursiveIdentifier(Context context, String oldIdentifier, String newIdentifer) throws JSONException {
+    public static void changeRecursiveIdentifier(Context context, SaveableForm oldForm, SaveableForm newForm) throws JSONException {
+
+        String oldIdentifier = oldForm.getIdentifier();
+        String oldName = oldForm.getPatient_name();
+
+        String newIdentifier = newForm.getIdentifier();
+        String newName = newForm.getPatient_name();
+
+
 
         List<SaveableForm> forms = DataAccess.getInstance().getAllFormsByPatientIdentifier(context, oldIdentifier);
 
         for (SaveableForm f : forms) {
 
             //Changing identifier in SaveableForm Identifer column
-            f.setIdentifier(newIdentifer);
+            f.setIdentifier(newIdentifier);
+            f.setPatient_name(newName);
 
 
             //Need to change identifier inside form data (json field) which is used to send to server.
@@ -259,13 +268,15 @@ public class Utils {
                 JSONObject metaData = formData.getJSONObject(ParamNames.METADATA);
                 JSONObject patientData = metaData.getJSONObject(ParamNames.PATIENT);
 
+                patientData.put(ParamNames.GIVEN_NAME,newName);
+
                 // This is LIST of identifiers because in old projects we used to have multiple identifer formats (fore.g one format for indus, and other for any other hospital)
                 JSONArray identifiersList = patientData.getJSONArray(ParamNames.IDENTIFIERS);
 
                 for (int i = 0; i < identifiersList.length(); i++) {
                     JSONObject identifier = identifiersList.getJSONObject(i);
                     if (identifier.optString(ParamNames.TYPE).equals(ParamNames.MR_NUMBER)) {
-                        identifier.put(ParamNames.VALUE, newIdentifer);
+                        identifier.put(ParamNames.VALUE, newIdentifier);
 
                         identifiersList.remove(i);
                         identifiersList.put(identifier);
@@ -278,6 +289,10 @@ public class Utils {
                 DataAccess.getInstance().insertOrReplaceForm(context, f);
             }
         }
+
+        //Need to delete offline Patient of old identifier because there could be a case where user entered wrong identifier which is not a duplicate
+        // In this case if we dont delete offline patient, then same device will not let repeat this identifier
+        DataAccess.getInstance().deleteOfflinePatient(context,oldIdentifier);
     }
 
 }

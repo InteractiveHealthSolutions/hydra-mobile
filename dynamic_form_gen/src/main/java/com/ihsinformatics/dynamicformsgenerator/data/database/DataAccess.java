@@ -210,16 +210,11 @@ public class DataAccess {
         return toReturn;
     }
 
-    public synchronized String getOldIdentifierBySaveableFormID(Context context, Long editedFormId) {
+    public synchronized SaveableForm getOldIdentifierBySaveableFormID(Context context, Long editedFormId) {
 
-        String toReturn="";
-         SaveableForm form = App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormId.eq(editedFormId)).unique();
-         if(form!=null)
-         {
-             toReturn = form.getIdentifier();
-         }
 
-         return toReturn;
+        return App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.FormId.eq(editedFormId)).unique();
+
     }
 
     public synchronized void deleteForm(Context context, int formid) {
@@ -766,5 +761,13 @@ public class DataAccess {
         }
 
         return toReturn;
+    }
+
+    public synchronized void deleteOfflinePatient(Context context, String identifier) {
+
+        OfflinePatient offlinePatient = App.getDaoSession(context).getOfflinePatientDao().queryBuilder().where(OfflinePatientDao.Properties.MrNumber.eq(identifier)).unique();
+
+        App.getDaoSession(context).getOfflinePatientDao().delete(offlinePatient);
+
     }
 }

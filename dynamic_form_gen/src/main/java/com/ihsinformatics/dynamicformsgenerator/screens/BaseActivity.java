@@ -207,7 +207,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                         mapOfImages.put(i.getQuestion().getParamName(), i.getAnswer());
                     }
 
-                    offlinePatient = handleSpecialFields(i,offlinePatient);
+                    offlinePatient = handleSpecialFields(i, offlinePatient);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -326,22 +326,20 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 if (editFormId > 0) {
                     ToastyWidget.getInstance().displaySuccess(this, "form in edit mode", Toast.LENGTH_SHORT);
 
-                    String oldPatientIdentifer = DataAccess.getInstance().getOldIdentifierBySaveableFormID(BaseActivity.this,editFormId);
+                    SaveableForm oldForm = DataAccess.getInstance().getOldIdentifierBySaveableFormID(BaseActivity.this, editFormId);
 
-                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
+                    form = new SaveableForm(id, editFormId, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), lastUploadError, Global.HYRDA_CURRENT_URL, dateValue, Global.USERNAME);
 
                     // this indicates that create patient form was edited by user. So we need to change identifiers in all offline saved forms (there could be a case that user have filled a lot of forms with some identifier that was duplicate, so we need to replace that old odentfier with new identifier)
-                    if(Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT))
-                    {
-                        if(oldPatientIdentifer!="" && !oldPatientIdentifer.equals(patientIdentifier))
-                        {
-                            Utils.changeRecursiveIdentifier(BaseActivity.this, oldPatientIdentifer, patientIdentifier);
-                        }
+                    if (Form.getENCOUNTER_NAME().equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+
+                        Utils.changeRecursiveIdentifier(BaseActivity.this, oldForm, form);
+
                     }
 
                 } else {
 
-                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL,dateValue,Global.USERNAME);
+                    form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL, dateValue, Global.USERNAME);
                 }
 
                 long formId = dataAccess.insertOrReplaceForm(BaseActivity.this, form);
@@ -406,7 +404,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private OfflinePatient handleSpecialFields(InputWidget i, OfflinePatient offlinePatient) throws JSONException {
 
-        if(i.getQuestion().getParamName().equals("a7a9e56d-cb7c-43al-7549-ccb0e4a9a9c1"))   // Phone number question
+        if (i.getQuestion().getParamName().equals("a7a9e56d-cb7c-43al-7549-ccb0e4a9a9c1"))   // Phone number question
         {
             offlinePatient.setOfflineContact(i.getValue());
         }
@@ -1215,8 +1213,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                                         final_visibility = true;
                                         loopFirstIteration = false;
                                     }
-                                }catch (Exception e)
-                                {
+                                } catch (Exception e) {
 
                                 }
                             }
