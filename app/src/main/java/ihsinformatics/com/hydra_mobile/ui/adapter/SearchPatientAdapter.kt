@@ -123,7 +123,11 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                     Timber.e(response.message())
                                     if (response.isSuccessful) {
 
-                                        encountersList = response.body()!!.encounters
+                                        for(enc in response.body()!!.results)
+                                        {
+                                            encountersList.add(enc.encounters)
+                                        }
+
                                         DataAccess.getInstance()
                                             .insertServiceHistory(context, patient.identifiers.get(0).identifier, encountersList);
 

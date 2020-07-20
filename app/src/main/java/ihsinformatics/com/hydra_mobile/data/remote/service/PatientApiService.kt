@@ -30,9 +30,9 @@ interface PatientApiService {
         @Query("patient") patient: String, @Query("v") representation: String
     ): Call<EncountersApiResponse>
 
-    @GET("encounter")
+    @GET("hydra/form-encounter")
     fun getEncountersOfPatient(
-        @Query("q") queryString: String, @Query("v") representation: String
+        @Query("patientIdentifier") queryString: String, @Query("v") representation: String
     ): Call<ReportEncountersApiResponse>
 
 

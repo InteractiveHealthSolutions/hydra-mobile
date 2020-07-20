@@ -123,11 +123,15 @@ class ReportActivity : BaseActivity() {
                         Timber.e(response.message())
                         if (response.isSuccessful) {
 
-                            encountersList.addAll(response.body()!!.encounters)
+                            for(enc in response.body()!!.results)
+                            {
+                                encountersList.add(enc.encounters)
+
+                            }
                             DataAccess.getInstance().insertServiceHistory(
                                 this@ReportActivity,
                                 patientID,
-                                response.body()!!.encounters
+                                encountersList
                             )
 
                             networkProgressDialog.dismiss()
