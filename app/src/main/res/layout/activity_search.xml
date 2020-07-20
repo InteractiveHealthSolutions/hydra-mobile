@@ -265,7 +265,7 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:background="@drawable/blue_top_rounded_background"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 android:scrollbarThumbVertical="@color/White"
                 android:layout_marginTop="@dimen/dimen_15dp">

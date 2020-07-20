@@ -137,12 +137,13 @@ class WorkFlowRepository(context: Context) {
                                 //insert into local database
                                 insertWorkFlow(response.workflowMapping[i].workflow)
                             }
+                            retrofitResponseListener.onSuccess()
+                            Log.e("WorkflowUserMapping", "completed")
                         }else
                         {
                             getRemoteAllWorkFlowData(retrofitResponseListener)
                         }
-                        retrofitResponseListener.onSuccess()
-                        Log.e("WorkflowUserMapping", "completed")
+
                     } catch (e: Exception) {
                         retrofitResponseListener.onFailure()
 

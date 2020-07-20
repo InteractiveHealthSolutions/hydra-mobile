@@ -85,8 +85,6 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     var requestType: String? = null
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -130,10 +128,12 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
         tvCreatePatient = findViewById(R.id.createPatient)
 
         searchPatientResultRecyclerView = findViewById<RecyclerView>(R.id.rv_search_patient)
-        searchPatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        searchPatientResultRecyclerView.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         offlinePatientResultRecyclerView = findViewById<RecyclerView>(R.id.offline_search)
-        offlinePatientResultRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        offlinePatientResultRecyclerView.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
 
         patientViewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
@@ -160,15 +160,15 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
             if (Build.VERSION.SDK_INT >= 23) {
                 checkCameraPermission()
             } else {
-               // showQRCodeReaderDialog()
+                // showQRCodeReaderDialog()
                 showQRAndBarCodeReaderDialog()
             }
         }
 
-        llBackButton.setOnClickListener{
+        llBackButton.setOnClickListener {
             finish()
         }
-        tvCreatePatient.setOnClickListener{
+        tvCreatePatient.setOnClickListener {
             Form.setENCOUNTER_NAME(
                 ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT,
                 ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT
@@ -184,21 +184,30 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
         nothingToShow.visibility = View.GONE
         tvNumberOfRecords.visibility = View.VISIBLE
         no_result.visibility = View.GONE
-        nestedScroll.visibility=View.VISIBLE
+        nestedScroll.visibility = View.VISIBLE
 
         if (null != patientSearchedList && patientSearchedList!!.results != null && patientSearchedList!!.results.size > 0) {
-            tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString() + " Records")
-            searchPatientResultRecyclerView.visibility = View.VISIBLE
+            if (patientSearchedList!!.results.size == 1) {
+                tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString() + " Record")
+            } else {
+                tvNumberOfRecords.setText(patientSearchedList!!.results.size.toString() + " Records")
+            }
+            searchPatientResultRecyclerView.visibility = View . VISIBLE
         } else {
             searchPatientResultRecyclerView.visibility = View.GONE
         }
 
         if (null != offlinePatientList && offlinePatientList.size > 0) {
             offlinePatientResultRecyclerView.visibility = View.VISIBLE
-            val number = tvNumberOfRecords.getText().toString().split(" Records")[0]
-            if(!number.trim().equals(""))
-            {
-                tvNumberOfRecords.setText((Integer.valueOf(number) + offlinePatientList.size).toString() + " Records")
+            val number = tvNumberOfRecords.getText().toString().split(" Record")[0]
+            if (!number.trim().equals("")) {
+
+                if ((Integer.valueOf(number) + offlinePatientList.size) == 1) {
+                    tvNumberOfRecords.setText((Integer.valueOf(number) + offlinePatientList.size).toString() + " Record")
+                } else {
+                    tvNumberOfRecords.setText((Integer.valueOf(number) + offlinePatientList.size).toString() + " Records")
+                }
+
             }
 
         } else {
@@ -208,7 +217,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                 nothingToShow.visibility = View.VISIBLE
                 tvNumberOfRecords.visibility = View.GONE
                 no_result.visibility = View.VISIBLE
-                nestedScroll.visibility=View.GONE
+                nestedScroll.visibility = View.GONE
             }
         }
 
@@ -222,7 +231,9 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
 
                 offlinePatientList.clear()
 
-                if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString().equals("") && !edtIdentifier.text.toString().equals(" ")) {
+                if (null != edtIdentifier.text.toString() && !edtIdentifier.text.toString()
+                        .equals("") && !edtIdentifier.text.toString().equals(" ")
+                ) {
 
                     if (isInternetConnected()) {
                         networkProgressDialog.show()
@@ -230,19 +241,22 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                     }
 
                     var offlinePatient: OfflinePatient? = null
-                    offlinePatient = DataAccess.getInstance().getPatientByMRNumber(this, edtIdentifier.getText().toString())
+                    offlinePatient = DataAccess.getInstance()
+                        .getPatientByMRNumber(this, edtIdentifier.getText().toString())
                     if (null != offlinePatient) initOfflinePatientList(offlinePatient)
 
                     var offlinePatientList: List<OfflinePatient>
-                    offlinePatientList = DataAccess.getInstance().getPatientMatchesByName(this, edtIdentifier.getText().toString())
+                    offlinePatientList = DataAccess.getInstance()
+                        .getPatientMatchesByName(this, edtIdentifier.getText().toString())
                     if (null != offlinePatientList && offlinePatientList.size != 0) {
 
-                        for(offPat in offlinePatientList)
-                        initOfflinePatientList(offPat)
+                        for (offPat in offlinePatientList)
+                            initOfflinePatientList(offPat)
                     }
 
                 } else {
-                    edtIdentifier.error = resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
+                    edtIdentifier.error =
+                        resources.getString(ihsinformatics.com.hydra_mobile.R.string.empty_field)
                     edtIdentifier.requestFocus()
                 }
 
@@ -264,7 +278,11 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     }
 
     fun searchPatientOnline(queryString: String) {
-        RequestManager(this, sessionManager.getUsername(), sessionManager.getPassword()).searchPatient(Constant.REPRESENTATION, queryString, object : RESTCallback {
+        RequestManager(
+            this,
+            sessionManager.getUsername(),
+            sessionManager.getPassword()
+        ).searchPatient(Constant.REPRESENTATION, queryString, object : RESTCallback {
             override fun <T> onSuccess(o: T) {
                 try {
                     val response = (o as PatientApiResponse)
@@ -285,7 +303,14 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     }
 
     fun setPatientSearchedList() {
-        patientSearchAdapter = patientSearchedList?.let { SearchPatientAdapter(it, this, sessionManager.getUsername(), sessionManager.getPassword()) }!!
+        patientSearchAdapter = patientSearchedList?.let {
+            SearchPatientAdapter(
+                it,
+                this,
+                sessionManager.getUsername(),
+                sessionManager.getPassword()
+            )
+        }!!
         searchPatientResultRecyclerView.adapter = patientSearchAdapter
         setVisibilities()
         networkProgressDialog.dismiss()
@@ -299,13 +324,31 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
     }
 
     protected fun checkCameraPermission() {
-        val hasWriteContactsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val hasWriteContactsPermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
         if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale((this as Activity?)!!, Manifest.permission.CAMERA)) {
-                Utils.showMessageOKCancel(this, resources.getString(com.ihsinformatics.dynamicformsgenerator.R.string.qr_code_permission_request_message)) { dialog, which -> ActivityCompat.requestPermissions((this as Activity?)!!, arrayOf(Manifest.permission.CAMERA), this.MY_CAMERA_REQUEST_CODE) }
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    (this as Activity?)!!,
+                    Manifest.permission.CAMERA
+                )
+            ) {
+                Utils.showMessageOKCancel(
+                    this,
+                    resources.getString(com.ihsinformatics.dynamicformsgenerator.R.string.qr_code_permission_request_message)
+                ) { dialog, which ->
+                    ActivityCompat.requestPermissions(
+                        (this as Activity?)!!,
+                        arrayOf(Manifest.permission.CAMERA),
+                        this.MY_CAMERA_REQUEST_CODE
+                    )
+                }
                 return
             }
-            ActivityCompat.requestPermissions((this as Activity?)!!, arrayOf(Manifest.permission.CAMERA), this.MY_CAMERA_REQUEST_CODE)
+            ActivityCompat.requestPermissions(
+                (this as Activity?)!!,
+                arrayOf(Manifest.permission.CAMERA),
+                this.MY_CAMERA_REQUEST_CODE
+            )
             return
         }
         //showQRCodeReaderDialog()
@@ -317,7 +360,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
         dialog.setContentView(com.ihsinformatics.dynamicformsgenerator.R.layout.dialog_qrcode)
         dialog.show()
         val qrCodeReaderView: QRCodeReaderView
-        qrCodeReaderView = dialog.findViewById(com.ihsinformatics.dynamicformsgenerator.R.id.qrdecoderview)
+        qrCodeReaderView =
+            dialog.findViewById(com.ihsinformatics.dynamicformsgenerator.R.id.qrdecoderview)
         qrCodeReaderView.startCamera()
         qrCodeReaderView.setQRDecodingEnabled(true)
         qrCodeReaderView.setAutofocusInterval(2000L)
@@ -343,7 +387,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                     val offlinePatient = OfflinePatient()
                     if (patient != null) {
                         patientData = PatientData(patient)
-                        val identifiers = resp.optJSONArray(ParamNames.PATIENT).getJSONObject(0).optJSONArray(ParamNames.IDENTIFIERS)
+                        val identifiers = resp.optJSONArray(ParamNames.PATIENT).getJSONObject(0)
+                            .optJSONArray(ParamNames.IDENTIFIERS)
                         if (identifiers != null) for (i in 0 until identifiers.length()) {
                             val id = identifiers.getJSONObject(i)
                             val identifier = id.optString(ParamNames.IDENTIFIER)
@@ -354,7 +399,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                                 offlinePatient.mrNumber = identifier
                             }
                         }
-                        patientData.covidResult=patient.covidResult
+                        patientData.covidResult = patient.covidResult
                     }
                     val encounters = resp.getJSONObject(ParamNames.ENCOUNTERS_COUNT) as JSONObject
 
@@ -371,13 +416,12 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                         offlinePatient.offlineContact = patient.offlineContactNumber
 
 
-
-
                         val birthDate = patient.birthDate
                         val birthTime = DateTime(birthDate)
                         val nowTime = DateTime()
                         val interval = Interval(birthTime, nowTime)
-                        val period = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
+                        val period =
+                            interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay())
                         years = period.getYears()
 
 
@@ -387,7 +431,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                     }
                     if (patientData != null) {
                         patientData.patient.age = years
-                        patientData.covidResult=patientData.covidResult
+                        patientData.covidResult = patientData.covidResult
                         offlinePatientList.add(patientData)
                     }
 
@@ -398,7 +442,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, ZXingScannerView.Re
                 ToastyWidget.getInstance().displayError(this, value, Toast.LENGTH_LONG)
             }
         } catch (e: JSONException) {
-            ToastyWidget.getInstance().displayError(this, "Could not parse server response", Toast.LENGTH_LONG)
+            ToastyWidget.getInstance()
+                .displayError(this, "Could not parse server response", Toast.LENGTH_LONG)
             Logger.log(e)
         }
     }
