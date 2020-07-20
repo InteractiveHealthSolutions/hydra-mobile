@@ -292,7 +292,8 @@ public class Utils {
 
         //Need to delete offline Patient of old identifier because there could be a case where user entered wrong identifier which is not a duplicate
         // In this case if we dont delete offline patient, then same device will not let repeat this identifier
-        DataAccess.getInstance().deleteOfflinePatient(context,oldIdentifier);
+        if(!oldIdentifier.equals(newIdentifier))
+            DataAccess.getInstance().deleteOfflinePatient(context,oldIdentifier);
     }
 
 }
