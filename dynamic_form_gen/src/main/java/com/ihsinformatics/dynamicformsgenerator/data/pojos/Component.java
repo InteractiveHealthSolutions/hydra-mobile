@@ -2,21 +2,18 @@ package com.ihsinformatics.dynamicformsgenerator.data.pojos;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created byTaha Asif on 7/20/2020.
- */
-
-public class Form {
+public class Component {
 
     @SerializedName("uuid")
     private String uuid;
 
-    // @PrimaryKey
-    @SerializedName("hydramoduleFormId")
-    private long formId;
+    //@PrimaryKey
+    @SerializedName("componentId")
+    private long componentId;
 
     @SerializedName("name")
     private String name;
+
 
     public String getUuid() {
         return uuid;
@@ -26,12 +23,12 @@ public class Form {
         this.uuid = uuid;
     }
 
-    public long getFormId() {
-        return formId;
+    public long getComponentId() {
+        return componentId;
     }
 
-    public void setFormId(long formId) {
-        this.formId = formId;
+    public void setComponentId(long componentId) {
+        this.componentId = componentId;
     }
 
     public String getName() {

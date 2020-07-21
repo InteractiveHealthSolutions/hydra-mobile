@@ -3,6 +3,8 @@ package com.ihsinformatics.dynamicformsgenerator.data.database;
 import android.content.Context;
 import android.util.Log;
 
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.History;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.HistoryDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.User;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
@@ -26,7 +28,6 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
         switch (oldVersion) {
             case 1:
             case 2:
-                //db.execSQL("ALTER TABLE " + UserDao.TABLENAME + " ADD COLUMN " + UserDao.Properties.Name.columnName + " TEXT DEFAULT 'DEFAULT_VAL'");
             case 3:
             case 4:
             case 5:
@@ -46,26 +47,26 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                     db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.LastUploadError.columnName);
                     db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.Patient_name.columnName);
                     db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.HydraURL.columnName);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             case 17:
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + UserDao.TABLENAME + " (" + User.COLUMN_USERUUID + " TEXT, "
-                        +User.COLUMN_USERNAME + " TEXT, "
-                        +User.COLUMN_PASSWORD + " TEXT, "
-                        +User.COLUMN_PROVIDER + " TEXT, "
-                        +"ID INTEGER PRIMARY KEY AUTOINCREMENT"+" )");
+                        + User.COLUMN_USERNAME + " TEXT, "
+                        + User.COLUMN_PASSWORD + " TEXT, "
+                        + User.COLUMN_PROVIDER + " TEXT, "
+                        + "ID INTEGER PRIMARY KEY AUTOINCREMENT" + " )");
 
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + UserReportsDao.TABLENAME + " (" + UserReports.COLUMN_USERNAME + " TEXT, "
-                        +UserReports.ENCOUNTER + " TEXT, "
-                        +UserReports.ENCOUNTER_FILLED + " INTEGER, "
-                        +UserReports.ENCOUNTER_UPLOADED + " INTEGER, "
-                        +UserReports.OFFLINE_FORM_ID + " INTEGER, "
-                        +UserReports.ENCOUNTER_DATE + " TEXT, "
-                        +UserReports.ENCOUNTER_WORKFLOWUUID + " TEXT, "
-                        +UserReports.ENCOUNTER_COMPONENT_FORM_UUID + " TEXT, "
-                        +UserReports.COLUMN_URL + " TEXT, "
-                        +UserReports.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT"+" )");
+                        + UserReports.ENCOUNTER + " TEXT, "
+                        + UserReports.ENCOUNTER_FILLED + " INTEGER, "
+                        + UserReports.ENCOUNTER_UPLOADED + " INTEGER, "
+                        + UserReports.OFFLINE_FORM_ID + " INTEGER, "
+                        + UserReports.ENCOUNTER_DATE + " TEXT, "
+                        + UserReports.ENCOUNTER_WORKFLOWUUID + " TEXT, "
+                        + UserReports.ENCOUNTER_COMPONENT_FORM_UUID + " TEXT, "
+                        + UserReports.COLUMN_URL + " TEXT, "
+                        + UserReports.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + " )");
 
 
                 db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.WorkflowUUID.columnName);
@@ -77,6 +78,21 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
                 db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.Filled_date.columnName + " TEXT DEFAULT ''");
                 db.execSQL("ALTER TABLE " + SaveableFormDao.TABLENAME + " ADD COLUMN " + SaveableFormDao.Properties.Filler_username.columnName + " TEXT DEFAULT ''");
 
+            case 20:
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + HistoryDao.TABLENAME + " (" + History.COLUMN_FORM_PATIENT_ID + " TEXT, "
+                        + History.ENCOUNTER + " TEXT, "
+                        + History.ENCOUNTER_DATE_TIME + " TEXT, "
+                        + History.COLUMN_COMPONENT_FORM_UUID + " TEXT, "
+                        + History.COLUMN_COMPONENT_FORM_ID + " INTEGER, "
+                        + History.COLUMN_PHASE_UUID + " TEXT, "
+                        + History.COLUMN_PHASE_ID + " INTEGER, "
+                        + History.COLUMN_COMPONENT_UUID + " TEXT, "
+                        + History.COLUMN_COMPONENT_ID + " INTEGER, "
+                        + History.COLUMN_WORKFLOW_UUID + " TEXT, "
+                        + History.COLUMN_WORKFLOW_ID + " INTEGER, "
+                        + History.COLUMN_FORM_UUID + " TEXT, "
+                        + History.COLUMN_FORM_ID + " INTEGER, "
+                        + History.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + " )");
 
         }
     }

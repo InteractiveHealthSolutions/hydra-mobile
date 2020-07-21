@@ -6,18 +6,20 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.ihsinformatics.dynamicformsgenerator.Utils
 import com.ihsinformatics.dynamicformsgenerator.common.Constants
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
-import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormEncounterMapper
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.History
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
@@ -116,8 +118,8 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
 
                         val encounterSearch = RequestManager(context, username, password).getPatientRetrofit()
                             .create(PatientApiService::class.java)
-
-                        encounterSearch.getEncountersOfPatient(patient.identifiers.get(0).identifier, Constant.REPRESENTATION)
+                        val identifier = patient.identifiers.get(0).identifier
+                        encounterSearch.getEncountersOfPatient(identifier, Constant.REPRESENTATION)
                             .enqueue(object : Callback<ReportEncountersApiResponse> {
                                 override fun onResponse(call: Call<ReportEncountersApiResponse>, response: Response<ReportEncountersApiResponse>) {
                                     Timber.e(response.message())
@@ -128,10 +130,9 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                             encountersList.add(enc.encounters)
                                         }
 
-                                        DataAccess.getInstance()
-                                            .insertServiceHistory(context, patient.identifiers.get(0).identifier, encountersList);
+                                        DataAccess.getInstance().insertHistory(context,response.body()!!.results, identifier);
 
-                                        encounterSearch.getXRayOrderFormByPatientIdentifier(patient.identifiers.get(0).identifier, Constant.REPRESENTATION)
+                                        encounterSearch.getXRayOrderFormByPatientIdentifier(identifier, Constant.REPRESENTATION)
                                             .enqueue(object : Callback<EncounterMapperApiResponse> {
                                                 override fun onResponse(call: Call<EncounterMapperApiResponse>, response: Response<EncounterMapperApiResponse>) {
                                                     var covidResult = "NONE"

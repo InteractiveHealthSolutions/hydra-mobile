@@ -11,13 +11,14 @@ import com.google.gson.reflect.TypeToken
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormEncounterMapper
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.History
 import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 import ihsinformatics.com.hydra_mobile.common.Constant
 import ihsinformatics.com.hydra_mobile.data.remote.APIResponses.ReportEncountersApiResponse
 import ihsinformatics.com.hydra_mobile.data.remote.manager.RequestManager
-import ihsinformatics.com.hydra_mobile.data.remote.service.CommonLabApiService
 import ihsinformatics.com.hydra_mobile.data.remote.service.PatientApiService
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableOfflinePatientAdapter
 import ihsinformatics.com.hydra_mobile.ui.adapter.CustomExpandableReportAdapter
@@ -123,16 +124,16 @@ class ReportActivity : BaseActivity() {
                         Timber.e(response.message())
                         if (response.isSuccessful) {
 
-                            for(enc in response.body()!!.results)
-                            {
+                            for (enc in response.body()!!.results) {
                                 encountersList.add(enc.encounters)
-
                             }
-                            DataAccess.getInstance().insertServiceHistory(
+
+                            DataAccess.getInstance().insertHistory(
                                 this@ReportActivity,
-                                patientID,
-                                encountersList
+                                response.body()!!.results,
+                                patientID
                             )
+
 
                             networkProgressDialog.dismiss()
                             if (encountersList.size != 0) {
@@ -190,20 +191,12 @@ class ReportActivity : BaseActivity() {
     }
 
 
-    fun fetchOfflineEncounters()
-    {
+    fun fetchOfflineEncounters() {
         val serviceHistory =
-            DataAccess.getInstance().fetchServiceHistoryByPatientIdentifier(this, patientID)
-        val gson = Gson()
-        val type = object : TypeToken<List<Encounters?>?>() {}.type
-        if (serviceHistory != null && serviceHistory.encounter != null) {
-            encountersList.addAll(
-                gson.fromJson<List<Encounters>>(
-                    serviceHistory.encounter,
-                    type
-                )
-            )
-        }
+            DataAccess.getInstance().fetchHistoryByPatientIdentifier(this, patientID)
+
+        encountersList.addAll(serviceHistory)
+
     }
 
     fun setEncounterList() {
@@ -236,5 +229,6 @@ class ReportActivity : BaseActivity() {
         // Convert the dps to pixels, based on density scale
         return (pixels * scale + 0.5f).toInt()
     }
+
 
 }

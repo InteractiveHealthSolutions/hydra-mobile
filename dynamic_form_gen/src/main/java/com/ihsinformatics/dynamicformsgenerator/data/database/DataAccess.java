@@ -8,11 +8,15 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 
+import com.google.gson.reflect.TypeToken;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormEncounterMapper;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormTypeDao;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.History;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.HistoryDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.ImageDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Location;
@@ -41,6 +45,7 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.json.JSONArray;
@@ -576,23 +581,6 @@ public class DataAccess {
         return locationList;
     }
 
-    public void insertServiceHistory(Context context, String patientId, List<Encounters> encounters) {
-        ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
-
-        Gson gson = new Gson();
-
-        String encountersJSON = gson.toJson(encounters);
-        serviceHistoryDao.insertOrReplace(new ServiceHistory(patientId, encountersJSON));
-
-    }
-
-
-    public ServiceHistory fetchServiceHistoryByPatientIdentifier(Context context, String patientID) {
-        ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
-        ServiceHistory serviceHistory = serviceHistoryDao.queryBuilder().where(ServiceHistoryDao.Properties.PatientIdentifier.eq(patientID)).unique();
-        return serviceHistory;
-    }
-
 
     public HashMap<String, List<String>> fetchSaveableFormsByPatientIdentifer(Context context, String patientID) throws JSONException {
         List<SaveableForm> listOfForms = App.getDaoSession(context).getSaveableFormDao().queryBuilder().where(SaveableFormDao.Properties.Identifier.eq(patientID)).list();
@@ -618,17 +606,11 @@ public class DataAccess {
         ServiceHistoryDao serviceHistoryDao = App.getDaoSession(context).getServiceHistoryDao();
         serviceHistoryDao.deleteAll();
 
+        HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+        historyDao.deleteAll();
+
         OfflinePatientDao offlinePatientDao = App.getDaoSession(context).getOfflinePatientDao();
         offlinePatientDao.deleteAll();
-
-//
-//        SaveableFormDao offlineFormsDao =  App.getDaoSession(context).getSaveableFormDao();
-//        List<SaveableForm> offlineSavableForm = offlineFormsDao.queryBuilder().where(SaveableFormDao.Properties.HydraURL.eq(hydraUrl)).list();
-//
-//        for (SaveableForm offlineForm : offlineSavableForm){
-//            offlineFormsDao.delete(offlineForm);
-//
-//        }
 
         SaveableFormDao offlineFormsDao = App.getDaoSession(context).getSaveableFormDao();
         offlineFormsDao.deleteAll();
@@ -770,4 +752,54 @@ public class DataAccess {
         App.getDaoSession(context).getOfflinePatientDao().delete(offlinePatient);
 
     }
+
+
+    public void insertHistory(Context context, ArrayList<FormEncounterMapper> encountersList, String patientID) {
+
+        if (encountersList != null && encountersList.size() > 0) {
+            // delete all existing forms of patient with matching identifer (we dont want to keep duplicates. Also we want to store latest forms that were uploaded)
+            final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID)).buildDelete();
+            historyDelete.executeDeleteWithoutDetachingEntities();
+            App.getDaoSession(context).clear();
+
+            // Insert all latest forms uploaded in history
+            HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+
+            Gson gson = new Gson();
+
+            for (FormEncounterMapper enc : encountersList) {
+                String encountersJSON = gson.toJson(enc.getEncounters());
+                History history = new History(null, patientID, enc.getComponentForm().getUuid(), enc.getComponentForm().getId(), enc.getComponentForm().getPhase().getUuid(), enc.getComponentForm().getPhase().getPhaseId()
+                        , enc.getComponentForm().getComponent().getUuid(), enc.getComponentForm().getComponent().getComponentId(), enc.getComponentForm().getWorkflow().getUuid(), enc.getComponentForm().getWorkflow().getWorkflowId(),
+                        enc.getComponentForm().getForm().getUuid(), enc.getComponentForm().getForm().getFormId(), encountersJSON, enc.getEncounters().getEncounterDatetime());
+
+                historyDao.insertOrReplace(history);
+
+            }
+        }
+    }
+
+
+    public List<Encounters> fetchHistoryByPatientIdentifier(Context context, String patientID) {
+
+        List<Encounters> toReturn = new ArrayList<>();
+
+        HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+        List<History> historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID)).list();
+
+        Gson gson = new Gson();
+
+        if (historyList != null) {
+            for (History his : historyList) {
+                Encounters toInsert = gson.fromJson(his.getEncounter(), new TypeToken<Encounters>(){}.getType());
+                toReturn.add(toInsert);
+            }
+        }
+
+        return toReturn;
+
+    }
+
+
+
 }

@@ -253,6 +253,20 @@ public class Form extends BaseActivity {
             Boolean mandatory = formFields.optBoolean("mandatory");
             String initialVisibility = "Visible";
 
+
+
+//            //AutoPopulate (js se ane wali value defaultValue k variable mai jar kr bethegi)
+//            JSONObject autoCompleteFromFormField = formFields.optJSONObject("autoCompleteFromFormField");
+//
+//            // Below will tell kai konsi field (ya question) SE Answer uth kr aega jo yaha autopopulate hoga
+//            Boolean autoCompleteFromEarliest = autoCompleteFromFormField.optBoolean("autoCompleteFromEarliest");
+//
+//            // Below field tells kai wo question ya field konse componentForm kai, konse form kai, konse component kai, konse phase kai, konse workflow mai hai
+//            JSONObject autoCompleteFromComponentForm = formFields.optJSONObject("autoCompleteFromComponentForm");
+//
+//            fetchValueForAutoPopulate(autoCompleteFromComponentForm);
+
+
             String defaultValue = formFields.optString("defaultValue");
             String regix = formFields.optString("regix");
             String charactersNewConfig = formFields.optString("characters");   // characters are mapped to something of location (Naveed bhai can better explain) ~Taha
@@ -449,6 +463,8 @@ public class Form extends BaseActivity {
                     initialVisibility = "GONE";
             }
 
+
+            // AuoSelect
             List<AutoSelect> autoSelectWhen;
             if (null != parsedRule && !parsedRule.equals("") && !parsedRule.equals("null")) {
                 JSONObject parsedRuleJSON = new JSONObject(parsedRule);
@@ -461,6 +477,8 @@ public class Form extends BaseActivity {
             }
 
 
+
+            //Required When (not implemented yet)
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
 
@@ -481,6 +499,12 @@ public class Form extends BaseActivity {
             this.questions.add(completeQuestion);
 
         }
+    }
+
+    private void fetchValueForAutoPopulate(JSONObject autoCompleteFromComponentForm) {
+
+
+
     }
 
 
