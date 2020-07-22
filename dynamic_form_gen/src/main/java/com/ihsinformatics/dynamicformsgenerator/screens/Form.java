@@ -247,9 +247,9 @@ public class Form extends BaseActivity {
             Boolean allowFutureDate = formFields.optBoolean("allowFutureDate");
             Boolean allowPastDate = formFields.optBoolean("allowPastDate");
             String displayText = formFields.optString("displayText");
-            String errorMessage = formFields.optString("errorMessage"); //Not Mapped
+            String errorMessage = formFields.optString("errorMessage");
             Boolean scoreable = formFields.optBoolean("scoreable");  //Not Mapped
-            Boolean allowDecimal = formFields.optBoolean("allowDecimal");  //Not Mapped
+            Boolean allowDecimal = formFields.optBoolean("allowDecimal");
             Boolean mandatory = formFields.optBoolean("mandatory");
             String initialVisibility = "Visible";
 
@@ -428,11 +428,14 @@ public class Form extends BaseActivity {
                 configuration = new QuestionConfiguration(inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
 
             }
-
             else {
                 if (allowDecimal != null && allowDecimal && inputType.equalsIgnoreCase("numeric")) {
                     characters = "1234567890.-+";
                     inputType = "decimalNumeric";
+                }
+                if(widgetType.equals("Textbox") && defaultValue!=null && defaultValue!="")
+                {
+                    this.options.add(new Option(formID, 1, null, null, conceptUUID, defaultValue, -1, true));
                 }
 
                 configuration = new QuestionConfiguration(

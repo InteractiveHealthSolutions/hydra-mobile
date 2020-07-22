@@ -53,13 +53,13 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
         etAnswer = (EditText) findViewById(R.id.etAnswer);
-        options = DataProvider.getInstance(context).getOptions(question.getQuestionId());   //TODO This is the problem in few widgets ~Taha
+       // options = DataProvider.getInstance(context).getOptions(question.getQuestionId());   //TODO This is the problem in few widgets ~Taha
         for (Option option : options) {
             if (option instanceof RangeOption) {
                 rangeOptions.add((RangeOption) option);
             } else {
-                setOptionsOrHint(option);
-                etAnswer.setText(option.getUuid());
+               // setOptionsOrHint(option);
+                etAnswer.setText(option.getText());
             }
         }
 
@@ -118,9 +118,11 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
 
     @Override
     public void setOptionsOrHint(Option... data) {
+
         if (data.length > 0) {
             etAnswer.setHint(data[0].getText());
         }
+
     }
 
     @Override

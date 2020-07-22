@@ -44,6 +44,9 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
 
     @Override
     public void setOptionsOrHint(Option... data) {
+
+        String defaultOptionText="";
+
         Option[] options = data;
         if (data.length > 0) {
             for (int i = 0; i < data.length; i++) {
@@ -55,9 +58,17 @@ public class MultiSelectSpinnerWidget extends InputWidget implements MultiSelect
                 } else {
                     options[i].setText(optionText);
                 }
+
+                if(data[i].isDefault()){      //extracting default Answer
+                    defaultOptionText=data[i].getText();
+                }
             }
             mspAnswer = new MultiSelectSpinner(context, this, options);
             llSpinner.addView(mspAnswer);
+
+            if(defaultOptionText!="")
+                setAnswer(defaultOptionText,"",LANGUAGE.URDU);  //setting default Answer
+
         }
     }
 
