@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 
+import com.google.gson.internal.LinkedHashTreeMap;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
@@ -842,7 +844,20 @@ public class DataAccess {
             {
                 if(ob.getConcept().getUuid().equals(fieldUUID))
                 {
-                    toReturn = ob.getValue().toString();
+                    Object value = ob.getValue();
+                    if(value instanceof JSONObject)
+                    {
+                        toReturn = ((JSONObject) value).optString("display");
+                    }
+                    else if(value instanceof String)
+                    {
+                        toReturn=value.toString();
+                    }
+                    else if(value instanceof LinkedTreeMap)
+                    {
+                        toReturn = ((LinkedTreeMap) value).get("uuid").toString();
+                    }
+
                 }
             }
         }
