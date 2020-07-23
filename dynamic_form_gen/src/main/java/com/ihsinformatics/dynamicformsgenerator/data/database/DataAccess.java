@@ -772,7 +772,7 @@ public class DataAccess {
                 String encountersJSON = gson.toJson(enc.getEncounters());
                 History history = new History(null, patientID, enc.getComponentForm().getUuid(), enc.getComponentForm().getId(), enc.getComponentForm().getPhase().getUuid(), enc.getComponentForm().getPhase().getPhaseId()
                         , enc.getComponentForm().getComponent().getUuid(), enc.getComponentForm().getComponent().getComponentId(), enc.getComponentForm().getWorkflow().getUuid(), enc.getComponentForm().getWorkflow().getWorkflowId(),
-                        enc.getComponentForm().getForm().getUuid(), enc.getComponentForm().getForm().getFormId(), encountersJSON, enc.getEncounters().getEncounterDatetime(), ParamNames.ONLINE_ENCOUNTERS);
+                        enc.getComponentForm().getForm().getUuid(), enc.getComponentForm().getForm().getFormId(), encountersJSON, enc.getEncounters().getAuditInfo().getDateCreated(), ParamNames.ONLINE_ENCOUNTERS);
 
                 historyDao.insertOrReplace(history);
 
