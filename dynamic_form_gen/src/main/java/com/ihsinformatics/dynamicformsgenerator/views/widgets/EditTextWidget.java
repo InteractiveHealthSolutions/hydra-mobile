@@ -53,12 +53,12 @@ public class EditTextWidget extends InputWidget implements TextWatcher {
             configuration = (QuestionConfiguration) super.configuration;
         rangeOptions = new ArrayList<>(0);
         etAnswer = (EditText) findViewById(R.id.etAnswer);
-       // options = DataProvider.getInstance(context).getOptions(question.getQuestionId());   //TODO This is the problem in few widgets ~Taha
+       // options = DataProvider.getInstance(context).getOptions(question.getQuestionId());     // This was used previously when we used DataProvider Class. In HYDRA we are using JSON which comes from web to show questions, options and skiplogics
         for (Option option : options) {
             if (option instanceof RangeOption) {
                 rangeOptions.add((RangeOption) option);
             } else {
-               // setOptionsOrHint(option);
+               // setOptionsOrHint(option);      // This was previously used to set option as hint but now we are using option to set default text
                 etAnswer.setText(option.getText());
             }
         }

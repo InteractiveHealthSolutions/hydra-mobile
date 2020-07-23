@@ -245,11 +245,9 @@ public class Utils {
     public static void changeRecursiveIdentifier(Context context, SaveableForm oldForm, SaveableForm newForm) throws JSONException {
 
         String oldIdentifier = oldForm.getIdentifier();
-        String oldName = oldForm.getPatient_name();
 
         String newIdentifier = newForm.getIdentifier();
         String newName = newForm.getPatient_name();
-
 
 
         List<SaveableForm> forms = DataAccess.getInstance().getAllFormsByPatientIdentifier(context, oldIdentifier);
@@ -268,7 +266,7 @@ public class Utils {
                 JSONObject metaData = formData.getJSONObject(ParamNames.METADATA);
                 JSONObject patientData = metaData.getJSONObject(ParamNames.PATIENT);
 
-                patientData.put(ParamNames.GIVEN_NAME,newName);
+                patientData.put(ParamNames.GIVEN_NAME, newName);
 
                 // This is LIST of identifiers because in old projects we used to have multiple identifer formats (fore.g one format for indus, and other for any other hospital)
                 JSONArray identifiersList = patientData.getJSONArray(ParamNames.IDENTIFIERS);
@@ -282,9 +280,9 @@ public class Utils {
                         identifiersList.put(identifier);
                     }
                 }
-                patientData.put(ParamNames.IDENTIFIERS,identifiersList);
-                metaData.put(ParamNames.PATIENT,patientData);
-                formData.put(ParamNames.METADATA,metaData);
+                patientData.put(ParamNames.IDENTIFIERS, identifiersList);
+                metaData.put(ParamNames.PATIENT, patientData);
+                formData.put(ParamNames.METADATA, metaData);
                 f.setFormData(formData);
                 DataAccess.getInstance().insertOrReplaceForm(context, f);
             }
@@ -292,8 +290,10 @@ public class Utils {
 
         //Need to delete offline Patient of old identifier because there could be a case where user entered wrong identifier which is not a duplicate
         // In this case if we dont delete offline patient, then same device will not let repeat this identifier
-        if(!oldIdentifier.equals(newIdentifier))
-            DataAccess.getInstance().deleteOfflinePatient(context,oldIdentifier);
+        if (!oldIdentifier.equals(newIdentifier)) {
+            DataAccess.getInstance().deleteOfflinePatient(context, oldIdentifier);
+            DataAccess.getInstance().deleteOfflineHistoryByPatientIdentifier(context, oldIdentifier);
+        }
     }
 
 }

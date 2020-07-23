@@ -130,7 +130,7 @@ class SearchPatientAdapter(patientSearched: PatientApiResponse, c: Context, user
                                             encountersList.add(enc.encounters)
                                         }
 
-                                        DataAccess.getInstance().insertHistory(context,response.body()!!.results, identifier);
+                                        DataAccess.getInstance().insertOnlineHistory(context,response.body()!!.results, identifier);
 
                                         encounterSearch.getXRayOrderFormByPatientIdentifier(identifier, Constant.REPRESENTATION)
                                             .enqueue(object : Callback<EncounterMapperApiResponse> {

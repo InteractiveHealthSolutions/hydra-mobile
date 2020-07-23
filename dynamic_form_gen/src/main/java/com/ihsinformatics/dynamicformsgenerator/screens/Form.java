@@ -28,6 +28,8 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.Confi
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTraceChildFields;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.ContactTracingConfiguration;
 import com.ihsinformatics.dynamicformsgenerator.data.core.questions.config.QuestionConfiguration;
+import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.utils.GlobalConstants;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
@@ -114,7 +116,6 @@ public class Form extends BaseActivity {
         toolbar.setTitle(ENCOUNTER_NAME);
 
 
-
         //Edit Form Mode
         boolean loadData = i.getBooleanExtra(GlobalConstants.KEY_LOAD_DATA, false);
         String data = i.getStringExtra(GlobalConstants.KEY_JSON_DATA);
@@ -151,9 +152,8 @@ public class Form extends BaseActivity {
                 InputWidget w = inputWidgetBakery.bakeInputWidget(this, q);
                 llMain.addView(w);
 
-                if(w instanceof QRReaderWidget)
-                {
-                    onPauselistener=((QRReaderWidget) w).getOnPauseListener();
+                if (w instanceof QRReaderWidget) {
+                    onPauselistener = ((QRReaderWidget) w).getOnPauseListener();
                 }
 
                 //Setting values if form is in edit mode
@@ -253,21 +253,28 @@ public class Form extends BaseActivity {
             Boolean mandatory = formFields.optBoolean("mandatory");
             String initialVisibility = "Visible";
 
+            String defaultValue =  formFields.optString("defaultValue")==null || formFields.optString("defaultValue").equals("null")? "":formFields.optString("defaultValue");
+
+            //AutoPopulate (js se ane wali value defaultValue k variable mai jar kr bethegi)
+            JSONObject autoCompleteFromFormField = formFields.optJSONObject("autoCompleteFromFormField");
+
+            Boolean autoCompleteFromEarliest =false;  // This means it will fetch by latest uploaded form by deafult
 
 
-//            //AutoPopulate (js se ane wali value defaultValue k variable mai jar kr bethegi)
-//            JSONObject autoCompleteFromFormField = formFields.optJSONObject("autoCompleteFromFormField");
-//
-//            // Below will tell kai konsi field (ya question) SE Answer uth kr aega jo yaha autopopulate hoga
-//            Boolean autoCompleteFromEarliest = autoCompleteFromFormField.optBoolean("autoCompleteFromEarliest");
-//
-//            // Below field tells kai wo question ya field konse componentForm kai, konse form kai, konse component kai, konse phase kai, konse workflow mai hai
-//            JSONObject autoCompleteFromComponentForm = formFields.optJSONObject("autoCompleteFromComponentForm");
-//
-//            fetchValueForAutoPopulate(autoCompleteFromComponentForm);
+            // Below will tell kai konsi field (ya question) SE Answer uth kr aega jo yaha autopopulate hoga
+            if (autoCompleteFromFormField != null) {
+                autoCompleteFromEarliest = autoCompleteFromFormField.optBoolean("autoCompleteFromEarliest");
+            }
+
+            // Below field tells kai wo question ya field konse componentForm kai, konse form kai, konse component kai, konse phase kai, konse workflow mai hai
+            JSONObject autoCompleteFromComponentForm = formFields.optJSONObject("autoCompleteFromComponentForm");
+
+            if (null != autoCompleteFromComponentForm  && null != autoCompleteFromFormField) {
+                String value = fetchValueForAutoPopulate(autoCompleteFromComponentForm, autoCompleteFromFormField,autoCompleteFromEarliest);
+                defaultValue = value.equals("")? defaultValue:value;
+            }
 
 
-            String defaultValue = formFields.optString("defaultValue");
             String regix = formFields.optString("regix");
             String charactersNewConfig = formFields.optString("characters");   // characters are mapped to something of location (Naveed bhai can better explain) ~Taha
 
@@ -421,20 +428,18 @@ public class Form extends BaseActivity {
                         inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
 
 
-            } else if(("Phone Number").equals(widgetType)){
+            } else if (("Phone Number").equals(widgetType)) {
 
-                inputType="phone_number";
-                characters="0123456789";
+                inputType = "phone_number";
+                characters = "0123456789";
                 configuration = new QuestionConfiguration(inputType, maxLength, minLength, characters, configurationID, maxValue, minValue);
 
-            }
-            else {
+            } else {
                 if (allowDecimal != null && allowDecimal && inputType.equalsIgnoreCase("numeric")) {
                     characters = "1234567890.-+";
                     inputType = "decimalNumeric";
                 }
-                if(widgetType.equals("Textbox") && defaultValue!=null && defaultValue!="")
-                {
+                if (widgetType.equals("Textbox") && defaultValue != null && defaultValue != "") {
                     this.options.add(new Option(formID, 1, null, null, conceptUUID, defaultValue, -1, true));
                 }
 
@@ -480,7 +485,6 @@ public class Form extends BaseActivity {
             }
 
 
-
             //Required When (not implemented yet)
             JSONArray requiredWhenList = formFields.optJSONArray("requiredWhen");
             List<SExpression> requiredWhen = skipLogicParser(requiredWhenList);
@@ -495,7 +499,7 @@ public class Form extends BaseActivity {
 
             Question completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(), getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, Validation.CHECK_FOR_EMPTY, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
 
-            if (regix != null && !regix.equalsIgnoreCase("null")) {
+            if (regix != null && !regix.equalsIgnoreCase("null") && !regix.trim().equals("")) {
                 completeQuestion = new Question(mandatory, getFormId(getENCOUNTER_NAME(), getCOMPONENT_FORM_UUID()), formID, "*", widgetType, initialVisibility, regix, displayText, conceptUUID, configuration, attribute, inputType, errorMessage, disabled, displayOrder, charactersNewConfig, visibleWhen, hiddenWhen, requiredWhen, autoSelectWhen);
             }
 
@@ -504,9 +508,33 @@ public class Form extends BaseActivity {
         }
     }
 
-    private void fetchValueForAutoPopulate(JSONObject autoCompleteFromComponentForm) {
+    private String fetchValueForAutoPopulate(JSONObject autoCompleteFromComponentForm, JSONObject autoCompleteFromFormField, Boolean autoCompleteFromEarliest) throws JSONException {
+
+        String toReturn = "";
+
+        JSONObject phaseJSON = autoCompleteFromComponentForm.optJSONObject("phase");
+        String phaseUUID = phaseJSON.optString("uuid");
+
+        JSONObject workflowJSON = autoCompleteFromComponentForm.optJSONObject("workflow");
+        String workflowUUID = workflowJSON.optString("uuid");
+
+        JSONObject componentJSON = autoCompleteFromComponentForm.optJSONObject("component");
+        String componentUUID = componentJSON.optString("uuid");
+
+        long componentFormId = autoCompleteFromComponentForm.optInt("componentFormId");
+
+        // Till this point we have fetched that where actually the form resides (its workflow, componentFormID etc)
+        // Now we will fetch conceptID for particular field which will decide auto-populate value
+
+        JSONObject autoCompleteJSONField = autoCompleteFromFormField.optJSONObject("field");
+        JSONObject autoCompleteJSONConcept = autoCompleteJSONField.optJSONObject("concept");
+        String autoCompleteConceptUUID = autoCompleteJSONConcept.getString("uuid");
 
 
+        toReturn = DataAccess.getInstance().fetchValueFromOnlineEncounterHistory(this, Global.patientData.getPatient().getIdentifier(), componentFormId, autoCompleteFromEarliest, autoCompleteConceptUUID);
+
+
+        return toReturn;
 
     }
 

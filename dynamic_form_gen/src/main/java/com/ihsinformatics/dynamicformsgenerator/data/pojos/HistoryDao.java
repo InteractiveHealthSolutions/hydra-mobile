@@ -38,6 +38,7 @@ public class HistoryDao extends AbstractDao<History, Long> {
         public final static Property FormID = new Property(11, long.class, "formID", false, "formID");
         public final static Property Encounter = new Property(12, String.class, "encounter", false, "encounter");
         public final static Property EncounterDateTime = new Property(13, String.class, "encounterDateTime", false, "encounterDateTime");
+        public final static Property EncounterSaved = new Property(14, String.class, "encounterSaved", false, "encounterSaved");
     }
 
 
@@ -66,7 +67,8 @@ public class HistoryDao extends AbstractDao<History, Long> {
                 "\"formUUID\" TEXT," + // 10: formUUID
                 "\"formID\" INTEGER NOT NULL ," + // 11: formID
                 "\"encounter\" TEXT," + // 12: encounter
-                "\"encounterDateTime\" TEXT);"); // 13: encounterDateTime
+                "\"encounterDateTime\" TEXT," + // 13: encounterDateTime
+                "\"encounterSaved\" TEXT);"); // 14: encounterSaved
     }
 
     /** Drops the underlying database table. */
@@ -124,6 +126,11 @@ public class HistoryDao extends AbstractDao<History, Long> {
         if (encounterDateTime != null) {
             stmt.bindString(14, encounterDateTime);
         }
+ 
+        String encounterSaved = entity.getEncounterSaved();
+        if (encounterSaved != null) {
+            stmt.bindString(15, encounterSaved);
+        }
     }
 
     @Override
@@ -175,6 +182,11 @@ public class HistoryDao extends AbstractDao<History, Long> {
         if (encounterDateTime != null) {
             stmt.bindString(14, encounterDateTime);
         }
+ 
+        String encounterSaved = entity.getEncounterSaved();
+        if (encounterSaved != null) {
+            stmt.bindString(15, encounterSaved);
+        }
     }
 
     @Override
@@ -198,7 +210,8 @@ public class HistoryDao extends AbstractDao<History, Long> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // formUUID
             cursor.getLong(offset + 11), // formID
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // encounter
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // encounterDateTime
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // encounterDateTime
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // encounterSaved
         );
         return entity;
     }
@@ -219,6 +232,7 @@ public class HistoryDao extends AbstractDao<History, Long> {
         entity.setFormID(cursor.getLong(offset + 11));
         entity.setEncounter(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setEncounterDateTime(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setEncounterSaved(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
      }
     
     @Override

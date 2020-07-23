@@ -32,6 +32,8 @@ public class History {
     public final static String ENCOUNTER = "encounter";
 
     public final static String ENCOUNTER_DATE_TIME = "encounterDateTime";
+    public final static String ENCOUNTER_SAVED = "encounterSaved";
+
 
     @Id(autoincrement = true)
     @Property(nameInDb = COLUMN_ID)
@@ -73,12 +75,15 @@ public class History {
     @Property(nameInDb = ENCOUNTER_DATE_TIME)
     private String encounterDateTime;
 
-    @Generated(hash = 1539897191)
+    @Property(nameInDb = ENCOUNTER_SAVED)
+    private String encounterSaved;
+
+    @Generated(hash = 600876535)
     public History(Long id, @NotNull String patientIdentifier,
             String componentFormUUID, long componentFormID, String phaseUUID,
             long phaseID, String componentUUID, long componentID,
             String workflowUUID, long WorkflowID, String formUUID, long formID,
-            String encounter, String encounterDateTime) {
+            String encounter, String encounterDateTime, String encounterSaved) {
         this.id = id;
         this.patientIdentifier = patientIdentifier;
         this.componentFormUUID = componentFormUUID;
@@ -93,6 +98,7 @@ public class History {
         this.formID = formID;
         this.encounter = encounter;
         this.encounterDateTime = encounterDateTime;
+        this.encounterSaved = encounterSaved;
     }
 
     @Generated(hash = 869423138)
@@ -211,5 +217,11 @@ public class History {
         this.encounterDateTime = encounterDateTime;
     }
 
+    public String getEncounterSaved() {
+        return this.encounterSaved;
+    }
 
+    public void setEncounterSaved(String encounterSaved) {
+        this.encounterSaved = encounterSaved;
+    }
 }

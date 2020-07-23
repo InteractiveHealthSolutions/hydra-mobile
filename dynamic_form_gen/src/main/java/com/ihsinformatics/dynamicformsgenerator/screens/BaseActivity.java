@@ -42,6 +42,7 @@ import com.ihsinformatics.dynamicformsgenerator.data.core.questions.SkipLogics;
 import com.ihsinformatics.dynamicformsgenerator.data.database.DataAccess;
 import com.ihsinformatics.dynamicformsgenerator.data.database.OfflinePatient;
 import com.ihsinformatics.dynamicformsgenerator.data.database.SaveableForm;
+import com.ihsinformatics.dynamicformsgenerator.data.pojos.History;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.Image;
 import com.ihsinformatics.dynamicformsgenerator.network.DataSender;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
@@ -87,6 +88,7 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
 
     private int scrollPosition;
     // List<InputWidget> inputWidgets;
+
     protected Map<Integer, InputWidget> inputWidgets;
     protected Map<Integer, InputWidget> runtimeGeneratedWidgets;
     // protected JSONObject dataFromServer;
@@ -340,9 +342,11 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                 } else {
 
                     form = new SaveableForm(id, null, savableData.toString(), Form.getENCOUNTER_NAME(), null, serviceHistoryValues.toString(), patientIdentifier, patientName, Global.WORKFLOWUUID, Form.getCOMPONENT_FORM_UUID(), null, Global.HYRDA_CURRENT_URL, dateValue, Global.USERNAME);
-                }
+                         }
 
                 long formId = dataAccess.insertOrReplaceForm(BaseActivity.this, form);
+                dataAccess.insertOrReplaceOfflineHistory(BaseActivity.this,new History(null,patientIdentifier,Form.getCOMPONENT_FORM_UUID(),-1,null,-1,null,-1,Global.WORKFLOWUUID,-1,null,formId,savableData.toString(),new Date().toString(),ParamNames.OFFLINE_ENCOUNTERS));
+
                 Logger.logEvent("FORM_CREATED", form.getFormData().toString());
                 if (formId != -1) {
                     JSONObject jsonObject = new JSONObject();

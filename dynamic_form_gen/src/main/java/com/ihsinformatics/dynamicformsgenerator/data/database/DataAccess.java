@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ihsinformatics.dynamicformsgenerator.App;
 import com.ihsinformatics.dynamicformsgenerator.data.DataProvider;
 import com.ihsinformatics.dynamicformsgenerator.data.database.history.Encounters;
+import com.ihsinformatics.dynamicformsgenerator.data.database.history.Ob;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormEncounterMapper;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormType;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.FormTypeDao;
@@ -41,7 +42,6 @@ import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserDao;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReports;
 import com.ihsinformatics.dynamicformsgenerator.data.pojos.UserReportsDao;
 import com.ihsinformatics.dynamicformsgenerator.network.ParamNames;
-import com.ihsinformatics.dynamicformsgenerator.utils.Global;
 import com.ihsinformatics.dynamicformsgenerator.utils.Logger;
 
 import org.greenrobot.greendao.database.Database;
@@ -754,11 +754,12 @@ public class DataAccess {
     }
 
 
-    public void insertHistory(Context context, ArrayList<FormEncounterMapper> encountersList, String patientID) {
+    // deletes old history and updates with new one, when encounters fetched online
+    public synchronized void insertOnlineHistory(Context context, ArrayList<FormEncounterMapper> encountersList, String patientID) {
 
         if (encountersList != null && encountersList.size() > 0) {
             // delete all existing forms of patient with matching identifer (we dont want to keep duplicates. Also we want to store latest forms that were uploaded)
-            final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID)).buildDelete();
+            final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS)).buildDelete();
             historyDelete.executeDeleteWithoutDetachingEntities();
             App.getDaoSession(context).clear();
 
@@ -771,7 +772,7 @@ public class DataAccess {
                 String encountersJSON = gson.toJson(enc.getEncounters());
                 History history = new History(null, patientID, enc.getComponentForm().getUuid(), enc.getComponentForm().getId(), enc.getComponentForm().getPhase().getUuid(), enc.getComponentForm().getPhase().getPhaseId()
                         , enc.getComponentForm().getComponent().getUuid(), enc.getComponentForm().getComponent().getComponentId(), enc.getComponentForm().getWorkflow().getUuid(), enc.getComponentForm().getWorkflow().getWorkflowId(),
-                        enc.getComponentForm().getForm().getUuid(), enc.getComponentForm().getForm().getFormId(), encountersJSON, enc.getEncounters().getEncounterDatetime());
+                        enc.getComponentForm().getForm().getUuid(), enc.getComponentForm().getForm().getFormId(), encountersJSON, enc.getEncounters().getEncounterDatetime(), ParamNames.ONLINE_ENCOUNTERS);
 
                 historyDao.insertOrReplace(history);
 
@@ -780,18 +781,26 @@ public class DataAccess {
     }
 
 
-    public List<Encounters> fetchHistoryByPatientIdentifier(Context context, String patientID) {
+    public synchronized void insertOrReplaceOfflineHistory(Context context, History history) {
+
+        App.getDaoSession(context).getHistoryDao().insertOrReplace(history);
+
+    }
+
+
+    public List<Encounters> fetchOnlineHistoryByPatientIdentifier(Context context, String patientID) {
 
         List<Encounters> toReturn = new ArrayList<>();
 
         HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
-        List<History> historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID)).list();
+        List<History> historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS)).list();
 
         Gson gson = new Gson();
 
         if (historyList != null) {
             for (History his : historyList) {
-                Encounters toInsert = gson.fromJson(his.getEncounter(), new TypeToken<Encounters>(){}.getType());
+                Encounters toInsert = gson.fromJson(his.getEncounter(), new TypeToken<Encounters>() {
+                }.getType());
                 toReturn.add(toInsert);
             }
         }
@@ -800,6 +809,55 @@ public class DataAccess {
 
     }
 
+    public String fetchValueFromOnlineEncounterHistory(Context context, String patientID, long componentFormID, Boolean autoCompleteFromEarliest, String fieldUUID) {
 
+        String toReturn="";
+
+        Encounters encounter = new Encounters();
+        List<History> historyList= new ArrayList<>();
+        History history =null;
+
+
+        HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+        if(autoCompleteFromEarliest)
+        {
+            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderAsc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
+        }
+        else {
+            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderDesc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
+        }
+
+
+
+        if (null != historyList && historyList.size() > 0) {
+            history = historyList.get(0);
+        }
+
+        Gson gson = new Gson();
+
+        if (history != null) {
+            encounter = gson.fromJson(history.getEncounter(), new TypeToken<Encounters>() {}.getType());
+
+            for(Ob ob: encounter.getObs())
+            {
+                if(ob.getConcept().getUuid().equals(fieldUUID))
+                {
+                    toReturn = ob.getValue().toString();
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+
+    public synchronized void deleteOfflineHistoryByPatientIdentifier(Context context, String patientID) {
+
+        final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_ENCOUNTERS)).buildDelete();
+        historyDelete.executeDeleteWithoutDetachingEntities();
+        App.getDaoSession(context).clear();
+
+
+    }
 
 }

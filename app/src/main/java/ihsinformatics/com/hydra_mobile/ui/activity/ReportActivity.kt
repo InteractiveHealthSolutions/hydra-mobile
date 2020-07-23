@@ -128,7 +128,7 @@ class ReportActivity : BaseActivity() {
                                 encountersList.add(enc.encounters)
                             }
 
-                            DataAccess.getInstance().insertHistory(
+                            DataAccess.getInstance().insertOnlineHistory(
                                 this@ReportActivity,
                                 response.body()!!.results,
                                 patientID
@@ -193,7 +193,7 @@ class ReportActivity : BaseActivity() {
 
     fun fetchOfflineEncounters() {
         val serviceHistory =
-            DataAccess.getInstance().fetchHistoryByPatientIdentifier(this, patientID)
+            DataAccess.getInstance().fetchOnlineHistoryByPatientIdentifier(this, patientID)
 
         encountersList.addAll(serviceHistory)
 

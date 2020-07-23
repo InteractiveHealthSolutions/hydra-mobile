@@ -81,6 +81,7 @@ public class DbOpenHelper extends DaoMaster.OpenHelper {
             case 20:
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + HistoryDao.TABLENAME + " (" + History.COLUMN_FORM_PATIENT_ID + " TEXT, "
                         + History.ENCOUNTER + " TEXT, "
+                        + History.ENCOUNTER_SAVED + " TEXT, "
                         + History.ENCOUNTER_DATE_TIME + " TEXT, "
                         + History.COLUMN_COMPONENT_FORM_UUID + " TEXT, "
                         + History.COLUMN_COMPONENT_FORM_ID + " INTEGER, "

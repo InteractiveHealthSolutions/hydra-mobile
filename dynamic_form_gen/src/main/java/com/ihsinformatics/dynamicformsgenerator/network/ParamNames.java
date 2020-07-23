@@ -154,4 +154,8 @@ public class ParamNames {
     public static final String OTHER_DETAILS = "otherDetails";
 
     public static final String OFFLINE_CONTACT = "offlineContact";
+
+    public static final String ONLINE_ENCOUNTERS = "online";
+    public static final String OFFLINE_ENCOUNTERS = "offline";
+
 }
