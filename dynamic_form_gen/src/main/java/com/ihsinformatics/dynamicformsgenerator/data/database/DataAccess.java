@@ -761,7 +761,10 @@ public class DataAccess {
 
         if (encountersList != null && encountersList.size() > 0) {
             // delete all existing forms of patient with matching identifer (we dont want to keep duplicates. Also we want to store latest forms that were uploaded)
-            final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS)).buildDelete();
+            final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder()
+                    .where(HistoryDao.Properties.PatientIdentifier.eq(patientID))
+                    .whereOr( HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_UPLOADED_ENCOUNTERS))
+                    .buildDelete();
             historyDelete.executeDeleteWithoutDetachingEntities();
             App.getDaoSession(context).clear();
 
@@ -811,24 +814,23 @@ public class DataAccess {
 
     }
 
+
+    // This function returns value to be auto-populated
     public String fetchValueFromOnlineEncounterHistory(Context context, String patientID, long componentFormID, Boolean autoCompleteFromEarliest, String fieldUUID) {
 
-        String toReturn="";
+        String toReturn = "";
 
         Encounters encounter = new Encounters();
-        List<History> historyList= new ArrayList<>();
-        History history =null;
+        List<History> historyList = new ArrayList<>();
+        History history = null;
 
 
         HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
-        if(autoCompleteFromEarliest)
-        {
+        if (autoCompleteFromEarliest) {
             historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderAsc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
-        }
-        else {
+        } else {
             historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderDesc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
         }
-
 
 
         if (null != historyList && historyList.size() > 0) {
@@ -838,23 +840,17 @@ public class DataAccess {
         Gson gson = new Gson();
 
         if (history != null) {
-            encounter = gson.fromJson(history.getEncounter(), new TypeToken<Encounters>() {}.getType());
+            encounter = gson.fromJson(history.getEncounter(), new TypeToken<Encounters>() {
+            }.getType());
 
-            for(Ob ob: encounter.getObs())
-            {
-                if(ob.getConcept().getUuid().equals(fieldUUID))
-                {
+            for (Ob ob : encounter.getObs()) {
+                if (ob.getConcept().getUuid().equals(fieldUUID)) {
                     Object value = ob.getValue();
-                    if(value instanceof JSONObject)
-                    {
+                    if (value instanceof JSONObject) {
                         toReturn = ((JSONObject) value).optString("display");
-                    }
-                    else if(value instanceof String)
-                    {
-                        toReturn=value.toString();
-                    }
-                    else if(value instanceof LinkedTreeMap)
-                    {
+                    } else if (value instanceof String) {
+                        toReturn = value.toString();
+                    } else if (value instanceof LinkedTreeMap) {
                         toReturn = ((LinkedTreeMap) value).get("uuid").toString();
                     }
 
@@ -872,6 +868,21 @@ public class DataAccess {
         historyDelete.executeDeleteWithoutDetachingEntities();
         App.getDaoSession(context).clear();
 
+
+    }
+
+
+    // This function changes tag of offline history from "offline" to "offline_uploaded". We need this when offline saved form is uploaded successfully.
+    // Once we change tag from "offline" to "offline_uploaded", this will help us delete this offline history when new history is fetched from form-encounter endpoint
+    public synchronized void changeOfflineFormTagInHistory(Context context, long offlineFormId) {
+
+        HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+        History history = historyDao.queryBuilder().where(HistoryDao.Properties.FormID.eq(offlineFormId), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_ENCOUNTERS)).unique();
+
+        if (history != null) {
+            history.setEncounterSaved(ParamNames.OFFLINE_UPLOADED_ENCOUNTERS);
+            historyDao.insertOrReplace(history);
+        }
 
     }
 

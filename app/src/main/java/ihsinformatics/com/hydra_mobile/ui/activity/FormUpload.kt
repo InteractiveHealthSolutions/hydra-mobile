@@ -152,6 +152,9 @@ class FormUpload : AppCompatActivity() {
                         .updateEncounterUploadCount(this@FormUpload, Global.USERNAME, saveableForm.getEncounterType(), saveableForm.getFormId(),saveableForm.workflowUUID ,saveableForm.componentFormUUID, Global.HYRDA_CURRENT_URL);
                     DataAccess.getInstance()
                         .deleteFormByFormID(this@FormUpload, saveableForm.formId)
+                    DataAccess.getInstance()
+                        .changeOfflineFormTagInHistory(this@FormUpload, saveableForm.formId)
+
                     Logger.logEvent("FORM_UPLOAD_SUCCESS", saveableForm.getFormData().toString())
 
                 } else {

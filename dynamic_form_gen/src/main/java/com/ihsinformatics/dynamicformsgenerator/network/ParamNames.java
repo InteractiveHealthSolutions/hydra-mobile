@@ -157,5 +157,6 @@ public class ParamNames {
 
     public static final String ONLINE_ENCOUNTERS = "online";
     public static final String OFFLINE_ENCOUNTERS = "offline";
+    public static final String OFFLINE_UPLOADED_ENCOUNTERS = "offline_uploaded";
 
 }
