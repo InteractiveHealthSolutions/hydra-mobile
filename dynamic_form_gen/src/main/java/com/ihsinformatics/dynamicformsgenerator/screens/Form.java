@@ -320,7 +320,7 @@ public class Form extends BaseActivity {
                     String optionConceptUUID = optionConcept.optString("uuid");
                     String optionDisplay = optionConcept.optString("display");
                     Boolean optionDefault = false;
-                    if (defaultValue != null && defaultValue.equals(optionConceptUUID))
+                    if (defaultValue != null && (defaultValue.equals(optionConceptUUID) || defaultValue.equals(optionUUID)))
                         optionDefault = true;
                     this.options.add(new Option(formID, j, null, null, optionConceptUUID, optionDisplay, -1, optionDefault));
                 }
