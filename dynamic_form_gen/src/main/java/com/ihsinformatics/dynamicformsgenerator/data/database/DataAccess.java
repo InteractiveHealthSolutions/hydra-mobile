@@ -763,7 +763,7 @@ public class DataAccess {
             // delete all existing forms of patient with matching identifer (we dont want to keep duplicates. Also we want to store latest forms that were uploaded)
             final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder()
                     .where(HistoryDao.Properties.PatientIdentifier.eq(patientID))
-                    .whereOr( HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_UPLOADED_ENCOUNTERS))
+                    .whereOr(HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_UPLOADED_ENCOUNTERS))
                     .buildDelete();
             historyDelete.executeDeleteWithoutDetachingEntities();
             App.getDaoSession(context).clear();
@@ -816,7 +816,7 @@ public class DataAccess {
 
 
     // This function returns value to be auto-populated
-    public String fetchValueFromOnlineEncounterHistory(Context context, String patientID, long componentFormID, Boolean autoCompleteFromEarliest, String fieldUUID) {
+    public String fetchValueFromOnlineEncounterHistory(Context context, String patientID, String componentFormUUID, Boolean autoCompleteFromEarliest, String fieldUUID) throws JSONException {
 
         String toReturn = "";
 
@@ -827,9 +827,9 @@ public class DataAccess {
 
         HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
         if (autoCompleteFromEarliest) {
-            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderAsc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
+            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID),  HistoryDao.Properties.ComponentFormUUID.eq(componentFormUUID)).orderAsc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
         } else {
-            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.ONLINE_ENCOUNTERS), HistoryDao.Properties.ComponentFormID.eq(componentFormID)).orderDesc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
+            historyList = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(patientID),  HistoryDao.Properties.ComponentFormUUID.eq(componentFormUUID)).orderDesc(HistoryDao.Properties.EncounterDateTime).limit(1).list();
         }
 
 
@@ -840,20 +840,39 @@ public class DataAccess {
         Gson gson = new Gson();
 
         if (history != null) {
-            encounter = gson.fromJson(history.getEncounter(), new TypeToken<Encounters>() {
-            }.getType());
+            if (history.getEncounterSaved().equals(ParamNames.ONLINE_ENCOUNTERS)) {
+                encounter = gson.fromJson(history.getEncounter(), new TypeToken<Encounters>() {
+                }.getType());
 
-            for (Ob ob : encounter.getObs()) {
-                if (ob.getConcept().getUuid().equals(fieldUUID)) {
-                    Object value = ob.getValue();
-                    if (value instanceof JSONObject) {
-                        toReturn = ((JSONObject) value).optString("display");
-                    } else if (value instanceof String) {
-                        toReturn = value.toString();
-                    } else if (value instanceof LinkedTreeMap) {
-                        toReturn = ((LinkedTreeMap) value).get("uuid").toString();
+                for (Ob ob : encounter.getObs()) {
+                    if (ob.getConcept().getUuid().equals(fieldUUID)) {
+                        Object value = ob.getValue();
+                        if (value instanceof JSONObject) {
+                            toReturn = ((JSONObject) value).optString("display");
+                            break;
+                        } else if (value instanceof String) {
+                            toReturn = value.toString();
+                            break;
+                        } else if (value instanceof LinkedTreeMap) {
+                            toReturn = ((LinkedTreeMap) value).get("uuid").toString();
+                            break;
+                        }
+
                     }
-
+                }
+            }
+            else{
+                JSONObject offlineData = new JSONObject(history.getEncounter());
+                JSONArray data = offlineData.optJSONArray(ParamNames.FORM_DATA);
+                for(int i=0; i<data.length();i++)
+                {
+                    JSONObject field = data.getJSONObject(i);
+                    String paramName = field.optString(ParamNames.PARAM_NAME);
+                    if(paramName.equals(fieldUUID))
+                    {
+                        toReturn = field.optString(ParamNames.VALUE);
+                        i = data.length(); // just a simple break statement, inorder to avoid bad break statement practice
+                    }
                 }
             }
         }

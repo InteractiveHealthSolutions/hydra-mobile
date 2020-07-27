@@ -521,7 +521,7 @@ public class Form extends BaseActivity {
         JSONObject componentJSON = autoCompleteFromComponentForm.optJSONObject("component");
         String componentUUID = componentJSON.optString("uuid");
 
-        long componentFormId = autoCompleteFromComponentForm.optInt("componentFormId");
+        String componentFormUUID = autoCompleteFromComponentForm.optString("uuid");
 
         // Till this point we have fetched that where actually the form resides (its workflow, componentFormID etc)
         // Now we will fetch conceptID for particular field which will decide auto-populate value
@@ -531,7 +531,7 @@ public class Form extends BaseActivity {
         String autoCompleteConceptUUID = autoCompleteJSONConcept.getString("uuid");
 
 
-        toReturn = DataAccess.getInstance().fetchValueFromOnlineEncounterHistory(this, Global.patientData.getPatient().getIdentifier(), componentFormId, autoCompleteFromEarliest, autoCompleteConceptUUID);
+        toReturn = DataAccess.getInstance().fetchValueFromOnlineEncounterHistory(this, Global.patientData.getPatient().getIdentifier(), componentFormUUID, autoCompleteFromEarliest, autoCompleteConceptUUID);
 
 
         return toReturn;

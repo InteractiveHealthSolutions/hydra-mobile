@@ -345,7 +345,9 @@ public class BaseActivity extends AppCompatActivity implements Sendable, View.On
                          }
 
                 long formId = dataAccess.insertOrReplaceForm(BaseActivity.this, form);
-                dataAccess.insertOrReplaceOfflineHistory(BaseActivity.this,new History(null,patientIdentifier,Form.getCOMPONENT_FORM_UUID(),-1,null,-1,null,-1,Global.WORKFLOWUUID,-1,null,formId,savableData.toString(),new Date().toString(),ParamNames.OFFLINE_ENCOUNTERS));
+                String formFilledDate = Global.OPENMRS_TIMESTAMP_FORMAT.format(new Date());
+
+                dataAccess.insertOrReplaceOfflineHistory(BaseActivity.this,new History(null,patientIdentifier,Form.getCOMPONENT_FORM_UUID(),-1,null,-1,null,-1,Global.WORKFLOWUUID,-1,null,formId,savableData.toString(),formFilledDate,ParamNames.OFFLINE_ENCOUNTERS));
 
                 Logger.logEvent("FORM_CREATED", form.getFormData().toString());
                 if (formId != -1) {
