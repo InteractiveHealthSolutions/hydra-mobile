@@ -788,6 +788,16 @@ public class DataAccess {
 
     public synchronized void insertOrReplaceOfflineHistory(Context context, History history) {
 
+        // Doing this step to check if form is not getting saved again when opened in edit mode
+        HistoryDao historyDao = App.getDaoSession(context).getHistoryDao();
+        History alreadySavedHistory = historyDao.queryBuilder().where(HistoryDao.Properties.PatientIdentifier.eq(history.getPatientIdentifier()), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_ENCOUNTERS), HistoryDao.Properties.FormID.eq(history.getFormID())).unique();
+
+        if(alreadySavedHistory!=null && alreadySavedHistory.getId()!=null)
+        {
+            history.setId(alreadySavedHistory.getId());   // setting id for history inorder to replace old form with edited form
+        }
+
+        // inserting new or already saved history
         App.getDaoSession(context).getHistoryDao().insertOrReplace(history);
 
     }
