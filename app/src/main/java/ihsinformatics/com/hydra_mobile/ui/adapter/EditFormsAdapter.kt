@@ -122,6 +122,8 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
                                 DataAccess.getInstance()
                                     .deleteOfflinePatient(context, form.identifier)
                             }
+
+                            DataAccess.getInstance().deleteOfflineHistoryByComponentFormUUID(context,form.componentFormUUID)
                             formsList.remove(form)
                             notifyDataSetChanged()
                         }

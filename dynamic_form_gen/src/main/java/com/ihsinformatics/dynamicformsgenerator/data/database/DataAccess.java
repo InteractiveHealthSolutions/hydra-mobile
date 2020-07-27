@@ -905,4 +905,11 @@ public class DataAccess {
 
     }
 
+    public void deleteOfflineHistoryByComponentFormUUID( Context context,String componentFormUUID) {
+
+        final DeleteQuery<History> historyDelete = App.getDaoSession(context).getHistoryDao().queryBuilder().where(HistoryDao.Properties.ComponentFormUUID.eq(componentFormUUID), HistoryDao.Properties.EncounterSaved.eq(ParamNames.OFFLINE_ENCOUNTERS)).buildDelete();
+        historyDelete.executeDeleteWithoutDetachingEntities();
+        App.getDaoSession(context).clear();
+
+    }
 }
