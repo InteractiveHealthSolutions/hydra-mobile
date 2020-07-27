@@ -23,7 +23,8 @@ import com.ihsinformatics.dynamicformsgenerator.utils.Global
 import com.ihsinformatics.dynamicformsgenerator.wrapper.ToastyWidget
 import ihsinformatics.com.hydra_mobile.R
 
-class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) : RecyclerView.Adapter<EditFormsAdapter.ViewHolder>() {
+class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
+    RecyclerView.Adapter<EditFormsAdapter.ViewHolder>() {
 
 
     private var formsList = saveableFormsList
@@ -55,7 +56,8 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
         val deleteLayout = itemView.findViewById<ImageView>(R.id.deleteTrash)
 
 
-        @RequiresApi(Build.VERSION_CODES.M) fun bindItems(form: SaveableForm) {
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun bindItems(form: SaveableForm) {
 
             if (form != null && null != form.identifier) {
                 tvPatientIdentifier.text = form.identifier
@@ -75,7 +77,10 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
 
                     Utils.convertPatientToPatientData(context, serverResponse, 0, requestType)
 
-                    if (Global.patientData != null && Global.patientData.patient.identifier.equals(form.identifier)) {
+                    if (Global.patientData != null && Global.patientData.patient.identifier.equals(
+                            form.identifier
+                        )
+                    ) {
 
 //                        val dataInJson = JSONObject(form.formData)
 //                        val dataToLoad = dataInJson.optJSONArray("values").toString()
@@ -104,9 +109,20 @@ class EditFormsAdapter(saveableFormsList: ArrayList<SaveableForm>, c: Context) :
 
                             DataAccess.getInstance().deleteFormByFormID(context, form.formId)
                             DataAccess.getInstance()
-                                .decreaseEncounterFilledCount(context, Global.USERNAME, form.getEncounterType(), form.getFormId(), form.workflowUUID, form.componentFormUUID, Global.HYRDA_CURRENT_URL);
-
-                            formsList.remove(form);
+                                .decreaseEncounterFilledCount(
+                                    context,
+                                    Global.USERNAME,
+                                    form.getEncounterType(),
+                                    form.getFormId(),
+                                    form.workflowUUID,
+                                    form.componentFormUUID,
+                                    Global.HYRDA_CURRENT_URL
+                                )
+                            if (form.encounterType.equals(ParamNames.ENCOUNTER_TYPE_CREATE_PATIENT)) {
+                                DataAccess.getInstance()
+                                    .deleteOfflinePatient(context, form.identifier)
+                            }
+                            formsList.remove(form)
                             notifyDataSetChanged()
                         }
                     dialog.show()
