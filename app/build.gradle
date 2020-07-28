@@ -16,7 +16,7 @@ android {
         applicationId "ihsinformatics.com.hydra_mobile"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 83
+        versionCode 84
         versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
