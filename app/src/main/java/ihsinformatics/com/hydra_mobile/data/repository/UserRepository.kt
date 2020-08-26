@@ -39,11 +39,18 @@ class UserRepository(application: Application) {
             override fun <T> onSuccess(o: T) {
 
                 var userResponse = o as UserResponse
-
+                if(userResponse == null) {
+                    ToastyWidget.getInstance().displayError(application, application.getString(R.string.invalid_user), Toast.LENGTH_LONG)
+                    return;
+                }
+                if(userResponse.userList.isEmpty()) {
+                    ToastyWidget.getInstance().displayError(application, application.getString(R.string.invalid_user), Toast.LENGTH_LONG)
+                    return;
+                }
                 val providerFetcher = RequestManager(application, username, password).retrofit.create(ProviderApiService::class.java)
-                var delimiter = "."
-                var userSplit = username.split(delimiter)
-                providerFetcher.getProviderData(userSplit[0].toString()).enqueue(object : Callback<ProviderApiResponse> {
+                /*var delimiter = "."
+                var userSplit = username.split(delimiter)*/
+                providerFetcher.getProviderData(userResponse.userList.get(0).systemId).enqueue(object : Callback<ProviderApiResponse> {
                     override fun onFailure(
                         call: Call<ProviderApiResponse>, t: Throwable
                                           ) {

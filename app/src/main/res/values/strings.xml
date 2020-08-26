@@ -384,6 +384,7 @@
     <string name="form_name_sample">Sample Form Name</string>
     <string name="sampleUserID">User_ID</string>
     <string name="sampleDate">5 Dec 2020</string>
+    <string name="invalid_user">Invalid user</string>
 
     <string-array name="end_of_followup_for">
         <item>TB Investigation</item>
