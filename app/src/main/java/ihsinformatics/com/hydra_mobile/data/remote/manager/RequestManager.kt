@@ -27,11 +27,14 @@ import ihsinformatics.com.hydra_mobile.data.remote.model.workflow.*
 import ihsinformatics.com.hydra_mobile.data.remote.service.*
 import ihsinformatics.com.hydra_mobile.ui.activity.LoginActivity
 import ihsinformatics.com.hydra_mobile.ui.viewmodel.WorkFlowViewModel
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 
 class RequestManager {
+
+    var interceptor : HttpLoggingInterceptor  = HttpLoggingInterceptor();
 
     lateinit var retrofit: Retrofit
     lateinit var retrofitForFormAPI: Retrofit   //TODO remove this retrofit instance ~Taha
@@ -49,17 +52,24 @@ class RequestManager {
 
         this.context = context
 
+
         initOkHttp(username, password)
 
         initOkHttpPatientList(username, password)
 
         initOkHttpForm(username, password)
 
-        retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        retrofit = Retrofit.Builder().baseUrl(getBaseUrl(context))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build()
 
-        retrofitForFormAPI = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
+        retrofitForFormAPI = Retrofit.Builder().baseUrl(getBaseUrl(context))
+            .addConverterFactory(GsonConverterFactory.create()).client(okHttpClientForm).build()
 
-        retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context)).addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList).build()
+        retrofitTestOrder = Retrofit.Builder().baseUrl(getBaseUrl(context))
+            .addConverterFactory(GsonConverterFactory.create()).client(okHttpClientPatientList)
+            .build()
 
 
     }
@@ -69,26 +79,29 @@ class RequestManager {
     }
 
     private fun initOkHttp(username: String, password: String) {
-        val httpClient = OkHttpClient().newBuilder()
+        val httpClient = OkHttpClient().newBuilder().addInterceptor(interceptor)
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(10000, TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(10000, TimeUnit.SECONDS)
+            .build()
 
         okHttpClient = httpClient.build()
     }
 
 
     private fun initOkHttpPatientList(username: String, password: String) {
-        val httpClient = OkHttpClient().newBuilder()
+        val httpClient = OkHttpClient().newBuilder().addInterceptor(interceptor)
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS)
+            .build()
 
         okHttpClientPatientList = httpClient.build()
     }
 
     private fun initOkHttpForm(username: String, password: String) {
-        val httpClient = OkHttpClient().newBuilder()
+        val httpClient = OkHttpClient().newBuilder().addInterceptor(interceptor)
         httpClient.addInterceptor(BasicAuthInterceptor(username, password))
-        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
+        httpClient.connectTimeout(100000, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS)
+            .build()
 
         okHttpClientForm = httpClient.build()
     }
@@ -113,7 +126,10 @@ class RequestManager {
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 Timber.e(response.message())
-                if (response.isSuccessful && response.body()!!.userList.size > 0 && null != response.body()!!.userList[0].username && !response.body()!!.userList[0].username.equals("")) {
+                if (response.isSuccessful && response.body()!!.userList.size > 0 && null != response.body()!!.userList[0].username && !response.body()!!.userList[0].username.equals(
+                        ""
+                    )
+                ) {
                     restCallback.onSuccess(response.body())
                 } else {
                     restCallback.onFailure(Throwable("Authentication failed! Please enter valid username and password.")) //TODO: change the hard coded string ...
@@ -125,106 +141,117 @@ class RequestManager {
 
     fun getWorkflowPhases(representation: String, restCallback: RESTCallback) {
         val workflowPhasesService = retrofit.create(WorkflowPhasesApiService::class.java)
-        workflowPhasesService.getWorkflowPhases(representation).enqueue(object : Callback<WorkflowPhasesApiResponse> {
+        workflowPhasesService.getWorkflowPhases(representation)
+            .enqueue(object : Callback<WorkflowPhasesApiResponse> {
 
-            override fun onResponse(
-                call: Call<WorkflowPhasesApiResponse>, response: Response<WorkflowPhasesApiResponse>
-                                   ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<WorkflowPhasesApiResponse>,
+                    response: Response<WorkflowPhasesApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<WorkflowPhasesApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<WorkflowPhasesApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
 
     fun getPhaseComponentMap(representation: String, restCallback: RESTCallback) {
         val phaseComponentService = retrofit.create(PhaseComponentApiService::class.java)
-        phaseComponentService.getPhaseComponent(representation).enqueue(object : Callback<PhaseComponentApiResponse> {
+        phaseComponentService.getPhaseComponent(representation)
+            .enqueue(object : Callback<PhaseComponentApiResponse> {
 
-            override fun onResponse(
-                call: Call<PhaseComponentApiResponse>, response: Response<PhaseComponentApiResponse>
-                                   ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<PhaseComponentApiResponse>,
+                    response: Response<PhaseComponentApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<PhaseComponentApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<PhaseComponentApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
 
     fun getAllWorkFlow(representation: String, restCallback: RESTCallback) {
         val workflowService = retrofit.create(WorkFlowApiService::class.java)
-        workflowService.getAllWorkFlow(representation).enqueue(object : Callback<WorkFlowApiResponse> {
+        workflowService.getAllWorkFlow(representation)
+            .enqueue(object : Callback<WorkFlowApiResponse> {
 
-            override fun onResponse(
-                call: Call<WorkFlowApiResponse>, response: Response<WorkFlowApiResponse>
-                                   ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<WorkFlowApiResponse>, response: Response<WorkFlowApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<WorkFlowApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<WorkFlowApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
 
-    fun getWorkFlowByUserMapping(representation: String, userUUID:String, restCallback: RESTCallback) {
+    fun getWorkFlowByUserMapping(
+        representation: String,
+        userUUID: String,
+        restCallback: RESTCallback
+    ) {
         val workflowService = retrofit.create(WorkFlowApiService::class.java)
 
-        workflowService.getWorkFlowByUserMapping(representation,userUUID).enqueue(object : Callback<WorkFlowUserMappingApiResponse> {
+        workflowService.getWorkFlowByUserMapping(representation, userUUID)
+            .enqueue(object : Callback<WorkFlowUserMappingApiResponse> {
 
-            override fun onResponse(
-                call: Call<WorkFlowUserMappingApiResponse>, response: Response<WorkFlowUserMappingApiResponse>
-            ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<WorkFlowUserMappingApiResponse>,
+                    response: Response<WorkFlowUserMappingApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<WorkFlowUserMappingApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<WorkFlowUserMappingApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
     fun getPhases(representation: String, restCallback: RESTCallback) {
@@ -233,7 +260,7 @@ class RequestManager {
 
             override fun onResponse(
                 call: Call<PhaseApiResponse>, response: Response<PhaseApiResponse>
-                                   ) {
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -259,7 +286,7 @@ class RequestManager {
 
             override fun onResponse(
                 call: Call<ComponentApiResponse>, response: Response<ComponentApiResponse>
-                                   ) {
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -285,7 +312,7 @@ class RequestManager {
 
             override fun onResponse(
                 call: Call<FormApiResponse>, response: Response<FormApiResponse>
-                                   ) {
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -311,7 +338,7 @@ class RequestManager {
 
             override fun onResponse(
                 call: Call<String>, response: Response<String>
-                                   ) {
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -333,38 +360,39 @@ class RequestManager {
 
     fun getLabTestTypeResult(representation: String, restCallback: RESTCallback) {
         val labTestType = retrofit.create(LabTestTypeApiService::class.java)
-        labTestType.getLabTestType(representation).enqueue(object : Callback<LabTestTypeApiResponse> {
+        labTestType.getLabTestType(representation)
+            .enqueue(object : Callback<LabTestTypeApiResponse> {
 
-            override fun onResponse(
-                call: Call<LabTestTypeApiResponse>, response: Response<LabTestTypeApiResponse>
-                                   ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<LabTestTypeApiResponse>, response: Response<LabTestTypeApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<LabTestTypeApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<LabTestTypeApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
 
     // Location limit is set to 1000. You can change it and make it more efficient ~Taha
     fun getLocation(representation: String, restCallback: RESTCallback) {
         val location = retrofit.create(LocationApiService::class.java)
-        location.getLocation(representation,1000).enqueue(object : Callback<LocationApiResponse> {
+        location.getLocation(representation, 1000).enqueue(object : Callback<LocationApiResponse> {
 
             override fun onResponse(
                 call: Call<LocationApiResponse>, response: Response<LocationApiResponse>
-                                   ) {
+            ) {
                 Timber.e(response.message())
 
                 if (response.isSuccessful) {
@@ -385,54 +413,61 @@ class RequestManager {
     }
 
 
-    fun getLocationAndCurrency(queryString: String, representation: String, restCallback: RESTCallback) {
+    fun getLocationAndCurrency(
+        queryString: String,
+        representation: String,
+        restCallback: RESTCallback
+    ) {
         val location = retrofit.create(LocationApiService::class.java)
-        location.getLocationAndCurrency(queryString, representation).enqueue(object : Callback<SystemSettingApiResponse> {
+        location.getLocationAndCurrency(queryString, representation)
+            .enqueue(object : Callback<SystemSettingApiResponse> {
 
-            override fun onResponse(
-                call: Call<SystemSettingApiResponse>, response: Response<SystemSettingApiResponse>
-                                   ) {
-                Timber.e(response.message())
+                override fun onResponse(
+                    call: Call<SystemSettingApiResponse>,
+                    response: Response<SystemSettingApiResponse>
+                ) {
+                    Timber.e(response.message())
 
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
 
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<SystemSettingApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SystemSettingApiResponse>, t: Throwable) {
 
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-        })
+            })
     }
 
     fun searchPatient(representation: String, searchQuery: String, restCallback: RESTCallback) {
         val patientSearch = retrofit.create(PatientApiService::class.java)
 
-        patientSearch.getPatientByQuery(searchQuery, Constant.REPRESENTATION).enqueue(object : Callback<PatientApiResponse> {
-            override fun onResponse(
-                call: Call<PatientApiResponse>, response: Response<PatientApiResponse>
-                                   ) {
-                Timber.e(response.message())
-                if (response.isSuccessful) {
-                    restCallback.onSuccess(response.body())
-                } else {
-                    restCallback.onFailure(Throwable("Not responding"))
+        patientSearch.getPatientByQuery(searchQuery, Constant.REPRESENTATION)
+            .enqueue(object : Callback<PatientApiResponse> {
+                override fun onResponse(
+                    call: Call<PatientApiResponse>, response: Response<PatientApiResponse>
+                ) {
+                    Timber.e(response.message())
+                    if (response.isSuccessful) {
+                        restCallback.onSuccess(response.body())
+                    } else {
+                        restCallback.onFailure(Throwable("Not responding"))
+                    }
+
                 }
 
-            }
+                override fun onFailure(call: Call<PatientApiResponse>, t: Throwable) {
+                    Timber.e(t.localizedMessage)
+                    restCallback.onFailure(t)
+                }
 
-            override fun onFailure(call: Call<PatientApiResponse>, t: Throwable) {
-                Timber.e(t.localizedMessage)
-                restCallback.onFailure(t)
-            }
-
-        })
+            })
     }
 
 
