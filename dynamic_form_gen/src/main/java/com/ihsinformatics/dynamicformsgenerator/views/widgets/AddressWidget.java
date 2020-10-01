@@ -308,6 +308,13 @@ public class AddressWidget extends InputWidget {
             List<Location> locations;
             if (parentValue != context.getString(R.string.other)) {
                 locations = DataAccess.getInstance().fetchLocationsByTag(context, tvTag.getText().toString(), parentValue, parentTag);
+                for(Location l: locations) {
+                    if (l.getName().equalsIgnoreCase("Sindh") || l.getName().equalsIgnoreCase("Karachi")) {
+                        locations.remove(l);
+                        locations.add(0, l);
+                        break;
+                    }
+                }
                 etOther.setVisibility(GONE);
             } else {
                 locations = new ArrayList<>();
