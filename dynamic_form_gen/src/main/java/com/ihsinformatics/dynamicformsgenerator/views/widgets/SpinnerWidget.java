@@ -77,7 +77,7 @@ public class SpinnerWidget extends InputWidget implements OnItemSelectedListener
                     defaultOptionText=optionText;
                 }
             }
-            mAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, dataList);
+            mAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, dataList);
             spAnswer.setAdapter(mAdapter);
             setAnswer(defaultOptionText,"",LANGUAGE.URDU);  //setting default Answer
         }

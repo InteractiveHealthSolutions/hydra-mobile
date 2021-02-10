@@ -25,6 +25,7 @@ public class QuestionConfiguration extends Configuration {
     private Date maxDate;
     private Date minDate;
     private DateSelector.WIDGET_TYPE widgetType;
+    private boolean showCurrentDate = false;
 
 
     public QuestionConfiguration() {
@@ -49,12 +50,13 @@ public class QuestionConfiguration extends Configuration {
 
     }
 
-    public QuestionConfiguration(Date maxDate, Date minDate, DateSelector.WIDGET_TYPE widgetType, int id) {
+    public QuestionConfiguration(Date maxDate, Date minDate, DateSelector.WIDGET_TYPE widgetType, int id, boolean showCurrentDate) {
         super();
         this.maxDate = maxDate;
         this.minDate = minDate;
         this.id = id;
         this.widgetType = widgetType;
+        this.showCurrentDate = showCurrentDate;
     }
 
     public QuestionConfiguration(int inputType,
@@ -196,6 +198,11 @@ public class QuestionConfiguration extends Configuration {
         this.minValue = minValue;
     }
 
+    public boolean isShowCurrentDate() {
+        return showCurrentDate;
+    }
 
-
+    public void setShowCurrentDate(boolean showCurrentDate) {
+        this.showCurrentDate = showCurrentDate;
+    }
 }

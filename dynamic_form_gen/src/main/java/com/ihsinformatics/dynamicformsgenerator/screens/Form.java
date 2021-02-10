@@ -206,7 +206,7 @@ public class Form extends BaseActivity {
 
         int idOfForm = getFormId(getENCOUNTER_NAME(), getCOMPONENT_FORM_UUID());
         QuestionConfiguration alphaNumeric150DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 150, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
-        QuestionConfiguration dateMaxTodayMinLastYear = new QuestionConfiguration(today, oneYearAgo, DateSelector.WIDGET_TYPE.DATE, 8);
+        QuestionConfiguration dateMaxTodayMinLastYear = new QuestionConfiguration(today, oneYearAgo, DateSelector.WIDGET_TYPE.DATE, 8, true);
 
         this.questions.add(new Question(true, idOfForm, 10002, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE_TIME, "Form Date", ParamNames.DATE_ENTERED_PARAM, dateMaxTodayMinLastYear, Question.PAYLOAD_TYPE.DATE_ENTERED));
 
@@ -387,7 +387,7 @@ public class Form extends BaseActivity {
                     startDate = date25YearsAgo;
                 }
 
-                configuration = new QuestionConfiguration(endDate, startDate, DateSelector.WIDGET_TYPE.DATE, 8);
+                configuration = new QuestionConfiguration(endDate, startDate, DateSelector.WIDGET_TYPE.DATE, 8, false);
 
 
             } else if (widgetType.equals("Contact Tracing")) {

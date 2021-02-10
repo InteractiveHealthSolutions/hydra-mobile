@@ -56,8 +56,6 @@ public class DateWidget extends InputWidget {
 
         etAnswer.setFocusable(false);
 
-
-        setCurrentDate();
         clickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,11 +104,9 @@ public class DateWidget extends InputWidget {
         //New calendar date selector
         etAnswer.setOnClickListener(clickListener);
         isSetAnswerFromOnCreate = true;
-        if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
-            setAnswer(Global.TIME_FORMAT.format(new Date()), null, null);
-        } else {
-            setAnswer(Global.DATE_TIME_FORMAT.format(new Date()), null, null);
-        }
+
+        if(configuration.isShowCurrentDate())
+            setCurrentDate();
     }
 
     @Override
@@ -170,10 +166,6 @@ public class DateWidget extends InputWidget {
     @Override
     public JSONObject getAnswer() throws JSONException {
         JSONObject param = new JSONObject();
-
-
-
-
         try {
             if (isValidInput(question.isMandatory())) {
                 dismissMessage();
@@ -256,9 +248,14 @@ public class DateWidget extends InputWidget {
         return getValue();
     }
 
-    private void setCurrentDate()
-    {
+    private void setCurrentDate() throws JSONException {
         String dateString = dateFormat.format(Calendar.getInstance().getTime());
         etAnswer.setText(dateString);
+
+        if (configuration.getWidgetType() == DateSelector.WIDGET_TYPE.TIME) {
+            setAnswer(Global.TIME_FORMAT.format(new Date()), null, null);
+        } else {
+            setAnswer(Global.DATE_TIME_FORMAT.format(new Date()), null, null);
+        }
     }
 }

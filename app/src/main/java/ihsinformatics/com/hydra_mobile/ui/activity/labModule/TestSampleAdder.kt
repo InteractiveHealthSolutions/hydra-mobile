@@ -168,7 +168,7 @@ class TestSampleAdder : BaseActivity() {
 
         display(null, questionSampleIdentitfier)
 
-        var dob = QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE, 9)
+        var dob = QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE, 9, false)
 
         questionDateOfCollection = Question(true, 1, dateQuestionID, "", InputWidget.InputWidgetsType.WIDGET_TYPE_DATE, View.VISIBLE, Validation.CHECK_FOR_DATE, "Collection Date ", "collectionDate", dob)
 

@@ -116,11 +116,11 @@ public class DataProvider {
         alphaNumeric200DigitSpace = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 200, -1, " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-/?.!", 1);
         alpha50DigitSpaceCapsOnly = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 50, -1, " ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1);
         alpha10DigitSpaceWithHyphen = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES, 10, -1, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-", 1);
-        dateMinTodayMaxLastMonday = new QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE, 8);
-        dateTimeMinTodayMaxLastMonday = new QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE_TIME, 8);
-        dateMinTodayMaxNextYear = new QuestionConfiguration(nextYear, today, DateSelector.WIDGET_TYPE.DATE, 8);
-        dateMinTodayMaxNextYearTime = new QuestionConfiguration(nextYear, today, DateSelector.WIDGET_TYPE.DATE_TIME, 8);
-        dateMinLastYearMaxNextYear = new QuestionConfiguration(nextYear, lastYear, DateSelector.WIDGET_TYPE.DATE, 8);
+        dateMinTodayMaxLastMonday = new QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE, 8, true);
+        dateTimeMinTodayMaxLastMonday = new QuestionConfiguration(today, projectStartDate, DateSelector.WIDGET_TYPE.DATE_TIME, 8, true);
+        dateMinTodayMaxNextYear = new QuestionConfiguration(nextYear, today, DateSelector.WIDGET_TYPE.DATE, 8, true);
+        dateMinTodayMaxNextYearTime = new QuestionConfiguration(nextYear, today, DateSelector.WIDGET_TYPE.DATE_TIME, 8, true);
+        dateMinLastYearMaxNextYear = new QuestionConfiguration(nextYear, lastYear, DateSelector.WIDGET_TYPE.DATE, 8, true);
 
         // defining address hierarchy
         AddressConfiguration.OpenAddressField openAddressField = new AddressConfiguration.OpenAddressField(
@@ -139,8 +139,8 @@ public class DataProvider {
         System.out.print("");
 
         // TODO create separate configuration class for the date/ time
-        time = new QuestionConfiguration(today, lastMonday, DateSelector.WIDGET_TYPE.TIME, 8);
-        dob = new QuestionConfiguration(today, date110YearsAgo, DateSelector.WIDGET_TYPE.DATE, 9);
+        time = new QuestionConfiguration(today, lastMonday, DateSelector.WIDGET_TYPE.TIME, 8, true);
+        dob = new QuestionConfiguration(today, date110YearsAgo, DateSelector.WIDGET_TYPE.DATE, 9, true);
         sid = new QuestionConfiguration(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, 13, 13, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 7);
         numeric2Digit = new QuestionConfiguration(InputType.TYPE_CLASS_NUMBER, 2, 1, "1234567890", 7);
         numeric3DigitMin2 = new QuestionConfiguration(InputType.TYPE_CLASS_NUMBER, 3, 2, "1234567890", 7);

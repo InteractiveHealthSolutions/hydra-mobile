@@ -88,7 +88,7 @@ public class RadioButtonWidget extends InputWidget implements OnCheckedChangeLis
 
 
                 temp.setBackgroundColor(getResources().getColor(R.color.lightest_blue_e6edf5));
-                temp.setPadding(3, 5, 3, 5);
+                temp.setPadding(5, 8, 5, 8);
                 temp.setLayoutParams(layoutParams);
                 rgAnswer.addView(temp);
                 //temp.setChecked(true);

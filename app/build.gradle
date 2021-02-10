@@ -11,13 +11,13 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "ihsinformatics.com.hydra_mobile"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 84
-        versionName "1.2.4"
+        targetSdkVersion 29
+        versionCode 87
+        versionName "1.2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
